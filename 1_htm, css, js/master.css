@@ -1,0 +1,26 @@
+div {
+    border: 1px solid black;
+    margin: 10px;
+  }
+
+#i1 {
+    font-weight: bold; 
+    color: red;
+}
+
+.boldiraj {
+    font-weight: bold; 
+    font-size: 26px;
+}
+
+.markiraj {
+    background-color: yellow;
+}
+
+.markirajZelenom {
+    background-color: greenyellow;
+}
+
+ul.inline > li {
+    display: inline;
+}

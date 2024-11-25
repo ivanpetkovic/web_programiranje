@@ -1,0 +1,5 @@
+Redosled: 
+
+operatori
+narrowing
+tipovi
