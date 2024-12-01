@@ -27,3 +27,19 @@ Person.prototype.getFullName = function() {
     return this.ime + " " + this.prezime;
 }
 
+function Student(ime, prezime, indeks) {
+  // this._super = Person.call(ime, prezime);
+  this.indeks = indeks;
+
+  // zbog nasledjivanja clanova iz roditeljskog konstruktora
+  Person.call(this, ime, prezime);
+}
+
+Student.prototype = Object.create(Person.prototype);
+// Student.__proto__ = Person.prototype; 
+
+Student.prototype.study = () => {
+  console.log (`${this.indeks} is studying`);
+}
+
+const s1 = new Student("ana", "jovanovic", 1200);
