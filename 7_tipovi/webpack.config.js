@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/tipovi.ts',
+  entry: './src/1_operatori.ts',
   devtool: 'inline-source-map',
   module: {
     rules: [
