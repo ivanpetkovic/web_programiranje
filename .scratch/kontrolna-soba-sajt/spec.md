@@ -65,7 +65,7 @@ Posle kursa isti fajlovi su jedna aplikacija: prvo samo front, zatim front i Nod
 - Ugovor panela i servera: čitanje sobe vraća temperaturu i režim; komanda šalje željeno stanje ventilatora. Kad čas uvede svežinu, čitanje nosi i trenutak očitavanja. Kad čas uvede uloge, ista komanda zavisi od sesije.
 - Protokol koji DevTools treba da pokaže je HTTP/1.1, jer server koristi ugrađeni Node HTTP, bez web framework-a.
 - Izmena handlera stupa na snagu kad se Node proces ponovo učita. Sledeći zahtev panela koristi novi handler.
-- Panel ima dva dela. Prekidač nosi željeno stanje. Ventilator je u drugom delu i predstavlja udaljeni uređaj, kao da stoji na serveru.
+- Do servera sajt crta samo sobu prekidača. Soba mašina, sa ventilatorom, crta se tek posle puta od naivnog prenosa do TCP-a i HTTP-a, u istom času u kome se prvi put vidi Node.
 - Sledeći korak na frontu uvećava temperaturu za deltu. Režim ne ulazi u tu računicu.
 - Lopatice pokazuju režim udaljenog ventilatora, ne položaj prekidača. Trajanje CSS animacije nije drugi režim.
 - Elementi panela su jedna prostorija, jedno očitavanje temperature, jedan ventilator, komanda željenog stanja i, pre servera, „Sledeći korak”. Kasnije na isti panel dolaze vreme očitavanja, prag upozorenja, istorija komandi, posmatrač i operater.

@@ -56,11 +56,11 @@ Diskusija ima jedno mesto: blok glavne pitalice na koraku časa, uz panel. Par i
 
 Faze glavne pitalice, tim redom, i samo nastavnik prelazi dalje:
 
-1. Izbor. Opcije su vidljive, pečata nema. Cela grupa gleda jedan projektor. Student bira rukom ili usmeno. Sajt ne pamti glas.
+1. Izbor. Opcije su vidljive, pečata nema. Cela grupa gleda jedan projektor. Student bira rukom ili usmeno. Sajt ne pamti glas. Nastavnik podvlači tačno jednu opciju, onu koju većina trenutno drži. Podvlačenje nije pečat.
 2. Poređenje. Sajt i dalje ćuti o tome šta drži. Parovi porede razloge uživo.
 3. Pretpostavke. Nastavnik na projektoru upisuje rečenice koje je čuo, i one koje ne drže. Upis ne otvara pečat.
 4. Analiza. Jedna radnja otvara razlog svake opcije i pečat. Panel izvodi kontraprimer vezan za tu pitalicu.
-5. Ponovni izbor. Grupa ponovo kaže šta drži, opet rukom ili usmeno. Nastavnik upisuje jednu zajedničku rečenicu zaključka. Pretpostavke ostaju na tabli.
+5. Ponovni izbor. Grupa ponovo kaže šta drži, opet rukom ili usmeno. Nastavnik premešta podvlačenje na novu većinu i upisuje jednu zajedničku rečenicu zaključka. Pretpostavke ostaju na tabli.
 6. Rezerva ili ostanak. Nastavnik ili otvara rezervnu pitalicu, ili ostaje na istoj ideji i ponavlja kontraprimer. Rezerva kreće od faze izbora, kraće, istim pravilima.
 
 Budžet od 35 minuta pripada celom času i ovoj jednoj diskusiji, ne svakoj pitalici i ne osvrtu. Sajt nema tajmer koji gura nastavnika. Poslednji deo časa je izlazno pitanje: slobodan upis, bez opcija i bez pečata.

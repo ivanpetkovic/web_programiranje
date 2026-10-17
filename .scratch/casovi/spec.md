@@ -76,9 +76,9 @@ Panel na početku kursa ima jednu prostoriju, jedno očitavanje i jedan ventilat
 
 ### Čas 1 — Šta browser prikazuje
 
-Ishod je razlikovanje dokumenta, prikaza i komunikacije. Temperatura je statičan sadržaj dokumenta. Lopatice se vrte iz CSS transformacije i animacije, još uvek bez JS stanja.
+Ishod je razlikovanje dokumenta, prikaza i komunikacije. Na ekranu je samo soba prekidača. Temperatura je statičan sadržaj dokumenta. Soba mašina se ne crta.
 
-Editor menja trajanje ili ugao te transformacije. Panel odmah vrti lopatice drugačije.
+Editor menja stil sobe prekidača, na primer okvir ili razmak. Osvežavanje vraća dokument.
 
 Pitalica: u alatima browsera „24 °C” postane „10 °C”. Tačno je da je promenjen lokalni prikaz. Nisu promenjeni ni merenje, ni dokument, ni oba samo zato što ekran tako piše. Jedna promena: osvežavanje vraća dokument sa 24 °C.
 
@@ -86,7 +86,7 @@ Rezervna pitalica: HTML je stigao, CSS nije. Tačno je da sadržaj može ostati 
 
 Network na ovom času pokazuje zahtev za dokument i zahtev za stil. Nema zahteva za API sobe. Metod i zaglavlja se ne proveravaju kao gradivo.
 
-Pojmovi koji se otvaraju: prikaz, dokument, HTML, CSS transformacija lopatica.
+Pojmovi koji se otvaraju: prikaz, dokument, HTML, CSS sobe prekidača.
 
 Osvrt: Internet naspram Weba, put od URL-a do prikaza, semantički HTML, osnovna pristupačnost, skica interfejsa. DNS i TLS ostaju orijentacija.
 
@@ -106,7 +106,7 @@ Osvrt: dinamički tipovi i gde bi TS stao, razlika JS okruženja, dve verzije is
 
 ### Čas 3 — Događaji povezuju korisnika
 
-Ishod je put klik, handler, stanje, prikaz. „Sledeći korak” menja stanje, a poseban kod crta broj i režim lopatica. Lokalno uključivanje ventilatora ide istim putem. Forma na panelu ne sme da osveži dokument; submit se zaustavlja. Raspored je Flexbox ili Grid. Fokus stiže i sa tastature.
+Ishod je put klik, handler, stanje, prikaz. „Sledeći korak” menja temperaturu u objektu, a poseban kod crta broj. Prekidač menja željeno stanje u objektu, a crtanje pomera sam prekidač. Soba mašina još nije na ekranu. Forma na panelu ne sme da osveži dokument; submit se zaustavlja. Raspored je Flexbox ili Grid. Fokus stiže i sa tastature.
 
 Closure je sinhrona funkcija koja vrati funkciju i pamti prag. Tajmer nije deo tog primera.
 
@@ -120,9 +120,13 @@ Pojmovi: DOM, handler, closure.
 
 Osvrt: responsive prikaz, jedinice, pozicija, animacija, ikonica, pristupačna forma, klase i zavisnost `this` od poziva, komponenta kao razlog biblioteke za prikaz. Bez pitalice o `this` ili JSX-u.
 
-### Čas 4 — HTTP zahtev i mali Node server
+### Čas 4 — Od naivnog prenosa do HTTP-a, pa Node
 
-Ishod je praćenje jednog zahteva i odgovora. Prvo se čitanje sobe otvara direktno u browseru, bez `fetch`-a. Isti zahtev se vidi u logu procesa i u Network panelu, sa protokolom HTTP/1.1. Podaci su u memoriji procesa. JSON u telu je tekst, ne JS objekat.
+Ishod je praćenje jednog zahteva i odgovora. Pre crteža servera i sobe mašina grupa prolazi komunikaciju redom.
+
+Naivan prenos: soba prekidača šalje jednu celu poruku i pretpostavlja da stiže cela i redom. Onda ta pretpostavka padne: poruka se izgubi, ili dve polovine zamene redosled. Popravka bez imena: delovi, redni brojevi, potvrda prijema. Tek tada se imenuje TCP, pouzdan tok bajtova. Segmentacija TCP-a nije IP fragmentacija. Tok bajtova i dalje ne znači „uključi ventilator”. Tada se imenuje HTTP: metod, putanja, zaglavlja, telo, status.
+
+Posle toga se crta soba mašina i pokazuje Node. Čitanje sobe se prvo otvara direktno u browseru, bez `fetch`-a. Isti zahtev se vidi u logu procesa i u Network panelu, sa protokolom HTTP/1.1. Podaci su u memoriji procesa. JSON u telu je tekst, ne JS objekat.
 
 Editor menja granu handlera: poznata putanja vraća temperaturu i režim, ostale putanje vraćaju 404. Jedna promena: proces se ugasi i novi zahtev nema HTTP status.
 
@@ -132,7 +136,7 @@ Rezervna pitalica: putanja koje nema i ugašen port nisu ista greška.
 
 Pojmovi: HTTP zahtev, status, JSON, port.
 
-Osvrt: IP, TCP, UDP, TLS, HTTP/1.1, HTTP/2, HTTP/3, XML, SOAP, RPC, gRPC, GraphQL, Express i middleware kao organizacija grane koju handler već pokazuje.
+Osvrt, posle već izgrađenog TCP-a i HTTP-a: IP, UDP, TLS, HTTP/2, HTTP/3, XML, SOAP, RPC, gRPC, GraphQL, Express i middleware. TCP i smisao HTTP zahteva nisu više uvod u ovom osvrtu.
 
 ### Čas 5 — Čekanje i neuspeh
 

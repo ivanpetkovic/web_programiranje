@@ -37,7 +37,16 @@ _Avoid_: Prazan projekat, vežba.
 ## Kontrolna soba
 
 **Kontrolna soba**:
-Povezujući primer kursa u kojem korisnik prati simulirani staklenik i upravlja njegovim uređajima.
+Povezujući primer kursa. Čine je soba prekidača i, od uvođenja servera, soba mašina.
+_Avoid_: Jedna nerazdvojena prostorija u kojoj su prekidač i ventilator isti crtež.
+
+**Soba prekidača**:
+Crtež fronta: prekidači i ono što browser prikazuje. Postoji pre servera.
+_Avoid_: Soba mašina.
+
+**Soba mašina**:
+Crtež udaljenih uređaja, uključujući ventilator. Crta se tek kad se uvodi server.
+_Avoid_: Soba prekidača.
 
 **Očitavanje**:
 Izmerena ili simulirana vrednost zajedno sa trenutkom na koji se odnosi.
