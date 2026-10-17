@@ -67,7 +67,7 @@ Posle kursa isti fajlovi su jedna aplikacija: prvo samo front, zatim front i Nod
 - Izmena handlera stupa na snagu kad se Node proces ponovo učita. Sledeći zahtev panela koristi novi handler.
 - Do servera sajt crta samo sobu prekidača. Soba mašina, sa ventilatorom, crta se tek posle puta od naivnog prenosa do TCP-a i HTTP-a, u istom času u kome se prvi put vidi Node.
 - Sledeći korak na frontu uvećava temperaturu za deltu. Režim ne ulazi u tu računicu.
-- Lopatice pokazuju režim udaljenog ventilatora, ne položaj prekidača. Trajanje CSS animacije nije drugi režim.
+- Lopatice se prvi put vrte u sobi mašina i pokazuju udaljeni režim, ne položaj prekidača. Trajanje CSS animacije nije drugi režim.
 - Elementi panela su jedna prostorija, jedno očitavanje temperature, jedan ventilator, komanda željenog stanja i, pre servera, „Sledeći korak”. Kasnije na isti panel dolaze vreme očitavanja, prag upozorenja, istorija komandi, posmatrač i operater.
 - Autorizacija je deo kursa. Server na svakoj komandi gleda ulogu iz pripremljene sesije. Posmatrač sme da čita. Operater sme da menja režim. Nema registracije, lozinke ni prijave preko treće strane.
 - Baza, kad stigne, čuva režim i istoriju komandi u PostgreSQL-u. Povezani upisi su jedna celina. Browser ne dobija kredencijale baze.

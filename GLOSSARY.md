@@ -45,7 +45,7 @@ Crtež fronta: prekidači i ono što browser prikazuje. Postoji pre servera.
 _Avoid_: Soba mašina.
 
 **Soba mašina**:
-Crtež udaljenih uređaja, uključujući ventilator. Crta se tek kad se uvodi server.
+Crtež udaljenih uređaja. Ventilator se tu prvi put pojavljuje i vidi se kao uključen ili isključen. Crta se tek kad se uvodi server.
 _Avoid_: Soba prekidača.
 
 **Očitavanje**:

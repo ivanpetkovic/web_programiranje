@@ -126,7 +126,7 @@ Ishod je praćenje jednog zahteva i odgovora. Pre crteža servera i sobe mašina
 
 Naivan prenos: soba prekidača šalje jednu celu poruku i pretpostavlja da stiže cela i redom. Onda ta pretpostavka padne: poruka se izgubi, ili dve polovine zamene redosled. Popravka bez imena: delovi, redni brojevi, potvrda prijema. Tek tada se imenuje TCP, pouzdan tok bajtova. Segmentacija TCP-a nije IP fragmentacija. Tok bajtova i dalje ne znači „uključi ventilator”. Tada se imenuje HTTP: metod, putanja, zaglavlja, telo, status.
 
-Posle toga se crta soba mašina i pokazuje Node. Čitanje sobe se prvo otvara direktno u browseru, bez `fetch`-a. Isti zahtev se vidi u logu procesa i u Network panelu, sa protokolom HTTP/1.1. Podaci su u memoriji procesa. JSON u telu je tekst, ne JS objekat.
+Posle toga se crta soba mašina i pokazuje Node. Ventilator se tu vidi prvi put. Lopatice se vrte CSS transformacijom samo dok je udaljeni režim uključen. Časovi 1–3 nemaju taj crtež. Čitanje sobe se prvo otvara direktno u browseru, bez `fetch`-a. Isti zahtev se vidi u logu procesa i u Network panelu, sa protokolom HTTP/1.1. Podaci su u memoriji procesa. JSON u telu je tekst, ne JS objekat.
 
 Editor menja granu handlera: poznata putanja vraća temperaturu i režim, ostale putanje vraćaju 404. Jedna promena: proces se ugasi i novi zahtev nema HTTP status.
 
