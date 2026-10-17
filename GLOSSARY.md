@@ -9,6 +9,14 @@ Minimalno objašnjenje pojmova i vođeni primer koji student dobija pre zadatka 
 Pitanje koje proverava primenu prethodno objašnjenih pojmova, uz obrazloženje odgovora.
 _Avoid_: Pitalica koja zahteva još neobrađeno gradivo.
 
+**Glavna pitalica**:
+Jedina diskusija časa. Budžet razgovora pripada njoj.
+_Avoid_: Kviz za svaki pojam.
+
+**Rezervna pitalica**:
+Drugo pitanje istog časa, otvoreno tek kad je glavna pitalica razjašnjena.
+_Avoid_: Druga obavezna diskusija.
+
 **Postepeni nedeljni plan**:
 Raspored u kojem zadaci svake nedelje koriste prethodno uvedene osnove i jasno označene nove pojmove.
 
@@ -21,6 +29,10 @@ Oblast koja se na predavanju predstavlja kroz problem koji rešava, osnovnu idej
 **Sajt časa**:
 Interaktivni tok predavanja koji zamenjuje slajdove i ugrađuje povezujući primer.
 _Avoid_: Prezentacija, slajdovi.
+
+**Editor časa**:
+Mesto na sajtu časa gde se menja jedan isečak povezujućeg primera koji već radi.
+_Avoid_: Prazan projekat, vežba.
 
 ## Kontrolna soba
 

@@ -95,3 +95,5 @@ Ne vredi vezati test za unutrašnja imena editora, redosled CSS klasa ni način 
 Kontrolna soba je već izabrana kao povezujući primer, pre Reaktora i potezne igre. Ovaj dogovor je zadržava i zaoštrava: ventilator se vidi kako se vrti, sajt zamenjuje slajdove, a komunikacija je pravi zahtev čim čas dođe do Node-a.
 
 Jedna prostorija, jedno očitavanje i jedan ventilator dovoljni su za svih deset časova. Kasniji čas dodaje podatak na isti panel. Autorizacija nije izvan kursa; izvan kursa je izrada sistema za prijavu.
+
+Tok svakog časa razrađen je u specifikaciji časova. Ponašanje sajta i editora razrađeno je u specifikaciji interaktivnog sajta. Faze diskusije i cilj svake pitalice razrađeni su u specifikaciji pitalica. Ovaj dokument ostaje zajednički ugovor panela, mreže i uloga.
