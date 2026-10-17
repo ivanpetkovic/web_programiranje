@@ -92,9 +92,9 @@ Osvrt: Internet naspram Weba, put od URL-a do prikaza, semantički HTML, osnovna
 
 ### Čas 2 — JavaScript opisuje stanje
 
-Ishod je čitanje malog sinhronog programa. Objekat drži temperaturu i režim. Funkcija sledećeg koraka vraća naredno stanje po jednostavnom pravilu. Vrednosti se prate u konzoli. DOM se ne vezuje.
+Ishod je čitanje malog sinhronog programa. Objekat drži temperaturu i željeno stanje prekidača. Funkcija sledećeg koraka uvek uveća temperaturu za deltu. Režim ventilatora ne ulazi u tu računicu. Vrednosti se prate u konzoli. DOM se ne vezuje.
 
-Editor menja deltu te funkcije. Sledeći poziv u konzoli daje drugu temperaturu. Ekranski broj ostaje dok ga čas 3 ne nacrta.
+Editor menja deltu. Sledeći poziv u konzoli daje višu temperaturu i kad je prekidač na uključeno. Ekranski broj ostaje dok ga čas 3 ne nacrta.
 
 Pitalica: objekat je u `const`, a druga promenljiva pokazuje na njega. Tačno je da polje sme da se menja i da druga promenljiva vidi istu izmenu. `const` ne zamrzava objekat, `let` nije uslov za izmenu polja, a drugo ime ne pravi kopiju.
 

@@ -45,9 +45,13 @@ Izmerena ili simulirana vrednost zajedno sa trenutkom na koji se odnosi.
 **Željeno stanje uređaja**:
 Stanje koje korisnik traži komandom; nije samo po sebi potvrda da je promena primenjena.
 
+**Prekidač**:
+Kontrola kojom korisnik traži da ventilator bude uključen ili isključen.
+_Avoid_: Ventilator, režim.
+
 **Režim**:
-Stanje u kome ventilator stvarno radi: isključen ili uključen.
-_Avoid_: Brzina, skala obrtaja. Trajanje CSS animacije nije režim.
+Stanje u kome udaljeni ventilator stvarno radi: isključen ili uključen.
+_Avoid_: Brzina, skala obrtaja, položaj prekidača. Trajanje CSS animacije nije režim.
 
 **Serversko stanje**:
 Stanje koje je server prihvatio i koje drži.

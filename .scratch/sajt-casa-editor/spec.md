@@ -51,7 +51,7 @@ Panel je isti kroz kurs: jedna prostorija, jedno očitavanje, jedan ventilator. 
 - Editor časa ima sloj „front” ili „server”, pripremljeni isečak, radnju za povratak na taj isečak i mesto za grešku.
 - Front sloj pokriva dokument panela, stil lopatica i browser JS stanja i crtanja. Posle izmene, panel se ponovo crta iz tog isečka. Poslednje ispravno stanje ostaje ako isečak baci grešku.
 - Transformacija i animacija lopatica dolaze iz stila. Promena trajanja, smera ili ugla vidljiva je bez učitavanja stranice. Režim koji prikaz crta određuje da li se vrte i koliko brzo, čim čas 3 uvede crtanje. Pre toga, stil sam vrti lopatice.
-- „Sledeći korak” postoji dok simulacija živi u browseru. Poziva pravilo narednog stanja. Broj na ekranu menja se tek kad postoji crtanje.
+- „Sledeći korak” postoji dok simulacija temperature živi u browseru. Uvek uveća temperaturu za deltu i ne gleda prekidač. Broj na ekranu menja se tek kad postoji crtanje.
 - Serverski sloj ne izvršava handler u browseru. Isečak je izvor lokalnog Node procesa koji sluša poznat port i govori HTTP/1.1, bez web framework-a. Radnja „učitaj handler” ponovo pokreće taj proces. Sledeći zahtev panela ide na novi proces.
 - Ako se proces ne podigne, panel to kaže uz editor, a Network nema uspešan status tog zahteva.
 - Do četvrtog časa panel ne šalje čitanje sobe ni komandu. Network i dalje sme da pokaže dokument i stil sajta.
