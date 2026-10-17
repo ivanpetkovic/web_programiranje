@@ -17,11 +17,11 @@ Panel pored pitalice služi kao kontraprimer: pretpostavka se proverava na njemu
 1. Kao nastavnik, hoću da diskusija stoji na bloku pitalice, odmah uz panel, da grupa gleda jedno pitanje i jedan staklenik.
 2. Kao student, hoću da opcije na početku nemaju pečat, da izbor bude moj pre tuđeg razloga.
 3. Kao student, hoću da prvo odgovorim sam, da par čuje moj razlog a ne obrnuti redosled.
-4. Kao nastavnik, hoću da sajt pamti izbor dok razlozi još nisu otvoreni, da glasanje ne otkrije šta drži.
+4. Kao nastavnik, hoću da glas ostane u učionici, rukom ili usmeno, da sajt ne skuplja izbore sa laptopova.
 5. Kao nastavnik, hoću mesto za pretpostavke koje čujem, uključujući pogrešne, da ostanu na tabli dok ih ne proverimo.
 6. Kao nastavnik, hoću da pogrešno obrazloženje ostane na tabli dok ga panel ne proveri, da ga ne prekinem rečenicom „netačno”.
 7. Kao nastavnik, hoću da razloge svih opcija otvorim jednom radnjom, tek kad analiza krene, da nijedna opcija ne ostane bez zašto.
-8. Kao student, hoću da posle razloga ponovo biram, da drugi izbor stoji pored prvog.
+8. Kao student, hoću da posle razloga grupa ponovo kaže šta drži, da nastavnik upiše tu rečenicu pored prvih pretpostavki.
 9. Kao student, hoću da svojim rečima preformulišem zaključak na sajtu, da pečat ne zameni rečenicu grupe.
 10. Kao nastavnik, hoću rezervnu pitalicu zatvorenu dok je ne otvorim, da druga tema ne pojede glavnu.
 11. Kao nastavnik, hoću da rezervu ostavim zatvorenom i ostanem na istoj ideji, kad glavna još nije razjašnjena.
@@ -56,11 +56,11 @@ Diskusija ima jedno mesto: blok glavne pitalice na koraku časa, uz panel. Par i
 
 Faze glavne pitalice, tim redom, i samo nastavnik prelazi dalje:
 
-1. Izbor. Opcije su vidljive, pečata nema. Student bira jednu. Izbor sme da stoji na njegovom ekranu bez otkrivanja ostalima.
+1. Izbor. Opcije su vidljive, pečata nema. Cela grupa gleda jedan projektor. Student bira rukom ili usmeno. Sajt ne pamti glas.
 2. Poređenje. Sajt i dalje ćuti o tome šta drži. Parovi porede razloge uživo.
-3. Pretpostavke. Nastavnik upisuje rečenice koje je čuo, i one koje ne drže. Upis ne otvara pečat.
+3. Pretpostavke. Nastavnik na projektoru upisuje rečenice koje je čuo, i one koje ne drže. Upis ne otvara pečat.
 4. Analiza. Jedna radnja otvara razlog svake opcije i pečat. Panel izvodi kontraprimer vezan za tu pitalicu.
-5. Ponovni izbor. Student bira opet. Prvi i drugi izbor ostaju vidljivi nastavniku. Grupa upisuje jednu zajedničku rečenicu zaključka.
+5. Ponovni izbor. Grupa ponovo kaže šta drži, opet rukom ili usmeno. Nastavnik upisuje jednu zajedničku rečenicu zaključka. Pretpostavke ostaju na tabli.
 6. Rezerva ili ostanak. Nastavnik ili otvara rezervnu pitalicu, ili ostaje na istoj ideji i ponavlja kontraprimer. Rezerva kreće od faze izbora, kraće, istim pravilima.
 
 Budžet od 35 minuta pripada celom času i ovoj jednoj diskusiji, ne svakoj pitalici i ne osvrtu. Sajt nema tajmer koji gura nastavnika. Poslednji deo časa je izlazno pitanje: slobodan upis, bez opcija i bez pečata.
@@ -90,7 +90,7 @@ Svaka stavka je glavna pitalica, pretpostavka koju vredi sačuvati, i kontraprim
 
 Jedan šav ostaje sajt časa u browseru. Za diskusiju se gleda blok pitalice, ne editor.
 
-Vredi proveriti da pečat ne postoji u fazi izbora i u fazi pretpostavki; da zapis pogrešne pretpostavke ne otvara razloge; da analiza otvori razlog svake opcije glavne pitalice; da rezerva nije vidljiva pre nastavnikove radnje; da osvrt nema opcije; da kontraprimer časa 1 vrati 24 posle osvežavanja, a časa 9 odbije posmatrača. Ponovni izbor ne briše prvi.
+Vredi proveriti da pečat ne postoji u fazi izbora i u fazi pretpostavki; da zapis pogrešne pretpostavke ne otvara razloge; da analiza otvori razlog svake opcije glavne pitalice; da rezerva nije vidljiva pre nastavnikove radnje; da osvrt nema opcije; da kontraprimer časa 1 vrati 24 posle osvežavanja, a časa 9 odbije posmatrača. Ponovni izbor ne briše pretpostavke. Sajt nema spisak glasova.
 
 Ne vredi meriti minute ni broj studenata koji su govorili. To ostaje u učionici.
 

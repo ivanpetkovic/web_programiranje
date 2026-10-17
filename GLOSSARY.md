@@ -46,8 +46,8 @@ Izmerena ili simulirana vrednost zajedno sa trenutkom na koji se odnosi.
 Stanje koje korisnik traži komandom; nije samo po sebi potvrda da je promena primenjena.
 
 **Režim**:
-Stanje u kome ventilator stvarno radi: isključen ili jedna od brzina.
-_Avoid_: Brzina animacije.
+Stanje u kome ventilator stvarno radi: isključen ili uključen.
+_Avoid_: Brzina, skala obrtaja. Trajanje CSS animacije nije režim.
 
 **Serversko stanje**:
 Stanje koje je server prihvatio i koje drži.

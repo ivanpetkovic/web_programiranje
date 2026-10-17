@@ -28,8 +28,8 @@ Posle kursa isti fajlovi su jedna aplikacija: prvo samo front, zatim front i Nod
 12. Kao student, hoću jednu prostoriju kroz svih deset časova, da scenario ostane prepoznatljiv.
 13. Kao student, hoću jedno očitavanje temperature, da razlikujem prikaz od merenja.
 14. Kao student, hoću jedan ventilator čije se lopatice vrte CSS transformacijom, da pokret pokaže transformaciju.
-15. Kao student, hoću da se lopatice vrte brže kad server javi viši režim, da pokret prati server.
-16. Kao nastavnik, hoću komandu željenog stanja, uključeno ili isključeno odnosno brzina, da browser šalje nameru a server odlučuje.
+15. Kao student, hoću da se lopatice vrte samo dok je režim uključen, da pokret prati tu jednu činjenicu.
+16. Kao nastavnik, hoću komandu željenog stanja kao uključeno ili isključeno, da browser šalje nameru a server odlučuje.
 17. Kao nastavnik, hoću dugme „Sledeći korak” dok servera nema, da simulacija napreduje bez tajmera.
 18. Kao nastavnik, hoću da lokalna izmena CSS-a i stanja ne pravi red Kontrolne sobe u Network panelu, da se vidi da browser još ne razgovara.
 19. Kao nastavnik, hoću da se `GET /api/room` i `PUT` željenog stanja vide u DevTools panelu Network, da protokol bude vidljiv.
@@ -65,7 +65,7 @@ Posle kursa isti fajlovi su jedna aplikacija: prvo samo front, zatim front i Nod
 - Ugovor panela i servera: čitanje sobe vraća temperaturu i režim; komanda šalje željeno stanje ventilatora. Kad čas uvede svežinu, čitanje nosi i trenutak očitavanja. Kad čas uvede uloge, ista komanda zavisi od sesije.
 - Protokol koji DevTools treba da pokaže je HTTP/1.1, jer server koristi ugrađeni Node HTTP, bez web framework-a.
 - Izmena handlera stupa na snagu kad se Node proces ponovo učita. Sledeći zahtev panela koristi novi handler.
-- Lopatice su jedan ventilator. Brzina okretanja prati režim koji važi za prikaz: lokalni pre servera, serverski kad odgovor stigne.
+- Lopatice su jedan ventilator. Vrte se dok je prikazani režim uključen, a stoje dok je isključen. Trajanje animacije u CSS-u može da se menja na času o transformaciji; to nije drugi režim.
 - Elementi panela su jedna prostorija, jedno očitavanje temperature, jedan ventilator, komanda željenog stanja i, pre servera, „Sledeći korak”. Kasnije na isti panel dolaze vreme očitavanja, prag upozorenja, istorija komandi, posmatrač i operater.
 - Autorizacija je deo kursa. Server na svakoj komandi gleda ulogu iz pripremljene sesije. Posmatrač sme da čita. Operater sme da menja režim. Nema registracije, lozinke ni prijave preko treće strane.
 - Baza, kad stigne, čuva režim i istoriju komandi u PostgreSQL-u. Povezani upisi su jedna celina. Browser ne dobija kredencijale baze.

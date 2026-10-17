@@ -67,7 +67,7 @@ Panel je isti kroz kurs: jedna prostorija, jedno očitavanje, jedan ventilator. 
 
 Jedan šav: sajt časa otvoren u browseru, sa lokalnim Node procesom tek kad je čas uveo server. Test gleda šta nastavnik vidi i šta Network zabeleži.
 
-Vredi proveriti, redom: lopatice se vrte pre prve pitalice; izbor opcije otvara sve razloge; drugi klik na pojam sklapa primer; CSS izmena menja okretanje; loš front isečak ostavlja prethodni broj i pokazuje grešku; čas 2 ne pravi API red; čas 4 posle učitavanja handlera pokazuje HTTP/1.1 za čitanje sobe; ugašen proces ostavlja zahtev bez statusa tog servera; povratak isečka vraća poznato ponašanje; posmatrač ne menja režim, operater menja; smanjeno pokretanje ne vrti lopatice beskonačno.
+Vredi proveriti, redom: lopatice se vrte dok je režim uključen i stoje dok je isključen; izbor opcije ne otvara razloge; drugi klik na pojam sklapa primer; CSS izmena menja okretanje; loš front isečak ostavlja prethodni broj i pokazuje grešku; čas 2 ne pravi API red; čas 4 posle učitavanja handlera pokazuje HTTP/1.1 za čitanje sobe; ugašen proces ostavlja zahtev bez statusa tog servera; povratak isečka vraća poznato ponašanje; posmatrač ne menja režim, operater menja; smanjeno pokretanje ne vrti lopatice beskonačno.
 
 Ne vredi vezati test za ime klase editora ni za tačan matrix transformacije. Dovoljno je da se ugao ili brzina vidljivo promene i da režim na ekranu odgovara poslednjem ispravnom crtanju. Nema postojećeg testa ovog sajta u repozitorijumu.
 
