@@ -126,7 +126,7 @@ Ishod je praćenje jednog zahteva i odgovora. Pre crteža servera i sobe mašina
 
 Naivan prenos: soba prekidača šalje jednu celu poruku i pretpostavlja da stiže cela i redom. Onda ta pretpostavka padne: poruka se izgubi, ili dve polovine zamene redosled. Popravka bez imena: delovi, redni brojevi, potvrda prijema. Tek tada se imenuje TCP, pouzdan tok bajtova. Segmentacija TCP-a nije IP fragmentacija. Tok bajtova i dalje ne znači „uključi ventilator”. Tada se imenuje HTTP: metod, putanja, zaglavlja, telo, status.
 
-Posle toga se crta soba mašina i pokazuje Node. Ventilator se tu vidi prvi put. Lopatice se vrte CSS transformacijom samo dok je udaljeni režim uključen. Časovi 1–3 nemaju taj crtež. Čitanje sobe se prvo otvara direktno u browseru, bez `fetch`-a. Isti zahtev se vidi u logu procesa i u Network panelu, sa protokolom HTTP/1.1. Podaci su u memoriji procesa. JSON u telu je tekst, ne JS objekat.
+Posle toga se crtaju kutija i soba mašina i pokazuje Node. Ventilator je priključen na kutiju. Zahtev se vidi kako ide od prekidača do kutije, pa kablom do ventilatora samo ako je priključen. Lopatice se vrte CSS transformacijom samo dok je udaljeni režim uključen. Časovi 1–3 nemaju taj crtež. Čitanje sobe se prvo otvara direktno u browseru, bez `fetch`-a. Isti zahtev se vidi u logu procesa i u Network panelu, sa protokolom HTTP/1.1. Podaci su u memoriji procesa. JSON u telu je tekst, ne JS objekat. Od ovog časa server drži temperaturu. Dugme „Sledeći korak” više nije izvor te vrednosti.
 
 Editor menja granu handlera: poznata putanja vraća temperaturu i režim, ostale putanje vraćaju 404. Jedna promena: proces se ugasi i novi zahtev nema HTTP status.
 
@@ -140,7 +140,7 @@ Osvrt, posle već izgrađenog TCP-a i HTTP-a: IP, UDP, TLS, HTTP/2, HTTP/3, XML,
 
 ### Čas 5 — Čekanje i neuspeh
 
-Ishod je razlika sinhronog toka, čekanja i vrste greške. Dugme učitava temperaturu. Ekran je u čekanju, ima podatak, ili ima grešku. Glavni kontrast je uspeh naspram HTTP 500. Spor odgovor i ugašen server su rezerva ako ostane vremena.
+Ishod je razlika sinhronog toka, čekanja i vrste greške. Dugme učitava temperaturu. Ekran je u čekanju, ima podatak, ili ima grešku. Glavni kontrast je uspeh naspram HTTP 500. Pripremljeni 500 jeste ventilator koji nije priključen na kutiju: prekidač ostaje na „uključi”, zahtev stigne do kutije, kabl do ventilatora ne postoji, lopatice se ne vrte, status jeste 500. Spor odgovor i ugašen server su rezerva ako ostane vremena.
 
 Editor menja proveru statusa. Jedna promena: umesto 500, proces se ugasi i tok više nema odgovor.
 

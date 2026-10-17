@@ -48,6 +48,10 @@ _Avoid_: Soba mašina.
 Crtež udaljenih uređaja. Ventilator se tu prvi put pojavljuje i vidi se kao uključen ili isključen. Crta se tek kad se uvodi server.
 _Avoid_: Soba prekidača.
 
+**Kutija**:
+Server kao kutija na koju su mašine priključene. Prima zahtev iz sobe prekidača i može da ga odbije.
+_Avoid_: Ventilator, prekidač.
+
 **Očitavanje**:
 Izmerena ili simulirana vrednost zajedno sa trenutkom na koji se odnosi.
 
