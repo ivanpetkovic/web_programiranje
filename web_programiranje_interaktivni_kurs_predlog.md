@@ -18,6 +18,8 @@ Motivacioni scenario može prethoditi terminologiji, ali pitanje za proveru ne z
 
 Za demonstraciju pripremiti početno i završno stanje, kratak isečak koda, očekivan rezultat i rezervni snimak. Instalacije i duže pisanje koda ne troše vreme predavanja.
 
+**Slajdovi za osnove:** na ekranu su samo koncepti i kratke definicije (npr. konstanta imena, funkcija, razlika dodele i poziva, petlja naspram poziva) — bez primera koda i bez gotovog isečka koji publika čita sa projektora. Teže ideje (dodela funkcije naspram `ime()`, `const` naspram polja objekta, deljenje reference, opseg) imaju **beleške prezentera** sa kratkim kodom za živo kucanje u konzoli ili editoru; taj kod ne mora biti na slajdu koji vidi sala. Pitalice i slajdovi sa razlozima ostaju kao u pregledu kursa.
+
 ## Povezujući primer i tehnologije
 
 Kontrolna soba prikazuje simulirani staklenik. Početna verzija ima jedno očitavanje temperature i jedan ventilator. Kasnije dodajemo vreme očitavanja, prag upozorenja, istoriju komandi i uloge posmatrača i operatera, kada ih zahteva tema.
@@ -283,5 +285,6 @@ Napredni TS, složeni closure/timer zadaci i microtask kvizovi ostaju izvan ovog
 - [Razrada Kontrolne sobe i poređenje sa Reaktorom](docs/reaktor-i-kontrolna-soba.md).
 - [Analiza ranijeg rasporeda](docs/analiza-i-predlog-kursa.md).
 - [Arhivirani izvorni predlog sa 103 slajda](docs/izvorni-plan-103-slajda.md).
+- [Slajdovi — čas 02, osnove (Marp + PPTX)](docs/slajdovi/README.md).
 
-Za pripremu demonstracija koristiti MDN, zvaničnu Node.js i PostgreSQL dokumentaciju, HTTP specifikacije, OWASP i TypeScript Handbook. Ovaj dokument određuje nastavni sled; slajdovi i implementacija demonstracione aplikacije tek se izrađuju.
+Za pripremu demonstracija koristiti MDN, zvaničnu Node.js i PostgreSQL dokumentaciju, HTTP specifikacije, OWASP i TypeScript Handbook. Ovaj dokument određuje nastavni sled; slajdovi za ostale časove i implementacija demonstracione aplikacije tek se izrađuju.
