@@ -146,7 +146,9 @@ Editor menja proveru statusa. Jedna promena: umesto 500, proces se ugasi i tok v
 
 Pitalica: 500 ne vodi samo po sebi u `catch`. Odgovor postoji; uspeh se čita iz statusa. Ugašen server nije taj odgovor. `await` zaustavlja tu funkciju, ne ceo browser, pa drugi klik i dalje važi.
 
-Pojmovi: `fetch`, `response.ok`, `await`.
+Kad `await` već postoji, u isti Node proces ulazi takt: `setInterval` u fajlu koji se kuca na času. Do tada kutija drži temperaturu mirnu. Takt diže temperaturu dok je režim isključen, a spušta je dok je uključen. Nepriključen ventilator ostavlja režim isključen, pa temperatura i dalje raste iako prekidač stoji na „uključi”. Soba prekidača ne dobija novi broj samim taktom.
+
+Pojmovi: `fetch`, `response.ok`, `await`, takt.
 
 Osvrt: spoljni API, timeout, prekid jednog zahteva, više zahteva odjednom, call stack i postojanje task i microtask redova. Nema kviza redosleda izvršavanja. Konkurentnost i paralelizam se razlikuju u jednoj rečenici.
 

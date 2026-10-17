@@ -52,6 +52,10 @@ _Avoid_: Soba prekidača.
 Server kao kutija na koju su mašine priključene. Prima zahtev iz sobe prekidača i može da ga odbije.
 _Avoid_: Ventilator, prekidač.
 
+**Takt**:
+Periodična promena temperature na kutiji. Diže očitavanje dok je režim isključen, a spušta ga dok je uključen.
+_Avoid_: Cron, „Sledeći korak” na frontu. Takt gleda režim, ne položaj prekidača.
+
 **Očitavanje**:
 Izmerena ili simulirana vrednost zajedno sa trenutkom na koji se odnosi.
 
