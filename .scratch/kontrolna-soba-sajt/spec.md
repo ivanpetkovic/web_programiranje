@@ -6,7 +6,7 @@ Predavanja iz web programiranja treba da drže pažnju i da pokažu put od ekran
 
 ## Solution
 
-Povezujući primer ostaje Kontrolna soba: jedna prostorija, jedno očitavanje temperature i jedan ventilator. Lopatice se vrte. Željeno stanje šalje browser, režim drži server, ekran crta poslednji odgovor.
+Povezujući primer ostaje Kontrolna soba: soba prekidača, jedno očitavanje temperature, i, od servera, soba mašina sa jednim ventilatorom. Lopatice se vrte samo tamo. Željeno stanje šalje browser, režim drži server, ekran crta poslednji odgovor.
 
 Umesto slajdova, sajt časa vodi korak: problem, neoznačeni odgovori, razlozi, pojam koji se otvara u objašnjenje i primer koda. Editor ima tab Front i tab Back. U oba se vidi stablo fajlova, `client/` i `server/`. Nastavnik otvori fajl koji već radi i menja jednu stvar. Front se odmah vidi na ugrađenom panelu. Sačuvan serverski fajl je izvor koji izvršava lokalni Node; panel ga pogodi sledećim zahtevom.
 
@@ -35,7 +35,7 @@ Posle kursa isti fajlovi su jedna aplikacija: prvo samo front, zatim front i Nod
 19. Kao nastavnik, hoću da se `GET /api/room` i `PUT` željenog stanja vide u DevTools panelu Network, da protokol bude vidljiv.
 20. Kao nastavnik, hoću u koloni Protocol vrednost HTTP/1.1, da ugrađeni Node HTTP bude ono što gledamo.
 21. Kao student, hoću u tom redu metod, status, zaglavlja, JSON telo i vreme, da pratim jedan zahtev.
-22. Kao nastavnik, hoću na prvom času statičan broj i lopatice u HTML-u i CSS-u, da razdvojim dokument, prikaz i merenje.
+22. Kao nastavnik, hoću na prvom času statičan broj u `client/index.html` i rez `client/` naspram `server/`, da razdvojim dokument, prikaz i mesto gde će server da se pokrene.
 23. Kao nastavnik, hoću na drugom času objekat sa temperaturom i režimom, da pokažem ime, referencu i pravilo koraka.
 24. Kao nastavnik, hoću na trećem času klik, crtanje i transformaciju, da prikaz ne prati objekat sam od sebe.
 25. Kao nastavnik, hoću na četvrtom času `GET /api/room`, da server vrati podatak a browser promeni sopstveni prikaz.
@@ -59,7 +59,7 @@ Posle kursa isti fajlovi su jedna aplikacija: prvo samo front, zatim front i Nod
 - Sajt časa je statičan tok. Kontrolna soba je panel ugrađen u taj tok, ne druga aplikacija pored sajta.
 - Jedan korak časa nosi problem, odgovore, razloge i pojam. Pojam se otvara u objašnjenje i primer koda.
 - Editor u koraku vezan je za jedan fajl. Isečak na otvaranju već radi. Nastavnik menja jednu stvar.
-- Redosled fajlova prati časove: HTML panela, CSS lopatica uključujući transformaciju i animaciju, JS stanja i crtanja u browseru, zatim Node.
+- Redosled fajlova prati korake: prvo rez `client/` i `server/`, zatim `client/index.html`, CSS broja, JS stanja i crtanja u browseru, zatim običan Node (`http.createServer`, `listen`, `node server/server.js`), pa ventilator u sobi mašina.
 - Dok servera nema, editor dira samo front. Izmena CSS-a, stanja i crtanja odmah menja ugrađeni panel. „Sledeći korak” pomera temperaturu lokalno.
 - Serverski editor ne izvršava kod u browseru. Izvor izvršava lokalni Node. Panel šalje zahtev tom procesu.
 - Ugovor panela i servera: uspelo čitanje sobe vraća HTTP 200, temperaturu i režim. Čitanje dok ventilator nije priključen vraća HTTP 500, bez broja za displej. Komanda šalje željeno stanje ventilatora, a uspešan odgovor vraća samo režim. Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500. Kad čas uvede svežinu, uspelo čitanje nosi i trenutak očitavanja. Kad čas uvede uloge, ista komanda zavisi od sesije.

@@ -18,8 +18,8 @@ Deset časova ide istim panelom. Svaki čas ima preduslov, ishod, osećaj panela
 4. Kao nastavnik, hoću jednu promenu uslova posle razloga, da isti panel proveri zaključak drugi put.
 5. Kao nastavnik, hoću pojmove časa kao otvarajuće stavke sa primerom, da definicija i kod stoje uz pitanje.
 6. Kao nastavnik, hoću pregledne teme kao kratak osvrt bez nove pitalice za svaki naziv, da čas ne nabubri.
-7. Kao student, hoću na prvom času statičan broj 24 °C i lopatice iz HTML-a i CSS-a, da razlikujem dokument, prikaz i merenje.
-8. Kao nastavnik, hoću na prvom času da izmena trajanja animacije ubrza ili uspori lopatice, da transformacija bude vidljiva pre JavaScripta.
+7. Kao student, hoću na prvom času statičan broj 24 °C u HTML fajlu, da razlikujem dokument, prikaz i merenje.
+8. Kao nastavnik, hoću na prvom času dva foldera, `client/` i `server/`, da u VS Code odmah vidim gde kucam front, a gde ću kasnije kucati server.
 9. Kao student, hoću da promena „24 °C” u „10 °C” u alatima browsera ne menja ni dokument ni merenje, da osvežavanje vrati 24.
 10. Kao student, hoću da stranica ostane čitljiva kad CSS ne stigne, da sadržaj ne zavisi od izgleda.
 11. Kao nastavnik, hoću na prvom času u Network panelu redove za dokument i stil, bez reda API-ja sobe.
@@ -32,7 +32,7 @@ Deset časova ide istim panelom. Svaki čas ima preduslov, ishod, osećaj panela
 18. Kao student, hoću na trećem času put klik, handler, stanje, pa crtanje, da objekat sam ne menja tekst.
 19. Kao nastavnik, hoću da prosleđena funkcija sačeka klik, a poziv sa zagradama odradi se odmah, da te dve linije uporedim na panelu.
 20. Kao nastavnik, hoću sinhroni closure koji pamti prag, bez tajmera, da unutrašnja funkcija vidi spoljašnje ime pre događaja.
-21. Kao student, hoću da lopatice na trećem času prate lokalni režim tek kad kod nacrta prikaz, da transformacija zavisi od tog crtanja.
+21. Kao student, hoću da na trećem času crtanje upiše broj i natpis prekidača, a da ventilator i dalje nije u sobi prekidača.
 22. Kao nastavnik, hoću raspored panela kroz Flexbox ili Grid, fokus i tastaturu, i formu čiji submit ne osvežava stranicu.
 23. Kao nastavnik, hoću na trećem času osvrt na responsive prikaz, jedinice, animacije, ikonice, pristupačne forme, klase i `this`, pa komponente uz React, bez pitalice o JSX-u.
 24. Kao student, hoću na četvrtom času da prvo otvorim čitanje sobe direktno u browseru, pre `fetch`-a, da vidim telo odgovora.
@@ -70,15 +70,23 @@ Deset časova ide istim panelom. Svaki čas ima preduslov, ishod, osećaj panela
 
 ## Implementation Decisions
 
-Zajednički ritam svakog časa na sajtu: osećaj panela, kratke osnove kroz pojmove, editor sa jednom izmenom, glavna pitalica, razlozi svih opcija, jedna promena uslova, rezervna pitalica ako je prva razjašnjena, pa osvrt. Trajanje iz plana časa ostaje nastavni budžet, ne tajmer u sajtu.
+Kurs je postepen. Svaka nedelja ima naslov i 10 do 20 koraka. Korak nije cela nedelja: jedna funkcija ili jedan delić fajla. Nastavnik te korake prekucava u VS Code, redom, dok fajlovi ne postanu konačna aplikacija. Sajt časa pokazuje isti redosled pored panela.
 
-Panel na početku kursa ima jednu prostoriju, jedno očitavanje i jedan ventilator. Novi čas ne dodaje uređaj.
+Svaki korak, tim redom: sitni primer koji nije još aplikacija, pitalica sa neoznačenim odgovorima, pa objašnjenje. Primer je oblika „`setTimeout` unutar `for` petlje”: malo, proverljivo, odvojeno od sobe. Tek posle objašnjenja korak doda delić u glavnu aplikaciju i kaže putanju fajla. Sledeći korak vidi taj delić kao već ukucan.
+
+Duga diskusija na projektoru i dalje pripada jednoj pitalici nedelje. Ostale pitalice koraka su kratka provera, ne drugi razgovor od pola sata. Trajanje iz plana časa ostaje nastavni budžet, ne tajmer u sajtu.
+
+Jedan od prvih koraka jeste arhitektura. `client/` je ono što browser učita. `server/` je ono što pokrene Node. HTML živi u `client/index.html`, ne samo u ljusci sajta časa. Dok servera nema, folder `server/` stoji kao prazno mesto, da se vidi rez.
+
+Panel na početku kursa ima sobu prekidača i jedno očitavanje. Ventilator nije u toj sobi. Crta se tek u sobi mašina, kad postoji server, i vrti se samo dok je udaljeni režim uključen. CSS transformacija lopatica uči se tada, ne na statičnom broju iz prve nedelje. Novi čas ne dodaje drugi uređaj.
+
+Običan server ulazi kao niz koraka, pre `fetch`-a: fajl `server/server.js`, `http.createServer`, `listen` na poznat port, komanda `node server/server.js`, red u terminalu, pa ista adresa u browseru. Tek posle toga grupa otvori `GET /api/soba` kao adresu, pa kao poziv iz koda.
 
 ### Čas 1 — Šta browser prikazuje
 
-Ishod je razlikovanje dokumenta, prikaza i komunikacije. Na ekranu je samo soba prekidača. Temperatura je statičan sadržaj dokumenta. Soba mašina se ne crta.
+Ishod je razlikovanje dokumenta, prikaza i komunikacije, i rez između `client/` i `server/`. Na ekranu je samo soba prekidača. Temperatura je statičan sadržaj `client/index.html`. Soba mašina i ventilator se ne crtaju.
 
-Editor menja stil sobe prekidača, na primer okvir ili razmak. Osvežavanje vraća dokument.
+Koraci dodaju skelet HTML-a, naslov, paragraf sa 24 i dugme. Stil menja izgled tog broja, na primer razmak. Osvežavanje vraća dokument. Pokretanje Node-a nije deo ove nedelje.
 
 Pitalica: u alatima browsera „24 °C” postane „10 °C”. Tačno je da je promenjen lokalni prikaz. Nisu promenjeni ni merenje, ni dokument, ni oba samo zato što ekran tako piše. Jedna promena: osvežavanje vraća dokument sa 24 °C.
 
@@ -126,7 +134,7 @@ Ishod je praćenje jednog zahteva i odgovora. Pre crteža servera i sobe mašina
 
 Naivan prenos: soba prekidača šalje jednu celu poruku i pretpostavlja da stiže cela i redom. Onda ta pretpostavka padne: poruka se izgubi, ili dve polovine zamene redosled. Popravka bez imena: delovi, redni brojevi, potvrda prijema. Tek tada se imenuje TCP, pouzdan tok bajtova. Segmentacija TCP-a nije IP fragmentacija. Tok bajtova i dalje ne znači „uključi ventilator”. Tada se imenuje HTTP: metod, putanja, zaglavlja, telo, status.
 
-Posle toga se crtaju kutija i soba mašina i pokazuje Node. Ventilator je priključen na kutiju. Zahtev se vidi kako ide od prekidača do kutije, pa kablom do ventilatora samo ako je priključen. Lopatice se vrte CSS transformacijom samo dok je udaljeni režim uključen. Časovi 1–3 nemaju taj crtež. Čitanje sobe se prvo otvara direktno u browseru, bez `fetch`-a. Isti zahtev se vidi u logu procesa i u Network panelu, sa protokolom HTTP/1.1. Podaci su u memoriji procesa. JSON u telu je tekst, ne JS objekat. Od ovog časa server drži temperaturu. Dugme „Sledeći korak” više nije izvor te vrednosti. Displej pokazuje crte dok prvo čitanje ne uspe, pa cifre tog očitavanja. Isečak časa 4 još nema granu koja piše Err, pa neuspeh ostavlja crte. Dugme „Pročitaj” šalje jedno čitanje.
+Posle toga se, korak po korak, pokrene običan Node: `http.createServer`, `listen`, `node server/server.js`, adresa u browseru, pa ruta. Tek tada se crtaju kutija, soba mašina i ventilator na toj strani. Ventilator je priključen na kutiju. Zahtev se vidi kako ide od prekidača do kutije, pa kablom do ventilatora samo ako je priključen. Lopatice se vrte CSS transformacijom samo dok je udaljeni režim uključen. Časovi 1–3 nemaju taj crtež. Čitanje sobe se prvo otvara direktno u browseru, bez `fetch`-a. Isti zahtev se vidi u logu procesa i u Network panelu, sa protokolom HTTP/1.1. Podaci su u memoriji procesa. JSON u telu je tekst, ne JS objekat. Od ovog časa server drži temperaturu. Dugme „Sledeći korak” više nije izvor te vrednosti. Displej pokazuje crte dok prvo čitanje ne uspe, pa cifre tog očitavanja. Isečak časa 4 još nema granu koja piše Err, pa neuspeh ostavlja crte. Dugme „Pročitaj” šalje jedno čitanje.
 
 Editor menja `server/soba.js`: poznata putanja vraća temperaturu i režim, ostale putanje vraćaju 404. Jedna promena: proces se ugasi i novi zahtev nema HTTP status.
 

@@ -63,7 +63,9 @@ Faze glavne pitalice, tim redom, i samo nastavnik prelazi dalje:
 5. Ponovni izbor. Grupa ponovo kaže šta drži, opet rukom ili usmeno. Nastavnik premešta podvlačenje na novu većinu i upisuje jednu zajedničku rečenicu zaključka. Pretpostavke ostaju na tabli.
 6. Rezerva ili ostanak. Nastavnik ili otvara rezervnu pitalicu, ili ostaje na istoj ideji i ponavlja kontraprimer. Rezerva kreće od faze izbora, kraće, istim pravilima.
 
-Budžet od 35 minuta pripada celom času i ovoj jednoj diskusiji, ne svakoj pitalici i ne osvrtu. Sajt nema tajmer koji gura nastavnika. Poslednji deo časa je izlazno pitanje: slobodan upis, bez opcija i bez pečata.
+Budžet od 35 minuta pripada celom času i jednoj dugoj diskusiji, ne svakoj pitalici i ne osvrtu. Sajt nema tajmer koji gura nastavnika. Poslednji deo časa je izlazno pitanje: slobodan upis, bez opcija i bez pečata.
+
+Svaki korak nedelje ipak ima svoju kratku pitalicu: neoznačeni odgovori, pa objašnjenje. To je provera sitnog primera, kao `setTimeout` u `for` petlji. Nema faza pretpostavki ni table. Dugu diskusiju nastavnik i dalje vodi na jednoj pitalici te nedelje.
 
 Osvrt nema faze izbora. Editor menja panel dok traje faza pretpostavki ili analize, ali razlozi se ne otvaraju sami od izmene koda.
 

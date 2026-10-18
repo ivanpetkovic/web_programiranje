@@ -1,0 +1,3 @@
+# Kurs ide korak po korak, ventilator stoji uz server
+
+Nedelja više nije jedna pitalica i jedan fajl koji je već gotov. Nastavnik prekucava u VS Code, pa kurs mora da pokaže arhitekturu `client/` i `server/` na početku, HTML kao fajl, i tek kasnije kako se običan Node podigne komandom `node server/server.js`. Svaka nedelja ima naslov i 10 do 20 koraka. Korak nosi sitni primer, kratku pitalicu, objašnjenje, pa delić koji ulazi u glavnu aplikaciju. Duga diskusija ostaje jedna po nedelji. Ventilator se ne crta u sobi prekidača: lopatice postoje tek u sobi mašina, jer su na serveru. Ranija ideja da se CSS transformacija vežba na lokalnom ventilatoru pre Node-a ovim je zamenjena.
