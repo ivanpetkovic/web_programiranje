@@ -57,7 +57,7 @@ Deset časova ide istim panelom. Svaki čas ima preduslov, ishod, osećaj panela
 43. Kao student, hoću na osmom času vreme uz broj 24 °C, da znam da gledam poslednje očitavanje.
 44. Kao nastavnik, hoću da sporiji, ranije meren odgovor ne pregazi noviji prikaz kad je provera uključena, i da ga pregazi kad je isključim.
 45. Kao student, hoću različitu svežinu za ikonicu ventilatora i za temperaturu, da keš zavisi od posledice.
-46. Kao nastavnik, hoću na osmom času osvrt na polling, SSE, WebSocket, History API, SPA, React hooks, storage, PWA i offline, bez njihove izrade.
+46. Kao nastavnik, hoću na osmom času periodično čitanje displeja, polling, i osvrt na SSE, WebSocket, History API, SPA, React hooks, storage, PWA i offline, bez izrade tih ostalih.
 47. Kao nastavnik, hoću na devetom času dve pripremljene sesije, posmatrač i operater, da ista komanda jednom padne a jednom prođe.
 48. Kao student, hoću da sakriveno dugme posmatrača ne zaustavi zahtev poslat mimo ekrana, da ovlašćenje proveri server.
 49. Kao student, hoću da alat van browsera pročita odgovor koji JS sa drugog origin-a ne sme, da CORS ne mešam sa identitetom.
@@ -156,7 +156,7 @@ Osvrt: spoljni API, timeout, prekid jednog zahteva, više zahteva odjednom, call
 
 Ishod je željeno stanje, validacija i smisao ponavljanja. Komanda postavlja ventilator na uključeno i šalje telo sa boolean vrednošću. Server proverava unos, menja režim u memoriji i vraća rezultat. Pomoćni kod za telo ima granicu veličine i odbija neispravan JSON.
 
-Editor menja smisao komande između postavljanja na uključeno i prebacivanja režima. Dva slanja pokazuju različit ishod. Jedna promena: telo mimo forme, sa tekstom umesto boolean vrednosti, dobija odbijanje.
+Editor menja smisao komande između postavljanja na uključeno i prebacivanja režima. Dva slanja pokazuju različit ishod. Jedna promena: telo mimo forme, sa tekstom umesto boolean vrednosti, dobija odbijanje. Uspešan odgovor komande pomera kabl i režim. Ne upisuje temperaturu na displej.
 
 Pitalica: bezbednije je ponoviti postavljanje na uključeno. Prebacivanje drugi put poništava efekat. Status 200 ne znači da ponavljanje ima isti efekat. Forma ne sprečava drugačije telo.
 
@@ -180,7 +180,7 @@ Osvrt: relaciono naspram dokumentnog modela, VM naspram kontejnera. Bez mini-kur
 
 ### Čas 8 — Koliko je prikaz svež
 
-Ishod je razlika poslednjeg poznatog i trenutnog stanja. Očitavanje nosi vrednost i trenutak. Panel pokazuje starost. Server može da promeni temperaturu dok browser ćuti.
+Ishod je razlika poslednjeg poznatog i trenutnog stanja. Displej stoji jer ga ne pomera ni takt ni odgovor komande. To je potreba za novim čitanjem. Očitavanje nosi vrednost i trenutak. Displej pokazuje starost. Na času se uključi periodično čitanje, polling. Server push, SSE ili WebSocket, imenuje se kao drugi način da displej sazna za broj, i ne pravi se.
 
 Editor uključuje ili isključuje odbacivanje starijeg trenutka merenja. Jedna promena: sporiji zahtev, meren ranije, stiže posle bržeg. Sa proverom, noviji broj ostaje. Bez provere, stariji pregazi ekran.
 
@@ -188,7 +188,7 @@ Pitalica: broj 24 °C star deset minuta znači poslednje očitavanje, ne sadašn
 
 Pojmovi: očitavanje, zastareli odgovor, keš.
 
-Osvrt: polling kao ponovljeno čitanje koje panel već zna, pa SSE i WebSocket, History API, SPA i MPA, React hooks, mobilni klijent, storage, PWA i offline. Bez izrade.
+Osvrt: SSE i WebSocket kao push koji ovaj čas ne pravi, History API, SPA i MPA, React hooks, mobilni klijent, storage, PWA i offline.
 
 ### Čas 9 — Ko sme da upravlja
 

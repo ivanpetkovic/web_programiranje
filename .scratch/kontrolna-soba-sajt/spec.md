@@ -68,7 +68,8 @@ Posle kursa isti fajlovi su jedna aplikacija: prvo samo front, zatim front i Nod
 - Do servera sajt crta samo sobu prekidača. Kutija i soba mašina crtaju se tek posle puta od naivnog prenosa do TCP-a i HTTP-a.
 - Zahtev se vidi od prekidača do kutije, pa kablom do ventilatora samo ako je priključen. Ako nije, kutija odgovori statusom 500, prekidač može da ostane upaljen, lopatice se ne vrte.
 - Kad kutija postoji, ona drži temperaturu. „Sledeći korak” na frontu tada više nije izvor očitavanja. Takt je `setInterval` u tom procesu i kreće tek kad `await` već postoji. Diže temperaturu dok je režim isključen, a spušta je dok je uključen.
-- Soba mašina pokazuje tu živu temperaturu. Displej u sobi prekidača, pored prekidača, ispisuje poslednje pročitano očitavanje i ne pomera se dok nema novog čitanja. Oba broja su Digital-7 Mono (Style-7), uz dozvolu za obrazovnu upotrebu, da razlika bude u tome koji se pomera.
+- Soba mašina pokazuje tu živu temperaturu. Displej u sobi prekidača, pored prekidača, ispisuje poslednje pročitano očitavanje i ne pomera se dok nema novog čitanja. Odgovor komande ne upisuje temperaturu na displej. Oba broja su Digital-7 Mono (Style-7), uz dozvolu za obrazovnu upotrebu, da razlika bude u tome koji se pomera.
+- Taj razmak je razlog za polling: periodično čitanje koje displej kasnije samo ponavlja. Server push se imenuje kao drugi način i ne uvodi se u primer.
 - Sledeći korak na frontu uvećava temperaturu za deltu. Režim ne ulazi u tu računicu.
 - Lopatice se prvi put vrte u sobi mašina i pokazuju udaljeni režim, ne položaj prekidača. Trajanje CSS animacije nije drugi režim.
 - Elementi panela su jedna prostorija, jedno očitavanje temperature, jedan ventilator, komanda željenog stanja i, pre servera, „Sledeći korak”. Kasnije na isti panel dolaze vreme očitavanja, prag upozorenja, istorija komandi, posmatrač i operater.

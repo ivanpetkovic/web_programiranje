@@ -79,7 +79,7 @@ Stanje koje ovaj browser trenutno crta.
 _Avoid_: Stanje staklenika.
 
 **Displej**:
-Broj u sobi prekidača. Pokazuje poslednje očitavanje koje je browser dobio i ne menja se dok nema novog čitanja.
+Broj u sobi prekidača. Pokazuje poslednje očitavanje koje je browser dobio čitanjem i ne menja se ni kad takt promeni sobu mašina, ni kad komanda uspe.
 _Avoid_: Temperatura u sobi mašina, prekidač.
 
 **Posmatrač**:
