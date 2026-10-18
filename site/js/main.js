@@ -37,6 +37,14 @@ const tacke = [
   { temperatura: 23 },
 ];
 let cas = 1;
+const korakPoCasu = new Map();
+const fazaPoCasu = new Map();
+const rezervaPoCasu = new Map();
+const pretpostavkaPoCasu = new Map();
+const podvucenoPoCasu = new Map();
+const zakljucakPoCasu = new Map();
+const objasnjenjePoKoraku = new Map();
+const FAZE = ["Izbor", "Poređenje", "Pretpostavke", "Analiza", "Ponovni izbor"];
 let pollId = 0;
 let cifreSobe = null;
 let poslednjiTrenutak = null;
@@ -87,6 +95,20 @@ function lecture() {
   return lectures.find((item) => item.n === cas);
 }
 
+function indeksKoraka() {
+  return korakPoCasu.get(cas) || 0;
+}
+
+function trenutniKorak() {
+  const item = lecture();
+  if (!item || !item.steps.length) return null;
+  return item.steps[Math.min(indeksKoraka(), item.steps.length - 1)];
+}
+
+function kljucDiskusije() {
+  return `${cas}:${rezervaPoCasu.get(cas) ? "rezerva" : "glavna"}`;
+}
+
 function paintNav() {
   nav.replaceChildren(
     ...lectures.map((item) => {
@@ -103,50 +125,100 @@ function paintNav() {
   );
 }
 
+function vecUkucano(item, doIndeksa, putanja) {
+  return item.steps
+    .slice(0, doIndeksa)
+    .filter((korak) => korak.putanja === putanja)
+    .map((korak) => korak.delic)
+    .join("\n\n");
+}
+
 function renderLecture() {
   const item = lecture();
+  const i = Math.min(indeksKoraka(), item.steps.length - 1);
+  const korak = item.steps[i];
+  const otvoreno = objasnjenjePoKoraku.get(`${cas}:${i}`) === true;
   casEl.replaceChildren();
   const h = document.createElement("h1");
   h.textContent = `${item.n}. ${item.title}`;
   const outcome = document.createElement("p");
   outcome.textContent = item.outcome;
-  const problem = document.createElement("p");
-  problem.textContent = item.problem;
-  const options = document.createElement("div");
-  options.className = "options";
-  let opened = false;
-  function showReasons() {
-    opened = true;
-    for (const button of options.querySelectorAll("button")) {
-      const opt = item.options.find((entry) => entry.key === button.dataset.key);
-      button.classList.toggle("holds", opt.ok);
-      if (!button.querySelector(".why")) {
-        const why = document.createElement("p");
-        why.className = "why";
-        why.textContent = opt.why;
-        button.append(why);
-      }
-    }
-  }
-  for (const opt of item.options) {
+  const broj = document.createElement("p");
+  broj.className = "log";
+  broj.textContent = `Korak ${i + 1} od ${item.steps.length}: ${korak.naslov}`;
+  const primer = document.createElement("p");
+  primer.textContent = korak.primer;
+  const primerKod = document.createElement("pre");
+  primerKod.textContent = korak.kod;
+  const pitanje = document.createElement("p");
+  pitanje.textContent = korak.pitalica;
+  const kratke = document.createElement("div");
+  kratke.className = "options";
+  kratke.dataset.kviz = "korak";
+  for (const opt of korak.opcije) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "option";
     button.dataset.key = opt.key;
     button.textContent = `${opt.key}. ${opt.text}`;
-    button.addEventListener("click", showReasons);
-    options.append(button);
+    if (otvoreno && opt.ok) button.classList.add("holds");
+    if (otvoreno) {
+      const why = document.createElement("p");
+      why.className = "why";
+      why.textContent = opt.why;
+      button.append(why);
+    }
+    button.addEventListener("click", () => {
+      button.focus();
+    });
+    kratke.append(button);
   }
-  const again = document.createElement("button");
-  again.type = "button";
-  again.textContent = "Ponovi pitanje";
-  again.addEventListener("click", () => renderLecture());
-  const show = document.createElement("button");
-  show.type = "button";
-  show.textContent = "Pokaži razloge";
-  show.addEventListener("click", () => {
-    if (!opened) showReasons();
+  const otvori = document.createElement("button");
+  otvori.type = "button";
+  otvori.textContent = otvoreno ? "Objašnjenje je otvoreno" : "Otvori objašnjenje";
+  otvori.addEventListener("click", () => {
+    objasnjenjePoKoraku.set(`${cas}:${i}`, true);
+    renderLecture();
   });
+  const objasnjenje = document.createElement("p");
+  objasnjenje.className = "objasnjenje";
+  objasnjenje.hidden = !otvoreno;
+  objasnjenje.textContent = korak.objasnjenje;
+  const put = document.createElement("p");
+  put.hidden = !otvoreno;
+  const putanjaKoraka = document.createElement("span");
+  putanjaKoraka.id = "putanja-koraka";
+  putanjaKoraka.textContent = korak.putanja;
+  put.append("Fajl: ", putanjaKoraka);
+  const vec = document.createElement("pre");
+  vec.className = "vec";
+  const ranije = vecUkucano(item, i, korak.putanja);
+  vec.hidden = !ranije;
+  vec.textContent = ranije ? `Već u fajlu:\n${ranije}` : "";
+  const delic = document.createElement("pre");
+  delic.className = "delic";
+  delic.hidden = !otvoreno;
+  delic.textContent = korak.delic;
+  const hod = document.createElement("div");
+  hod.className = "row";
+  const prethodni = document.createElement("button");
+  prethodni.type = "button";
+  prethodni.textContent = "Prethodni korak";
+  prethodni.disabled = i === 0;
+  prethodni.addEventListener("click", () => {
+    korakPoCasu.set(cas, i - 1);
+    renderLecture();
+  });
+  const daljeKorak = document.createElement("button");
+  daljeKorak.type = "button";
+  daljeKorak.textContent = "Sledeći korak časa";
+  daljeKorak.disabled = i === item.steps.length - 1;
+  daljeKorak.addEventListener("click", () => {
+    korakPoCasu.set(cas, i + 1);
+    renderLecture();
+  });
+  hod.append(prethodni, daljeKorak);
+  const diskusija = nacrtajDiskusiju(item);
   const terms = document.createElement("div");
   terms.className = "terms";
   terms.id = "pojmovi";
@@ -171,10 +243,106 @@ function renderLecture() {
   }
   const overview = document.createElement("p");
   overview.className = "log";
+  overview.id = "osvrt";
   overview.textContent = `Osvrt: ${item.overview}`;
-  casEl.append(h, outcome, problem, options, show, again, terms, overview);
+  const izlaz = document.createElement("label");
+  izlaz.className = "izlaz";
+  izlaz.textContent = item.izlaz;
+  const izlazPolje = document.createElement("textarea");
+  izlazPolje.rows = 3;
+  izlazPolje.setAttribute("aria-label", "Izlazno pitanje");
+  casEl.append(h, outcome, broj, primer, primerKod, pitanje, kratke, otvori, objasnjenje, put, vec, delic, hod, diskusija, terms, overview, izlaz, izlazPolje);
   paintNav();
   fitPanel();
+}
+
+function nacrtajDiskusiju(item) {
+  const rezerva = rezervaPoCasu.get(cas) === true && item.rezerva;
+  const izvor = rezerva ? item.rezerva : { problem: item.problem, options: item.options };
+  const faza = fazaPoCasu.get(kljucDiskusije()) || 0;
+  const blok = document.createElement("section");
+  blok.className = "diskusija";
+  blok.setAttribute("aria-label", "Duga pitalica");
+  const naslov = document.createElement("h2");
+  naslov.textContent = rezerva ? "Rezerva" : "Diskusija";
+  const fazaEl = document.createElement("p");
+  fazaEl.className = "log";
+  fazaEl.textContent = `Faza: ${FAZE[faza]}`;
+  const problem = document.createElement("p");
+  problem.textContent = izvor.problem;
+  const options = document.createElement("div");
+  options.className = "options";
+  options.dataset.kviz = "diskusija";
+  const podvuceno = podvucenoPoCasu.get(kljucDiskusije()) || "";
+  for (const opt of izvor.options) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "option";
+    button.dataset.key = opt.key;
+    button.textContent = `${opt.key}. ${opt.text}`;
+    if (opt.key === podvuceno) button.classList.add("podvuceno");
+    if (faza >= 3) {
+      button.classList.toggle("holds", opt.ok);
+      const why = document.createElement("p");
+      why.className = "why";
+      why.textContent = opt.why;
+      button.append(why);
+    }
+    button.addEventListener("click", () => {
+      if (faza === 0 || faza === 4) {
+        podvucenoPoCasu.set(kljucDiskusije(), opt.key);
+        renderLecture();
+      }
+    });
+    options.append(button);
+  }
+  const tisina = document.createElement("p");
+  tisina.className = "log";
+  tisina.hidden = faza !== 1;
+  tisina.textContent = "Sajt ćuti o tome šta drži. Parovi porede razloge uživo.";
+  const tabla = document.createElement("textarea");
+  tabla.className = "pretpostavke";
+  tabla.rows = 3;
+  tabla.hidden = faza < 2;
+  tabla.placeholder = "Pretpostavke koje su se čule";
+  tabla.value = pretpostavkaPoCasu.get(kljucDiskusije()) || "";
+  tabla.setAttribute("aria-label", "Pretpostavke");
+  tabla.addEventListener("input", () => {
+    pretpostavkaPoCasu.set(kljucDiskusije(), tabla.value);
+  });
+  const zakljucak = document.createElement("textarea");
+  zakljucak.rows = 2;
+  zakljucak.hidden = faza < 4;
+  zakljucak.placeholder = "Jedna zajednička rečenica";
+  zakljucak.value = zakljucakPoCasu.get(kljucDiskusije()) || "";
+  zakljucak.setAttribute("aria-label", "Zaključak");
+  zakljucak.addEventListener("input", () => {
+    zakljucakPoCasu.set(kljucDiskusije(), zakljucak.value);
+  });
+  const radnje = document.createElement("div");
+  radnje.className = "row";
+  const dalje = document.createElement("button");
+  dalje.type = "button";
+  dalje.textContent = "Dalje";
+  dalje.disabled = faza >= FAZE.length - 1;
+  dalje.addEventListener("click", () => {
+    fazaPoCasu.set(kljucDiskusije(), Math.min(faza + 1, FAZE.length - 1));
+    renderLecture();
+  });
+  radnje.append(dalje);
+  if (!rezerva && item.rezerva && faza === 4) {
+    const otvoriRezervu = document.createElement("button");
+    otvoriRezervu.type = "button";
+    otvoriRezervu.id = "otvori-rezervu";
+    otvoriRezervu.textContent = "Otvori rezervu";
+    otvoriRezervu.addEventListener("click", () => {
+      rezervaPoCasu.set(cas, true);
+      renderLecture();
+    });
+    radnje.append(otvoriRezervu);
+  }
+  blok.append(naslov, fazaEl, problem, options, tisina, tabla, zakljucak, radnje);
+  return blok;
 }
 
 function fitPanel() {
@@ -185,7 +353,8 @@ function fitPanel() {
   polling.hidden = cas < 8;
   kabl.hidden = cas < 5;
   sesije.hidden = cas < 9;
-  fanLocal.hidden = cas > 3;
+  fanLocal.hidden = true;
+  bladesLocal.classList.remove("spin");
   starost.hidden = cas < 8;
   focusFile();
   loadSide();
@@ -193,12 +362,8 @@ function fitPanel() {
   grafikon.hidden = cas !== 3;
   if (cas < 8) zaustaviPeriodicno();
   if (cas === 2 || cas === 3) osveziNiz();
-  if (cas < 4) {
-    displejSobe.crtaj(cas < 3 ? "24" : soba.temperatura);
-    bladesLocal.classList.toggle("spin", cas === 1 || (cas === 3 && soba.zeljeno));
-  } else {
-    displejSobe.crtaj(cifreSobe === null ? "----" : cifreSobe);
-  }
+  if (cas < 3) displejSobe.crtaj("24");
+  else if (cas >= 4) displejSobe.crtaj(cifreSobe === null ? "----" : cifreSobe);
   if (cas >= 4 && !dovod) connectDovod();
   uskladiKutiju();
 }
@@ -240,9 +405,14 @@ function fileForLecture(n) {
 }
 
 function focusFile() {
-  if (openedForCas === cas) return;
-  openedForCas = cas;
-  const [side, put] = fileForLecture(cas);
+  const korak = trenutniKorak();
+  const putanjaKoraka = korak ? korak.putanja : null;
+  const [side, put] = putanjaKoraka
+    ? [putanjaKoraka.slice(0, putanjaKoraka.indexOf("/")), putanjaKoraka.slice(putanjaKoraka.indexOf("/") + 1)]
+    : fileForLecture(cas);
+  const kljuc = `${cas}:${indeksKoraka()}:${side}:${put}`;
+  if (openedForCas === kljuc) return;
+  openedForCas = kljuc;
   strana = side;
   openPath[side] = put;
 }
@@ -464,6 +634,7 @@ async function readRoom() {
     const data = response.ok ? await response.json() : null;
     if (response.ok && !ocitavanjeJeNovije(poslednjiTrenutak, data && data.trenutak)) return;
     if (!response.ok) {
+      if (cas === 4) displejSobe.crtaj("----");
       if (cas >= 5) displejSobe.prikaziOcitavanje(response, data);
       starost.textContent = "";
       kutijaMsg.textContent = `HTTP ${response.status}`;
@@ -477,6 +648,7 @@ async function readRoom() {
     kutijaMsg.textContent = "HTTP 200";
     zapamtiCifreSobe();
   } catch {
+    if (cas === 4) displejSobe.crtaj("----");
     if (cas >= 5) displejSobe.prikaziOcitavanje({ ok: false }, null);
     kutijaMsg.textContent = "nema statusa";
     zapamtiCifreSobe();
@@ -509,7 +681,6 @@ prekidac.addEventListener("click", () => {
   if (cas < 4) {
     soba.zeljeno = !soba.zeljeno;
     prekidacSobe.crtaj(soba.zeljeno);
-    bladesLocal.classList.toggle("spin", cas === 3 && soba.zeljeno);
     return;
   }
   sendCommand(!prekidacSobe.ukljucen);
@@ -527,8 +698,9 @@ sledeci.addEventListener("click", () => {
     return;
   }
   if (cas === 3) {
-    displejSobe.crtaj(soba.temperatura);
     osveziNiz();
+    if (trenutniKorak() && trenutniKorak().crta === false) return;
+    displejSobe.crtaj(soba.temperatura);
   }
 });
 
