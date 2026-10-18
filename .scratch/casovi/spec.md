@@ -140,9 +140,9 @@ Osvrt, posle već izgrađenog TCP-a i HTTP-a: IP, UDP, TLS, HTTP/2, HTTP/3, XML,
 
 ### Čas 5 — Čekanje i neuspeh
 
-Ishod je razlika sinhronog toka, čekanja i vrste greške. Dugme učitava temperaturu. Ekran je u čekanju, ima podatak, ili ima grešku. Glavni kontrast je uspeh naspram HTTP 500. Nepriključen ventilator nije taj 500: čitanje vraća 200, temperaturu, režim isključen i `priključen: false`, a displej sobe prekidača upisuje cifre. Spor odgovor i ugašen server su rezerva ako ostane vremena.
+Ishod je razlika sinhronog toka, čekanja i vrste greške. Dugme učitava temperaturu. Ekran je u čekanju, ima podatak, ili ima grešku. Glavni kontrast je uspeh naspram HTTP 500. Pripremljeni 500 je kvar handlera: kod baci izuzetak, a kutija ipak pošalje odgovor sa tim statusom. Displej sobe prekidača tada piše Err. Nepriključen ventilator nije taj status. Njegovo čitanje vraća 200, temperaturu, režim isključen i `priključen: false`, a displej upisuje cifre. Spor odgovor ostaje rezerva ako ostane vremena.
 
-Editor menja proveru statusa. Jedna promena: umesto 500, proces se ugasi i tok više nema odgovor. Čas otvara front isečak u kome linija već piše Err i za status koji nije uspeh i za izostanak odgovora. Nastavnik tu liniju vidi i može da je izmeni. Network i dalje razlikuje status 500 od zahteva bez statusa.
+Editor menja proveru statusa. Jedna promena: umesto izuzetka koji kutija pretvori u 500, proces se ugasi i tok više nema odgovor. Čas otvara front isečak u kome linija već piše Err i za status koji nije uspeh i za izostanak odgovora. Nastavnik tu liniju vidi i može da je izmeni. Network i dalje razlikuje status 500 od zahteva bez statusa.
 
 Pitalica: 500 ne vodi samo po sebi u `catch`. Odgovor postoji; uspeh se čita iz statusa. Ugašen server nije taj odgovor. `await` zaustavlja tu funkciju, ne ceo browser, pa drugi klik i dalje važi.
 

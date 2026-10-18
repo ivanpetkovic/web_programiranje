@@ -39,7 +39,7 @@ Posle kursa isti fajlovi su jedna aplikacija: prvo samo front, zatim front i Nod
 23. Kao nastavnik, hoću na drugom času objekat sa temperaturom i režimom, da pokažem ime, referencu i pravilo koraka.
 24. Kao nastavnik, hoću na trećem času klik, crtanje i transformaciju, da prikaz ne prati objekat sam od sebe.
 25. Kao nastavnik, hoću na četvrtom času `GET /api/room`, da server vrati podatak a browser promeni sopstveni prikaz.
-26. Kao nastavnik, hoću na petom času isti zahtev u uspehu, sa statusom 500 i uz ugašen port, da razdvojim odgovor od izostanka odgovora.
+26. Kao nastavnik, hoću na petom času isto čitanje u uspehu, sa statusom 500 iz izuzetka handlera i uz ugašen port, da razdvojim odgovor od izostanka odgovora.
 27. Kao nastavnik, hoću na šestom času `PUT` željenog stanja i ponovljeni zahtev, da uporedim postavljanje režima i prebacivanje režima.
 28. Kao nastavnik, hoću na sedmom času režim i istoriju komandi u PostgreSQL-u, da povezani upisi budu jedna celina.
 29. Kao nastavnik, hoću na osmom času vreme očitavanja na istom broju, da zastareo odgovor ne pregazi noviji prikaz.
