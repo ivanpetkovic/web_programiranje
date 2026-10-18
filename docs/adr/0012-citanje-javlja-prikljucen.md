@@ -1,5 +1,7 @@
 # Čitanje javlja izvučen ventilator, komanda dobija 500
 
+Zamenjeno ADR-om 0013: izvučen ventilator je HTTP 500 i na čitanju. Polje `priključen` nije u telu.
+
 Termometar i ventilator su dve mašine. Izvučen ventilator ostavlja režim isključen, a temperatura i dalje postoji. Čitanje zato vraća 200, broj temperature, režim isključen i `priključen: false`. Displej sobe prekidača iz tog odgovora upisuje cifre.
 
 Svojstvo `failed` na temperaturi bi reklo da merenje nije uspelo. Merenje jeste uspelo. Podatak o kablu stoji na ventilatoru.
