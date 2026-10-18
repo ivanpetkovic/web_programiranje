@@ -1,0 +1,36 @@
+# Baza živi u volumenu. Restart kutije ne briše režim.
+# docker compose down sklanja kontejner i ostavlja volumen.
+# docker compose down -v briše i trajno skladište.
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: kutija
+      POSTGRES_PASSWORD: kutija
+      POSTGRES_DB: kontrolna
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kutija -d kontrolna"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+  kutija:
+    build: .
+    ports:
+      - "8787:8787"
+    environment:
+      DATABASE_URL: postgres://kutija:kutija@db:5432/kontrolna
+      PORT: 8787
+    volumes:
+      - ./kutija:/app/kutija
+      - ./site:/app/site
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

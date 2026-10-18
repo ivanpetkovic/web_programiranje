@@ -37,8 +37,12 @@
           </div>
           <p id="log" class="log" hidden></p>
           <label class="editor" id="editor-wrap">
-            <span>Editor, front</span>
+            <span id="editor-sloj">Editor, front</span>
             <textarea id="editor" spellcheck="false"></textarea>
+            <span class="row">
+              <button type="button" id="ucitaj" hidden>Učitaj handler</button>
+              <button type="button" id="povrati" hidden>Povrati isečak</button>
+            </span>
             <span id="editor-err" class="err" role="status"></span>
           </label>
         </div>

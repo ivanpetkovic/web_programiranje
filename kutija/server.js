@@ -1,6 +1,7 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const { Pool } = require("pg");
 
 const PORT = Number(process.env.PORT) || 8787;
 const ROOT = path.join(__dirname, "..", "site");
@@ -24,7 +25,42 @@ const state = {
   prikljucen: true,
   proveriUlogu: false,
   takt: false,
+  baza: false,
 };
+
+const HANDLER = path.join(__dirname, "handler.js");
+const PREPARED = path.join(__dirname, "handler.prepared.js");
+let handler = require(HANDLER);
+let db = null;
+
+function loadHandler() {
+  delete require.cache[require.resolve(HANDLER)];
+  handler = require(HANDLER);
+}
+
+async function initDb() {
+  if (!process.env.DATABASE_URL) return;
+  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS ventilator (
+      id integer PRIMARY KEY,
+      ukljucen boolean NOT NULL
+    )
+  `);
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS istorija (
+      id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+      komanda text NOT NULL,
+      vreme timestamptz NOT NULL DEFAULT now()
+    )
+  `);
+  await pool.query(
+    "INSERT INTO ventilator (id, ukljucen) VALUES (1, false) ON CONFLICT (id) DO NOTHING"
+  );
+  const row = await pool.query("SELECT ukljucen FROM ventilator WHERE id = 1");
+  state.ukljucen = row.rows[0].ukljucen;
+  db = pool;
+}
 
 const sse = new Set();
 
@@ -66,13 +102,13 @@ function cookie(req) {
   return hit ? decodeURIComponent(hit.slice("sesija=".length)) : "";
 }
 
-function readBody(req) {
+function readBody(req, limit) {
   return new Promise((resolve, reject) => {
     const chunks = [];
     let size = 0;
     req.on("data", (chunk) => {
       size += chunk.length;
-      if (size > 4096) {
+      if (size > limit) {
         reject(Object.assign(new Error("veliko"), { status: 400 }));
         req.destroy();
         return;
@@ -84,8 +120,8 @@ function readBody(req) {
   });
 }
 
-async function jsonBody(req) {
-  const text = await readBody(req);
+async function jsonBody(req, limit = 4096) {
+  const text = await readBody(req, limit);
   if (!text) return {};
   try {
     return JSON.parse(text);
@@ -132,30 +168,53 @@ const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   try {
     if (req.method === "GET" && url.pathname === "/api/soba") {
-      if (!state.prikljucen) {
-        send(res, 500, { greska: "ventilator nije prikljucen" });
-        return;
-      }
-      const body = { temperatura: state.temperatura, ukljucen: state.ukljucen };
-      if (url.searchParams.get("svezina") === "1") body.trenutak = new Date().toISOString();
-      send(res, 200, body);
+      const result = await handler.citaj({
+        state,
+        db,
+        svezina: url.searchParams.get("svezina") === "1",
+      });
+      send(res, result.status, result.body);
       return;
     }
 
     if (req.method === "PUT" && url.pathname === "/api/ventilator") {
       if (!commandGate(req, res)) return;
       const body = await jsonBody(req);
-      if (typeof body.ukljucen !== "boolean" || Object.keys(body).some((k) => k !== "ukljucen")) {
-        send(res, 400, { greska: "telo nije boolean rezim" });
+      const result = await handler.komanda({ state, db }, body);
+      if (result.status === 200) broadcast();
+      send(res, result.status, result.body);
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/handler") {
+      send(res, 200, { izvor: fs.readFileSync(HANDLER, "utf8") });
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/handler") {
+      const body = await jsonBody(req, 200000);
+      if (typeof body.izvor !== "string") {
+        send(res, 400, { greska: "nema izvora" });
         return;
       }
-      if (body.ukljucen && !state.prikljucen) {
-        send(res, 500, { greska: "ventilator nije prikljucen" });
+      const previous = fs.readFileSync(HANDLER, "utf8");
+      fs.writeFileSync(HANDLER, body.izvor);
+      try {
+        loadHandler();
+      } catch (err) {
+        fs.writeFileSync(HANDLER, previous);
+        loadHandler();
+        send(res, 400, { greska: err.message });
         return;
       }
-      state.ukljucen = body.ukljucen;
-      broadcast();
-      send(res, 200, { ukljucen: state.ukljucen });
+      send(res, 200, { ucitan: true });
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/handler/povrati") {
+      fs.copyFileSync(PREPARED, HANDLER);
+      loadHandler();
+      send(res, 200, { izvor: fs.readFileSync(HANDLER, "utf8") });
       return;
     }
 
@@ -203,6 +262,13 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
+    if (req.method === "POST" && url.pathname === "/api/baza") {
+      const body = await jsonBody(req);
+      state.baza = Boolean(body.ukljucen);
+      send(res, 200, { baza: state.baza, dostupna: Boolean(db) });
+      return;
+    }
+
     if (req.method === "GET" && url.pathname === "/dovod") {
       res.writeHead(200, {
         "content-type": "text/event-stream; charset=utf-8",
@@ -238,6 +304,13 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, "0.0.0.0", () => {
-  console.log(`kutija http://127.0.0.1:${PORT}`);
-});
+initDb()
+  .catch((err) => {
+    console.error("baza nije dostupna:", err.message);
+    db = null;
+  })
+  .finally(() => {
+    server.listen(PORT, "0.0.0.0", () => {
+      console.log(`kutija http://127.0.0.1:${PORT}`);
+    });
+  });

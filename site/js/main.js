@@ -20,6 +20,9 @@ const kutijaMsg = document.querySelector("#kutija-msg");
 const editor = document.querySelector("#editor");
 const editorErr = document.querySelector("#editor-err");
 const editorWrap = document.querySelector("#editor-wrap");
+const editorSloj = document.querySelector("#editor-sloj");
+const ucitaj = document.querySelector("#ucitaj");
+const povrati = document.querySelector("#povrati");
 const starost = document.querySelector("#starost");
 
 const soba = { temperatura: 24, zeljeno: false };
@@ -27,6 +30,10 @@ let cas = 1;
 let pollId = 0;
 let dovod = null;
 let lastSpin = "1.2s";
+let editorMode = "";
+let delta = 1;
+const cssSnippet = ".blades {\n  animation-duration: 1.2s;\n}\n";
+const frontSnippet = "let delta = 1;\nfunction korak(soba) {\n  soba.temperatura += delta;\n}\n";
 
 function lecture() {
   return lectures.find((item) => item.n === cas);
@@ -135,8 +142,9 @@ function fitPanel() {
   kabl.hidden = cas < 5;
   sesije.hidden = cas < 9;
   fanLocal.hidden = cas > 3;
-  editorWrap.hidden = cas !== 1;
+  editorWrap.hidden = false;
   starost.hidden = cas < 8;
+  showEditor();
   log.hidden = cas !== 2;
   if (cas < 4) {
     setDigit(displej, cas < 3 ? "24" : String(soba.temperatura));
@@ -151,6 +159,60 @@ function fitPanel() {
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ ukljucen: cas >= 9 }),
   });
+  fetch("/api/baza", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ ukljucen: cas >= 7 }),
+  });
+}
+
+function showEditor() {
+  const mode = cas >= 4 ? "server" : cas === 1 ? "css" : "front";
+  editorSloj.textContent = mode === "server" ? "Editor, server" : "Editor, front";
+  ucitaj.hidden = mode !== "server";
+  povrati.hidden = mode !== "server";
+  if (mode === editorMode) return;
+  editorMode = mode;
+  editorErr.textContent = "";
+  if (mode === "css") editor.value = cssSnippet;
+  else if (mode === "front") editor.value = frontSnippet;
+  else {
+    fetch("/api/handler")
+      .then((response) => response.json())
+      .then((data) => {
+        editor.value = data.izvor;
+      });
+    return;
+  }
+  applyFront();
+}
+
+function applyFront() {
+  if (editorMode === "css") {
+    const match = editor.value.match(/animation-duration:\s*([0-9.]+)s/);
+    if (!match) {
+      editorErr.textContent = "Traje prethodno trajanje. Upiši animation-duration u sekundama.";
+      return;
+    }
+    editorErr.textContent = "";
+    lastSpin = `${match[1]}s`;
+    bladesLocal.style.setProperty("--spin", lastSpin);
+    blades.style.setProperty("--spin", lastSpin);
+    return;
+  }
+  if (editorMode !== "front") return;
+  try {
+    const fn = new Function(`${editor.value}\nreturn { korak, delta };`);
+    const api = fn();
+    if (typeof api.korak !== "function" || typeof api.delta !== "number") {
+      throw new Error("Isečak treba funkciju korak i broj delta.");
+    }
+    delta = api.delta;
+    window.__korak = api.korak;
+    editorErr.textContent = "";
+  } catch (err) {
+    editorErr.textContent = err.message;
+  }
 }
 
 function connectDovod() {
@@ -213,7 +275,8 @@ prekidac.addEventListener("click", () => {
 });
 
 sledeci.addEventListener("click", () => {
-  soba.temperatura += 1;
+  if (typeof window.__korak === "function") window.__korak(soba);
+  else soba.temperatura += delta;
   if (cas === 2) {
     log.hidden = false;
     log.textContent = `konzola: temperatura ${soba.temperatura}`;
@@ -255,17 +318,21 @@ document.querySelector("#ses-pos").addEventListener("click", () => chooseSession
 document.querySelector("#ses-ope").addEventListener("click", () => chooseSession("operater"));
 document.querySelector("#ses-ne").addEventListener("click", () => chooseSession(""));
 
-editor.value = ".blades {\n  animation-duration: 1.2s;\n}\n";
-editor.addEventListener("input", () => {
-  const match = editor.value.match(/animation-duration:\s*([0-9.]+)s/);
-  if (!match) {
-    editorErr.textContent = "Traje prethodno trajanje. Upiši animation-duration u sekundama.";
-    return;
-  }
-  editorErr.textContent = "";
-  lastSpin = `${match[1]}s`;
-  bladesLocal.style.setProperty("--spin", lastSpin);
-  blades.style.setProperty("--spin", lastSpin);
+editor.addEventListener("input", applyFront);
+ucitaj.addEventListener("click", async () => {
+  const response = await fetch("/api/handler", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ izvor: editor.value }),
+  });
+  const data = await response.json();
+  editorErr.textContent = response.ok ? "Handler je učitan. Sledeći zahtev ga koristi." : data.greska;
+});
+povrati.addEventListener("click", async () => {
+  const response = await fetch("/api/handler/povrati", { method: "POST" });
+  const data = await response.json();
+  editor.value = data.izvor;
+  editorErr.textContent = "Vraćen je pripremljeni isečak.";
 });
 
 document.querySelector("#search-form").addEventListener("submit", (event) => {
