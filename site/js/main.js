@@ -1,4 +1,5 @@
 import { lectures, preduslovCasa } from "./lectures.js";
+import { razbij } from "./recnik.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 
 const nav = document.querySelector("#nav");
@@ -139,29 +140,108 @@ function vecUkucano(item, doIndeksa, putanja) {
     .join("\n\n");
 }
 
+const recnikTip = document.createElement("div");
+recnikTip.id = "recnik-tip";
+recnikTip.className = "recnik-tip";
+recnikTip.setAttribute("role", "tooltip");
+recnikTip.hidden = true;
+document.body.append(recnikTip);
+let otvorenaRec = null;
+
+function zatvoriRec() {
+  recnikTip.hidden = true;
+  recnikTip.replaceChildren();
+  if (otvorenaRec) otvorenaRec.removeAttribute("aria-expanded");
+  otvorenaRec = null;
+}
+
+function prikaziRec(span, deo, dogadjaj) {
+  dogadjaj.preventDefault();
+  dogadjaj.stopPropagation();
+  if (otvorenaRec === span && !recnikTip.hidden) {
+    zatvoriRec();
+    return;
+  }
+  if (otvorenaRec) otvorenaRec.removeAttribute("aria-expanded");
+  otvorenaRec = span;
+  span.setAttribute("aria-expanded", "true");
+  const en = document.createElement("p");
+  en.className = "recnik-en";
+  en.textContent = deo.en;
+  const tekst = document.createElement("p");
+  tekst.textContent = deo.tekst;
+  recnikTip.replaceChildren(en, tekst);
+  recnikTip.hidden = false;
+  const okvir = span.getBoundingClientRect();
+  const sirina = recnikTip.offsetWidth;
+  const levo = Math.min(Math.max(8, okvir.left), window.innerWidth - sirina - 8);
+  recnikTip.style.left = `${levo}px`;
+  let gore = okvir.bottom + 6;
+  if (gore + recnikTip.offsetHeight > window.innerHeight - 8) gore = Math.max(8, okvir.top - recnikTip.offsetHeight - 6);
+  recnikTip.style.top = `${gore}px`;
+}
+
+function napraviRec(deo) {
+  const span = document.createElement("span");
+  span.className = "rec";
+  span.tabIndex = 0;
+  span.setAttribute("role", "button");
+  span.dataset.rec = deo.id;
+  span.textContent = deo.vrednost;
+  const otvori = (dogadjaj) => prikaziRec(span, deo, dogadjaj);
+  span.addEventListener("click", otvori);
+  span.addEventListener("keydown", (dogadjaj) => {
+    if (dogadjaj.key === "Enter" || dogadjaj.key === " ") otvori(dogadjaj);
+    if (dogadjaj.key === "Escape") {
+      dogadjaj.stopPropagation();
+      zatvoriRec();
+    }
+  });
+  return span;
+}
+
+function upisi(el, tekst) {
+  const frag = document.createDocumentFragment();
+  for (const deo of razbij(tekst)) {
+    if (deo.tip === "tekst") frag.append(deo.vrednost);
+    else frag.append(napraviRec(deo));
+  }
+  el.replaceChildren(frag);
+}
+
+document.addEventListener("click", (dogadjaj) => {
+  if (recnikTip.hidden) return;
+  if (dogadjaj.target.closest(".rec, #recnik-tip")) return;
+  zatvoriRec();
+});
+document.addEventListener("keydown", (dogadjaj) => {
+  if (dogadjaj.key === "Escape") zatvoriRec();
+});
+
 function renderLecture() {
+  zatvoriRec();
   const item = lecture();
   const i = Math.min(indeksKoraka(), item.steps.length - 1);
   const korak = item.steps[i];
   const otvoreno = objasnjenjePoKoraku.get(`${cas}:${i}`) === true;
   casEl.replaceChildren();
   const h = document.createElement("h1");
-  h.textContent = `${item.n}. ${item.title}`;
+  upisi(h, `${item.n}. ${item.title}`);
   const preduslov = document.createElement("p");
   preduslov.id = "preduslov";
-  preduslov.textContent = `Preduslov: ${preduslovCasa(item.n)}`;
+  upisi(preduslov, `Preduslov: ${preduslovCasa(item.n)}`);
   const outcome = document.createElement("p");
   outcome.id = "ishod";
-  outcome.textContent = `Ishod: ${item.outcome}`;
+  upisi(outcome, `Ishod: ${item.outcome}`);
   const broj = document.createElement("p");
   broj.className = "log";
-  broj.textContent = `Korak ${i + 1} od ${item.steps.length}: ${korak.naslov}`;
+  upisi(broj, `Korak ${i + 1} od ${item.steps.length}: ${korak.naslov}`);
   const primer = document.createElement("p");
-  primer.textContent = korak.primer;
+  upisi(primer, korak.primer);
   const primerKod = document.createElement("pre");
   primerKod.textContent = korak.kod;
   const pitanje = document.createElement("p");
-  pitanje.textContent = korak.pitalica;
+  upisi(pitanje, korak.pitalica);
   const kratke = document.createElement("div");
   kratke.className = "options";
   kratke.dataset.kviz = "korak";
@@ -170,12 +250,12 @@ function renderLecture() {
     button.type = "button";
     button.className = "option";
     button.dataset.key = opt.key;
-    button.textContent = `${opt.key}. ${opt.text}`;
+    upisi(button, `${opt.key}. ${opt.text}`);
     if (otvoreno && opt.ok) button.classList.add("holds");
     if (otvoreno) {
       const why = document.createElement("p");
       why.className = "why";
-      why.textContent = opt.why;
+      upisi(why, opt.why);
       button.append(why);
     }
     button.addEventListener("click", () => {
@@ -193,7 +273,7 @@ function renderLecture() {
   const objasnjenje = document.createElement("p");
   objasnjenje.className = "objasnjenje";
   objasnjenje.hidden = !otvoreno;
-  objasnjenje.textContent = korak.objasnjenje;
+  upisi(objasnjenje, korak.objasnjenje);
   const put = document.createElement("p");
   put.hidden = !otvoreno;
   const putanjaKoraka = document.createElement("span");
@@ -241,11 +321,11 @@ function renderLecture() {
     const button = document.createElement("button");
     button.type = "button";
     button.id = `pojam-${term.id}`;
-    button.textContent = `${term.name} — ${term.hint}`;
+    upisi(button, `${term.name} — ${term.hint}`);
     const body = document.createElement("div");
     body.hidden = !otvoreniPojmovi.has(kljuc);
     const p = document.createElement("p");
-    p.textContent = term.body;
+    upisi(p, term.body);
     const pre = document.createElement("pre");
     pre.textContent = term.code;
     body.append(p, pre);
@@ -260,10 +340,10 @@ function renderLecture() {
   const overview = document.createElement("p");
   overview.className = "log";
   overview.id = "osvrt";
-  overview.textContent = `Osvrt: ${item.overview}`;
+  upisi(overview, `Osvrt: ${item.overview}`);
   const izlaz = document.createElement("label");
   izlaz.className = "izlaz";
-  izlaz.textContent = item.izlaz;
+  upisi(izlaz, item.izlaz);
   const izlazPolje = document.createElement("textarea");
   izlazPolje.rows = 3;
   izlazPolje.setAttribute("aria-label", "Izlazno pitanje");
@@ -295,7 +375,7 @@ function nacrtajDiskusiju(item) {
   fazaEl.className = "log";
   fazaEl.textContent = `Faza: ${FAZE[faza]}`;
   const problem = document.createElement("p");
-  problem.textContent = izvor.problem;
+  upisi(problem, izvor.problem);
   const options = document.createElement("div");
   options.className = "options";
   options.dataset.kviz = "diskusija";
@@ -305,13 +385,13 @@ function nacrtajDiskusiju(item) {
     button.type = "button";
     button.className = "option";
     button.dataset.key = opt.key;
-    button.textContent = `${opt.key}. ${opt.text}`;
+    upisi(button, `${opt.key}. ${opt.text}`);
     if (opt.key === podvuceno) button.classList.add("podvuceno");
     if (faza >= 3) {
       button.classList.toggle("holds", opt.ok);
       const why = document.createElement("p");
       why.className = "why";
-      why.textContent = opt.why;
+      upisi(why, opt.why);
       button.append(why);
     }
     button.addEventListener("click", () => {

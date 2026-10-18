@@ -82,6 +82,10 @@ _Avoid_: Istina ekrana.
 Stanje koje ovaj browser trenutno crta.
 _Avoid_: Stanje kutije.
 
+**Alati browsera**:
+Ugrađeni alati u kojima se gleda i menja prikaz ove stranice. Dokument ostaje isti. Engleski naziv je DevTools.
+_Avoid_: Izmena fajla, čuvanje dokumenta.
+
 **Čitanje**:
 Odgovor kutije koji nosi temperaturu i režim. HTTP 200 je uspeh. HTTP 500 znači da ventilator nije priključen, i iz tog odgovora displej sobe prekidača ne dobija broj.
 _Avoid_: Komanda.

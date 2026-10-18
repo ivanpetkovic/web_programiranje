@@ -162,9 +162,31 @@ pre {
   border-top: 1px solid var(--line);
 }
 .option.podvuceno { text-decoration: underline; text-underline-offset: 0.2em; }
+.rec {
+  text-decoration: underline dashed;
+  text-underline-offset: 0.18em;
+  cursor: pointer;
+}
+.recnik-tip {
+  position: fixed;
+  z-index: 4;
+  width: min(18rem, calc(100vw - 1rem));
+  margin: 0;
+  padding: 0.65rem 0.75rem;
+  background: var(--paper);
+  border: 1px solid var(--amber);
+  border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+.recnik-tip p { margin: 0; }
+.recnik-tip .recnik-en {
+  color: var(--amber);
+  font-family: ui-monospace, monospace;
+  margin: 0 0 0.35rem;
+}
 .pretpostavke, .izlaz, .diskusija textarea { width: 100%; margin-top: 0.45rem; }
 .izlaz { display: grid; gap: 0.35rem; margin-top: 0.8rem; }
-button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visible {
+button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visible, .rec:focus-visible {
   outline: 2px solid var(--amber);
   outline-offset: 2px;
 }
