@@ -140,13 +140,13 @@ Osvrt, posle već izgrađenog TCP-a i HTTP-a: IP, UDP, TLS, HTTP/2, HTTP/3, XML,
 
 ### Čas 5 — Čekanje i neuspeh
 
-Ishod je razlika sinhronog toka, čekanja i vrste greške. Dugme učitava temperaturu. Ekran je u čekanju, ima podatak, ili ima grešku. Glavni kontrast je uspeh naspram HTTP 500. Pripremljeni 500 jeste ventilator koji nije priključen na kutiju: prekidač ostaje na „uključi”, zahtev stigne do kutije, kabl do ventilatora ne postoji, lopatice se ne vrte, status jeste 500. Spor odgovor i ugašen server su rezerva ako ostane vremena.
+Ishod je razlika sinhronog toka, čekanja i vrste greške. Dugme učitava temperaturu. Ekran je u čekanju, ima podatak, ili ima grešku. Glavni kontrast je uspeh naspram HTTP 500. Nepriključen ventilator nije taj 500: čitanje vraća 200, temperaturu, režim isključen i `priključen: false`, a displej sobe prekidača upisuje cifre. Spor odgovor i ugašen server su rezerva ako ostane vremena.
 
 Editor menja proveru statusa. Jedna promena: umesto 500, proces se ugasi i tok više nema odgovor. Čas otvara front isečak u kome linija već piše Err i za status koji nije uspeh i za izostanak odgovora. Nastavnik tu liniju vidi i može da je izmeni. Network i dalje razlikuje status 500 od zahteva bez statusa.
 
 Pitalica: 500 ne vodi samo po sebi u `catch`. Odgovor postoji; uspeh se čita iz statusa. Ugašen server nije taj odgovor. `await` zaustavlja tu funkciju, ne ceo browser, pa drugi klik i dalje važi.
 
-Kad `await` već postoji, u isti Node proces ulazi takt: `setInterval` u fajlu koji se kuca na času. Do tada kutija drži temperaturu mirnu. Takt diže temperaturu dok je režim isključen, a spušta je dok je uključen. Nepriključen ventilator ostavlja režim isključen, pa temperatura i dalje raste iako prekidač stoji na „uključi”. Soba mašina pokazuje temperaturu koju takt menja. Displej u sobi prekidača ispisuje poslednje očitavanje i stoji dok browser ponovo ne pročita kutiju.
+Kad `await` već postoji, u isti Node proces ulazi takt: `setInterval` u fajlu koji se kuca na času. Do tada kutija drži temperaturu mirnu. Takt diže temperaturu dok je režim isključen, a spušta je dok je uključen. Nepriključen ventilator ostavlja režim isključen, pa temperatura i dalje raste iako prekidač stoji na „uključi”. Soba mašina pokazuje temperaturu koju takt menja. Čitanje donosi taj broj na displej sobe prekidača zajedno sa `priključen: false`. Displej zatim stoji dok browser ponovo ne pročita kutiju.
 
 Pojmovi: `fetch`, `response.ok`, `await`, takt.
 
@@ -156,7 +156,7 @@ Osvrt: spoljni API, timeout, prekid jednog zahteva, više zahteva odjednom, call
 
 Ishod je željeno stanje, validacija i smisao ponavljanja. Komanda postavlja ventilator na uključeno i šalje telo sa boolean vrednošću. Server proverava unos, menja režim u memoriji i vraća rezultat. Pomoćni kod za telo ima granicu veličine i odbija neispravan JSON.
 
-Editor menja smisao komande između postavljanja na uključeno i prebacivanja režima. Dva slanja pokazuju različit ishod. Jedna promena: telo mimo forme, sa tekstom umesto boolean vrednosti, dobija odbijanje. Uspešan odgovor komande nosi samo režim i pomera kabl. Temperatura nije u tom telu. Displej je menja samo čitanje.
+Editor menja smisao komande između postavljanja na uključeno i prebacivanja režima. Dva slanja pokazuju različit ishod. Jedna promena: telo mimo forme, sa tekstom umesto boolean vrednosti, dobija odbijanje. Uspešan odgovor komande nosi samo režim i pomera kabl. Temperatura nije u tom telu. Komanda koja traži uključenje dok je `priključen` false dobija 500: prekidač može da ostane upaljen, kabla nema, lopatice se ne vrte. Displej temperature menja samo čitanje.
 
 Pitalica: bezbednije je ponoviti postavljanje na uključeno. Prebacivanje drugi put poništava efekat. Status 200 ne znači da ponavljanje ima isti efekat. Forma ne sprečava drugačije telo.
 
