@@ -1,11 +1,9 @@
 const { Pool } = require("pg");
 const { state } = require("./stanje");
 
-let db = null;
+let otvorenaBaza = null;
 
-async function initDb() {
-  if (!process.env.DATABASE_URL) return;
-  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+async function napraviTabele(pool) {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS ventilator (
       id integer PRIMARY KEY,
@@ -19,16 +17,30 @@ async function initDb() {
       vreme timestamptz NOT NULL DEFAULT now()
     )
   `);
+}
+
+async function ubaciPocetniRezim(pool) {
   await pool.query(
     "INSERT INTO ventilator (id, ukljucen) VALUES (1, false) ON CONFLICT (id) DO NOTHING"
   );
-  const row = await pool.query("SELECT ukljucen FROM ventilator WHERE id = 1");
-  state.ukljucen = row.rows[0].ukljucen;
-  db = pool;
 }
 
-function getDb() {
-  return db;
+async function ucitajRezim(pool) {
+  const red = await pool.query("SELECT ukljucen FROM ventilator WHERE id = 1");
+  state.ukljucen = red.rows[0].ukljucen;
 }
 
-module.exports = { initDb, getDb };
+async function pripremiBazu() {
+  if (!process.env.DATABASE_URL) return;
+  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  await napraviTabele(pool);
+  await ubaciPocetniRezim(pool);
+  await ucitajRezim(pool);
+  otvorenaBaza = pool;
+}
+
+function dohvatiBazu() {
+  return otvorenaBaza;
+}
+
+module.exports = { pripremiBazu, dohvatiBazu };

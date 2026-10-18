@@ -4,9 +4,14 @@ class Prekidac {
     this.ukljucen = element.getAttribute("aria-pressed") === "true";
   }
 
+  natpis() {
+    if (this.ukljucen) return "Isključi";
+    return "Uključi";
+  }
+
   crtaj(ukljucen) {
     this.ukljucen = ukljucen;
     this.element.setAttribute("aria-pressed", String(this.ukljucen));
-    this.element.textContent = this.ukljucen ? "Isključi" : "Uključi";
+    this.element.textContent = this.natpis();
   }
 }

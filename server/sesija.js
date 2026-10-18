@@ -1,29 +1,35 @@
-const SESIJE = new Map([
-  ["kljuc-posmatraca", "posmatrac"],
-  ["kljuc-operatera", "operater"],
+const KLJUC_POSMATRACA = "kljuc-posmatraca";
+const KLJUC_OPERATERA = "kljuc-operatera";
+const ULOGA_PO_KLJUCU = new Map([
+  [KLJUC_POSMATRACA, "posmatrac"],
+  [KLJUC_OPERATERA, "operater"],
 ]);
 
-function kljucIzKolacica(req) {
-  const raw = req.headers.cookie || "";
-  const hit = raw
+function kljucIzKolacica(zahtev) {
+  const zaglavlje = zahtev.headers.cookie || "";
+  const kolacic = zaglavlje
     .split(";")
-    .map((part) => part.trim())
-    .find((part) => part.startsWith("sesija="));
-  return hit ? decodeURIComponent(hit.slice("sesija=".length)) : "";
+    .map((deo) => deo.trim())
+    .find((deo) => deo.startsWith("sesija="));
+  if (!kolacic) return "";
+  return decodeURIComponent(kolacic.slice("sesija=".length));
 }
 
-function uloga(req, proveri) {
-  if (!proveri) return null;
-  const key = kljucIzKolacica(req);
-  if (!key || !SESIJE.has(key)) return { status: 401, body: { greska: "nema sesije" } };
-  if (SESIJE.get(key) !== "operater") return { status: 403, body: { greska: "posmatrac" } };
+function odbijenaKomanda(zahtev) {
+  const kljuc = kljucIzKolacica(zahtev);
+  if (!kljuc || !ULOGA_PO_KLJUCU.has(kljuc)) {
+    return { status: 401, body: { greska: "nema sesije" } };
+  }
+  if (ULOGA_PO_KLJUCU.get(kljuc) !== "operater") {
+    return { status: 403, body: { greska: "posmatrac" } };
+  }
   return null;
 }
 
-function kljucZa(koja) {
-  if (koja === "operater") return "kljuc-operatera";
-  if (koja === "posmatrac") return "kljuc-posmatraca";
+function kljucZaUlogu(naziv) {
+  if (naziv === "operater") return KLJUC_OPERATERA;
+  if (naziv === "posmatrac") return KLJUC_POSMATRACA;
   return "";
 }
 
-module.exports = { uloga, kljucZa };
+module.exports = { odbijenaKomanda, kljucZaUlogu };

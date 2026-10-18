@@ -7,11 +7,11 @@ class Displej {
     this.element.textContent = String(vrednost);
   }
 
-  posleCitanja(response, data) {
-    if (!response.ok) {
+  prikaziOcitavanje(odgovor, telo) {
+    if (!odgovor.ok) {
       this.crtaj("Err");
       return;
     }
-    this.crtaj(data.temperatura);
+    this.crtaj(telo.temperatura);
   }
 }

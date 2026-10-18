@@ -1,28 +1,59 @@
-function obradi(tacke) {
-  const izabrane = tacke.filter((tacka) => tacka.temperatura >= 24);
-  const visine = izabrane.map((tacka) => tacka.temperatura);
-  const zbir = visine.reduce((zbir, visina) => zbir + visina, 0);
-  const prosek = visine.length ? zbir / visine.length : 0;
-  return { visine, prosek };
+const prag = 24;
+const BOJA_LINIJE = "#ffb000";
+const DEBLJINA_LINIJE = 2;
+const MARGINA = 8;
+const NAJMANJE_VISINA = 2;
+
+function iznadPraga(tacke) {
+  return tacke.filter((tacka) => tacka.temperatura >= prag);
 }
 
-function nacrtaj(canvas, visine) {
-  const ctx = canvas.getContext("2d");
-  const w = canvas.width;
-  const h = canvas.height;
-  ctx.clearRect(0, 0, w, h);
-  if (visine.length < 2) return;
-  const min = Math.min(...visine);
-  const max = Math.max(...visine);
-  const span = max - min || 1;
-  ctx.strokeStyle = "#ffb000";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  visine.forEach((visina, i) => {
-    const x = (i / (visine.length - 1)) * (w - 16) + 8;
-    const y = h - 8 - ((visina - min) / span) * (h - 16);
-    if (i === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
+function temperature(tacke) {
+  return tacke.map((tacka) => tacka.temperatura);
+}
+
+function prosek(brojevi) {
+  if (brojevi.length === 0) return 0;
+  const zbir = brojevi.reduce((ukupno, broj) => ukupno + broj, 0);
+  return zbir / brojevi.length;
+}
+
+function pripremiLiniju(tacke) {
+  const visine = temperature(iznadPraga(tacke));
+  return { visine, prosek: prosek(visine) };
+}
+
+function polozaj(visina, indeks, skala) {
+  const x = (indeks / (skala.broj - 1)) * (skala.sirina - 2 * MARGINA) + MARGINA;
+  const y =
+    skala.visina - MARGINA - ((visina - skala.najniza) / skala.raspon) * (skala.visina - 2 * MARGINA);
+  return { x, y };
+}
+
+function povuciSegmente(olovka, visine, sirina, visina) {
+  const najniza = Math.min(...visine);
+  const najvisa = Math.max(...visine);
+  const skala = {
+    broj: visine.length,
+    sirina,
+    visina,
+    najniza,
+    raspon: najvisa - najniza || 1,
+  };
+  olovka.strokeStyle = BOJA_LINIJE;
+  olovka.lineWidth = DEBLJINA_LINIJE;
+  olovka.beginPath();
+  visine.forEach((vrednost, indeks) => {
+    const tacka = polozaj(vrednost, indeks, skala);
+    if (indeks === 0) olovka.moveTo(tacka.x, tacka.y);
+    else olovka.lineTo(tacka.x, tacka.y);
   });
-  ctx.stroke();
+  olovka.stroke();
+}
+
+function nacrtajLiniju(canvas, visine) {
+  const olovka = canvas.getContext("2d");
+  olovka.clearRect(0, 0, canvas.width, canvas.height);
+  if (visine.length < NAJMANJE_VISINA) return;
+  povuciSegmente(olovka, visine, canvas.width, canvas.height);
 }

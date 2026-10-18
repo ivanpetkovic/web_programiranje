@@ -49,8 +49,12 @@ let displejSobe = {
   crtaj(vrednost) {
     displej.textContent = String(vrednost);
   },
-  posleCitanja(response, data) {
-    this.crtaj(!response.ok ? "Err" : data.temperatura);
+  prikaziOcitavanje(odgovor, telo) {
+    if (!odgovor.ok) {
+      this.crtaj("Err");
+      return;
+    }
+    this.crtaj(telo.temperatura);
   },
 };
 let displejMasine = {
@@ -333,8 +337,8 @@ function applyDisplej(source, quiet) {
     const Displej = new Function(`${source}\nreturn Displej;`)();
     const sobaInstanca = new Displej(displej);
     const masinaInstanca = new Displej(displejMasina);
-    if (typeof sobaInstanca.crtaj !== "function" || typeof sobaInstanca.posleCitanja !== "function") {
-      throw new Error("Klasa Displej treba crtaj i posleCitanja.");
+    if (typeof sobaInstanca.crtaj !== "function" || typeof sobaInstanca.prikaziOcitavanje !== "function") {
+      throw new Error("Klasa Displej treba crtaj i prikaziOcitavanje.");
     }
     displejSobe = sobaInstanca;
     displejMasine = masinaInstanca;
@@ -362,16 +366,16 @@ function applyPrekidac(source, quiet) {
 
 function applyNiz(source, quiet) {
   try {
-    const api = new Function(`${source}\nreturn { obradi, nacrtaj };`)();
-    if (typeof api.obradi !== "function" || typeof api.nacrtaj !== "function") {
-      throw new Error("Fajl treba funkcije obradi i nacrtaj.");
+    const api = new Function(`${source}\nreturn { pripremiLiniju, nacrtajLiniju };`)();
+    if (typeof api.pripremiLiniju !== "function" || typeof api.nacrtajLiniju !== "function") {
+      throw new Error("Fajl treba funkcije pripremiLiniju i nacrtajLiniju.");
     }
-    const probe = api.obradi([{ temperatura: 24 }, { temperatura: 22 }]);
+    const probe = api.pripremiLiniju([{ temperatura: 24 }, { temperatura: 22 }]);
     if (!probe || !Array.isArray(probe.visine) || typeof probe.prosek !== "number") {
-      throw new Error("obradi vraća visine i prosek.");
+      throw new Error("pripremiLiniju vraća visine i prosek.");
     }
-    obradiNiz = api.obradi;
-    nacrtajNiz = api.nacrtaj;
+    obradiNiz = api.pripremiLiniju;
+    nacrtajNiz = api.nacrtajLiniju;
     if (!quiet) editorErr.textContent = "";
     osveziNiz();
     return true;
@@ -386,7 +390,7 @@ function osveziNiz() {
   try {
     slika = obradiNiz(tacke);
     if (!slika || !Array.isArray(slika.visine) || typeof slika.prosek !== "number") {
-      throw new Error("obradi vraća visine i prosek.");
+      throw new Error("pripremiLiniju vraća visine i prosek.");
     }
   } catch (err) {
     if (strana === "client" && openPath.client === "js/niz.js") editorErr.textContent = err.message;
@@ -438,17 +442,17 @@ async function readRoom() {
     const response = await fetch(path);
     const data = response.ok ? await response.json() : null;
     if (!response.ok) {
-      if (cas >= 5) displejSobe.posleCitanja(response, data);
+      if (cas >= 5) displejSobe.prikaziOcitavanje(response, data);
       starost.textContent = "";
       kutijaMsg.textContent = `HTTP ${response.status}`;
       return;
     }
-    displejSobe.posleCitanja(response, data);
+    displejSobe.prikaziOcitavanje(response, data);
     prekidacSobe.crtaj(data.ukljucen);
     if (data.trenutak) starost.textContent = data.trenutak;
     kutijaMsg.textContent = "HTTP 200";
   } catch {
-    if (cas >= 5) displejSobe.posleCitanja({ ok: false }, null);
+    if (cas >= 5) displejSobe.prikaziOcitavanje({ ok: false }, null);
     kutijaMsg.textContent = "nema statusa";
   }
 }
