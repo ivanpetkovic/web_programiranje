@@ -91,7 +91,7 @@ _Avoid_: Čitanje, prekidač.
 _Avoid_: Server push. Polling je isto ovo čitanje, ne drugi kanal.
 
 **Displej**:
-Broj u sobi prekidača. Pokazuje poslednje očitavanje koje je browser dobio čitanjem i ne menja se ni kad takt promeni sobu mašina, ni kad komanda uspe.
+Sedmosegmentni broj u sobi prekidača. Dok kutija drži temperaturu, pre prvog uspelog čitanja pokazuje crte, a zatim poslednje uspelo očitavanje. Takt i komanda ga ne pomeraju.
 _Avoid_: Temperatura u sobi mašina, prekidač.
 
 **Posmatrač**:

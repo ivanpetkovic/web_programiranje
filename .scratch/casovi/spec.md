@@ -126,7 +126,7 @@ Ishod je praćenje jednog zahteva i odgovora. Pre crteža servera i sobe mašina
 
 Naivan prenos: soba prekidača šalje jednu celu poruku i pretpostavlja da stiže cela i redom. Onda ta pretpostavka padne: poruka se izgubi, ili dve polovine zamene redosled. Popravka bez imena: delovi, redni brojevi, potvrda prijema. Tek tada se imenuje TCP, pouzdan tok bajtova. Segmentacija TCP-a nije IP fragmentacija. Tok bajtova i dalje ne znači „uključi ventilator”. Tada se imenuje HTTP: metod, putanja, zaglavlja, telo, status.
 
-Posle toga se crtaju kutija i soba mašina i pokazuje Node. Ventilator je priključen na kutiju. Zahtev se vidi kako ide od prekidača do kutije, pa kablom do ventilatora samo ako je priključen. Lopatice se vrte CSS transformacijom samo dok je udaljeni režim uključen. Časovi 1–3 nemaju taj crtež. Čitanje sobe se prvo otvara direktno u browseru, bez `fetch`-a. Isti zahtev se vidi u logu procesa i u Network panelu, sa protokolom HTTP/1.1. Podaci su u memoriji procesa. JSON u telu je tekst, ne JS objekat. Od ovog časa server drži temperaturu. Dugme „Sledeći korak” više nije izvor te vrednosti.
+Posle toga se crtaju kutija i soba mašina i pokazuje Node. Ventilator je priključen na kutiju. Zahtev se vidi kako ide od prekidača do kutije, pa kablom do ventilatora samo ako je priključen. Lopatice se vrte CSS transformacijom samo dok je udaljeni režim uključen. Časovi 1–3 nemaju taj crtež. Čitanje sobe se prvo otvara direktno u browseru, bez `fetch`-a. Isti zahtev se vidi u logu procesa i u Network panelu, sa protokolom HTTP/1.1. Podaci su u memoriji procesa. JSON u telu je tekst, ne JS objekat. Od ovog časa server drži temperaturu. Dugme „Sledeći korak” više nije izvor te vrednosti. Displej pokazuje crte dok prvo čitanje ne uspe, pa cifre tog očitavanja. Dugme „Pročitaj” šalje jedno čitanje.
 
 Editor menja granu handlera: poznata putanja vraća temperaturu i režim, ostale putanje vraćaju 404. Jedna promena: proces se ugasi i novi zahtev nema HTTP status.
 
@@ -180,7 +180,7 @@ Osvrt: relaciono naspram dokumentnog modela, VM naspram kontejnera. Bez mini-kur
 
 ### Čas 8 — Koliko je prikaz svež
 
-Ishod je razlika poslednjeg poznatog i trenutnog stanja. Displej stoji jer ga ne pomera ni takt ni odgovor komande. To je potreba za novim čitanjem. Očitavanje nosi vrednost i trenutak. Displej pokazuje starost. Na času se uključi periodično čitanje, polling. Server push, SSE ili WebSocket, imenuje se kao drugi način da displej sazna za broj, i ne pravi se.
+Ishod je razlika poslednjeg poznatog i trenutnog stanja. Displej stoji jer ga ne pomera ni takt ni odgovor komande. To je potreba za novim čitanjem. Očitavanje nosi vrednost i trenutak. Displej pokazuje starost. Na času poseban prekidač uključi periodično čitanje, polling. Dugme „Pročitaj” ostaje i i dalje šalje jedno čitanje. Server push, SSE ili WebSocket, imenuje se kao drugi način da displej sazna za broj, i ne pravi se.
 
 Editor uključuje ili isključuje odbacivanje starijeg trenutka merenja. Jedna promena: sporiji zahtev, meren ranije, stiže posle bržeg. Sa proverom, noviji broj ostaje. Bez provere, stariji pregazi ekran.
 
