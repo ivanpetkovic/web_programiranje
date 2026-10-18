@@ -52,12 +52,35 @@ button[aria-pressed="true"] { border-color: var(--amber); color: var(--amber); }
 .nav { flex-wrap: wrap; }
 .nav a { color: var(--muted); text-decoration: none; }
 .nav a[aria-current="page"] { color: var(--amber); }
-.layout {
+.stranica {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
-  gap: 1rem;
+  gap: 0.8rem;
   padding: 1rem;
 }
+.cas-glava { display: grid; gap: 0.7rem; }
+.cas-glava h1 { margin: 0; }
+.cas-tabovi { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+.cas-tabovi button[aria-selected="true"] { border-color: var(--amber); color: var(--amber); }
+.podela {
+  --editor-udeo: 1fr;
+  --pregled-udeo: 1fr;
+  display: grid;
+  grid-template-columns: minmax(0, var(--editor-udeo)) 0.55rem minmax(0, var(--pregled-udeo));
+  gap: 0.7rem;
+  align-items: stretch;
+}
+.podela .files { grid-column: auto; min-width: 0; }
+.podela .panel { min-width: 0; }
+.traka {
+  width: 0.55rem;
+  min-height: 8rem;
+  padding: 0;
+  border-radius: 999px;
+  background: var(--line);
+  cursor: col-resize;
+  touch-action: none;
+}
+.traka:hover, .traka:focus-visible { background: var(--amber); }
 .cas, .room {
   background: var(--paper);
   border: 1px solid var(--line);
@@ -107,7 +130,6 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
   border-radius: 8px;
 }
 .files {
-  grid-column: 1 / -1;
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -164,7 +186,7 @@ pre {
 .option.podvuceno { text-decoration: underline; text-underline-offset: 0.2em; }
 .pretpostavke, .izlaz, .diskusija textarea { width: 100%; margin-top: 0.45rem; }
 .izlaz { display: grid; gap: 0.35rem; margin-top: 0.8rem; }
-button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visible {
+button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visible, .traka:focus-visible {
   outline: 2px solid var(--amber);
   outline-offset: 2px;
 }
@@ -175,7 +197,8 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
   }
 }
 @media (max-width: 860px) {
-  .layout { grid-template-columns: 1fr; }
+  .podela { grid-template-columns: 1fr; }
+  .traka { display: none; }
   .file-layout { grid-template-columns: 1fr; }
   .digit { font-size: 3.4rem; }
 }
