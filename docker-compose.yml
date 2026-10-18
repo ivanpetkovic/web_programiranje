@@ -26,7 +26,8 @@ services:
       DATABASE_URL: postgres://kutija:kutija@db:5432/kontrolna
       PORT: 8787
     volumes:
-      - ./kutija:/app/kutija
+      - ./server:/app/server
+      - ./client:/app/client
       - ./site:/app/site
     depends_on:
       db:

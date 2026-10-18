@@ -1,6 +1,9 @@
 {
   "name": "kontrolna-soba",
   "private": true,
+  "scripts": {
+    "start": "node server/server.js"
+  },
   "dependencies": {
     "pg": "^8.16.3"
   }

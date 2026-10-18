@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kontrolna soba — web programiranje</title>
     <link rel="stylesheet" href="/css/site.css" />
+    <link rel="stylesheet" href="/client/css/soba.css" />
   </head>
   <body>
     <a class="skip" href="#cas">Preskoči na čas</a>
@@ -36,15 +37,7 @@
             <span class="blades" id="blades-local"></span>
           </div>
           <p id="log" class="log" hidden></p>
-          <label class="editor" id="editor-wrap">
-            <span id="editor-sloj">Editor, front</span>
-            <textarea id="editor" spellcheck="false"></textarea>
-            <span class="row">
-              <button type="button" id="ucitaj" hidden>Učitaj handler</button>
-              <button type="button" id="povrati" hidden>Povrati isečak</button>
-            </span>
-            <span id="editor-err" class="err" role="status"></span>
-          </label>
+          <canvas id="grafikon" width="320" height="84" hidden aria-label="Linija visina iz niza"></canvas>
         </div>
         <div class="room machine" id="soba-masina" hidden>
           <header class="room-h"><h2>Soba mašina</h2></header>
@@ -57,6 +50,24 @@
             <button type="button" id="ses-ne">Bez sesije</button>
           </div>
           <p id="kutija-msg" class="log"></p>
+        </div>
+      </section>
+      <section class="files" id="files" aria-label="Fajlovi">
+        <div class="tabs" role="tablist" aria-label="Strana">
+          <button type="button" id="tab-front" role="tab" aria-selected="true" aria-controls="tree">Front</button>
+          <button type="button" id="tab-back" role="tab" aria-selected="false" aria-controls="tree">Back</button>
+        </div>
+        <div class="file-layout">
+          <div id="tree" class="tree"></div>
+          <div class="editor" id="editor-wrap">
+            <span id="putanja">client/css/soba.css</span>
+            <textarea id="editor" spellcheck="false" aria-label="Sadržaj fajla"></textarea>
+            <span class="row">
+              <button type="button" id="sacuvaj">Sačuvaj</button>
+              <button type="button" id="povrati">Povrati</button>
+            </span>
+            <span id="editor-err" class="err" role="status"></span>
+          </div>
         </div>
       </section>
     </main>

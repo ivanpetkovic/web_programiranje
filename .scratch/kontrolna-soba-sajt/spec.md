@@ -8,7 +8,7 @@ Predavanja iz web programiranja treba da drže pažnju i da pokažu put od ekran
 
 Povezujući primer ostaje Kontrolna soba: jedna prostorija, jedno očitavanje temperature i jedan ventilator. Lopatice se vrte. Željeno stanje šalje browser, režim drži server, ekran crta poslednji odgovor.
 
-Umesto slajdova, sajt časa vodi korak: problem, neoznačeni odgovori, razlozi, pojam koji se otvara u objašnjenje i primer koda. U koraku koji uvodi fajl, editor otvara isečak koji već radi. Nastavnik menja jednu stvar. Front se odmah vidi na ugrađenom panelu. Serverski editor je isti izvor koji izvršava lokalni Node; panel ga pogodi zahtevom. Izmena handlera važi kad se taj proces ponovo učita.
+Umesto slajdova, sajt časa vodi korak: problem, neoznačeni odgovori, razlozi, pojam koji se otvara u objašnjenje i primer koda. Editor ima tab Front i tab Back. U oba se vidi stablo fajlova, `client/` i `server/`. Nastavnik otvori fajl koji već radi i menja jednu stvar. Front se odmah vidi na ugrađenom panelu. Sačuvan serverski fajl je izvor koji izvršava lokalni Node; panel ga pogodi sledećim zahtevom.
 
 Posle kursa isti fajlovi su jedna aplikacija: prvo samo front, zatim front i Node. Pregledne teme ostaju osvrt uz ovaj panel.
 
@@ -20,9 +20,9 @@ Posle kursa isti fajlovi su jedna aplikacija: prvo samo front, zatim front i Nod
 4. Kao nastavnik, hoću da klik na pojam otvori objašnjenje i primer koda, da reč i kod ostanu zajedno.
 5. Kao nastavnik, hoću vidljive animacije panela, da prostorija deluje živo tokom časa.
 6. Kao nastavnik, hoću da u editoru na sajtu kucam front, da panel odmah primeni izmenu.
-7. Kao nastavnik, hoću da u editoru na istom sajtu kucam server, da handler koji objašnjavam bude onaj koji panel zove.
+7. Kao nastavnik, hoću da u editoru na istom sajtu kucam server, da fajl koji objašnjavam bude onaj koji panel zove.
 8. Kao nastavnik, hoću da serverski kod izvršava lokalni Node, da zahtev bude stvaran.
-9. Kao nastavnik, hoću da izmena handlera važi posle ponovnog učitavanja tog procesa, da sledeći zahtev koristi novi kod.
+9. Kao nastavnik, hoću da izmena `server/soba.js`, `server/ventilator.js` ili `server/sesija.js` važi na sledećem zahtevu posle „Sačuvaj”.
 10. Kao nastavnik, hoću da editor otvori isečak koji već radi, da menjam jednu stvar umesto da pišem fajl od nule.
 11. Kao nastavnik, hoću da fajlovi posle kursa ostanu jedna pokretna aplikacija, da front radi sam, a zatim i sa Node-om.
 12. Kao student, hoću jednu prostoriju kroz svih deset časova, da scenario ostane prepoznatljiv.
@@ -64,7 +64,7 @@ Posle kursa isti fajlovi su jedna aplikacija: prvo samo front, zatim front i Nod
 - Serverski editor ne izvršava kod u browseru. Izvor izvršava lokalni Node. Panel šalje zahtev tom procesu.
 - Ugovor panela i servera: uspelo čitanje sobe vraća HTTP 200, temperaturu i režim. Čitanje dok ventilator nije priključen vraća HTTP 500, bez broja za displej. Komanda šalje željeno stanje ventilatora, a uspešan odgovor vraća samo režim. Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500. Kad čas uvede svežinu, uspelo čitanje nosi i trenutak očitavanja. Kad čas uvede uloge, ista komanda zavisi od sesije.
 - Protokol koji DevTools treba da pokaže je HTTP/1.1, jer server koristi ugrađeni Node HTTP, bez web framework-a.
-- Izmena handlera stupa na snagu kad se Node proces ponovo učita. Sledeći zahtev panela koristi novi handler.
+- „Sačuvaj” upisuje otvoreni fajl. Sledeći zahtev učitava `server/soba.js`, `server/ventilator.js` ili `server/sesija.js`. `server/server.js`, `server/stanje.js` i `server/baza.js` čitaju se kad se proces pokrene.
 - Do servera sajt crta samo sobu prekidača. Kutija i soba mašina crtaju se tek posle puta od naivnog prenosa do TCP-a i HTTP-a.
 - Zahtev komande vidi se od prekidača do kutije, pa kablom do ventilatora samo ako je priključen. Ako nije, kutija na tu komandu odgovori HTTP 500, prekidač može da ostane upaljen, lopatice se ne vrte. Čitanje u tom stanju takođe vraća HTTP 500, a displej sobe prekidača piše Err.
 - Kad kutija postoji, ona drži temperaturu. „Sledeći korak” na frontu tada više nije izvor očitavanja. Takt je `setInterval` u tom procesu i kreće tek kad `await` već postoji. Diže temperaturu dok je režim isključen, a spušta je dok je uključen.
@@ -84,7 +84,7 @@ Posle kursa isti fajlovi su jedna aplikacija: prvo samo front, zatim front i Nod
 
 Dobar test gleda ponašanje koje nastavnik vidi u browseru. Jedan šav: sajt časa sa ugrađenim panelom, uz lokalni Node kad je korak već uveo server.
 
-Na tom šavu vredi proveriti: pojam se otvori u objašnjenje i kod; izmena fronta promeni lopatice ili temperaturu; pre servera Network nema red Kontrolne sobe; posle servera red ima metod, status i HTTP/1.1; posmatrač na komandi bude odbijen, operater prihvaćen; ponovno učitavanje Node-a pusti izmenjeni handler.
+Na tom šavu vredi proveriti: pojam se otvori u objašnjenje i kod; izmena fronta promeni lopatice ili temperaturu; pre servera Network nema red Kontrolne sobe; posle servera red ima metod, status i HTTP/1.1; posmatrač na komandi bude odbijen, operater prihvaćen; sačuvan `server/soba.js` važi na sledećem čitanju; oba taba pokazuju svoje fajlove.
 
 Ne vredi vezati test za unutrašnja imena editora, redosled CSS klasa ni način na koji se animacija implementira, sve dok se lopatice vrte u skladu sa režimom. U repozitorijumu nema postojećeg testa sajta časa; ovaj šav je nov.
 

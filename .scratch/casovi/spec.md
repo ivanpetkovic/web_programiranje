@@ -92,21 +92,21 @@ Osvrt: Internet naspram Weba, put od URL-a do prikaza, semantički HTML, osnovna
 
 ### Čas 2 — JavaScript opisuje stanje
 
-Ishod je čitanje malog sinhronog programa. Objekat drži temperaturu i željeno stanje prekidača. Funkcija sledećeg koraka uvek uveća temperaturu za deltu. Režim ventilatora ne ulazi u tu računicu. Vrednosti se prate u konzoli. DOM se ne vezuje.
+Ishod je čitanje malog sinhronog programa. Objekat drži temperaturu i željeno stanje prekidača. Funkcija sledećeg koraka uvek uveća temperaturu za deltu. Režim ventilatora ne ulazi u tu računicu. Vrednosti se prate u konzoli. DOM se ne vezuje. Niz tačaka `{ temperatura }` prolazi kroz `filter`, `map` i `reduce`. Konzola ispiše visine i prosek. Taj niz još ne crta displej.
 
-Editor menja deltu. Sledeći poziv u konzoli daje višu temperaturu i kad je prekidač na uključeno. Ekranski broj ostaje dok ga čas 3 ne nacrta.
+Editor otvara `client/js/niz.js` i menja prag `filter`-a. Delta i dalje stoji u `client/js/korak.js`. Sledeći poziv u konzoli daje višu temperaturu i kad je prekidač na uključeno. Ekranski broj ostaje dok ga čas 3 ne nacrta.
 
 Pitalica: objekat je u `const`, a druga promenljiva pokazuje na njega. Tačno je da polje sme da se menja i da druga promenljiva vidi istu izmenu. `const` ne zamrzava objekat, `let` nije uslov za izmenu polja, a drugo ime ne pravi kopiju.
 
 Rezervna provera, ako prva prođe brzo, jeste strogo poređenje broja i teksta temperature. Jedna promena: kopija polja u novi objekat više ne prati izmenu.
 
-Pojmovi: `const`, referenca, strogo poređenje, funkcija kao vrednost. Obična i arrow funkcija su obe pokazane pre kasnije upotrebe. Leksički scope jednim sinhronim pozivom.
+Pojmovi: `const`, referenca, strogo poređenje, funkcija kao vrednost, `map`, `filter`, `reduce`. Obična i arrow funkcija su obe pokazane pre kasnije upotrebe. Leksički scope jednim sinhronim pozivom.
 
 Osvrt: dinamički tipovi i gde bi TS stao, razlika JS okruženja, dve verzije iste funkcije kao slika saradnje.
 
 ### Čas 3 — Događaji povezuju korisnika
 
-Ishod je put klik, handler, stanje, prikaz. „Sledeći korak” menja temperaturu u objektu, a poseban kod crta broj. Prekidač menja željeno stanje u objektu, a crtanje pomera sam prekidač. Soba mašina još nije na ekranu. Forma na panelu ne sme da osveži dokument; submit se zaustavlja. Raspored je Flexbox ili Grid. Fokus stiže i sa tastature.
+Ishod je put klik, handler, stanje, prikaz. „Sledeći korak” menja temperaturu u objektu, a `Displej.crtaj` upisuje broj. Isti niz tačaka crta se kao linija na canvasu. Linija je slika visina posle `filter` i `map`. Displej je i dalje poseban. Prekidač menja željeno stanje u objektu, a `Prekidac.crtaj` pomera natpis. Oba su ES6 klase. Ista klasa `Displej` ima instancu u sobi prekidača i, od četvrtog časa, u sobi mašina. Soba mašina još nije na ekranu. Forma na panelu ne sme da osveži dokument; submit se zaustavlja. Raspored je Flexbox ili Grid. Fokus stiže i sa tastature.
 
 Closure je sinhrona funkcija koja vrati funkciju i pamti prag. Tajmer nije deo tog primera.
 
@@ -128,7 +128,7 @@ Naivan prenos: soba prekidača šalje jednu celu poruku i pretpostavlja da stiž
 
 Posle toga se crtaju kutija i soba mašina i pokazuje Node. Ventilator je priključen na kutiju. Zahtev se vidi kako ide od prekidača do kutije, pa kablom do ventilatora samo ako je priključen. Lopatice se vrte CSS transformacijom samo dok je udaljeni režim uključen. Časovi 1–3 nemaju taj crtež. Čitanje sobe se prvo otvara direktno u browseru, bez `fetch`-a. Isti zahtev se vidi u logu procesa i u Network panelu, sa protokolom HTTP/1.1. Podaci su u memoriji procesa. JSON u telu je tekst, ne JS objekat. Od ovog časa server drži temperaturu. Dugme „Sledeći korak” više nije izvor te vrednosti. Displej pokazuje crte dok prvo čitanje ne uspe, pa cifre tog očitavanja. Isečak časa 4 još nema granu koja piše Err, pa neuspeh ostavlja crte. Dugme „Pročitaj” šalje jedno čitanje.
 
-Editor menja granu handlera: poznata putanja vraća temperaturu i režim, ostale putanje vraćaju 404. Jedna promena: proces se ugasi i novi zahtev nema HTTP status.
+Editor menja `server/soba.js`: poznata putanja vraća temperaturu i režim, ostale putanje vraćaju 404. Jedna promena: proces se ugasi i novi zahtev nema HTTP status.
 
 Pitalica: handler ne može da ugasi dugme preko DOM-a. Tačno je da server vrati podatak ili dokument, a browser menja prikaz kad obradi odgovor. Poreklo zahteva ne premešta DOM na server.
 

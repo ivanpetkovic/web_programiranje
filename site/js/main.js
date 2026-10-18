@@ -16,24 +16,68 @@ const blades = document.querySelector("#blades");
 const kabl = document.querySelector("#kabl");
 const sesije = document.querySelector("#sesije");
 const log = document.querySelector("#log");
+const grafikon = document.querySelector("#grafikon");
 const kutijaMsg = document.querySelector("#kutija-msg");
 const editor = document.querySelector("#editor");
 const editorErr = document.querySelector("#editor-err");
-const editorWrap = document.querySelector("#editor-wrap");
-const editorSloj = document.querySelector("#editor-sloj");
-const ucitaj = document.querySelector("#ucitaj");
+const putanja = document.querySelector("#putanja");
+const tree = document.querySelector("#tree");
+const tabFront = document.querySelector("#tab-front");
+const tabBack = document.querySelector("#tab-back");
+const sacuvaj = document.querySelector("#sacuvaj");
 const povrati = document.querySelector("#povrati");
 const starost = document.querySelector("#starost");
 
 const soba = { temperatura: 24, zeljeno: false };
+const tacke = [
+  { temperatura: 22 },
+  { temperatura: 24 },
+  { temperatura: 26 },
+  { temperatura: 23 },
+];
 let cas = 1;
 let pollId = 0;
 let dovod = null;
 let lastSpin = "1.2s";
-let editorMode = "";
-let delta = 1;
-const cssSnippet = ".blades {\n  animation-duration: 1.2s;\n}\n";
-const frontSnippet = "let delta = 1;\nfunction korak(soba) {\n  soba.temperatura += delta;\n}\n";
+let strana = "client";
+let openedForCas = 0;
+let sideToken = 0;
+let openToken = 0;
+const openPath = { client: "css/soba.css", server: "soba.js" };
+const drafts = new Map();
+let displejSobe = {
+  crtaj(vrednost) {
+    displej.textContent = String(vrednost);
+  },
+  prikaziOcitavanje(odgovor, telo) {
+    if (!odgovor.ok) {
+      this.crtaj("Err");
+      return;
+    }
+    this.crtaj(telo.temperatura);
+  },
+};
+let displejMasine = {
+  crtaj(vrednost) {
+    displejMasina.textContent = String(vrednost);
+  },
+};
+function podrazumevanoObradi(niz) {
+  const izabrane = niz.filter((tacka) => tacka.temperatura >= 24);
+  const visine = izabrane.map((tacka) => tacka.temperatura);
+  const zbir = visine.reduce((s, v) => s + v, 0);
+  return { visine, prosek: visine.length ? zbir / visine.length : 0 };
+}
+let obradiNiz = podrazumevanoObradi;
+let nacrtajNiz = () => {};
+let prekidacSobe = {
+  ukljucen: false,
+  crtaj(ukljucen) {
+    this.ukljucen = ukljucen;
+    prekidac.setAttribute("aria-pressed", String(ukljucen));
+    prekidac.textContent = ukljucen ? "Isključi" : "Uključi";
+  },
+};
 
 function lecture() {
   return lectures.find((item) => item.n === cas);
@@ -129,10 +173,6 @@ function renderLecture() {
   fitPanel();
 }
 
-function setDigit(node, value) {
-  node.textContent = value;
-}
-
 function fitPanel() {
   const local = cas < 4;
   sobaMasina.hidden = local;
@@ -142,15 +182,17 @@ function fitPanel() {
   kabl.hidden = cas < 5;
   sesije.hidden = cas < 9;
   fanLocal.hidden = cas > 3;
-  editorWrap.hidden = false;
   starost.hidden = cas < 8;
-  showEditor();
+  focusFile();
+  loadSide();
   log.hidden = cas !== 2;
+  grafikon.hidden = cas !== 3;
+  if (cas === 2 || cas === 3) osveziNiz();
   if (cas < 4) {
-    setDigit(displej, cas < 3 ? "24" : String(soba.temperatura));
+    displejSobe.crtaj(cas < 3 ? "24" : soba.temperatura);
     bladesLocal.classList.toggle("spin", cas === 1 || (cas === 3 && soba.zeljeno));
   } else {
-    setDigit(displej, "----");
+    displejSobe.crtaj("----");
   }
   if (cas >= 4 && !dovod) connectDovod();
   if (cas >= 5) fetch("/api/takt", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ukljucen: true }) });
@@ -166,60 +208,229 @@ function fitPanel() {
   });
 }
 
-function showEditor() {
-  const mode = cas >= 4 ? "server" : cas === 1 ? "css" : "front";
-  editorSloj.textContent = mode === "server" ? "Editor, server" : "Editor, front";
-  ucitaj.hidden = mode !== "server";
-  povrati.hidden = mode !== "server";
-  if (mode === editorMode) return;
-  editorMode = mode;
-  editorErr.textContent = "";
-  if (mode === "css") editor.value = cssSnippet;
-  else if (mode === "front") editor.value = frontSnippet;
-  else {
-    fetch("/api/handler")
-      .then((response) => response.json())
-      .then((data) => {
-        editor.value = data.izvor;
-      });
-    return;
-  }
-  applyFront();
+function fileForLecture(n) {
+  if (n === 1) return ["client", "css/soba.css"];
+  if (n === 2) return ["client", "js/niz.js"];
+  if (n === 3) return ["client", "js/prekidac.js"];
+  if (n === 5) return ["client", "js/displej.js"];
+  if (n === 6 || n === 7) return ["server", "ventilator.js"];
+  if (n === 9) return ["server", "sesija.js"];
+  return ["server", "soba.js"];
 }
 
-function applyFront() {
-  if (editorMode === "css") {
-    const match = editor.value.match(/animation-duration:\s*([0-9.]+)s/);
-    if (!match) {
-      editorErr.textContent = "Traje prethodno trajanje. Upiši animation-duration u sekundama.";
-      return;
+function focusFile() {
+  if (openedForCas === cas) return;
+  openedForCas = cas;
+  const [side, put] = fileForLecture(cas);
+  strana = side;
+  openPath[side] = put;
+}
+
+function paintTree(paths) {
+  const root = { dirs: new Map(), files: [] };
+  for (const put of paths) {
+    const parts = put.split("/");
+    let node = root;
+    for (let i = 0; i < parts.length - 1; i += 1) {
+      if (!node.dirs.has(parts[i])) node.dirs.set(parts[i], { dirs: new Map(), files: [] });
+      node = node.dirs.get(parts[i]);
     }
-    editorErr.textContent = "";
-    lastSpin = `${match[1]}s`;
-    bladesLocal.style.setProperty("--spin", lastSpin);
-    blades.style.setProperty("--spin", lastSpin);
+    node.files.push({ name: parts[parts.length - 1], put });
+  }
+  tree.replaceChildren(renderNode(root));
+}
+
+function renderNode(node) {
+  const ul = document.createElement("ul");
+  for (const [name, child] of node.dirs) {
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    span.className = "dir";
+    span.textContent = `${name}/`;
+    li.append(span, renderNode(child));
+    ul.append(li);
+  }
+  for (const file of node.files) {
+    const li = document.createElement("li");
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = file.name;
+    button.dataset.put = file.put;
+    button.setAttribute("aria-current", file.put === openPath[strana] ? "true" : "false");
+    button.addEventListener("click", () => openFile(file.put));
+    li.append(button);
+    ul.append(li);
+  }
+  return ul;
+}
+
+function markOpen(put) {
+  for (const button of tree.querySelectorAll("button")) {
+    button.setAttribute("aria-current", button.dataset.put === put ? "true" : "false");
+  }
+}
+
+async function loadSide() {
+  const token = ++sideToken;
+  const side = strana;
+  tabFront.setAttribute("aria-selected", String(side === "client"));
+  tabBack.setAttribute("aria-selected", String(side === "server"));
+  const response = await fetch(`/api/stablo?strana=${side}`);
+  const data = await response.json();
+  if (token !== sideToken) return;
+  paintTree(data.fajlovi);
+  await openFile(openPath[side]);
+}
+
+async function openFile(put) {
+  const token = ++openToken;
+  const side = strana;
+  openPath[side] = put;
+  putanja.textContent = `${side}/${put}`;
+  markOpen(put);
+  const key = `${side}:${put}`;
+  if (drafts.has(key)) {
+    editor.value = drafts.get(key);
+    applyLive();
     return;
   }
-  if (editorMode !== "front") return;
+  const response = await fetch(`/api/fajl?strana=${side}&put=${encodeURIComponent(put)}`);
+  const data = await response.json();
+  if (token !== openToken) return;
+  editor.value = data.izvor || "";
+  drafts.set(key, editor.value);
+  editorErr.textContent = "";
+  applyLive();
+}
+
+function applyCss(source) {
+  const match = source.match(/animation-duration:\s*([0-9.]+)s/);
+  if (!match) {
+    editorErr.textContent = "Traje prethodno trajanje. Upiši animation-duration u sekundama.";
+    return false;
+  }
+  editorErr.textContent = "";
+  lastSpin = `${match[1]}s`;
+  bladesLocal.style.animationDuration = lastSpin;
+  blades.style.animationDuration = lastSpin;
+  return true;
+}
+
+function applyKorak(source, quiet) {
   try {
-    const fn = new Function(`${editor.value}\nreturn { korak, delta };`);
+    const fn = new Function(`${source}\nreturn { korak, delta };`);
     const api = fn();
     if (typeof api.korak !== "function" || typeof api.delta !== "number") {
-      throw new Error("Isečak treba funkciju korak i broj delta.");
+      throw new Error("Fajl treba funkciju korak i broj delta.");
     }
-    delta = api.delta;
     window.__korak = api.korak;
-    editorErr.textContent = "";
+    if (!quiet) editorErr.textContent = "";
+    return true;
   } catch (err) {
-    editorErr.textContent = err.message;
+    if (!quiet) editorErr.textContent = err.message;
+    return false;
   }
+}
+
+function applyDisplej(source, quiet) {
+  try {
+    const Displej = new Function(`${source}\nreturn Displej;`)();
+    const sobaInstanca = new Displej(displej);
+    const masinaInstanca = new Displej(displejMasina);
+    if (typeof sobaInstanca.crtaj !== "function" || typeof sobaInstanca.prikaziOcitavanje !== "function") {
+      throw new Error("Klasa Displej treba crtaj i prikaziOcitavanje.");
+    }
+    displejSobe = sobaInstanca;
+    displejMasine = masinaInstanca;
+    if (!quiet) editorErr.textContent = "";
+    return true;
+  } catch (err) {
+    if (!quiet) editorErr.textContent = err.message;
+    return false;
+  }
+}
+
+function applyPrekidac(source, quiet) {
+  try {
+    const Prekidac = new Function(`${source}\nreturn Prekidac;`)();
+    const instanca = new Prekidac(prekidac);
+    if (typeof instanca.crtaj !== "function") throw new Error("Klasa Prekidac treba crtaj.");
+    prekidacSobe = instanca;
+    if (!quiet) editorErr.textContent = "";
+    return true;
+  } catch (err) {
+    if (!quiet) editorErr.textContent = err.message;
+    return false;
+  }
+}
+
+function applyNiz(source, quiet) {
+  try {
+    const api = new Function(`${source}\nreturn { pripremiLiniju, nacrtajLiniju };`)();
+    if (typeof api.pripremiLiniju !== "function" || typeof api.nacrtajLiniju !== "function") {
+      throw new Error("Fajl treba funkcije pripremiLiniju i nacrtajLiniju.");
+    }
+    const probe = api.pripremiLiniju([{ temperatura: 24 }, { temperatura: 22 }]);
+    if (!probe || !Array.isArray(probe.visine) || typeof probe.prosek !== "number") {
+      throw new Error("pripremiLiniju vraća visine i prosek.");
+    }
+    obradiNiz = api.pripremiLiniju;
+    nacrtajNiz = api.nacrtajLiniju;
+    if (!quiet) editorErr.textContent = "";
+    osveziNiz();
+    return true;
+  } catch (err) {
+    if (!quiet) editorErr.textContent = err.message;
+    return false;
+  }
+}
+
+function osveziNiz() {
+  let slika;
+  try {
+    slika = obradiNiz(tacke);
+    if (!slika || !Array.isArray(slika.visine) || typeof slika.prosek !== "number") {
+      throw new Error("pripremiLiniju vraća visine i prosek.");
+    }
+  } catch (err) {
+    if (strana === "client" && openPath.client === "js/niz.js") editorErr.textContent = err.message;
+    return;
+  }
+  if (cas === 2) {
+    log.hidden = false;
+    const prosek = Math.round(slika.prosek * 10) / 10;
+    log.textContent = `konzola: temperatura ${soba.temperatura} | visine ${slika.visine.join(", ")} | prosek ${prosek}`;
+  }
+  if (cas === 3) {
+    try {
+      nacrtajNiz(grafikon, slika.visine);
+    } catch (err) {
+      if (strana === "client" && openPath.client === "js/niz.js") editorErr.textContent = err.message;
+    }
+  }
+}
+
+function applyLive() {
+  const put = openPath[strana];
+  if (strana === "client" && put === "css/soba.css") return applyCss(editor.value);
+  if (strana === "client" && put === "js/korak.js") return applyKorak(editor.value);
+  if (strana === "client" && put === "js/niz.js") return applyNiz(editor.value);
+  if (strana === "client" && put === "js/displej.js") return applyDisplej(editor.value);
+  if (strana === "client" && put === "js/prekidac.js") return applyPrekidac(editor.value);
+  return true;
+}
+
+async function prime(put, apply) {
+  const response = await fetch(`/api/fajl?strana=client&put=${encodeURIComponent(put)}`);
+  const data = await response.json();
+  if (data.izvor) apply(data.izvor);
 }
 
 function connectDovod() {
   dovod = new EventSource("/dovod");
   dovod.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    setDigit(displejMasina, String(data.temperatura));
+    displejMasine.crtaj(data.temperatura);
     blades.classList.toggle("spin", data.ukljucen && data.prikljucen);
     kabl.textContent = data.prikljucen ? "Kabl je u kutiji" : "Kabl je izvučen";
   };
@@ -229,20 +440,19 @@ async function readRoom() {
   const path = cas >= 8 ? "/api/soba?svezina=1" : "/api/soba";
   try {
     const response = await fetch(path);
+    const data = response.ok ? await response.json() : null;
     if (!response.ok) {
-      setDigit(displej, "Err");
+      if (cas >= 5) displejSobe.prikaziOcitavanje(response, data);
       starost.textContent = "";
       kutijaMsg.textContent = `HTTP ${response.status}`;
       return;
     }
-    const data = await response.json();
-    setDigit(displej, String(data.temperatura));
-    prekidac.setAttribute("aria-pressed", String(data.ukljucen));
-    prekidac.textContent = data.ukljucen ? "Isključi" : "Uključi";
+    displejSobe.prikaziOcitavanje(response, data);
+    prekidacSobe.crtaj(data.ukljucen);
     if (data.trenutak) starost.textContent = data.trenutak;
     kutijaMsg.textContent = "HTTP 200";
   } catch {
-    setDigit(displej, "Err");
+    if (cas >= 5) displejSobe.prikaziOcitavanje({ ok: false }, null);
     kutijaMsg.textContent = "nema statusa";
   }
 }
@@ -256,8 +466,7 @@ async function sendCommand(ukljucen) {
   kutijaMsg.textContent = `HTTP ${response.status}`;
   if (response.ok) {
     const data = await response.json();
-    prekidac.setAttribute("aria-pressed", String(data.ukljucen));
-    prekidac.textContent = data.ukljucen ? "Isključi" : "Uključi";
+    prekidacSobe.crtaj(data.ukljucen);
   }
 }
 
@@ -265,24 +474,29 @@ prekidac.addEventListener("click", () => {
   if (cas < 3) return;
   if (cas < 4) {
     soba.zeljeno = !soba.zeljeno;
-    prekidac.setAttribute("aria-pressed", String(soba.zeljeno));
-    prekidac.textContent = soba.zeljeno ? "Isključi" : "Uključi";
+    prekidacSobe.crtaj(soba.zeljeno);
     bladesLocal.classList.toggle("spin", soba.zeljeno);
     return;
   }
-  const next = prekidac.getAttribute("aria-pressed") !== "true";
+  const next = !prekidacSobe.ukljucen;
   sendCommand(next);
 });
 
 sledeci.addEventListener("click", () => {
   if (typeof window.__korak === "function") window.__korak(soba);
-  else soba.temperatura += delta;
+  else soba.temperatura += 1;
+  if (cas === 2 || cas === 3) {
+    tacke.push({ temperatura: soba.temperatura });
+    if (tacke.length > 40) tacke.shift();
+  }
   if (cas === 2) {
-    log.hidden = false;
-    log.textContent = `konzola: temperatura ${soba.temperatura}`;
+    osveziNiz();
     return;
   }
-  if (cas === 3) setDigit(displej, String(soba.temperatura));
+  if (cas === 3) {
+    displejSobe.crtaj(soba.temperatura);
+    osveziNiz();
+  }
 });
 
 procitaj.addEventListener("click", readRoom);
@@ -318,21 +532,58 @@ document.querySelector("#ses-pos").addEventListener("click", () => chooseSession
 document.querySelector("#ses-ope").addEventListener("click", () => chooseSession("operater"));
 document.querySelector("#ses-ne").addEventListener("click", () => chooseSession(""));
 
-editor.addEventListener("input", applyFront);
-ucitaj.addEventListener("click", async () => {
-  const response = await fetch("/api/handler", {
+editor.addEventListener("input", () => {
+  drafts.set(`${strana}:${openPath[strana]}`, editor.value);
+  applyLive();
+});
+
+tabFront.addEventListener("click", () => {
+  if (strana === "client") return;
+  strana = "client";
+  loadSide();
+});
+tabBack.addEventListener("click", () => {
+  if (strana === "server") return;
+  strana = "server";
+  loadSide();
+});
+
+sacuvaj.addEventListener("click", async () => {
+  const put = openPath[strana];
+  const response = await fetch("/api/fajl", {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ izvor: editor.value }),
+    body: JSON.stringify({ strana, put, izvor: editor.value }),
   });
   const data = await response.json();
-  editorErr.textContent = response.ok ? "Handler je učitan. Sledeći zahtev ga koristi." : data.greska;
+  if (!response.ok) {
+    editorErr.textContent = data.greska;
+    return;
+  }
+  drafts.set(`${strana}:${put}`, editor.value);
+  if (strana === "client") editorErr.textContent = "Sačuvano. Panel već koristi ovu izmenu.";
+  else if (data.pokretanje) editorErr.textContent = "Sačuvano. Ovaj fajl se čita kad se proces pokrene.";
+  else editorErr.textContent = "Sačuvano. Sledeći zahtev koristi ovaj fajl.";
 });
+
 povrati.addEventListener("click", async () => {
-  const response = await fetch("/api/handler/povrati", { method: "POST" });
+  const put = openPath[strana];
+  const response = await fetch("/api/fajl/povrati", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ strana, put }),
+  });
   const data = await response.json();
+  if (!response.ok) {
+    editorErr.textContent = data.greska;
+    return;
+  }
   editor.value = data.izvor;
-  editorErr.textContent = "Vraćen je pripremljeni isečak.";
+  drafts.set(`${strana}:${put}`, data.izvor);
+  if (!applyLive()) return;
+  editorErr.textContent = data.pokretanje
+    ? "Vraćen je pripremljeni fajl. Ovaj fajl se čita kad se proces pokrene."
+    : "Vraćen je pripremljeni fajl.";
 });
 
 document.querySelector("#search-form").addEventListener("submit", (event) => {
@@ -362,5 +613,9 @@ window.addEventListener("hashchange", () => {
   }
 });
 
+prime("js/korak.js", (source) => applyKorak(source, true));
+prime("js/niz.js", (source) => applyNiz(source, true));
+prime("js/displej.js", (source) => applyDisplej(source, true));
+prime("js/prekidac.js", (source) => applyPrekidac(source, true));
 if (!location.hash) location.hash = "cas-1";
 else window.dispatchEvent(new Event("hashchange"));
