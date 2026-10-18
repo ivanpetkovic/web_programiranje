@@ -78,6 +78,10 @@ _Avoid_: Istina ekrana.
 Stanje koje ovaj browser trenutno crta.
 _Avoid_: Stanje staklenika.
 
+**Displej**:
+Broj u sobi prekidača. Pokazuje poslednje očitavanje koje je browser dobio i ne menja se dok nema novog čitanja.
+_Avoid_: Temperatura u sobi mašina, prekidač.
+
 **Posmatrač**:
 Uloga koja sme da pregleda stanje staklenika, ali ne i da upravlja uređajima.
 
