@@ -4,6 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kontrolna soba — web programiranje</title>
+    <script>
+      try {
+        var tema = localStorage.getItem("tema");
+        if (tema === "tamna" || tema === "svetla") document.documentElement.dataset.tema = tema;
+      } catch (e) {}
+    </script>
     <link rel="stylesheet" href="/css/site.css" />
     <link rel="stylesheet" href="/client/css/soba.css" />
   </head>
@@ -16,6 +22,7 @@
         <input id="q" type="search" placeholder="Nađi pojam" autocomplete="off" />
       </form>
       <p class="meta">10 časova</p>
+      <button type="button" id="tema">Svetla tema</button>
     </header>
     <nav id="nav" class="nav" aria-label="Časovi"></nav>
     <main class="layout">
