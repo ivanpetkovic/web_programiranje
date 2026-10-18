@@ -38,6 +38,27 @@ let sideToken = 0;
 let openToken = 0;
 const openPath = { client: "css/soba.css", server: "soba.js" };
 const drafts = new Map();
+let displejSobe = {
+  crtaj(vrednost) {
+    displej.textContent = String(vrednost);
+  },
+  posleCitanja(response, data) {
+    this.crtaj(!response.ok ? "Err" : data.temperatura);
+  },
+};
+let displejMasine = {
+  crtaj(vrednost) {
+    displejMasina.textContent = String(vrednost);
+  },
+};
+let prekidacSobe = {
+  ukljucen: false,
+  crtaj(ukljucen) {
+    this.ukljucen = ukljucen;
+    prekidac.setAttribute("aria-pressed", String(ukljucen));
+    prekidac.textContent = ukljucen ? "Isključi" : "Uključi";
+  },
+};
 
 function lecture() {
   return lectures.find((item) => item.n === cas);
@@ -133,10 +154,6 @@ function renderLecture() {
   fitPanel();
 }
 
-function setDigit(node, value) {
-  node.textContent = value;
-}
-
 function fitPanel() {
   const local = cas < 4;
   sobaMasina.hidden = local;
@@ -151,10 +168,10 @@ function fitPanel() {
   loadSide();
   log.hidden = cas !== 2;
   if (cas < 4) {
-    setDigit(displej, cas < 3 ? "24" : String(soba.temperatura));
+    displejSobe.crtaj(cas < 3 ? "24" : soba.temperatura);
     bladesLocal.classList.toggle("spin", cas === 1 || (cas === 3 && soba.zeljeno));
   } else {
-    setDigit(displej, "----");
+    displejSobe.crtaj("----");
   }
   if (cas >= 4 && !dovod) connectDovod();
   if (cas >= 5) fetch("/api/takt", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ukljucen: true }) });
@@ -172,7 +189,8 @@ function fitPanel() {
 
 function fileForLecture(n) {
   if (n === 1) return ["client", "css/soba.css"];
-  if (n <= 3) return ["client", "js/korak.js"];
+  if (n === 2) return ["client", "js/korak.js"];
+  if (n === 3) return ["client", "js/prekidac.js"];
   if (n === 5) return ["client", "js/displej.js"];
   if (n === 6 || n === 7) return ["server", "ventilator.js"];
   if (n === 9) return ["server", "sesija.js"];
@@ -295,10 +313,28 @@ function applyKorak(source, quiet) {
 
 function applyDisplej(source, quiet) {
   try {
-    const fn = new Function(`${source}\nreturn posleCitanja;`);
-    const posle = fn();
-    if (typeof posle !== "function") throw new Error("Fajl treba funkciju posleCitanja.");
-    window.__posleCitanja = posle;
+    const Displej = new Function(`${source}\nreturn Displej;`)();
+    const sobaInstanca = new Displej(displej);
+    const masinaInstanca = new Displej(displejMasina);
+    if (typeof sobaInstanca.crtaj !== "function" || typeof sobaInstanca.posleCitanja !== "function") {
+      throw new Error("Klasa Displej treba crtaj i posleCitanja.");
+    }
+    displejSobe = sobaInstanca;
+    displejMasine = masinaInstanca;
+    if (!quiet) editorErr.textContent = "";
+    return true;
+  } catch (err) {
+    if (!quiet) editorErr.textContent = err.message;
+    return false;
+  }
+}
+
+function applyPrekidac(source, quiet) {
+  try {
+    const Prekidac = new Function(`${source}\nreturn Prekidac;`)();
+    const instanca = new Prekidac(prekidac);
+    if (typeof instanca.crtaj !== "function") throw new Error("Klasa Prekidac treba crtaj.");
+    prekidacSobe = instanca;
     if (!quiet) editorErr.textContent = "";
     return true;
   } catch (err) {
@@ -312,6 +348,7 @@ function applyLive() {
   if (strana === "client" && put === "css/soba.css") return applyCss(editor.value);
   if (strana === "client" && put === "js/korak.js") return applyKorak(editor.value);
   if (strana === "client" && put === "js/displej.js") return applyDisplej(editor.value);
+  if (strana === "client" && put === "js/prekidac.js") return applyPrekidac(editor.value);
   return true;
 }
 
@@ -325,7 +362,7 @@ function connectDovod() {
   dovod = new EventSource("/dovod");
   dovod.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    setDigit(displejMasina, String(data.temperatura));
+    displejMasine.crtaj(data.temperatura);
     blades.classList.toggle("spin", data.ukljucen && data.prikljucen);
     kabl.textContent = data.prikljucen ? "Kabl je u kutiji" : "Kabl je izvučen";
   };
@@ -336,20 +373,18 @@ async function readRoom() {
   try {
     const response = await fetch(path);
     const data = response.ok ? await response.json() : null;
-    if (typeof window.__posleCitanja === "function") window.__posleCitanja(displej, response, data);
-    else setDigit(displej, response.ok ? String(data.temperatura) : "Err");
     if (!response.ok) {
+      if (cas >= 5) displejSobe.posleCitanja(response, data);
       starost.textContent = "";
       kutijaMsg.textContent = `HTTP ${response.status}`;
       return;
     }
-    prekidac.setAttribute("aria-pressed", String(data.ukljucen));
-    prekidac.textContent = data.ukljucen ? "Isključi" : "Uključi";
+    displejSobe.posleCitanja(response, data);
+    prekidacSobe.crtaj(data.ukljucen);
     if (data.trenutak) starost.textContent = data.trenutak;
     kutijaMsg.textContent = "HTTP 200";
   } catch {
-    if (typeof window.__posleCitanja === "function") window.__posleCitanja(displej, { ok: false }, null);
-    else setDigit(displej, "Err");
+    if (cas >= 5) displejSobe.posleCitanja({ ok: false }, null);
     kutijaMsg.textContent = "nema statusa";
   }
 }
@@ -363,8 +398,7 @@ async function sendCommand(ukljucen) {
   kutijaMsg.textContent = `HTTP ${response.status}`;
   if (response.ok) {
     const data = await response.json();
-    prekidac.setAttribute("aria-pressed", String(data.ukljucen));
-    prekidac.textContent = data.ukljucen ? "Isključi" : "Uključi";
+    prekidacSobe.crtaj(data.ukljucen);
   }
 }
 
@@ -372,12 +406,11 @@ prekidac.addEventListener("click", () => {
   if (cas < 3) return;
   if (cas < 4) {
     soba.zeljeno = !soba.zeljeno;
-    prekidac.setAttribute("aria-pressed", String(soba.zeljeno));
-    prekidac.textContent = soba.zeljeno ? "Isključi" : "Uključi";
+    prekidacSobe.crtaj(soba.zeljeno);
     bladesLocal.classList.toggle("spin", soba.zeljeno);
     return;
   }
-  const next = prekidac.getAttribute("aria-pressed") !== "true";
+  const next = !prekidacSobe.ukljucen;
   sendCommand(next);
 });
 
@@ -389,7 +422,7 @@ sledeci.addEventListener("click", () => {
     log.textContent = `konzola: temperatura ${soba.temperatura}`;
     return;
   }
-  if (cas === 3) setDigit(displej, String(soba.temperatura));
+  if (cas === 3) displejSobe.crtaj(soba.temperatura);
 });
 
 procitaj.addEventListener("click", readRoom);
@@ -508,5 +541,6 @@ window.addEventListener("hashchange", () => {
 
 prime("js/korak.js", (source) => applyKorak(source, true));
 prime("js/displej.js", (source) => applyDisplej(source, true));
+prime("js/prekidac.js", (source) => applyPrekidac(source, true));
 if (!location.hash) location.hash = "cas-1";
 else window.dispatchEvent(new Event("hashchange"));

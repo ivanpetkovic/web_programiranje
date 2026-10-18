@@ -106,7 +106,7 @@ Osvrt: dinamički tipovi i gde bi TS stao, razlika JS okruženja, dve verzije is
 
 ### Čas 3 — Događaji povezuju korisnika
 
-Ishod je put klik, handler, stanje, prikaz. „Sledeći korak” menja temperaturu u objektu, a poseban kod crta broj. Prekidač menja željeno stanje u objektu, a crtanje pomera sam prekidač. Soba mašina još nije na ekranu. Forma na panelu ne sme da osveži dokument; submit se zaustavlja. Raspored je Flexbox ili Grid. Fokus stiže i sa tastature.
+Ishod je put klik, handler, stanje, prikaz. „Sledeći korak” menja temperaturu u objektu, a `Displej.crtaj` upisuje broj. Prekidač menja željeno stanje u objektu, a `Prekidac.crtaj` pomera natpis. Oba su ES6 klase. Ista klasa `Displej` ima instancu u sobi prekidača i, od četvrtog časa, u sobi mašina. Soba mašina još nije na ekranu. Forma na panelu ne sme da osveži dokument; submit se zaustavlja. Raspored je Flexbox ili Grid. Fokus stiže i sa tastature.
 
 Closure je sinhrona funkcija koja vrati funkciju i pamti prag. Tajmer nije deo tog primera.
 

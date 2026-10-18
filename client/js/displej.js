@@ -1,7 +1,17 @@
-function posleCitanja(displej, response, data) {
-  if (!response.ok) {
-    displej.textContent = "Err";
-    return;
+class Displej {
+  constructor(element) {
+    this.element = element;
   }
-  displej.textContent = String(data.temperatura);
+
+  crtaj(vrednost) {
+    this.element.textContent = String(vrednost);
+  }
+
+  posleCitanja(response, data) {
+    if (!response.ok) {
+      this.crtaj("Err");
+      return;
+    }
+    this.crtaj(data.temperatura);
+  }
 }

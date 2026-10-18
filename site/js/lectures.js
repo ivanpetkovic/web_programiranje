@@ -45,11 +45,11 @@ export const lectures = [
       { key: "C", text: "Samo ako je objekat u const.", ok: false, why: "const ne crta." },
     ],
     terms: [
-      { id: "dom", name: "DOM", hint: "stablo koje browser drži", body: "DOM je objekat dokumenta u browseru. Crtanje upisuje tekst u to stablo.", code: "displej.textContent = String(soba.temperatura);" },
+      { id: "dom", name: "DOM", hint: "stablo koje browser drži", body: "DOM je objekat dokumenta u browseru. Crtanje upisuje tekst u to stablo. Displej i prekidač su klase; this je instanca na kojoj je metod pozvan.", code: "class Displej {\n  crtaj(vrednost) {\n    this.element.textContent = String(vrednost);\n  }\n}\nclass Prekidac {\n  crtaj(ukljucen) {\n    this.ukljucen = ukljucen;\n    this.element.textContent = ukljucen ? \"Isključi\" : \"Uključi\";\n  }\n}" },
       { id: "handler", name: "Handler", hint: "funkcija na događaj", body: "Listener čeka događaj ako dobije funkciju. Poziv sa zagradama odradi se odmah.", code: "dugme.addEventListener(\"click\", nacrtaj);\n// addEventListener(\"click\", nacrtaj()) odradi se odmah" },
       { id: "closure", name: "Closure", hint: "unutrašnja funkcija pamti prag", body: "Sinhrona funkcija vrati funkciju koja i dalje vidi prag. Tajmer nije deo ovog primera.", code: "function granica(prag) {\n  return (t) => t >= prag;\n}" },
     ],
-    overview: "Responsive prikaz, jedinice, animacija, pristupačna forma, this, komponenta kao razlog biblioteke.",
+    overview: "Responsive prikaz, jedinice, animacija, pristupačna forma, klase i this, komponenta kao razlog biblioteke.",
   },
   {
     n: 4,
