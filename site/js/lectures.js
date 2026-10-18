@@ -31,8 +31,9 @@ export const lectures = [
     terms: [
       { id: "const", name: "const", hint: "ime se ne dodeljuje ponovo", body: "const vezuje ime. Polje objekta i dalje sme da se promeni.", code: "const soba = { temperatura: 24 };\nsoba.temperatura = 25;" },
       { id: "referenca", name: "Referenca", hint: "dva imena, isti objekat", body: "Dodela objekta kopira referencu. Izmena kroz jedno ime vidi se kroz drugo.", code: "const a = { temperatura: 24 };\nconst b = a;\nb.temperatura = 25;" },
+      { id: "niz", name: "map, filter, reduce", hint: "niz tačaka, bez petlje", body: "filter bira tačke, map vadi visinu, reduce sabira u prosek. Petlja ostaje u crtanju linije, od sledećeg časa.", code: "const visine = tacke\n  .filter((t) => t.temperatura >= 24)\n  .map((t) => t.temperatura);\nconst prosek = visine.reduce((z, t) => z + t, 0) / visine.length;" },
     ],
-    overview: "Dinamički tipovi, gde bi TypeScript stao, JS okruženja, dve verzije iste funkcije.",
+    overview: "Dinamički tipovi, gde bi TypeScript stao, JS okruženja, dve verzije iste funkcije, map, filter i reduce.",
   },
   {
     n: 3,

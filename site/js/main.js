@@ -16,6 +16,7 @@ const blades = document.querySelector("#blades");
 const kabl = document.querySelector("#kabl");
 const sesije = document.querySelector("#sesije");
 const log = document.querySelector("#log");
+const grafikon = document.querySelector("#grafikon");
 const kutijaMsg = document.querySelector("#kutija-msg");
 const editor = document.querySelector("#editor");
 const editorErr = document.querySelector("#editor-err");
@@ -28,6 +29,12 @@ const povrati = document.querySelector("#povrati");
 const starost = document.querySelector("#starost");
 
 const soba = { temperatura: 24, zeljeno: false };
+const tacke = [
+  { temperatura: 22 },
+  { temperatura: 24 },
+  { temperatura: 26 },
+  { temperatura: 23 },
+];
 let cas = 1;
 let pollId = 0;
 let dovod = null;
@@ -51,6 +58,14 @@ let displejMasine = {
     displejMasina.textContent = String(vrednost);
   },
 };
+function podrazumevanoObradi(niz) {
+  const izabrane = niz.filter((tacka) => tacka.temperatura >= 24);
+  const visine = izabrane.map((tacka) => tacka.temperatura);
+  const zbir = visine.reduce((s, v) => s + v, 0);
+  return { visine, prosek: visine.length ? zbir / visine.length : 0 };
+}
+let obradiNiz = podrazumevanoObradi;
+let nacrtajNiz = () => {};
 let prekidacSobe = {
   ukljucen: false,
   crtaj(ukljucen) {
@@ -167,6 +182,8 @@ function fitPanel() {
   focusFile();
   loadSide();
   log.hidden = cas !== 2;
+  grafikon.hidden = cas !== 3;
+  if (cas === 2 || cas === 3) osveziNiz();
   if (cas < 4) {
     displejSobe.crtaj(cas < 3 ? "24" : soba.temperatura);
     bladesLocal.classList.toggle("spin", cas === 1 || (cas === 3 && soba.zeljeno));
@@ -189,7 +206,7 @@ function fitPanel() {
 
 function fileForLecture(n) {
   if (n === 1) return ["client", "css/soba.css"];
-  if (n === 2) return ["client", "js/korak.js"];
+  if (n === 2) return ["client", "js/niz.js"];
   if (n === 3) return ["client", "js/prekidac.js"];
   if (n === 5) return ["client", "js/displej.js"];
   if (n === 6 || n === 7) return ["server", "ventilator.js"];
@@ -343,10 +360,57 @@ function applyPrekidac(source, quiet) {
   }
 }
 
+function applyNiz(source, quiet) {
+  try {
+    const api = new Function(`${source}\nreturn { obradi, nacrtaj };`)();
+    if (typeof api.obradi !== "function" || typeof api.nacrtaj !== "function") {
+      throw new Error("Fajl treba funkcije obradi i nacrtaj.");
+    }
+    const probe = api.obradi([{ temperatura: 24 }, { temperatura: 22 }]);
+    if (!probe || !Array.isArray(probe.visine) || typeof probe.prosek !== "number") {
+      throw new Error("obradi vraća visine i prosek.");
+    }
+    obradiNiz = api.obradi;
+    nacrtajNiz = api.nacrtaj;
+    if (!quiet) editorErr.textContent = "";
+    osveziNiz();
+    return true;
+  } catch (err) {
+    if (!quiet) editorErr.textContent = err.message;
+    return false;
+  }
+}
+
+function osveziNiz() {
+  let slika;
+  try {
+    slika = obradiNiz(tacke);
+    if (!slika || !Array.isArray(slika.visine) || typeof slika.prosek !== "number") {
+      throw new Error("obradi vraća visine i prosek.");
+    }
+  } catch (err) {
+    if (strana === "client" && openPath.client === "js/niz.js") editorErr.textContent = err.message;
+    return;
+  }
+  if (cas === 2) {
+    log.hidden = false;
+    const prosek = Math.round(slika.prosek * 10) / 10;
+    log.textContent = `konzola: temperatura ${soba.temperatura} | visine ${slika.visine.join(", ")} | prosek ${prosek}`;
+  }
+  if (cas === 3) {
+    try {
+      nacrtajNiz(grafikon, slika.visine);
+    } catch (err) {
+      if (strana === "client" && openPath.client === "js/niz.js") editorErr.textContent = err.message;
+    }
+  }
+}
+
 function applyLive() {
   const put = openPath[strana];
   if (strana === "client" && put === "css/soba.css") return applyCss(editor.value);
   if (strana === "client" && put === "js/korak.js") return applyKorak(editor.value);
+  if (strana === "client" && put === "js/niz.js") return applyNiz(editor.value);
   if (strana === "client" && put === "js/displej.js") return applyDisplej(editor.value);
   if (strana === "client" && put === "js/prekidac.js") return applyPrekidac(editor.value);
   return true;
@@ -417,12 +481,18 @@ prekidac.addEventListener("click", () => {
 sledeci.addEventListener("click", () => {
   if (typeof window.__korak === "function") window.__korak(soba);
   else soba.temperatura += 1;
+  if (cas === 2 || cas === 3) {
+    tacke.push({ temperatura: soba.temperatura });
+    if (tacke.length > 40) tacke.shift();
+  }
   if (cas === 2) {
-    log.hidden = false;
-    log.textContent = `konzola: temperatura ${soba.temperatura}`;
+    osveziNiz();
     return;
   }
-  if (cas === 3) displejSobe.crtaj(soba.temperatura);
+  if (cas === 3) {
+    displejSobe.crtaj(soba.temperatura);
+    osveziNiz();
+  }
 });
 
 procitaj.addEventListener("click", readRoom);
@@ -540,6 +610,7 @@ window.addEventListener("hashchange", () => {
 });
 
 prime("js/korak.js", (source) => applyKorak(source, true));
+prime("js/niz.js", (source) => applyNiz(source, true));
 prime("js/displej.js", (source) => applyDisplej(source, true));
 prime("js/prekidac.js", (source) => applyPrekidac(source, true));
 if (!location.hash) location.hash = "cas-1";
