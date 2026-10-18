@@ -75,7 +75,7 @@ Posle kursa isti fajlovi su jedna aplikacija: prvo samo front, zatim front i Nod
 - Sledeći korak na frontu uvećava temperaturu za deltu. Režim ne ulazi u tu računicu.
 - Lopatice se prvi put vrte u sobi mašina i pokazuju udaljeni režim, ne položaj prekidača. Trajanje CSS animacije nije drugi režim.
 - Elementi panela su jedna prostorija, jedno očitavanje temperature, jedan ventilator, komanda željenog stanja i, pre servera, „Sledeći korak”. Kasnije na isti panel dolaze vreme očitavanja, prag upozorenja, istorija komandi, posmatrač i operater.
-- Autorizacija je deo kursa. Server na svakoj komandi gleda ulogu iz pripremljene sesije. Posmatrač sme da čita. Operater sme da menja režim. Nema registracije, lozinke ni prijave preko treće strane.
+- Autorizacija je deo kursa od časa 9. Dva ključa i dve uloge stoje u kodu kutije. Panel traži `Set-Cookie`, cookie je HttpOnly i nosi ključ, uloga ostaje u mapi na kutiji. Čitanje ne traži sesiju. Komanda bez cookie-ja dobija 401, komanda posmatrača 403, loše telo 400, izvučen ventilator 500. Operater dobija 200 i samo režim, ako je ventilator priključen. Nema registracije, lozinke ni prijave preko treće strane.
 - Baza, kad stigne, čuva režim i istoriju komandi u PostgreSQL-u. Povezani upisi su jedna celina. Browser ne dobija kredencijale baze.
 - Isti fajlovi posle kursa pokreću se kao aplikacija: samo front, zatim front zajedno sa Node-om.
 - Front je vanilla HTML, CSS i JS. Pregledne teme se pominju uz panel i ne ulaze u primer kao alat.

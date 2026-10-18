@@ -102,6 +102,10 @@ _Avoid_: Displej sobe prekidača.
 Displej sobe prekidača. Pre prvog uspelog čitanja pokazuje crte. Uspešno čitanje upisuje očitavanje. Neuspešno čitanje upisuje Err. Takt i komanda ga ne pomeraju.
 _Avoid_: Displej sobe mašina, prekidač.
 
+**Sesija**:
+Pripremljeni par ključa i uloge. Browser drži ključ, kutija drži ulogu.
+_Avoid_: Nalog, prijava, lozinka.
+
 **Posmatrač**:
 Uloga koja sme da pregleda stanje kontrolne sobe, ali ne i da upravlja ventilatorom.
 

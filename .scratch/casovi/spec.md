@@ -156,7 +156,7 @@ Osvrt: spoljni API, timeout, prekid jednog zahteva, više zahteva odjednom, call
 
 Ishod je željeno stanje, validacija i smisao ponavljanja. Komanda postavlja ventilator na uključeno i šalje telo sa boolean vrednošću. Server proverava unos, menja režim u memoriji i vraća rezultat. Pomoćni kod za telo ima granicu veličine i odbija neispravan JSON.
 
-Editor menja smisao komande između postavljanja na uključeno i prebacivanja režima. Dva slanja pokazuju različit ishod. Jedna promena: telo mimo forme, sa tekstom umesto boolean vrednosti, dobija odbijanje. Uspešan odgovor komande nosi samo režim i pomera kabl. Temperatura nije u tom telu. Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500: prekidač može da ostane upaljen, kabla nema, lopatice se ne vrte. Displej temperature menja samo čitanje.
+Editor menja smisao komande između postavljanja na uključeno i prebacivanja režima. Dva slanja pokazuju različit ishod. Jedna promena: telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400. Telo tog odgovora nije režim. Uspešan odgovor komande nosi samo režim i pomera kabl. Temperatura nije u tom telu. Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500: prekidač može da ostane upaljen, kabla nema, lopatice se ne vrte. Displej temperature menja samo čitanje.
 
 Pitalica: bezbednije je ponoviti postavljanje na uključeno. Prebacivanje drugi put poništava efekat. Status 200 ne znači da ponavljanje ima isti efekat. Forma ne sprečava drugačije telo.
 
@@ -192,9 +192,9 @@ Osvrt: SSE i WebSocket kao push koji ovaj čas ne pravi, History API, SPA i MPA,
 
 ### Čas 9 — Ko sme da upravlja
 
-Ishod je razlika identiteta, ovlašćenja i browser ograničenja. Dve sesije su pripremljene: posmatrač i operater. Cookie nosi ključ, server drži ulogu. Anonimna sesija nije prijavljen korisnik. Ista komanda menja režim samo operateru. Posmatrač i dalje sme da čita sobu. Dugme može da se sakrije, a zahtev mimo ekrana i dalje stiže.
+Ishod je razlika identiteta, ovlašćenja i browser ograničenja. Dve sesije su pripremljene u kodu kutije: neproziran ključ za posmatrača i neproziran ključ za operatera. Izbor na panelu traži od kutije da pošalje `Set-Cookie` sa tim ključem. Cookie je HttpOnly. Kutija u mapi drži ulogu i ne veruje imenu uloge iz browsera. Anonimna sesija nije prijavljen korisnik. Čitanje ne traži sesiju. Komanda bez cookie-ja dobija 401. Komanda posmatrača dobija 403. Tek posle toga kutija gleda telo: loš unos je 400, izvučen ventilator je 500, uspeh je 200 i samo režim. Dugme može da se sakrije, a zahtev mimo ekrana i dalje stiže.
 
-Editor menja ulogu sesije koja šalje komandu. Jedna promena: drugi origin. Alat van browsera čita telo; JS te druge stranice ne mora da sme. CORS time nije autentifikacija.
+Editor menja ulogu upisanu uz ključ sesije koja šalje komandu. Cookie ostaje isti. Jedna promena: drugi origin. Alat van browsera čita telo; JS te druge stranice ne mora da sme. CORS time nije autentifikacija.
 
 Pitalica: server nije zaštićen time što posmatrač ne vidi dugme. Tačno je da server proveri ulogu na zahtevu. Čitanje koje browser zabrani ne dokazuje da server ćuti. CORS ne dokazuje ko je korisnik.
 
