@@ -156,7 +156,7 @@ Osvrt: spoljni API, timeout, prekid jednog zahteva, više zahteva odjednom, call
 
 Ishod je željeno stanje, validacija i smisao ponavljanja. Komanda postavlja ventilator na uključeno i šalje telo sa boolean vrednošću. Server proverava unos, menja režim u memoriji i vraća rezultat. Pomoćni kod za telo ima granicu veličine i odbija neispravan JSON.
 
-Editor menja smisao komande između postavljanja na uključeno i prebacivanja režima. Dva slanja pokazuju različit ishod. Jedna promena: telo mimo forme, sa tekstom umesto boolean vrednosti, dobija odbijanje. Uspešan odgovor komande pomera kabl i režim. Ne upisuje temperaturu na displej.
+Editor menja smisao komande između postavljanja na uključeno i prebacivanja režima. Dva slanja pokazuju različit ishod. Jedna promena: telo mimo forme, sa tekstom umesto boolean vrednosti, dobija odbijanje. Uspešan odgovor komande nosi samo režim i pomera kabl. Temperatura nije u tom telu. Displej je menja samo čitanje.
 
 Pitalica: bezbednije je ponoviti postavljanje na uključeno. Prebacivanje drugi put poništava efekat. Status 200 ne znači da ponavljanje ima isti efekat. Forma ne sprečava drugačije telo.
 

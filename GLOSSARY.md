@@ -76,14 +76,26 @@ _Avoid_: Istina ekrana.
 
 **Prikazano stanje**:
 Stanje koje ovaj browser trenutno crta.
-_Avoid_: Stanje staklenika.
+_Avoid_: Stanje kutije.
+
+**Čitanje**:
+Odgovor kutije koji nosi temperaturu i režim. Jedini odgovor iz kog displej dobija broj.
+_Avoid_: Komanda.
+
+**Komanda**:
+Zahtev da ventilator bude uključen ili isključen. Uspešan odgovor nosi samo režim.
+_Avoid_: Čitanje, prekidač.
+
+**Periodično čitanje**:
+Čitanje koje se samo ponavlja da bi displej sustigao kutiju.
+_Avoid_: Server push. Polling je isto ovo čitanje, ne drugi kanal.
 
 **Displej**:
 Broj u sobi prekidača. Pokazuje poslednje očitavanje koje je browser dobio čitanjem i ne menja se ni kad takt promeni sobu mašina, ni kad komanda uspe.
 _Avoid_: Temperatura u sobi mašina, prekidač.
 
 **Posmatrač**:
-Uloga koja sme da pregleda stanje staklenika, ali ne i da upravlja uređajima.
+Uloga koja sme da pregleda stanje kontrolne sobe, ali ne i da upravlja ventilatorom.
 
 **Operater**:
 Uloga koja sme da pregleda stanje i izdaje dozvoljene komande uređajima.

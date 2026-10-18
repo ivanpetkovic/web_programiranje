@@ -62,13 +62,13 @@ Posle kursa isti fajlovi su jedna aplikacija: prvo samo front, zatim front i Nod
 - Redosled fajlova prati časove: HTML panela, CSS lopatica uključujući transformaciju i animaciju, JS stanja i crtanja u browseru, zatim Node.
 - Dok servera nema, editor dira samo front. Izmena CSS-a, stanja i crtanja odmah menja ugrađeni panel. „Sledeći korak” pomera temperaturu lokalno.
 - Serverski editor ne izvršava kod u browseru. Izvor izvršava lokalni Node. Panel šalje zahtev tom procesu.
-- Ugovor panela i servera: čitanje sobe vraća temperaturu i režim; komanda šalje željeno stanje ventilatora. Kad čas uvede svežinu, čitanje nosi i trenutak očitavanja. Kad čas uvede uloge, ista komanda zavisi od sesije.
+- Ugovor panela i servera: čitanje sobe vraća temperaturu i režim; komanda šalje željeno stanje ventilatora, a uspešan odgovor vraća samo režim. Kad čas uvede svežinu, čitanje nosi i trenutak očitavanja. Kad čas uvede uloge, ista komanda zavisi od sesije.
 - Protokol koji DevTools treba da pokaže je HTTP/1.1, jer server koristi ugrađeni Node HTTP, bez web framework-a.
 - Izmena handlera stupa na snagu kad se Node proces ponovo učita. Sledeći zahtev panela koristi novi handler.
 - Do servera sajt crta samo sobu prekidača. Kutija i soba mašina crtaju se tek posle puta od naivnog prenosa do TCP-a i HTTP-a.
 - Zahtev se vidi od prekidača do kutije, pa kablom do ventilatora samo ako je priključen. Ako nije, kutija odgovori statusom 500, prekidač može da ostane upaljen, lopatice se ne vrte.
 - Kad kutija postoji, ona drži temperaturu. „Sledeći korak” na frontu tada više nije izvor očitavanja. Takt je `setInterval` u tom procesu i kreće tek kad `await` već postoji. Diže temperaturu dok je režim isključen, a spušta je dok je uključen.
-- Soba mašina pokazuje tu živu temperaturu. Displej u sobi prekidača, pored prekidača, ispisuje poslednje pročitano očitavanje i ne pomera se dok nema novog čitanja. Odgovor komande ne upisuje temperaturu na displej. Oba broja su Digital-7 Mono (Style-7), uz dozvolu za obrazovnu upotrebu, da razlika bude u tome koji se pomera.
+- Soba mašina pokazuje tu živu temperaturu. Displej u sobi prekidača, pored prekidača, ispisuje poslednje pročitano očitavanje i ne pomera se dok nema novog čitanja. Uspešan odgovor komande nosi samo režim, pa displej iz njega nema šta da prepiše. Oba broja su Digital-7 Mono (Style-7), uz dozvolu za obrazovnu upotrebu, da razlika bude u tome koji se pomera.
 - Taj razmak je razlog za polling: periodično čitanje koje displej kasnije samo ponavlja. Server push se imenuje kao drugi način i ne uvodi se u primer.
 - Sledeći korak na frontu uvećava temperaturu za deltu. Režim ne ulazi u tu računicu.
 - Lopatice se prvi put vrte u sobi mašina i pokazuju udaljeni režim, ne položaj prekidača. Trajanje CSS animacije nije drugi režim.

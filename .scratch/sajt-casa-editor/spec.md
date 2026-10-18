@@ -55,7 +55,7 @@ Panel je isti kroz kurs: jedna prostorija, jedno očitavanje, jedan ventilator. 
 - Serverski sloj ne izvršava handler u browseru. Isečak je izvor lokalnog Node procesa koji sluša poznat port i govori HTTP/1.1, bez web framework-a. Radnja „učitaj handler” ponovo pokreće taj proces. Sledeći zahtev panela ide na novi proces.
 - Ako se proces ne podigne, panel to kaže uz editor, a Network nema uspešan status tog zahteva.
 - Do četvrtog časa panel ne šalje čitanje sobe ni komandu. Network i dalje sme da pokaže dokument i stil sajta.
-- Od četvrtog časa čitanje sobe vraća temperaturu i režim. Od šestog, komanda šalje željeno stanje. Od osmog, čitanje nosi i trenutak očitavanja. Od devetog, ista komanda zavisi od pripremljene sesije u cookie-ju. Od sedmog, režim i istorija žive u PostgreSQL-u, a povezani upisi su jedna celina.
+- Od četvrtog časa čitanje sobe vraća temperaturu i režim. Od šestog, komanda šalje željeno stanje, a uspešan odgovor vraća samo režim. Od osmog, čitanje nosi i trenutak očitavanja. Od devetog, ista komanda zavisi od pripremljene sesije u cookie-ju. Od sedmog, režim i istorija žive u PostgreSQL-u, a povezani upisi su jedna celina.
 - Odgovor čitanja i komande je JSON tekst. Panel pravi vrednost tek čitanjem tog teksta.
 - Sesija je izbor „posmatrač” ili „operater” na panelu devetog časa. Nema polja za nalog. Sakriveno dugme ne uklanja mogućnost da se komanda pošalje.
 - Greške fronta i servera ne dele istu rečenicu. Front kaže da isečak nije primenjen. Server kaže da odgovora nema ili da je status neuspeh.

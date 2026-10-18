@@ -14,7 +14,7 @@ Panel pored pitalice služi kao kontraprimer: pretpostavka se proverava na njemu
 
 ## User Stories
 
-1. Kao nastavnik, hoću da diskusija stoji na bloku pitalice, odmah uz panel, da grupa gleda jedno pitanje i jedan staklenik.
+1. Kao nastavnik, hoću da diskusija stoji na bloku pitalice, odmah uz panel, da grupa gleda jedno pitanje i jednu kontrolnu sobu.
 2. Kao student, hoću da opcije na početku nemaju pečat, da izbor bude moj pre tuđeg razloga.
 3. Kao student, hoću da prvo odgovorim sam, da par čuje moj razlog a ne obrnuti redosled.
 4. Kao nastavnik, hoću da glas ostane u učionici, rukom ili usmeno, da sajt ne skuplja izbore sa laptopova.
@@ -75,7 +75,7 @@ Ako grupa iz prethodnog časa izađe bez zaključka, sledeći čas sme da otvori
 
 Svaka stavka je glavna pitalica, pretpostavka koju vredi sačuvati, i kontraprimer na panelu. Rezerva je navedena da bi ostala zatvorena dok glavna ne padne.
 
-- Čas 1. Glavna: „24 °C” u alatima postaje „10 °C”. Vodi se o tome da li je dirao merenje, dokument ili prikaz. Pretpostavka koju treba čuti: ekran jeste stanje staklenika. Kontraprimer: osvežavanje vraća 24. Rezerva: HTML stigao, CSS nije; vodi se o tome da sadržaj može ostati bez izgleda.
+- Čas 1. Glavna: „24 °C” u alatima postaje „10 °C”. Vodi se o tome da li je dirao merenje, dokument ili prikaz. Pretpostavka koju treba čuti: ekran jeste stanje kutije. Kontraprimer: osvežavanje vraća 24. Rezerva: HTML stigao, CSS nije; vodi se o tome da sadržaj može ostati bez izgleda.
 - Čas 2. Glavna: `const` drži objekat, druga promenljiva pokazuje na njega. Vodi se o imenu naspram polja i o kopiji naspram reference. Pretpostavka: `const` zamrzava objekat, ili drugo ime pravi kopiju. Kontraprimer: izmena temperature kroz jedno ime vidi se kroz drugo, a nova dodela imena ne prolazi. Rezerva: strogo poređenje teksta i broja temperature.
 - Čas 3. Glavna: da li izmena objekta sama menja broj na stranici. Vodi se o crtanju kao posebnom koraku. Pretpostavka: objekat ili `const` sami osvežavaju DOM. Kontraprimer: bez poziva crtanja ekran ostaje star. Rezerva: listener dobija funkciju ili rezultat poziva; vodi se o trenutku poziva, ne o novom događaju.
 - Čas 4. Glavna: šta Node sme da uradi dugmetu. Vodi se o tome čiji je DOM. Pretpostavka: server vidi isti dokument, ili 404 i ugašen port jesu isto. Kontraprimer: poziv DOM-a u handleru ne menja dugme; poznata putanja vraća JSON, a browser tek onda crta. Rezerva: 404 naspram izostanka statusa, u Network panelu.
