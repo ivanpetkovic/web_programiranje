@@ -1,0 +1,164 @@
+export const lectures = [
+  {
+    n: 1,
+    title: "Šta browser prikazuje",
+    outcome: "Dokument, prikaz i merenje nisu ista stvar.",
+    problem: "U alatima browsera „24 °C” postane „10 °C”. Šta je promenjeno?",
+    options: [
+      { key: "A", text: "Merenje temperature.", ok: false, why: "Merenje nismo dirali. Broj na ekranu nije nova temperatura." },
+      { key: "B", text: "HTML dokument.", ok: false, why: "Nema zahteva koji menja dokument. Osvežavanje vraća 24." },
+      { key: "C", text: "Lokalni prikaz u ovom browseru.", ok: true, why: "Alati menjaju sliku u ovom browseru. Dokument i merenje ostaju." },
+      { key: "D", text: "I merenje i dokument, jer ekran jeste stanje kutije.", ok: false, why: "Ekran nije stanje kutije. Osvežavanje vraća dokument." },
+    ],
+    terms: [
+      { id: "prikaz", name: "Prikaz", hint: "ono što ovaj browser crta", body: "Prikaz je slika dokumenta u jednom browseru. Izmena u alatima ostaje u toj slici.", code: "<p>24 °C</p>\n<!-- alati pokažu 10, dokument i dalje kaže 24 -->" },
+      { id: "dokument", name: "Dokument", hint: "HTML koji stigne", body: "Dokument je HTML koji browser učita. Iz prikaza se ne šalje nazad.", code: "GET /\n\n<p>24 °C</p>" },
+      { id: "css", name: "CSS", hint: "izgled istog dokumenta", body: "CSS opisuje izgled. Ako stil ne stigne, sadržaj i dalje može da se pročita.", code: ".displej {\n  letter-spacing: 0.08em;\n}" },
+    ],
+    overview: "Internet i Web, put od URL-a do prikaza, semantički HTML, pristupačnost, skica.",
+  },
+  {
+    n: 2,
+    title: "JavaScript opisuje stanje",
+    outcome: "Objekat drži temperaturu. Ekran je još ne crta.",
+    problem: "Objekat je u const, a druga promenljiva pokazuje na njega. Šta sme?",
+    options: [
+      { key: "A", text: "Polje sme da se menja, i drugo ime vidi istu izmenu.", ok: true, why: "const drži ime, ne zamrzava polja. Drugo ime nije kopija." },
+      { key: "B", text: "const zamrzne objekat.", ok: false, why: "Zabrana važi za novu dodelu imena, ne za polje." },
+      { key: "C", text: "Drugo ime pravi kopiju.", ok: false, why: "Oba imena pokazuju na isti objekat." },
+      { key: "D", text: "Polje sme da se menja samo uz let.", ok: false, why: "let nije uslov za izmenu polja." },
+    ],
+    terms: [
+      { id: "const", name: "const", hint: "ime se ne dodeljuje ponovo", body: "const vezuje ime. Polje objekta i dalje sme da se promeni.", code: "const soba = { temperatura: 24 };\nsoba.temperatura = 25;" },
+      { id: "referenca", name: "Referenca", hint: "dva imena, isti objekat", body: "Dodela objekta kopira referencu. Izmena kroz jedno ime vidi se kroz drugo.", code: "const a = { temperatura: 24 };\nconst b = a;\nb.temperatura = 25;" },
+    ],
+    overview: "Dinamički tipovi, gde bi TypeScript stao, JS okruženja, dve verzije iste funkcije.",
+  },
+  {
+    n: 3,
+    title: "Događaji povezuju korisnika",
+    outcome: "Klik menja stanje. Poseban kod crta prikaz.",
+    problem: "Menjanje objekta menja tekst na stranici…",
+    options: [
+      { key: "A", text: "Samo ako postoji kod koji crta prikaz.", ok: true, why: "Objekat i ekran su razdvojeni dok crtanje ne pozovemo." },
+      { key: "B", text: "Uvek, jer je objekat na stranici.", ok: false, why: "Bez poziva crtanja ekran ostaje star." },
+      { key: "C", text: "Samo ako je objekat u const.", ok: false, why: "const ne crta." },
+    ],
+    terms: [
+      { id: "dom", name: "DOM", hint: "stablo koje browser drži", body: "DOM je objekat dokumenta u browseru. Crtanje upisuje tekst u to stablo.", code: "displej.textContent = String(soba.temperatura);" },
+      { id: "handler", name: "Handler", hint: "funkcija na događaj", body: "Listener čeka događaj ako dobije funkciju. Poziv sa zagradama odradi se odmah.", code: "dugme.addEventListener(\"click\", nacrtaj);\n// addEventListener(\"click\", nacrtaj()) odradi se odmah" },
+      { id: "closure", name: "Closure", hint: "unutrašnja funkcija pamti prag", body: "Sinhrona funkcija vrati funkciju koja i dalje vidi prag. Tajmer nije deo ovog primera.", code: "function granica(prag) {\n  return (t) => t >= prag;\n}" },
+    ],
+    overview: "Responsive prikaz, jedinice, animacija, pristupačna forma, this, komponenta kao razlog biblioteke.",
+  },
+  {
+    n: 4,
+    title: "Od naivnog prenosa do HTTP-a",
+    outcome: "Jedan zahtev i jedan odgovor. Kutija drži temperaturu.",
+    problem: "Handler u Node-u pozove document i ugasi dugme. Šta se desi?",
+    options: [
+      { key: "A", text: "Server vrati podatak, a browser menja prikaz kad obradi odgovor.", ok: true, why: "DOM ostaje u browseru. Handler vraća JSON ili dokument." },
+      { key: "B", text: "Server vidi isto dugme i ugasi ga.", ok: false, why: "Poziv DOM-a na serveru ne menja dugme u browseru." },
+      { key: "C", text: "404 i ugašen port jesu ista tišina.", ok: false, why: "404 ima status. Ugašen port nema HTTP status." },
+    ],
+    terms: [
+      { id: "http", name: "HTTP zahtev", hint: "metod, putanja, status", body: "HTTP daje smisao toku bajtova: metod, putanja, zaglavlja, telo, status. Ovde je to HTTP/1.1.", code: "GET /api/soba HTTP/1.1\n\nHTTP/1.1 200 OK\n\n{\"temperatura\":24,\"ukljucen\":false}" },
+      { id: "json", name: "JSON", hint: "tekst, ne objekat", body: "Telo je tekst. Panel pravi vrednost tek kad pročita taj tekst.", code: "const tekst = await response.text();\nconst soba = JSON.parse(tekst);" },
+    ],
+    overview: "IP, UDP, TLS, HTTP/2 i HTTP/3, XML, SOAP, RPC, gRPC, GraphQL, Express.",
+  },
+  {
+    n: 5,
+    title: "Čekanje i neuspeh",
+    outcome: "Čekanje, podatak i greška. 200 nije 500, a 500 nije ugašen port.",
+    problem: "fetch je dobio HTTP 500. Da li je to catch?",
+    options: [
+      { key: "A", text: "Odgovor postoji. Uspeh se čita iz statusa.", ok: true, why: "500 ne ulazi sam u catch. Ugašen server nema taj odgovor." },
+      { key: "B", text: "Svaki neuspeh je catch.", ok: false, why: "Status koji nije uspeh i dalje je odgovor." },
+      { key: "C", text: "500 znači da odgovora nema.", ok: false, why: "Odgovor jeste stigao. Nema ga kad je proces ugašen." },
+    ],
+    terms: [
+      { id: "await", name: "await", hint: "ova funkcija čeka", body: "await zaustavlja tu funkciju, ne ceo browser. Drugi klik i dalje važi.", code: "const response = await fetch(\"/api/soba\");\nif (!response.ok) displej.textContent = \"Err\";" },
+      { id: "takt", name: "Takt", hint: "kutija sama menja broj", body: "Takt je setInterval u Node procesu. Diže temperaturu dok je režim isključen.", code: "setInterval(() => {\n  temperatura += ukljucen ? -0.5 : 0.5;\n}, 1000);" },
+    ],
+    overview: "Spoljni API, timeout, prekid zahteva, više zahteva odjednom, call stack.",
+  },
+  {
+    n: 6,
+    title: "Komande i ponavljanje",
+    outcome: "Željeno stanje, provera tela i smisao ponavljanja.",
+    problem: "Koju komandu smemo da pošaljemo dvaput?",
+    options: [
+      { key: "A", text: "Postavljanje na uključeno.", ok: true, why: "Drugi put ostavlja isti željeni efekat." },
+      { key: "B", text: "Prebacivanje režima, jer vraća nazad.", ok: false, why: "Drugi put poništi prvi efekat." },
+      { key: "C", text: "Bilo koju koja vrati 200.", ok: false, why: "Status 200 ne znači da ponavljanje ima isti efekat." },
+    ],
+    terms: [
+      { id: "zeljeno", name: "Željeno stanje", hint: "šta komanda traži", body: "Komanda šalje uključeno ili isključeno. Uspeh vraća samo režim. Temperatura nije u tom telu.", code: "PUT /api/ventilator\n{\"ukljucen\":true}\n\nHTTP/1.1 200 OK\n{\"ukljucen\":true}" },
+      { id: "validacija", name: "Validacija", hint: "server proverava telo", body: "Tekst umesto boolean vrednosti dobija HTTP 400. Forma ne sprečava drugačije telo.", code: "{\"ukljucen\":\"da\"}\n\nHTTP/1.1 400 Bad Request" },
+    ],
+    overview: "REST, stateless obrada, optimistički prikaz, prihvaćena komanda i potvrda uređaja.",
+  },
+  {
+    n: 7,
+    title: "Trajno stanje",
+    outcome: "Režim i istorija su jedna celina upisa.",
+    problem: "Režim je upisan, istorija nije. Da li je evidencija cela?",
+    options: [
+      { key: "A", text: "Nije, dok oba upisa nisu jedna celina.", ok: true, why: "Ili oba uspeju, ili se oba povuku." },
+      { key: "B", text: "Jeste, istorija je sporedna.", ok: false, why: "Istorija je deo evidencije komande." },
+      { key: "C", text: "Kontejner sam čuva oba upisa.", ok: false, why: "Kontejner ne spaja dva odvojena upita." },
+    ],
+    terms: [
+      { id: "transakcija", name: "Transakcija", hint: "oba upisa ili nijedan", body: "Povezani upis režima i istorije je jedna celina. Restart procesa ne spaja odvojene upite.", code: "BEGIN;\nUPDATE ventilator SET ukljucen = $1;\nINSERT INTO istorija(komanda) VALUES ($2);\nCOMMIT;" },
+    ],
+    overview: "Relacioni i dokumentni model, virtuelna mašina i kontejner.",
+  },
+  {
+    n: 8,
+    title: "Koliko je prikaz svež",
+    outcome: "Displej čuva poslednje čitanje. Takt ga ne pomera.",
+    problem: "Displej kaže 24 °C, a očitavanje je staro deset minuta. Šta taj broj znači?",
+    options: [
+      { key: "A", text: "Poslednje očitavanje, ne sadašnju temperaturu.", ok: true, why: "Broj nosi vrednost i trenutak. Starost je deo prikaza." },
+      { key: "B", text: "Sadašnju temperaturu kutije.", ok: false, why: "Kutija je u međuvremenu mogla da promeni broj." },
+      { key: "C", text: "Stariji odgovor sme da pregazi noviji jer je sa servera.", ok: false, why: "Stariji trenutak ne pobedi samo zato što je stigao kasnije." },
+    ],
+    terms: [
+      { id: "ocitavanje", name: "Očitavanje", hint: "vrednost i trenutak", body: "Čitanje od ovog časa nosi i trenutak. Displej pokazuje starost.", code: "{\"temperatura\":24,\"ukljucen\":false,\"trenutak\":\"2026-10-18T08:00:00Z\"}" },
+      { id: "polling", name: "Periodično čitanje", hint: "isto čitanje, samo se ponavlja", body: "Prekidač odmah pošalje jedno čitanje, pa ga ponavlja. SSE i WebSocket ostaju imena drugog načina.", code: "const id = setInterval(procitaj, 4000);" },
+    ],
+    overview: "SSE i WebSocket, History API, SPA, React, storage, PWA. Push koji puni sobu mašina čas ne imenuje.",
+  },
+  {
+    n: 9,
+    title: "Ko sme da upravlja",
+    outcome: "Cookie nosi ključ. Kutija drži ulogu.",
+    problem: "Posmatrač nema dugme „Uključi”. Da li je server zaštićen?",
+    options: [
+      { key: "A", text: "Nije. Server proverava ulogu na zahtevu.", ok: true, why: "Sakriveno dugme ne zaustavlja komandu mimo ekrana." },
+      { key: "B", text: "Jeste, ko ne vidi dugme ne može da pošalje komandu.", ok: false, why: "Isti zahtev i dalje stiže." },
+      { key: "C", text: "CORS dokazuje ko je korisnik.", ok: false, why: "CORS nije autentifikacija." },
+    ],
+    terms: [
+      { id: "sesija", name: "Sesija", hint: "ključ u cookie-ju, uloga na kutiji", body: "Dva neprozirna ključa stoje u kodu. HttpOnly cookie ne nosi ime uloge.", code: "Set-Cookie: sesija=kljuc-posmatraca; HttpOnly" },
+      { id: "statusi", name: "401 i 403", hint: "nema sesije, ili uloga ne sme", body: "Komanda bez cookie-ja je 401. Posmatrač je 403. Loše telo je 400. Izvučen ventilator je 500.", code: "nema cookie → 401\nposmatrac → 403\noperater → 200" },
+    ],
+    overview: "Prijava preko treće strane, token, XSS, SQL injection, CSRF, HTTPS.",
+  },
+  {
+    n: 10,
+    title: "Šta ćutanje ne dokazuje",
+    outcome: "Ekran „uključeno” nije dokaz upisa.",
+    problem: "Ekran kaže „uključeno”, odgovor nije stigao. Šta znamo?",
+    options: [
+      { key: "A", text: "Ne znamo ishod upisa. Treba log i ponovno čitanje.", ok: true, why: "Ćutanje nije ni dokaz ni opovrgavanje. Ponavljanje zavisi od smisla komande." },
+      { key: "B", text: "Upis nije prošao.", ok: false, why: "Odgovor može da stigne kasnije, ili da je upis prošao a odgovor izgubljen." },
+      { key: "C", text: "Upis jeste prošao, jer ekran tako kaže.", ok: false, why: "Ekran može da požuri pre odgovora." },
+    ],
+    terms: [
+      { id: "tri", name: "Tri stanja", hint: "nije stiglo, prošlo je, nije prošlo", body: "Dok odgovor nije stigao, upis nije ni dokazan ni opovrgnut.", code: "ekran: uključeno\nodgovor: još nema\n→ čitaj log i sobu" },
+    ],
+    overview: "Proxy, CDN, cloud, mesto nastanka HTML-a, logovi, CI, blockchain kao evidencija koja ne dokazuje senzor.",
+  },
+];

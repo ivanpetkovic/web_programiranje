@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="sr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kontrolna soba — web programiranje</title>
+    <link rel="stylesheet" href="/css/site.css" />
+  </head>
+  <body>
+    <a class="skip" href="#cas">Preskoči na čas</a>
+    <header class="top">
+      <a class="brand" href="#cas-1">Kontrolna soba</a>
+      <form id="search-form" role="search">
+        <label class="sr" for="q">Nađi pojam</label>
+        <input id="q" type="search" placeholder="Nađi pojam" autocomplete="off" />
+      </form>
+      <p class="meta">10 časova</p>
+    </header>
+    <nav id="nav" class="nav" aria-label="Časovi"></nav>
+    <main class="layout">
+      <article id="cas" class="cas"></article>
+      <section class="panel" aria-label="Kontrolna soba">
+        <div class="room" id="soba-prekidaca">
+          <header class="room-h">
+            <h2>Soba prekidača</h2>
+            <span id="starost" class="starost" hidden></span>
+          </header>
+          <p class="digit" id="displej" aria-live="polite">24</p>
+          <div class="row">
+            <button type="button" id="prekidac" aria-pressed="false">Uključi</button>
+            <button type="button" id="sledeci">Sledeći korak</button>
+            <button type="button" id="procitaj" hidden>Pročitaj</button>
+            <button type="button" id="polling" hidden aria-pressed="false">Periodično</button>
+          </div>
+          <div class="fan-local" id="fan-local" aria-hidden="true">
+            <span class="blades" id="blades-local"></span>
+          </div>
+          <p id="log" class="log" hidden></p>
+          <label class="editor" id="editor-wrap">
+            <span>Editor, front</span>
+            <textarea id="editor" spellcheck="false"></textarea>
+            <span id="editor-err" class="err" role="status"></span>
+          </label>
+        </div>
+        <div class="room machine" id="soba-masina" hidden>
+          <header class="room-h"><h2>Soba mašina</h2></header>
+          <p class="digit" id="displej-masina">24</p>
+          <div class="fan" id="fan" aria-hidden="true"><span class="blades" id="blades"></span></div>
+          <button type="button" id="kabl" hidden>Kabl je u kutiji</button>
+          <div class="sesije" id="sesije" hidden>
+            <button type="button" id="ses-pos">Posmatrač</button>
+            <button type="button" id="ses-ope">Operater</button>
+            <button type="button" id="ses-ne">Bez sesije</button>
+          </div>
+          <p id="kutija-msg" class="log"></p>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>
