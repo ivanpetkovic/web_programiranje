@@ -79,7 +79,7 @@ Stanje koje ovaj browser trenutno crta.
 _Avoid_: Stanje kutije.
 
 **Čitanje**:
-Odgovor kutije koji nosi temperaturu i režim. Jedini odgovor iz kog displej dobija broj.
+Odgovor kutije koji nosi temperaturu i režim. Jedini odgovor iz kog displej sobe prekidača dobija broj.
 _Avoid_: Komanda.
 
 **Komanda**:
@@ -90,9 +90,13 @@ _Avoid_: Čitanje, prekidač.
 Čitanje koje se samo ponavlja da bi displej sustigao kutiju.
 _Avoid_: Server push. Polling je isto ovo čitanje, ne drugi kanal.
 
+**Displej sobe mašina**:
+Sedmosegmentni broj trenutne temperature kutije, na crtežu sobe mašina. Prati kutiju i dok displej sobe prekidača stoji.
+_Avoid_: Displej sobe prekidača.
+
 **Displej**:
-Sedmosegmentni broj u sobi prekidača. Pre prvog uspelog čitanja pokazuje crte. Uspešno čitanje upisuje očitavanje. Neuspešno čitanje upisuje Err. Takt i komanda ga ne pomeraju.
-_Avoid_: Temperatura u sobi mašina, prekidač.
+Displej sobe prekidača. Pre prvog uspelog čitanja pokazuje crte. Uspešno čitanje upisuje očitavanje. Neuspešno čitanje upisuje Err. Takt i komanda ga ne pomeraju.
+_Avoid_: Displej sobe mašina, prekidač.
 
 **Posmatrač**:
 Uloga koja sme da pregleda stanje kontrolne sobe, ali ne i da upravlja ventilatorom.

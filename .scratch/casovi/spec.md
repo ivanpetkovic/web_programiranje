@@ -180,7 +180,7 @@ Osvrt: relaciono naspram dokumentnog modela, VM naspram kontejnera. Bez mini-kur
 
 ### Čas 8 — Koliko je prikaz svež
 
-Ishod je razlika poslednjeg poznatog i trenutnog stanja. Displej stoji jer ga ne pomera ni takt ni odgovor komande. To je potreba za novim čitanjem. Očitavanje nosi vrednost i trenutak. Displej pokazuje starost. Na času poseban prekidač uključi periodično čitanje, polling, i time odmah pošalje jedno čitanje, pa ga ponavlja. Neuspeo krug u tom nizu piše Err istom granom kao „Pročitaj”. Dugme „Pročitaj” ostaje i i dalje šalje jedno čitanje. Server push, SSE ili WebSocket, imenuje se kao drugi način da displej sazna za broj, i ne pravi se.
+Ishod je razlika poslednjeg poznatog i trenutnog stanja. Displej stoji jer ga ne pomera ni takt ni odgovor komande. To je potreba za novim čitanjem. Očitavanje nosi vrednost i trenutak. Displej pokazuje starost. Na času poseban prekidač uključi periodično čitanje, polling, i time odmah pošalje jedno čitanje, pa ga ponavlja. Neuspeo krug u tom nizu piše Err istom granom kao „Pročitaj”. Dugme „Pročitaj” ostaje i i dalje šalje jedno čitanje. SSE i WebSocket imenuju se kao drugi način da displej sobe prekidača sazna za broj. Stranica već ima push koji puni samo displej sobe mašina; čas ga ne imenuje i ne okreće ga ka displeju sobe prekidača.
 
 Editor uključuje ili isključuje odbacivanje starijeg trenutka merenja. Jedna promena: sporiji zahtev, meren ranije, stiže posle bržeg. Sa proverom, noviji broj ostaje. Bez provere, stariji pregazi ekran.
 
