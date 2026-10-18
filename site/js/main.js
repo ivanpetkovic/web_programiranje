@@ -1,4 +1,5 @@
 import { lectures } from "./lectures.js";
+import { ocitavanjeJeNovije } from "./svezina.js";
 
 const nav = document.querySelector("#nav");
 const casEl = document.querySelector("#cas");
@@ -37,6 +38,9 @@ const tacke = [
 ];
 let cas = 1;
 let pollId = 0;
+let cifreSobe = null;
+let poslednjiTrenutak = null;
+const poslato = { takt: false, uloge: false, baza: false };
 let dovod = null;
 let lastSpin = "1.2s";
 let strana = "client";
@@ -187,25 +191,42 @@ function fitPanel() {
   loadSide();
   log.hidden = cas !== 2;
   grafikon.hidden = cas !== 3;
+  if (cas < 8) zaustaviPeriodicno();
   if (cas === 2 || cas === 3) osveziNiz();
   if (cas < 4) {
     displejSobe.crtaj(cas < 3 ? "24" : soba.temperatura);
     bladesLocal.classList.toggle("spin", cas === 1 || (cas === 3 && soba.zeljeno));
   } else {
-    displejSobe.crtaj("----");
+    displejSobe.crtaj(cifreSobe === null ? "----" : cifreSobe);
   }
   if (cas >= 4 && !dovod) connectDovod();
-  if (cas >= 5) fetch("/api/takt", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ukljucen: true }) });
-  fetch("/api/uloge", {
+  uskladiKutiju();
+}
+
+function zaustaviPeriodicno() {
+  clearInterval(pollId);
+  pollId = 0;
+  polling.setAttribute("aria-pressed", "false");
+}
+
+function zapamtiCifreSobe() {
+  if (cas >= 4) cifreSobe = displej.textContent;
+}
+
+function uskladiZastavicu(ime, put, ukljucen) {
+  if (poslato[ime] === ukljucen) return;
+  poslato[ime] = ukljucen;
+  fetch(put, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ ukljucen: cas >= 9 }),
+    body: JSON.stringify({ ukljucen }),
   });
-  fetch("/api/baza", {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ ukljucen: cas >= 7 }),
-  });
+}
+
+function uskladiKutiju() {
+  uskladiZastavicu("takt", "/api/takt", cas >= 5);
+  uskladiZastavicu("uloge", "/api/uloge", cas >= 9);
+  uskladiZastavicu("baza", "/api/baza", cas >= 7);
 }
 
 function fileForLecture(n) {
@@ -441,45 +462,57 @@ async function readRoom() {
   try {
     const response = await fetch(path);
     const data = response.ok ? await response.json() : null;
+    if (response.ok && !ocitavanjeJeNovije(poslednjiTrenutak, data && data.trenutak)) return;
     if (!response.ok) {
       if (cas >= 5) displejSobe.prikaziOcitavanje(response, data);
       starost.textContent = "";
       kutijaMsg.textContent = `HTTP ${response.status}`;
+      zapamtiCifreSobe();
       return;
     }
+    if (data.trenutak) poslednjiTrenutak = data.trenutak;
     displejSobe.prikaziOcitavanje(response, data);
     prekidacSobe.crtaj(data.ukljucen);
     if (data.trenutak) starost.textContent = data.trenutak;
     kutijaMsg.textContent = "HTTP 200";
+    zapamtiCifreSobe();
   } catch {
     if (cas >= 5) displejSobe.prikaziOcitavanje({ ok: false }, null);
     kutijaMsg.textContent = "nema statusa";
+    zapamtiCifreSobe();
   }
 }
 
 async function sendCommand(ukljucen) {
-  const response = await fetch("/api/ventilator", {
-    method: "PUT",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ ukljucen }),
-  });
-  kutijaMsg.textContent = `HTTP ${response.status}`;
-  if (response.ok) {
-    const data = await response.json();
-    prekidacSobe.crtaj(data.ukljucen);
+  const prethodno = prekidacSobe.ukljucen;
+  prekidacSobe.crtaj(ukljucen);
+  try {
+    const response = await fetch("/api/ventilator", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ ukljucen }),
+    });
+    kutijaMsg.textContent = `HTTP ${response.status}`;
+    if (response.ok) {
+      const data = await response.json();
+      prekidacSobe.crtaj(data.ukljucen);
+      return;
+    }
+    if (response.status !== 500) prekidacSobe.crtaj(prethodno);
+  } catch {
+    kutijaMsg.textContent = "nema statusa";
   }
 }
 
 prekidac.addEventListener("click", () => {
-  if (cas < 3) return;
+  if (cas < 2) return;
   if (cas < 4) {
     soba.zeljeno = !soba.zeljeno;
     prekidacSobe.crtaj(soba.zeljeno);
-    bladesLocal.classList.toggle("spin", soba.zeljeno);
+    bladesLocal.classList.toggle("spin", cas === 3 && soba.zeljeno);
     return;
   }
-  const next = !prekidacSobe.ukljucen;
-  sendCommand(next);
+  sendCommand(!prekidacSobe.ukljucen);
 });
 
 sledeci.addEventListener("click", () => {

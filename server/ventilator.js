@@ -1,4 +1,5 @@
 function teloJeRezim(telo) {
+  if (!telo || typeof telo !== "object" || Array.isArray(telo)) return false;
   const kljucevi = Object.keys(telo);
   return typeof telo.ukljucen === "boolean" && kljucevi.every((kljuc) => kljuc === "ukljucen");
 }
