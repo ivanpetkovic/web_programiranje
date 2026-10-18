@@ -128,7 +128,7 @@ Naivan prenos: soba prekidača šalje jednu celu poruku i pretpostavlja da stiž
 
 Posle toga se crtaju kutija i soba mašina i pokazuje Node. Ventilator je priključen na kutiju. Zahtev se vidi kako ide od prekidača do kutije, pa kablom do ventilatora samo ako je priključen. Lopatice se vrte CSS transformacijom samo dok je udaljeni režim uključen. Časovi 1–3 nemaju taj crtež. Čitanje sobe se prvo otvara direktno u browseru, bez `fetch`-a. Isti zahtev se vidi u logu procesa i u Network panelu, sa protokolom HTTP/1.1. Podaci su u memoriji procesa. JSON u telu je tekst, ne JS objekat. Od ovog časa server drži temperaturu. Dugme „Sledeći korak” više nije izvor te vrednosti. Displej pokazuje crte dok prvo čitanje ne uspe, pa cifre tog očitavanja. Isečak časa 4 još nema granu koja piše Err, pa neuspeh ostavlja crte. Dugme „Pročitaj” šalje jedno čitanje.
 
-Editor menja granu handlera: poznata putanja vraća temperaturu i režim, ostale putanje vraćaju 404. Jedna promena: proces se ugasi i novi zahtev nema HTTP status.
+Editor menja `server/soba.js`: poznata putanja vraća temperaturu i režim, ostale putanje vraćaju 404. Jedna promena: proces se ugasi i novi zahtev nema HTTP status.
 
 Pitalica: handler ne može da ugasi dugme preko DOM-a. Tačno je da server vrati podatak ili dokument, a browser menja prikaz kad obradi odgovor. Poreklo zahteva ne premešta DOM na server.
 

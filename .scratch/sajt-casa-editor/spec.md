@@ -6,7 +6,7 @@ Nastavnik hoće da umesto slajdova vodi čas na sajtu, da klik na pojam otvori o
 
 ## Solution
 
-Sajt časa je jedan tok od deset časova sa ugrađenom Kontrolnom sobom. Korak časa pokazuje problem, neoznačene odgovore, razloge, pojmove i editor. Editor časa otvara isečak koji već radi. Izmena fronta, HTML, CSS ili JS u browseru, odmah menja panel. Izmena servera ostaje tekst dok se lokalni Node ponovo ne učita; sledeći zahtev panela koristi novi handler.
+Sajt časa je jedan tok od deset časova sa ugrađenom Kontrolnom sobom. Korak časa pokazuje problem, neoznačene odgovore, razloge, pojmove i editor. Editor ima dva taba, Front i Back, i u svakom se vidi stablo običnih fajlova: `client/` i `server/`. Fajl na otvaranju već radi. Izmena fronta odmah menja panel. Sačuvan `server/soba.js`, `server/ventilator.js` ili `server/sesija.js` važi na sledećem zahtevu. `server/server.js`, `server/stanje.js` i `server/baza.js` čitaju se kad se proces pokrene.
 
 Panel je isti kroz kurs: jedna prostorija, jedno očitavanje, jedan ventilator. Lopatice se vrte CSS transformacijom. Do četvrtog časa nema API zahteva. Od četvrtog, čitanje sobe i kasnije komanda željenog stanja jesu HTTP/1.1 prema tom Node procesu.
 
@@ -21,7 +21,7 @@ Panel je isti kroz kurs: jedna prostorija, jedno očitavanje, jedan ventilator. 
 7. Kao student, hoću da klik na pojam otvori objašnjenje i primer koda, i da drugi klik sklopi stavku.
 8. Kao student, hoću da otvorim više pojmova odjednom, da uporedim primer sa panelom.
 9. Kao nastavnik, hoću pretragu pojmova, da sa „CORS” ili „const” dođem na stavku i otvorim je.
-10. Kao nastavnik, hoću editor označen slojem, front ili server, da bude jasno šta se izvršava gde.
+10. Kao nastavnik, hoću dva taba, Front i Back, i stablo fajlova u svakom, da studenti vide da su to obični fajlovi.
 11. Kao nastavnik, hoću isečak koji na otvaranju već radi, da čas ne počinje od praznog fajla.
 12. Kao nastavnik, hoću da vratim isečak na pripremljenu verziju, da pokvarena izmena ne pojede ostatak časa.
 13. Kao nastavnik, hoću da izmena CSS transformacije odmah promeni kako se lopatice vrte, da animacija prati kod.
@@ -29,8 +29,8 @@ Panel je isti kroz kurs: jedna prostorija, jedno očitavanje, jedan ventilator. 
 15. Kao nastavnik, hoću da izmena crtanja promeni tekst temperature i režim lopatica, da objekat i ekran ostanu razdvojeni dok crtanje ne pozovem.
 16. Kao nastavnik, hoću da greška u front isečku stane pored editora, a da panel zadrži poslednje ispravno stanje.
 17. Kao nastavnik, hoću da serverski isečak vidim na sajtu, a da ga izvršava lokalni Node, da DevTools vidi zahtev.
-18. Kao nastavnik, hoću da „učitaj handler” ponovo pokrene taj proces, da sledeći zahtev panela koristi novi kod.
-19. Kao nastavnik, hoću da sintaksna greška handlera ostane vidljiva i da panel javi da odgovora nema, umesto da sajt ćuti.
+18. Kao nastavnik, hoću da „Sačuvaj” upiše otvoreni fajl, da sledeći zahtev koristi `server/soba.js`, `server/ventilator.js` ili `server/sesija.js`.
+19. Kao nastavnik, hoću da sintaksna greška ostane u editoru i da se fajl ne zameni, da panel zadrži prethodni fajl.
 20. Kao nastavnik, hoću na časovima 1–3 nula redova API-ja sobe u Network panelu, da lokalna izmena nije lažni protokol.
 21. Kao nastavnik, hoću od četvrtog časa red sa metodom, putanjom, statusom, zaglavljima, JSON telom, vremenom i protokolom HTTP/1.1.
 22. Kao nastavnik, hoću da čitanje sobe prvo otvorim kao adresu u browseru, pre nego što panel krene da ga zove iz koda.
@@ -48,11 +48,11 @@ Panel je isti kroz kurs: jedna prostorija, jedno očitavanje, jedan ventilator. 
 - Čas u navigaciji vodi na svoj korak. Korak prikazuje preduslov, ishod, panel, pitalicu, pojmove, editor i osvrt, tim redom.
 - Pitalica prikazuje sve opcije bez pečata. Izbor studenta ili radnja „pokaži razloge” otvara razlog svake opcije i označava koja drži. „Ponovi pitanje” sklanja pečate i razloge.
 - Pojam je stavka sa imenom i jednom rečenicom. Otvorena stavka pokazuje objašnjenje i primer. Više stavki sme da bude otvoreno. Pretraga sužava stavke i otvara prvi pogodak.
-- Editor časa ima sloj „front” ili „server”, pripremljeni isečak, radnju za povratak na taj isečak i mesto za grešku.
-- Front sloj pokriva dokument panela, stil lopatica i browser JS stanja i crtanja. Posle izmene, panel se ponovo crta iz tog isečka. Poslednje ispravno stanje ostaje ako isečak baci grešku.
+- Editor časa ima tab Front (`client/`) i tab Back (`server/`). Svaki tab pokazuje stablo tih fajlova, putanju otvorenog fajla, „Sačuvaj”, „Povrati” i mesto za grešku. Pripremljene kopije stoje u `prepared/` i ne ulaze u stablo.
+- Front fajlovi su `client/css/soba.css`, `client/js/korak.js` i `client/js/displej.js`. Izmena odmah menja panel. Poslednje ispravno stanje ostaje ako fajl baci grešku.
 - Transformacija i animacija lopatica dolaze iz stila. Promena trajanja, smera ili ugla vidljiva je bez učitavanja stranice. Režim koji prikaz crta određuje da li se vrte i koliko brzo, čim čas 3 uvede crtanje. Pre toga, stil sam vrti lopatice.
 - „Sledeći korak” postoji dok simulacija temperature živi u browseru. Uvek uveća temperaturu za deltu i ne gleda prekidač. Broj na ekranu menja se tek kad postoji crtanje.
-- Serverski sloj ne izvršava handler u browseru. Isečak je izvor lokalnog Node procesa koji sluša poznat port i govori HTTP/1.1, bez web framework-a. Radnja „učitaj handler” ponovo pokreće taj proces. Sledeći zahtev panela ide na novi proces.
+- Back ne izvršava fajl u browseru. `server/` je izvor lokalnog Node procesa koji sluša poznat port i govori HTTP/1.1, bez web framework-a. „Sačuvaj” upisuje fajl. Sledeći zahtev učitava `soba.js`, `ventilator.js` ili `sesija.js`. Ostali fajlovi u `server/` čitaju se pri pokretanju procesa.
 - Ako se proces ne podigne, panel to kaže uz editor, a Network nema uspešan status tog zahteva.
 - Do četvrtog časa panel ne šalje čitanje sobe ni komandu. Network i dalje sme da pokaže dokument i stil sajta.
 - Od četvrtog časa uspelo čitanje sobe vraća HTTP 200, temperaturu i režim, i piše samo displej sobe prekidača. Čitanje dok ventilator nije priključen vraća HTTP 500 i displej piše Err. Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500. Displej sobe mašina dobija trenutnu temperaturu i režim jednosmernim pushom sa kutije. Čas taj dovod ne imenuje. Isečak časa 4 upisuje cifre na uspeh i nema granu Err. Čas 5 otvara front isečak u kome ta grana već upisuje Err, i za status koji nije uspeh i za izostanak odgovora. Nastavnik liniju vidi i može da je izmeni. Dok zahtev traje, displej sobe prekidača zadržava prethodne crte, cifre ili Err. Dugme „Pročitaj” šalje jedno čitanje i ostaje i kad osmi čas doda prekidač za periodično čitanje. Taj prekidač na uključivanje odmah pošalje jedno čitanje, pa ga ponavlja. Od šestog, komanda šalje željeno stanje, a uspešan odgovor vraća samo režim. Od osmog, čitanje nosi i trenutak očitavanja. Od devetog, ista komanda zavisi od pripremljene sesije u cookie-ju. Od sedmog, režim i istorija žive u PostgreSQL-u, a povezani upisi su jedna celina.
@@ -67,19 +67,19 @@ Panel je isti kroz kurs: jedna prostorija, jedno očitavanje, jedan ventilator. 
 
 Jedan šav: sajt časa otvoren u browseru, sa lokalnim Node procesom tek kad je čas uveo server. Test gleda šta nastavnik vidi i šta Network zabeleži.
 
-Vredi proveriti, redom: lopatice se vrte dok je režim uključen i stoje dok je isključen; izbor opcije ne otvara razloge; drugi klik na pojam sklapa primer; CSS izmena menja okretanje; loš front isečak ostavlja prethodni broj i pokazuje grešku; čas 2 ne pravi API red; čas 4 posle učitavanja handlera pokazuje HTTP/1.1 za čitanje sobe; ugašen proces ostavlja zahtev bez statusa tog servera; povratak isečka vraća poznato ponašanje; posmatrač ne menja režim, operater menja; smanjeno pokretanje ne vrti lopatice beskonačno.
+Vredi proveriti, redom: lopatice se vrte dok je režim uključen i stoje dok je isključen; izbor opcije ne otvara razloge; drugi klik na pojam sklapa primer; CSS izmena menja okretanje; loš front fajl ostavlja prethodni broj i pokazuje grešku; čas 2 ne pravi API red; čas 4 posle čuvanja `server/soba.js` pokazuje HTTP/1.1 za čitanje sobe; ugašen proces ostavlja zahtev bez statusa tog servera; povratak fajla vraća poznato ponašanje; posmatrač ne menja režim, operater menja; smanjeno pokretanje ne vrti lopatice beskonačno; oba taba pokazuju svoje stablo.
 
 Ne vredi vezati test za ime klase editora ni za tačan matrix transformacije. Dovoljno je da se ugao ili brzina vidljivo promene i da režim na ekranu odgovara poslednjem ispravnom crtanju. Nema postojećeg testa ovog sajta u repozitorijumu.
 
 ## Out of Scope
 
 - Izvršavanje Node handlera unutar stranice.
-- Prazan projekat, stablo svih fajlova i slobodno pisanie aplikacije od nule na času.
+- Prazan projekat i slobodno pisanje aplikacije od nule. Stabla su postojeći `client/` i `server/`, ne prazan disk.
 - Čuvanje studentskog rešenja, nalog nastavnika i bodovanje pitalice.
 - Login forma, lozinka i prijava preko treće strane.
 - Drugi panel, druga prostorija i drugi ventilator.
 - Automatsko ocenjivanje preglednih tema.
-- Hot reload koji primenjuje serverski isečak pre izričite radnje „učitaj handler”.
+- Primena serverskog fajla pre izričite radnje „Sačuvaj”.
 
 ## Further Notes
 

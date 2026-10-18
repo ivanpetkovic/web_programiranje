@@ -92,10 +92,41 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
   background:
     conic-gradient(from 20deg, transparent 0 40deg, var(--amber) 0 70deg, transparent 0 160deg, var(--amber) 0 190deg, transparent 0 280deg, var(--amber) 0 310deg, transparent 0 360deg);
 }
-.blades.spin { animation: spin var(--spin, 1.2s) linear infinite; }
+.blades.spin {
+  animation-name: spin;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
 @keyframes spin { to { transform: rotate(1turn); } }
-.editor { display: grid; gap: 0.35rem; margin-top: 0.8rem; }
-textarea { min-height: 7rem; font-family: ui-monospace, monospace; font-size: 0.92rem; }
+.files {
+  grid-column: 1 / -1;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1rem 1.1rem;
+}
+.tabs { display: flex; gap: 0.45rem; }
+.file-layout {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  gap: 0.8rem;
+  margin-top: 0.7rem;
+}
+.tree { font-family: ui-monospace, monospace; font-size: 0.88rem; }
+.tree ul { list-style: none; margin: 0; padding: 0 0 0 0.75rem; }
+.tree > ul { padding-left: 0; }
+.tree .dir { color: var(--muted); }
+.tree button {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  padding: 0.12rem 0.2rem;
+}
+.tree button[aria-current="true"] { color: var(--amber); }
+#putanja { font-family: ui-monospace, monospace; color: var(--muted); }
+.editor { display: grid; gap: 0.35rem; }
+textarea { min-height: 9rem; font-family: ui-monospace, monospace; font-size: 0.92rem; }
 .err { color: var(--bad); min-height: 1.2em; }
 .options { display: grid; gap: 0.45rem; margin: 0.8rem 0; }
 .option { text-align: left; }
@@ -115,5 +146,6 @@ pre {
 .mark { color: var(--bad); }
 @media (max-width: 860px) {
   .layout { grid-template-columns: 1fr; }
+  .file-layout { grid-template-columns: 1fr; }
   .digit { font-size: 3.4rem; }
 }
