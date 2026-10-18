@@ -71,7 +71,7 @@ Stanje u kome udaljeni ventilator stvarno radi: isključen ili uključen.
 _Avoid_: Brzina, skala obrtaja, položaj prekidača, priključen. Trajanje CSS animacije nije režim.
 
 **Priključen**:
-Ventilator jeste ili nije na kablu kutije. Čitanje to javlja uz temperaturu i režim. Dok nije priključen, režim ostaje isključen.
+Ventilator jeste ili nije na kablu kutije. Dok nije priključen, režim ostaje isključen, a čitanje i komanda „uključi” dobijaju HTTP 500.
 _Avoid_: Režim, prekidač.
 
 **Serversko stanje**:
@@ -83,7 +83,7 @@ Stanje koje ovaj browser trenutno crta.
 _Avoid_: Stanje kutije.
 
 **Čitanje**:
-Odgovor kutije koji nosi temperaturu, režim i da li je ventilator priključen. Status je 200 i kad kabl nedostaje. Jedini odgovor iz kog displej sobe prekidača dobija broj.
+Odgovor kutije koji nosi temperaturu i režim. HTTP 200 je uspeh. HTTP 500 znači da ventilator nije priključen, i iz tog odgovora displej sobe prekidača ne dobija broj.
 _Avoid_: Komanda.
 
 **Komanda**:

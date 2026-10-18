@@ -39,7 +39,7 @@ Posle kursa isti fajlovi su jedna aplikacija: prvo samo front, zatim front i Nod
 23. Kao nastavnik, hoću na drugom času objekat sa temperaturom i režimom, da pokažem ime, referencu i pravilo koraka.
 24. Kao nastavnik, hoću na trećem času klik, crtanje i transformaciju, da prikaz ne prati objekat sam od sebe.
 25. Kao nastavnik, hoću na četvrtom času `GET /api/room`, da server vrati podatak a browser promeni sopstveni prikaz.
-26. Kao nastavnik, hoću na petom času isto čitanje u uspehu, sa statusom 500 iz izuzetka handlera i uz ugašen port, da razdvojim odgovor od izostanka odgovora.
+26. Kao nastavnik, hoću na petom času isto čitanje kao HTTP 200, kao HTTP 500 dok ventilator nije priključen, i uz ugašen port, da razdvojim odgovor od izostanka odgovora.
 27. Kao nastavnik, hoću na šestom času `PUT` željenog stanja i ponovljeni zahtev, da uporedim postavljanje režima i prebacivanje režima.
 28. Kao nastavnik, hoću na sedmom času režim i istoriju komandi u PostgreSQL-u, da povezani upisi budu jedna celina.
 29. Kao nastavnik, hoću na osmom času vreme očitavanja na istom broju, da zastareo odgovor ne pregazi noviji prikaz.
@@ -62,11 +62,11 @@ Posle kursa isti fajlovi su jedna aplikacija: prvo samo front, zatim front i Nod
 - Redosled fajlova prati časove: HTML panela, CSS lopatica uključujući transformaciju i animaciju, JS stanja i crtanja u browseru, zatim Node.
 - Dok servera nema, editor dira samo front. Izmena CSS-a, stanja i crtanja odmah menja ugrađeni panel. „Sledeći korak” pomera temperaturu lokalno.
 - Serverski editor ne izvršava kod u browseru. Izvor izvršava lokalni Node. Panel šalje zahtev tom procesu.
-- Ugovor panela i servera: čitanje sobe vraća temperaturu, režim i da li je ventilator priključen. Status tog čitanja je 200 i kad kabl nedostaje. Komanda šalje željeno stanje ventilatora, a uspešan odgovor vraća samo režim. Komanda koja traži uključenje dok ventilator nije priključen dobija 500. Kad čas uvede svežinu, čitanje nosi i trenutak očitavanja. Kad čas uvede uloge, ista komanda zavisi od sesije.
+- Ugovor panela i servera: uspelo čitanje sobe vraća HTTP 200, temperaturu i režim. Čitanje dok ventilator nije priključen vraća HTTP 500, bez broja za displej. Komanda šalje željeno stanje ventilatora, a uspešan odgovor vraća samo režim. Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500. Kad čas uvede svežinu, uspelo čitanje nosi i trenutak očitavanja. Kad čas uvede uloge, ista komanda zavisi od sesije.
 - Protokol koji DevTools treba da pokaže je HTTP/1.1, jer server koristi ugrađeni Node HTTP, bez web framework-a.
 - Izmena handlera stupa na snagu kad se Node proces ponovo učita. Sledeći zahtev panela koristi novi handler.
 - Do servera sajt crta samo sobu prekidača. Kutija i soba mašina crtaju se tek posle puta od naivnog prenosa do TCP-a i HTTP-a.
-- Zahtev komande vidi se od prekidača do kutije, pa kablom do ventilatora samo ako je priključen. Ako nije, kutija na tu komandu odgovori statusom 500, prekidač može da ostane upaljen, lopatice se ne vrte. Čitanje u tom stanju i dalje vraća 200, temperaturu, režim isključen i `priključen: false`.
+- Zahtev komande vidi se od prekidača do kutije, pa kablom do ventilatora samo ako je priključen. Ako nije, kutija na tu komandu odgovori HTTP 500, prekidač može da ostane upaljen, lopatice se ne vrte. Čitanje u tom stanju takođe vraća HTTP 500, a displej sobe prekidača piše Err.
 - Kad kutija postoji, ona drži temperaturu. „Sledeći korak” na frontu tada više nije izvor očitavanja. Takt je `setInterval` u tom procesu i kreće tek kad `await` već postoji. Diže temperaturu dok je režim isključen, a spušta je dok je uključen.
 - Časovi 1–3 crtaju lokalnu temperaturu na isti sedmosegmentni broj. „Sledeći korak” ga menja kroz crtanje.
 - Od časa 4 soba prekidača ima displej, a soba mašina svoj. Displej sobe mašina pokazuje trenutnu temperaturu kutije. Displej sobe prekidača, dok prvo čitanje ne uspe, pokazuje crte, pa poslednje uspelo očitavanje. Nisu u skladu dok se na prekidačima ne pritisne „Pročitaj”. Neuspešno čitanje od časa 5 upisuje Err na displej sobe prekidača. Isečak tog časa tu liniju već sadrži. Dok zahtev traje, na tom displeju ostaju crte, cifre ili Err. Uspešan odgovor komande nosi samo režim i ne upisuje temperaturu na displej sobe prekidača. Oba broja su Digital-7 Mono (Style-7), uz dozvolu za obrazovnu upotrebu.
