@@ -27,11 +27,14 @@
             <span id="starost" class="starost" hidden></span>
           </header>
           <p class="digit" id="displej" aria-live="polite">24</p>
+          <p id="prag" class="meta" hidden>prag 30</p>
+          <p id="stanje-citanja" class="log" hidden></p>
           <div class="row">
             <button type="button" id="prekidac" aria-pressed="false">Uključi</button>
             <button type="button" id="sledeci">Sledeći korak</button>
             <button type="button" id="procitaj" hidden>Pročitaj</button>
             <button type="button" id="polling" hidden aria-pressed="false">Periodično</button>
+            <button type="button" id="svezina" hidden aria-pressed="true">Provera svežine</button>
           </div>
           <div class="fan-local" id="fan-local" hidden aria-hidden="true">
             <span class="blades" id="blades-local"></span>
@@ -43,6 +46,7 @@
           <header class="room-h"><h2>Soba mašina</h2></header>
           <p class="digit" id="displej-masina">24</p>
           <div class="fan" id="fan" aria-hidden="true"><span class="blades" id="blades"></span></div>
+          <ol id="istorija" hidden></ol>
           <button type="button" id="kabl" hidden>Kabl je u kutiji</button>
           <div class="sesije" id="sesije" hidden>
             <button type="button" id="ses-pos">Posmatrač</button>

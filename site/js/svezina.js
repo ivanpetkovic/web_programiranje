@@ -1,3 +1,8 @@
+export function prihvatiOcitavanje(proveraUkljucena, poznatiTrenutak, pristigliTrenutak) {
+  if (!proveraUkljucena) return true;
+  return ocitavanjeJeNovije(poznatiTrenutak, pristigliTrenutak);
+}
+
 export function ocitavanjeJeNovije(poznatiTrenutak, pristigliTrenutak) {
   if (!pristigliTrenutak || !poznatiTrenutak) return true;
   const poznato = Date.parse(poznatiTrenutak);

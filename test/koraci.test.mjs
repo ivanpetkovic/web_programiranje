@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { lectures } from "../site/js/lectures.js";
+import { lectures, preduslovCasa } from "../site/js/lectures.js";
 
 function tekst(korak) {
   return [korak.naslov, korak.primer, korak.kod, korak.pitalica, korak.objasnjenje, korak.delic, korak.putanja].join("\n");
@@ -52,6 +52,57 @@ test("čas 4 otvara adresu pre fetch-a i nema Err", () => {
   assert.ok(saAdresom > saNode);
   assert.equal(saFetch, -1);
   assert.equal(cas.steps.some((korak) => /\bErr\b/.test(korak.delic)), false);
+});
+
+test("preduslov časa 1 je rez, a časa 2 je ishod prvog", () => {
+  assert.equal(preduslovCasa(1), "Rez client/ i prazan server/.");
+  assert.equal(preduslovCasa(2), lectures[0].outcome);
+});
+
+test("rezerve 1–9 imaju pitanje, čas 10 nema glasanje", () => {
+  const trag = [
+    /CSS/,
+    /Strogo poređenje/,
+    /Funkcija čeka klik/,
+    /404/,
+    /Drugi klik/,
+    /HTTP 400/,
+    /Browser ih ne dobija/,
+    /Keš ikonice/,
+    /server ćuti/,
+  ];
+  lectures.slice(0, 9).forEach((cas, i) => {
+    assert.ok(cas.rezerva);
+    assert.ok(cas.rezerva.options.length >= 2);
+    assert.equal(cas.rezerva.options.filter((opcija) => opcija.ok).length, 1);
+    const tekstRezerve = [cas.rezerva.problem, ...cas.rezerva.options.map((opcija) => opcija.text)].join("\n");
+    assert.match(tekstRezerve, trag[i]);
+  });
+  const poslednji = lectures[9];
+  assert.equal(poslednji.rezerva, null);
+  assert.match(poslednji.izlaz, /gde se proverava pravo/i);
+  assert.match(poslednji.izlaz, /gde stoji stanje/);
+  assert.match(poslednji.izlaz, /ne dokazuje/);
+  assert.match(poslednji.overview, /Tip i predlog asistenta/);
+});
+
+test("osvrt imenuje teme i nema alat", () => {
+  const trag = [
+    ["Internet naspram Weba", "semantički HTML", "skica"],
+    ["Dinamički tipovi", "mesto TypeScript provere", "dve verzije iste funkcije"],
+    ["Responsive prikaz", "pristupačna forma", "komponenta kao razlog biblioteke"],
+    ["HTTP/2", "HTTP/3", "GraphQL", "middleware"],
+    ["Spoljni API", "prekid jednog zahteva", "microtask"],
+    ["REST", "optimistički prikaz", "fizičkog uređaja"],
+    ["Relacioni", "dokumentni", "virtuelna mašina", "kontejner"],
+    ["SSE", "WebSocket", "React hooks", "offline"],
+    ["Prijava preko treće strane", "XSS", "Bez login forme"],
+    ["Kubernetes", "serverless", "mesto nastanka HTML-a", "Blockchain"],
+  ];
+  lectures.forEach((cas, i) => {
+    for (const deo of trag[i]) assert.ok(cas.overview.includes(deo), `${cas.n}: ${deo}`);
+    assert.equal(cas.overview.includes("<button"), false);
+  });
 });
 
 test("čas 10 ne tvrdi da je upis prošao", () => {

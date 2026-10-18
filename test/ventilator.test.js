@@ -23,6 +23,25 @@ test("uključivanje izvučenog ventilatora je 500 i ne menja režim", async () =
   assert.equal(ctx.state.ukljucen, false);
 });
 
+test("pad istorije povlači celinu i ne menja režim", async () => {
+  const ctx = kontekst();
+  ctx.state.baza = true;
+  ctx.db = {
+    async connect() {
+      return {
+        async query(sql) {
+          if (sql.startsWith("INSERT")) throw new Error("istorija");
+          return { rows: [] };
+        },
+        release() {},
+      };
+    },
+  };
+  const odgovor = await komanda(ctx, { ukljucen: true });
+  assert.equal(odgovor.status, 500);
+  assert.equal(ctx.state.ukljucen, false);
+});
+
 test("boolean režim se upisuje i vraća samo režim", async () => {
   const ctx = kontekst();
   const odgovor = await komanda(ctx, { ukljucen: true });
