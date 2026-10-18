@@ -91,7 +91,7 @@ _Avoid_: Čitanje, prekidač.
 _Avoid_: Server push. Polling je isto ovo čitanje, ne drugi kanal.
 
 **Displej**:
-Sedmosegmentni broj u sobi prekidača. Dok kutija drži temperaturu, pre prvog uspelog čitanja pokazuje crte, a zatim poslednje uspelo očitavanje. Takt i komanda ga ne pomeraju.
+Sedmosegmentni broj u sobi prekidača. Pre prvog uspelog čitanja pokazuje crte. Uspešno čitanje upisuje očitavanje. Neuspešno čitanje upisuje Err. Takt i komanda ga ne pomeraju.
 _Avoid_: Temperatura u sobi mašina, prekidač.
 
 **Posmatrač**:
