@@ -152,6 +152,26 @@ pre {
   font-size: 0.88rem;
 }
 .mark { color: var(--bad); }
+.objasnjenje { margin-top: 0.6rem; }
+.vec, .delic { margin-top: 0.4rem; }
+.diskusija {
+  margin-top: 1.2rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+}
+.option.podvuceno { text-decoration: underline; text-underline-offset: 0.2em; }
+.pretpostavke, .izlaz, .diskusija textarea { width: 100%; margin-top: 0.45rem; }
+.izlaz { display: grid; gap: 0.35rem; margin-top: 0.8rem; }
+button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .blades.spin {
+    animation: none;
+    transform: rotate(40deg);
+  }
+}
 @media (max-width: 860px) {
   .layout { grid-template-columns: 1fr; }
   .file-layout { grid-template-columns: 1fr; }
