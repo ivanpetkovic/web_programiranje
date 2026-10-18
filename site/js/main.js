@@ -1,5 +1,5 @@
-import { lectures } from "./lectures.js";
-import { ocitavanjeJeNovije } from "./svezina.js";
+import { lectures, preduslovCasa } from "./lectures.js";
+import { prihvatiOcitavanje } from "./svezina.js";
 
 const nav = document.querySelector("#nav");
 const casEl = document.querySelector("#cas");
@@ -11,6 +11,10 @@ const prekidac = document.querySelector("#prekidac");
 const sledeci = document.querySelector("#sledeci");
 const procitaj = document.querySelector("#procitaj");
 const polling = document.querySelector("#polling");
+const svezina = document.querySelector("#svezina");
+const prag = document.querySelector("#prag");
+const stanjeCitanja = document.querySelector("#stanje-citanja");
+const istorija = document.querySelector("#istorija");
 const fanLocal = document.querySelector("#fan-local");
 const bladesLocal = document.querySelector("#blades-local");
 const blades = document.querySelector("#blades");
@@ -28,6 +32,8 @@ const tabBack = document.querySelector("#tab-back");
 const sacuvaj = document.querySelector("#sacuvaj");
 const povrati = document.querySelector("#povrati");
 const starost = document.querySelector("#starost");
+const otvoreniPojmovi = new Set();
+let pojamFilter = "";
 
 const soba = { temperatura: 24, zeljeno: false };
 const tacke = [
@@ -141,8 +147,12 @@ function renderLecture() {
   casEl.replaceChildren();
   const h = document.createElement("h1");
   h.textContent = `${item.n}. ${item.title}`;
+  const preduslov = document.createElement("p");
+  preduslov.id = "preduslov";
+  preduslov.textContent = `Preduslov: ${preduslovCasa(item.n)}`;
   const outcome = document.createElement("p");
-  outcome.textContent = item.outcome;
+  outcome.id = "ishod";
+  outcome.textContent = `Ishod: ${item.outcome}`;
   const broj = document.createElement("p");
   broj.className = "log";
   broj.textContent = `Korak ${i + 1} od ${item.steps.length}: ${korak.naslov}`;
@@ -222,21 +232,27 @@ function renderLecture() {
   const terms = document.createElement("div");
   terms.className = "terms";
   terms.id = "pojmovi";
-  for (const term of item.terms) {
+  const vidljivi = pojamFilter
+    ? item.terms.filter((term) => `${term.name} ${term.hint} ${term.body}`.toLowerCase().includes(pojamFilter))
+    : item.terms;
+  for (const term of vidljivi) {
+    const kljuc = `${item.n}:${term.id}`;
     const wrap = document.createElement("div");
     const button = document.createElement("button");
     button.type = "button";
     button.id = `pojam-${term.id}`;
     button.textContent = `${term.name} — ${term.hint}`;
     const body = document.createElement("div");
-    body.hidden = true;
+    body.hidden = !otvoreniPojmovi.has(kljuc);
     const p = document.createElement("p");
     p.textContent = term.body;
     const pre = document.createElement("pre");
     pre.textContent = term.code;
     body.append(p, pre);
     button.addEventListener("click", () => {
-      body.hidden = !body.hidden;
+      if (otvoreniPojmovi.has(kljuc)) otvoreniPojmovi.delete(kljuc);
+      else otvoreniPojmovi.add(kljuc);
+      body.hidden = !otvoreniPojmovi.has(kljuc);
     });
     wrap.append(button, body);
     terms.append(wrap);
@@ -251,7 +267,17 @@ function renderLecture() {
   const izlazPolje = document.createElement("textarea");
   izlazPolje.rows = 3;
   izlazPolje.setAttribute("aria-label", "Izlazno pitanje");
-  casEl.append(h, outcome, broj, primer, primerKod, pitanje, kratke, otvori, objasnjenje, put, vec, delic, hod, diskusija, terms, overview, izlaz, izlazPolje);
+  const ponovi = document.createElement("button");
+  ponovi.type = "button";
+  ponovi.id = "ponovi-pitanje";
+  ponovi.textContent = "Ponovi pitanje";
+  ponovi.addEventListener("click", () => {
+    objasnjenjePoKoraku.delete(`${cas}:${i}`);
+    fazaPoCasu.set(kljucDiskusije(), 0);
+    podvucenoPoCasu.delete(kljucDiskusije());
+    renderLecture();
+  });
+  casEl.append(h, preduslov, outcome, broj, primer, primerKod, pitanje, kratke, otvori, ponovi, objasnjenje, put, vec, delic, hod, diskusija, terms, overview, izlaz, izlazPolje);
   paintNav();
   fitPanel();
 }
@@ -351,6 +377,10 @@ function fitPanel() {
   sledeci.hidden = cas > 3;
   procitaj.hidden = cas < 4;
   polling.hidden = cas < 8;
+  svezina.hidden = cas < 8;
+  prag.hidden = cas < 8;
+  stanjeCitanja.hidden = cas < 5;
+  istorija.hidden = cas < 7;
   kabl.hidden = cas < 5;
   sesije.hidden = cas < 9;
   fanLocal.hidden = true;
@@ -379,9 +409,9 @@ function zapamtiCifreSobe() {
 }
 
 function uskladiZastavicu(ime, put, ukljucen) {
-  if (poslato[ime] === ukljucen) return;
+  if (poslato[ime] === ukljucen) return Promise.resolve();
   poslato[ime] = ukljucen;
-  fetch(put, {
+  return fetch(put, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ ukljucen }),
@@ -389,9 +419,31 @@ function uskladiZastavicu(ime, put, ukljucen) {
 }
 
 function uskladiKutiju() {
-  uskladiZastavicu("takt", "/api/takt", cas >= 5);
-  uskladiZastavicu("uloge", "/api/uloge", cas >= 9);
-  uskladiZastavicu("baza", "/api/baza", cas >= 7);
+  return Promise.all([
+    uskladiZastavicu("takt", "/api/takt", cas >= 5),
+    uskladiZastavicu("uloge", "/api/uloge", cas >= 9),
+    uskladiZastavicu("baza", "/api/baza", cas >= 7),
+  ]).then(() => {
+    if (cas >= 7) return osveziIstoriju();
+    return undefined;
+  });
+}
+
+function nacrtajIstoriju(komande) {
+  istorija.replaceChildren();
+  for (const komanda of komande || []) {
+    const stavka = document.createElement("li");
+    stavka.textContent = komanda;
+    istorija.append(stavka);
+  }
+}
+
+async function osveziIstoriju() {
+  if (cas < 7) return;
+  const response = await fetch("/api/soba");
+  const data = await response.json().catch(() => null);
+  if (!data || !data.istorija) return;
+  nacrtajIstoriju(data.istorija);
 }
 
 function fileForLecture(n) {
@@ -629,13 +681,21 @@ function connectDovod() {
 
 async function readRoom() {
   const path = cas >= 8 ? "/api/soba?svezina=1" : "/api/soba";
+  const provera = svezina.getAttribute("aria-pressed") === "true";
+  if (cas >= 5) stanjeCitanja.textContent = "čekanje";
   try {
     const response = await fetch(path);
     const data = response.ok ? await response.json() : null;
-    if (response.ok && !ocitavanjeJeNovije(poslednjiTrenutak, data && data.trenutak)) return;
+    if (response.ok && !prihvatiOcitavanje(provera, poslednjiTrenutak, data && data.trenutak)) {
+      if (cas >= 5) stanjeCitanja.textContent = "podatak";
+      return;
+    }
     if (!response.ok) {
       if (cas === 4) displejSobe.crtaj("----");
-      if (cas >= 5) displejSobe.prikaziOcitavanje(response, data);
+      if (cas >= 5) {
+        displejSobe.prikaziOcitavanje(response, data);
+        stanjeCitanja.textContent = "greška";
+      }
       starost.textContent = "";
       kutijaMsg.textContent = `HTTP ${response.status}`;
       zapamtiCifreSobe();
@@ -645,11 +705,16 @@ async function readRoom() {
     displejSobe.prikaziOcitavanje(response, data);
     prekidacSobe.crtaj(data.ukljucen);
     if (data.trenutak) starost.textContent = data.trenutak;
+    if (cas >= 5) stanjeCitanja.textContent = "podatak";
+    if (cas >= 7) nacrtajIstoriju(data.istorija);
     kutijaMsg.textContent = "HTTP 200";
     zapamtiCifreSobe();
   } catch {
     if (cas === 4) displejSobe.crtaj("----");
-    if (cas >= 5) displejSobe.prikaziOcitavanje({ ok: false }, null);
+    if (cas >= 5) {
+      displejSobe.prikaziOcitavanje({ ok: false }, null);
+      stanjeCitanja.textContent = "greška";
+    }
     kutijaMsg.textContent = "nema statusa";
     zapamtiCifreSobe();
   }
@@ -668,6 +733,7 @@ async function sendCommand(ukljucen) {
     if (response.ok) {
       const data = await response.json();
       prekidacSobe.crtaj(data.ukljucen);
+      if (cas >= 7) await osveziIstoriju();
       return;
     }
     if (response.status !== 500) prekidacSobe.crtaj(prethodno);
@@ -705,6 +771,11 @@ sledeci.addEventListener("click", () => {
 });
 
 procitaj.addEventListener("click", readRoom);
+svezina.addEventListener("click", () => {
+  const on = svezina.getAttribute("aria-pressed") !== "true";
+  svezina.setAttribute("aria-pressed", String(on));
+});
+
 polling.addEventListener("click", () => {
   const on = polling.getAttribute("aria-pressed") !== "true";
   polling.setAttribute("aria-pressed", String(on));
@@ -794,20 +865,22 @@ povrati.addEventListener("click", async () => {
 document.querySelector("#search-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const needle = q.value.trim().toLowerCase();
-  if (!needle) return;
-  for (const item of lectures) {
-    const term = item.terms.find((entry) => `${entry.name} ${entry.hint} ${entry.body}`.toLowerCase().includes(needle));
-    if (!term) continue;
-    location.hash = `cas-${item.n}`;
-    requestAnimationFrame(() => {
-      const button = document.querySelector(`#pojam-${term.id}`);
-      if (!button) return;
-      button.click();
-      if (button.nextElementSibling.hidden) button.click();
-      button.focus();
-    });
+  pojamFilter = needle;
+  if (!needle) {
+    renderLecture();
     return;
   }
+  const red = [lecture(), ...lectures.filter((item) => item.n !== cas)];
+  for (const item of red) {
+    const term = item.terms.find((entry) => `${entry.name} ${entry.hint} ${entry.body}`.toLowerCase().includes(needle));
+    if (!term) continue;
+    otvoreniPojmovi.add(`${item.n}:${term.id}`);
+    cas = item.n;
+    location.hash = `cas-${item.n}`;
+    renderLecture();
+    return;
+  }
+  renderLecture();
 });
 
 window.addEventListener("hashchange", () => {

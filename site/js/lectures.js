@@ -47,7 +47,7 @@ export const lectures = [
       { id: "dokument", name: "Dokument", hint: "HTML koji stigne", body: "Dokument je HTML koji browser učita. Iz prikaza se ne šalje nazad.", code: "GET /\n\n<p class=\"digit\">24</p>" },
       { id: "css", name: "CSS", hint: "izgled istog dokumenta", body: "CSS opisuje izgled. Ako stil ne stigne, sadržaj i dalje može da se pročita.", code: ".digit {\n  letter-spacing: 0.08em;\n}" },
     ],
-    overview: "Internet i Web, put od URL-a do prikaza, semantički HTML, pristupačnost, skica.",
+    overview: "Internet naspram Weba, put od URL-a do prikaza, semantički HTML, osnovna pristupačnost, skica.",
     steps: [
       k("client/index.html", "Rez", "Dva foldera stoje jedan pored drugog pre ijedne funkcije.", "client/\nserver/", "Šta browser učitava na ovom času?", [
         ["Oba foldera odjednom.", "Server još ne radi.", false],
@@ -121,7 +121,7 @@ export const lectures = [
       { id: "referenca", name: "Referenca", hint: "dva imena, isti objekat", body: "Dodela objekta kopira referencu. Izmena kroz jedno ime vidi se kroz drugo.", code: "const a = { temperatura: 24 };\nconst b = a;\nb.temperatura = 25;" },
       { id: "niz", name: "map, filter, reduce", hint: "niz tačaka, bez petlje", body: "iznadPraga bira tačke, temperature vadi visinu, prosek sabira. Svaka funkcija radi jednu stvar.", code: "function iznadPraga(tacke) {\n  return tacke.filter((tacka) => tacka.temperatura >= 24);\n}" },
     ],
-    overview: "Dinamički tipovi, gde bi TypeScript stao, JS okruženja, dve verzije iste funkcije.",
+    overview: "Dinamički tipovi, mesto TypeScript provere, JS okruženja, dve verzije iste funkcije.",
     steps: [
       k("client/js/korak.js", "Objekat", "Stanje stane u jedan objekat, pre bilo kog ekrana.", "const soba = { temperatura: 24, zeljeno: false };", "Gde je temperatura?", [
         ["U natpisu na dugmetu.", "Ekran je još ne čita objekat.", false],
@@ -272,7 +272,7 @@ export const lectures = [
       { id: "http", name: "HTTP zahtev", hint: "metod, putanja, status", body: "HTTP daje smisao toku bajtova: metod, putanja, zaglavlja, telo, status. Ovde je to HTTP/1.1.", code: "GET /api/soba HTTP/1.1\n\nHTTP/1.1 200 OK" },
       { id: "json", name: "JSON", hint: "tekst, ne objekat", body: "Telo je tekst. Panel pravi vrednost tek kad pročita taj tekst.", code: "const tekst = await response.text();\nconst soba = JSON.parse(tekst);" },
     ],
-    overview: "IP, UDP, TLS, HTTP/2 i HTTP/3, XML, SOAP, RPC, gRPC, GraphQL, Express.",
+    overview: "IP, UDP, TLS, HTTP/2, HTTP/3, XML, SOAP, RPC, gRPC, GraphQL, Express i middleware.",
     steps: [
       k("server/server.js", "Cela poruka", "Soba prekidača pošalje jednu celu poruku i čeka da stigne cela.", "pošalji(celaPoruka)", "Šta ovaj prenos pretpostavlja?", [
         ["Da delovi smeju da zamene red.", "To pretpostavka još ne priznaje.", false],
@@ -347,7 +347,7 @@ export const lectures = [
       { id: "await", name: "await", hint: "ova funkcija čeka", body: "await zaustavlja tu funkciju, ne ceo browser. Drugi klik i dalje važi.", code: "const response = await fetch(\"/api/soba\");\nif (!response.ok) displej.textContent = \"Err\";" },
       { id: "takt", name: "Takt", hint: "kutija sama menja broj", body: "Takt je setInterval u Node procesu. Diže temperaturu dok je režim isključen.", code: "setInterval(() => {\n  temperatura += ukljucen ? -0.5 : 0.5;\n}, 1000);" },
     ],
-    overview: "Spoljni API, timeout, prekid zahteva, više zahteva odjednom, call stack.",
+    overview: "Spoljni API, timeout, prekid jednog zahteva, više zahteva odjednom, call stack, postojanje task i microtask redova.",
     steps: [
       k("client/js/displej.js", "Tri stanja", "Ekran čeka, ima podatak, ili ima grešku.", "čeka | cifre | greška", "Koliko je vidljivih stanja displeja?", [
         ["Jedno: uvek cifre.", "Čekanje i greška se vide.", false],
@@ -422,7 +422,7 @@ export const lectures = [
       { id: "zeljeno", name: "Željeno stanje", hint: "šta komanda traži", body: "Komanda šalje uključeno ili isključeno. Uspeh vraća samo režim. Temperatura nije u tom telu.", code: "PUT /api/ventilator\n{\"ukljucen\":true}" },
       { id: "validacija", name: "Validacija", hint: "server proverava telo", body: "Tekst umesto boolean vrednosti dobija HTTP 400. Forma ne sprečava drugačije telo.", code: "{\"ukljucen\":\"da\"}\n\nHTTP/1.1 400" },
     ],
-    overview: "REST, stateless obrada, optimistički prikaz, prihvaćena komanda i potvrda uređaja.",
+    overview: "REST, stateless obrada, optimistički prikaz, prihvaćena komanda naspram potvrde fizičkog uređaja.",
     steps: [
       k("server/ventilator.js", "Željeno stanje", "Komanda kaže u kom stanju ventilator treba da bude.", "{ \"ukljucen\": true }", "Šta telo nosi?", [
         ["Koliko je sada stepeni.", "Temperatura nije u komandi.", false],
@@ -571,7 +571,7 @@ export const lectures = [
       { id: "ocitavanje", name: "Očitavanje", hint: "vrednost i trenutak", body: "Čitanje od ovog časa nosi i trenutak. Displej pokazuje starost.", code: "{\"temperatura\":24,\"ukljucen\":false,\"trenutak\":\"2026-10-18T08:00:00Z\"}" },
       { id: "polling", name: "Periodično čitanje", hint: "isto čitanje, samo se ponavlja", body: "Prekidač odmah pošalje jedno čitanje, pa ga ponavlja. SSE i WebSocket ostaju imena drugog načina.", code: "procitaj();\nconst id = setInterval(procitaj, 4000);" },
     ],
-    overview: "SSE i WebSocket, History API, SPA, React, storage, PWA. Dovod sobe mašina čas ne imenuje.",
+    overview: "SSE, WebSocket, History API, SPA, React hooks, storage, PWA i offline. Dovod sobe mašina čas ne imenuje.",
     steps: [
       k("client/js/displej.js", "Miruje", "Takt u kutiji menja broj. Displej sobe prekidača stoji.", "displej ostaje 24", "Zašto displej stoji?", [
         ["Zato što je takt stao.", "Takt i dalje radi u procesu.", false],
@@ -637,7 +637,7 @@ export const lectures = [
     rezerva: {
       problem: "Alat van browsera pročita telo. JS druge stranice ne mora da sme. Šta CORS dokazuje?",
       options: [
-        { key: "A", text: "Ništa o tome ko je korisnik.", ok: true, why: "CORS nije autentifikacija." },
+        { key: "A", text: "JS ne čita telo. To nije dokaz da server ćuti.", ok: true, why: "CORS nije autentifikacija. Alat van browsera i dalje čita telo." },
         { key: "B", text: "Da je pozivalac operater.", ok: false, why: "Pregledačko pravilo nije uloga na kutiji." },
       ],
     },
@@ -646,7 +646,7 @@ export const lectures = [
       { id: "sesija", name: "Sesija", hint: "ključ u cookie-ju, uloga na kutiji", body: "Dva neprozirna ključa stoje u kodu. HttpOnly cookie ne nosi ime uloge.", code: "Set-Cookie: sesija=kljuc-posmatraca; HttpOnly" },
       { id: "statusi", name: "401 i 403", hint: "nema sesije, ili uloga ne sme", body: "Komanda bez cookie-ja je 401. Posmatrač je 403. Loše telo je 400. Izvučen ventilator je 500.", code: "nema cookie → 401\nposmatrac → 403\noperater → 200" },
     ],
-    overview: "Prijava preko treće strane, token, XSS, SQL injection, CSRF, HTTPS. Bez login forme.",
+    overview: "Prijava preko treće strane, tokeni, XSS, SQL injection, CSRF, HTTPS. Bez login forme.",
     steps: [
       k("server/sesija.js", "Dva ključa", "U kodu kutije stoje dva neprozirna ključa.", "kljuc-posmatraca\nkljuc-operatera", "Šta ključ nije?", [
         ["Nasumičan niz koji kutija poznaje.", "To jeste.", false],
@@ -715,7 +715,7 @@ export const lectures = [
       { id: "tri", name: "Tri stanja", hint: "nije stiglo, prošlo je, nije prošlo", body: "Dok odgovor nije stigao, upis nije ni dokazan ni opovrgnut.", code: "ekran: uključeno\nodgovor: još nema\n→ čitaj log i sobu" },
       { id: "ts", name: "TypeScript", hint: "anotacija nije provera uloge", body: "Anotacija poznatog objekta sobe nije runtime validacija. Tip ne dokazuje ulogu.", code: "type Soba = { temperatura: number; ukljucen: boolean };" },
     ],
-    overview: "Proxy, CDN, cloud, mesto nastanka HTML-a, logovi, CI. Tip i predlog asistenta ostaju rečenica u osvrtu, bez drugog glasanja. Blockchain kao evidencija ne dokazuje tačnost senzora.",
+    overview: "Proxy, CDN, cloud, Kubernetes, serverless, mesto nastanka HTML-a, logovi, CI. Tip i predlog asistenta ostaju rečenica u osvrtu, bez drugog glasanja. Blockchain kao evidencija ne dokazuje tačnost senzora.",
     steps: [
       k("server/server.js", "Put", "Jedan zahtev prođe kroz već pripremljene delove.", "browser → Node → baza → log", "Šta čas prati?", [
         ["Novi deploy na javnu adresu.", "Ceo deployment se ne izvodi uživo.", false],
@@ -768,3 +768,8 @@ export const lectures = [
     ],
   },
 ];
+
+export function preduslovCasa(n) {
+  if (n === 1) return "Rez client/ i prazan server/.";
+  return lectures[n - 2].outcome;
+}

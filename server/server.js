@@ -44,17 +44,24 @@ function procitajTelo(zahtev, granica) {
   return new Promise((resolve, reject) => {
     const delovi = [];
     let velicina = 0;
+    let gotovo = false;
+    function zavrsi(fn) {
+      if (gotovo) return;
+      gotovo = true;
+      fn();
+    }
     zahtev.on("data", (deo) => {
+      if (gotovo) return;
       velicina += deo.length;
       if (velicina > granica) {
-        reject(Object.assign(new Error("veliko"), { status: 400 }));
-        zahtev.destroy();
+        zahtev.resume();
+        zavrsi(() => reject(Object.assign(new Error("veliko"), { status: 400, body: { greska: "telo je preveliko" } })));
         return;
       }
       delovi.push(deo);
     });
-    zahtev.on("end", () => resolve(Buffer.concat(delovi).toString("utf8")));
-    zahtev.on("error", reject);
+    zahtev.on("end", () => zavrsi(() => resolve(Buffer.concat(delovi).toString("utf8"))));
+    zahtev.on("error", (greska) => zavrsi(() => reject(greska)));
   });
 }
 
@@ -144,6 +151,14 @@ async function citanjeSobe(odgovor, url) {
     db: dohvatiBazu(),
     svezina: url.searchParams.get("svezina") === "1",
   });
+  if (state.baza && rezultat.body) {
+    const baza = dohvatiBazu();
+    if (!baza) rezultat.body.istorija = [];
+    else {
+      const redovi = await baza.query("SELECT komanda FROM istorija ORDER BY id");
+      rezultat.body.istorija = redovi.rows.map((red) => red.komanda);
+    }
+  }
   posaljiJson(odgovor, rezultat.status, rezultat.body);
 }
 
