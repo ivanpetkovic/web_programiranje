@@ -3,6 +3,10 @@ import { prihvatiOcitavanje } from "./svezina.js";
 
 const nav = document.querySelector("#nav");
 const casEl = document.querySelector("#cas");
+const naslovCasa = document.querySelector("#naslov-casa");
+const diskusijaMesto = document.querySelector("#sekcija-diskusija");
+const podela = document.querySelector("#podela");
+const traka = document.querySelector("#traka");
 const q = document.querySelector("#q");
 const displej = document.querySelector("#displej");
 const displejMasina = document.querySelector("#displej-masina");
@@ -44,6 +48,8 @@ const tacke = [
   { temperatura: 23 },
 ];
 let cas = 1;
+let deo = "koraci";
+let udeoEditora = 50;
 const korakPoCasu = new Map();
 const fazaPoCasu = new Map();
 const rezervaPoCasu = new Map();
@@ -140,14 +146,41 @@ function vecUkucano(item, doIndeksa, putanja) {
     .join("\n\n");
 }
 
+function prikaziDeo() {
+  for (const ime of ["koraci", "diskusija", "editor"]) {
+    const otvoren = ime === deo;
+    document.querySelector(`#sekcija-${ime}`).hidden = !otvoren;
+    const tab = document.querySelector(`#tab-${ime}`);
+    tab.setAttribute("aria-selected", String(otvoren));
+    tab.tabIndex = otvoren ? 0 : -1;
+  }
+}
+
+function usko() {
+  return window.matchMedia("(max-width: 860px)").matches;
+}
+
+function primeniUdeo() {
+  udeoEditora = Math.min(80, Math.max(20, udeoEditora));
+  podela.style.setProperty("--editor-udeo", `${udeoEditora}fr`);
+  podela.style.setProperty("--pregled-udeo", `${100 - udeoEditora}fr`);
+  traka.setAttribute("aria-valuenow", String(udeoEditora));
+}
+
+function pomeriUdeo(clientX) {
+  const okvir = podela.getBoundingClientRect();
+  if (!okvir.width) return;
+  udeoEditora = Math.round(((clientX - okvir.left) / okvir.width) * 100);
+  primeniUdeo();
+}
+
 function renderLecture() {
   const item = lecture();
   const i = Math.min(indeksKoraka(), item.steps.length - 1);
   const korak = item.steps[i];
   const otvoreno = objasnjenjePoKoraku.get(`${cas}:${i}`) === true;
   casEl.replaceChildren();
-  const h = document.createElement("h1");
-  h.textContent = `${item.n}. ${item.title}`;
+  naslovCasa.textContent = `${item.n}. ${item.title}`;
   const preduslov = document.createElement("p");
   preduslov.id = "preduslov";
   preduslov.textContent = `Preduslov: ${preduslovCasa(item.n)}`;
@@ -278,7 +311,9 @@ function renderLecture() {
     podvucenoPoCasu.delete(kljucDiskusije());
     renderLecture();
   });
-  casEl.append(h, preduslov, outcome, broj, primer, primerKod, pitanje, kratke, otvori, ponovi, objasnjenje, put, vec, delic, hod, diskusija, terms, overview, izlaz, izlazPolje);
+  casEl.append(preduslov, outcome, broj, primer, primerKod, pitanje, kratke, otvori, ponovi, objasnjenje, put, vec, delic, hod, terms, overview, izlaz, izlazPolje);
+  diskusijaMesto.replaceChildren(diskusija);
+  prikaziDeo();
   paintNav();
   fitPanel();
 }
@@ -876,6 +911,7 @@ document.querySelector("#search-form").addEventListener("submit", (event) => {
     const term = item.terms.find((entry) => `${entry.name} ${entry.hint} ${entry.body}`.toLowerCase().includes(needle));
     if (!term) continue;
     otvoreniPojmovi.add(`${item.n}:${term.id}`);
+    deo = "koraci";
     cas = item.n;
     location.hash = `cas-${item.n}`;
     renderLecture();
@@ -907,10 +943,40 @@ natpisTeme();
 window.addEventListener("hashchange", () => {
   const n = Number((location.hash.match(/cas-(\d+)/) || [])[1]);
   if (n >= 1 && n <= 10) {
+    if (n !== cas) deo = "koraci";
     cas = n;
     renderLecture();
   }
 });
+
+for (const ime of ["koraci", "diskusija", "editor"]) {
+  document.querySelector(`#tab-${ime}`).addEventListener("click", () => {
+    deo = ime;
+    prikaziDeo();
+  });
+}
+
+traka.addEventListener("pointerdown", (event) => {
+  if (usko()) return;
+  event.preventDefault();
+  const pomeri = (e) => pomeriUdeo(e.clientX);
+  const kraj = () => {
+    window.removeEventListener("pointermove", pomeri);
+    window.removeEventListener("pointerup", kraj);
+  };
+  window.addEventListener("pointermove", pomeri);
+  window.addEventListener("pointerup", kraj);
+  pomeri(event);
+});
+
+traka.addEventListener("keydown", (event) => {
+  if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+  event.preventDefault();
+  udeoEditora += event.key === "ArrowLeft" ? 5 : -5;
+  primeniUdeo();
+});
+
+primeniUdeo();
 
 prime("js/korak.js", (source) => applyKorak(source, true));
 prime("js/niz.js", (source) => applyNiz(source, true));
