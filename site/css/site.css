@@ -24,18 +24,72 @@
   color-scheme: dark;
 }
 
-html[data-tema="svetla"] {
-  --bg: #f3efe6;
+html[data-tema="ugalj"] {
+  --bg: #12110e;
+  --ink: #f4efe4;
+  --muted: #b7ab96;
+  --line: #3a342c;
+  --amber: #ffb000;
+  --amber-dim: #6a4a12;
+  --on-amber: #1a1204;
+  --good: #d7e7a1;
+  --bad: #ff8f7a;
+  --paper: #1c1a16;
+  --code: #111111;
+  --chart: #111111;
+  --diff-dodato: #d7e7a1;
+  --diff-obrisano: #ff8f7a;
+  color-scheme: dark;
+}
+
+html[data-tema="mornar"] {
+  --bg: #011835;
+  --ink: #f4efe4;
+  --muted: #c5d0dc;
+  --line: #1e3a5f;
+  --amber: #ffb000;
+  --amber-dim: #3d3414;
+  --on-amber: #1a1204;
+  --good: #d7e7a1;
+  --bad: #ff8f7a;
+  --paper: #051c38;
+  --code: #081b33;
+  --chart: #111111;
+  --diff-dodato: #d7e7a1;
+  --diff-obrisano: #ff8f7a;
+  color-scheme: dark;
+}
+
+html[data-tema="pesak"] {
+  --bg: #fbfbfb;
   --ink: #1c1a16;
   --muted: #5e564c;
-  --line: #d5cdc0;
-  --amber: #8a5600;
-  --amber-dim: #e7d3a8;
+  --line: #e4d8c4;
+  --amber: #a86300;
+  --amber-dim: #fde8c4;
   --on-amber: #fffdf8;
   --good: #3f6212;
   --bad: #9f2d22;
-  --paper: #fffdf8;
-  --code: #efe8dc;
+  --paper: #fefefe;
+  --code: #f7f1e6;
+  --chart: #111111;
+  --diff-dodato: #3f6212;
+  --diff-obrisano: #9f2d22;
+  color-scheme: light;
+}
+
+html[data-tema="terakota"] {
+  --bg: #fcf4eb;
+  --ink: #2a1a14;
+  --muted: #6b4636;
+  --line: #e4cbb8;
+  --amber: #b81400;
+  --amber-dim: #f8d8c0;
+  --on-amber: #fffdf8;
+  --good: #3f6212;
+  --bad: #9f2d22;
+  --paper: #fef8f1;
+  --code: #faf7f3;
   --chart: #111111;
   --diff-dodato: #3f6212;
   --diff-obrisano: #9f2d22;
@@ -44,17 +98,17 @@ html[data-tema="svetla"] {
 
 @media (prefers-color-scheme: light) {
   :root:not([data-tema]) {
-    --bg: #f3efe6;
+    --bg: #fbfbfb;
     --ink: #1c1a16;
     --muted: #5e564c;
-    --line: #d5cdc0;
-    --amber: #8a5600;
-    --amber-dim: #e7d3a8;
+    --line: #e4d8c4;
+    --amber: #a86300;
+    --amber-dim: #fde8c4;
     --on-amber: #fffdf8;
     --good: #3f6212;
     --bad: #9f2d22;
-    --paper: #fffdf8;
-    --code: #efe8dc;
+    --paper: #fefefe;
+    --code: #f7f1e6;
     --chart: #111111;
     --diff-dodato: #3f6212;
     --diff-obrisano: #9f2d22;
@@ -85,6 +139,23 @@ button, input, textarea { font: inherit; color: inherit; }
   border-bottom: 1px solid var(--line);
 }
 .brand { color: var(--amber); text-decoration: none; font-weight: 700; }
+.tema-meni { position: relative; }
+.tema-spisak {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.35rem);
+  z-index: 4;
+  margin: 0;
+  padding: 0.3rem;
+  list-style: none;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  display: grid;
+  min-width: 9rem;
+}
+.tema-spisak button { text-align: left; }
+.tema-spisak button[aria-current="true"] { color: var(--amber); border-color: var(--amber); }
 .meta, .starost, .log { color: var(--muted); }
 .korak { color: var(--amber); }
 #q, textarea, button {
@@ -276,7 +347,24 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 .ustanova small { display: block; color: var(--muted); }
 .ustanova img { border-radius: 50%; }
 .trazi { position: relative; flex: 1; min-width: 16rem; display: flex; align-items: center; }
-.trazi input { width: 100%; padding-right: 3rem; }
+.trazi input { width: 100%; padding-right: 3rem; padding-left: 2.2rem; }
+.trazi .ikona-slot {
+  position: absolute;
+  left: 0.7rem;
+  color: var(--muted);
+  pointer-events: none;
+  display: grid;
+}
+.ikona { width: 1.05rem; height: 1.05rem; flex: none; display: block; }
+.top > button { display: inline-flex; align-items: center; justify-content: center; }
+.cas-tabovi button, .isecak header button, .korak-traka .meta, .kljucna strong, .pitanje-blok > .meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.option { display: flex; align-items: center; gap: 0.45rem; width: 100%; }
+.isecak header span { display: inline-flex; align-items: center; gap: 0.35rem; }
+.kartica p { display: flex; align-items: center; gap: 0.4rem; }
 .trazi kbd {
   position: absolute;
   right: 0.55rem;
@@ -342,7 +430,8 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 }
 .nav { display: block; border: 0; padding: 0.2rem 0.2rem 1rem; }
 .nav a { color: inherit; }
-.kurs-zaglavlje { margin-bottom: 0.8rem; }
+.kurs-zaglavlje { margin-bottom: 0.8rem; display: flex; gap: 0.45rem; align-items: flex-start; }
+.kurs-zaglavlje > span { min-width: 0; }
 .kurs-zaglavlje strong { display: block; }
 .nedelja-red, .korak-red {
   width: 100%;
@@ -351,6 +440,10 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
   border: 0;
   border-radius: 10px;
 }
+.nedelja-red { display: flex; align-items: center; gap: 0.45rem; }
+.nedelja-red > span { flex: 1; }
+.nedelja-red .ikona, .dir .ikona { color: var(--amber); }
+.dir, .tree button { display: inline-flex; align-items: center; gap: 0.3rem; }
 .nedelja-red small { display: block; color: var(--muted); font-size: 0.82rem; }
 .nedelja-red[aria-current="page"], .korak-red[aria-current="page"] { background: var(--amber-dim); }
 .nedelja-koraci { list-style: none; margin: 0.15rem 0 0.4rem; padding: 0 0 0 0.4rem; }
@@ -391,11 +484,11 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  background: #ffb000;
-  color: #1a1204;
-  border-color: #ffb000;
+  background: var(--amber);
+  color: var(--on-amber);
+  border-color: var(--amber);
 }
-.hod-koraka:disabled { background: #ffb000; color: #1a1204; opacity: 1; }
+.hod-koraka:disabled { background: var(--amber); color: var(--on-amber); opacity: 1; }
 .hod-koraka svg { display: block; }
 .option.izabrano { border-color: var(--amber); box-shadow: inset 0 0 0 1px var(--amber); }
 .pojam-crta {
