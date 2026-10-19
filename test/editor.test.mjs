@@ -3,6 +3,7 @@ import fs from "node:fs";
 import test from "node:test";
 import { PORUKA, primeniPrikaz } from "../site/js/pregled.js";
 import {
+  polazniTekst,
   procitajRadne,
   rezimPosleKoraka,
   serverTabVidljiv,
@@ -85,6 +86,18 @@ test("prekidač menja prikaz i ne briše mapu", () => {
   assert.equal(radna.tekst, "ukucano");
   assert.equal(radna.razlika, false);
   assert.equal(radne["client/index.html"], "ukucano");
+});
+
+test("html fajl bez oznaka čita stvarni dokument", () => {
+  const disk = "<!DOCTYPE html>\n<html lang=\"sr\">\n</html>\n";
+  assert.equal(polazniTekst("client/index.html", "client/\nserver/\n", disk), disk);
+  assert.equal(polazniTekst("client/index.html", "<p>24</p>", disk), "<p>24</p>");
+  assert.equal(polazniTekst("client/css/soba.css", ".digit {}", disk), ".digit {}");
+  assert.match(main, /rezim = "radna"/);
+  assert.match(main, /polazniTekst\(/);
+  assert.match(main, /editor-pun/);
+  assert.match(css, /body\.editor-pun \.okvir\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/);
+  assert.match(css, /body\.editor-pun #nav,\s*body\.editor-pun #kartica\s*\{[^}]*display:\s*none/);
 });
 
 test("dok fajl nije dirnut oba prikaza nose original", () => {

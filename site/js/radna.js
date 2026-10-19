@@ -30,6 +30,14 @@ export function imaRadnu(mapa, putanja) {
   return Object.prototype.hasOwnProperty.call(mapa || {}, putanja);
 }
 
+export function polazniTekst(putanja, original, disk) {
+  const izvor = original ?? "";
+  if (String(putanja).endsWith(".html") && !izvor.includes("<")) {
+    return typeof disk === "string" && disk.includes("<") ? disk : izvor;
+  }
+  return izvor;
+}
+
 export function tekstPrikaza({ putanja, original, radne, rezim }) {
   if (rezim === "radna") {
     const tekst = imaRadnu(radne, putanja) ? radne[putanja] : original;
