@@ -39,6 +39,7 @@ const editorDom = document.querySelector("#editor");
 const editorErr = document.querySelector("#editor-err");
 const putanja = document.querySelector("#putanja");
 const dugmeVerzije = document.querySelector("#verzija");
+const dugmeReseta = document.querySelector("#reset-radne");
 const tree = document.querySelector("#tree");
 const tabFront = document.querySelector("#tab-front");
 const tabBack = document.querySelector("#tab-back");
@@ -921,12 +922,13 @@ function osveziDugmeVerzije(binarni) {
   const natpis = binarni
     ? "Binarni fajl se ne uređuje kao tekst."
     : radnaNaEkranu
-      ? "Prikaži original"
+      ? "Prikaži ugrađenu verziju"
       : "Prikaži radnu verziju";
   dugmeVerzije.replaceChildren(ikonaVerzije(radnaNaEkranu ? "olovka" : "list"));
   dugmeVerzije.disabled = Boolean(binarni);
   dugmeVerzije.setAttribute("aria-label", natpis);
   dugmeVerzije.title = natpis;
+  dugmeReseta.disabled = Boolean(binarni);
 }
 
 function onPromena(tekst) {
@@ -1323,6 +1325,16 @@ dugmeVerzije.addEventListener("click", () => {
   osveziEditor();
 });
 
+dugmeReseta.addEventListener("click", () => {
+  const puna = `${strana}/${openPath[strana]}`;
+  const { original } = izvorZaPutanju(puna);
+  const rezultat = upisiRadnu(localStorage, radne, puna, original);
+  radne = rezultat.mapa;
+  rezim = "radna";
+  otvoreniKljuc = "";
+  osveziEditor();
+});
+
 function osveziTypeahead() {
   const stavke = predlozi(dokument, pojmovi, q.value);
   typeahead.replaceChildren();
@@ -1402,8 +1414,29 @@ function temaSada() {
   return window.matchMedia("(prefers-color-scheme: light)").matches ? "svetla" : "tamna";
 }
 
+function ikonaTeme(vrsta) {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 16 16");
+  svg.setAttribute("width", "16");
+  svg.setAttribute("height", "16");
+  svg.setAttribute("aria-hidden", "true");
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("fill", "currentColor");
+  path.setAttribute(
+    "d",
+    vrsta === "sunce"
+      ? "M8 4.2a3.8 3.8 0 1 1 0 7.6 3.8 3.8 0 0 1 0-7.6zM8 0v2.2M8 13.8V16M0 8h2.2M13.8 8H16M2.3 2.3l1.6 1.6M12.1 12.1l1.6 1.6M13.7 2.3l-1.6 1.6M3.9 12.1l-1.6 1.6"
+      : "M10.2 1.2A6.2 6.2 0 1 0 14.8 10 5 5 0 0 1 10.2 1.2z",
+  );
+  svg.append(path);
+  return svg;
+}
+
 function natpisTeme() {
-  temaDugme.textContent = temaSada() === "tamna" ? "Svetla tema" : "Tamna tema";
+  const sledeca = temaSada() === "tamna" ? "Svetla tema" : "Tamna tema";
+  temaDugme.replaceChildren(ikonaTeme(sledeca === "Svetla tema" ? "sunce" : "mesec"));
+  temaDugme.setAttribute("aria-label", sledeca);
+  temaDugme.title = sledeca;
 }
 
 temaDugme.addEventListener("click", () => {
