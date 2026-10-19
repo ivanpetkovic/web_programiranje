@@ -36,6 +36,7 @@ const tabBack = document.querySelector("#tab-back");
 const sacuvaj = document.querySelector("#sacuvaj");
 const povrati = document.querySelector("#povrati");
 const starost = document.querySelector("#starost");
+const temaDugme = document.querySelector("#tema");
 const otvoreniPojmovi = new Set();
 let pojamFilter = "";
 
@@ -187,7 +188,7 @@ function renderLecture() {
   outcome.id = "ishod";
   outcome.textContent = `Ishod: ${item.outcome}`;
   const broj = document.createElement("p");
-  broj.className = "log";
+  broj.className = "korak";
   broj.textContent = `Korak ${i + 1} od ${item.steps.length}: ${korak.naslov}`;
   const primer = document.createElement("p");
   primer.textContent = korak.primer;
@@ -918,6 +919,26 @@ document.querySelector("#search-form").addEventListener("submit", (event) => {
   }
   renderLecture();
 });
+
+function temaSada() {
+  const zakucana = document.documentElement.dataset.tema;
+  if (zakucana === "tamna" || zakucana === "svetla") return zakucana;
+  return window.matchMedia("(prefers-color-scheme: light)").matches ? "svetla" : "tamna";
+}
+
+function natpisTeme() {
+  temaDugme.textContent = temaSada() === "tamna" ? "Svetla tema" : "Tamna tema";
+}
+
+temaDugme.addEventListener("click", () => {
+  const sledeca = temaSada() === "tamna" ? "svetla" : "tamna";
+  document.documentElement.dataset.tema = sledeca;
+  try {
+    localStorage.setItem("tema", sledeca);
+  } catch (e) {}
+  natpisTeme();
+});
+natpisTeme();
 
 window.addEventListener("hashchange", () => {
   const n = Number((location.hash.match(/cas-(\d+)/) || [])[1]);

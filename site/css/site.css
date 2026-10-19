@@ -11,10 +11,47 @@
   --line: #3a342c;
   --amber: #ffb000;
   --amber-dim: #6a4a12;
+  --on-amber: #1a1204;
   --good: #d7e7a1;
   --bad: #ff8f7a;
   --paper: #1c1a16;
+  --code: #111111;
+  --chart: #111111;
   color-scheme: dark;
+}
+
+html[data-tema="svetla"] {
+  --bg: #f3efe6;
+  --ink: #1c1a16;
+  --muted: #5e564c;
+  --line: #d5cdc0;
+  --amber: #8a5600;
+  --amber-dim: #e7d3a8;
+  --on-amber: #fffdf8;
+  --good: #3f6212;
+  --bad: #9f2d22;
+  --paper: #fffdf8;
+  --code: #efe8dc;
+  --chart: #111111;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-tema]) {
+    --bg: #f3efe6;
+    --ink: #1c1a16;
+    --muted: #5e564c;
+    --line: #d5cdc0;
+    --amber: #8a5600;
+    --amber-dim: #e7d3a8;
+    --on-amber: #fffdf8;
+    --good: #3f6212;
+    --bad: #9f2d22;
+    --paper: #fffdf8;
+    --code: #efe8dc;
+    --chart: #111111;
+    color-scheme: light;
+  }
 }
 
 * { box-sizing: border-box; }
@@ -31,7 +68,7 @@ button, input, textarea { font: inherit; color: inherit; }
   position: absolute;
   left: -999px;
 }
-.skip:focus { left: 1rem; top: 1rem; background: var(--amber); color: #1a1204; padding: 0.4rem 0.7rem; z-index: 3; }
+.skip:focus { left: 1rem; top: 1rem; background: var(--amber); color: var(--on-amber); padding: 0.4rem 0.7rem; z-index: 3; }
 .top, .nav {
   display: flex;
   gap: 0.8rem;
@@ -41,6 +78,7 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 .brand { color: var(--amber); text-decoration: none; font-weight: 700; }
 .meta, .starost, .log { color: var(--muted); }
+.korak { color: var(--amber); }
 #q, textarea, button {
   background: var(--paper);
   border: 1px solid var(--line);
@@ -125,7 +163,7 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
   width: 100%;
   height: 84px;
   margin-top: 0.6rem;
-  background: #111;
+  background: var(--chart);
   border: 1px solid var(--line);
   border-radius: 8px;
 }
@@ -167,7 +205,7 @@ textarea { min-height: 9rem; font-family: ui-monospace, monospace; font-size: 0.
 .term p, pre { margin: 0.4rem 0 0; }
 pre {
   white-space: pre-wrap;
-  background: #111;
+  background: var(--code);
   padding: 0.6rem;
   border-radius: 8px;
   font-family: ui-monospace, monospace;
