@@ -39,7 +39,8 @@ export function polazniTekst(putanja, original, disk) {
   return izvor;
 }
 
-export function tekstPrikaza({ putanja, original, radne, rezim }) {
+export function tekstPrikaza({ putanja, original, radne, rezim, binarni }) {
+  if (binarni) return { tekst: original, razlika: false, samoCitaj: true };
   if (rezim === "radna") {
     const sacuvano = imaRadnu(radne, putanja) ? radne[putanja] : "";
     const tekst = sacuvano.trim() ? sacuvano : original;
