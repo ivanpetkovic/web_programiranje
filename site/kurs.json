@@ -4,7 +4,7 @@
   "ustanovaBok": "Elektronski fakultet, Niš",
   "naslov": "Web Programming",
   "oznaka": "MP",
-  "grb": "/img/grb.svg",
+  "grb": "/img/elfak_logo.png",
   "trajanjeNedelja": 10,
   "preduslovPrve": "Browser učitava client/. server/ još nema fajlove.",
   "nedelje": [

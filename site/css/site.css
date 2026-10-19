@@ -274,7 +274,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 }
 .ustanova strong { display: block; color: var(--ink); font-size: 0.92rem; }
 .ustanova small { display: block; color: var(--muted); }
-.ustanova img { border-radius: 50%; }
+.ustanova img { width: 48px; height: 48px; object-fit: contain; border-radius: 50%; }
 .trazi { position: relative; flex: 1; min-width: 16rem; display: flex; align-items: center; }
 .trazi input { width: 100%; padding-right: 3rem; }
 .trazi kbd {
