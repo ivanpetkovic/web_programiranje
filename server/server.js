@@ -12,7 +12,9 @@ const NAJDUZA_PUTANJA = 200;
 const PORT = Number(process.env.PORT) || PODRAZUMEVANI_PORT;
 const SAJT = path.join(__dirname, "..", "site");
 const KLIJENT = path.join(__dirname, "..", "client");
-const FONT = path.join(__dirname, "..", "assets", "fonts", "digital-7", "digital-7 (mono).ttf");
+const FONT = path.join(KLIJENT, "assets", "fonts", "digital-7", "digital-7 (mono).ttf");
+const NAPOMENA_BINARNOG = "Binarni fajl. Pregledač ga učitava kao fajl, ne kao tekst.";
+const TEKSTUALNI = new Set([".html", ".css", ".js", ".mjs", ".json", ".md", ".txt", ".svg"]);
 const KORENI = { client: KLIJENT, server: __dirname };
 const MODULI_PO_ZAHTEVU = new Set(["soba.js", "ventilator.js", "sesija.js"]);
 const MODULI_PRI_POKRETANJU = new Set(["server.js", "stanje.js", "baza.js"]);
@@ -130,6 +132,10 @@ function fajlJeCitljiv(fajl) {
   return Boolean(fajl) && fs.existsSync(fajl) && fs.statSync(fajl).isFile();
 }
 
+function fajlJeBinaran(fajl) {
+  return !TEKSTUALNI.has(path.extname(fajl).toLowerCase());
+}
+
 function osveziModul(fajl) {
   if (!MODULI_PO_ZAHTEVU.has(path.basename(fajl))) return;
   delete require.cache[require.resolve(fajl)];
@@ -192,6 +198,10 @@ function procitajFajl(odgovor, url) {
     posaljiJson(odgovor, 404, { greska: "nema fajla" });
     return;
   }
+  if (fajlJeBinaran(fajl)) {
+    posaljiJson(odgovor, 200, { binarni: true, napomena: NAPOMENA_BINARNOG });
+    return;
+  }
   posaljiJson(odgovor, 200, { izvor: fs.readFileSync(fajl, "utf8") });
 }
 
@@ -200,6 +210,10 @@ async function sacuvajFajl(zahtev, odgovor) {
   const fajl = putanjaFajla(telo.strana, telo.put);
   if (!fajlJeCitljiv(fajl)) {
     posaljiJson(odgovor, 404, { greska: "nema fajla" });
+    return;
+  }
+  if (fajlJeBinaran(fajl)) {
+    posaljiJson(odgovor, 400, { greska: "binarni fajl se ne upisuje kao tekst" });
     return;
   }
   if (typeof telo.izvor !== "string") {

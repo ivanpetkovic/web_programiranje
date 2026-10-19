@@ -916,10 +916,15 @@ function ikonaVerzije(vrsta) {
   return svg;
 }
 
-function osveziDugmeVerzije() {
+function osveziDugmeVerzije(binarni) {
   const radnaNaEkranu = rezim === "radna";
-  const natpis = radnaNaEkranu ? "Prikaži original" : "Prikaži radnu verziju";
+  const natpis = binarni
+    ? "Binarni fajl se ne uređuje kao tekst."
+    : radnaNaEkranu
+      ? "Prikaži original"
+      : "Prikaži radnu verziju";
   dugmeVerzije.replaceChildren(ikonaVerzije(radnaNaEkranu ? "olovka" : "list"));
+  dugmeVerzije.disabled = Boolean(binarni);
   dugmeVerzije.setAttribute("aria-label", natpis);
   dugmeVerzije.title = natpis;
 }
@@ -939,30 +944,33 @@ function onPromena(tekst) {
 const diskKes = new Map();
 let editorToken = 0;
 
-async function tekstSaDiska(puna, original) {
-  if (!puna.endsWith(".html") || String(original || "").includes("<")) return "";
+async function tekstSaDiska(puna) {
   if (diskKes.has(puna)) return diskKes.get(puna);
   const side = puna.slice(0, puna.indexOf("/"));
   const put = puna.slice(puna.indexOf("/") + 1);
   const response = await fetch(`/api/fajl?strana=${side}&put=${encodeURIComponent(put)}`);
   const data = await response.json().catch(() => ({}));
-  const tekst = typeof data.izvor === "string" ? data.izvor : "";
-  diskKes.set(puna, tekst);
-  return tekst;
+  const zapis = data.binarni
+    ? { tekst: typeof data.napomena === "string" ? data.napomena : "Binarni fajl.", binarni: true }
+    : { tekst: typeof data.izvor === "string" ? data.izvor : "", binarni: false };
+  diskKes.set(puna, zapis);
+  return zapis;
 }
 
 async function osveziEditor() {
   const token = ++editorToken;
   const puna = `${strana}/${openPath[strana]}`;
   const { original, prethodni } = izvorZaPutanju(puna);
-  const disk = await tekstSaDiska(puna, original);
+  const saDiska = await tekstSaDiska(puna);
   if (token !== editorToken) return;
-  const polazni = polazniTekst(puna, original, disk);
+  const polazni = saDiska.binarni ? saDiska.tekst : polazniTekst(puna, original, saDiska.tekst);
+  const tekstOriginala = saDiska.binarni ? saDiska.tekst : rezim === "original" ? original : polazni;
   const izbor = tekstPrikaza({
     putanja: puna,
-    original: rezim === "original" ? original : polazni,
+    original: tekstOriginala,
     radne,
     rezim,
+    binarni: saDiska.binarni,
   });
   const linije = izbor.razlika ? razlikaOriginala(prethodni, original, radne[puna]) : null;
   prikazaniTekst = izbor.tekst;
@@ -974,7 +982,7 @@ async function osveziEditor() {
     put: puna,
     onPromena,
   });
-  osveziDugmeVerzije();
+  osveziDugmeVerzije(saDiska.binarni);
   applyLive();
 }
 

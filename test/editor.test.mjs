@@ -92,7 +92,30 @@ test("html fajl bez oznaka čita stvarni dokument", () => {
   const disk = "<!DOCTYPE html>\n<html lang=\"sr\">\n</html>\n";
   assert.equal(polazniTekst("client/index.html", "client/\nserver/\n", disk), disk);
   assert.equal(polazniTekst("client/index.html", "<p>24</p>", disk), "<p>24</p>");
-  assert.equal(polazniTekst("client/css/soba.css", ".digit {}", disk), ".digit {}");
+  const cssDisk = '@font-face { font-family: "Digital-7 Mono"; font-style: normal; }\n.digit { font-family: "Digital-7 Mono", monospace; font-style: normal; }\n';
+  assert.equal(polazniTekst("client/css/soba.css", ".digit { letter-spacing: 0.08em; }", cssDisk), cssDisk);
+  assert.equal(polazniTekst("client/css/soba.css", "", cssDisk), cssDisk);
+  const sobaCss = fs.readFileSync(new URL("../client/css/soba.css", import.meta.url), "utf8");
+  assert.match(sobaCss, /font-family:\s*"Digital-7 Mono"/);
+  assert.match(sobaCss, /font-style:\s*normal/);
+  assert.match(sobaCss, /url\("\/client\/assets\/fonts\/digital-7\/digital-7%20\(mono\)\.ttf"\)/);
+  const font = tekstPrikaza({
+    putanja: "client/assets/fonts/digital-7/digital-7 (mono).ttf",
+    original: "Binarni fajl. Pregledač ga učitava kao fajl, ne kao tekst.",
+    radne: { "client/assets/fonts/digital-7/digital-7 (mono).ttf": "izmena" },
+    rezim: "radna",
+    binarni: true,
+  });
+  assert.equal(font.samoCitaj, true);
+  assert.equal(font.tekst.includes("izmena"), false);
+  assert.match(font.tekst, /Binarni fajl/);
+  const prazna = tekstPrikaza({
+    putanja: "client/css/soba.css",
+    original: cssDisk,
+    radne: { "client/css/soba.css": "" },
+    rezim: "radna",
+  });
+  assert.equal(prazna.tekst, cssDisk);
   assert.match(main, /rezim = "radna"/);
   assert.match(main, /polazniTekst\(/);
   assert.match(main, /editor-pun/);

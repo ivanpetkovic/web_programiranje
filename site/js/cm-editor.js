@@ -79,7 +79,8 @@ export function napraviPogled(roditelj) {
 }
 
 export function postaviPogled(pogled, { tekst, samoCitaj, linije, put, onPromena }) {
-  const doc = linije ? linije.map((linija) => linija.tekst).join("\n") : tekst;
+  const izLinija = Array.isArray(linije) && linije.length ? linije.map((linija) => linija.tekst).join("\n") : "";
+  const doc = izLinija || tekst || "";
   pogled.setState(
     EditorState.create({
       doc,
