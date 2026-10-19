@@ -940,20 +940,9 @@ function izvorZaPutanju(puna) {
   return { original, prethodni };
 }
 
-function ikonaVerzije(vrsta) {
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("viewBox", "0 0 16 16");
-  svg.setAttribute("width", "16");
-  svg.setAttribute("height", "16");
-  svg.setAttribute("aria-hidden", "true");
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("fill", "currentColor");
-  path.setAttribute(
-    "d",
-    vrsta === "olovka" ? "M11.2 1.4l3.4 3.4L6 13.4H2.6V10L11.2 1.4z" : "M3 1h7l4 4v10H3V1zm7 1.2V5h2.8L10 2.2z",
-  );
-  svg.append(path);
-  return svg;
+function staviIkonu(dugme, ime) {
+  const znak = ikonica(ime);
+  if (znak) dugme.replaceChildren(znak);
 }
 
 function osveziDugmeVerzije(binarni) {
@@ -963,7 +952,8 @@ function osveziDugmeVerzije(binarni) {
     : radnaNaEkranu
       ? "Prikaži ugrađenu verziju"
       : "Prikaži radnu verziju";
-  dugmeVerzije.replaceChildren(ikonaVerzije(radnaNaEkranu ? "olovka" : "list"));
+  staviIkonu(dugmeVerzije, radnaNaEkranu ? "code-xml" : "book-open");
+  staviIkonu(dugmeReseta, "arrow-left");
   dugmeVerzije.disabled = Boolean(binarni);
   dugmeVerzije.setAttribute("aria-label", natpis);
   dugmeVerzije.title = natpis;
