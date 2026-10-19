@@ -97,6 +97,39 @@ test("zakucana tema se čita pre stilova", () => {
   assert.match(html, /catch\s*\(/);
 });
 
+test("gradivo, jedna kolona i žuti hod", () => {
+  assert.match(html, /id="tab-koraci"[^>]*>Gradivo</);
+  assert.match(html, /Gradivo, Diskusija i Editor su tri taba/);
+  assert.match(html, /otvaraju taj korak u Gradivu/);
+  assert.equal(html.includes(">Koraci<"), false);
+  assert.match(html, /aria-label="Gradivo nedelje"/);
+  const mreza = blok(css, "\\.opcije-mreza\\s*\\{");
+  assert.match(mreza, /grid-template-columns:\s*1fr\s*;/);
+  assert.equal(mreza.includes("1fr 1fr"), false);
+  const hod = blok(css, "\\.hod-koraka\\s*\\{");
+  assert.match(hod, /background:\s*#ffb000/);
+  assert.match(hod, /color:\s*#1a1204/);
+  assert.ok(kontrast("#ffb000", "#1a1204") >= 4.5, "žuti hod");
+  assert.match(main, /className = "hod-koraka"/);
+  assert.match(main, /trakaKoraka\.append\(prethodni, broj, daljeKorak/);
+  assert.match(main, /strelica\("levo"\)/);
+  assert.match(main, /strelica\("desno"\)/);
+  assert.equal(main.includes('hod.append(prethodni, daljeKorak)'), false);
+  assert.equal(css.includes("#sledeci"), false);
+  assert.equal(html.includes('id="sledeci" class="hod-koraka"'), false);
+});
+
+test("boje razlike drže kontrast u obe teme", () => {
+  assert.ok(kontrast(tamna["diff-dodato"], tamna.code) >= 4.5, "tamno dodato");
+  assert.ok(kontrast(tamna["diff-obrisano"], tamna.code) >= 4.5, "tamno obrisano");
+  for (const svetla of [svetlaZakucana, svetlaSistem]) {
+    assert.ok(kontrast(svetla["diff-dodato"], svetla.code) >= 4.5, "svetlo dodato");
+    assert.ok(kontrast(svetla["diff-obrisano"], svetla.code) >= 4.5, "svetlo obrisano");
+  }
+  assert.match(css, /\.cm-linija-dodato[^{]*\{[^}]*var\(--diff-dodato\)/);
+  assert.match(css, /\.cm-linija-obrisano[^{]*\{[^}]*var\(--diff-obrisano\)/);
+});
+
 test("red koraka koristi ćilibar, a beleške ostaju prigušene", () => {
   assert.match(main, /broj\.className = "korak"/);
   assert.match(main, /Korak \$\{i \+ 1\} od \$\{item\.steps\.length\}/);
