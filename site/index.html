@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Kontrolna soba — web programiranje</title>
+    <title>Web Programming</title>
     <script>
       try {
         var tema = localStorage.getItem("tema");
@@ -16,88 +16,130 @@
   <body>
     <a class="skip" href="#cas">Preskoči na čas</a>
     <header class="top">
-      <a class="brand" href="#cas-1">Kontrolna soba</a>
-      <form id="search-form" role="search">
+      <a class="ustanova" href="#cas-1">
+        <img id="grb" alt="" width="42" height="42" />
+        <span>
+          <strong id="ustanova"></strong>
+          <small id="ustanova-red"></small>
+        </span>
+      </a>
+      <p id="naslov-kursa" class="brand"></p>
+      <form id="search-form" class="trazi" role="search">
         <label class="sr" for="q">Nađi pojam</label>
-        <input id="q" type="search" placeholder="Nađi pojam" autocomplete="off" />
+        <input id="q" type="search" placeholder="Nađi pojam, pitanje ili primer koda..." autocomplete="off" role="combobox" aria-expanded="false" aria-controls="typeahead" aria-autocomplete="list" />
+        <kbd aria-hidden="true">⌘K</kbd>
+        <ul id="typeahead" class="typeahead" role="listbox" hidden></ul>
       </form>
-      <p class="meta">10 časova</p>
-      <button type="button" id="tema">Svetla tema</button>
-    </header>
-    <nav id="nav" class="nav" aria-label="Časovi"></nav>
-    <main class="stranica">
-      <div class="cas-glava">
-        <h1 id="naslov-casa"></h1>
-        <div class="cas-tabovi" role="tablist" aria-label="Delovi časa">
-          <button type="button" id="tab-koraci" role="tab" aria-selected="true" aria-controls="sekcija-koraci">Koraci</button>
-          <button type="button" id="tab-diskusija" role="tab" aria-selected="false" aria-controls="sekcija-diskusija" tabindex="-1">Diskusija</button>
-          <button type="button" id="tab-editor" role="tab" aria-selected="false" aria-controls="sekcija-editor" tabindex="-1">Editor</button>
-        </div>
+      <div class="nedelja-klizac">
+        <p id="natpis-nedelje" class="meta"></p>
+        <div id="klizac" class="klizac" role="group" aria-label="Nedelje"></div>
       </div>
-      <section id="sekcija-koraci" role="tabpanel" aria-labelledby="tab-koraci">
-        <article id="cas" class="cas"></article>
-      </section>
-      <section id="sekcija-diskusija" role="tabpanel" aria-labelledby="tab-diskusija" hidden></section>
-      <section id="sekcija-editor" role="tabpanel" aria-labelledby="tab-editor" hidden>
-        <div class="podela" id="podela">
-          <section class="files" id="files" aria-label="Fajlovi">
-            <div class="tabs" role="tablist" aria-label="Strana">
-              <button type="button" id="tab-front" role="tab" aria-selected="true" aria-controls="tree">Front</button>
-              <button type="button" id="tab-back" role="tab" aria-selected="false" aria-controls="tree">Back</button>
-            </div>
-            <div class="file-layout">
-              <div id="tree" class="tree"></div>
-              <div class="editor" id="editor-wrap">
-                <span id="putanja">client/css/soba.css</span>
-                <textarea id="editor" spellcheck="false" aria-label="Sadržaj fajla"></textarea>
-                <span class="row">
-                  <button type="button" id="sacuvaj">Sačuvaj</button>
-                  <button type="button" id="povrati">Povrati</button>
-                </span>
-                <span id="editor-err" class="err" role="status"></span>
+      <button type="button" id="prethodna-nedelja" aria-label="Prethodna nedelja">‹</button>
+      <button type="button" id="sledeca-nedelja" aria-label="Sledeća nedelja">›</button>
+      <button type="button" id="sacuvaj-zaglavlje" aria-label="Sačuvaj korak">⚑</button>
+      <button type="button" id="pomoc" aria-label="Pomoć">?</button>
+      <button type="button" id="tema">Svetla tema</button>
+      <span id="oznaka" class="oznaka"></span>
+    </header>
+    <div class="okvir">
+      <nav id="nav" class="nav" aria-label="Nedelje"></nav>
+      <main class="stranica">
+        <p id="greska-kursa" class="err" hidden></p>
+        <div class="cas-glava">
+          <p id="mrvice" class="meta"></p>
+          <h1 id="naslov-casa"></h1>
+          <p id="podnaslov-casa"></p>
+          <p id="preduslov" class="meta"></p>
+          <div id="koraci-kontrole" class="koraci-kontrole" role="group" aria-label="Koraci nedelje"></div>
+          <div id="definicija" class="definicija" hidden></div>
+          <div class="cas-tabovi" role="tablist" aria-label="Delovi časa">
+            <button type="button" id="tab-koraci" role="tab" aria-selected="true" aria-controls="sekcija-koraci">Koraci</button>
+            <button type="button" id="tab-diskusija" role="tab" aria-selected="false" aria-controls="sekcija-diskusija" tabindex="-1">Diskusija</button>
+            <button type="button" id="tab-editor" role="tab" aria-selected="false" aria-controls="sekcija-editor" tabindex="-1">Editor</button>
+          </div>
+        </div>
+        <section id="sekcija-koraci" role="tabpanel" aria-labelledby="tab-koraci">
+          <article id="cas" class="cas"></article>
+        </section>
+        <section id="sekcija-diskusija" role="tabpanel" aria-labelledby="tab-diskusija" hidden></section>
+        <section id="sekcija-editor" role="tabpanel" aria-labelledby="tab-editor" hidden>
+          <div class="podela" id="podela">
+            <section class="files" id="files" aria-label="Fajlovi">
+              <div class="tabs" role="tablist" aria-label="Strana">
+                <button type="button" id="tab-front" role="tab" aria-selected="true" aria-controls="tree">Front</button>
+                <button type="button" id="tab-back" role="tab" aria-selected="false" aria-controls="tree">Back</button>
               </div>
-            </div>
-          </section>
-          <div id="traka" class="traka" role="separator" tabindex="0" aria-orientation="vertical" aria-valuemin="20" aria-valuemax="80" aria-valuenow="50" aria-label="Odnos editora i pregleda"></div>
-          <section class="panel" aria-label="Kontrolna soba">
-        <div class="room" id="soba-prekidaca">
-          <header class="room-h">
-            <h2>Soba prekidača</h2>
-            <span id="starost" class="starost" hidden></span>
-          </header>
-          <p class="digit" id="displej" aria-live="polite">24</p>
-          <p id="prag" class="meta" hidden>prag 30</p>
-          <p id="stanje-citanja" class="log" hidden></p>
-          <div class="row">
-            <button type="button" id="prekidac" aria-pressed="false">Uključi</button>
-            <button type="button" id="sledeci">Sledeći korak</button>
-            <button type="button" id="procitaj" hidden>Pročitaj</button>
-            <button type="button" id="polling" hidden aria-pressed="false">Periodično</button>
-            <button type="button" id="svezina" hidden aria-pressed="true">Provera svežine</button>
+              <div class="file-layout">
+                <div id="tree" class="tree"></div>
+                <div class="editor" id="editor-wrap">
+                  <span id="putanja">client/css/soba.css</span>
+                  <textarea id="editor" spellcheck="false" aria-label="Sadržaj fajla"></textarea>
+                  <span class="row">
+                    <button type="button" id="sacuvaj">Sačuvaj</button>
+                    <button type="button" id="povrati">Povrati</button>
+                  </span>
+                  <span id="editor-err" class="err" role="status"></span>
+                </div>
+              </div>
+            </section>
+            <div id="traka" class="traka" role="separator" tabindex="0" aria-orientation="vertical" aria-valuemin="20" aria-valuemax="80" aria-valuenow="50" aria-label="Odnos editora i pregleda"></div>
+            <section class="panel" aria-label="Kontrolna soba">
+              <div class="room" id="soba-prekidaca">
+                <header class="room-h">
+                  <h2>Soba prekidača</h2>
+                  <span id="starost" class="starost" hidden></span>
+                </header>
+                <p class="digit" id="displej" aria-live="polite">24</p>
+                <p id="prag" class="meta" hidden>prag 30</p>
+                <p id="stanje-citanja" class="log" hidden></p>
+                <div class="row">
+                  <button type="button" id="prekidac" aria-pressed="false">Uključi</button>
+                  <button type="button" id="sledeci">Sledeći korak</button>
+                  <button type="button" id="procitaj" hidden>Pročitaj</button>
+                  <button type="button" id="polling" hidden aria-pressed="false">Periodično</button>
+                  <button type="button" id="svezina" hidden aria-pressed="true">Provera svežine</button>
+                </div>
+                <div class="fan-local" id="fan-local" hidden aria-hidden="true">
+                  <span class="blades" id="blades-local"></span>
+                </div>
+                <p id="log" class="log" hidden></p>
+                <canvas id="grafikon" width="320" height="84" hidden aria-label="Linija visina iz niza"></canvas>
+              </div>
+              <div class="room machine" id="soba-masina" hidden>
+                <header class="room-h"><h2>Soba mašina</h2></header>
+                <p class="digit" id="displej-masina">24</p>
+                <div class="fan" id="fan" aria-hidden="true"><span class="blades" id="blades"></span></div>
+                <ol id="istorija" hidden></ol>
+                <button type="button" id="kabl" hidden>Kabl je u kutiji</button>
+                <div class="sesije" id="sesije" hidden>
+                  <button type="button" id="ses-pos">Posmatrač</button>
+                  <button type="button" id="ses-ope">Operater</button>
+                  <button type="button" id="ses-ne">Bez sesije</button>
+                </div>
+                <p id="kutija-msg" class="log"></p>
+              </div>
+            </section>
           </div>
-          <div class="fan-local" id="fan-local" hidden aria-hidden="true">
-            <span class="blades" id="blades-local"></span>
-          </div>
-          <p id="log" class="log" hidden></p>
-          <canvas id="grafikon" width="320" height="84" hidden aria-label="Linija visina iz niza"></canvas>
-        </div>
-        <div class="room machine" id="soba-masina" hidden>
-          <header class="room-h"><h2>Soba mašina</h2></header>
-          <p class="digit" id="displej-masina">24</p>
-          <div class="fan" id="fan" aria-hidden="true"><span class="blades" id="blades"></span></div>
-          <ol id="istorija" hidden></ol>
-          <button type="button" id="kabl" hidden>Kabl je u kutiji</button>
-          <div class="sesije" id="sesije" hidden>
-            <button type="button" id="ses-pos">Posmatrač</button>
-            <button type="button" id="ses-ope">Operater</button>
-            <button type="button" id="ses-ne">Bez sesije</button>
-          </div>
-          <p id="kutija-msg" class="log"></p>
-        </div>
-          </section>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+      <aside id="kartica" class="kartica" aria-label="Napredak">
+        <p id="kartica-natpis"></p>
+        <div class="procenat-red"><span id="kartica-procenat"></span></div>
+        <div class="procenat-traka" aria-hidden="true"><span id="kartica-popuna"></span></div>
+        <p id="kartica-koraci"></p>
+        <p id="kartica-minuta" class="meta"></p>
+      </aside>
+    </div>
+    <dialog id="pomoc-dijalog">
+      <form method="dialog">
+        <h2>Pomoć</h2>
+        <p>Pojam iz pojmovnika u tekstu lekcije podvučen je isprekidanom crtom. Ista polja stoje u tooltipu i u listi pretrage.</p>
+        <p>Nađi pojam otvara definiciju i svaku lekciju u kojoj se pojam ponavlja. Pitanje i primer koda otvaraju korak koji ih sadrži.</p>
+        <p>Koraci, Diskusija i Editor su tri taba. Na ekranu je tačno jedan.</p>
+        <button type="submit">Zatvori</button>
+      </form>
+    </dialog>
+    <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
     <script type="module" src="/js/main.js"></script>
   </body>
 </html>

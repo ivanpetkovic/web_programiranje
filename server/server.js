@@ -22,6 +22,7 @@ const TIPOVI = {
   ".js": "text/javascript; charset=utf-8",
   ".ttf": "font/ttf",
   ".svg": "image/svg+xml",
+  ".json": "application/json",
 };
 
 function ucitajModul(ime) {
@@ -320,6 +321,18 @@ function stranicaKlijenta(odgovor, url) {
   posaljiFajl(odgovor, fajl);
 }
 
+function pojmovnik(odgovor) {
+  fs.readFile(path.join(__dirname, "..", "GLOSSARY.md"), (greska, sadrzaj) => {
+    if (greska) {
+      odgovor.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
+      odgovor.end("nema");
+      return;
+    }
+    odgovor.writeHead(200, { "content-type": "text/plain; charset=utf-8", "cache-control": "no-store" });
+    odgovor.end(sadrzaj);
+  });
+}
+
 function stranicaSajta(odgovor, url) {
   const relativna = url.pathname === "/" ? "/index.html" : url.pathname;
   const fajl = path.normalize(path.join(SAJT, relativna));
@@ -345,6 +358,7 @@ async function razvrstaj(zahtev, odgovor) {
   if (zahtev.method === "POST" && url.pathname === "/api/uloge") return postaviUloge(zahtev, odgovor);
   if (zahtev.method === "POST" && url.pathname === "/api/baza") return postaviBazu(zahtev, odgovor);
   if (zahtev.method === "GET" && url.pathname === "/dovod") return otvoriDovod(zahtev, odgovor);
+  if (zahtev.method === "GET" && url.pathname === "/pojmovnik") return pojmovnik(odgovor);
   if (zahtev.method === "GET" && url.pathname === "/fonts/digital-7-mono.ttf") return posaljiFajl(odgovor, FONT);
   if (zahtev.method === "GET" && url.pathname.startsWith("/client/")) return stranicaKlijenta(odgovor, url);
   if (zahtev.method === "GET") return stranicaSajta(odgovor, url);
