@@ -17,6 +17,8 @@
   --paper: #1c1a16;
   --code: #111111;
   --chart: #111111;
+  --diff-dodato: #d7e7a1;
+  --diff-obrisano: #ff8f7a;
   color-scheme: dark;
 }
 
@@ -33,6 +35,8 @@ html[data-tema="svetla"] {
   --paper: #fffdf8;
   --code: #efe8dc;
   --chart: #111111;
+  --diff-dodato: #3f6212;
+  --diff-obrisano: #9f2d22;
   color-scheme: light;
 }
 
@@ -50,6 +54,8 @@ html[data-tema="svetla"] {
     --paper: #fffdf8;
     --code: #efe8dc;
     --chart: #111111;
+    --diff-dodato: #3f6212;
+    --diff-obrisano: #9f2d22;
     color-scheme: light;
   }
 }
@@ -193,7 +199,15 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 }
 .tree button[aria-current="true"] { color: var(--amber); }
 #putanja { font-family: ui-monospace, monospace; color: var(--muted); }
-.editor { display: grid; gap: 0.35rem; }
+.editor { display: grid; gap: 0.35rem; min-width: 0; width: 100%; align-content: start; }
+.putanja-red { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; min-width: 0; }
+.putanja-red #putanja { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+#verzija { display: inline-flex; align-items: center; justify-content: center; padding: 0.3rem; }
+#editor { width: 100%; min-width: 0; min-height: 18rem; }
+.cm-editor { width: 100%; max-width: 100%; min-height: 18rem; }
+.cm-scroller { overflow: auto; }
+.cm-linija-dodato, .cm-linija-dodato span { color: var(--diff-dodato) !important; }
+.cm-linija-obrisano, .cm-linija-obrisano span { color: var(--diff-obrisano) !important; }
 textarea { min-height: 9rem; font-family: ui-monospace, monospace; font-size: 0.92rem; }
 .err { color: var(--bad); min-height: 1.2em; }
 .options { display: grid; gap: 0.45rem; margin: 0.8rem 0; }
@@ -364,7 +378,17 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 .isecak .br { display: inline-block; width: 1.6rem; color: var(--muted); }
 .isecak .komentar { color: var(--good); }
 .pitanje-blok { margin-top: 1rem; }
-.opcije-mreza { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
+.opcije-mreza { display: grid; grid-template-columns: 1fr; gap: 0.55rem; }
+.hod-koraka {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #ffb000;
+  color: #1a1204;
+  border-color: #ffb000;
+}
+.hod-koraka:disabled { background: #ffb000; color: #1a1204; opacity: 1; }
+.hod-koraka svg { display: block; }
 .option.izabrano { border-color: var(--amber); box-shadow: inset 0 0 0 1px var(--amber); }
 .pojam-crta {
   background: transparent;
@@ -391,5 +415,4 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 #pomoc-dijalog::backdrop { background: rgba(0, 0, 0, 0.35); }
 @media (max-width: 860px) {
   .okvir { grid-template-columns: 1fr; }
-  .opcije-mreza { grid-template-columns: 1fr; }
 }

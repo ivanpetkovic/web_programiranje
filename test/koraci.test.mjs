@@ -1,6 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { lectures, preduslovCasa } from "../site/js/lectures.js";
+import { dokument, lectures, mapirajKorak, preduslovCasa } from "../site/js/lectures.js";
+
+test("original je polje koraka, inače delić", () => {
+  const bez = mapirajKorak({ delic: "samo delić", tekst: "", kljucnaIdeja: "", isecak: "" });
+  assert.equal(bez.original, "samo delić");
+  const sa = mapirajKorak({ delic: "delić", original: "ceo fajl", tekst: "", kljucnaIdeja: "", isecak: "" });
+  assert.equal(sa.original, "ceo fajl");
+});
 
 function tekst(korak) {
   return [korak.naslov, korak.primer, korak.kod, korak.pitalica, korak.objasnjenje, korak.delic, korak.putanja].join("\n");
@@ -54,9 +61,29 @@ test("čas 4 otvara adresu pre fetch-a i nema Err", () => {
   assert.equal(cas.steps.some((korak) => /\bErr\b/.test(korak.delic)), false);
 });
 
-test("preduslov časa 1 je rez, a časa 2 je ishod prvog", () => {
-  assert.equal(preduslovCasa(1), "Rez client/ i prazan server/.");
+test("preduslov časa 1 je prazan server, a časa 2 je ishod prvog", () => {
+  assert.equal(preduslovCasa(1), "Browser učitava client/. server/ još nema fajlove.");
   assert.equal(preduslovCasa(2), lectures[0].outcome);
+});
+
+test("nedelja 1 sklapa stranicu, a kasnije nedelje nemaju original", () => {
+  const redosled = [
+    "Podela", "Stranica", "Glava", "Telo", "Naslov", "Broj", "Dugme", "Veza",
+    "Razmak", "Okvir", "Osvežavanje", "Alati", "Dva zahteva", "Soba prekidača", "Semantika",
+  ];
+  const sirovi = dokument.nedelje[0].steps;
+  assert.deepEqual(sirovi.map((korak) => korak.naslov), redosled);
+  assert.equal(sirovi[0].original, "client/\nserver/\n");
+  const broj = sirovi.find((korak) => korak.naslov === "Broj");
+  assert.match(broj.original, /<!DOCTYPE html>/);
+  assert.match(broj.original, /<p class="digit">24<\/p>/);
+  assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 90);
+  for (const nedelja of dokument.nedelje.slice(1)) {
+    for (const korak of nedelja.steps) {
+      assert.equal("original" in korak, false);
+      assert.equal(mapirajKorak(korak).original, korak.delic);
+    }
+  }
 });
 
 test("rezerve 1–9 imaju pitanje, čas 10 nema glasanje", () => {
