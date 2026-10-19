@@ -3,7 +3,7 @@ import { dokument, lectures, preduslovCasa } from "./lectures.js";
 import { natpisNedelje, pomeriNedelju, polozajiKlizaca, procenat, ucitajKurs } from "./model.js";
 import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./pojmovnik.js";
 import { PORUKA, primeniPrikaz } from "./pregled.js";
-import { procitajRadne, rezimPosleKoraka, serverTabVidljiv, tekstPrikaza, upisiRadnu } from "./radna.js";
+import { polazniTekst, procitajRadne, serverTabVidljiv, tekstPrikaza, upisiRadnu } from "./radna.js";
 import { originalDo, prethodniUKursu, razlikaOriginala } from "./razlika.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 
@@ -62,7 +62,7 @@ const tacke = [
 ];
 let cas = 1;
 let deo = "koraci";
-let udeoEditora = 50;
+let udeoEditora = 72;
 const korakPoCasu = new Map();
 const fazaPoCasu = new Map();
 const rezervaPoCasu = new Map();
@@ -263,6 +263,7 @@ function prikaziDeo() {
     tab.setAttribute("aria-selected", String(otvoren));
     tab.tabIndex = otvoren ? 0 : -1;
   }
+  document.body.classList.toggle("editor-pun", deo === "editor");
 }
 
 function usko() {
@@ -828,7 +829,7 @@ function focusFile() {
   openedForCas = kljuc;
   strana = side;
   openPath[side] = put;
-  rezim = rezimPosleKoraka(radne, `${side}/${put}`);
+  rezim = "radna";
   otvoreniKljuc = "";
 }
 
@@ -864,7 +865,7 @@ function renderNode(node) {
     button.dataset.put = file.put;
     button.setAttribute("aria-current", file.put === openPath[strana] ? "true" : "false");
     button.addEventListener("click", () => {
-      rezim = rezimPosleKoraka(radne, `${strana}/${file.put}`);
+      rezim = "radna";
       otvoreniKljuc = "";
       openFile(file.put);
     });
@@ -935,10 +936,34 @@ function onPromena(tekst) {
   if (!rezultat.sacuvano) editorErr.textContent = "Browser nije sačuvao radnu verziju.";
 }
 
-function osveziEditor() {
+const diskKes = new Map();
+let editorToken = 0;
+
+async function tekstSaDiska(puna, original) {
+  if (!puna.endsWith(".html") || String(original || "").includes("<")) return "";
+  if (diskKes.has(puna)) return diskKes.get(puna);
+  const side = puna.slice(0, puna.indexOf("/"));
+  const put = puna.slice(puna.indexOf("/") + 1);
+  const response = await fetch(`/api/fajl?strana=${side}&put=${encodeURIComponent(put)}`);
+  const data = await response.json().catch(() => ({}));
+  const tekst = typeof data.izvor === "string" ? data.izvor : "";
+  diskKes.set(puna, tekst);
+  return tekst;
+}
+
+async function osveziEditor() {
+  const token = ++editorToken;
   const puna = `${strana}/${openPath[strana]}`;
   const { original, prethodni } = izvorZaPutanju(puna);
-  const izbor = tekstPrikaza({ putanja: puna, original, radne, rezim });
+  const disk = await tekstSaDiska(puna, original);
+  if (token !== editorToken) return;
+  const polazni = polazniTekst(puna, original, disk);
+  const izbor = tekstPrikaza({
+    putanja: puna,
+    original: rezim === "original" ? original : polazni,
+    radne,
+    rezim,
+  });
   const linije = izbor.razlika ? razlikaOriginala(prethodni, original, radne[puna]) : null;
   prikazaniTekst = izbor.tekst;
   if (!pogled) pogled = napraviPogled(editorDom);
@@ -1272,14 +1297,14 @@ document.querySelector("#ses-ne").addEventListener("click", () => chooseSession(
 tabFront.addEventListener("click", () => {
   if (strana === "client") return;
   strana = "client";
-  rezim = rezimPosleKoraka(radne, `client/${openPath.client}`);
+  rezim = "radna";
   otvoreniKljuc = "";
   loadSide();
 });
 tabBack.addEventListener("click", () => {
   if (strana === "server") return;
   strana = "server";
-  rezim = rezimPosleKoraka(radne, `server/${openPath.server}`);
+  rezim = "radna";
   otvoreniKljuc = "";
   loadSide();
 });

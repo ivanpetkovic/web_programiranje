@@ -61,10 +61,9 @@ function ekstenzije(put, samoCitaj, linije, onPromena) {
     EditorView.lineWrapping,
     EditorView.contentAttributes.of({ "aria-label": "Sadržaj fajla" }),
     EditorView.theme({
-      "&": { backgroundColor: "var(--code)", color: "var(--ink)", width: "100%" },
-      ".cm-scroller": { fontFamily: "ui-monospace, SFMono-Regular, monospace", overflow: "auto" },
+      "&": { backgroundColor: "var(--code)", color: "var(--ink)", width: "100%", maxWidth: "100%", height: "100%" },
+      ".cm-scroller": { fontFamily: "ui-monospace, SFMono-Regular, monospace", overflow: "auto", width: "100%", maxWidth: "100%" },
       ".cm-gutters": { backgroundColor: "var(--code)", color: "var(--muted)", borderRight: "1px solid var(--line)" },
-      ".cm-content": { minWidth: "100%" },
       "&.cm-focused": { outline: "2px solid var(--amber)", outlineOffset: "2px" },
     }),
     polje,

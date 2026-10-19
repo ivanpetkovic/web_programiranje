@@ -199,13 +199,17 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 }
 .tree button[aria-current="true"] { color: var(--amber); }
 #putanja { font-family: ui-monospace, monospace; color: var(--muted); }
-.editor { display: grid; gap: 0.35rem; min-width: 0; width: 100%; align-content: start; }
-.putanja-red { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; min-width: 0; }
+.editor { display: grid; gap: 0.35rem; min-width: 0; width: 100%; align-content: stretch; grid-template-rows: auto minmax(18rem, 1fr) auto; }
+.putanja-red { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; min-width: 0; width: 100%; }
 .putanja-red #putanja { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
-#verzija { display: inline-flex; align-items: center; justify-content: center; padding: 0.3rem; }
-#editor { width: 100%; min-width: 0; min-height: 18rem; }
-.cm-editor { width: 100%; max-width: 100%; min-height: 18rem; }
-.cm-scroller { overflow: auto; }
+#verzija { display: inline-flex; align-items: center; justify-content: center; padding: 0.3rem; flex: 0 0 auto; }
+#editor { width: 100%; min-width: 0; min-height: 18rem; height: 100%; }
+.cm-editor { width: 100%; max-width: 100%; min-height: 18rem; height: 100%; }
+.cm-scroller { overflow: auto; width: 100%; max-width: 100%; }
+body.editor-pun .okvir { grid-template-columns: minmax(0, 1fr); }
+body.editor-pun #nav, body.editor-pun #kartica { display: none; }
+body.editor-pun .stranica, body.editor-pun .podela, body.editor-pun .files { width: 100%; max-width: none; min-width: 0; }
+body.editor-pun .file-layout { width: 100%; grid-template-columns: 9.5rem minmax(0, 1fr); }
 .cm-linija-dodato, .cm-linija-dodato span { color: var(--diff-dodato) !important; }
 .cm-linija-obrisano, .cm-linija-obrisano span { color: var(--diff-obrisano) !important; }
 textarea { min-height: 9rem; font-family: ui-monospace, monospace; font-size: 0.92rem; }
