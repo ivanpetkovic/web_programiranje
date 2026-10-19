@@ -8,7 +8,7 @@ Isporučena nedelja 1 u `site/kurs.json` već drži original kao ceo fajl posle 
 
 **Goals:**
 
-- Posle Stranice i posle Razmaka svaki sledeći original istog fajla u nedelji 1 sadrži prethodne linije i bar jednu novu.
+- Prva nedelja u kodu pokaže HTML element ili atribut, pa klasni selektor i tri ivice kutije: border, padding, margin.
 - Reset upisuje ugrađeni original otvorenog koraka u radnu verziju samo te putanje.
 - Tokeni školjke prate obe slike, a postojeća pravila kontrasta ostaju na posebnom tokenu reda koraka.
 
@@ -21,15 +21,25 @@ Isporučena nedelja 1 u `site/kurs.json` već drži original kao ceo fajl posle 
 
 ## Decisions
 
-### Dve linije koje nedostaju su komentari
+### Prva nedelja prvo pokaže HTML, pa kutiju
 
-Osvežavanje dobija liniju `<!-- osvežavanje vraća dokument -->` na kraju `body`. Alati, Dva zahteva, Soba prekidača i Semantika zadržavaju tu liniju i svoje postojeće dodatke. Semantika zatim dodaje `<!-- naslov je h1, ne pasus -->`. Broj 24, `h1` i odsustvo `/api/soba` ostaju. `isecak` i `delic` ta dva koraka postaju ta nova linija, da Gradivo pokaže dodatak, a original ostaje ceo fajl.
+Naslov nedelje ostaje „Šta browser prikazuje”. Podela ostaje `client/` i `server/`. Stranica i dalje počinje skoro prazan dokument. Ključna ideja od Stranice do Dugmeta imenuje ono što korak doda: `html` i `lang`, `head` sa `charset` i `title`, `body`, `h1`, `p` sa `class`, `button` sa `type`. Veza i dalje doda `link` i `href`. Broj 24 ostaje sadržaj pasusa. Soba mašina i `/api/soba` ne ulaze.
 
-Stranica i Razmak se ne prepisuju: Stranica je već skoro prazan dokument bez skice foldera, Razmak je već jedno malo pravilo, Okvir ga već proširuje.
+Razmak se zove Selektor. Njegov original je jedna klasa:
 
-Alternativa: umotati sadržaj u `<main>` na Semantici. Odbijena jer korak govori o naslovu, ne o novom regionu, a `<main>` bi menjala stablo koje čas 1 crta kao sobu prekidača.
+```css
+.digit {
+  letter-spacing: 0.08em;
+}
+```
 
-Alternativa: ostaviti iste originale i pokriti korak samo tekstom. Odbijena jer zahtev traži liniju u kodu.
+Okvir zadrži to pravilo i doda `border: 1px solid #3a342c;`. Unutra doda `padding: 1rem;`. Spolja doda `margin: 1rem;`. Svaki taj korak u ključnoj ideji kaže selektor, border, padding ili margin. `isecak` je samo nova deklaracija. Original je celo pravilo. Novi koraci dele minute Razmaka i Okvira tako da zbir nedelje ostane 90.
+
+Osvežavanje i dalje doda `<!-- osvežavanje vraća dokument -->`, a Semantika `<!-- naslov je h1, ne pasus -->`. Kasniji HTML originali zadržavaju raniju liniju. To nisu koraci box modela; pokrivaju ostatak nedelje koji već postoji.
+
+Alternativa: posebna stranica koja nije soba prekidača. Odbijena jer čas 1 i dalje ostavlja samo tu sobu i broj 24.
+
+Alternativa: zadržati ime Razmak i jednu ivicu. Odbijena jer prva nedelja onda ne pokaže selektor ni tri dela kutije.
 
 ### Reset piše u istu mapu, prekidač je drugo dugme
 

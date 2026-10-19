@@ -2,7 +2,7 @@
 
 ## 1. Originali nedelje 1
 
-- [ ] 1.1 U `site/kurs.json`, na koraku Osvežavanje, dodaj na kraj `body` liniju `<!-- osvežavanje vraća dokument -->` i postavi `isecak` i `delic` na tu liniju. Istu liniju zadrži u originalima Alati, Dva zahteva, Soba prekidača i Semantika. Na Semantiku dodaj i `<!-- naslov je h1, ne pasus -->`, a njen `isecak` i `delic` postavi na tu drugu liniju. Ne diraj Podelu, Stranicu, Razmak, Okvir, nedelje 2–10 ni fajlove na disku. Proveri `node --test test/koraci.test.mjs`: posle Stranice svaki sledeći original `client/index.html` sadrži sve linije prethodnog i bar jednu novu; Osvežavanje pominje osvežavanje, Semantika pominje naslov i i dalje sadrži `24` i ne sadrži `/api/soba` ni sobu mašina; Razmak je jedno pravilo, Okvir ga sadrži i dodaje okvir.
+- [ ] 1.1 U `site/kurs.json` poredaj nedelju 1: Podela, Stranica, Glava, Telo, Naslov, Broj, Dugme, Veza, Selektor, Okvir, Unutra, Spolja, Osvežavanje, Alati, Dva zahteva, Soba prekidača, Semantika. Ključna ideja od Stranice do Dugmeta imenuje element ili atribut koji korak doda. Selektor je `.digit { letter-spacing: 0.08em; }`. Okvir doda `border`, Unutra `padding`, Spolja `margin`, i svaki original zadrži prethodne deklaracije. `isecak` CSS koraka je samo nova deklaracija. Osvežavanje doda `<!-- osvežavanje vraća dokument -->`, Semantika `<!-- naslov je h1, ne pasus -->`, a kasniji HTML originali te linije zadrže. Zbir minuta ostaje 90. Ne diraj nedelje 2–10 ni fajlove na disku. U `test/koraci.test.mjs` zameni Razmak novim redom i proveri selektor, border, padding i margin. Pokreni `node --test test/koraci.test.mjs`.
 
 ## 2. Reset i prekidač
 
@@ -15,4 +15,4 @@
 
 ## 4. Zajednička provera
 
-- [ ] 4.1 Pokreni `node --test test/*.test.js test/*.test.mjs`. U browseru otvori nedelju 1 na Gradivu: svetla i tamna tema prate kartice i zlato sa slika, dugme teme okrene temu a ostane isti korak, Osvežavanje i Semantika u editoru pokazuju novu liniju prema prethodnom originalu, reset vrati ukucani tekst na ugrađeni original, a prekidač i dalje čuva ukucano dok se ne resetuje.
+- [ ] 4.1 Pokreni `node --test test/*.test.js test/*.test.mjs`. U browseru otvori nedelju 1 na Gradivu: svetla i tamna tema prate kartice i zlato sa slika, dugme teme okrene temu a ostane isti korak, Gradivo prve nedelje prvo pokaže HTML element ili atribut, pa selektor, border, padding i margin, reset vrati ukucani tekst na ugrađeni original, a prekidač i dalje čuva ukucano dok se ne resetuje.
