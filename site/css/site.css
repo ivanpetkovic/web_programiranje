@@ -1,6 +1,8 @@
 @font-face {
   font-family: "Digital-7 Mono";
   src: url("/fonts/digital-7-mono.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
   font-display: swap;
 }
 
@@ -136,6 +138,7 @@ button[aria-pressed="true"] { border-color: var(--amber); color: var(--amber); }
 h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 .digit {
   font-family: "Digital-7 Mono", ui-monospace, monospace;
+  font-style: normal;
   font-size: 4.4rem;
   line-height: 1;
   color: var(--amber);

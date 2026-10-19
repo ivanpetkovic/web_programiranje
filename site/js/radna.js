@@ -32,15 +32,17 @@ export function imaRadnu(mapa, putanja) {
 
 export function polazniTekst(putanja, original, disk) {
   const izvor = original ?? "";
-  if (String(putanja).endsWith(".html") && !izvor.includes("<")) {
-    return typeof disk === "string" && disk.includes("<") ? disk : izvor;
-  }
+  const saDiska = typeof disk === "string" ? disk : "";
+  if (String(putanja).endsWith(".css") && saDiska.trim()) return saDiska;
+  if (String(putanja).endsWith(".html") && !izvor.includes("<") && saDiska.includes("<")) return saDiska;
+  if (!izvor.trim() && saDiska.trim()) return saDiska;
   return izvor;
 }
 
 export function tekstPrikaza({ putanja, original, radne, rezim }) {
   if (rezim === "radna") {
-    const tekst = imaRadnu(radne, putanja) ? radne[putanja] : original;
+    const sacuvano = imaRadnu(radne, putanja) ? radne[putanja] : "";
+    const tekst = sacuvano.trim() ? sacuvano : original;
     return { tekst, razlika: false, samoCitaj: false };
   }
   return { tekst: original, razlika: true, samoCitaj: true };

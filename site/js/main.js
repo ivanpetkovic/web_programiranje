@@ -939,8 +939,7 @@ function onPromena(tekst) {
 const diskKes = new Map();
 let editorToken = 0;
 
-async function tekstSaDiska(puna, original) {
-  if (!puna.endsWith(".html") || String(original || "").includes("<")) return "";
+async function tekstSaDiska(puna) {
   if (diskKes.has(puna)) return diskKes.get(puna);
   const side = puna.slice(0, puna.indexOf("/"));
   const put = puna.slice(puna.indexOf("/") + 1);
@@ -955,7 +954,7 @@ async function osveziEditor() {
   const token = ++editorToken;
   const puna = `${strana}/${openPath[strana]}`;
   const { original, prethodni } = izvorZaPutanju(puna);
-  const disk = await tekstSaDiska(puna, original);
+  const disk = await tekstSaDiska(puna);
   if (token !== editorToken) return;
   const polazni = polazniTekst(puna, original, disk);
   const izbor = tekstPrikaza({
