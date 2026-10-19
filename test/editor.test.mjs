@@ -65,6 +65,23 @@ test("radna verzija je jedna po putanji i preživljava čitanje", () => {
   assert.equal(drugiKorak.tekst, "ukucano");
 });
 
+test("reset zameni radnu verziju originalom koraka", () => {
+  const skladiste = memorija(false);
+  const prvo = upisiRadnu(skladiste, {}, "client/index.html", "ukucano");
+  const drugo = upisiRadnu(skladiste, prvo.mapa, "client/css/soba.css", "stil");
+  const reset = upisiRadnu(skladiste, drugo.mapa, "client/index.html", "ceo fajl");
+  assert.equal(reset.mapa["client/index.html"], "ceo fajl");
+  assert.equal(reset.mapa["client/css/soba.css"], "stil");
+  const ekran = tekstPrikaza({
+    putanja: "client/index.html",
+    original: "ceo fajl",
+    radne: reset.mapa,
+    rezim: "radna",
+  });
+  assert.equal(ekran.tekst, "ceo fajl");
+  assert.equal(fs.readFileSync(new URL("../client/index.html", import.meta.url), "utf8").includes("ukucano"), false);
+});
+
 test("prekidač menja prikaz i ne briše mapu", () => {
   const radne = { "client/index.html": "ukucano" };
   const original = tekstPrikaza({
@@ -152,8 +169,11 @@ test("nema dugmadi za upis fajla na disk", () => {
   assert.equal(html.includes(">Povrati<"), false);
   assert.equal(html.includes("<textarea"), false);
   assert.match(html, /id="verzija"/);
-  assert.match(main, /Prikaži original/);
+  assert.match(html, /id="reset-radne"/);
+  assert.match(html, /Resetuj radnu verziju/);
+  assert.match(main, /Prikaži ugrađenu verziju/);
   assert.match(main, /Prikaži radnu verziju/);
+  assert.match(main, /dugmeReseta\.addEventListener\("click"/);
   assert.match(main, /upisiRadnu\(localStorage/);
   assert.equal(main.includes("/api/fajl/povrati"), false);
   assert.equal(main.includes('fetch("/api/fajl"'), false);
