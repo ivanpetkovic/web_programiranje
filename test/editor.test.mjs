@@ -95,8 +95,20 @@ test("html fajl bez oznaka čita stvarni dokument", () => {
   const cssDisk = '@font-face { font-family: "Digital-7 Mono"; font-style: normal; }\n.digit { font-family: "Digital-7 Mono", monospace; font-style: normal; }\n';
   assert.equal(polazniTekst("client/css/soba.css", ".digit { letter-spacing: 0.08em; }", cssDisk), cssDisk);
   assert.equal(polazniTekst("client/css/soba.css", "", cssDisk), cssDisk);
-  assert.match(fs.readFileSync(new URL("../client/css/soba.css", import.meta.url), "utf8"), /font-family:\s*"Digital-7 Mono"/);
-  assert.match(fs.readFileSync(new URL("../client/css/soba.css", import.meta.url), "utf8"), /font-style:\s*normal/);
+  const sobaCss = fs.readFileSync(new URL("../client/css/soba.css", import.meta.url), "utf8");
+  assert.match(sobaCss, /font-family:\s*"Digital-7 Mono"/);
+  assert.match(sobaCss, /font-style:\s*normal/);
+  assert.match(sobaCss, /url\("\/client\/assets\/fonts\/digital-7\/digital-7%20\(mono\)\.ttf"\)/);
+  const font = tekstPrikaza({
+    putanja: "client/assets/fonts/digital-7/digital-7 (mono).ttf",
+    original: "Binarni fajl. Pregledač ga učitava kao fajl, ne kao tekst.",
+    radne: { "client/assets/fonts/digital-7/digital-7 (mono).ttf": "izmena" },
+    rezim: "radna",
+    binarni: true,
+  });
+  assert.equal(font.samoCitaj, true);
+  assert.equal(font.tekst.includes("izmena"), false);
+  assert.match(font.tekst, /Binarni fajl/);
   const prazna = tekstPrikaza({
     putanja: "client/css/soba.css",
     original: cssDisk,

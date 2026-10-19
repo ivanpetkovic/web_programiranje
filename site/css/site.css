@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Digital-7 Mono";
-  src: url("/fonts/digital-7-mono.ttf") format("truetype");
+  src: url("/client/assets/fonts/digital-7/digital-7%20(mono).ttf") format("truetype");
   font-style: normal;
   font-weight: normal;
   font-display: swap;
@@ -189,7 +189,7 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
   gap: 0.8rem;
   margin-top: 0.7rem;
 }
-.tree { font-family: ui-monospace, monospace; font-size: 0.88rem; }
+.tree { font-family: ui-monospace, monospace; font-size: 0.88rem; overflow-x: auto; }
 .tree ul { list-style: none; margin: 0; padding: 0 0 0 0.75rem; }
 .tree > ul { padding-left: 0; }
 .tree .dir { color: var(--muted); }
@@ -199,6 +199,7 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
   background: transparent;
   border: 0;
   padding: 0.12rem 0.2rem;
+  white-space: nowrap;
 }
 .tree button[aria-current="true"] { color: var(--amber); }
 #putanja { font-family: ui-monospace, monospace; color: var(--muted); }
@@ -212,7 +213,7 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 body.editor-pun .okvir { grid-template-columns: minmax(0, 1fr); }
 body.editor-pun #nav, body.editor-pun #kartica { display: none; }
 body.editor-pun .stranica, body.editor-pun .podela, body.editor-pun .files { width: 100%; max-width: none; min-width: 0; }
-body.editor-pun .file-layout { width: 100%; grid-template-columns: 9.5rem minmax(0, 1fr); }
+body.editor-pun .file-layout { width: 100%; grid-template-columns: 19rem minmax(0, 1fr); }
 .cm-linija-dodato, .cm-linija-dodato span { color: var(--diff-dodato) !important; }
 .cm-linija-obrisano, .cm-linija-obrisano span { color: var(--diff-obrisano) !important; }
 textarea { min-height: 9rem; font-family: ui-monospace, monospace; font-size: 0.92rem; }

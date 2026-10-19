@@ -140,6 +140,43 @@ test("ugovor čitanja, tela, fonta, stabla, istorije i uloge", async (t) => {
       assert.ok(fajlovi.includes(put), put);
     }
     assert.equal(fajlovi.some((put) => put.includes("prepared")), false);
+    assert.ok(fajlovi.includes("client/assets/fonts/digital-7/digital-7 (mono).ttf"));
+    assert.ok(fajlovi.includes("client/assets/fonts/digital-7/readme.txt"));
+
+    const fontIzKlijenta = await zahtev(
+      "GET",
+      "/client/assets/fonts/digital-7/" + encodeURIComponent("digital-7 (mono).ttf")
+    );
+    assert.equal(fontIzKlijenta.status, 200);
+    assert.match(fontIzKlijenta.headers["content-type"], /font\/ttf/);
+    assert.ok(fontIzKlijenta.body.length > 1000);
+
+    const binarni = await zahtev(
+      "GET",
+      "/api/fajl?strana=client&put=" + encodeURIComponent("assets/fonts/digital-7/digital-7 (mono).ttf")
+    );
+    const teloFonta = JSON.parse(binarni.body);
+    assert.equal(teloFonta.binarni, true);
+    assert.equal(teloFonta.izvor, undefined);
+    assert.match(teloFonta.napomena, /Binarni fajl/);
+    const readme = JSON.parse(
+      (await zahtev("GET", "/api/fajl?strana=client&put=" + encodeURIComponent("assets/fonts/digital-7/readme.txt"))).body
+    );
+    assert.match(readme.izvor, /DIGITAL-7/);
+    const fontNaDisku = path.join(KORENI, "client", "assets", "fonts", "digital-7", "digital-7 (mono).ttf");
+    const velicinaFonta = fs.statSync(fontNaDisku).size;
+    const upisFonta = await zahtev(
+      "POST",
+      "/api/fajl",
+      JSON.stringify({
+        strana: "client",
+        put: "assets/fonts/digital-7/digital-7 (mono).ttf",
+        izvor: "nije font",
+      }),
+      { "content-type": "application/json" }
+    );
+    assert.equal(upisFonta.status, 400);
+    assert.equal(fs.statSync(fontNaDisku).size, velicinaFonta);
 
     await zahtev("POST", "/api/baza", JSON.stringify({ ukljucen: true }), {
       "content-type": "application/json",
