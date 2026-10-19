@@ -31,12 +31,11 @@ export function imaRadnu(mapa, putanja) {
 }
 
 export function polazniTekst(putanja, original, disk) {
+  void putanja;
   const izvor = original ?? "";
   const saDiska = typeof disk === "string" ? disk : "";
-  if (String(putanja).endsWith(".css") && saDiska.trim()) return saDiska;
-  if (String(putanja).endsWith(".html") && !izvor.includes("<") && saDiska.includes("<")) return saDiska;
-  if (!izvor.trim() && saDiska.trim()) return saDiska;
-  return izvor;
+  if (izvor.trim()) return izvor;
+  return saDiska;
 }
 
 export function tekstPrikaza({ putanja, original, radne, rezim, binarni }) {

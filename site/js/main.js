@@ -3,8 +3,9 @@ import { dokument, lectures, preduslovCasa } from "./lectures.js";
 import { natpisNedelje, pomeriNedelju, polozajiKlizaca, procenat, ucitajKurs } from "./model.js";
 import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./pojmovnik.js";
 import { PORUKA, primeniPrikaz } from "./pregled.js";
-import { polazniTekst, procitajRadne, serverTabVidljiv, tekstPrikaza, upisiRadnu } from "./radna.js";
-import { originalDo, prethodniUKursu, razlikaOriginala } from "./razlika.js";
+import { procitajRadne, serverTabVidljiv, tekstPrikaza, upisiRadnu } from "./radna.js";
+import { razlikaOriginala } from "./razlika.js";
+import { fajloviStrane, prethodnaVerzija, stabloDo } from "./stablo.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 
 const nav = document.querySelector("#nav");
@@ -80,7 +81,6 @@ let dovod = null;
 let lastSpin = "1.2s";
 let strana = "client";
 let openedForCas = 0;
-let sideToken = 0;
 const openPath = { client: "css/soba.css", server: "soba.js" };
 let radne = procitajRadne(localStorage);
 let rezim = "original";
@@ -894,11 +894,11 @@ function osveziServerTab() {
 function izvorZaPutanju(puna) {
   const koraci = kursKoraci();
   const indeks = indeksUKursu();
-  const naKoraku = koraci[indeks] && koraci[indeks].putanja === puna;
-  const nadjen = naKoraku ? { original: koraci[indeks].original, indeks } : originalDo(koraci, indeks, puna);
-  const original = nadjen ? nadjen.original : "";
-  const prethodni = nadjen ? prethodniUKursu(koraci, nadjen.indeks) : null;
-  return { original, prethodni };
+  const stablo = stabloDo(koraci, indeks);
+  return {
+    original: stablo.verzije[puna] || "",
+    prethodni: prethodnaVerzija(koraci, indeks, puna),
+  };
 }
 
 function ikonaVerzije(vrsta) {
@@ -943,36 +943,15 @@ function onPromena(tekst) {
   if (!rezultat.sacuvano) editorErr.textContent = "Browser nije sačuvao radnu verziju.";
 }
 
-const diskKes = new Map();
-let editorToken = 0;
-
-async function tekstSaDiska(puna) {
-  if (diskKes.has(puna)) return diskKes.get(puna);
-  const side = puna.slice(0, puna.indexOf("/"));
-  const put = puna.slice(puna.indexOf("/") + 1);
-  const response = await fetch(`/api/fajl?strana=${side}&put=${encodeURIComponent(put)}`);
-  const data = await response.json().catch(() => ({}));
-  const zapis = data.binarni
-    ? { tekst: typeof data.napomena === "string" ? data.napomena : "Binarni fajl.", binarni: true }
-    : { tekst: typeof data.izvor === "string" ? data.izvor : "", binarni: false };
-  diskKes.set(puna, zapis);
-  return zapis;
-}
-
-async function osveziEditor() {
-  const token = ++editorToken;
+function osveziEditor() {
   const puna = `${strana}/${openPath[strana]}`;
   const { original, prethodni } = izvorZaPutanju(puna);
-  const saDiska = await tekstSaDiska(puna);
-  if (token !== editorToken) return;
-  const polazni = saDiska.binarni ? saDiska.tekst : polazniTekst(puna, original, saDiska.tekst);
-  const tekstOriginala = saDiska.binarni ? saDiska.tekst : rezim === "original" ? original : polazni;
   const izbor = tekstPrikaza({
     putanja: puna,
-    original: tekstOriginala,
+    original,
     radne,
     rezim,
-    binarni: saDiska.binarni,
+    binarni: false,
   });
   const linije = izbor.razlika ? razlikaOriginala(prethodni, original, radne[puna]) : null;
   prikazaniTekst = izbor.tekst;
@@ -984,30 +963,34 @@ async function osveziEditor() {
     put: puna,
     onPromena,
   });
-  osveziDugmeVerzije(saDiska.binarni);
+  osveziDugmeVerzije(false);
   applyLive();
 }
 
-async function loadSide() {
-  const token = ++sideToken;
+function loadSide() {
   osveziServerTab();
   const side = strana;
   tabFront.setAttribute("aria-selected", String(side === "client"));
   tabBack.setAttribute("aria-selected", String(side === "server"));
-  const response = await fetch(`/api/stablo?strana=${side}`);
-  const data = await response.json();
-  if (token !== sideToken) return;
-  paintTree(data.fajlovi);
+  const stablo = stabloDo(kursKoraci(), indeksUKursu());
+  const fajlovi = fajloviStrane(stablo, side);
+  if (fajlovi.length && !fajlovi.includes(openPath[side])) {
+    const korak = trenutniKorak();
+    const puna = korak ? korak.putanja : "";
+    const relativna = puna.startsWith(`${side}/`) ? puna.slice(side.length + 1) : "";
+    openPath[side] = fajlovi.includes(relativna) ? relativna : fajlovi[0];
+  }
+  paintTree(fajlovi);
   const kljuc = `${side}:${openPath[side]}:${rezim}:${indeksUKursu()}`;
   if (otvoreniKljuc === kljuc && pogled) {
     markOpen(openPath[side]);
     applyLive();
     return;
   }
-  await openFile(openPath[side]);
+  openFile(openPath[side]);
 }
 
-async function openFile(put) {
+function openFile(put) {
   const side = strana;
   openPath[side] = put;
   putanja.textContent = `${side}/${put}`;
@@ -1151,10 +1134,34 @@ function applyLive() {
     return true;
   }
   if (strana === "client" && put === "css/soba.css") return applyCss(tekst);
-  if (strana === "client" && put === "js/korak.js") return applyKorak(tekst);
-  if (strana === "client" && put === "js/niz.js") return applyNiz(tekst);
-  if (strana === "client" && put === "js/displej.js") return applyDisplej(tekst);
-  if (strana === "client" && put === "js/prekidac.js") return applyPrekidac(tekst);
+  if (strana === "client" && put === "js/korak.js") {
+    if (!/\bfunction\s+korak\b/.test(tekst)) {
+      editorErr.textContent = "";
+      return true;
+    }
+    return applyKorak(tekst);
+  }
+  if (strana === "client" && put === "js/niz.js") {
+    if (!/\bfunction\s+pripremiLiniju\b/.test(tekst) || !/\bfunction\s+nacrtajLiniju\b/.test(tekst)) {
+      editorErr.textContent = "";
+      return true;
+    }
+    return applyNiz(tekst);
+  }
+  if (strana === "client" && put === "js/displej.js") {
+    if (!/\bclass\s+Displej\b/.test(tekst)) {
+      editorErr.textContent = "";
+      return true;
+    }
+    return applyDisplej(tekst);
+  }
+  if (strana === "client" && put === "js/prekidac.js") {
+    if (!/\bclass\s+Prekidac\b/.test(tekst)) {
+      editorErr.textContent = "";
+      return true;
+    }
+    return applyPrekidac(tekst);
+  }
   editorErr.textContent = "";
   return true;
 }
