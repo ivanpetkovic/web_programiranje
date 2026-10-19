@@ -40,6 +40,7 @@ const editorDom = document.querySelector("#editor");
 const editorErr = document.querySelector("#editor-err");
 const putanja = document.querySelector("#putanja");
 const dugmeVerzije = document.querySelector("#verzija");
+const dugmeReseta = document.querySelector("#reset-radne");
 const tree = document.querySelector("#tree");
 const tabFront = document.querySelector("#tab-front");
 const tabBack = document.querySelector("#tab-back");
@@ -960,12 +961,13 @@ function osveziDugmeVerzije(binarni) {
   const natpis = binarni
     ? "Binarni fajl se ne uređuje kao tekst."
     : radnaNaEkranu
-      ? "Prikaži original"
+      ? "Prikaži ugrađenu verziju"
       : "Prikaži radnu verziju";
   dugmeVerzije.replaceChildren(ikonaVerzije(radnaNaEkranu ? "olovka" : "list"));
   dugmeVerzije.disabled = Boolean(binarni);
   dugmeVerzije.setAttribute("aria-label", natpis);
   dugmeVerzije.title = natpis;
+  dugmeReseta.disabled = Boolean(binarni);
 }
 
 function onPromena(tekst) {
@@ -1358,6 +1360,16 @@ tabBack.addEventListener("click", () => {
 
 dugmeVerzije.addEventListener("click", () => {
   rezim = rezim === "radna" ? "original" : "radna";
+  otvoreniKljuc = "";
+  osveziEditor();
+});
+
+dugmeReseta.addEventListener("click", () => {
+  const puna = `${strana}/${openPath[strana]}`;
+  const { original } = izvorZaPutanju(puna);
+  const rezultat = upisiRadnu(localStorage, radne, puna, original);
+  radne = rezultat.mapa;
+  rezim = "radna";
   otvoreniKljuc = "";
   osveziEditor();
 });

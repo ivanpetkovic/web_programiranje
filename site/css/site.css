@@ -9,9 +9,11 @@
 :root {
   --bg: #12110e;
   --ink: #f4efe4;
+  --naslov: #f7f4ee;
   --muted: #b7ab96;
   --line: #3a342c;
   --amber: #ffb000;
+  --korak: #ffb000;
   --amber-dim: #6a4a12;
   --on-amber: #1a1204;
   --good: #d7e7a1;
@@ -27,9 +29,11 @@
 html[data-tema="ugalj"] {
   --bg: #12110e;
   --ink: #f4efe4;
+  --naslov: #f7f4ee;
   --muted: #b7ab96;
   --line: #3a342c;
   --amber: #ffb000;
+  --korak: #ffb000;
   --amber-dim: #6a4a12;
   --on-amber: #1a1204;
   --good: #d7e7a1;
@@ -45,9 +49,11 @@ html[data-tema="ugalj"] {
 html[data-tema="mornar"] {
   --bg: #011835;
   --ink: #f4efe4;
+  --naslov: #f7f4ee;
   --muted: #c5d0dc;
   --line: #1e3a5f;
   --amber: #ffb000;
+  --korak: #ffb000;
   --amber-dim: #3d3414;
   --on-amber: #1a1204;
   --good: #d7e7a1;
@@ -63,9 +69,11 @@ html[data-tema="mornar"] {
 html[data-tema="pesak"] {
   --bg: #fbfbfb;
   --ink: #1c1a16;
+  --naslov: #1c1a16;
   --muted: #5e564c;
   --line: #e4d8c4;
   --amber: #a86300;
+  --korak: #a86300;
   --amber-dim: #fde8c4;
   --on-amber: #fffdf8;
   --good: #3f6212;
@@ -81,9 +89,11 @@ html[data-tema="pesak"] {
 html[data-tema="terakota"] {
   --bg: #fcf4eb;
   --ink: #2a1a14;
+  --naslov: #2a1a14;
   --muted: #6b4636;
   --line: #e4cbb8;
   --amber: #b81400;
+  --korak: #b81400;
   --amber-dim: #f8d8c0;
   --on-amber: #fffdf8;
   --good: #3f6212;
@@ -100,9 +110,11 @@ html[data-tema="terakota"] {
   :root:not([data-tema]) {
     --bg: #fbfbfb;
     --ink: #1c1a16;
+    --naslov: #1c1a16;
     --muted: #5e564c;
     --line: #e4d8c4;
     --amber: #a86300;
+    --korak: #a86300;
     --amber-dim: #fde8c4;
     --on-amber: #fffdf8;
     --good: #3f6212;
@@ -120,7 +132,7 @@ html[data-tema="terakota"] {
 [hidden] { display: none !important; }
 body {
   margin: 0;
-  font-family: "Iowan Old Style", Palatino, Georgia, serif;
+  font-family: system-ui, "Segoe UI", sans-serif;
   background: var(--bg);
   color: var(--ink);
   line-height: 1.45;
@@ -157,7 +169,8 @@ button, input, textarea { font: inherit; color: inherit; }
 .tema-spisak button { text-align: left; }
 .tema-spisak button[aria-current="true"] { color: var(--amber); border-color: var(--amber); }
 .meta, .starost, .log { color: var(--muted); }
-.korak { color: var(--amber); }
+.korak { color: var(--korak); }
+.cas-glava h1 { color: var(--naslov); }
 #q, textarea, button {
   background: var(--paper);
   border: 1px solid var(--line);
@@ -277,7 +290,7 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 .editor { display: grid; gap: 0.35rem; min-width: 0; width: 100%; align-content: stretch; grid-template-rows: auto minmax(18rem, 1fr) auto; }
 .putanja-red { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; min-width: 0; width: 100%; }
 .putanja-red #putanja { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
-#verzija { display: inline-flex; align-items: center; justify-content: center; padding: 0.3rem; flex: 0 0 auto; }
+#verzija, #reset-radne { display: inline-flex; align-items: center; justify-content: center; padding: 0.3rem; flex: 0 0 auto; }
 #editor { width: 100%; min-width: 0; min-height: 18rem; height: 100%; }
 .cm-editor { width: 100%; max-width: 100%; min-height: 18rem; height: 100%; }
 .cm-scroller { overflow: auto; width: 100%; max-width: 100%; }
@@ -345,7 +358,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 }
 .ustanova strong { display: block; color: var(--ink); font-size: 0.92rem; }
 .ustanova small { display: block; color: var(--muted); }
-.ustanova img { border-radius: 50%; }
+.ustanova img { width: 48px; height: 48px; object-fit: contain; border-radius: 50%; }
 .trazi { position: relative; flex: 1; min-width: 16rem; display: flex; align-items: center; }
 .trazi input { width: 100%; padding-right: 3rem; padding-left: 2.2rem; }
 .trazi .ikona-slot {
@@ -514,6 +527,9 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 .definicija { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 0.7rem 0.85rem; }
 #pomoc-dijalog { border: 1px solid var(--line); border-radius: 16px; background: var(--paper); color: var(--ink); max-width: 32rem; }
 #pomoc-dijalog::backdrop { background: rgba(0, 0, 0, 0.35); }
+@media (min-width: 861px) {
+  .opcije-mreza { grid-template-columns: 1fr 1fr; }
+}
 @media (max-width: 860px) {
   .okvir { grid-template-columns: 1fr; }
 }

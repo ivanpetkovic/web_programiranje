@@ -24,6 +24,7 @@ const TIPOVI = {
   ".js": "text/javascript; charset=utf-8",
   ".ttf": "font/ttf",
   ".svg": "image/svg+xml",
+  ".png": "image/png",
   ".json": "application/json",
 };
 

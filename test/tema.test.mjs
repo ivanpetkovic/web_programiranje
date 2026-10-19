@@ -85,11 +85,17 @@ test("svaka paleta drži kontrast, zlato samo na tamnima, bunar taman", () => {
   }
   for (const tema of [ugalj, mornar]) {
     assert.equal(tema.amber, "#ffb000");
+    assert.equal(tema.korak, "#ffb000");
+    assert.equal(tema.naslov, "#f7f4ee");
     assert.equal(tema["on-amber"], "#1a1204");
   }
   for (const tema of [pesak, terakota]) {
     assert.notEqual(tema.amber, "#ffb000");
+    assert.equal(tema.korak, tema.amber);
+    assert.equal(tema.naslov, tema.ink);
   }
+  assert.equal(pesakSistem.korak, pesak.korak);
+  assert.equal(pesakSistem.naslov, pesak.naslov);
   assert.equal(mornar.bg, "#011835");
   assert.equal(mornar.paper, "#051c38");
   assert.equal(mornar.code, "#081b33");
@@ -124,9 +130,8 @@ test("gradivo, jedna kolona i žuti hod", () => {
   assert.match(html, /otvaraju taj korak u Gradivu/);
   assert.equal(html.includes(">Koraci<"), false);
   assert.match(html, /aria-label="Gradivo nedelje"/);
-  const mreza = blok(css, "\\.opcije-mreza\\s*\\{");
-  assert.match(mreza, /grid-template-columns:\s*1fr\s*;/);
-  assert.equal(mreza.includes("1fr 1fr"), false);
+  assert.match(css, /\.opcije-mreza\s*\{\s*display:\s*grid;\s*grid-template-columns:\s*1fr;\s*gap:\s*0\.55rem;\s*\}/);
+  assert.match(css, /@media\s*\(\s*min-width:\s*861px\s*\)\s*\{\s*\.opcije-mreza\s*\{\s*grid-template-columns:\s*1fr\s+1fr;\s*\}/);
   const hod = blok(css, "\\.hod-koraka\\s*\\{");
   assert.match(hod, /background:\s*var\(--amber\)/);
   assert.match(hod, /color:\s*var\(--on-amber\)/);
@@ -170,6 +175,13 @@ test("editor prati četiri teme", () => {
 test("red koraka koristi ćilibar, a beleške ostaju prigušene", () => {
   assert.match(main, /broj\.className = "korak"/);
   assert.match(main, /Korak \$\{i \+ 1\} od \$\{item\.steps\.length\}/);
-  assert.match(css, /\.korak\s*\{\s*color:\s*var\(--amber\);\s*\}/);
+  assert.match(css, /\.korak\s*\{\s*color:\s*var\(--korak\);\s*\}/);
+  assert.match(css, /\.brand\s*\{\s*color:\s*var\(--amber\)/);
+  assert.match(css, /#kartica-popuna\s*\{[^}]*background:\s*var\(--amber\)/);
+  assert.match(css, /\.koraci-kontrole button\[aria-current="page"\]\s*\{[^}]*background:\s*var\(--amber\)/);
+  assert.match(css, /\.option\.izabrano\s*\{[^}]*border-color:\s*var\(--amber\)/);
+  assert.match(css, /font-family:\s*system-ui,\s*"Segoe UI",\s*sans-serif/);
+  assert.match(css, /\.cas-glava h1\s*\{\s*color:\s*var\(--naslov\)/);
+  assert.match(css, /\.digit\s*\{[^}]*font-family:\s*"Digital-7 Mono"/);
   assert.match(css, /\.meta,\s*\.starost,\s*\.log\s*\{\s*color:\s*var\(--muted\);\s*\}/);
 });

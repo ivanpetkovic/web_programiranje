@@ -460,7 +460,7 @@ The editor MUST keep one working copy per file in this browser's localStorage, s
 - **THEN** that file's working copy is still available
 
 ### Requirement: Prekidač verzije
-A control beside the file path MUST switch between the working copy and the original of the open step, and MUST NOT delete the working copy. The control MUST show a pencil while the working copy is on screen and a page while the original is on screen, with an accessible name for the view the click will show.
+A button beside the file path, different from reset, MUST switch between the working copy and the built-in original of the open step, and MUST NOT delete the working copy. The button MUST show a pencil while the working copy is on screen and a page while the built-in original is on screen. Its accessible name MUST say radna verzija or ugrađena verzija, for the view the click will show.
 
 #### Scenario: Toggle shows the original
 - **WHEN** the teacher activates the version control while the working copy is on screen
@@ -563,3 +563,35 @@ The switch, the temperature control, and the other controls on the panel MUST NO
 - **WHEN** the panel is visible
 - **THEN** its controls show their words and no shell icon
 
+### Requirement: Reset radne verzije
+The editor MUST offer a reset button for the open file, separate from the version switch. Activating it MUST replace that file's stored working copy with the built-in original of the open step and MUST show that text. It MUST NOT change the file on disk or any other file's working copy.
+
+#### Scenario: Reset drops the typed draft
+- **WHEN** the teacher has typed into a file and activates reset
+- **THEN** the editor shows the built-in original of the open step and the stored working copy of that file is that same text
+
+#### Scenario: Another file stays
+- **WHEN** the teacher resets one file while another file has a stored working copy
+- **THEN** the other working copy is unchanged and the file on disk is unchanged
+
+#### Scenario: Reset while the built-in version is shown
+- **WHEN** the built-in version is on screen and the teacher activates reset
+- **THEN** the stored working copy becomes the built-in original of the open step
+
+### Requirement: Školjka je sans
+In every theme the header, the week list, the lesson title, and the progress card MUST use a sans-serif face.
+
+#### Scenario: Shell face is sans
+- **WHEN** any theme is active
+- **THEN** the header, the week list, the lesson title, and the progress card use a sans-serif face
+
+### Requirement: Pitalica u dva stupca
+On a wide lesson the short quiz MUST lay its options out in two columns. In the single-column layout the options MUST be in one column.
+
+#### Scenario: Quiz uses two columns
+- **WHEN** a short quiz is open and the lesson is wider than the single-column layout
+- **THEN** the options are in two columns
+
+#### Scenario: Narrow quiz stacks
+- **WHEN** the lecture page is laid out in one column and a short quiz is open
+- **THEN** the options are in one column
