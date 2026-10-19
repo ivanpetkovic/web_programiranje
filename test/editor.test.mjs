@@ -92,7 +92,18 @@ test("html fajl bez oznaka čita stvarni dokument", () => {
   const disk = "<!DOCTYPE html>\n<html lang=\"sr\">\n</html>\n";
   assert.equal(polazniTekst("client/index.html", "client/\nserver/\n", disk), disk);
   assert.equal(polazniTekst("client/index.html", "<p>24</p>", disk), "<p>24</p>");
-  assert.equal(polazniTekst("client/css/soba.css", ".digit {}", disk), ".digit {}");
+  const cssDisk = '@font-face { font-family: "Digital-7 Mono"; font-style: normal; }\n.digit { font-family: "Digital-7 Mono", monospace; font-style: normal; }\n';
+  assert.equal(polazniTekst("client/css/soba.css", ".digit { letter-spacing: 0.08em; }", cssDisk), cssDisk);
+  assert.equal(polazniTekst("client/css/soba.css", "", cssDisk), cssDisk);
+  assert.match(fs.readFileSync(new URL("../client/css/soba.css", import.meta.url), "utf8"), /font-family:\s*"Digital-7 Mono"/);
+  assert.match(fs.readFileSync(new URL("../client/css/soba.css", import.meta.url), "utf8"), /font-style:\s*normal/);
+  const prazna = tekstPrikaza({
+    putanja: "client/css/soba.css",
+    original: cssDisk,
+    radne: { "client/css/soba.css": "" },
+    rezim: "radna",
+  });
+  assert.equal(prazna.tekst, cssDisk);
   assert.match(main, /rezim = "radna"/);
   assert.match(main, /polazniTekst\(/);
   assert.match(main, /editor-pun/);
