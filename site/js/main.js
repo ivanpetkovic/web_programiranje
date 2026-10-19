@@ -6,6 +6,7 @@ import { PORUKA, primeniPrikaz } from "./pregled.js";
 import { polazniTekst, procitajRadne, serverTabVidljiv, tekstPrikaza, upisiRadnu } from "./radna.js";
 import { originalDo, prethodniUKursu, razlikaOriginala } from "./razlika.js";
 import { prihvatiOcitavanje } from "./svezina.js";
+import { ikonica, ucitajIkonice } from "./ikonice.js";
 
 const nav = document.querySelector("#nav");
 const casEl = document.querySelector("#cas");
@@ -121,21 +122,30 @@ let prekidacSobe = {
   },
 };
 
-function strelica(smer) {
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("viewBox", "0 0 16 16");
-  svg.setAttribute("width", "16");
-  svg.setAttribute("height", "16");
-  svg.setAttribute("aria-hidden", "true");
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("d", smer === "levo" ? "M10 2 L4 8 L10 14" : "M6 2 L12 8 L6 14");
-  path.setAttribute("fill", "none");
-  path.setAttribute("stroke", "currentColor");
-  path.setAttribute("stroke-width", "2");
-  path.setAttribute("stroke-linecap", "round");
-  path.setAttribute("stroke-linejoin", "round");
-  svg.append(path);
-  return svg;
+function saIkonom(el, ime, tekst) {
+  el.replaceChildren();
+  const znak = ikonica(ime);
+  if (znak) el.append(znak);
+  if (tekst) el.append(document.createTextNode(tekst));
+}
+
+function ikonaOdgovora(otkriveno, izabran, opt) {
+  if (otkriveno && opt.ok) return ikonica("check-circle");
+  if (!otkriveno && opt.key === izabran) return ikonica("circle-dot");
+  return ikonica("circle");
+}
+
+function popuniStalneIkonice() {
+  for (const slot of document.querySelectorAll("[data-ikona]")) {
+    if (slot.querySelector(".ikona")) continue;
+    const znak = ikonica(slot.dataset.ikona);
+    if (!znak) continue;
+    if (slot.classList.contains("ikona-slot")) slot.replaceChildren(znak);
+    else slot.prepend(znak);
+  }
+  saIkonom(document.querySelector("#tab-koraci"), "file-text", "Gradivo");
+  saIkonom(document.querySelector("#tab-diskusija"), "messages-square", "Diskusija");
+  saIkonom(document.querySelector("#tab-editor"), "code-xml", "Editor");
 }
 
 function lecture() {
@@ -206,7 +216,11 @@ function paintNav() {
   const bok = document.createElement("span");
   bok.className = "meta";
   bok.textContent = dokument.ustanovaBok;
-  glava.append(kursNaslov, bok);
+  const knjiga = ikonica("book-open");
+  const tekstKursa = document.createElement("span");
+  tekstKursa.append(kursNaslov, bok);
+  if (knjiga) glava.append(knjiga);
+  glava.append(tekstKursa);
   nav.append(glava);
   for (const item of lectures) {
     const otvoren = item.n === cas || otvoreneNedelje.has(item.n);
@@ -215,14 +229,17 @@ function paintNav() {
     dugme.className = "nedelja-red";
     if (item.n === cas) dugme.setAttribute("aria-current", "page");
     dugme.setAttribute("aria-expanded", String(otvoren));
-    const kvaka = document.createElement("span");
-    kvaka.className = "kvacica";
-    kvaka.textContent = nedeljaZavrsena(item, mesto) ? "●" : "○";
+    const kvaka = ikonica(nedeljaZavrsena(item, mesto) ? "check-circle" : "circle");
     const ime = document.createElement("span");
     ime.textContent = `Nedelja ${item.n} — ${item.title}`;
     const pod = document.createElement("small");
     pod.textContent = item.podnaslov;
-    dugme.append(kvaka, ime, pod);
+    const tekst = document.createElement("span");
+    tekst.append(ime, pod);
+    const strela = ikonica(otvoren ? "chevron-up" : "chevron-down");
+    if (kvaka) dugme.append(kvaka);
+    dugme.append(tekst);
+    if (strela) dugme.append(strela);
     dugme.addEventListener("click", () => {
       if (item.n === cas) return;
       if (otvoreneNedelje.has(item.n)) otvoreneNedelje.delete(item.n);
@@ -401,16 +418,17 @@ function nacrtajIsecak(korak) {
   blok.className = "isecak";
   const glava = document.createElement("header");
   const naslov = document.createElement("span");
-  naslov.textContent = korak.isecakNaslov;
+  saIkonom(naslov, "folder", korak.isecakNaslov);
   const kopiraj = document.createElement("button");
   kopiraj.type = "button";
-  kopiraj.textContent = "Kopiraj";
+  const natpisKopiranja = (tekst) => saIkonom(kopiraj, "copy", tekst);
+  natpisKopiranja("Kopiraj");
   kopiraj.addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(korak.isecak);
-      kopiraj.textContent = "Kopirano";
+      natpisKopiranja("Kopirano");
     } catch {
-      kopiraj.textContent = "Kopiraj";
+      natpisKopiranja("Kopiraj");
     }
   });
   glava.append(naslov, kopiraj);
@@ -470,12 +488,13 @@ function renderLecture() {
     dugme.addEventListener("click", () => otvoriNedelju(polozaj.n));
     klizac.append(dugme);
   }
-  document.querySelector("#kartica-natpis").textContent = natpisNedelje(dokument, cas);
+  popuniStalneIkonice();
+  saIkonom(document.querySelector("#kartica-natpis"), "calendar-days", natpisNedelje(dokument, cas));
   const udeo = procenat(cas, dokument.trajanjeNedelja);
   document.querySelector("#kartica-procenat").textContent = `${udeo}%`;
   document.querySelector("#kartica-popuna").style.width = `${udeo}%`;
-  document.querySelector("#kartica-koraci").textContent = `${item.steps.length} koraka u ovoj nedelji`;
-  document.querySelector("#kartica-minuta").textContent = `Proc. vreme: ~${item.minuta} min`;
+  saIkonom(document.querySelector("#kartica-koraci"), "book-open", `${item.steps.length} koraka u ovoj nedelji`);
+  saIkonom(document.querySelector("#kartica-minuta"), "clock", `Proc. vreme: ~${item.minuta} min`);
   document.querySelector("#mrvice").textContent = `${dokument.naslov} › Nedelja ${item.n} › Korak ${i + 1}`;
   naslovCasa.textContent = `Nedelja ${item.n} — ${item.title}`;
   document.querySelector("#podnaslov-casa").textContent = item.outcome;
@@ -503,18 +522,26 @@ function renderLecture() {
   broj.textContent = `Korak ${i + 1} od ${item.steps.length}`;
   const nivo = document.createElement("span");
   nivo.className = "meta";
-  nivo.textContent = korak.nivo || "";
+  if (korak.nivo) {
+    const stub = ikonica("chart-column");
+    if (stub) nivo.append(stub);
+    nivo.append(document.createTextNode(korak.nivo));
+  }
   const minuta = document.createElement("span");
   minuta.className = "meta";
-  minuta.textContent = `~ ${korak.minuta} min`;
+  const sat = ikonica("clock");
+  if (sat) minuta.append(sat);
+  minuta.append(document.createTextNode(`~ ${korak.minuta} min`));
   const sacuvajKorak = document.createElement("button");
   sacuvajKorak.type = "button";
-  sacuvajKorak.textContent = "Sačuvaj korak";
+  saIkonom(sacuvajKorak, "bookmark", "Sačuvaj korak");
   sacuvajKorak.addEventListener("click", sacuvajTrenutniKorak);
   const prethodni = document.createElement("button");
   prethodni.type = "button";
   prethodni.className = "hod-koraka";
-  prethodni.append(strelica("levo"), document.createTextNode(" Prethodni korak"));
+  const levo = ikonica("chevron-left");
+  if (levo) prethodni.append(levo);
+  prethodni.append(document.createTextNode(" Prethodni korak"));
   prethodni.disabled = i === 0;
   prethodni.addEventListener("click", () => {
     korakPoCasu.set(cas, i - 1);
@@ -523,7 +550,9 @@ function renderLecture() {
   const daljeKorak = document.createElement("button");
   daljeKorak.type = "button";
   daljeKorak.className = "hod-koraka";
-  daljeKorak.append(document.createTextNode("Sledeći korak časa "), strelica("desno"));
+  daljeKorak.append(document.createTextNode("Sledeći korak časa "));
+  const desno = ikonica("chevron-right");
+  if (desno) daljeKorak.append(desno);
   daljeKorak.disabled = i === item.steps.length - 1;
   daljeKorak.addEventListener("click", () => {
     korakPoCasu.set(cas, i + 1);
@@ -537,7 +566,7 @@ function renderLecture() {
   const kljucna = document.createElement("aside");
   kljucna.className = "kljucna";
   const kljucnaNaslov = document.createElement("strong");
-  kljucnaNaslov.textContent = "Ključna ideja";
+  saIkonom(kljucnaNaslov, "lightbulb", "Ključna ideja");
   const kljucnaTekst = document.createElement("p");
   kljucnaTekst.append(fragmentTeksta(korak.kljucnaIdeja));
   kljucna.append(kljucnaNaslov, kljucnaTekst);
@@ -547,7 +576,9 @@ function renderLecture() {
   const putanjaKoraka = document.createElement("span");
   putanjaKoraka.id = "putanja-koraka";
   putanjaKoraka.textContent = korak.putanja;
-  put.append("Fajl: ", putanjaKoraka);
+  const fajl = ikonica("file-text");
+  if (fajl) put.append(fajl);
+  put.append(document.createTextNode("Fajl: "), putanjaKoraka);
   const vec = document.createElement("pre");
   vec.className = "vec";
   const ranije = vecUkucano(item, i, korak.putanja);
@@ -557,7 +588,7 @@ function renderLecture() {
   pitanjeBlok.className = "pitanje-blok";
   const pitanjeNad = document.createElement("p");
   pitanjeNad.className = "meta";
-  pitanjeNad.textContent = "Pitanje";
+  saIkonom(pitanjeNad, "question", "Pitanje");
   const pitanje = document.createElement("h3");
   pitanje.append(fragmentTeksta(korak.pitalica));
   const uputa = document.createElement("p");
@@ -572,7 +603,9 @@ function renderLecture() {
     button.type = "button";
     button.className = "option";
     button.dataset.key = opt.key;
-    button.textContent = `${opt.key}. ${opt.text}`;
+    const znakOdgovora = ikonaOdgovora(otvoreno, izabran, opt);
+    if (znakOdgovora) button.append(znakOdgovora);
+    button.append(document.createTextNode(`${opt.key}. ${opt.text}`));
     if (opt.key === izabran) button.classList.add("izabrano");
     if (otvoreno && opt.ok) button.classList.add("holds");
     if (otvoreno) {
@@ -653,7 +686,9 @@ function nacrtajDiskusiju(item) {
     button.type = "button";
     button.className = "option";
     button.dataset.key = opt.key;
-    button.textContent = `${opt.key}. ${opt.text}`;
+    const znakOdgovora = ikonaOdgovora(faza >= 3, podvuceno, opt);
+    if (znakOdgovora) button.append(znakOdgovora);
+    button.append(document.createTextNode(`${opt.key}. ${opt.text}`));
     if (opt.key === podvuceno) button.classList.add("podvuceno");
     if (faza >= 3) {
       button.classList.toggle("holds", opt.ok);
@@ -854,7 +889,9 @@ function renderNode(node) {
     const li = document.createElement("li");
     const span = document.createElement("span");
     span.className = "dir";
-    span.textContent = `${name}/`;
+    const fascikla = ikonica("folder");
+    if (fascikla) span.append(fascikla);
+    span.append(document.createTextNode(`${name}/`));
     li.append(span, renderNode(child));
     ul.append(li);
   }
@@ -862,7 +899,9 @@ function renderNode(node) {
     const li = document.createElement("li");
     const button = document.createElement("button");
     button.type = "button";
-    button.textContent = file.name;
+    const list = ikonica("file-text");
+    if (list) button.append(list);
+    button.append(document.createTextNode(file.name));
     button.dataset.put = file.put;
     button.setAttribute("aria-current", file.put === openPath[strana] ? "true" : "false");
     button.addEventListener("click", () => {
@@ -1408,45 +1447,54 @@ document.querySelector("#pomoc").addEventListener("click", () => {
   document.querySelector("#pomoc-dijalog").showModal();
 });
 
+const TEME = [
+  ["mornar", "Mornar"],
+  ["ugalj", "Ugalj"],
+  ["pesak", "Pesak"],
+  ["terakota", "Terakota"],
+];
+const temaSpisak = document.querySelector("#tema-spisak");
+
 function temaSada() {
   const zakucana = document.documentElement.dataset.tema;
-  if (zakucana === "tamna" || zakucana === "svetla") return zakucana;
-  return window.matchMedia("(prefers-color-scheme: light)").matches ? "svetla" : "tamna";
-}
-
-function ikonaTeme(vrsta) {
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("viewBox", "0 0 16 16");
-  svg.setAttribute("width", "16");
-  svg.setAttribute("height", "16");
-  svg.setAttribute("aria-hidden", "true");
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("fill", "currentColor");
-  path.setAttribute(
-    "d",
-    vrsta === "sunce"
-      ? "M8 4.2a3.8 3.8 0 1 1 0 7.6 3.8 3.8 0 0 1 0-7.6zM8 0v2.2M8 13.8V16M0 8h2.2M13.8 8H16M2.3 2.3l1.6 1.6M12.1 12.1l1.6 1.6M13.7 2.3l-1.6 1.6M3.9 12.1l-1.6 1.6"
-      : "M10.2 1.2A6.2 6.2 0 1 0 14.8 10 5 5 0 0 1 10.2 1.2z",
-  );
-  svg.append(path);
-  return svg;
+  if (TEME.some(([id]) => id === zakucana)) return zakucana;
+  return window.matchMedia("(prefers-color-scheme: light)").matches ? "pesak" : "ugalj";
 }
 
 function natpisTeme() {
-  const sledeca = temaSada() === "tamna" ? "Svetla tema" : "Tamna tema";
-  temaDugme.replaceChildren(ikonaTeme(sledeca === "Svetla tema" ? "sunce" : "mesec"));
-  temaDugme.setAttribute("aria-label", sledeca);
-  temaDugme.title = sledeca;
+  const sad = temaSada();
+  temaDugme.textContent = TEME.find(([id]) => id === sad)[1];
+  for (const dugme of temaSpisak.querySelectorAll("button")) {
+    dugme.setAttribute("aria-current", dugme.dataset.tema === sad ? "true" : "false");
+  }
+}
+
+function zakucajTemu(id) {
+  document.documentElement.dataset.tema = id;
+  try {
+    localStorage.setItem("tema", id);
+  } catch (e) {}
+  natpisTeme();
+  temaSpisak.hidden = true;
+  temaDugme.setAttribute("aria-expanded", "false");
+  if (pogled) osveziEditor();
+}
+
+for (const [id, natpis] of TEME) {
+  const stavka = document.createElement("li");
+  const dugme = document.createElement("button");
+  dugme.type = "button";
+  dugme.dataset.tema = id;
+  dugme.textContent = natpis;
+  dugme.addEventListener("click", () => zakucajTemu(id));
+  stavka.append(dugme);
+  temaSpisak.append(stavka);
 }
 
 temaDugme.addEventListener("click", () => {
-  const sledeca = temaSada() === "tamna" ? "svetla" : "tamna";
-  document.documentElement.dataset.tema = sledeca;
-  try {
-    localStorage.setItem("tema", sledeca);
-  } catch (e) {}
-  natpisTeme();
-  if (pogled) osveziEditor();
+  const otvoren = temaSpisak.hidden;
+  temaSpisak.hidden = !otvoren;
+  temaDugme.setAttribute("aria-expanded", String(otvoren));
 });
 natpisTeme();
 
@@ -1501,12 +1549,14 @@ if (izHesha >= 1 && izHesha <= dokument.trajanjeNedelja) {
   cas = pocetno.nedelja;
   korakPoCasu.set(cas, pocetno.korak || 0);
 }
-fetch("/pojmovnik")
-  .then((odgovor) => odgovor.text())
-  .then((tekst) => {
-    pojmovi = pojmoviIzTeksta(tekst);
-    renderLecture();
-  })
-  .catch(() => {});
+Promise.all([
+  fetch("/pojmovnik")
+    .then((odgovor) => odgovor.text())
+    .catch(() => ""),
+  ucitajIkonice(),
+]).then(([tekst]) => {
+  if (tekst) pojmovi = pojmoviIzTeksta(tekst);
+  renderLecture();
+});
 if (!location.hash) location.hash = `cas-${cas}`;
 else window.dispatchEvent(new Event("hashchange"));

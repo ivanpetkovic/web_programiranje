@@ -6,8 +6,9 @@
     <title>Web Programming</title>
     <script>
       try {
-        var tema = localStorage.getItem("tema");
-        if (tema === "tamna" || tema === "svetla") document.documentElement.dataset.tema = tema;
+        var mapa = { tamna: "ugalj", svetla: "pesak", mornar: "mornar", ugalj: "ugalj", pesak: "pesak", terakota: "terakota" };
+        var tema = mapa[localStorage.getItem("tema")];
+        if (tema) document.documentElement.dataset.tema = tema;
       } catch (e) {}
     </script>
     <link rel="stylesheet" href="/css/site.css" />
@@ -26,6 +27,7 @@
       <p id="naslov-kursa" class="brand"></p>
       <form id="search-form" class="trazi" role="search">
         <label class="sr" for="q">Nađi pojam</label>
+        <span class="ikona-slot" data-ikona="search"></span>
         <input id="q" type="search" placeholder="Nađi pojam, pitanje ili primer koda..." autocomplete="off" role="combobox" aria-expanded="false" aria-controls="typeahead" aria-autocomplete="list" />
         <kbd aria-hidden="true">⌘K</kbd>
         <ul id="typeahead" class="typeahead" role="listbox" hidden></ul>
@@ -34,11 +36,14 @@
         <p id="natpis-nedelje" class="meta"></p>
         <div id="klizac" class="klizac" role="group" aria-label="Nedelje"></div>
       </div>
-      <button type="button" id="prethodna-nedelja" aria-label="Prethodna nedelja">‹</button>
-      <button type="button" id="sledeca-nedelja" aria-label="Sledeća nedelja">›</button>
-      <button type="button" id="sacuvaj-zaglavlje" aria-label="Sačuvaj korak">⚑</button>
-      <button type="button" id="pomoc" aria-label="Pomoć">?</button>
-      <button type="button" id="tema" aria-label="Svetla tema" title="Svetla tema"></button>
+      <button type="button" id="prethodna-nedelja" aria-label="Prethodna nedelja" data-ikona="chevron-left"></button>
+      <button type="button" id="sledeca-nedelja" aria-label="Sledeća nedelja" data-ikona="chevron-right"></button>
+      <button type="button" id="sacuvaj-zaglavlje" aria-label="Sačuvaj korak" data-ikona="bookmark"></button>
+      <button type="button" id="pomoc" aria-label="Pomoć" data-ikona="help-circle"></button>
+      <div class="tema-meni">
+        <button type="button" id="tema" aria-haspopup="listbox" aria-expanded="false" aria-controls="tema-spisak">Ugalj</button>
+        <ul id="tema-spisak" class="tema-spisak" role="listbox" hidden></ul>
+      </div>
       <span id="oznaka" class="oznaka"></span>
     </header>
     <div class="okvir">

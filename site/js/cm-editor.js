@@ -15,8 +15,8 @@ function jezik(put) {
 
 function tamnaTema() {
   const zakucana = document.documentElement.dataset.tema;
-  if (zakucana === "tamna") return true;
-  if (zakucana === "svetla") return false;
+  if (zakucana === "mornar" || zakucana === "ugalj") return true;
+  if (zakucana === "pesak" || zakucana === "terakota") return false;
   return !window.matchMedia("(prefers-color-scheme: light)").matches;
 }
 

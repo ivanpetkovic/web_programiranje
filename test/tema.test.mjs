@@ -5,6 +5,7 @@ import test from "node:test";
 const css = fs.readFileSync(new URL("../site/css/site.css", import.meta.url), "utf8");
 const main = fs.readFileSync(new URL("../site/js/main.js", import.meta.url), "utf8");
 const html = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
+const editor = fs.readFileSync(new URL("../site/js/cm-editor.js", import.meta.url), "utf8");
 
 function lin(kanal) {
   const c = kanal / 255;
@@ -53,66 +54,72 @@ function tokeni(tekst) {
   return izlaz;
 }
 
-const tamna = tokeni(blok(css, "(?:^|[^\\w-]):root\\s*\\{"));
-const svetlaZakucana = tokeni(blok(css, 'html\\[data-tema="svetla"\\]\\s*\\{'));
-const svetlaSistem = tokeni(blok(css, ":root:not\\(\\[data-tema\\]\\)\\s*\\{"));
+const ugalj = tokeni(blok(css, "(?:^|[^\\w-]):root\\s*\\{"));
+const ugaljZakucan = tokeni(blok(css, 'html\\[data-tema="ugalj"\\]\\s*\\{'));
+const mornar = tokeni(blok(css, 'html\\[data-tema="mornar"\\]\\s*\\{'));
+const pesak = tokeni(blok(css, 'html\\[data-tema="pesak"\\]\\s*\\{'));
+const terakota = tokeni(blok(css, 'html\\[data-tema="terakota"\\]\\s*\\{'));
+const pesakSistem = tokeni(blok(css, ":root:not\\(\\[data-tema\\]\\)\\s*\\{"));
+const palete = { ugalj, ugaljZakucan, mornar, pesak, terakota, pesakSistem };
 
-test("tamni ćilibar ostaje žut, a bunar taman", () => {
-  assert.equal(tamna.korak, "#ffb000");
-  assert.equal(tamna.zlato, "#e8a317");
-  assert.equal(tamna["na-zlatu"], "#1a1204");
-  assert.equal(tamna.bg, "#100f0c");
-  assert.equal(tamna.paper, "#1c1a16");
-  assert.equal(tamna.naslov, "#f7f4ee");
-  assert.equal(tamna.chart, "#111111");
-  assert.match(blok(css, "(?:^|[^\\w-]):root\\s*\\{"), /color-scheme:\s*dark/);
-  assert.ok(kontrast("#ffb000", "#111111") >= 3);
-  assert.ok(kontrast(tamna.amber, tamna.paper) >= 3, "cifre");
-});
-
-test("svetla tema čita korak, beleške i cifre, a bunar ostaje taman", () => {
+test("svaka paleta drži kontrast, zlato samo na tamnima, bunar taman", () => {
   assert.match(css, /@media\s*\(\s*prefers-color-scheme:\s*light\s*\)/);
-  for (const svetla of [svetlaZakucana, svetlaSistem]) {
-    assert.equal(svetla.korak, "#8a5600");
-    assert.notEqual(svetla.korak, "#ffb000");
-    assert.equal(svetla.zlato, "#e8a317");
-    assert.equal(svetla["na-zlatu"], "#1a1204");
-    assert.equal(svetla.muted, "#5e564c");
-    assert.equal(svetla.good, "#3f6212");
-    assert.equal(svetla.bad, "#9f2d22");
-    assert.equal(svetla.paper, "#ffffff");
-    assert.equal(svetla.bg, "#fafafb");
-    assert.equal(svetla.ink, "#1c2430");
-    assert.equal(svetla.naslov, "#0a0a36");
-    assert.equal(svetla.chart, "#111111");
-    assert.ok(kontrast(svetla.korak, svetla.paper) >= 4.5, "korak");
-    assert.ok(kontrast(svetla.muted, svetla.paper) >= 4.5, "beleške");
-    assert.ok(kontrast(svetla.amber, svetla.paper) >= 3, "cifre");
-    assert.ok(kontrast(svetla.ink, svetla.bg) >= 4.5, "mastilo");
-  }
-  assert.match(blok(css, 'html\\[data-tema="svetla"\\]\\s*\\{'), /color-scheme:\s*light/);
+  assert.deepEqual(ugalj, ugaljZakucan);
+  assert.deepEqual(pesak, pesakSistem);
+  assert.match(blok(css, "(?:^|[^\\w-]):root\\s*\\{"), /color-scheme:\s*dark/);
+  assert.match(blok(css, 'html\\[data-tema="ugalj"\\]\\s*\\{'), /color-scheme:\s*dark/);
+  assert.match(blok(css, 'html\\[data-tema="mornar"\\]\\s*\\{'), /color-scheme:\s*dark/);
+  assert.match(blok(css, 'html\\[data-tema="pesak"\\]\\s*\\{'), /color-scheme:\s*light/);
+  assert.match(blok(css, 'html\\[data-tema="terakota"\\]\\s*\\{'), /color-scheme:\s*light/);
   assert.match(blok(css, ":root:not\\(\\[data-tema\\]\\)\\s*\\{"), /color-scheme:\s*light/);
+  for (const [ime, tema] of Object.entries(palete)) {
+    assert.equal(tema.chart, "#111111", ime);
+    assert.ok(kontrast(tema.amber, tema.paper) >= 4.5, `${ime} korak`);
+    assert.ok(kontrast(tema.muted, tema.paper) >= 4.5, `${ime} beleške`);
+    assert.ok(kontrast(tema.amber, tema.paper) >= 3, `${ime} cifre`);
+    assert.ok(kontrast(tema.ink, tema.bg) >= 4.5, `${ime} mastilo`);
+    assert.ok(kontrast(tema["on-amber"], tema.amber) >= 4.5, `${ime} hod`);
+    assert.ok(kontrast(tema["diff-dodato"], tema.code) >= 4.5, `${ime} dodato`);
+    assert.ok(kontrast(tema["diff-obrisano"], tema.code) >= 4.5, `${ime} obrisano`);
+    assert.ok(kontrast("#ffb000", tema.chart) >= 3, `${ime} bunar`);
+  }
+  for (const tema of [ugalj, mornar]) {
+    assert.equal(tema.amber, "#ffb000");
+    assert.equal(tema.korak, "#ffb000");
+    assert.equal(tema.naslov, "#f7f4ee");
+    assert.equal(tema["on-amber"], "#1a1204");
+  }
+  for (const tema of [pesak, terakota]) {
+    assert.notEqual(tema.amber, "#ffb000");
+    assert.equal(tema.korak, tema.amber);
+    assert.equal(tema.naslov, tema.ink);
+  }
+  assert.equal(pesakSistem.korak, pesak.korak);
+  assert.equal(pesakSistem.naslov, pesak.naslov);
+  assert.equal(mornar.bg, "#011835");
+  assert.equal(mornar.paper, "#051c38");
+  assert.equal(mornar.code, "#081b33");
+  assert.equal(pesak.bg, "#fbfbfb");
+  assert.equal(pesak.paper, "#fefefe");
+  assert.equal(pesak.amber, "#a86300");
+  assert.equal(terakota.bg, "#fcf4eb");
+  assert.equal(terakota.paper, "#fef8f1");
+  assert.equal(terakota.amber, "#b81400");
   assert.match(css, /#grafikon\s*\{[^}]*background:\s*var\(--chart\)/);
   assert.match(css, /pre\s*\{[^}]*background:\s*var\(--code\)/);
   assert.match(css, /\.skip:focus\s*\{[^}]*color:\s*var\(--on-amber\)/);
-});
-
-test("jedno dugme teme nosi ikonicu i ime sledeće teme", () => {
-  assert.equal(html.match(/id="tema"/g).length, 1);
-  assert.equal(html.includes(">Svetla tema<"), false);
-  assert.equal(html.includes(">Tamna tema<"), false);
-  assert.match(main, /const sledeca = temaSada\(\) === "tamna" \? "Svetla tema" : "Tamna tema"/);
-  assert.match(main, /temaDugme\.setAttribute\("aria-label", sledeca\)/);
-  assert.match(main, /temaDugme\.replaceChildren\(ikonaTeme/);
-  assert.match(main, /document\.documentElement\.dataset\.tema = sledeca/);
-  assert.match(main, /localStorage\.setItem\("tema", sledeca\)/);
 });
 
 test("zakucana tema se čita pre stilova", () => {
   const skripta = html.indexOf('localStorage.getItem("tema")');
   const stil = html.indexOf('href="/css/site.css"');
   assert.ok(skripta > 0 && skripta < stil);
-  assert.match(html, /tema === "tamna" \|\| tema === "svetla"/);
+  assert.match(html, /tamna:\s*"ugalj"/);
+  assert.match(html, /svetla:\s*"pesak"/);
+  assert.match(html, /mornar:\s*"mornar"/);
+  assert.match(html, /ugalj:\s*"ugalj"/);
+  assert.match(html, /pesak:\s*"pesak"/);
+  assert.match(html, /terakota:\s*"terakota"/);
   assert.match(html, /document\.documentElement\.dataset\.tema = tema/);
   assert.match(html, /catch\s*\(/);
 });
@@ -126,37 +133,53 @@ test("gradivo, jedna kolona i žuti hod", () => {
   assert.match(css, /\.opcije-mreza\s*\{\s*display:\s*grid;\s*grid-template-columns:\s*1fr;\s*gap:\s*0\.55rem;\s*\}/);
   assert.match(css, /@media\s*\(\s*min-width:\s*861px\s*\)\s*\{\s*\.opcije-mreza\s*\{\s*grid-template-columns:\s*1fr\s+1fr;\s*\}/);
   const hod = blok(css, "\\.hod-koraka\\s*\\{");
-  assert.match(hod, /background:\s*#ffb000/);
-  assert.match(hod, /color:\s*#1a1204/);
+  assert.match(hod, /background:\s*var\(--amber\)/);
+  assert.match(hod, /color:\s*var\(--on-amber\)/);
   assert.ok(kontrast("#ffb000", "#1a1204") >= 4.5, "žuti hod");
   assert.match(main, /className = "hod-koraka"/);
   assert.match(main, /trakaKoraka\.append\(prethodni, broj, daljeKorak/);
-  assert.match(main, /strelica\("levo"\)/);
-  assert.match(main, /strelica\("desno"\)/);
+  assert.match(main, /ikonica\("chevron-left"\)/);
+  assert.match(main, /ikonica\("chevron-right"\)/);
+  assert.equal(main.includes("function strelica"), false);
   assert.equal(main.includes('hod.append(prethodni, daljeKorak)'), false);
   assert.equal(css.includes("#sledeci"), false);
   assert.equal(html.includes('id="sledeci" class="hod-koraka"'), false);
 });
 
-test("boje razlike drže kontrast u obe teme", () => {
-  assert.ok(kontrast(tamna["diff-dodato"], tamna.code) >= 4.5, "tamno dodato");
-  assert.ok(kontrast(tamna["diff-obrisano"], tamna.code) >= 4.5, "tamno obrisano");
-  for (const svetla of [svetlaZakucana, svetlaSistem]) {
-    assert.ok(kontrast(svetla["diff-dodato"], svetla.code) >= 4.5, "svetlo dodato");
-    assert.ok(kontrast(svetla["diff-obrisano"], svetla.code) >= 4.5, "svetlo obrisano");
-  }
+test("boje razlike prate token palete", () => {
   assert.match(css, /\.cm-linija-dodato[^{]*\{[^}]*var\(--diff-dodato\)/);
   assert.match(css, /\.cm-linija-obrisano[^{]*\{[^}]*var\(--diff-obrisano\)/);
+});
+
+test("spisak tema zakuca paletu i ne pomera čas", () => {
+  for (const natpis of ["Mornar", "Ugalj", "Pesak", "Terakota"]) {
+    assert.match(main, new RegExp(natpis));
+  }
+  assert.match(main, /return window\.matchMedia\("\(prefers-color-scheme: light\)"\)\.matches \? "pesak" : "ugalj"/);
+  const telo = main.slice(main.indexOf("function zakucajTemu"), main.indexOf("for (const [id, natpis] of TEME)"));
+  assert.match(telo, /dataset\.tema = id/);
+  assert.match(telo, /localStorage\.setItem\("tema", id\)/);
+  assert.equal(telo.includes("otvoriNedelju"), false);
+  assert.equal(telo.includes("cas ="), false);
+  assert.match(telo, /if \(pogled\) osveziEditor\(\)/);
+});
+
+test("editor prati četiri teme", () => {
+  assert.match(editor, /zakucana === "mornar" \|\| zakucana === "ugalj"/);
+  assert.match(editor, /zakucana === "pesak" \|\| zakucana === "terakota"/);
+  assert.equal(editor.includes('zakucana === "tamna"'), false);
+  assert.equal(editor.includes('zakucana === "svetla"'), false);
+  assert.match(main, /postaviPogled\(pogled/);
 });
 
 test("red koraka koristi ćilibar, a beleške ostaju prigušene", () => {
   assert.match(main, /broj\.className = "korak"/);
   assert.match(main, /Korak \$\{i \+ 1\} od \$\{item\.steps\.length\}/);
   assert.match(css, /\.korak\s*\{\s*color:\s*var\(--korak\);\s*\}/);
-  assert.match(css, /\.brand\s*\{\s*color:\s*var\(--zlato\)/);
-  assert.match(css, /#kartica-popuna\s*\{[^}]*background:\s*var\(--zlato\)/);
-  assert.match(css, /\.koraci-kontrole button\[aria-current="page"\]\s*\{[^}]*background:\s*var\(--zlato\)/);
-  assert.match(css, /\.option\.izabrano\s*\{[^}]*border-color:\s*var\(--zlato\)/);
+  assert.match(css, /\.brand\s*\{\s*color:\s*var\(--amber\)/);
+  assert.match(css, /#kartica-popuna\s*\{[^}]*background:\s*var\(--amber\)/);
+  assert.match(css, /\.koraci-kontrole button\[aria-current="page"\]\s*\{[^}]*background:\s*var\(--amber\)/);
+  assert.match(css, /\.option\.izabrano\s*\{[^}]*border-color:\s*var\(--amber\)/);
   assert.match(css, /font-family:\s*system-ui,\s*"Segoe UI",\s*sans-serif/);
   assert.match(css, /\.cas-glava h1\s*\{\s*color:\s*var\(--naslov\)/);
   assert.match(css, /\.digit\s*\{[^}]*font-family:\s*"Digital-7 Mono"/);
