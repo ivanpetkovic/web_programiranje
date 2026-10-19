@@ -6,7 +6,7 @@
   "oznaka": "MP",
   "grb": "/img/grb.svg",
   "trajanjeNedelja": 10,
-  "preduslovPrve": "Rez client/ i prazan server/.",
+  "preduslovPrve": "Browser učitava client/. server/ još nema fajlove.",
   "nedelje": [
     {
       "naslov": "Šta browser prikazuje",
@@ -92,14 +92,15 @@
       "steps": [
         {
           "putanja": "client/index.html",
-          "naslov": "Rez",
+          "naslov": "Podela",
           "nivo": "Osnovno",
-          "minuta": 8,
+          "minuta": 6,
           "tekst": "Dva foldera stoje jedan pored drugog pre ijedne funkcije.",
-          "kljucnaIdeja": "client/ je ono što browser učita. server/ stoji prazan da se vidi rez.",
-          "isecakNaslov": "Rez",
+          "kljucnaIdeja": "client/ je ono što browser učita. server/ još nema fajlove.",
+          "isecakNaslov": "Podela",
           "isecak": "client/\nserver/",
           "delic": "client/\nserver/",
+          "original": "client/\nserver/\n",
           "pitalica": "Šta browser učitava na ovom času?",
           "opcije": [
             {
@@ -118,14 +119,15 @@
         },
         {
           "putanja": "client/index.html",
-          "naslov": "Skelet",
+          "naslov": "Stranica",
           "nivo": "Osnovno",
-          "minuta": 8,
+          "minuta": 6,
           "tekst": "Stranica počinje praznim dokumentom, ne panelom.",
           "kljucnaIdeja": "Dokument živi u client/index.html. Pokretanje Node-a nije deo ove nedelje.",
-          "isecakNaslov": "Skelet",
+          "isecakNaslov": "Stranica",
           "isecak": "<!DOCTYPE html>\n<html lang=\"sr\">\n</html>",
-          "delic": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head><meta charset=\"utf-8\"><title>Soba</title></head>\n<body>\n</body>\n</html>",
+          "delic": "<!DOCTYPE html>\n<html lang=\"sr\">\n</html>",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n</html>\n",
           "pitalica": "Šta je ovaj fajl?",
           "opcije": [
             {
@@ -144,14 +146,69 @@
         },
         {
           "putanja": "client/index.html",
+          "naslov": "Glava",
+          "nivo": "Osnovno",
+          "minuta": 6,
+          "tekst": "Charset i naslov dokumenta stoje u glavi, pre sadržaja.",
+          "kljucnaIdeja": "Glava opisuje dokument. Još nema onoga što se vidi u sobi.",
+          "isecakNaslov": "Glava",
+          "isecak": "<meta charset=\"utf-8\">\n<title>Soba</title>",
+          "delic": "<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n</head>",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n</head>\n</html>\n",
+          "pitalica": "Gde stoje charset i title?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "U merenju temperature.",
+              "why": "Merenja još nema.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "U glavi dokumenta.",
+              "why": "head nosi opis dokumenta.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
+          "naslov": "Telo",
+          "nivo": "Osnovno",
+          "minuta": 6,
+          "tekst": "Telo je prazno mesto za ono što će soba prikazati.",
+          "kljucnaIdeja": "body drži sadržaj. Stil i komanda još nisu tu.",
+          "isecakNaslov": "Telo",
+          "isecak": "<body>\n</body>",
+          "delic": "<body>\n</body>",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n</head>\n<body>\n</body>\n</html>\n",
+          "pitalica": "Šta je body na ovom koraku?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Stil broja.",
+              "why": "Stil je poseban fajl.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Prazno mesto za sadržaj.",
+              "why": "Sadržaj dolazi u telo.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
           "naslov": "Naslov",
           "nivo": "Osnovno",
-          "minuta": 8,
+          "minuta": 6,
           "tekst": "Naslov je deo dokumenta, ne merenje.",
           "kljucnaIdeja": "Naslov dolazi iz fajla. Prikaz ga samo pokaže.",
           "isecakNaslov": "Naslov",
           "isecak": "<h1>Soba prekidača</h1>",
           "delic": "<h1>Soba prekidača</h1>",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n</head>\n<body>\n<h1>Soba prekidača</h1>\n</body>\n</html>\n",
           "pitalica": "Osvežavanje stranice...",
           "opcije": [
             {
@@ -170,14 +227,15 @@
         },
         {
           "putanja": "client/index.html",
-          "naslov": "Broj 24",
+          "naslov": "Broj",
           "nivo": "Osnovno",
-          "minuta": 8,
+          "minuta": 6,
           "tekst": "U pasusu stoji broj, kao običan tekst.",
           "kljucnaIdeja": "Temperatura na ovom času jeste sadržaj client/index.html.",
-          "isecakNaslov": "Broj 24",
+          "isecakNaslov": "Broj",
           "isecak": "<p class=\"digit\">24</p>",
           "delic": "<p class=\"digit\">24</p>",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n</head>\n<body>\n<h1>Soba prekidača</h1>\n<p class=\"digit\">24</p>\n</body>\n</html>\n",
           "pitalica": "Odakle je 24 na početku?",
           "opcije": [
             {
@@ -198,12 +256,13 @@
           "putanja": "client/index.html",
           "naslov": "Dugme",
           "nivo": "Osnovno",
-          "minuta": 8,
+          "minuta": 6,
           "tekst": "Dugme je element dokumenta. Još ništa ne šalje.",
           "kljucnaIdeja": "Dugme je u dokumentu. Komanda dolazi tek kad postoji server.",
           "isecakNaslov": "Dugme",
           "isecak": "<button type=\"button\">Uključi</button>",
           "delic": "<button type=\"button\">Uključi</button>",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n</head>\n<body>\n<h1>Soba prekidača</h1>\n<p class=\"digit\">24</p>\n<button type=\"button\">Uključi</button>\n</body>\n</html>\n",
           "pitalica": "Klik na ovo dugme na času 1...",
           "opcije": [
             {
@@ -221,15 +280,43 @@
           ]
         },
         {
+          "putanja": "client/index.html",
+          "naslov": "Veza",
+          "nivo": "Osnovno",
+          "minuta": 6,
+          "tekst": "Dokument kaže browseru gde je stil.",
+          "kljucnaIdeja": "Veza učitava client/css/soba.css. Broj i dalje stoji u HTML-u.",
+          "isecakNaslov": "Veza",
+          "isecak": "<link rel=\"stylesheet\" href=\"css/soba.css\">",
+          "delic": "<link rel=\"stylesheet\" href=\"css/soba.css\">",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n<link rel=\"stylesheet\" href=\"css/soba.css\">\n</head>\n<body>\n<h1>Soba prekidača</h1>\n<p class=\"digit\">24</p>\n<button type=\"button\">Uključi</button>\n</body>\n</html>\n",
+          "pitalica": "Šta ova veza radi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Šalje komandu ventilatoru.",
+              "why": "Ovo je veza ka stilu, ne komanda.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Traži da browser učita stil.",
+              "why": "href pokazuje na css fajl.",
+              "ok": true
+            }
+          ]
+        },
+        {
           "putanja": "client/css/soba.css",
           "naslov": "Razmak",
           "nivo": "Osnovno",
-          "minuta": 8,
+          "minuta": 6,
           "tekst": "Isti tekst može da izgleda ređe.",
           "kljucnaIdeja": "CSS menja izgled broja. Dokument i dalje kaže 24.",
           "isecakNaslov": "Razmak",
           "isecak": ".digit { letter-spacing: 0.08em; }",
           "delic": ".digit {\n  letter-spacing: 0.08em;\n}",
+          "original": ".digit {\n  letter-spacing: 0.08em;\n}\n",
           "pitalica": "Ako stil ne stigne, broj...",
           "opcije": [
             {
@@ -247,15 +334,43 @@
           ]
         },
         {
+          "putanja": "client/css/soba.css",
+          "naslov": "Okvir",
+          "nivo": "Osnovno",
+          "minuta": 6,
+          "tekst": "Isti dokument može da dobije okvir.",
+          "kljucnaIdeja": "Okvir je stil. Broj u fajlu i dalje je 24.",
+          "isecakNaslov": "Okvir",
+          "isecak": "body {\n  border: 1px solid #3a342c;\n  padding: 1rem;\n}",
+          "delic": "body {\n  border: 1px solid #3a342c;\n  padding: 1rem;\n}",
+          "original": ".digit {\n  letter-spacing: 0.08em;\n}\nbody {\n  border: 1px solid #3a342c;\n  padding: 1rem;\n}\n",
+          "pitalica": "Šta okvir menja?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Broj 24 u dokumentu.",
+              "why": "Broj ostaje u HTML-u.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Izgled stranice.",
+              "why": "border i padding su stil.",
+              "ok": true
+            }
+          ]
+        },
+        {
           "putanja": "client/index.html",
           "naslov": "Osvežavanje",
           "nivo": "Osnovno",
-          "minuta": 8,
+          "minuta": 6,
           "tekst": "U alatima je neko prekucao 24 u 10.",
           "kljucnaIdeja": "Osvežavanje vraća dokument. 10 je bio samo lokalni prikaz.",
           "isecakNaslov": "Osvežavanje",
           "isecak": "dokument: 24\nprikaz: 10",
           "delic": "<p class=\"digit\">24</p>",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n<link rel=\"stylesheet\" href=\"css/soba.css\">\n</head>\n<body>\n<h1>Soba prekidača</h1>\n<p class=\"digit\">24</p>\n<button type=\"button\">Uključi</button>\n</body>\n</html>\n",
           "pitalica": "Šta osvežavanje uradi?",
           "opcije": [
             {
@@ -276,30 +391,31 @@
           "putanja": "client/index.html",
           "naslov": "Alati",
           "nivo": "Osnovno",
-          "minuta": 8,
+          "minuta": 6,
           "tekst": "Izmena u alatima vidi se odmah na ekranu.",
           "kljucnaIdeja": "Alati menjaju sliku u ovom browseru. Dokument ostaje.",
           "isecakNaslov": "Alati",
           "isecak": "element.textContent = \"10\"",
           "delic": "<!-- prikaz može da kaže 10; fajl i dalje kaže 24 -->",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n<link rel=\"stylesheet\" href=\"css/soba.css\">\n</head>\n<body>\n<h1>Soba prekidača</h1>\n<p class=\"digit\">24</p>\n<!-- prikaz može da kaže 10; fajl i dalje kaže 24 -->\n<button type=\"button\">Uključi</button>\n</body>\n</html>\n",
           "pitalica": "Šta je time promenjeno?",
           "opcije": [
             {
               "key": "A",
               "text": "Merenje.",
-              "why": "Merenja nema.",
+              "why": "Merenje nismo dirali.",
               "ok": false
             },
             {
               "key": "B",
               "text": "Lokalni prikaz, ne dokument.",
-              "why": "Fajl i dalje drži 24.",
+              "why": "Fajl i dalje kaže 24.",
               "ok": true
             },
             {
               "key": "C",
               "text": "I merenje i dokument.",
-              "why": "Ekran nije stanje kutije.",
+              "why": "Dokument se nije sačuvao.",
               "ok": false
             }
           ]
@@ -308,12 +424,13 @@
           "putanja": "client/index.html",
           "naslov": "Dva zahteva",
           "nivo": "Osnovno",
-          "minuta": 8,
+          "minuta": 6,
           "tekst": "Stranica traži dokument, pa stil.",
           "kljucnaIdeja": "Network pokazuje dokument i stil. Čitanje sobe još ne postoji.",
           "isecakNaslov": "Dva zahteva",
           "isecak": "GET /\nGET /css/soba.css",
           "delic": "<!-- nema /api/soba -->",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n<link rel=\"stylesheet\" href=\"css/soba.css\">\n</head>\n<body>\n<h1>Soba prekidača</h1>\n<p class=\"digit\">24</p>\n<!-- prikaz može da kaže 10; fajl i dalje kaže 24 -->\n<button type=\"button\">Uključi</button>\n<!-- nema /api/soba -->\n</body>\n</html>\n",
           "pitalica": "Da li se vidi zahtev za sobu?",
           "opcije": [
             {
@@ -325,7 +442,7 @@
             {
               "key": "B",
               "text": "Ne. Nema zahteva za API sobe.",
-              "why": "Na ovom času Network nema GET /api/soba.",
+              "why": "Stižu dokument i stil.",
               "ok": true
             }
           ]
@@ -334,24 +451,25 @@
           "putanja": "client/index.html",
           "naslov": "Soba prekidača",
           "nivo": "Osnovno",
-          "minuta": 8,
+          "minuta": 6,
           "tekst": "Na ekranu je jedna soba i jedan broj.",
           "kljucnaIdeja": "Čas 1 crta samo sobu prekidača. Lopatice nisu deo ovog prikaza.",
           "isecakNaslov": "Soba prekidača",
           "isecak": "soba prekidača\n24",
           "delic": "<!-- samo soba prekidača -->",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n<link rel=\"stylesheet\" href=\"css/soba.css\">\n</head>\n<body>\n<h1>Soba prekidača</h1>\n<p class=\"digit\">24</p>\n<!-- prikaz može da kaže 10; fajl i dalje kaže 24 -->\n<button type=\"button\">Uključi</button>\n<!-- nema /api/soba -->\n<!-- samo soba prekidača -->\n</body>\n</html>\n",
           "pitalica": "Gde je ventilator?",
           "opcije": [
             {
               "key": "A",
               "text": "U sobi prekidača, mali.",
-              "why": "Taj crtež ne postoji.",
+              "why": "Lopatica još nema.",
               "ok": false
             },
             {
               "key": "B",
               "text": "Nigde. Soba mašina se ne crta.",
-              "why": "Ventilator čeka server.",
+              "why": "Crta se samo soba prekidača.",
               "ok": true
             }
           ]
@@ -360,24 +478,25 @@
           "putanja": "client/index.html",
           "naslov": "Semantika",
           "nivo": "Osnovno",
-          "minuta": 8,
+          "minuta": 6,
           "tekst": "Naslov nije podebljan pasus.",
           "kljucnaIdeja": "Semantički HTML ostaje i kad se stil promeni.",
           "isecakNaslov": "Semantika",
           "isecak": "<h1>Soba prekidača</h1>",
           "delic": "<h1>Soba prekidača</h1>",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n<link rel=\"stylesheet\" href=\"css/soba.css\">\n</head>\n<body>\n<h1>Soba prekidača</h1>\n<p class=\"digit\">24</p>\n<!-- prikaz može da kaže 10; fajl i dalje kaže 24 -->\n<button type=\"button\">Uključi</button>\n<!-- nema /api/soba -->\n<!-- samo soba prekidača -->\n</body>\n</html>\n",
           "pitalica": "Zašto h1, a ne samo velika slova?",
           "opcije": [
             {
               "key": "A",
               "text": "Zato što server tako čita temperaturu.",
-              "why": "Server se ne pokreće.",
+              "why": "Server se na ovom času ne pokreće.",
               "ok": false
             },
             {
               "key": "B",
               "text": "Zato što dokument kaže šta je naslov.",
-              "why": "Izgled može da se doda kasnije.",
+              "why": "h1 imenuje naslov.",
               "ok": true
             }
           ]
