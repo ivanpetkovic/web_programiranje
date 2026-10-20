@@ -133,7 +133,12 @@ test("gradivo, jedna kolona i birač", () => {
   assert.equal(html.includes('id="koraci-kontrole"'), false);
   assert.equal(main.includes("#koraci-kontrole"), false);
   assert.equal(main.includes("pill.textContent"), false);
-  assert.match(main, /casEl\.append\(birac, metaKoraka/);
+  const tabovi = html.indexOf('class="cas-tabovi"');
+  const mesto = html.indexOf('id="birac-mesto"');
+  const sekcija = html.indexOf('id="sekcija-koraci"');
+  assert.ok(tabovi > 0 && tabovi < mesto && mesto < sekcija);
+  assert.match(main, /querySelector\("#birac-mesto"\)\.replaceChildren\(nacrtajBirac/);
+  assert.equal(main.includes("casEl.append(birac"), false);
   assert.match(css, /\.opcije-mreza\s*\{\s*display:\s*grid;\s*grid-template-columns:\s*1fr;\s*gap:\s*0\.55rem;\s*\}/);
   assert.equal(/@media\s*\(\s*min-width:\s*861px\s*\)\s*\{[^}]*\.opcije-mreza\s*\{\s*grid-template-columns:\s*1fr\s+1fr/.test(css), false);
   assert.equal(main.includes('className = "hod-koraka"'), false);

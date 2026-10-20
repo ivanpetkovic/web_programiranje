@@ -567,6 +567,7 @@ function renderLecture() {
     greska.hidden = false;
     greska.textContent = provera.greska;
     nav.replaceChildren();
+    document.querySelector("#birac-mesto").replaceChildren();
     return;
   }
   greska.hidden = true;
@@ -605,8 +606,8 @@ function renderLecture() {
   document.querySelector("#podnaslov-casa").textContent = item.outcome;
   saIkonom(document.querySelector("#preduslov"), "graduation-cap", `Preduslov: ${preduslovCasa(item.n)}`);
   postaviDefiniciju(aktivnaDefinicija);
+  document.querySelector("#birac-mesto").replaceChildren(nacrtajBirac(item, i));
   casEl.replaceChildren();
-  const birac = nacrtajBirac(item, i);
   const metaKoraka = document.createElement("div");
   metaKoraka.className = "meta-koraka";
   const nivo = document.createElement("span");
@@ -726,7 +727,7 @@ function renderLecture() {
     renderLecture();
   });
   radnjePitanja.append(otvori, ponovi);
-  casEl.append(birac, metaKoraka, naslovKoraka, primer, kljucna);
+  casEl.append(metaKoraka, naslovKoraka, primer, kljucna);
   if (figura) casEl.append(figura);
   else if (isecak) casEl.append(isecak, put, vec);
   casEl.append(pitanjeBlok, radnjePitanja);
