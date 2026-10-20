@@ -126,11 +126,18 @@ test("zakucana tema se čita pre stilova", () => {
 
 test("gradivo, jedna kolona i birač", () => {
   assert.match(html, /id="tab-koraci"[^>]*>Gradivo</);
-  assert.match(html, /Gradivo, Diskusija i Uređivač su tri taba/);
+  assert.match(html, /Gradivo, Diskusija i Editor su tri taba/);
   assert.match(html, /otvaraju taj korak u Gradivu/);
   assert.equal(html.includes(">Koraci<"), false);
-  assert.equal(html.includes('id="koraci-kontrole"'), false);
-  assert.equal(main.includes("#koraci-kontrole"), false);
+  assert.equal(html.includes(">Uređivač<"), false);
+  const kontrole = html.indexOf('id="koraci-kontrole"');
+  const tabovi = html.indexOf('class="cas-tabovi"');
+  const sekcija = html.indexOf('id="sekcija-koraci"');
+  assert.ok(kontrole > 0 && kontrole < tabovi && tabovi < sekcija);
+  assert.match(html, /id="koraci-kontrole"[^>]*aria-label="Koraci nedelje"/);
+  assert.match(main, /querySelector\("#koraci-kontrole"\)/);
+  assert.match(main, /pill\.textContent = String\(ki \+ 1\)/);
+  assert.match(main, /pill\.setAttribute\("aria-current", "page"\)/);
   assert.match(css, /\.opcije-mreza\s*\{\s*display:\s*grid;\s*grid-template-columns:\s*1fr;\s*gap:\s*0\.55rem;\s*\}/);
   assert.equal(/@media\s*\(\s*min-width:\s*861px\s*\)\s*\{[^}]*\.opcije-mreza\s*\{\s*grid-template-columns:\s*1fr\s+1fr/.test(css), false);
   assert.equal(main.includes('className = "hod-koraka"'), false);
@@ -196,7 +203,8 @@ test("red koraka koristi ćilibar, a beleške ostaju prigušene", () => {
   assert.match(css, /\.korak\s*\{\s*color:\s*var\(--korak\);\s*\}/);
   assert.match(css, /\.brand\s*\{\s*color:\s*var\(--amber\)/);
   assert.match(css, /#kartica-popuna\s*\{[^}]*background:\s*var\(--amber\)/);
-  assert.equal(css.includes(".koraci-kontrole"), false);
+  assert.match(css, /\.koraci-kontrole button\[aria-current="page"\]\s*\{[^}]*background:\s*var\(--amber\)/);
+  assert.match(css, /\.koraci-kontrole button\[aria-current="page"\]\s*\{[^}]*color:\s*var\(--on-amber\)/);
   assert.match(css, /\.option\.izabrano\s*\{[^}]*border-color:\s*var\(--amber\)/);
   assert.match(css, /font-family:\s*system-ui,\s*"Segoe UI",\s*sans-serif/);
   assert.match(css, /\.cas-glava h1\s*\{\s*color:\s*var\(--naslov\)/);

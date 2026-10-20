@@ -429,7 +429,7 @@ Command+K and Ctrl+K MUST focus the term search.
 - **THEN** the term search is focused
 
 ### Requirement: Pomoć školjke
-Help MUST open a short explanation of the dashed underline, the typeahead, and the three tabs Gradivo, Diskusija, and Uređivač. It MUST NOT open the editor and MUST NOT send a room request.
+Help MUST open a short explanation of the dashed underline, the typeahead, and the three tabs Gradivo, Diskusija, and Editor. It MUST NOT open the editor and MUST NOT send a room request.
 
 #### Scenario: Help stays on the page
 - **WHEN** the teacher opens help
@@ -568,7 +568,7 @@ The progress card MUST show `calendar-days` beside the week label, `book-open` b
 - **THEN** the card shows those three icons beside Nedelja {n} od {N}, the step count, and the minute budget
 
 ### Requirement: Ikonice tabova
-Gradivo MUST show `file-text` and the word Gradivo. Diskusija MUST show `messages-square` and the word Diskusija. Uređivač MUST show `code-xml` and the word Uređivač.
+Gradivo MUST show `file-text` and the word Gradivo. Diskusija MUST show `messages-square` and the word Diskusija. Editor MUST show `code-xml` and the word Editor.
 
 #### Scenario: Tab labels stay
 - **WHEN** a lecture is open

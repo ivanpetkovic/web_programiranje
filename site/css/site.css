@@ -496,6 +496,12 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 }
 .procenat-traka { height: 0.45rem; background: var(--line); border-radius: 999px; overflow: hidden; }
 #kartica-popuna { display: block; height: 100%; background: var(--amber); width: 0; }
+.koraci-kontrole { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.koraci-kontrole button {
+  min-width: 2rem;
+  background: var(--paper);
+}
+.koraci-kontrole button[aria-current="page"] { background: var(--amber); color: var(--on-amber); border-color: var(--amber); }
 .korak-traka { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
 .kljucna {
   background: var(--amber-dim);
