@@ -236,5 +236,5 @@ test("neuspeo upis ostaje u mapi za ovu stranicu", () => {
   assert.equal(upis.sacuvano, false);
   assert.equal(upis.mapa["client/index.html"], "novo");
   assert.equal(upis.mapa["client/css/soba.css"], "staro");
-  assert.match(main, /Browser nije sačuvao radnu verziju/);
+  assert.match(main, /Pregledač nije sačuvao radnu verziju/);
 });

@@ -147,7 +147,7 @@ function popuniStalneIkonice() {
   }
   saIkonom(document.querySelector("#tab-koraci"), "file-text", "Gradivo");
   saIkonom(document.querySelector("#tab-diskusija"), "messages-square", "Diskusija");
-  saIkonom(document.querySelector("#tab-editor"), "code-xml", "Editor");
+  saIkonom(document.querySelector("#tab-editor"), "code-xml", "Uređivač");
 }
 
 function lecture() {
@@ -1051,9 +1051,9 @@ function onPromena(tekst) {
   rezim = "radna";
   prikazaniTekst = tekst;
   osveziDugmeVerzije();
-  if (!rezultat.sacuvano) editorErr.textContent = "Browser nije sačuvao radnu verziju.";
+  if (!rezultat.sacuvano) editorErr.textContent = "Pregledač nije sačuvao radnu verziju.";
   applyLive();
-  if (!rezultat.sacuvano) editorErr.textContent = "Browser nije sačuvao radnu verziju.";
+  if (!rezultat.sacuvano) editorErr.textContent = "Pregledač nije sačuvao radnu verziju.";
 }
 
 function osveziEditor() {
@@ -1103,7 +1103,7 @@ function sacuvajRadnu() {
   const puna = `${strana}/${openPath[strana]}`;
   const rezultat = upisiRadnu(localStorage, radne, puna, prikazaniTekst);
   radne = rezultat.mapa;
-  if (!rezultat.sacuvano) editorErr.textContent = "Browser nije sačuvao radnu verziju.";
+  if (!rezultat.sacuvano) editorErr.textContent = "Pregledač nije sačuvao radnu verziju.";
 }
 
 function resetujRadnu() {

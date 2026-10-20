@@ -40,7 +40,7 @@ test("zaglavlje, spisak i kartica nose ikonice", () => {
 test("tabovi, traka i isečak zadržavaju natpise", () => {
   assert.match(main, /saIkonom\(document\.querySelector\("#tab-koraci"\), "file-text", "Gradivo"\)/);
   assert.match(main, /saIkonom\(document\.querySelector\("#tab-diskusija"\), "messages-square", "Diskusija"\)/);
-  assert.match(main, /saIkonom\(document\.querySelector\("#tab-editor"\), "code-xml", "Editor"\)/);
+  assert.match(main, /saIkonom\(document\.querySelector\("#tab-editor"\), "code-xml", "Uređivač"\)/);
   assert.equal(html.includes(">Koraci<"), false);
   assert.match(main, /ikonica\("chart-column"\)/);
   assert.match(main, /saIkonom\(sacuvajKorak, "bookmark", "Sačuvaj korak"\)/);
