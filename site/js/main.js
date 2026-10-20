@@ -643,9 +643,10 @@ function renderLecture() {
     figura.className = "figura";
     figura.innerHTML = prikaz.svg;
   }
-  const isecak = figura ? null : nacrtajIsecak(korak);
-  const put = figura ? null : document.createElement("p");
-  const vec = figura ? null : document.createElement("pre");
+  const imaIsecak = !figura && korak.isecak != null;
+  const isecak = imaIsecak ? nacrtajIsecak(korak) : null;
+  const put = imaIsecak ? document.createElement("p") : null;
+  const vec = imaIsecak ? document.createElement("pre") : null;
   if (put) {
     put.className = "meta";
     const putanjaKoraka = document.createElement("span");
@@ -727,7 +728,7 @@ function renderLecture() {
   radnjePitanja.append(otvori, ponovi);
   casEl.append(birac, metaKoraka, naslovKoraka, primer, kljucna);
   if (figura) casEl.append(figura);
-  else casEl.append(isecak, put, vec);
+  else if (isecak) casEl.append(isecak, put, vec);
   casEl.append(pitanjeBlok, radnjePitanja);
   if (izlaz) casEl.append(izlaz);
   diskusijaMesto.replaceChildren(nacrtajDiskusiju(item));
@@ -831,30 +832,31 @@ function nacrtajDiskusiju(item) {
 }
 
 function fitPanel() {
-  const local = cas < 4;
+  const local = cas < 5;
   sobaMasina.hidden = local;
-  sledeci.hidden = cas > 3;
-  procitaj.hidden = cas < 4;
-  polling.hidden = cas < 8;
-  svezina.hidden = cas < 8;
-  prag.hidden = cas < 8;
-  stanjeCitanja.hidden = cas < 5;
-  istorija.hidden = cas < 7;
-  kabl.hidden = cas < 5;
-  sesije.hidden = cas < 9;
+  sledeci.hidden = cas < 2 || cas > 4;
+  procitaj.hidden = cas < 5;
+  polling.hidden = cas < 9;
+  svezina.hidden = cas < 9;
+  prag.hidden = cas < 9;
+  stanjeCitanja.hidden = cas < 6;
+  istorija.hidden = cas < 8;
+  kabl.hidden = cas < 6;
+  sesije.hidden = cas < 10;
   fanLocal.hidden = true;
   bladesLocal.classList.remove("spin");
-  starost.hidden = cas < 8;
+  starost.hidden = cas < 9;
   focusFile();
   loadSide();
-  log.hidden = cas !== 2;
-  grafikon.hidden = cas !== 3;
-  if (cas < 8) zaustaviPeriodicno();
-  if (cas === 2 || cas === 3) osveziNiz();
-  if (cas < 3) displejSobe.crtaj("24");
-  else if (cas >= 4) displejSobe.crtaj(cifreSobe === null ? "----" : cifreSobe);
+  log.hidden = cas !== 3;
+  grafikon.hidden = cas !== 4;
+  if (cas < 9) zaustaviPeriodicno();
+  if (cas === 3 || cas === 4) osveziNiz();
+  if (cas === 1) displejSobe.crtaj("");
+  else if (cas < 4) displejSobe.crtaj("24");
+  else if (cas >= 5) displejSobe.crtaj(cifreSobe === null ? "----" : cifreSobe);
   if (pogled) applyLive();
-  if (cas >= 4 && !dovod) connectDovod();
+  if (cas >= 5 && !dovod) connectDovod();
   uskladiKutiju();
 }
 
@@ -865,7 +867,7 @@ function zaustaviPeriodicno() {
 }
 
 function zapamtiCifreSobe() {
-  if (cas >= 4) cifreSobe = displej.textContent;
+  if (cas >= 5) cifreSobe = displej.textContent;
 }
 
 function uskladiZastavicu(ime, put, ukljucen) {
@@ -880,11 +882,11 @@ function uskladiZastavicu(ime, put, ukljucen) {
 
 function uskladiKutiju() {
   return Promise.all([
-    uskladiZastavicu("takt", "/api/takt", cas >= 5),
-    uskladiZastavicu("uloge", "/api/uloge", cas >= 9),
-    uskladiZastavicu("baza", "/api/baza", cas >= 7),
+    uskladiZastavicu("takt", "/api/takt", cas >= 6),
+    uskladiZastavicu("uloge", "/api/uloge", cas >= 10),
+    uskladiZastavicu("baza", "/api/baza", cas >= 8),
   ]).then(() => {
-    if (cas >= 7) return osveziIstoriju();
+    if (cas >= 8) return osveziIstoriju();
     return undefined;
   });
 }
@@ -899,7 +901,7 @@ function nacrtajIstoriju(komande) {
 }
 
 async function osveziIstoriju() {
-  if (cas < 7) return;
+  if (cas < 8) return;
   const response = await fetch("/api/soba");
   const data = await response.json().catch(() => null);
   if (!data || !data.istorija) return;
@@ -1255,12 +1257,12 @@ function osveziNiz() {
     if (strana === "client" && openPath.client === "js/niz.js") editorErr.textContent = PORUKA;
     return;
   }
-  if (cas === 2) {
+  if (cas === 3) {
     log.hidden = false;
     const prosek = Math.round(slika.prosek * 10) / 10;
     log.textContent = `konzola: temperatura ${soba.temperatura} | visine ${slika.visine.join(", ")} | prosek ${prosek}`;
   }
-  if (cas === 3) {
+  if (cas === 4) {
     try {
       nacrtajNiz(grafikon, slika.visine);
     } catch (err) {
@@ -1347,19 +1349,19 @@ function connectDovod() {
 }
 
 async function readRoom() {
-  const path = cas >= 8 ? "/api/soba?svezina=1" : "/api/soba";
+  const path = cas >= 9 ? "/api/soba?svezina=1" : "/api/soba";
   const provera = svezina.getAttribute("aria-pressed") === "true";
-  if (cas >= 5) stanjeCitanja.textContent = "čekanje";
+  if (cas >= 6) stanjeCitanja.textContent = "čekanje";
   try {
     const response = await fetch(path);
     const data = response.ok ? await response.json() : null;
     if (response.ok && !prihvatiOcitavanje(provera, poslednjiTrenutak, data && data.trenutak)) {
-      if (cas >= 5) stanjeCitanja.textContent = "podatak";
+      if (cas >= 6) stanjeCitanja.textContent = "podatak";
       return;
     }
     if (!response.ok) {
-      if (cas === 4) displejSobe.crtaj("----");
-      if (cas >= 5) {
+      if (cas === 5) displejSobe.crtaj("----");
+      if (cas >= 6) {
         displejSobe.prikaziOcitavanje(response, data);
         stanjeCitanja.textContent = "greška";
       }
@@ -1372,13 +1374,13 @@ async function readRoom() {
     displejSobe.prikaziOcitavanje(response, data);
     prekidacSobe.crtaj(data.ukljucen);
     if (data.trenutak) starost.textContent = data.trenutak;
-    if (cas >= 5) stanjeCitanja.textContent = "podatak";
-    if (cas >= 7) nacrtajIstoriju(data.istorija);
+    if (cas >= 6) stanjeCitanja.textContent = "podatak";
+    if (cas >= 8) nacrtajIstoriju(data.istorija);
     kutijaMsg.textContent = "HTTP 200";
     zapamtiCifreSobe();
   } catch {
-    if (cas === 4) displejSobe.crtaj("----");
-    if (cas >= 5) {
+    if (cas === 5) displejSobe.crtaj("----");
+    if (cas >= 6) {
       displejSobe.prikaziOcitavanje({ ok: false }, null);
       stanjeCitanja.textContent = "greška";
     }
@@ -1400,7 +1402,7 @@ async function sendCommand(ukljucen) {
     if (response.ok) {
       const data = await response.json();
       prekidacSobe.crtaj(data.ukljucen);
-      if (cas >= 7) await osveziIstoriju();
+      if (cas >= 8) await osveziIstoriju();
       return;
     }
     if (response.status !== 500) prekidacSobe.crtaj(prethodno);
@@ -1410,8 +1412,8 @@ async function sendCommand(ukljucen) {
 }
 
 prekidac.addEventListener("click", () => {
-  if (cas < 2) return;
-  if (cas < 4) {
+  if (cas < 3) return;
+  if (cas < 5) {
     soba.zeljeno = !soba.zeljeno;
     prekidacSobe.crtaj(soba.zeljeno);
     return;
@@ -1422,15 +1424,15 @@ prekidac.addEventListener("click", () => {
 sledeci.addEventListener("click", () => {
   if (typeof window.__korak === "function") window.__korak(soba);
   else soba.temperatura += 1;
-  if (cas === 2 || cas === 3) {
+  if (cas === 3 || cas === 4) {
     tacke.push({ temperatura: soba.temperatura });
     if (tacke.length > 40) tacke.shift();
   }
-  if (cas === 2) {
+  if (cas === 3) {
     osveziNiz();
     return;
   }
-  if (cas === 3) {
+  if (cas === 4) {
     osveziNiz();
     if (trenutniKorak() && trenutniKorak().crta === false) return;
     displejSobe.crtaj(soba.temperatura);

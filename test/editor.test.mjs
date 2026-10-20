@@ -156,11 +156,13 @@ test("dok fajl nije dirnut oba prikaza nose original", () => {
   }
 });
 
-test("tab Server čeka četvrtu nedelju", () => {
+test("tab Server čeka petu nedelju", () => {
   assert.equal(serverTabVidljiv(1), false);
-  assert.equal(serverTabVidljiv(3), false);
-  assert.equal(serverTabVidljiv(4), true);
+  assert.equal(serverTabVidljiv(4), false);
+  assert.equal(serverTabVidljiv(5), true);
   assert.match(main, /serverTabVidljiv\(cas\)/);
+  assert.match(main, /if \(cas === 1\) displejSobe\.crtaj\(""\)/);
+  assert.equal(main.includes('if (cas < 3) displejSobe.crtaj("24")'), false);
   assert.match(html, />Klijent</);
   assert.match(html, />Server</);
 });
