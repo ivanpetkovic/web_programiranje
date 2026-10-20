@@ -1006,9 +1006,19 @@ function izvorZaPutanju(puna) {
   };
 }
 
-function staviIkonu(dugme, ime) {
-  const znak = ikonica(ime);
-  if (znak) dugme.replaceChildren(znak);
+function ikonaVerzije(vrsta) {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("class", "ikona");
+  svg.setAttribute("viewBox", "0 0 16 16");
+  svg.setAttribute("aria-hidden", "true");
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("fill", "currentColor");
+  path.setAttribute(
+    "d",
+    vrsta === "olovka" ? "M11.2 1.4l3.4 3.4L6 13.4H2.6V10L11.2 1.4z" : "M3 1h7l4 4v10H3V1zm7 1.2V5h2.8L10 2.2z",
+  );
+  svg.append(path);
+  return svg;
 }
 
 function osveziDugmeVerzije(binarni) {
@@ -1018,8 +1028,7 @@ function osveziDugmeVerzije(binarni) {
     : radnaNaEkranu
       ? "Prikaži ugrađenu verziju"
       : "Prikaži radnu verziju";
-  staviIkonu(dugmeVerzije, radnaNaEkranu ? "pencil" : "file-text");
-  staviIkonu(dugmeReseta, "refresh-cw");
+  dugmeVerzije.replaceChildren(ikonaVerzije(radnaNaEkranu ? "olovka" : "list"));
   document.querySelector("#moj-kod").setAttribute("aria-pressed", String(radnaNaEkranu));
   document.querySelector("#lekcija").setAttribute("aria-pressed", String(!radnaNaEkranu));
   dugmeVerzije.disabled = Boolean(binarni);
@@ -1122,6 +1131,7 @@ function loadSide() {
   if (otvoreniKljuc === kljuc && pogled) {
     markOpen(openPath[side]);
     osveziAdresu();
+    osveziDugmeVerzije(false);
     applyLive();
     return;
   }
