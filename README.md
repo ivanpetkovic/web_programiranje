@@ -1,4 +1,4 @@
-# Web programiranje
+# Veb programiranje
 
 Interaktivni kurs predavanja na Elektronskom fakultetu Univerziteta u Nišu. Autor je **Ivan Petković**.
 
@@ -44,12 +44,12 @@ Panel raste sa časom. Do četvrte nedelje živi u browseru, u `client/`. Od če
 | 2 | JavaScript opisuje stanje | Objekat drži temperaturu. Ekran je još ne crta. |
 | 3 | Događaji povezuju korisnika | Klik menja stanje. Poseban kod crta prikaz. |
 | 4 | Od naivnog prenosa do HTTP-a, pa Node | Jedan zahtev i jedan odgovor. Kutija drži temperaturu. |
-| 5 | Čekanje i neuspeh | Čekanje, podatak i greška. Odgovor 200 nije 500, a 500 nije ugašen port. |
+| 5 | Čekanje i neuspeh | Čekanje, podatak i greška. 200 nije 500, a 500 nije ugašen port. |
 | 6 | Komande i ponavljanje | Željeno stanje, provera tela i smisao ponavljanja. |
 | 7 | Trajno stanje i Docker | Režim i istorija su jedna celina upisa. |
-| 8 | Koliko je prikaz svež | Displej čuva poslednje čitanje. |
-| 9 | Ko sme da upravlja | Kolačić nosi ključ. Kutija drži ulogu. |
-| 10 | Ceo sistem | Natpis „uključeno” nije dokaz upisa. Ćutanje nije ni dokaz ni opovrgavanje. |
+| 8 | Koliko je prikaz svež | Displej čuva poslednje čitanje. Takt ga ne pomera. |
+| 9 | Ko sme da upravlja | Cookie nosi ključ. Kutija drži ulogu. |
+| 10 | Ceo sistem | Ekran „uključeno” nije dokaz upisa. Ćutanje nije ni dokaz ni opovrgavanje. |
 
 Razrada vremena, pitalica i preglednih tema je u `web_programiranje_interaktivni_kurs_predlog.md`. Telo koje sajt čita je `site/kurs.json`. Pojmovi su u `GLOSSARY.md`.
 
