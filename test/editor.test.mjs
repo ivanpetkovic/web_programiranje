@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 import { PORUKA, primeniPrikaz } from "../site/js/pregled.js";
+import { rezimPosleAkcije, upisPosleAkcije } from "../site/js/birac.js";
 import {
   polazniTekst,
   procitajRadne,
@@ -167,8 +168,15 @@ test("tab Server čeka četvrtu nedelju", () => {
 test("nema dugmadi za upis fajla na disk", () => {
   assert.equal(html.includes('id="sacuvaj"'), false);
   assert.equal(html.includes('id="povrati"'), false);
-  assert.equal(html.includes(">Sačuvaj<"), false);
+  assert.match(html, /id="sacuvaj-radnu"/);
   assert.equal(html.includes(">Povrati<"), false);
+  assert.equal(upisPosleAkcije("ucitaj", "radna"), false);
+  assert.equal(rezimPosleAkcije("ucitaj", "radna"), "original");
+  assert.equal(upisPosleAkcije("sacuvaj", "original"), false);
+  assert.equal(rezimPosleAkcije("sacuvaj", "original"), "original");
+  const ucitaj = main.slice(main.indexOf("function ucitajLekciju"), main.indexOf("function sacuvajRadnu"));
+  assert.equal(ucitaj.includes("upisiRadnu"), false);
+  assert.match(main, /if \(!upisPosleAkcije\("sacuvaj", rezim\)\) return/);
   assert.equal(html.includes("<textarea"), false);
   assert.match(html, /id="verzija"/);
   assert.match(html, /id="reset-radne"/);

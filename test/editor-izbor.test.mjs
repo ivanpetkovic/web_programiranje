@@ -175,8 +175,16 @@ function stanjeEditora() {
     putanja: document.querySelector("#putanja")?.textContent || "",
     otvoren: otvoren?.dataset.put || "",
     tekst: sadrzaj ? sadrzaj.innerText.replace(/\s+$/g, "") : "",
-    spreman: Boolean(sadrzaj && document.querySelector("#koraci-kontrole button")),
+    spreman: Boolean(sadrzaj && document.querySelector("#birac-meni button")),
   };
+}
+
+function klikNaKorak(naslov) {
+  return `(() => {
+    const dugme = [...document.querySelectorAll("#birac-meni button")].find((b) => b.textContent.endsWith(" " + ${JSON.stringify(naslov)}));
+    if (!dugme) throw new Error("nema koraka");
+    dugme.click();
+  })()`;
 }
 
 function klikNaFajl(put) {
@@ -222,7 +230,7 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
     const prvi = await sačekaj((s) => s.spreman && s.tekst.includes("<!DOCTYPE html>"));
     assert.equal(prvi.putanja, "client/index.html");
     await strana.vrednost(`document.querySelector('#tab-editor').click()`);
-    await strana.vrednost(`document.querySelector('#koraci-kontrole button[aria-label="Stranica"]').click()`);
+    await strana.vrednost(klikNaKorak("Stranica"));
     const posleKoraka = await sačekaj((s) => s.tekst.trim() === htmlKoraka);
     assert.notEqual(posleKoraka.tekst.trim(), prvi.tekst.trim());
     assert.equal(posleKoraka.putanja, "client/index.html");
@@ -286,9 +294,7 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
       throw new Error(`editor nije stigao: ${JSON.stringify(poslednje)}`);
     }
     async function korak(naslov) {
-      await strana.vrednost(
-        `document.querySelector('#koraci-kontrole button[aria-label=${JSON.stringify(naslov)}]').click()`,
-      );
+      await strana.vrednost(klikNaKorak(naslov));
     }
 
     await sačekaj((s) => s.spreman);
