@@ -7,7 +7,7 @@ Deset nedelja vodi nastavnika od praznog `client/index.html` do iste kontrolne s
 ## Requirements
 
 ### Requirement: Nedelja ima naslov i korake
-The course MUST be one document that sets its duration as a number of weeks and lists that many weeks, in order, each with a title. The shell MUST use that duration and MUST NOT hardcode a week count. The shipped document MUST set the duration to ten, use the titles below, and give each week 10 to 20 steps. A step there MUST be one fragment, not the whole week. The minute budget MUST stay a teaching label and MUST NOT be a timer.
+The course MUST be one document that sets its duration as a number of weeks and lists that many weeks, in order, each with a title. The shell MUST use that duration and MUST NOT hardcode a week count. The shipped document MUST set the duration to ten, use the titles below, and give each week 10 to 20 steps. A step that names a file MUST be one fragment, not the whole week. The minute budget MUST stay a teaching label and MUST NOT be a timer.
 
 #### Scenario: Titles are visible
 - **WHEN** the teacher opens the shipped course
@@ -15,37 +15,89 @@ The course MUST be one document that sets its duration as a number of weeks and 
 
 #### Scenario: A lecture is a sequence of steps
 - **WHEN** the teacher opens any week of the shipped course
-- **THEN** that week shows between 10 and 20 steps and each step names the file it changes
+- **THEN** that week shows between 10 and 20 steps, week 1 shows 20, and every step except Web, Internet, and Istorija names the file it changes
+
+#### Scenario: Figure steps name no file
+- **WHEN** the teacher opens Web, Internet, or Istorija
+- **THEN** that step names no file
 
 #### Scenario: Duration follows the document
 - **WHEN** a course document sets a duration other than ten and lists that many weeks
 - **THEN** the course reports that duration and those weeks, with no shell change
 
 ### Requirement: Redosled unutar koraka
-A step MUST show its prose, then the key-idea callout, then the code snippet, then a short quiz with unmarked answers. The snippet MUST be the fragment added to the named file. The example MUST remain checkable on its own, in the manner of `setTimeout` inside a `for` loop.
+A step that names a file MUST show its prose, then the key-idea callout, then the code snippet, then a short quiz with unmarked answers. The snippet MUST be the fragment added to the named file. A figure step MUST show its prose, then the key-idea callout, then the figure, then a short quiz with unmarked answers, and MUST NOT show a snippet. The example MUST remain checkable on its own, in the manner of `setTimeout` inside a `for` loop.
 
 #### Scenario: Explanation comes after the guess
-- **WHEN** a step is opened
+- **WHEN** a step that names a file is opened
 - **THEN** the prose, the key idea, and the snippet are visible, and the quiz answers are still unmarked
 
+#### Scenario: Figure comes after the key idea
+- **WHEN** a figure step is opened
+- **THEN** the prose, the key idea, and the figure are visible before the quiz, and no snippet is shown
+
 #### Scenario: Key idea is visible before the quiz
-- **WHEN** a step is opened
+- **WHEN** a step that names a file is opened
 - **THEN** the key idea and the snippet are above the quiz, and the snippet is the fragment added to the named file
 
 ### Requirement: Arhitektura na početku
-The first step of week 1 MUST be titled Podela and its original MUST be the two lines `client/` and `server/`. `client/` MUST be what the browser loads. `server/` MUST be what Node runs, from week 4. Until week 4 the Server tab MUST be absent. The course MUST NOT start by writing the whole application in one file.
+The first step of week 1 MUST be titled Web and MUST name no file. Podela MUST keep its original as the two lines `client/` and `server/`. `client/` MUST be what the browser loads. `server/` MUST be what Node runs, from week 4. Until week 4 the Server tab MUST be absent. The course MUST NOT start by writing the whole application in one file.
 
 #### Scenario: Empty server folder
 - **WHEN** the teacher is still before the server lecture
 - **THEN** the Server tab is absent and the browser is loading only `client/`
 
 #### Scenario: Podela names the folders
+- **WHEN** the teacher opens Podela
+- **THEN** its original is `client/` and `server/`
+
+#### Scenario: First step is Web
 - **WHEN** the teacher opens the first step of week 1
-- **THEN** the step is titled Podela and its original is `client/` and `server/`
+- **THEN** the step is titled Web and names no file
 
 #### Scenario: Server tab arrives with Node
 - **WHEN** the teacher opens week 4
 - **THEN** the Server tab is present
+
+### Requirement: Nedelja 1 počinje Webom
+The first three steps of week 1 MUST be titled Web, Internet, and Istorija, in that order. Each MUST be a figure step and MUST name no file. Podela MUST be the next step.
+
+#### Scenario: Opening order
+- **WHEN** the teacher opens week 1
+- **THEN** the first four steps are Web, Internet, Istorija, and Podela
+
+### Requirement: Korak Web
+The Web step MUST teach that the Web is documents a browser fetches by a URL and draws, and that the display is not the document. Its figure MUST show the browser, the URL, the document, and the display.
+
+#### Scenario: Web figure
+- **WHEN** the teacher opens Web
+- **THEN** the figure shows those four parts and the quiz answers are still unmarked
+
+#### Scenario: Display is not the document
+- **WHEN** the teacher reveals the Web quiz
+- **THEN** the marked answer says the display is not the document
+
+### Requirement: Korak Internet
+The Internet step MUST teach that the Internet is the network and the Web is one service on it. Its figure MUST place the network between the browser and the document. The step MUST NOT ask for a reconstruction of DNS or TLS.
+
+#### Scenario: Network sits between
+- **WHEN** the teacher opens Internet
+- **THEN** the figure shows the network between the browser and the document
+
+#### Scenario: Marked answer separates them
+- **WHEN** the teacher reveals the Internet quiz
+- **THEN** the marked answer says the Internet and the Web are not the same thing
+
+### Requirement: Korak Istorija
+The Istorija step MUST show a timeline with a packet network in 1969, TCP/IP in 1983, the linked-document proposal in 1989, the public Web in 1991, and this course's page while `server/` is still empty.
+
+#### Scenario: Timeline order
+- **WHEN** the teacher opens Istorija
+- **THEN** those marks are visible in that chronological order
+
+#### Scenario: Packet network is not the Web
+- **WHEN** the teacher reveals the Istorija quiz
+- **THEN** the marked answer says the 1969 packet network is not the Web
 
 ### Requirement: Čas 1 prikazuje dokument
 Lecture 1 MUST leave only the switch room on screen. The temperature MUST be the static content of `client/index.html`, the number 24. The machine room and the fan MUST NOT be drawn. Starting Node MUST NOT be part of this lecture. Refreshing the page MUST restore the document. A change made only in the browser tools MUST be described as a change to the local display.
@@ -152,11 +204,15 @@ Lecture 8 MUST treat the still display as a reason for a new read. A reading MUS
 - **THEN** the switch display keeps the newer value
 
 ### Requirement: Čas 8 ponavlja čitanje
-Turning periodic reading on MUST send one read immediately and then repeat it. A failed round MUST show Err by the same branch as the single read. The machine-room feed MUST stay unnamed and MUST NOT drive the switch display. SSE and WebSocket MUST be named only as ways this lecture does not build.
+Turning periodic reading on MUST send one read immediately and then repeat it. A failed round MUST show Err by the same branch as the single read. The machine-room feed MUST stay unnamed and MUST NOT drive the switch display. The lecture MUST NOT build SSE or WebSocket and MUST NOT name them on the page.
 
 #### Scenario: Periodic read starts at once
 - **WHEN** the teacher turns periodic reading on
 - **THEN** one read is sent immediately and a failed round shows Err
+
+#### Scenario: Push is not named
+- **WHEN** the teacher opens lecture 8
+- **THEN** the page does not name SSE or WebSocket and the switch display is still fed by reading
 
 ### Requirement: Čas 9 proverava ulogu na zahtevu
 Lecture 9 MUST prepare an observer key and an operator key in the box. Choosing a role MUST request an HttpOnly cookie with that key. A read MUST NOT require a session. A command without a cookie MUST get 401, an observer command MUST get 403, a bad body MUST get 400, an unplugged fan MUST get 500, and an operator success MUST get 200 with only the mode. Hiding the button MUST leave a command sent outside the screen possible. CORS MUST NOT be treated as authentication.
@@ -173,7 +229,7 @@ Lecture 10 MUST walk one request through the browser, Node, the database, and th
 - **THEN** the lecture states that the log and a new read are required before deciding whether to repeat the command
 
 ### Requirement: Panel ne dobija drugi uređaj
-Every lecture MUST keep one room pair, one temperature reading, and one fan. A later lecture MUST add data to that same panel. The review of a lecture MUST NOT add a second scored quiz.
+Every lecture MUST keep one room pair, one temperature reading, and one fan. A later lecture MUST add data to that same panel. A lecture MUST NOT add a second scored quiz.
 
 #### Scenario: After the last lecture
 - **WHEN** the teacher finishes lecture 10
@@ -205,11 +261,11 @@ Lecture 6's reserve MUST send a body the form does not offer, with text instead 
 - **THEN** the counterexample is a command body whose field is text rather than a boolean
 
 ### Requirement: Rezerva časa 10
-Lecture 10 MUST keep the note about a type and an assistant suggestion in the review. It MUST NOT open a second vote for that note.
+Lecture 10 MUST keep the note about a type and an assistant suggestion as a sentence in that lecture. It MUST NOT open a second vote for that note. The page MUST NOT place that sentence in a review block.
 
 #### Scenario: No second vote
 - **WHEN** the main discussion of lecture 10 has used the time
-- **THEN** the type and assistant note stays a sentence in the review and no reserve quiz opens
+- **THEN** the type and assistant note stays a sentence in the lecture and no reserve quiz opens
 
 ### Requirement: Izlaz časa 10
 The lecture 10 exit MUST ask where the right is checked, where the state lives, and what a missing response does not prove.
@@ -218,33 +274,27 @@ The lecture 10 exit MUST ask where the right is checked, where the state lives, 
 - **WHEN** the teacher reaches the lecture 10 exit
 - **THEN** the prompt asks for the right, the state, and what silence does not prove
 
-### Requirement: Osvrt časova 1 do 3
-The lecture 1 review MUST name Internet naspram Weba, put od URL-a do prikaza, semantički HTML, osnovnu pristupačnost i skicu. The lecture 2 review MUST name dinamičke tipove, mesto TypeScript provere, JS okruženja i dve verzije iste funkcije. The lecture 3 review MUST name responsive prikaz, jedinice, animaciju, pristupačnu formu, klase i `this`, i komponentu kao razlog biblioteke. The site MUST NOT build those topics.
+### Requirement: Nema bloka osvrta
+No lecture MUST show a review block or a control labeled Osvrt.
 
-#### Scenario: Lecture 1 names the map
-- **WHEN** the teacher opens the lecture 1 review
-- **THEN** the named topics are visible and none of them is a working tool in the panel
+#### Scenario: The word is absent
+- **WHEN** the teacher opens any step of any lecture
+- **THEN** the page has no control labeled Osvrt and no survey-name list
 
-### Requirement: Osvrt časova 4 i 5
-The lecture 4 review MUST name IP, UDP, TLS, HTTP/2, HTTP/3, XML, SOAP, RPC, gRPC, GraphQL, Express i middleware. The lecture 5 review MUST name a spoljni API, timeout, prekid jednog zahteva, više zahteva odjednom, call stack i postojanje task i microtask redova. The lecture MUST NOT quiz microtask order. The site MUST NOT build those topics.
+### Requirement: Čas ne gradi izostavljene alate
+The lectures MUST NOT quiz microtask order, MUST NOT teach database administration, and MUST NOT include a login form or a built attack.
 
 #### Scenario: No microtask quiz
-- **WHEN** the teacher opens the lecture 5 review
-- **THEN** the queues are named and the page has no quiz of their execution order
+- **WHEN** the teacher opens lecture 5
+- **THEN** the page has no quiz of microtask execution order
 
-### Requirement: Osvrt časova 6 do 8
-The lecture 6 review MUST name REST, stateless obradu, optimistički prikaz i prihvaćenu komandu naspram potvrde fizičkog uređaja. The lecture 7 review MUST name the relational model against the document model, and a virtual machine against a container, and MUST NOT teach database administration. The lecture 8 review MUST name SSE, WebSocket, History API, SPA, React hooks, storage, PWA i offline. The site MUST NOT build those topics.
+#### Scenario: No database administration
+- **WHEN** the teacher opens lecture 7
+- **THEN** the lecture does not teach database administration
 
-#### Scenario: Lecture 8 names push it does not build
-- **WHEN** the teacher opens the lecture 8 review
-- **THEN** SSE and WebSocket are named and the switch display is still fed by reading
-
-### Requirement: Osvrt časova 9 i 10
-The lecture 9 review MUST name prijavu preko treće strane, tokene, XSS, SQL injection, CSRF i HTTPS, and MUST NOT include a login form or a built attack. The lecture 10 review MUST name proxy, CDN, cloud, Kubernetes, serverless, mesto nastanka HTML-a, logove, CI i blockchain kao evidenciju koja ne dokazuje tačnost senzora. The site MUST NOT build those topics.
-
-#### Scenario: Lecture 10 names the map
-- **WHEN** the teacher opens the lecture 10 review
-- **THEN** those names are visible and the hour still does not perform a full deployment
+#### Scenario: No login and no attack
+- **WHEN** the teacher opens lecture 9
+- **THEN** the page has no login form and no built attack
 
 ### Requirement: Trajanje se slaže sa spiskom
 The duration MUST equal the number of weeks in the document. When they differ, the site MUST show an error and MUST NOT invent a week or drop a week.
@@ -265,11 +315,11 @@ The institution, course title, initials, week titles, subtitles, step prose, key
 - **THEN** the progress card shows that budget and the shell does not substitute a fixed duration
 
 ### Requirement: Nedelja 1 sklapa stranicu
-Week 1 MUST follow Podela with these steps, in order: Stranica, Glava, Telo, Naslov, Broj, Dugme, Veza, Selektor, Okvir, Unutra, Spolja, Osvežavanje, Alati, Dva zahteva, Soba prekidača, Semantika. Veza MUST add the link to the stylesheet. The original of each of these steps MUST be the whole file after that step. Weeks 2 through 10 MUST keep each step's stored fragment as its contribution. The editor MUST show the snapshot of that file through the step.
+Week 1 MUST follow Istorija with Podela and then these steps, in order: Stranica, Glava, Telo, Naslov, Broj, Dugme, Veza, Selektor, Okvir, Unutra, Spolja, Osvežavanje, Alati, Dva zahteva, Soba prekidača, Semantika. Veza MUST add the link to the stylesheet. The original of each of these steps MUST be the whole file after that step. Weeks 2 through 10 MUST keep each step's stored fragment as its contribution. The editor MUST show the snapshot of that file through the step.
 
 #### Scenario: Week 1 order
 - **WHEN** the teacher opens week 1
-- **THEN** the steps are Podela, Stranica, Glava, Telo, Naslov, Broj, Dugme, Veza, Selektor, Okvir, Unutra, Spolja, Osvežavanje, Alati, Dva zahteva, Soba prekidača, and Semantika, in that order
+- **THEN** the steps are Web, Internet, Istorija, Podela, Stranica, Glava, Telo, Naslov, Broj, Dugme, Veza, Selektor, Okvir, Unutra, Spolja, Osvežavanje, Alati, Dva zahteva, Soba prekidača, and Semantika, in that order
 
 #### Scenario: Later week keeps its code
 - **WHEN** the teacher opens a step in week 2 or later
@@ -278,6 +328,13 @@ Week 1 MUST follow Podela with these steps, in order: Stranica, Glava, Telo, Nas
 #### Scenario: Week 1 original is the whole file
 - **WHEN** the teacher shows the original of Broj in week 1
 - **THEN** the original is the whole HTML file after that step, including the page begun in Stranica
+
+### Requirement: Minuti nedelje 1
+The minute labels of the week 1 steps MUST sum to that week's minute budget.
+
+#### Scenario: Sum is the budget
+- **WHEN** the shipped week 1 is read
+- **THEN** its step minute labels sum to 90
 
 ### Requirement: HTML nedelje 1 raste
 From Stranica through Semantika, the original of `client/index.html` MUST be the whole document after that step. Stranica MUST be a nearly empty document and MUST NOT keep the folder sketch. Each later step of that file MUST keep every line of the previous original of that file and MUST add at least one line about that step. The document MUST still contain 24 and MUST NOT add the machine room or a room request.

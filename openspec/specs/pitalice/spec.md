@@ -57,11 +57,15 @@ The second choice MUST let the teacher move the underline and write one shared c
 - **THEN** the reserve quiz is not shown, even if the main discussion is still open
 
 ### Requirement: Izlaz i prenos
-The last part of the lecture MUST be an exit question as free text, without options and without a mark. If the group leaves without a conclusion, the next lecture MAY open that same main quiz before the new material. The site MUST still contain both quizzes, and the teacher MUST be able to leave the new lecture's reserve closed.
+The last step of the lecture MUST show the exit question as a sentence, without options, without a mark, and without a text field. If the group leaves without a conclusion, the next lecture MAY open that same main quiz before the new material. The site MUST still contain both quizzes, and the teacher MUST be able to leave the new lecture's reserve closed. The discussion MUST still offer a field for heard assumptions and a field for one shared concluding sentence.
 
 #### Scenario: Exit has no options
 - **WHEN** the teacher reaches the exit question
-- **THEN** the page offers a free-text entry and no four-option quiz
+- **THEN** the page shows the sentence and offers no text field and no four-option quiz
+
+#### Scenario: Discussion fields stay
+- **WHEN** the teacher reaches the assumptions phase of the discussion
+- **THEN** the page still offers a field for the heard sentences
 
 ### Requirement: Pitalice prvih pet časova
 Each main quiz MUST use the counterexample named for that lecture. Lecture 1 MUST ask whether tools changed the measurement, the document, or the display, and refresh MUST restore 24. Lecture 2 MUST ask what a second name for a const object shares. Lecture 3 MUST ask whether changing the object by itself changes the page. Lecture 4 MUST ask whether the handler can change the button through the DOM. Lecture 5 MUST ask whether HTTP 500 by itself enters catch.
@@ -78,14 +82,14 @@ Lecture 6 MUST ask whether repeating a command is safe. Lecture 7 MUST ask wheth
 - **THEN** the marked answer says the missing response neither proves nor disproves the write
 
 ### Requirement: Editor ne otvara razlog
-The editor MAY change the panel during assumptions or analysis. Changing the code MUST NOT open the reasons by itself. The review block MUST NOT have choice phases.
+The editor MAY change the panel during assumptions or analysis. Changing the code MUST NOT open the reasons by itself. The page MUST NOT include a review block.
 
 #### Scenario: Code change is not analysis
 - **WHEN** the teacher edits the open file during assumptions
 - **THEN** the panel may change and the quiz reasons stay closed
 
 ### Requirement: Rezerva po času
-Lectures 1 through 9 MUST each have a reserve quiz. It MUST stay closed until the teacher opens it, and it MUST then start again at choice. Lecture 10 MUST NOT open that vote. Its note about a type and an assistant suggestion MUST stay a sentence in the review.
+Lectures 1 through 9 MUST each have a reserve quiz. It MUST stay closed until the teacher opens it, and it MUST then start again at choice. Lecture 10 MUST NOT open that vote. Its note about a type and an assistant suggestion MUST stay a sentence in the lecture.
 
 #### Scenario: Lecture 9 reserve starts at choice
 - **WHEN** the teacher opens the lecture 9 reserve
@@ -93,18 +97,11 @@ Lectures 1 through 9 MUST each have a reserve quiz. It MUST stay closed until th
 
 #### Scenario: Lecture 10 reserve is a sentence
 - **WHEN** the teacher finishes the lecture 10 discussion without opening a reserve
-- **THEN** the review contains the type and assistant sentence and no second set of options
+- **THEN** the lecture contains the type and assistant sentence and no second set of options
 
 ### Requirement: Izlaz časa 10
-The lecture 10 exit MUST be free text asking where the right is checked, where the state lives, and what silence does not prove. It MUST NOT offer options and it MUST NOT mark an answer.
+The lecture 10 exit MUST be a sentence asking where the right is checked, where the state lives, and what silence does not prove. It MUST NOT offer options, a text field, or a mark.
 
 #### Scenario: Exit stays free text
 - **WHEN** the teacher reaches the lecture 10 exit
-- **THEN** the page offers one text entry and no options
-
-### Requirement: Osvrt imenuje teme
-The review MUST name that lecture's survey topics. It MUST NOT open a choice phase, a mark, or a new discussion for any of those names.
-
-#### Scenario: A survey name has no quiz
-- **WHEN** the teacher opens the review and reads a survey name
-- **THEN** that name has no options and no mark
+- **THEN** the page shows that sentence and no text field and no options
