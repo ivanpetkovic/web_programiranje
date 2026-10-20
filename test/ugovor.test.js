@@ -66,7 +66,7 @@ test("ugovor čitanja, tela, fonta, stabla, istorije i uloge", async (t) => {
     await new Promise((resolve, reject) => {
       const rok = setTimeout(() => reject(new Error(dnevnik || "server nije krenuo")), 8000);
       const proveri = () => {
-        if (!dnevnik.includes("kontrolna soba")) return;
+        if (!dnevnik.includes("Web Programiranje")) return;
         clearTimeout(rok);
         resolve();
       };
