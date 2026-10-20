@@ -54,7 +54,7 @@
           <p id="mrvice" class="meta"></p>
           <h1 id="naslov-casa"></h1>
           <p id="podnaslov-casa"></p>
-          <p id="preduslov" class="meta"></p>
+          <p id="preduslov" class="preduslov"></p>
           <div id="koraci-kontrole" class="koraci-kontrole" role="group" aria-label="Gradivo nedelje"></div>
           <div id="definicija" class="definicija" hidden></div>
           <div class="cas-tabovi" role="tablist" aria-label="Delovi časa">
@@ -71,11 +71,23 @@
           <div class="podela" id="podela">
             <section class="files" id="files" aria-label="Fajlovi">
               <div class="tabs" role="tablist" aria-label="Strana">
-                <button type="button" id="tab-front" role="tab" aria-selected="true" aria-controls="tree">Klijent</button>
-                <button type="button" id="tab-back" role="tab" aria-selected="false" aria-controls="tree">Server</button>
+                <button type="button" id="tab-front" role="tab" aria-selected="true" aria-controls="tree" data-ikona="monitor">Klijent</button>
+                <button type="button" id="tab-back" role="tab" aria-selected="false" aria-controls="tree" data-ikona="server">Server</button>
+              </div>
+              <div class="traka-fajla">
+                <button type="button" id="ucitaj" data-ikona="folder">Učitaj</button>
+                <button type="button" id="sacuvaj-radnu" data-ikona="save">Sačuvaj</button>
+                <button type="button" id="resetuj" data-ikona="refresh-cw">Resetuj</button>
+                <div class="segment" role="group" aria-label="Verzija fajla">
+                  <button type="button" id="moj-kod" aria-pressed="true">Moj kod</button>
+                  <button type="button" id="lekcija" aria-pressed="false">Lekcija</button>
+                </div>
               </div>
               <div class="file-layout">
-                <div id="tree" class="tree"></div>
+                <div class="stablo-kolona">
+                  <p class="fajlovi-natpis">Fajlovi</p>
+                  <div id="tree" class="tree"></div>
+                </div>
                 <div class="editor" id="editor-wrap">
                   <div class="putanja-red">
                     <span id="putanja">client/css/soba.css</span>
@@ -90,7 +102,15 @@
               </div>
             </section>
             <div id="traka" class="traka" role="separator" tabindex="0" aria-orientation="vertical" aria-valuemin="20" aria-valuemax="80" aria-valuenow="72" aria-label="Odnos editora i pregleda"></div>
-            <section class="panel" aria-label="Kontrolna soba">
+            <section class="panel" aria-label="Pregled">
+              <header class="pregled-h"><h2>Pregled</h2></header>
+              <div class="pregled-okvir">
+                <div class="pregled-chrome">
+                  <span class="tacke" aria-hidden="true"><i></i><i></i><i></i></span>
+                  <span class="katanac" aria-hidden="true"></span>
+                  <p id="pregled-adresa"></p>
+                  <button type="button" id="pregled-osvezi" aria-label="Osveži pregled" data-ikona="refresh-cw"></button>
+                </div>
               <div class="room" id="soba-prekidaca">
                 <header class="room-h">
                   <h2>Soba prekidača</h2>
@@ -124,6 +144,7 @@
                   <button type="button" id="ses-ne">Bez sesije</button>
                 </div>
                 <p id="kutija-msg" class="log"></p>
+              </div>
               </div>
             </section>
           </div>

@@ -16,6 +16,10 @@ test("pomoćnik crta currentColor preko use i ne vuče PNG", () => {
   assert.equal(pomocnik.includes("png_256_transparent"), false);
   assert.match(sprite, /stroke="currentColor"/);
   assert.equal(sprite.includes("png"), false);
+  for (const ime of ["monitor", "server", "save", "refresh-cw", "pencil"]) {
+    assert.match(sprite, new RegExp(`id="${ime}"[^>]*stroke="currentColor"`));
+    assert.equal(sprite.includes(`${ime}.png`), false);
+  }
 });
 
 test("zaglavlje, spisak i kartica nose ikonice", () => {
@@ -55,8 +59,25 @@ test("pitanje, stablo, olovka i panel", () => {
   assert.match(main, /return ikonica\("circle"\)/);
   assert.match(main, /ikonica\("folder"\)/);
   assert.match(main, /ikonica\("file-text"\)/);
-  assert.match(main, /function ikonaVerzije/);
-  assert.match(main, /vrsta === "olovka"/);
+  assert.match(main, /staviIkonu\(dugmeVerzije, radnaNaEkranu \? "pencil" : "file-text"\)/);
+  assert.match(main, /staviIkonu\(dugmeReseta, "refresh-cw"\)/);
+  assert.equal(main.includes('staviIkonu(dugmeVerzije, radnaNaEkranu ? "code-xml"'), false);
+  assert.equal(main.includes('staviIkonu(dugmeReseta, "arrow-left")'), false);
+  assert.match(html, /data-ikona="monitor">Klijent/);
+  assert.match(html, /data-ikona="server">Server/);
+  assert.match(html, /id="ucitaj" data-ikona="folder">Učitaj/);
+  assert.match(html, /id="sacuvaj-radnu" data-ikona="save">Sačuvaj/);
+  assert.match(html, /id="resetuj" data-ikona="refresh-cw">Resetuj/);
+  assert.match(html, />Fajlovi</);
+  assert.match(html, /<h2>Pregled<\/h2>/);
+  assert.match(html, /<p id="pregled-adresa"><\/p>/);
+  assert.match(main, /adresaPregleda\(location\.origin/);
+  assert.match(main, /serverTabVidljiv\(cas\)/);
+  assert.match(main, /saIkonom\(sviKoraci, "menu", "Svi koraci"\)/);
+  assert.match(main, /graduation-cap[\s\S]{0,20}Preduslov:/);
+  const osvezi = main.slice(main.indexOf("function osveziPregled"), main.indexOf("function loadSide"));
+  assert.match(osvezi, /applyLive\(\)/);
+  assert.equal(osvezi.includes("location.reload"), false);
   assert.match(main, /prekidac\.textContent = ukljucen \? "Isključi" : "Uključi"/);
   assert.equal(main.includes("prekidac.append(ikonica"), false);
   assert.equal(html.includes('id="sledeci" class="hod-koraka"'), false);

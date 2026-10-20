@@ -124,7 +124,7 @@ test("zakucana tema se čita pre stilova", () => {
   assert.match(html, /catch\s*\(/);
 });
 
-test("gradivo, jedna kolona i žuti hod", () => {
+test("gradivo, jedna kolona i birač", () => {
   assert.match(html, /id="tab-koraci"[^>]*>Gradivo</);
   assert.match(html, /Gradivo, Diskusija i Editor su tri taba/);
   assert.match(html, /otvaraju taj korak u Gradivu/);
@@ -132,18 +132,35 @@ test("gradivo, jedna kolona i žuti hod", () => {
   assert.match(html, /aria-label="Gradivo nedelje"/);
   assert.match(css, /\.opcije-mreza\s*\{\s*display:\s*grid;\s*grid-template-columns:\s*1fr;\s*gap:\s*0\.55rem;\s*\}/);
   assert.match(css, /@media\s*\(\s*min-width:\s*861px\s*\)\s*\{\s*\.opcije-mreza\s*\{\s*grid-template-columns:\s*1fr\s+1fr;\s*\}/);
-  const hod = blok(css, "\\.hod-koraka\\s*\\{");
-  assert.match(hod, /background:\s*var\(--amber\)/);
-  assert.match(hod, /color:\s*var\(--on-amber\)/);
-  assert.ok(kontrast("#ffb000", "#1a1204") >= 4.5, "žuti hod");
-  assert.match(main, /className = "hod-koraka"/);
-  assert.match(main, /trakaKoraka\.append\(prethodni, broj, daljeKorak/);
+  assert.equal(main.includes('className = "hod-koraka"'), false);
+  assert.equal(css.includes(".hod-koraka"), false);
+  assert.match(main, /className = "sledeci-korak"/);
+  assert.match(main, /popunaKoraka\(/);
+  assert.match(main, /naslovBiraca\.textContent = korak\.naslov/);
+  assert.match(main, /Korak \$\{i \+ 1\} od \$\{item\.steps\.length\}/);
+  assert.match(main, /saIkonom\(sviKoraci, "menu", "Svi koraci"\)/);
   assert.match(main, /ikonica\("chevron-left"\)/);
   assert.match(main, /ikonica\("chevron-right"\)/);
+  assert.equal(main.includes("Sledeći korak časa"), false);
   assert.equal(main.includes("function strelica"), false);
-  assert.equal(main.includes('hod.append(prethodni, daljeKorak)'), false);
-  assert.equal(css.includes("#sledeci"), false);
   assert.equal(html.includes('id="sledeci" class="hod-koraka"'), false);
+  assert.equal(html.includes('id="sledeci" class="sledeci-korak"'), false);
+  const sledeci = blok(css, "\\.sledeci-korak\\s*\\{");
+  assert.match(sledeci, /background:\s*var\(--ink\)/);
+  assert.match(sledeci, /color:\s*var\(--paper\)/);
+  assert.equal(sledeci.includes("var(--amber)"), false);
+  for (const [ime, tema] of [["ugalj", ugalj], ["mornar", mornar], ["pesak", pesak], ["terakota", terakota]]) {
+    assert.ok(kontrast(tema.ink, tema.paper) >= 4.5, ime);
+  }
+  const segment = blok(css, '\\.segment button\\[aria-pressed="true"\\]\\s*\\{');
+  assert.match(segment, /background:\s*var\(--amber\)/);
+  assert.match(segment, /color:\s*var\(--on-amber\)/);
+  const stablo = blok(css, '\\.tree button\\[aria-current="true"\\]\\s*\\{');
+  assert.match(stablo, /background:\s*var\(--amber-dim\)/);
+  const tab = blok(css, '\\.cas-tabovi button\\[aria-selected="true"\\]\\s*\\{');
+  assert.match(tab, /border-color:\s*var\(--amber\)/);
+  assert.match(tab, /background:\s*var\(--amber-dim\)/);
+  assert.match(main, /graduation-cap[\s\S]{0,20}Preduslov:/);
 });
 
 test("boje razlike prate token palete", () => {
