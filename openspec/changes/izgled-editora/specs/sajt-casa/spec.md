@@ -9,11 +9,11 @@
 ## MODIFIED Requirements
 
 ### Requirement: Zaglavlje lekcije
-The open lesson MUST show the course breadcrumb, the week title, the week subtitle, one step control per step, and the step selector. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the lesson and MUST NOT sit inside the selector.
+The open lesson MUST show the course breadcrumb, the week title, the week subtitle, and the step selector on Gradivo. It MUST NOT show one button per step. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the lesson and MUST NOT sit inside the selector.
 
-#### Scenario: Step controls match the week
-- **WHEN** a week with 11 steps is open on the first step
-- **THEN** eleven step controls are shown, the first is current, and the selector reads Korak 1 od 11
+#### Scenario: The selector replaces a button per step
+- **WHEN** a week is open on its first step on Gradivo
+- **THEN** the selector reads Korak 1 od N and the lesson does not show N step buttons
 
 #### Scenario: Level comes from the document
 - **WHEN** the open step sets a level
@@ -52,7 +52,7 @@ On Gradivo, the selector MUST show Korak {n} od {N}, the open step's title, a pr
 
 #### Scenario: Editor hides the selector
 - **WHEN** the teacher opens Editor
-- **THEN** the selector is not on screen and the numbered step controls remain
+- **THEN** the selector is not on screen and the page does not show one button per step
 
 ### Requirement: Traka završenih koraka
 The selector bar MUST fill by the number of saved steps in the open week divided by that week's step count. The open index MUST NOT set the fill. The page MUST NOT show the sentence Progress indicates completed steps, not just the current position.

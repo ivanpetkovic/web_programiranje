@@ -147,7 +147,7 @@ function popuniStalneIkonice() {
   }
   saIkonom(document.querySelector("#tab-koraci"), "file-text", "Gradivo");
   saIkonom(document.querySelector("#tab-diskusija"), "messages-square", "Diskusija");
-  saIkonom(document.querySelector("#tab-editor"), "code-xml", "Uređivač");
+  saIkonom(document.querySelector("#tab-editor"), "code-xml", "Editor");
 }
 
 function lecture() {

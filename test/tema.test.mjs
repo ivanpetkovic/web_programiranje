@@ -126,11 +126,14 @@ test("zakucana tema se čita pre stilova", () => {
 
 test("gradivo, jedna kolona i birač", () => {
   assert.match(html, /id="tab-koraci"[^>]*>Gradivo</);
-  assert.match(html, /Gradivo, Diskusija i Uređivač su tri taba/);
+  assert.match(html, /Gradivo, Diskusija i Editor su tri taba/);
   assert.match(html, /otvaraju taj korak u Gradivu/);
   assert.equal(html.includes(">Koraci<"), false);
+  assert.equal(html.includes(">Uređivač<"), false);
   assert.equal(html.includes('id="koraci-kontrole"'), false);
   assert.equal(main.includes("#koraci-kontrole"), false);
+  assert.equal(main.includes("pill.textContent"), false);
+  assert.match(main, /casEl\.append\(birac, metaKoraka/);
   assert.match(css, /\.opcije-mreza\s*\{\s*display:\s*grid;\s*grid-template-columns:\s*1fr;\s*gap:\s*0\.55rem;\s*\}/);
   assert.equal(/@media\s*\(\s*min-width:\s*861px\s*\)\s*\{[^}]*\.opcije-mreza\s*\{\s*grid-template-columns:\s*1fr\s+1fr/.test(css), false);
   assert.equal(main.includes('className = "hod-koraka"'), false);
@@ -197,6 +200,7 @@ test("red koraka koristi ćilibar, a beleške ostaju prigušene", () => {
   assert.match(css, /\.brand\s*\{\s*color:\s*var\(--amber\)/);
   assert.match(css, /#kartica-popuna\s*\{[^}]*background:\s*var\(--amber\)/);
   assert.equal(css.includes(".koraci-kontrole"), false);
+  assert.match(css, /\.birac-traka > span\s*\{[^}]*background:\s*var\(--amber\)/);
   assert.match(css, /\.option\.izabrano\s*\{[^}]*border-color:\s*var\(--amber\)/);
   assert.match(css, /font-family:\s*system-ui,\s*"Segoe UI",\s*sans-serif/);
   assert.match(css, /\.cas-glava h1\s*\{\s*color:\s*var\(--naslov\)/);

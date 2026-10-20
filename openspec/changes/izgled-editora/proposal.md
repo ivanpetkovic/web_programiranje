@@ -10,7 +10,7 @@ Tab Editor i hod kroz korak ne prate makete. Editor i dalje drži radnu verziju 
 - Učitaj otvara Lekciju i ne briše radnu verziju. Sačuvaj upisuje bafer Moj koda u radnu verziju u ovom browseru. Resetuj i dalje zamenjuje radnu verziju originalom otvorenog koraka i pokazuje Moj kod. Nijedno ne piše na disk i ne beleži korak.
 - Desna strana je Pregled: lažni okvir browsera, adresa otvorenog fajla na poreklu stranice, i soba unutra. Osvežavanje u okviru ponovo crta pregled iz teksta u editoru i ne učitava čas iznova. Adresa se ne kuca.
 - **BREAKING:** žuti hod nestaje. Na Gradivu, birač zamenjuje traku koraka. Levi krug je samo `chevron-left`. Sredina kaže Korak n od N i naslov tog koraka. Traka ispod puni se brojem sačuvanih koraka ove nedelje, ne indeksom otvorenog koraka. Desno su „Svi koraci” i puno dugme „Sledeći”. Nivo, minuti i Sačuvaj korak ostaju u telu lekcije, ne u biraču. Sačuvaj u zaglavlju i dalje beleži korak.
-- Preduslov je poziv sa `graduation-cap`. Izabrani tab časa (Gradivo, Diskusija ili Editor) ima naglasak teme. Red brojeva koraka ostaje, jedan broj po koraku.
+- Preduslov je poziv sa `graduation-cap`. Izabrani tab časa (Gradivo, Diskusija ili Editor) ima naglasak teme. Red brojeva, jedno dugme po koraku, ne ostaje. Birač je navigacija.
 - Tab Server i dalje ne postoji u nedeljama 1–3, iako ga maketa crta pored klijentskog primera.
 
 ## Capabilities
