@@ -687,9 +687,12 @@ function renderLecture() {
     kratke.append(button);
   }
   pitanjeBlok.append(pitanjeNad, pitanje, uputa, kratke);
+  const radnjePitanja = document.createElement("div");
+  radnjePitanja.className = "radnje-pitanja";
   const otvori = document.createElement("button");
   otvori.type = "button";
-  otvori.textContent = otvoreno ? "Obrazloženje je otvoreno" : "Obrazloženje";
+  otvori.className = otvoreno ? "obrazlozenje otvoreno" : "obrazlozenje";
+  saIkonom(otvori, otvoreno ? "check-circle" : "info", otvoreno ? "Obrazloženje je otvoreno" : "Obrazloženje");
   otvori.addEventListener("click", () => {
     objasnjenjePoKoraku.set(`${cas}:${i}`, true);
     renderLecture();
@@ -711,7 +714,8 @@ function renderLecture() {
   const ponovi = document.createElement("button");
   ponovi.type = "button";
   ponovi.id = "ponovi-pitanje";
-  ponovi.textContent = "Ponovi pitanje";
+  ponovi.className = "ponovi-pitanje";
+  saIkonom(ponovi, "refresh-cw", "Ponovi pitanje");
   ponovi.addEventListener("click", () => {
     objasnjenjePoKoraku.delete(`${cas}:${i}`);
     izborKoraka.delete(`${cas}:${i}`);
@@ -719,7 +723,8 @@ function renderLecture() {
     podvucenoPoCasu.delete(kljucDiskusije());
     renderLecture();
   });
-  casEl.append(birac, metaKoraka, naslovKoraka, primer, kljucna, isecak, put, vec, pitanjeBlok, otvori, ponovi, osvrt, izlaz, izlazPolje);
+  radnjePitanja.append(otvori, ponovi);
+  casEl.append(birac, metaKoraka, naslovKoraka, primer, kljucna, isecak, put, vec, pitanjeBlok, radnjePitanja, osvrt, izlaz, izlazPolje);
   diskusijaMesto.replaceChildren(nacrtajDiskusiju(item));
   prikaziDeo();
   paintNav();

@@ -503,6 +503,37 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 .isecak .br { display: inline-block; width: 1.6rem; color: var(--muted); }
 .isecak .komentar { color: var(--good); }
 .pitanje-blok { margin-top: 1rem; }
+.radnje-pitanja {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0.95rem 0 0.15rem;
+}
+.radnje-pitanja button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 700;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+}
+.obrazlozenje {
+  background: var(--amber);
+  color: var(--on-amber);
+  border-color: var(--amber);
+}
+.obrazlozenje.otvoreno {
+  background: transparent;
+  color: var(--good);
+  border-color: var(--good);
+}
+.ponovi-pitanje {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.obrazlozenje:not(.otvoreno):hover,
+.ponovi-pitanje:hover { filter: brightness(1.08); }
 .opcije-mreza { display: grid; grid-template-columns: 1fr; gap: 0.55rem; }
 .birac {
   display: grid;
