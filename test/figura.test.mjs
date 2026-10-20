@@ -55,13 +55,17 @@ test("linija ređa godinu pa natpis", () => {
   assert.equal(svg.includes("React"), false);
 });
 
-test("Web crta Browser bez putanje, Podela otvara index", () => {
-  const koraci = dokument.nedelje[0].steps;
-  const web = prikazKoraka(koraci[0]);
-  assert.match(web.svg, />Browser</);
-  assert.equal(web.putanja, null);
-  assert.equal(web.svg.includes("putanja-koraka"), false);
-  const podela = prikazKoraka(koraci.find((korak) => korak.naslov === "Podela"));
+test("LO nema crtež, Hipertekst crta vezu, Podela otvara index", () => {
+  const istorija = dokument.nedelje[0].steps;
+  const lo = prikazKoraka(istorija[0]);
+  assert.equal(lo.svg, null);
+  assert.equal(lo.putanja, null);
+  const veza = prikazKoraka(istorija.find((korak) => korak.naslov === "Hipertekst"));
+  assert.match(veza.svg, />Veza</);
+  assert.match(veza.svg, />Drugi tekst</);
+  assert.equal(veza.putanja, null);
+  const stranica = dokument.nedelje[1].steps;
+  const podela = prikazKoraka(stranica.find((korak) => korak.naslov === "Podela"));
   assert.equal(podela.svg, null);
   assert.equal(podela.putanja, "client/index.html");
   assert.match(main, /putanjaKoraka\.id = "putanja-koraka"/);
@@ -69,7 +73,7 @@ test("Web crta Browser bez putanje, Podela otvara index", () => {
 });
 
 test("izlaz je rečenica na poslednjem koraku, pretpostavke ostaju", () => {
-  const nedelja = dokument.nedelje[0];
+  const nedelja = dokument.nedelje[1];
   const poslednji = prikaziIzlaz(nedelja.steps.length - 1, nedelja.steps.length, nedelja.izlaz);
   assert.match(poslednji.tekst, /dokument/i);
   assert.match(poslednji.tekst, /prikaz/i);
@@ -81,10 +85,11 @@ test("izlaz je rečenica na poslednjem koraku, pretpostavke ostaju", () => {
   assert.equal(main.includes('textContent = "Osvrt"'), false);
 });
 
-test("Web ne otvara soba.css, Podela otvara index.html", () => {
-  const koraci = dokument.nedelje[0].steps;
-  assert.equal(izborFajla(koraci[0]), null);
-  assert.equal(izborFajla(koraci.find((korak) => korak.naslov === "Podela")), "client/index.html");
+test("LO ne otvara soba.css, Podela otvara index.html", () => {
+  const istorija = dokument.nedelje[0].steps;
+  const stranica = dokument.nedelje[1].steps;
+  assert.equal(izborFajla(istorija[0]), null);
+  assert.equal(izborFajla(stranica.find((korak) => korak.naslov === "Podela")), "client/index.html");
   assert.equal(main.includes("fileForLecture"), false);
   assert.equal(main.includes('openPath = { client: "css/soba.css"'), false);
 });
