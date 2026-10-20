@@ -170,11 +170,21 @@ async function otvoriStranu(port) {
 
 function stanjeEditora() {
   const sadrzaj = document.querySelector(".cm-content");
+  const otvoren = document.querySelector("#tree button[aria-current='true']");
   return {
     putanja: document.querySelector("#putanja")?.textContent || "",
+    otvoren: otvoren?.dataset.put || "",
     tekst: sadrzaj ? sadrzaj.innerText.replace(/\s+$/g, "") : "",
     spreman: Boolean(sadrzaj && document.querySelector("#koraci-kontrole button")),
   };
+}
+
+function klikNaFajl(put) {
+  return `{
+    const dugme = [...document.querySelectorAll("#tree button")].find((b) => b.dataset.put === ${JSON.stringify(put)});
+    if (!dugme) throw new Error("nema fajla");
+    dugme.click();
+  }`;
 }
 
 test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async (t) => {
@@ -238,6 +248,71 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
     assert.equal(posleNiza.tekst.includes("<!DOCTYPE html>"), false);
     assert.equal(posleNiza.tekst.includes("Digital-7 Mono"), false);
     assert.equal(posleNiza.tekst.includes(htmlKoraka), false);
+  } catch (greska) {
+    greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
+    throw greska;
+  }
+});
+
+test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => {
+  const portSajta = await slobodanPort();
+  const portChrome = await slobodanPort();
+  const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
+  let strana;
+  t.after(() => {
+    strana?.zatvori();
+    ugasi(server);
+  });
+  try {
+    await cekajHttp(`http://127.0.0.1:${portSajta}/`);
+    strana = await otvoriStranu(portChrome);
+    await strana.idi(`http://127.0.0.1:${portSajta}/`);
+    const kurs = JSON.parse(readFileSync(path.join(koren, "site/kurs.json"), "utf8"));
+    const koraci = kurs.nedelje[0].steps;
+    const stranica = koraci.find((korak) => korak.naslov === "Stranica").original.trim();
+    const glava = koraci.find((korak) => korak.naslov === "Glava").original.trim();
+
+    async function ekran() {
+      return strana.vrednost(`(${stanjeEditora.toString()})()`);
+    }
+    async function sačekaj(uslov) {
+      const kraj = Date.now() + 5000;
+      let poslednje;
+      while (Date.now() < kraj) {
+        poslednje = await ekran();
+        if (uslov(poslednje)) return poslednje;
+        await pauza(40);
+      }
+      throw new Error(`editor nije stigao: ${JSON.stringify(poslednje)}`);
+    }
+    async function korak(naslov) {
+      await strana.vrednost(
+        `document.querySelector('#koraci-kontrole button[aria-label=${JSON.stringify(naslov)}]').click()`,
+      );
+    }
+
+    await sačekaj((s) => s.spreman);
+    await strana.vrednost(`document.querySelector('#tab-editor').click()`);
+    await strana.vrednost(klikNaFajl("js/korak.js"));
+    const otvorenKorak = await sačekaj((s) => s.putanja === "client/js/korak.js" && s.tekst.startsWith("let delta = 1;"));
+    assert.equal(otvorenKorak.otvoren, "js/korak.js");
+
+    await korak("Stranica");
+    const poslePrvogKoraka = await sačekaj((s) => s.putanja === "client/index.html" && s.tekst.trim() === stranica);
+    assert.equal(poslePrvogKoraka.otvoren, "index.html");
+    assert.equal(poslePrvogKoraka.tekst.includes("let delta = 1;"), false);
+
+    await strana.vrednost(klikNaFajl("js/niz.js"));
+    const drugiFajl = await sačekaj((s) => s.putanja === "client/js/niz.js" && s.tekst.startsWith("const prag = 24;"));
+    assert.equal(drugiFajl.otvoren, "js/niz.js");
+    assert.equal(drugiFajl.tekst.includes(stranica), false);
+
+    await korak("Glava");
+    const posleDrugogKoraka = await sačekaj((s) => s.putanja === "client/index.html" && s.tekst.trim() === glava);
+    assert.equal(posleDrugogKoraka.otvoren, "index.html");
+    assert.equal(posleDrugogKoraka.tekst.includes("<title>Soba</title>"), true);
+    assert.equal(posleDrugogKoraka.tekst.includes("const prag = 24;"), false);
+    assert.equal(posleDrugogKoraka.tekst.trim() === stranica, false);
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
     throw greska;
