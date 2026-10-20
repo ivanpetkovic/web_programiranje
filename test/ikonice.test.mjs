@@ -57,6 +57,8 @@ test("pitanje, stablo, olovka i panel", () => {
   assert.match(main, /ikonica\("file-text"\)/);
   assert.match(main, /function ikonaVerzije/);
   assert.match(main, /vrsta === "olovka"/);
+  assert.match(main, /ikonaVerzije\(radnaNaEkranu \? "olovka" : "list"\)/);
+  assert.match(html, /id="reset-radne"[\s\S]*M13\.5 8a5\.5/);
   assert.match(main, /prekidac\.textContent = ukljucen \? "Isključi" : "Uključi"/);
   assert.equal(main.includes("prekidac.append(ikonica"), false);
   assert.equal(html.includes('id="sledeci" class="hod-koraka"'), false);
