@@ -126,7 +126,7 @@ test("zakucana tema se čita pre stilova", () => {
 
 test("gradivo, jedna kolona i birač", () => {
   assert.match(html, /id="tab-koraci"[^>]*>Gradivo</);
-  assert.match(html, /Gradivo, Diskusija i Editor su tri taba/);
+  assert.match(html, /Gradivo, Diskusija i Uređivač su tri taba/);
   assert.match(html, /otvaraju taj korak u Gradivu/);
   assert.equal(html.includes(">Koraci<"), false);
   assert.equal(html.includes('id="koraci-kontrole"'), false);
