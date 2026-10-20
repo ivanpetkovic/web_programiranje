@@ -65,7 +65,6 @@
         ]
       },
       "izlaz": "Gde je dokument, gde je prikaz, a šta osvežavanje vraća?",
-      "overview": "Internet naspram Weba, put od URL-a do prikaza, semantički HTML, osnovna pristupačnost, skica.",
       "pojmoviCasa": [
         {
           "id": "prikaz",
@@ -90,6 +89,145 @@
         }
       ],
       "steps": [
+        {
+          "naslov": "Web",
+          "nivo": "Osnovno",
+          "minuta": 5,
+          "tekst": "Web je dokumenti koje browser dovuče po URL-u i nacrta. Prikaz nije taj dokument.",
+          "kljucnaIdeja": "Link je drugi URL. Prikaz je slika u ovom browseru, ne dokument koji je stigao.",
+          "pitalica": "Šta crtež odvaja od dokumenta?",
+          "figura": {
+            "vrsta": "put",
+            "cvorovi": [
+              {
+                "id": "browser",
+                "natpis": "Browser"
+              },
+              {
+                "id": "url",
+                "natpis": "URL"
+              },
+              {
+                "id": "dokument",
+                "natpis": "Dokument"
+              },
+              {
+                "id": "prikaz",
+                "natpis": "Prikaz"
+              }
+            ]
+          },
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Prikaz jeste dokument, jer se vidi.",
+              "why": "Videti sliku nije isto što i držati dokument.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Prikaz nije dokument.",
+              "why": "Browser crta sliku. Dokument je ono što je stiglo.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Internet",
+          "nivo": "Osnovno",
+          "minuta": 5,
+          "tekst": "Internet je mreža. Web je jedna usluga na njoj. Između browsera i dokumenta stoji ta mreža.",
+          "kljucnaIdeja": "Web nije ceo Internet. DNS i TLS se ovde ne rekonstruišu.",
+          "pitalica": "Da li su Internet i Web ista stvar?",
+          "figura": {
+            "vrsta": "put",
+            "pokret": "jednom",
+            "cvorovi": [
+              {
+                "id": "browser",
+                "natpis": "Browser"
+              },
+              {
+                "id": "url",
+                "natpis": "URL"
+              },
+              {
+                "id": "mreza",
+                "natpis": "Mreža"
+              },
+              {
+                "id": "dokument",
+                "natpis": "Dokument"
+              },
+              {
+                "id": "prikaz",
+                "natpis": "Prikaz"
+              }
+            ]
+          },
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Jesu. Web jeste mreža kablova.",
+              "why": "Kablovi nisu dokumenti povezani URL-om.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Internet i Web nisu isto.",
+              "why": "Web je jedna usluga. Internet je mreža ispod nje.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Istorija",
+          "nivo": "Osnovno",
+          "minuta": 5,
+          "tekst": "1969. je mreža paketa. 1983. je TCP/IP. 1989. je predlog povezanih dokumenata. 1991. je javni Web. Ovaj čas pravi jednu stranicu, a server/ je još prazan.",
+          "kljucnaIdeja": "Web je mlađi od mreže paketa. Mreža paketa nije Web.",
+          "pitalica": "Šta je mreža paketa iz 1969.?",
+          "figura": {
+            "vrsta": "linija",
+            "pokret": "redom",
+            "oznake": [
+              {
+                "godina": "1969",
+                "natpis": "Mreža paketa"
+              },
+              {
+                "godina": "1983",
+                "natpis": "TCP/IP"
+              },
+              {
+                "godina": "1989",
+                "natpis": "Povezani dokumenti"
+              },
+              {
+                "godina": "1991",
+                "natpis": "Javni Web"
+              },
+              {
+                "godina": "čas",
+                "natpis": "server/ je prazan"
+              }
+            ]
+          },
+          "opcije": [
+            {
+              "key": "A",
+              "text": "To već jeste Web.",
+              "why": "1969. još nema URL ni dokument u browseru.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Mreža paketa iz 1969. nije Web.",
+              "why": "Web stiže tek kao povezani dokumenti, mnogo kasnije.",
+              "ok": true
+            }
+          ]
+        },
         {
           "putanja": "client/index.html",
           "naslov": "Podela",
@@ -148,7 +286,7 @@
           "putanja": "client/index.html",
           "naslov": "Glava",
           "nivo": "Osnovno",
-          "minuta": 6,
+          "minuta": 4,
           "tekst": "Charset i naslov dokumenta stoje u glavi, pre sadržaja.",
           "kljucnaIdeja": "Element head nosi charset i title. Još nema onoga što se vidi u sobi.",
           "isecakNaslov": "Glava",
@@ -175,7 +313,7 @@
           "putanja": "client/index.html",
           "naslov": "Telo",
           "nivo": "Osnovno",
-          "minuta": 6,
+          "minuta": 4,
           "tekst": "Telo je prazno mesto za ono što će soba prikazati.",
           "kljucnaIdeja": "Element body drži sadržaj. Stil i komanda još nisu tu.",
           "isecakNaslov": "Telo",
@@ -202,7 +340,7 @@
           "putanja": "client/index.html",
           "naslov": "Naslov",
           "nivo": "Osnovno",
-          "minuta": 6,
+          "minuta": 4,
           "tekst": "Naslov je deo dokumenta, ne merenje.",
           "kljucnaIdeja": "Element h1 je naslov, ne pasus.",
           "isecakNaslov": "Naslov",
@@ -229,7 +367,7 @@
           "putanja": "client/index.html",
           "naslov": "Broj",
           "nivo": "Osnovno",
-          "minuta": 6,
+          "minuta": 4,
           "tekst": "U pasusu stoji broj, kao običan tekst.",
           "kljucnaIdeja": "Element p i atribut class drže 24.",
           "isecakNaslov": "Broj",
@@ -256,7 +394,7 @@
           "putanja": "client/index.html",
           "naslov": "Dugme",
           "nivo": "Osnovno",
-          "minuta": 6,
+          "minuta": 4,
           "tekst": "Dugme je element dokumenta. Još ništa ne šalje.",
           "kljucnaIdeja": "Element button i atribut type jesu u dokumentu. Komanda dolazi tek kad postoji server.",
           "isecakNaslov": "Dugme",
@@ -283,7 +421,7 @@
           "putanja": "client/index.html",
           "naslov": "Veza",
           "nivo": "Osnovno",
-          "minuta": 6,
+          "minuta": 4,
           "tekst": "Dokument kaže browseru gde je stil.",
           "kljucnaIdeja": "Element link i atribut href učitavaju stil. Broj i dalje stoji u HTML-u.",
           "isecakNaslov": "Veza",
@@ -310,7 +448,7 @@
           "putanja": "client/css/soba.css",
           "naslov": "Selektor",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tekst": "Klasa bira broj, ne ceo dokument.",
           "kljucnaIdeja": "Klasni selektor .digit bira broj. Dokument i dalje kaže 24.",
           "isecakNaslov": "Selektor",
@@ -337,7 +475,7 @@
           "putanja": "client/css/soba.css",
           "naslov": "Okvir",
           "nivo": "Osnovno",
-          "minuta": 3,
+          "minuta": 2,
           "tekst": "Kutija dobija ivicu.",
           "kljucnaIdeja": "border je ivica kutije. Broj u fajlu i dalje je 24.",
           "isecakNaslov": "Okvir",
@@ -364,7 +502,7 @@
           "putanja": "client/css/soba.css",
           "naslov": "Unutra",
           "nivo": "Osnovno",
-          "minuta": 3,
+          "minuta": 2,
           "tekst": "Unutar ivice ostaje prazan prostor.",
           "kljucnaIdeja": "padding je prostor unutar ivice.",
           "isecakNaslov": "Unutra",
@@ -608,7 +746,6 @@
         ]
       },
       "izlaz": "Šta const drži, a šta polje objekta sme?",
-      "overview": "Dinamički tipovi, mesto TypeScript provere, JS okruženja, dve verzije iste funkcije.",
       "pojmoviCasa": [
         {
           "id": "const",
@@ -992,7 +1129,6 @@
         ]
       },
       "izlaz": "Ko menja objekat, a ko upisuje broj na ekran?",
-      "overview": "Responsive prikaz, jedinice, animacija, pristupačna forma, klase i this, komponenta kao razlog biblioteke.",
       "pojmoviCasa": [
         {
           "id": "dom",
@@ -1376,7 +1512,6 @@
         ]
       },
       "izlaz": "Čiji je DOM, a ko vraća JSON?",
-      "overview": "IP, UDP, TLS, HTTP/2, HTTP/3, XML, SOAP, RPC, gRPC, GraphQL, Express i middleware.",
       "pojmoviCasa": [
         {
           "id": "http",
@@ -1753,7 +1888,6 @@
         ]
       },
       "izlaz": "Koja greška ima status, a koja nema odgovor?",
-      "overview": "Spoljni API, timeout, prekid jednog zahteva, više zahteva odjednom, call stack, postojanje task i microtask redova.",
       "pojmoviCasa": [
         {
           "id": "await",
@@ -2130,7 +2264,6 @@
         ]
       },
       "izlaz": "Koja komanda sme dvaput, a koja drugi put poništi efekat?",
-      "overview": "REST, stateless obrada, optimistički prikaz, prihvaćena komanda naspram potvrde fizičkog uređaja.",
       "pojmoviCasa": [
         {
           "id": "zeljeno",
@@ -2507,7 +2640,6 @@
         ]
       },
       "izlaz": "Šta restart procesa čuva, a šta brisanje skladišta briše?",
-      "overview": "Relacioni i dokumentni model, virtuelna mašina i kontejner.",
       "pojmoviCasa": [
         {
           "id": "transakcija",
@@ -2877,7 +3009,6 @@
         ]
       },
       "izlaz": "Šta broj na ekranu dokazuje o trenutku merenja?",
-      "overview": "SSE, WebSocket, History API, SPA, React hooks, storage, PWA i offline. Dovod sobe mašina čas ne imenuje.",
       "pojmoviCasa": [
         {
           "id": "ocitavanje",
@@ -2890,7 +3021,7 @@
           "id": "polling",
           "name": "Periodično čitanje",
           "hint": "isto čitanje, samo se ponavlja",
-          "body": "Prekidač odmah pošalje jedno čitanje, pa ga ponavlja. SSE i WebSocket ostaju imena drugog načina.",
+          "body": "Prekidač odmah pošalje jedno čitanje, pa ga ponavlja.",
           "code": "procitaj();\nconst id = setInterval(procitaj, 4000);"
         }
       ],
@@ -3091,7 +3222,7 @@
           "opcije": [
             {
               "key": "A",
-              "text": "SSE ili WebSocket, i okreće ga na sobu prekidača.",
+              "text": "Imenuje ga i okreće ga na sobu prekidača.",
               "why": "Čas ga ne imenuje i ne okreće ga tamo.",
               "ok": false
             },
@@ -3105,14 +3236,14 @@
         },
         {
           "putanja": "client/js/displej.js",
-          "naslov": "Imena koja se ne grade",
+          "naslov": "Bez guranja",
           "nivo": "Osnovno",
           "minuta": 8,
-          "tekst": "Treba drugi način da soba prekidača sazna broj.",
-          "kljucnaIdeja": "SSE i WebSocket se imenuju kao drugi način i ne uvode se kao dovod sobe prekidača.",
-          "isecakNaslov": "Imena koja se ne grade",
-          "isecak": "SSE, WebSocket",
-          "delic": "// nema novog servera za SSE",
+          "tekst": "Drugi način da soba prekidača sazna broj ovde se ne gradi.",
+          "kljucnaIdeja": "Displej prekidača i dalje čita. Novi server se ne uvodi.",
+          "isecakNaslov": "Bez guranja",
+          "isecak": "displej i dalje čita",
+          "delic": "// nema novog servera",
           "pitalica": "Šta čas od njih napravi?",
           "opcije": [
             {
@@ -3123,8 +3254,8 @@
             },
             {
               "key": "B",
-              "text": "Imena. Displej prekidača i dalje čita.",
-              "why": "Polling ostaje ovde.",
+              "text": "Ništa novo. Displej prekidača i dalje čita.",
+              "why": "Čitanje ostaje ovde.",
               "ok": true
             }
           ]
@@ -3254,7 +3385,6 @@
         ]
       },
       "izlaz": "Gde se proverava pravo: na dugmetu ili na zahtevu?",
-      "overview": "Prijava preko treće strane, tokeni, XSS, SQL injection, CSRF, HTTPS. Bez login forme.",
       "pojmoviCasa": [
         {
           "id": "sesija",
@@ -3615,7 +3745,6 @@
       ],
       "rezerva": null,
       "izlaz": "Zapiši gde se proverava pravo, gde stoji stanje, i šta izostanak odgovora ne dokazuje.",
-      "overview": "Proxy, CDN, cloud, Kubernetes, serverless, mesto nastanka HTML-a, logovi, CI. Tip i predlog asistenta ostaju rečenica u osvrtu, bez drugog glasanja. Blockchain kao evidencija ne dokazuje tačnost senzora.",
       "pojmoviCasa": [
         {
           "id": "tri",
@@ -3898,8 +4027,8 @@
           "naslov": "Izlaz",
           "nivo": "Osnovno",
           "minuta": 8,
-          "tekst": "Nema četiri opcije. Ima slobodan upis.",
-          "kljucnaIdeja": "Izlaz je slobodan upis, bez opcija i bez pečata.",
+          "tekst": "Nema opcija i nema polja. Rečenica stoji na kraju časa.",
+          "kljucnaIdeja": "Izlaz je rečenica, bez opcija, bez pečata i bez polja.",
           "isecakNaslov": "Izlaz",
           "isecak": "gde je pravo, gde je stanje, šta ćutanje ne dokazuje",
           "delic": "gde je pravo\ngde je stanje\nšta ćutanje ne dokazuje",
@@ -3907,40 +4036,40 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Mesto za rečenicu.",
-              "why": "Ima ga.",
+              "text": "Mesto za upis.",
+              "why": "Nema polja.",
               "ok": false
             },
             {
               "key": "B",
               "text": "Pečat i opcije.",
-              "why": "Nema glasanja.",
+              "why": "Nema glasanja i nema polja.",
               "ok": true
             }
           ]
         },
         {
           "putanja": "server/server.js",
-          "naslov": "Osvrt",
+          "naslov": "Jedna soba",
           "nivo": "Osnovno",
           "minuta": 8,
           "tekst": "Tip i predlog asistenta ostanu rečenica, bez novog glasanja.",
-          "kljucnaIdeja": "Rezervna pitalica o tipu ostaje ilustracija u osvrtu. Panel i dalje ima jednu temperaturu i jedan ventilator.",
-          "isecakNaslov": "Osvrt",
-          "isecak": "osvrt, bez opcija",
-          "delic": "// osvrt nema opcije",
+          "kljucnaIdeja": "Nema druge pitalice. Panel i dalje ima jednu temperaturu i jedan ventilator.",
+          "isecakNaslov": "Jedna soba",
+          "isecak": "jedna temperatura, jedan ventilator",
+          "delic": "// nema drugog glasanja",
           "pitalica": "Ako je glavna diskusija potrošila vreme, rezerva o tipu...",
           "opcije": [
             {
               "key": "A",
               "text": "Postane druga pitalica sa pečatom.",
-              "why": "Ostaje u osvrtu.",
+              "why": "Nema drugog glasanja.",
               "ok": false
             },
             {
               "key": "B",
-              "text": "Ostane rečenica u osvrtu.",
-              "why": "Nema novog glasanja.",
+              "text": "Ostane rečenica u času.",
+              "why": "Panel ima jednu temperaturu i jedan ventilator.",
               "ok": true
             }
           ]
