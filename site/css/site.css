@@ -566,7 +566,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 16px;
-  padding: 0.85rem 1rem;
+  padding: 0.85rem 1rem 0;
 }
 .birac-red { display: flex; align-items: center; gap: 0.75rem; }
 .birac-red > div:nth-child(2) { flex: 1; min-width: 0; }
@@ -599,7 +599,13 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 }
 .birac-meni button { width: 100%; text-align: left; background: transparent; border: 0; }
 .birac-meni button[aria-selected="true"] { background: var(--amber-dim); }
-.birac-traka { height: 0.4rem; background: var(--line); border-radius: 999px; overflow: hidden; }
+.birac-traka {
+  height: 0.45rem;
+  margin: 0.15rem -1rem 0;
+  background: var(--line);
+  border-radius: 0 0 15px 15px;
+  overflow: hidden;
+}
 .birac-traka > span { display: block; height: 100%; background: var(--amber); }
 .sledeci-korak {
   display: inline-flex;
