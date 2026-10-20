@@ -84,8 +84,8 @@
           "id": "css",
           "name": "CSS",
           "hint": "izgled istog dokumenta",
-          "body": "CSS opisuje izgled. Ako stil ne stigne, sadržaj i dalje može da se pročita.",
-          "code": ".digit {\n  letter-spacing: 0.08em;\n}"
+          "body": "CSS opisuje izgled. Ime u stilu i calc računaju dužinu. Ako stil ne stigne, sadržaj i dalje može da se pročita.",
+          "code": ":root {\n  --broj: 2rem;\n}\n\n.digit {\n  font-size: calc(var(--broj) * 2);\n}"
         }
       ],
       "steps": [
@@ -286,7 +286,7 @@
           "putanja": "client/index.html",
           "naslov": "Glava",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tekst": "Charset i naslov dokumenta stoje u glavi, pre sadržaja.",
           "kljucnaIdeja": "Element head nosi charset i title. Još nema onoga što se vidi u sobi.",
           "isecakNaslov": "Glava",
@@ -313,7 +313,7 @@
           "putanja": "client/index.html",
           "naslov": "Telo",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tekst": "Telo je prazno mesto za ono što će soba prikazati.",
           "kljucnaIdeja": "Element body drži sadržaj. Stil i komanda još nisu tu.",
           "isecakNaslov": "Telo",
@@ -340,7 +340,7 @@
           "putanja": "client/index.html",
           "naslov": "Naslov",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tekst": "Naslov je deo dokumenta, ne merenje.",
           "kljucnaIdeja": "Element h1 je naslov, ne pasus.",
           "isecakNaslov": "Naslov",
@@ -367,7 +367,7 @@
           "putanja": "client/index.html",
           "naslov": "Broj",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tekst": "U pasusu stoji broj, kao običan tekst.",
           "kljucnaIdeja": "Element p i atribut class drže 24.",
           "isecakNaslov": "Broj",
@@ -548,6 +548,60 @@
               "key": "B",
               "text": "Van ivice.",
               "why": "margin odmiče kutiju od suseda.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/css/soba.css",
+          "naslov": "Promenljiva",
+          "nivo": "Osnovno",
+          "minuta": 2,
+          "tekst": "Dužina broja dobija ime u stilu.",
+          "kljucnaIdeja": "Ime --broj drži 2rem. var(--broj) čita to ime.",
+          "isecakNaslov": "Promenljiva",
+          "isecak": "--broj: 2rem;\nfont-size: var(--broj);",
+          "delic": "--broj: 2rem;\nfont-size: var(--broj);",
+          "original": ":root {\n  --broj: 2rem;\n}\n\n.digit {\n  letter-spacing: 0.08em;\n  border: 1px solid #3a342c;\n  padding: 1rem;\n  margin: 1rem;\n  font-size: var(--broj);\n}\n",
+          "pitalica": "Šta čita var(--broj)?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Broj 24 iz HTML-a.",
+              "why": "24 je sadržaj dokumenta.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ime --broj iz stila.",
+              "why": "var čita CSS ime.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/css/soba.css",
+          "naslov": "Calc",
+          "nivo": "Osnovno",
+          "minuta": 2,
+          "tekst": "Ista imenovana dužina može da se izračuna.",
+          "kljucnaIdeja": "calc množi imenovanu dužinu. Broj 24 u dokumentu ostaje.",
+          "isecakNaslov": "Calc",
+          "isecak": "font-size: calc(var(--broj) * 2);",
+          "delic": "font-size: calc(var(--broj) * 2);",
+          "original": ":root {\n  --broj: 2rem;\n}\n\n.digit {\n  letter-spacing: 0.08em;\n  border: 1px solid #3a342c;\n  padding: 1rem;\n  margin: 1rem;\n  font-size: calc(var(--broj) * 2);\n}\n",
+          "pitalica": "Šta calc menja?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Tekst 24 u fajlu.",
+              "why": "Dokument se ne dira.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Veličinu broja u stilu.",
+              "why": "calc računa dužinu, ne sadržaj.",
               "ok": true
             }
           ]
