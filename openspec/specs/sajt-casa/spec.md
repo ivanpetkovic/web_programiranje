@@ -18,11 +18,15 @@ The lecture site MUST be a static page with no build step. It MUST read one cour
 - **THEN** the page lists that many weeks and does not add or remove weeks to reach ten
 
 ### Requirement: Korak na sajtu
-Each step MUST show, in order, the step prose, the key-idea callout, the code snippet, and a short quiz with unmarked answers. The next step MUST treat that step's file fragment as already typed. The site MUST show the file path of the fragment.
+A step that names a file MUST show, in order, the step prose, the key-idea callout, the code snippet, and a short quiz with unmarked answers. The next step MUST treat that step's file fragment as already typed. The site MUST show the file path of the fragment. A figure step MUST show the prose, the key-idea callout, the figure, and the short quiz, and MUST NOT show a code snippet or a file path.
 
 #### Scenario: Callout comes before the quiz
-- **WHEN** the teacher opens a step
+- **WHEN** the teacher opens a step that names a file
 - **THEN** the prose, the key idea, and the snippet are visible before the quiz, and no quiz answer is marked
+
+#### Scenario: Figure comes before the quiz
+- **WHEN** the teacher opens a figure step
+- **THEN** the prose, the key idea, and the figure are visible before the quiz, and no snippet or file path is shown
 
 #### Scenario: Step adds a fragment
 - **WHEN** the teacher finishes a step that adds a fragment
@@ -113,12 +117,34 @@ Focus MUST be visible. A concept and a quiz option MUST work from the keyboard. 
 - **WHEN** the browser asks for reduced motion and the remote mode is on
 - **THEN** the blades show the on position and do not rotate endlessly
 
-### Requirement: Osvrt
-The review block MUST be a folded list of the survey topics for that lecture. Opening it MUST NOT open the editor and MUST NOT send a request.
+### Requirement: Crtez iz dokumenta
+A figure step MUST draw the diagram or timeline from the course document, using that document's labels. The shell MUST NOT hardcode those labels.
 
-#### Scenario: Review stays folded
-- **WHEN** the teacher opens the review list
-- **THEN** the editor stays as it was and no room request is sent
+#### Scenario: Labels come from the document
+- **WHEN** the teacher opens the Web figure
+- **THEN** the figure shows the document's labels for the browser, the URL, the document, and the display
+
+### Requirement: Pokret crteža
+A path animation MUST play once and MUST NOT loop. A timeline MUST reveal its marks in order once. Reduced motion MUST show the finished figure with every mark visible and with nothing traveling.
+
+#### Scenario: Path plays once
+- **WHEN** the teacher opens the Internet figure and the browser allows motion
+- **THEN** a marker travels from the browser to the document once and does not repeat
+
+#### Scenario: Reduced motion is still
+- **WHEN** the browser asks for reduced motion and a figure step is open
+- **THEN** the finished figure is visible, every timeline mark is visible, and nothing travels
+
+### Requirement: Izlazna rečenica
+The exit sentence MUST appear only on the last step of the open lecture. The page MUST NOT offer a text field for that sentence. An earlier step of that lecture MUST NOT show the sentence.
+
+#### Scenario: Last step shows the sentence
+- **WHEN** the teacher opens the last step of a lecture
+- **THEN** the exit sentence is visible and the page has no text field for an answer
+
+#### Scenario: Earlier step hides it
+- **WHEN** the teacher opens any earlier step of that lecture
+- **THEN** the exit sentence is not shown
 
 ### Requirement: Pojam se otvara i sklapa
 A glossary headword that occurs as a whole phrase in the lesson text MUST be underlined with a dashed line. Pointing at it, focusing it, or activating it MUST show a tooltip with the same glossary fields the typeahead shows. Activating that term again MUST hide the tooltip.
@@ -230,11 +256,19 @@ Choosing a theme MUST NOT reload the document and MUST NOT change the open lectu
 - **THEN** the same lecture and the same step remain open
 
 ### Requirement: Beleške ostaju prigušene
-In every theme, the phase line, the review line, and status lines MUST use the muted note color, MUST stay distinct from the step line, and MUST contrast with their surface at a ratio of at least 4.5:1.
+In every theme, the phase line and status lines MUST use the muted note color, MUST stay distinct from the step line, and MUST contrast with their surface at a ratio of at least 4.5:1. The exit sentence MUST use that same muted note color. The page MUST NOT show a review line.
 
 #### Scenario: Notes are not the step color
 - **WHEN** any theme is active and a lecture is open
-- **THEN** the phase line and the review line use the muted note color and the step line does not
+- **THEN** the phase line uses the muted note color and the step line does not
+
+#### Scenario: No review line
+- **WHEN** any lecture step is open
+- **THEN** the page has no review line
+
+#### Scenario: Exit sentence is a note
+- **WHEN** the last step of a lecture is open
+- **THEN** the exit sentence uses the muted note color
 
 ### Requirement: Cifre ostaju čitljive
 Temperature digits MUST contrast with the panel surface at a ratio of at least 3:1 in every theme.
@@ -347,7 +381,7 @@ The open lesson MUST show the course breadcrumb, the week title, the week subtit
 - **THEN** the step bar shows that level
 
 ### Requirement: Ključna ideja i isečak
-On Gradivo, the key-idea callout MUST be labeled Ključna ideja and MUST be visible without a further click. The code snippet MUST show its title, line numbers, and a control that copies the snippet text.
+On Gradivo, the key-idea callout MUST be labeled Ključna ideja and MUST be visible without a further click. When the step has a code snippet, that snippet MUST show its title, line numbers, and a control that copies the snippet text.
 
 #### Scenario: Callout is already visible
 - **WHEN** the teacher opens a step on Gradivo
@@ -548,11 +582,15 @@ When the step sets a level, the step bar MUST show `chart-column` beside that le
 - **THEN** the bar shows `chart-column`, `clock`, and `bookmark` with the words Sačuvaj korak
 
 ### Requirement: Ikonice isečka
-The key-idea callout MUST show `lightbulb`. The snippet title MUST show `folder`. The copy control MUST show `copy` and the word Kopiraj. The file path MUST show `file-text` and the path text.
+The key-idea callout MUST show `lightbulb`. When the step has a snippet, the snippet title MUST show `folder`, the copy control MUST show `copy` and the word Kopiraj, and the file path MUST show `file-text` and the path text. A figure step MUST NOT show those snippet icons.
 
 #### Scenario: Snippet chrome
-- **WHEN** the teacher opens a step on Gradivo
+- **WHEN** the teacher opens a step that has a snippet on Gradivo
 - **THEN** the callout, the snippet title, the copy control, and the file path show those icons and the words Kopiraj and Ključna ideja stay
+
+#### Scenario: Figure has no snippet chrome
+- **WHEN** the teacher opens a figure step on Gradivo
+- **THEN** the callout shows `lightbulb` and the snippet title, copy control, and file path are absent
 
 ### Requirement: Ikonice pitanja
 The question label MUST show `question`. Before the explanation, the chosen option MUST show `circle-dot`, every other option MUST show `circle`, and no option MUST show `check-circle`. After the explanation is open, the correct option MUST show `check-circle`.
@@ -601,12 +639,12 @@ In every theme the header, the week list, the lesson title, and the progress car
 - **WHEN** any theme is active
 - **THEN** the header, the week list, the lesson title, and the progress card use a sans-serif face
 
-### Requirement: Pitalica u dva stupca
-On a wide lesson the short quiz MUST lay its options out in two columns. In the single-column layout the options MUST be in one column.
+### Requirement: Pitalica u jednoj koloni
+The short quiz MUST lay each option on its own row at every width. A lesson wider than the single-column layout MUST NOT place two options on the same row.
 
-#### Scenario: Quiz uses two columns
+#### Scenario: Wide quiz stacks
 - **WHEN** a short quiz is open and the lesson is wider than the single-column layout
-- **THEN** the options are in two columns
+- **THEN** each option is on its own row
 
 #### Scenario: Narrow quiz stacks
 - **WHEN** the lecture page is laid out in one column and a short quiz is open

@@ -209,9 +209,9 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
     strana = await otvoriStranu(portChrome);
     await strana.idi(`http://127.0.0.1:${portSajta}/`);
     const kurs = JSON.parse(readFileSync(path.join(koren, "site/kurs.json"), "utf8"));
-    const stranica = kurs.nedelje[0].steps.find((korak) => korak.naslov === "Stranica");
-    const htmlKoraka = stranica.original.trim();
-    const css = readFileSync(path.join(koren, "client/css/soba.css"), "utf8").trim();
+    const prva = kurs.nedelje[0].steps;
+    const htmlKoraka = prva.find((korak) => korak.naslov === "Stranica").original.trim();
+    const cssKoraka = prva.find((korak) => korak.naslov === "Spolja").original.trim();
 
     async function ekran() {
       return strana.vrednost(`(${stanjeEditora.toString()})()`);
@@ -227,34 +227,45 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
       throw new Error(`editor nije stigao: ${JSON.stringify(poslednje)}`);
     }
 
-    const prvi = await sačekaj((s) => s.spreman && s.tekst.includes("<!DOCTYPE html>"));
-    assert.equal(prvi.putanja, "client/index.html");
     await strana.vrednost(`document.querySelector('#tab-editor').click()`);
+    await strana.vrednost(klikNaKorak("Podela"));
+    const podela = await sačekaj(
+      (s) => s.spreman && s.putanja === "client/index.html" && s.tekst.includes("server/"),
+    );
+    assert.equal(podela.tekst.includes("<!DOCTYPE html>"), false);
     await strana.vrednost(klikNaKorak("Stranica"));
     const posleKoraka = await sačekaj((s) => s.tekst.trim() === htmlKoraka);
-    assert.notEqual(posleKoraka.tekst.trim(), prvi.tekst.trim());
+    assert.notEqual(posleKoraka.tekst.trim(), podela.tekst.trim());
     assert.equal(posleKoraka.putanja, "client/index.html");
 
-    await strana.vrednost(`{
-      const dugme = [...document.querySelectorAll("#tree button")].find((b) => b.dataset.put === "css/soba.css");
-      if (!dugme) throw new Error("nema soba.css");
-      dugme.click();
-    }`);
-    const posleCss = await sačekaj(
-      (s) => s.putanja === "client/css/soba.css" && s.tekst.includes('font-family: "Digital-7 Mono"'),
+    await strana.vrednost(klikNaKorak("Spolja"));
+    const otvorenCss = await sačekaj(
+      (s) => s.putanja === "client/css/soba.css" && s.tekst.trim() === cssKoraka,
     );
-    assert.equal(posleCss.tekst.trim().startsWith("@font-face"), true);
-    assert.equal(posleCss.tekst.includes(htmlKoraka), false);
-    assert.equal(posleCss.tekst.includes(css.slice(0, 80)), true);
+    assert.equal(otvorenCss.tekst.includes(htmlKoraka), false);
 
-    await strana.vrednost(`{
-      const dugme = [...document.querySelectorAll("#tree button")].find((b) => b.dataset.put === "js/niz.js");
-      if (!dugme) throw new Error("nema niz.js");
-      dugme.click();
-    }`);
-    const posleNiza = await sačekaj((s) => s.putanja === "client/js/niz.js" && s.tekst.startsWith("const prag = 24;"));
+    await strana.vrednost(klikNaFajl("index.html"));
+    const html = await sačekaj(
+      (s) => s.putanja === "client/index.html" && s.tekst.includes("<!DOCTYPE html>"),
+    );
+    assert.equal(html.tekst.includes("margin: 1rem;"), false);
+
+    await strana.vrednost(klikNaFajl("css/soba.css"));
+    const posleCss = await sačekaj(
+      (s) => s.putanja === "client/css/soba.css" && s.tekst.trim() === cssKoraka,
+    );
+    assert.equal(posleCss.tekst.includes("<!DOCTYPE html>"), false);
+    assert.equal(posleCss.tekst.includes(htmlKoraka), false);
+
+    await strana.vrednost(`location.hash = "cas-2"`);
+    await strana.vrednost(`document.querySelector('#tab-editor').click()`);
+    await strana.vrednost(klikNaKorak("Prag"));
+    await strana.vrednost(klikNaFajl("js/niz.js"));
+    const posleNiza = await sačekaj(
+      (s) => s.putanja === "client/js/niz.js" && s.tekst.includes("const prag = 24;"),
+    );
     assert.equal(posleNiza.tekst.includes("<!DOCTYPE html>"), false);
-    assert.equal(posleNiza.tekst.includes("Digital-7 Mono"), false);
+    assert.equal(posleNiza.tekst.includes("margin: 1rem;"), false);
     assert.equal(posleNiza.tekst.includes(htmlKoraka), false);
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
@@ -274,11 +285,9 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
   try {
     await cekajHttp(`http://127.0.0.1:${portSajta}/`);
     strana = await otvoriStranu(portChrome);
-    await strana.idi(`http://127.0.0.1:${portSajta}/`);
+    await strana.idi(`http://127.0.0.1:${portSajta}/#cas-2`);
     const kurs = JSON.parse(readFileSync(path.join(koren, "site/kurs.json"), "utf8"));
-    const koraci = kurs.nedelje[0].steps;
-    const stranica = koraci.find((korak) => korak.naslov === "Stranica").original.trim();
-    const glava = koraci.find((korak) => korak.naslov === "Glava").original.trim();
+    const filter = kurs.nedelje[1].steps.find((korak) => korak.naslov === "filter").delic.trim();
 
     async function ekran() {
       return strana.vrednost(`(${stanjeEditora.toString()})()`);
@@ -297,28 +306,35 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
       await strana.vrednost(klikNaKorak(naslov));
     }
 
-    await sačekaj((s) => s.spreman);
     await strana.vrednost(`document.querySelector('#tab-editor').click()`);
     await strana.vrednost(klikNaFajl("js/korak.js"));
-    const otvorenKorak = await sačekaj((s) => s.putanja === "client/js/korak.js" && s.tekst.startsWith("let delta = 1;"));
+    const otvorenKorak = await sačekaj(
+      (s) => s.spreman && s.putanja === "client/js/korak.js" && s.tekst.startsWith("const soba = {"),
+    );
     assert.equal(otvorenKorak.otvoren, "js/korak.js");
 
-    await korak("Stranica");
-    const poslePrvogKoraka = await sačekaj((s) => s.putanja === "client/index.html" && s.tekst.trim() === stranica);
-    assert.equal(poslePrvogKoraka.otvoren, "index.html");
-    assert.equal(poslePrvogKoraka.tekst.includes("let delta = 1;"), false);
+    await korak("filter");
+    const poslePrvogKoraka = await sačekaj(
+      (s) => s.putanja === "client/js/niz.js" && s.tekst.includes(filter),
+    );
+    assert.equal(poslePrvogKoraka.otvoren, "js/niz.js");
+    assert.equal(poslePrvogKoraka.tekst.includes("const soba = {"), false);
 
-    await strana.vrednost(klikNaFajl("js/niz.js"));
-    const drugiFajl = await sačekaj((s) => s.putanja === "client/js/niz.js" && s.tekst.startsWith("const prag = 24;"));
-    assert.equal(drugiFajl.otvoren, "js/niz.js");
-    assert.equal(drugiFajl.tekst.includes(stranica), false);
+    await strana.vrednost(klikNaFajl("index.html"));
+    const drugiFajl = await sačekaj(
+      (s) => s.putanja === "client/index.html" && s.tekst.includes("<title>Soba</title>"),
+    );
+    assert.equal(drugiFajl.otvoren, "index.html");
+    assert.equal(drugiFajl.tekst.includes(filter), false);
 
-    await korak("Glava");
-    const posleDrugogKoraka = await sačekaj((s) => s.putanja === "client/index.html" && s.tekst.trim() === glava);
-    assert.equal(posleDrugogKoraka.otvoren, "index.html");
-    assert.equal(posleDrugogKoraka.tekst.includes("<title>Soba</title>"), true);
-    assert.equal(posleDrugogKoraka.tekst.includes("const prag = 24;"), false);
-    assert.equal(posleDrugogKoraka.tekst.trim() === stranica, false);
+    await korak("Tip");
+    const posleDrugogKoraka = await sačekaj(
+      (s) => s.putanja === "client/js/korak.js" && s.tekst.includes('24 === "24"'),
+    );
+    assert.equal(posleDrugogKoraka.otvoren, "js/korak.js");
+    assert.equal(posleDrugogKoraka.tekst.startsWith("let delta = 1;"), true);
+    assert.equal(posleDrugogKoraka.tekst.includes("<title>Soba</title>"), false);
+    assert.equal(posleDrugogKoraka.tekst.includes(filter), false);
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
     throw greska;
