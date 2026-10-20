@@ -7,7 +7,7 @@ Deset nedelja vodi nastavnika od praznog `client/index.html` do iste kontrolne s
 ## Requirements
 
 ### Requirement: Nedelja ima naslov i korake
-The course MUST be one document that sets its duration as a number of weeks and lists that many weeks, in order, each with a title. The shell MUST use that duration and MUST NOT hardcode a week count. The shipped document MUST set the duration to ten, use the titles below, and give each week 10 to 20 steps. A step that names a file MUST be one fragment, not the whole week. The minute budget MUST stay a teaching label and MUST NOT be a timer.
+The course MUST be one document that sets its duration as a number of weeks and lists that many weeks, in order, each with a title. The shell MUST use that duration and MUST NOT hardcode a week count. The shipped document MUST set the duration to ten, use the titles below, and give each week 10 to 22 steps. A step that names a file MUST be one fragment, not the whole week. The minute budget MUST stay a teaching label and MUST NOT be a timer.
 
 #### Scenario: Titles are visible
 - **WHEN** the teacher opens the shipped course
@@ -15,7 +15,7 @@ The course MUST be one document that sets its duration as a number of weeks and 
 
 #### Scenario: A lecture is a sequence of steps
 - **WHEN** the teacher opens any week of the shipped course
-- **THEN** that week shows between 10 and 20 steps, week 1 shows 20, and every step except Web, Internet, and Istorija names the file it changes
+- **THEN** that week shows between 10 and 22 steps, week 1 shows 22, and every step except Web, Internet, and Istorija names the file it changes
 
 #### Scenario: Figure steps name no file
 - **WHEN** the teacher opens Web, Internet, or Istorija
@@ -315,11 +315,11 @@ The institution, course title, initials, week titles, subtitles, step prose, key
 - **THEN** the progress card shows that budget and the shell does not substitute a fixed duration
 
 ### Requirement: Nedelja 1 sklapa stranicu
-Week 1 MUST follow Istorija with Podela and then these steps, in order: Stranica, Glava, Telo, Naslov, Broj, Dugme, Veza, Selektor, Okvir, Unutra, Spolja, Osvežavanje, Alati, Dva zahteva, Soba prekidača, Semantika. Veza MUST add the link to the stylesheet. The original of each of these steps MUST be the whole file after that step. Weeks 2 through 10 MUST keep each step's stored fragment as its contribution. The editor MUST show the snapshot of that file through the step.
+Week 1 MUST follow Istorija with Podela and then these steps, in order: Stranica, Glava, Telo, Naslov, Broj, Dugme, Veza, Selektor, Okvir, Unutra, Spolja, Promenljiva, Calc, Osvežavanje, Alati, Dva zahteva, Soba prekidača, Semantika. Veza MUST add the link to the stylesheet. The original of each of these steps MUST be the whole file after that step. Weeks 2 through 10 MUST keep each step's stored fragment as its contribution. The editor MUST show the snapshot of that file through the step.
 
 #### Scenario: Week 1 order
 - **WHEN** the teacher opens week 1
-- **THEN** the steps are Web, Internet, Istorija, Podela, Stranica, Glava, Telo, Naslov, Broj, Dugme, Veza, Selektor, Okvir, Unutra, Spolja, Osvežavanje, Alati, Dva zahteva, Soba prekidača, and Semantika, in that order
+- **THEN** the steps are Web, Internet, Istorija, Podela, Stranica, Glava, Telo, Naslov, Broj, Dugme, Veza, Selektor, Okvir, Unutra, Spolja, Promenljiva, Calc, Osvežavanje, Alati, Dva zahteva, Soba prekidača, and Semantika, in that order
 
 #### Scenario: Later week keeps its code
 - **WHEN** the teacher opens a step in week 2 or later
@@ -392,3 +392,14 @@ Selektor MUST be the first original of `client/css/soba.css` and MUST be one cla
 #### Scenario: Margin finishes the box
 - **WHEN** the teacher shows the original of Spolja
 - **THEN** the rule contains the class selector, border, padding, and margin
+
+### Requirement: Stil nedelje 1 imenuje dužinu
+Promenljiva MUST follow Spolja. Its original of `client/css/soba.css` MUST keep the box-model declarations and MUST add a custom property `--broj: 2rem` plus a `font-size` declaration that reads it with `var(--broj)`. Calc MUST follow Promenljiva. Its original MUST keep `--broj: 2rem` and MUST set `font-size` with `calc(var(--broj) * 2)`. Each of those steps MUST name that concept in its key idea. Neither step MUST change 24 in the HTML document.
+
+#### Scenario: A name holds the length
+- **WHEN** the teacher shows the original of Promenljiva
+- **THEN** it contains `--broj: 2rem`, `font-size: var(--broj)`, padding, and margin
+
+#### Scenario: Calc multiplies the named length
+- **WHEN** the teacher shows the original of Calc
+- **THEN** it contains `--broj: 2rem` and `font-size: calc(var(--broj) * 2)`, and still contains the padding and margin declarations

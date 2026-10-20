@@ -13,7 +13,7 @@ function tekst(korak) {
   return [korak.naslov, korak.primer, korak.kod, korak.pitalica, korak.objasnjenje, korak.delic, korak.putanja].join("\n");
 }
 
-test("deset časova ima naslov i 10 do 20 koraka", () => {
+test("deset časova ima naslov i 10 do 22 koraka", () => {
   assert.equal(lectures.length, 10);
   const naslovi = [
     "Šta browser prikazuje",
@@ -30,7 +30,7 @@ test("deset časova ima naslov i 10 do 20 koraka", () => {
   lectures.forEach((cas, i) => {
     assert.equal(cas.n, i + 1);
     assert.equal(cas.title, naslovi[i]);
-    assert.ok(cas.steps.length >= 10 && cas.steps.length <= 20, `čas ${cas.n}: ${cas.steps.length}`);
+    assert.ok(cas.steps.length >= 10 && cas.steps.length <= 22, `čas ${cas.n}: ${cas.steps.length}`);
     for (const korak of cas.steps) {
       assert.ok(korak.primer);
       assert.ok(korak.pitalica);
@@ -75,11 +75,11 @@ test("nedelja 1 sklapa stranicu, a kasnije nedelje nemaju original", () => {
   const redosled = [
     "Web", "Internet", "Istorija",
     "Podela", "Stranica", "Glava", "Telo", "Naslov", "Broj", "Dugme", "Veza",
-    "Selektor", "Okvir", "Unutra", "Spolja", "Osvežavanje", "Alati", "Dva zahteva", "Soba prekidača", "Semantika",
+    "Selektor", "Okvir", "Unutra", "Spolja", "Promenljiva", "Calc", "Osvežavanje", "Alati", "Dva zahteva", "Soba prekidača", "Semantika",
   ];
   const sirovi = dokument.nedelje[0].steps;
   assert.deepEqual(sirovi.map((korak) => korak.naslov), redosled);
-  assert.equal(sirovi.length, 20);
+  assert.equal(sirovi.length, 22);
   assert.equal(sirovi.find((korak) => korak.naslov === "Podela").original, "client/\nserver/\n");
   const broj = sirovi.find((korak) => korak.naslov === "Broj");
   assert.match(broj.original, /<!DOCTYPE html>/);
@@ -104,6 +104,21 @@ test("nedelja 1 sklapa stranicu, a kasnije nedelje nemaju original", () => {
   assert.match(spolja.original, /padding:/);
   assert.match(spolja.original, /margin:/);
   assert.match(spolja.kljucnaIdeja, /margin/);
+  const promenljiva = sirovi.find((korak) => korak.naslov === "Promenljiva");
+  const calc = sirovi.find((korak) => korak.naslov === "Calc");
+  assert.match(promenljiva.original, /--broj: 2rem;/);
+  assert.match(promenljiva.original, /font-size: var\(--broj\);/);
+  assert.match(promenljiva.original, /padding:/);
+  assert.match(promenljiva.original, /margin:/);
+  assert.match(promenljiva.kljucnaIdeja, /var\(--broj\)/);
+  assert.equal(promenljiva.isecak, "--broj: 2rem;\nfont-size: var(--broj);");
+  assert.match(calc.original, /--broj: 2rem;/);
+  assert.match(calc.original, /font-size: calc\(var\(--broj\) \* 2\);/);
+  assert.match(calc.original, /padding:/);
+  assert.match(calc.original, /margin:/);
+  assert.match(calc.kljucnaIdeja, /calc/);
+  assert.equal(calc.isecak, "font-size: calc(var(--broj) * 2);");
+  assert.match(dokument.nedelje[0].pojmoviCasa.find((pojam) => pojam.id === "css").body, /calc/);
   const html = sirovi.filter((korak) => korak.putanja === "client/index.html");
   for (let i = 1; i < html.length; i += 1) {
     if (html[i].naslov === "Stranica") continue;
