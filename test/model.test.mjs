@@ -39,9 +39,10 @@ test("adapter čita dokument i ne drži naslove", () => {
   assert.equal(izvor.includes("Šta browser prikazuje"), false);
   assert.equal(izvor.includes("JavaScript opisuje stanje"), false);
   assert.equal(dokument.naslov, "Veb programiranje");
-  assert.equal(dokument.trajanjeNedelja, 10);
-  assert.equal(lectures.length, 10);
-  assert.equal(lectures[0].title, "Šta browser prikazuje");
+  assert.equal(dokument.trajanjeNedelja, 11);
+  assert.equal(lectures.length, 11);
+  assert.equal(lectures[0].title, "Zašto je Web nastao");
+  assert.equal(lectures[1].title, "Šta browser prikazuje");
   assert.equal(lectures[0].steps[0].nivo, "Osnovno");
   assert.equal(lectures[0].minuta, 90);
   assert.ok(lectures[0].steps[0].minuta > 0);
