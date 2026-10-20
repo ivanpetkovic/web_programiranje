@@ -394,6 +394,6 @@ pripremiBazu()
   })
   .finally(() => {
     server.listen(PORT, "0.0.0.0", () => {
-      console.log(`kontrolna soba http://127.0.0.1:${PORT}`);
+      console.log(`Web Programiranje http://127.0.0.1:${PORT}`);
     });
   });

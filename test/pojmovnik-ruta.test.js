@@ -36,7 +36,7 @@ test("pojmovnik je sirov spisak, a soba i dalje vraća očitavanje", async () =>
     await new Promise((resolve, reject) => {
       const rok = setTimeout(() => reject(new Error(dnevnik || "server nije krenuo")), 8000);
       const proveri = () => {
-        if (!dnevnik.includes("kontrolna soba")) return;
+        if (!dnevnik.includes("Web Programiranje")) return;
         clearTimeout(rok);
         resolve();
       };
