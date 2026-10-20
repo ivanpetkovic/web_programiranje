@@ -20,6 +20,7 @@ export function mapirajKorak(korak) {
     ugradjen: typeof korak.original === "string",
     pitalica: korak.pitalica,
     opcije: korak.opcije,
+    figura: korak.figura,
   };
 }
 

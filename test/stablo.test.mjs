@@ -105,7 +105,7 @@ test("kraj nedelje 3 ima klijentske fajlove kursa, svaki u verziji do tog koraka
 
 test("server stablo kreće od prvog serverskog koraka", () => {
   assert.equal(fajloviStrane(stabloDo(koraci, indeks("Semantika")), "server").length, 0);
-  const prvi = koraci.findIndex((korak) => korak.putanja.startsWith("server/"));
+  const prvi = koraci.findIndex((korak) => korak.putanja && korak.putanja.startsWith("server/"));
   const stablo = stabloDo(koraci, prvi);
   assert.deepEqual(fajloviStrane(stablo, "server"), ["server.js"]);
   const kraj = stabloDo(koraci, koraci.length - 1);

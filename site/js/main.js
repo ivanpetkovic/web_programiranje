@@ -5,7 +5,8 @@ import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./pojmovnik
 import { PORUKA, primeniPrikaz } from "./pregled.js";
 import { procitajRadne, serverTabVidljiv, tekstPrikaza, upisiRadnu } from "./radna.js";
 import { razlikaOriginala } from "./razlika.js";
-import { adresaPregleda, popunaKoraka, rezimPosleAkcije, upisPosleAkcije } from "./birac.js";
+import { adresaPregleda, izborFajla, popunaKoraka, prikaziIzlaz, rezimPosleAkcije, upisPosleAkcije } from "./birac.js";
+import { prikazKoraka } from "./figura.js";
 import { fajloviStrane, prethodnaVerzija, stabloDo } from "./stablo.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
@@ -83,7 +84,7 @@ let dovod = null;
 let lastSpin = "1.2s";
 let strana = "client";
 let openedForCas = 0;
-const openPath = { client: "css/soba.css", server: "soba.js" };
+const openPath = { client: "", server: "" };
 let radne = procitajRadne(localStorage);
 let rezim = "original";
 let prikazaniTekst = "";
@@ -636,20 +637,28 @@ function renderLecture() {
   const kljucnaTekst = document.createElement("p");
   kljucnaTekst.append(fragmentTeksta(korak.kljucnaIdeja));
   kljucna.append(kljucnaNaslov, kljucnaTekst);
-  const isecak = nacrtajIsecak(korak);
-  const put = document.createElement("p");
-  put.className = "meta";
-  const putanjaKoraka = document.createElement("span");
-  putanjaKoraka.id = "putanja-koraka";
-  putanjaKoraka.textContent = korak.putanja;
-  const fajl = ikonica("file-text");
-  if (fajl) put.append(fajl);
-  put.append(document.createTextNode("Fajl: "), putanjaKoraka);
-  const vec = document.createElement("pre");
-  vec.className = "vec";
-  const ranije = vecUkucano(item, i, korak.putanja);
-  vec.hidden = !ranije;
-  vec.textContent = ranije ? `Već u fajlu:\n${ranije}` : "";
+  const prikaz = prikazKoraka(korak);
+  const figura = prikaz.svg ? document.createElement("div") : null;
+  if (figura) {
+    figura.className = "figura";
+    figura.innerHTML = prikaz.svg;
+  }
+  const isecak = figura ? null : nacrtajIsecak(korak);
+  const put = figura ? null : document.createElement("p");
+  const vec = figura ? null : document.createElement("pre");
+  if (put) {
+    put.className = "meta";
+    const putanjaKoraka = document.createElement("span");
+    putanjaKoraka.id = "putanja-koraka";
+    putanjaKoraka.textContent = prikaz.putanja;
+    const fajl = ikonica("file-text");
+    if (fajl) put.append(fajl);
+    put.append(document.createTextNode("Fajl: "), putanjaKoraka);
+    vec.className = "vec";
+    const ranije = vecUkucano(item, i, prikaz.putanja);
+    vec.hidden = !ranije;
+    vec.textContent = ranije ? `Već u fajlu:\n${ranije}` : "";
+  }
   const pitanjeBlok = document.createElement("section");
   pitanjeBlok.className = "pitanje-blok";
   const pitanjeNad = document.createElement("p");
@@ -694,20 +703,12 @@ function renderLecture() {
     objasnjenjePoKoraku.set(`${cas}:${i}`, true);
     renderLecture();
   });
-  const osvrt = document.createElement("details");
-  const osvrtNaslov = document.createElement("summary");
-  osvrtNaslov.textContent = "Osvrt";
-  const overview = document.createElement("p");
-  overview.className = "log";
-  overview.id = "osvrt";
-  overview.textContent = item.overview;
-  osvrt.append(osvrtNaslov, overview);
-  const izlaz = document.createElement("label");
-  izlaz.className = "izlaz";
-  izlaz.textContent = item.izlaz;
-  const izlazPolje = document.createElement("textarea");
-  izlazPolje.rows = 3;
-  izlazPolje.setAttribute("aria-label", "Izlazno pitanje");
+  const izlazPodaci = prikaziIzlaz(i, item.steps.length, item.izlaz);
+  const izlaz = izlazPodaci ? document.createElement("p") : null;
+  if (izlaz) {
+    izlaz.className = "log izlaz";
+    izlaz.textContent = izlazPodaci.tekst;
+  }
   const ponovi = document.createElement("button");
   ponovi.type = "button";
   ponovi.id = "ponovi-pitanje";
@@ -719,7 +720,11 @@ function renderLecture() {
     podvucenoPoCasu.delete(kljucDiskusije());
     renderLecture();
   });
-  casEl.append(birac, metaKoraka, naslovKoraka, primer, kljucna, isecak, put, vec, pitanjeBlok, otvori, ponovi, osvrt, izlaz, izlazPolje);
+  casEl.append(birac, metaKoraka, naslovKoraka, primer, kljucna);
+  if (figura) casEl.append(figura);
+  else casEl.append(isecak, put, vec);
+  casEl.append(pitanjeBlok, otvori, ponovi);
+  if (izlaz) casEl.append(izlaz);
   diskusijaMesto.replaceChildren(nacrtajDiskusiju(item));
   prikaziDeo();
   paintNav();
@@ -896,16 +901,6 @@ async function osveziIstoriju() {
   nacrtajIstoriju(data.istorija);
 }
 
-function fileForLecture(n) {
-  if (n === 1) return ["client", "css/soba.css"];
-  if (n === 2) return ["client", "js/niz.js"];
-  if (n === 3) return ["client", "js/prekidac.js"];
-  if (n === 5) return ["client", "js/displej.js"];
-  if (n === 6 || n === 7) return ["server", "ventilator.js"];
-  if (n === 9) return ["server", "sesija.js"];
-  return ["server", "soba.js"];
-}
-
 function kursKoraci() {
   return lectures.flatMap((item) => item.steps);
 }
@@ -921,10 +916,17 @@ function indeksUKursu() {
 
 function focusFile() {
   const korak = trenutniKorak();
-  const putanjaKoraka = korak ? korak.putanja : null;
-  const [side, put] = putanjaKoraka
-    ? [putanjaKoraka.slice(0, putanjaKoraka.indexOf("/")), putanjaKoraka.slice(putanjaKoraka.indexOf("/") + 1)]
-    : fileForLecture(cas);
+  const putanjaKoraka = izborFajla(korak);
+  if (!putanjaKoraka) {
+    const kljuc = `${cas}:${indeksKoraka()}:prazno`;
+    if (openedForCas === kljuc) return;
+    openedForCas = kljuc;
+    openPath.client = "";
+    openPath.server = "";
+    return;
+  }
+  const side = putanjaKoraka.slice(0, putanjaKoraka.indexOf("/"));
+  const put = putanjaKoraka.slice(putanjaKoraka.indexOf("/") + 1);
   if (!serverTabVidljiv(cas) && side === "server") return;
   const kljuc = `${cas}:${indeksKoraka()}:${side}:${put}`;
   if (openedForCas === kljuc) return;
@@ -1120,7 +1122,16 @@ function loadSide() {
   tabBack.setAttribute("aria-selected", String(side === "server"));
   const stablo = stabloDo(kursKoraci(), indeksUKursu());
   const fajlovi = fajloviStrane(stablo, side);
-  if (fajlovi.length && !fajlovi.includes(openPath[side])) {
+  if (!fajlovi.length) {
+    paintTree([]);
+    putanja.textContent = "";
+    otvoreniKljuc = "";
+    if (pogled) postaviPogled(pogled, { tekst: "", samoCitaj: true, linije: [], put: "", onPromena() {} });
+    const adresa = document.querySelector("#pregled-adresa");
+    if (adresa) adresa.textContent = "";
+    return;
+  }
+  if (!fajlovi.includes(openPath[side])) {
     const korak = trenutniKorak();
     const puna = korak ? korak.putanja : "";
     const relativna = puna.startsWith(`${side}/`) ? puna.slice(side.length + 1) : "";
