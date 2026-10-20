@@ -4,7 +4,7 @@
 
 Sajt časa je jedna statična stranica. Vidi `proposal.md` za razlog. Editor je `#sekcija-editor`: tabovi Klijent i Server, stablo, putanja sa `#reset-radne` i `#verzija`, CodeMirror, traka `#traka`, pa soba u `.panel`. `rezim` je `radna` ili `original`. Reset zove `upisiRadnu` sa originalom koraka i vraća `rezim` na `radna`. Dugme verzije danas stavlja `code-xml` ili `book-open`, a reset `arrow-left`. Zahtev već traži olovku i stranicu.
 
-Hod stoji u `renderLecture` kao `.korak-traka`: žuta dugmad, `Korak n od N`, nivo, minuti i Sačuvaj korak. Brojevi koraka su `#koraci-kontrole` i ostaju. Sačuvan korak je `localStorage` ključ `web-programiranje:korak`, niz `sacuvani` sa stavkama `nedelja:indeks`. Server sluša podrazumevano na 8787. Pregled crta `primeniPrikaz`, ne iframe.
+Hod stoji u `renderLecture` kao `.korak-traka`: žuta dugmad, `Korak n od N`, nivo, minuti i Sačuvaj korak. Brojevi koraka `#koraci-kontrole` nestaju, jer birač već otvara svaki korak. Sačuvan korak je `localStorage` ključ `web-programiranje:korak`, niz `sacuvani` sa stavkama `nedelja:indeks`. Server sluša podrazumevano na 8787. Pregled crta `primeniPrikaz`, ne iframe.
 
 ## Goals / Non-Goals
 
@@ -22,7 +22,7 @@ Hod stoji u `renderLecture` kao `.korak-traka`: žuta dugmad, `Korak n od N`, ni
 
 ### Birač zamenjuje samo traku u Gradivu
 
-`.korak-traka` u `#cas` postaje birač: krug `chevron-left`, red `Korak n od N`, ispod njega `korak.naslov`, puna širina trake, pa `Svi koraci` i `Sledeći`. Nivo, minuti i Sačuvaj korak crtaju se ispod birača, u istoj lekciji. `#koraci-kontrole` se ne dira. Editor i Diskusija i dalje kriju `#sekcija-koraci`, pa birač tada nije na ekranu.
+`.korak-traka` u `#cas` postaje birač: krug `chevron-left`, red `Korak n od N`, ispod njega `korak.naslov`, puna širina trake, pa `Svi koraci` i `Sledeći`. Nivo, minuti i Sačuvaj korak crtaju se ispod birača, u istoj lekciji. Red brojeva `#koraci-kontrole` se uklanja. Editor i Diskusija i dalje kriju `#sekcija-koraci`, pa birač tada nije na ekranu.
 
 Drugi red je naslov koraka. Za Alati u nedelji 1 to je „Alati”, ne „Šta browser prikazuje”. Naslov nedelje već stoji u `h1`.
 

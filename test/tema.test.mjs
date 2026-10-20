@@ -129,7 +129,8 @@ test("gradivo, jedna kolona i birač", () => {
   assert.match(html, /Gradivo, Diskusija i Editor su tri taba/);
   assert.match(html, /otvaraju taj korak u Gradivu/);
   assert.equal(html.includes(">Koraci<"), false);
-  assert.match(html, /aria-label="Gradivo nedelje"/);
+  assert.equal(html.includes('id="koraci-kontrole"'), false);
+  assert.equal(main.includes("#koraci-kontrole"), false);
   assert.match(css, /\.opcije-mreza\s*\{\s*display:\s*grid;\s*grid-template-columns:\s*1fr;\s*gap:\s*0\.55rem;\s*\}/);
   assert.match(css, /@media\s*\(\s*min-width:\s*861px\s*\)\s*\{\s*\.opcije-mreza\s*\{\s*grid-template-columns:\s*1fr\s+1fr;\s*\}/);
   assert.equal(main.includes('className = "hod-koraka"'), false);
@@ -195,7 +196,7 @@ test("red koraka koristi ćilibar, a beleške ostaju prigušene", () => {
   assert.match(css, /\.korak\s*\{\s*color:\s*var\(--korak\);\s*\}/);
   assert.match(css, /\.brand\s*\{\s*color:\s*var\(--amber\)/);
   assert.match(css, /#kartica-popuna\s*\{[^}]*background:\s*var\(--amber\)/);
-  assert.match(css, /\.koraci-kontrole button\[aria-current="page"\]\s*\{[^}]*background:\s*var\(--amber\)/);
+  assert.equal(css.includes(".koraci-kontrole"), false);
   assert.match(css, /\.option\.izabrano\s*\{[^}]*border-color:\s*var\(--amber\)/);
   assert.match(css, /font-family:\s*system-ui,\s*"Segoe UI",\s*sans-serif/);
   assert.match(css, /\.cas-glava h1\s*\{\s*color:\s*var\(--naslov\)/);
