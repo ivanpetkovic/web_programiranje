@@ -17,6 +17,7 @@ export function mapirajKorak(korak) {
     isecakNaslov: korak.isecakNaslov,
     delic: korak.delic,
     original: korak.original ?? korak.delic,
+    ugradjen: typeof korak.original === "string",
     pitalica: korak.pitalica,
     opcije: korak.opcije,
   };

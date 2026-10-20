@@ -105,12 +105,12 @@ test("prekidač menja prikaz i ne briše mapu", () => {
   assert.equal(radne["client/index.html"], "ukucano");
 });
 
-test("html fajl bez oznaka čita stvarni dokument", () => {
+test("verzija koraka pobeđuje poslednji fajl sa diska", () => {
   const disk = "<!DOCTYPE html>\n<html lang=\"sr\">\n</html>\n";
-  assert.equal(polazniTekst("client/index.html", "client/\nserver/\n", disk), disk);
+  assert.equal(polazniTekst("client/index.html", "client/\nserver/\n", disk), "client/\nserver/\n");
   assert.equal(polazniTekst("client/index.html", "<p>24</p>", disk), "<p>24</p>");
   const cssDisk = '@font-face { font-family: "Digital-7 Mono"; font-style: normal; }\n.digit { font-family: "Digital-7 Mono", monospace; font-style: normal; }\n';
-  assert.equal(polazniTekst("client/css/soba.css", ".digit { letter-spacing: 0.08em; }", cssDisk), cssDisk);
+  assert.equal(polazniTekst("client/css/soba.css", ".digit { letter-spacing: 0.08em; }", cssDisk), ".digit { letter-spacing: 0.08em; }");
   assert.equal(polazniTekst("client/css/soba.css", "", cssDisk), cssDisk);
   const sobaCss = fs.readFileSync(new URL("../client/css/soba.css", import.meta.url), "utf8");
   assert.match(sobaCss, /font-family:\s*"Digital-7 Mono"/);
@@ -134,7 +134,9 @@ test("html fajl bez oznaka čita stvarni dokument", () => {
   });
   assert.equal(prazna.tekst, cssDisk);
   assert.match(main, /rezim = "radna"/);
-  assert.match(main, /polazniTekst\(/);
+  assert.match(main, /stabloDo\(/);
+  assert.equal(main.includes("/api/stablo"), false);
+  assert.equal(main.includes("polazniTekst"), false);
   assert.match(main, /editor-pun/);
   assert.match(css, /body\.editor-pun \.okvir\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/);
   assert.match(css, /body\.editor-pun #nav,\s*body\.editor-pun #kartica\s*\{[^}]*display:\s*none/);
