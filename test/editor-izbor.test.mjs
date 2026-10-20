@@ -207,9 +207,9 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
   try {
     await cekajHttp(`http://127.0.0.1:${portSajta}/`);
     strana = await otvoriStranu(portChrome);
-    await strana.idi(`http://127.0.0.1:${portSajta}/`);
+    await strana.idi(`http://127.0.0.1:${portSajta}/#cas-2`);
     const kurs = JSON.parse(readFileSync(path.join(koren, "site/kurs.json"), "utf8"));
-    const prva = kurs.nedelje[0].steps;
+    const prva = kurs.nedelje[1].steps;
     const htmlKoraka = prva.find((korak) => korak.naslov === "Stranica").original.trim();
     const cssKoraka = prva.find((korak) => korak.naslov === "Spolja").original.trim();
 
@@ -257,7 +257,7 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
     assert.equal(posleCss.tekst.includes("<!DOCTYPE html>"), false);
     assert.equal(posleCss.tekst.includes(htmlKoraka), false);
 
-    await strana.vrednost(`location.hash = "cas-2"`);
+    await strana.vrednost(`location.hash = "cas-3"`);
     await strana.vrednost(`document.querySelector('#tab-editor').click()`);
     await strana.vrednost(klikNaKorak("Prag"));
     await strana.vrednost(klikNaFajl("js/niz.js"));
@@ -285,9 +285,9 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
   try {
     await cekajHttp(`http://127.0.0.1:${portSajta}/`);
     strana = await otvoriStranu(portChrome);
-    await strana.idi(`http://127.0.0.1:${portSajta}/#cas-2`);
+    await strana.idi(`http://127.0.0.1:${portSajta}/#cas-3`);
     const kurs = JSON.parse(readFileSync(path.join(koren, "site/kurs.json"), "utf8"));
-    const filter = kurs.nedelje[1].steps.find((korak) => korak.naslov === "filter").delic.trim();
+    const filter = kurs.nedelje[2].steps.find((korak) => korak.naslov === "filter").delic.trim();
 
     async function ekran() {
       return strana.vrednost(`(${stanjeEditora.toString()})()`);

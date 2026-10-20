@@ -53,5 +53,5 @@ export function rezimPosleKoraka(radne, putanja) {
 }
 
 export function serverTabVidljiv(nedelja) {
-  return nedelja >= 4;
+  return nedelja >= 5;
 }
