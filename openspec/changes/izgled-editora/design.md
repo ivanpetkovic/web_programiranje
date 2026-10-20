@@ -22,7 +22,7 @@ Hod stoji u `renderLecture` kao `.korak-traka`: žuta dugmad, `Korak n od N`, ni
 
 ### Birač zamenjuje samo traku u Gradivu
 
-`.korak-traka` u `#cas` postaje birač: krug `chevron-left`, red `Korak n od N`, ispod njega `korak.naslov`, puna širina trake, pa `Svi koraci` i `Sledeći`. Nivo, minuti i Sačuvaj korak crtaju se ispod birača, u istoj lekciji. Red brojeva `#koraci-kontrole` se uklanja. Editor i Diskusija i dalje kriju `#sekcija-koraci`, pa birač tada nije na ekranu.
+Birač stoji u `#birac-mesto`, u zaglavlju časa, izvan `#sekcija-koraci`. Krug je `chevron-left`, red `Korak n od N`, ispod njega `korak.naslov`, puna širina trake, pa `Svi koraci` i `Sledeći`. Nivo, minuti i Sačuvaj korak ostaju u telu Gradiva. Red brojeva `#koraci-kontrole` se ne crta. Editor i Diskusija kriju `#sekcija-koraci`, a birač ostaje, i izbor koraka ne menja otvoreni tab.
 
 Drugi red je naslov koraka. Za Alati u nedelji 1 to je „Alati”, ne „Šta browser prikazuje”. Naslov nedelje već stoji u `h1`.
 
