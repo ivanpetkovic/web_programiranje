@@ -604,20 +604,6 @@ function renderLecture() {
   naslovCasa.textContent = `Nedelja ${item.n} — ${item.title}`;
   document.querySelector("#podnaslov-casa").textContent = item.outcome;
   saIkonom(document.querySelector("#preduslov"), "graduation-cap", `Preduslov: ${preduslovCasa(item.n)}`);
-  const kontrole = document.querySelector("#koraci-kontrole");
-  kontrole.replaceChildren();
-  item.steps.forEach((korakNed, ki) => {
-    const pill = document.createElement("button");
-    pill.type = "button";
-    pill.textContent = String(ki + 1);
-    pill.setAttribute("aria-label", korakNed.naslov);
-    if (ki === i) pill.setAttribute("aria-current", "page");
-    pill.addEventListener("click", () => {
-      korakPoCasu.set(cas, ki);
-      renderLecture();
-    });
-    kontrole.append(pill);
-  });
   postaviDefiniciju(aktivnaDefinicija);
   casEl.replaceChildren();
   const birac = nacrtajBirac(item, i);

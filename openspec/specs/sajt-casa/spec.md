@@ -370,15 +370,15 @@ The left column MUST list every week in the course document. A week MUST show it
 - **THEN** that step is the open lesson
 
 ### Requirement: Zaglavlje lekcije
-The open lesson MUST show the course breadcrumb, the week title, the week subtitle, one step control per step, and the step bar. The step bar MUST show the step index, the level when the document sets one, the minute label, and the save-step control.
+The open lesson MUST show the course breadcrumb, the week title, the week subtitle, and, on Gradivo, the step selector. It MUST NOT show one button per step. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the lesson and MUST NOT sit inside the selector.
 
-#### Scenario: Step controls match the week
-- **WHEN** a week with 11 steps is open on the first step
-- **THEN** eleven step controls are shown, the first is current, and the bar reads Korak 1 od 11
+#### Scenario: The selector replaces a button per step
+- **WHEN** a week is open on its first step on Gradivo
+- **THEN** the selector reads Korak 1 od N, where N is that week's step count, and the lesson does not show N step buttons
 
 #### Scenario: Level comes from the document
 - **WHEN** the open step sets a level
-- **THEN** the step bar shows that level
+- **THEN** the lesson shows that level outside the selector
 
 ### Requirement: Ključna ideja i isečak
 On Gradivo, the key-idea callout MUST be labeled Ključna ideja and MUST be visible without a further click. When the step has a code snippet, that snippet MUST show its title, line numbers, and a control that copies the snippet text.
@@ -449,24 +449,24 @@ The search placeholder MUST be Nađi pojam, pitanje ili primer koda... Choosing 
 - **WHEN** the teacher chooses a quiz question from the typeahead
 - **THEN** the step that asks that question becomes the open lesson on Gradivo
 
-### Requirement: Žuti hod koraka
-On Gradivo, the previous-step and next-step controls MUST sit with the step line. In mornar and ugalj each MUST have a yellow background `#ffb000` and dark text. In pesak and terakota each MUST have that theme's accent as its background and text that contrasts with that background at a ratio of at least 4.5:1. The previous control MUST show `chevron-left`. The next control MUST show `chevron-right`. The temperature control on the panel MUST stay without that background.
+### Requirement: Birač koraka
+On Gradivo, the selector MUST show Korak {n} od {N}, the open step's title, a previous control, Svi koraci, Sledeći, and a bar filled by the number of saved steps in the week. It MUST NOT show one button per step, and MUST NOT be on screen on Editor or Diskusija. The previous control MUST show only `chevron-left` and MUST be named Prethodni korak. Sledeći MUST show that word and `chevron-right`, and MUST use the theme ink as its background. Sledeći MUST NOT use the accent background. The temperature control on the panel MUST stay without that background. The page MUST NOT show the sentence Progress indicates completed steps, not just the current position.
 
-#### Scenario: Step controls are yellow
-- **WHEN** mornar or ugalj is active and a step is open on Gradivo
-- **THEN** the previous-step and next-step controls have a `#ffb000` background, dark text, `chevron-left`, and `chevron-right`
-
-#### Scenario: Step controls follow the accent
+#### Scenario: Step title sits under the count
 - **WHEN** a step is open on Gradivo
-- **THEN** the previous-step and next-step controls use the active theme's accent background, readable text, `chevron-left`, and `chevron-right`
+- **THEN** the selector reads Korak {n} od {N} and that step's title, and does not show a button for every step
 
-#### Scenario: Gold walk on dark themes
-- **WHEN** mornar or ugalj is active and a step is open on Gradivo
-- **THEN** those controls have a `#ffb000` background and dark text
+#### Scenario: Editor hides the selector
+- **WHEN** the teacher opens Editor
+- **THEN** the selector is not on screen and the page does not show one button per step
+
+#### Scenario: Next is not yellow
+- **WHEN** any theme is active and Gradivo is open
+- **THEN** Sledeći uses the ink background and does not use the accent background
 
 #### Scenario: Temperature control stays plain
 - **WHEN** the temperature control is visible on the panel
-- **THEN** it does not use the step-control background
+- **THEN** it does not use the Sledeći background
 
 ### Requirement: Original koraka u editoru
 The editor MUST be able to show the built-in original of the open step for the open file. That text MUST be the snapshot of that path at the open step, and MUST NOT be replaced by the finished file on disk when the snapshot has text. That view MUST be read-only and MUST show line numbers and syntax coloring.
@@ -575,11 +575,11 @@ Gradivo MUST show `file-text` and the word Gradivo. Diskusija MUST show `message
 - **THEN** the three tabs show those icons and those words
 
 ### Requirement: Ikonice trake koraka
-When the step sets a level, the step bar MUST show `chart-column` beside that level. The minute label MUST show `clock`. Sačuvaj korak MUST show `bookmark` and the words Sačuvaj korak.
+When the step sets a level, the lesson MUST show `chart-column` beside that level, outside the selector. The minute label MUST show `clock`. Sačuvaj korak MUST show `bookmark` and the words Sačuvaj korak. Those three MUST NOT sit inside the selector.
 
 #### Scenario: Bar icons
 - **WHEN** the open step sets a level and a minute label
-- **THEN** the bar shows `chart-column`, `clock`, and `bookmark` with the words Sačuvaj korak
+- **THEN** the lesson shows `chart-column`, `clock`, and `bookmark` with the words Sačuvaj korak, outside the selector
 
 ### Requirement: Ikonice isečka
 The key-idea callout MUST show `lightbulb`. When the step has a snippet, the snippet title MUST show `folder`, the copy control MUST show `copy` and the word Kopiraj, and the file path MUST show `file-text` and the path text. A figure step MUST NOT show those snippet icons.
