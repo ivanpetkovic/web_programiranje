@@ -34,6 +34,14 @@ _Avoid_: Prezentacija, slajdovi.
 Mesto na sajtu časa gde se menja jedan isečak povezujućeg primera koji već radi.
 _Avoid_: Prazan projekat, vežba.
 
+**Radna verzija**:
+Studentova kopija jednog fajla u ovom browseru.
+_Avoid_: Režim
+
+**Ugrađena verzija**:
+Snimak jednog fajla na otvorenom koraku.
+_Avoid_: Režim, fajl sa diska
+
 ## Kontrolna soba
 
 **Kontrolna soba**:
