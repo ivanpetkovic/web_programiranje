@@ -5,7 +5,7 @@ import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./pojmovnik
 import { PORUKA, primeniPrikaz } from "./pregled.js";
 import { procitajRadne, serverTabVidljiv, tekstPrikaza, upisiRadnu } from "./radna.js";
 import { razlikaOriginala } from "./razlika.js";
-import { adresaPregleda, izborFajla, popunaKoraka, prikaziIzlaz, rezimPosleAkcije, upisPosleAkcije } from "./birac.js";
+import { adresaPregleda, izborFajla, prikaziIzlaz, rezimPosleAkcije, upisPosleAkcije } from "./birac.js";
 import { prikazKoraka } from "./figura.js";
 import { fajloviStrane, prethodnaVerzija, stabloDo } from "./stablo.js";
 import { prihvatiOcitavanje } from "./svezina.js";
@@ -13,6 +13,7 @@ import { ikonica, ucitajIkonice } from "./ikonice.js";
 
 const nav = document.querySelector("#nav");
 const casEl = document.querySelector("#cas");
+const biracMesto = document.querySelector("#birac-mesto");
 const naslovCasa = document.querySelector("#naslov-casa");
 const diskusijaMesto = document.querySelector("#sekcija-diskusija");
 const podela = document.querySelector("#podela");
@@ -545,16 +546,15 @@ function nacrtajBirac(item, i) {
   });
   akcije.append(sviKoraci, meni, daljeKorak);
   red.append(prethodni, sredina, akcije);
-  const popuna = popunaKoraka(procitajMesto().sacuvani, item.n, item.steps.length);
   const trakaPopune = document.createElement("div");
   trakaPopune.className = "birac-traka";
   trakaPopune.setAttribute("role", "progressbar");
-  trakaPopune.setAttribute("aria-valuemin", "0");
-  trakaPopune.setAttribute("aria-valuemax", String(popuna.ukupno));
-  trakaPopune.setAttribute("aria-valuenow", String(popuna.sacuvano));
-  trakaPopune.setAttribute("aria-label", "Sačuvani koraci");
+  trakaPopune.setAttribute("aria-valuemin", "1");
+  trakaPopune.setAttribute("aria-valuemax", String(item.steps.length));
+  trakaPopune.setAttribute("aria-valuenow", String(i + 1));
+  trakaPopune.setAttribute("aria-label", "Napredak kroz korake");
   const punjenje = document.createElement("span");
-  punjenje.style.width = popuna.ukupno ? `${(popuna.sacuvano / popuna.ukupno) * 100}%` : "0%";
+  punjenje.style.width = item.steps.length ? `${((i + 1) / item.steps.length) * 100}%` : "0%";
   trakaPopune.append(punjenje);
   birac.append(red, trakaPopune);
   return birac;
@@ -567,7 +567,7 @@ function renderLecture() {
     greska.hidden = false;
     greska.textContent = provera.greska;
     nav.replaceChildren();
-    document.querySelector("#birac-mesto").replaceChildren();
+    biracMesto.replaceChildren();
     return;
   }
   greska.hidden = true;
@@ -606,8 +606,8 @@ function renderLecture() {
   document.querySelector("#podnaslov-casa").textContent = item.outcome;
   saIkonom(document.querySelector("#preduslov"), "graduation-cap", `Preduslov: ${preduslovCasa(item.n)}`);
   postaviDefiniciju(aktivnaDefinicija);
-  document.querySelector("#birac-mesto").replaceChildren(nacrtajBirac(item, i));
   casEl.replaceChildren();
+  const birac = nacrtajBirac(item, i);
   const metaKoraka = document.createElement("div");
   metaKoraka.className = "meta-koraka";
   const nivo = document.createElement("span");
@@ -727,6 +727,7 @@ function renderLecture() {
     renderLecture();
   });
   radnjePitanja.append(otvori, ponovi);
+  biracMesto.replaceChildren(birac);
   casEl.append(metaKoraka, naslovKoraka, primer, kljucna);
   if (figura) casEl.append(figura);
   else if (isecak) casEl.append(isecak, put, vec);

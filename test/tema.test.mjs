@@ -137,14 +137,18 @@ test("gradivo, jedna kolona i birač", () => {
   const mesto = html.indexOf('id="birac-mesto"');
   const sekcija = html.indexOf('id="sekcija-koraci"');
   assert.ok(tabovi > 0 && tabovi < mesto && mesto < sekcija);
-  assert.match(main, /querySelector\("#birac-mesto"\)\.replaceChildren\(nacrtajBirac/);
+  assert.equal(html.match(/id="birac-mesto"/g).length, 1);
+  assert.match(main, /querySelector\("#birac-mesto"\)/);
+  assert.match(main, /biracMesto\.replaceChildren\(birac\)/);
   assert.equal(main.includes("casEl.append(birac"), false);
+  assert.match(main, /casEl\.append\(metaKoraka, naslovKoraka, primer, kljucna\)/);
   assert.match(css, /\.opcije-mreza\s*\{\s*display:\s*grid;\s*grid-template-columns:\s*1fr;\s*gap:\s*0\.55rem;\s*\}/);
   assert.equal(/@media\s*\(\s*min-width:\s*861px\s*\)\s*\{[^}]*\.opcije-mreza\s*\{\s*grid-template-columns:\s*1fr\s+1fr/.test(css), false);
   assert.equal(main.includes('className = "hod-koraka"'), false);
   assert.equal(css.includes(".hod-koraka"), false);
   assert.match(main, /className = "sledeci-korak"/);
-  assert.match(main, /popunaKoraka\(/);
+  assert.match(main, /aria-label", "Napredak kroz korake"/);
+  assert.match(main, /\(\(i \+ 1\) \/ item\.steps\.length\) \* 100/);
   assert.match(main, /naslovBiraca\.textContent = korak\.naslov/);
   assert.match(main, /Korak \$\{i \+ 1\} od \$\{item\.steps\.length\}/);
   assert.match(main, /saIkonom\(sviKoraci, "menu", "Svi koraci"\)/);
@@ -206,6 +210,7 @@ test("red koraka koristi ćilibar, a beleške ostaju prigušene", () => {
   assert.match(css, /#kartica-popuna\s*\{[^}]*background:\s*var\(--amber\)/);
   assert.equal(css.includes(".koraci-kontrole"), false);
   assert.match(css, /\.birac-traka > span\s*\{[^}]*background:\s*var\(--amber\)/);
+  assert.equal(blok(css, "\\.birac\\s*\\{").includes("overflow:"), false);
   assert.match(css, /\.option\.izabrano\s*\{[^}]*border-color:\s*var\(--amber\)/);
   assert.match(css, /font-family:\s*system-ui,\s*"Segoe UI",\s*sans-serif/);
   assert.match(css, /\.cas-glava h1\s*\{\s*color:\s*var\(--naslov\)/);

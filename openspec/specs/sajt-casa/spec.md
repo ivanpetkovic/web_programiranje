@@ -7,7 +7,7 @@ Sajt časa je statičan tok u kome nastavnik vodi nedelju pored panela, otvara f
 ## Requirements
 
 ### Requirement: Statičan sajt časa
-The lecture site MUST be a static page with no build step. It MUST read one course document and open one week at a time. The open week MUST show its title. The week count on screen MUST be that document's duration, and the shell MUST NOT hardcode a week count. The current step and the embedded panel MUST NOT be on screen together. The site language MUST stay Serbian.
+The lecture site MUST be a static page with no build step. It MUST read one course document and open one week at a time. The open week MUST show its title. The week count on screen MUST be that document's duration, and the shell MUST NOT hardcode a week count. The Gradivo section and the embedded panel MUST NOT be on screen together. The step selector MAY stay on screen with the panel. The site language MUST stay Serbian.
 
 #### Scenario: One lecture is open
 - **WHEN** the teacher opens a week
@@ -267,25 +267,25 @@ In every theme the chart well MUST remain a dark surface so the yellow stroke al
 - **WHEN** pesak or terakota is active and the chart is shown
 - **THEN** the chart well is dark and the yellow stroke on it stays visible
 ### Requirement: Tri taba
-Below the lecture title the site MUST offer Gradivo, Diskusija, and Editor. Exactly one of those sections MUST be on screen. The title MUST stay visible on every tab. Opening a lecture MUST show Gradivo.
+Below the lecture title the site MUST offer Gradivo, Diskusija, and Editor. Exactly one of those sections MUST be on screen. The title and the step selector MUST stay visible on every tab. Opening a lecture MUST show Gradivo.
 
 #### Scenario: Discussion replaces the steps
 - **WHEN** the teacher opens Diskusija
-- **THEN** the discussion is on screen and the steps and the editor are not
+- **THEN** the discussion and the step selector are on screen, and the Gradivo section and the editor are not
 
 #### Scenario: Steps replace the editor
 - **WHEN** the teacher opens Gradivo while Editor was open
-- **THEN** the steps are on screen and the editor and the preview are not
+- **THEN** the Gradivo section and the step selector are on screen, and the editor and the preview are not
 
 #### Scenario: Search shows the steps
 - **WHEN** the teacher chooses a glossary term while another tab is open
 - **THEN** Gradivo is the open tab and the first matching step is open
 ### Requirement: Editor i pregled
-The Editor tab MUST show the file editor on the left and the control-room preview on the right. Those two sides MUST start at equal width. The code surface MUST fill the width from the file tree to the divider. The preview MUST show the text currently in the editor. The other lecture sections MUST NOT be on screen.
+The Editor tab MUST show the file editor on the left and the control-room preview on the right. Those two sides MUST start at equal width. The code surface MUST fill the width from the file tree to the divider. The preview MUST show the text currently in the editor. The Gradivo section and the discussion MUST NOT be on screen. The step selector MUST stay on screen.
 
 #### Scenario: Preview sits on the right
 - **WHEN** the teacher opens Editor before moving the bar
-- **THEN** the editor takes the left half, the preview takes the right half, and the steps and the discussion are not on screen
+- **THEN** the editor takes the left half, the preview takes the right half, the step selector is on screen, and the Gradivo section and the discussion are not
 
 #### Scenario: Code fills its column
 - **WHEN** the teacher opens a file in the editor
@@ -345,15 +345,15 @@ The left column MUST list every week in the course document. A week MUST show it
 - **WHEN** the teacher chooses a step in the expanded week
 - **THEN** that step is the open lesson
 ### Requirement: Zaglavlje lekcije
-The open lesson MUST show the course breadcrumb, the week title, the week subtitle, and the step selector outside the Gradivo section. The selector MUST stay on screen on Gradivo, Diskusija, and Editor. It MUST NOT show one button per step. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the lesson and MUST NOT sit inside the selector.
+The open lesson MUST show the course breadcrumb, the week title, the week subtitle, and the step selector outside the Gradivo section. The selector MUST stay on screen on Gradivo, Diskusija, and Editor. It MUST NOT show one button per step. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the Gradivo section and MUST NOT sit inside the selector.
 
 #### Scenario: The selector replaces a button per step
-- **WHEN** a week is open on its first step on Gradivo
+- **WHEN** a week is open on its first step
 - **THEN** the selector reads Korak 1 od N, where N is that week's step count, and the lesson does not show N step buttons
 
 #### Scenario: Level comes from the document
-- **WHEN** the open step sets a level
-- **THEN** the lesson shows that level outside the selector
+- **WHEN** the open step sets a level and Gradivo is open
+- **THEN** the Gradivo section shows that level outside the selector
 ### Requirement: Ključna ideja i isečak
 On Gradivo, the key-idea callout MUST be labeled Ključna ideja and MUST be visible without a further click. When the step has a code snippet, that snippet MUST show its title, line numbers, and a control that copies the snippet text.
 
@@ -417,18 +417,34 @@ The search placeholder MUST be Nađi pojam, pitanje ili primer koda... Choosing 
 - **WHEN** the teacher chooses a quiz question from the typeahead
 - **THEN** the step that asks that question becomes the open lesson on Gradivo
 ### Requirement: Birač koraka
-The selector MUST sit outside the Gradivo section and MUST stay on screen on Gradivo, Diskusija, and Editor. It MUST show Korak {n} od {N}, the open step's title, a previous control, Svi koraci, Sledeći, and a bar filled by the number of saved steps in the week. Choosing a step MUST keep the open tab. It MUST NOT show one button per step. The previous control MUST show only `chevron-left` and MUST be named Prethodni korak. Sledeći MUST show that word and `chevron-right`, and MUST use the theme ink as its background. Sledeći MUST NOT use the accent background. The temperature control on the panel MUST stay without that background. The page MUST NOT show the sentence Progress indicates completed steps, not just the current position.
+The selector MUST sit outside the Gradivo section and MUST stay on screen while Gradivo, Diskusija, or Editor is open. It MUST show Korak {n} od {N}, the open step's title, a previous control, Svi koraci, Sledeći, and a progress bar filled by the open step. The filled width MUST be n/N. The number of saved steps MUST NOT set that width. Choosing a step MUST keep the open tab. It MUST NOT show one button per step. The previous control MUST show only `chevron-left` and MUST be named Prethodni korak. Sledeći MUST show that word and `chevron-right`, and MUST use the theme ink as its background. Sledeći MUST NOT use the accent background. The temperature control on the panel MUST stay without that background. The page MUST NOT show the sentence Progress indicates completed steps, not just the current position.
 
 #### Scenario: Step title sits under the count
-- **WHEN** a step is open on Gradivo
+- **WHEN** a step is open
 - **THEN** the selector reads Korak {n} od {N} and that step's title, and does not show a button for every step
 
+#### Scenario: Discussion keeps the selector
+- **WHEN** the teacher opens Diskusija
+- **THEN** the selector stays on screen and still reads the open step
+
 #### Scenario: Editor keeps the selector
-- **WHEN** the teacher opens Editor and activates Sledeći
-- **THEN** the selector stays on screen, Editor stays the open tab, and the next step opens
+- **WHEN** the teacher opens Editor
+- **THEN** the selector stays on screen and the page does not show one button per step
+
+#### Scenario: The bar follows the open step
+- **WHEN** the open week has 12 steps and the first step is open
+- **THEN** the progress bar is filled to 1/12
+
+#### Scenario: Next advances the bar
+- **WHEN** the teacher activates Sledeći while Diskusija or Editor is open
+- **THEN** the next step of that week opens, the bar fills to the new n/N, and the same tab stays open
+
+#### Scenario: Saved steps do not fill the bar
+- **WHEN** the open week has 17 steps, three are saved, and the open step is the first
+- **THEN** the filled portion is 1/17
 
 #### Scenario: Next is not yellow
-- **WHEN** any theme is active and Gradivo is open
+- **WHEN** any theme is active
 - **THEN** Sledeći uses the ink background and does not use the accent background
 
 #### Scenario: Temperature control stays plain
