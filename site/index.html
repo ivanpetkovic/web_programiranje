@@ -113,31 +113,19 @@
                   <p id="pregled-adresa"></p>
                   <button type="button" id="pregled-osvezi" aria-label="Osveži pregled" data-ikona="refresh-cw"></button>
                 </div>
-              <div class="room" id="soba-prekidaca">
-                <header class="room-h">
-                  <h2>Soba prekidača</h2>
-                  <span id="starost" class="starost" hidden></span>
-                </header>
-                <p class="digit" id="displej" aria-live="polite">24</p>
+              <iframe id="pregled-strana" title="Pregled dokumenta"></iframe>
+              <div class="room machine" id="soba-masina" hidden>
+                <header class="room-h"><h2>Soba mašina</h2></header>
+                <p class="digit" id="displej-masina">24</p>
+                <span id="starost" class="starost" hidden></span>
                 <p id="prag" class="meta" hidden>prag 30</p>
+                <div class="fan" id="fan" aria-hidden="true"><span class="blades" id="blades"></span></div>
                 <p id="stanje-citanja" class="log" hidden></p>
                 <div class="row">
-                  <button type="button" id="prekidac" aria-pressed="false">Uključi</button>
-                  <button type="button" id="sledeci">Sledeći korak</button>
                   <button type="button" id="procitaj" hidden>Pročitaj</button>
                   <button type="button" id="polling" hidden aria-pressed="false">Periodično</button>
                   <button type="button" id="svezina" hidden aria-pressed="true">Provera svežine</button>
                 </div>
-                <div class="fan-local" id="fan-local" hidden aria-hidden="true">
-                  <span class="blades" id="blades-local"></span>
-                </div>
-                <p id="log" class="log" hidden></p>
-                <canvas id="grafikon" width="320" height="84" hidden aria-label="Linija visina iz niza"></canvas>
-              </div>
-              <div class="room machine" id="soba-masina" hidden>
-                <header class="room-h"><h2>Soba mašina</h2></header>
-                <p class="digit" id="displej-masina">24</p>
-                <div class="fan" id="fan" aria-hidden="true"><span class="blades" id="blades"></span></div>
                 <ol id="istorija" hidden></ol>
                 <button type="button" id="kabl" hidden>Kabl je u kutiji</button>
                 <div class="sesije" id="sesije" hidden>
