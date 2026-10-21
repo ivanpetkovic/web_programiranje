@@ -84,8 +84,8 @@ test("preduslov časa 1 je priča pre stranice, a časa 2 je ishod istorije", ()
 test("nedelja istorije drži dvadeset koraka bez fajla", () => {
   const redosled = [
     "LO", "Paket", "TCP i UDP", "Internet", "Hipertekst", "Predlog", "HTML", "W3C",
-    "Rat browsera", "XML", "Deset dana", "ECMA", "Bez dodatka", "Web 2.0", "Ajax",
-    "Striming", "Ekonomija", "Društvo", "Web 3.0", "Dokument",
+    "Rat browsera", "XML", "Deset dana", "ECMA", "Bez plugina", "Web 2.0", "Ajax",
+    "Streaming", "Ekonomija", "Društvo", "Web 3.0", "Dokument",
   ];
   const sirovi = dokument.nedelje[0].steps;
   assert.deepEqual(sirovi.map((korak) => korak.naslov), redosled);
@@ -189,7 +189,7 @@ test("rezerve 1–9 imaju pitanje, čas 10 nema glasanje", () => {
     /Drugi klik/,
     /HTTP 400/,
     /Browser ih ne dobija/,
-    /Keš ikonice/,
+    /[Cc]ache ikonice/,
     /server ćuti/,
   ];
   const istorija = lectures[0];
@@ -211,6 +211,24 @@ test("rezerve 1–9 imaju pitanje, čas 10 nema glasanje", () => {
   const soba = poslednji.steps.find((korak) => korak.naslov === "Jedna soba");
   assert.match(soba.primer, /Tip i predlog asistenta/);
   assert.equal(/osvrt/i.test(JSON.stringify(soba)), false);
+});
+
+test("gradivo ne krije termin kalkom", () => {
+  const telo = JSON.stringify(dokument);
+  for (const rec of [
+    "žica", "knjigu na lancu", "lanac blokova", "dan zastave", "beli papir",
+    "večni septembar", "Striming", "kolačić", "kredencijal", "neprozirn",
+    "framework-a", "celina upisa", "dovod", "guranja",
+  ]) {
+    assert.equal(telo.includes(rec), false, rec);
+  }
+  assert.match(telo, /veza od kraja do kraja/);
+  assert.match(telo, /flag day/);
+  assert.match(telo, /blockchain/);
+  assert.match(telo, /White paper/);
+  assert.match(telo, /opaque token/);
+  assert.match(telo, /credential baze/);
+  assert.match(telo, /Eternal September/);
 });
 
 test("nema preglednog spiska ni naslova Osvrt", () => {

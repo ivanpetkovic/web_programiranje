@@ -13,8 +13,8 @@
       "podnaslov": "Web je usluga na Internetu. Stranica je dokument. server/ još nema fajlove.",
       "ishod": "Web je usluga na Internetu. Stranica je dokument. server/ još nema fajlove.",
       "minuta": 90,
-      "problem": "Ista reč „web” pokrije mrežu, stranicu iz 1991, Gmail i knjigu na lancu. Šta je stranica iz 1991. već bila?",
-      "pretpostavka": "Web, Internet, aplikacija i knjiga su isto, samo noviji naziv.",
+      "problem": "Ista reč „web” pokrije mrežu, stranicu iz 1991, Gmail i blockchain. Šta je stranica iz 1991. već bila?",
+      "pretpostavka": "Web, Internet, aplikacija i blockchain su isto, samo noviji naziv.",
       "options": [
         {
           "key": "A",
@@ -26,7 +26,7 @@
           "key": "B",
           "text": "Hipertekstni dokument koji browser dovuče po URL-u.",
           "ok": true,
-          "why": "To nije mreža, nije aplikacija i nije knjiga. Dokument se dovuče po URL-u."
+          "why": "To nije mreža, nije aplikacija i nije blockchain. Dokument se dovuče po URL-u."
         },
         {
           "key": "C",
@@ -36,9 +36,9 @@
         },
         {
           "key": "D",
-          "text": "Knjiga koju drži više strana.",
+          "text": "Ledger koji drži više strana.",
           "ok": false,
-          "why": "Knjiga je kasniji odgovor na pitanje ko drži zapis. Nije stranica iz 1991."
+          "why": "Ledger je kasniji odgovor na pitanje ko drži zapis. Nije stranica iz 1991."
         }
       ],
       "rezerva": {
@@ -150,20 +150,20 @@
           "naslov": "Paket",
           "nivo": "Osnovno",
           "minuta": 4,
-          "tekst": "Zašto seći poruku, umesto da se rezerviše žica od kraja do kraja? Ako je žica rezervisana, prekid ubije celu vest. Paket ide drugim putem i vest se sklopi.",
-          "kljucnaIdeja": "Prekinuta žica ne mora da ubije poruku.",
-          "pitalica": "Šta prekinuta žica uradi poruci od paketa?",
+          "tekst": "Zašto seći poruku, umesto da se rezerviše veza od kraja do kraja? Ako je veza rezervisana, prekid ubije celu poruku. Paket ide drugim putem i poruka se sklopi.",
+          "kljucnaIdeja": "Prekinuta veza ne mora da ubije poruku.",
+          "pitalica": "Šta prekinuta veza uradi poruci od paketa?",
           "opcije": [
             {
               "key": "A",
               "text": "Ubije je, jer put je jedan.",
-              "why": "Paket ne traži jednu rezervisanu žicu.",
+              "why": "Paket ne traži jednu rezervisanu vezu.",
               "ok": false
             },
             {
               "key": "B",
-              "text": "Prekinuta žica ne mora da ubije poruku.",
-              "why": "Drugi paket može drugim putem. Vest se sklopi na kraju.",
+              "text": "Prekinuta veza ne mora da ubije poruku.",
+              "why": "Drugi paket može drugim putem. Poruka se sklopi na kraju.",
               "ok": true
             }
           ]
@@ -211,9 +211,9 @@
           "naslov": "Internet",
           "nivo": "Osnovno",
           "minuta": 4,
-          "tekst": "Zašto jedan plan adresa za mnogo mreža? 1. januara 1983. mreže prelaze na TCP/IP. Taj dan zovu dan zastave. Internet je mreža mreža. Web još ne postoji.",
-          "kljucnaIdeja": "Dan zastave spaja mreže. Ne rađa stranicu.",
-          "pitalica": "Šta je mreža posle dana zastave 1983?",
+          "tekst": "Zašto jedan plan adresa za mnogo mreža? 1. januara 1983. mreže prelaze na TCP/IP. Taj dan zovu flag day. Internet je mreža mreža. Web još ne postoji.",
+          "kljucnaIdeja": "Flag day spaja mreže. Ne rađa stranicu.",
+          "pitalica": "Šta je mreža posle flag day 1983?",
           "opcije": [
             {
               "key": "A",
@@ -423,23 +423,23 @@
           ]
         },
         {
-          "naslov": "Bez dodatka",
+          "naslov": "Bez plugina",
           "nivo": "Osnovno",
           "minuta": 4,
-          "tekst": "Šta dodatak traži od čoveka, a skripta u stranici ne traži? Aplet, Flash i Silverlight traže da se nešto instalira. Jezik u stranici je već u browseru. Zato ostaje.",
+          "tekst": "Šta plugin traži od čoveka, a skripta u stranici ne traži? Aplet, Flash i Silverlight traže da se nešto instalira. Jezik u stranici je već u browseru. Zato ostaje.",
           "kljucnaIdeja": "Pobedio je jezik koji ne traži instalaciju.",
-          "pitalica": "Zašto je jezik u stranici ostao, a dodatak nije?",
+          "pitalica": "Zašto je jezik u stranici ostao, a plugin nije?",
           "opcije": [
             {
               "key": "A",
-              "text": "Zato što je dodatak brži.",
-              "why": "Brzina dodatka ne skida instalaciju.",
+              "text": "Zato što je plugin brži.",
+              "why": "Brzina plugina ne skida instalaciju.",
               "ok": false
             },
             {
               "key": "B",
               "text": "Jezik je pobedio jer je već u stranici.",
-              "why": "Aplet, Flash i Silverlight traže dodatak. Skripta je već tu.",
+              "why": "Aplet, Flash i Silverlight traže plugin. Skripta je već tu.",
               "ok": true
             }
           ]
@@ -489,7 +489,7 @@
           ]
         },
         {
-          "naslov": "Striming",
+          "naslov": "Streaming",
           "nivo": "Osnovno",
           "minuta": 5,
           "tekst": "Šta video-klub prodaje kad film krene pre nego što stigne ceo? YouTube 2005. i Netflix, koji silazi sa diska, puste sliku pre kraja fajla. Zakasneli kadar sme da se odbaci, kao UDP. Prenos novca ne sme da izgubi bajt, kao TCP.",
@@ -536,7 +536,7 @@
           "naslov": "Društvo",
           "nivo": "Osnovno",
           "minuta": 4,
-          "tekst": "Šta je štamparija odbijala, a obrazac objavljuje? 1993. AOL otvori Usenet i klub postane grad. To zovu večni septembar. Britannica 2012. ugasi štampu posle Wikipedije. Oskudan postane pažnja, ne papir.",
+          "tekst": "Šta je štamparija odbijala, a obrazac objavljuje? 1993. AOL otvori Usenet i klub postane grad. To zovu Eternal September. Britannica 2012. ugasi štampu posle Wikipedije. Oskudan postane pažnja, ne papir.",
           "kljucnaIdeja": "Objava više ne čeka kapiju štamparije.",
           "pitalica": "Šta obrazac uradi tekstu koji štamparija ne bi pustila?",
           "opcije": [
@@ -549,7 +549,7 @@
             {
               "key": "B",
               "text": "Objava više ne čeka štampariju.",
-              "why": "Večni septembar i kraj štampe Britannice su isti pomak: tekst izađe bez štamparije.",
+              "why": "Eternal September i kraj štampe Britannice su isti pomak: tekst izađe bez štamparije.",
               "ok": true
             }
           ]
@@ -558,9 +558,9 @@
           "naslov": "Web 3.0",
           "nivo": "Osnovno",
           "minuta": 5,
-          "tekst": "Čijoj knjizi veruješ ako ne veruješ knjizi banke? Ime Web 3.0 prvo znači semantički web, a kasnije lanac blokova. Beli papir iz oktobra 2008. nudi knjigu koju drži više strana. Ta knjiga nije novi Internet. Stranica i dalje traži browser.",
-          "kljucnaIdeja": "Knjiga više strana nije nova mreža.",
-          "pitalica": "Šta lanac blokova nije?",
+          "tekst": "Čijem ledgeru veruješ ako ne veruješ ledgeru banke? Ime Web 3.0 prvo znači semantički web, a kasnije blockchain. White paper iz oktobra 2008. nudi ledger koji drži više strana. Taj ledger nije novi Internet. Stranica i dalje traži browser.",
+          "kljucnaIdeja": "Ledger više strana nije nova mreža.",
+          "pitalica": "Šta blockchain nije?",
           "opcije": [
             {
               "key": "A",
@@ -570,8 +570,8 @@
             },
             {
               "key": "B",
-              "text": "Knjiga nije novi Internet.",
-              "why": "Knjiga menja ko drži zapis. Ne menja mrežu ni browser.",
+              "text": "Ledger nije novi Internet.",
+              "why": "Ledger menja ko drži zapis. Ne menja mrežu ni browser.",
               "ok": true
             }
           ]
@@ -619,7 +619,7 @@
               },
               {
                 "godina": "2008",
-                "natpis": "Knjiga"
+                "natpis": "Ledger"
               },
               {
                 "godina": "sledeća",
@@ -2201,7 +2201,7 @@
           "naslov": "createServer",
           "nivo": "Osnovno",
           "minuta": 8,
-          "tekst": "Običan Node, bez framework-a.",
+          "tekst": "Običan Node, nema framework.",
           "kljucnaIdeja": "http.createServer dolazi pre slušanja porta.",
           "isecakNaslov": "createServer",
           "isecak": "const server = http.createServer(obrada);",
@@ -2358,7 +2358,7 @@
           "nivo": "Osnovno",
           "minuta": 8,
           "tekst": "Isečak ovog časa nema granu koja piše Err.",
-          "kljucnaIdeja": "Neuspeh na času 4 ostavlja crte. Dugme Pročitaj šalje jedno čitanje. Sledeći korak na frontu više nije izvor temperature.",
+          "kljucnaIdeja": "Neuspeh na času 4 ostavlja crte. Dugme Pročitaj šalje jedno čitanje. Sledeći korak na klijentu više nije izvor temperature.",
           "isecakNaslov": "Bez Err",
           "isecak": "if (response.ok) displej.textContent = telo.temperatura;",
           "delic": "if (response.ok) displej.textContent = String(telo.temperatura);",
@@ -3134,15 +3134,15 @@
     },
     {
       "naslov": "Trajno stanje i Docker",
-      "podnaslov": "Režim i istorija su jedna celina upisa.",
-      "ishod": "Režim i istorija su jedna celina upisa.",
+      "podnaslov": "Režim i istorija su jedna transakcija.",
+      "ishod": "Režim i istorija su jedna transakcija.",
       "minuta": 90,
       "problem": "Režim je upisan, istorija nije. Da li je evidencija cela?",
       "pretpostavka": "Bitno stanje je sačuvano pa je istorija sporedna, ili kontejner sam čuva oba upisa.",
       "options": [
         {
           "key": "A",
-          "text": "Nije, dok oba upisa nisu jedna celina.",
+          "text": "Nije, dok oba upisa nisu jedna transakcija.",
           "ok": true,
           "why": "Ili oba uspeju, ili se oba povuku."
         },
@@ -3160,7 +3160,7 @@
         }
       ],
       "rezerva": {
-        "problem": "Gde smeju da stoje kredencijali baze?",
+        "problem": "Gde sme da stoji credential baze?",
         "options": [
           {
             "key": "A",
@@ -3172,7 +3172,7 @@
             "key": "B",
             "text": "U odgovoru JSON-a, da panel proveri vezu.",
             "ok": false,
-            "why": "Kredencijal u browseru više nije tajna kutije."
+            "why": "Credential u browseru više nije tajna kutije."
           }
         ]
       },
@@ -3182,7 +3182,7 @@
           "id": "transakcija",
           "name": "Transakcija",
           "hint": "oba upisa ili nijedan",
-          "body": "Povezani upis režima i istorije je jedna celina. Restart procesa ne spaja odvojene upite.",
+          "body": "Povezani upis režima i istorije je jedna transakcija. Restart procesa ne spaja odvojene upite.",
           "code": "BEGIN;\nUPDATE ventilator SET ukljucen = $1;\nINSERT INTO istorija(komanda) VALUES ($2);\nCOMMIT;"
         }
       ],
@@ -3244,8 +3244,8 @@
           "naslov": "BEGIN",
           "nivo": "Osnovno",
           "minuta": 8,
-          "tekst": "Dva upita ulaze u jednu celinu.",
-          "kljucnaIdeja": "Povezani upis režima i istorije je jedna celina.",
+          "tekst": "Dva upita ulaze u jednu transakciju.",
+          "kljucnaIdeja": "Povezani upis režima i istorije je jedna transakcija.",
           "isecakNaslov": "BEGIN",
           "isecak": "BEGIN",
           "delic": "BEGIN;",
@@ -3259,7 +3259,7 @@
             },
             {
               "key": "B",
-              "text": "Celinu koja još nije potvrđena.",
+              "text": "Transakciju koja još nije potvrđena.",
               "why": "COMMIT ili ROLLBACK je zatvaraju.",
               "ok": true
             }
@@ -3286,7 +3286,7 @@
             {
               "key": "B",
               "text": "Oba reda ostaju.",
-              "why": "Celina je uspela.",
+              "why": "Transakcija je uspela.",
               "ok": true
             }
           ]
@@ -3296,7 +3296,7 @@
           "naslov": "ROLLBACK",
           "nivo": "Osnovno",
           "minuta": 8,
-          "tekst": "Drugi upit u celini padne.",
+          "tekst": "Drugi upit u transakciji padne.",
           "kljucnaIdeja": "Jedna promena: drugi upit ne uspe, pa se prvi povuče.",
           "isecakNaslov": "ROLLBACK",
           "isecak": "ROLLBACK",
@@ -3306,13 +3306,13 @@
             {
               "key": "A",
               "text": "Režim, istorija može kasnije.",
-              "why": "Celina se povlači cela.",
+              "why": "Transakcija se povlači cela.",
               "ok": false
             },
             {
               "key": "B",
-              "text": "Ni režim ni istorija te celine.",
-              "why": "Restart ne spaja ono što nije bilo jedna celina.",
+              "text": "Ni režim ni istorija te transakcije.",
+              "why": "Restart ne spaja ono što nije bilo jedna transakcija.",
               "ok": true
             }
           ]
@@ -3323,7 +3323,7 @@
           "nivo": "Osnovno",
           "minuta": 8,
           "tekst": "Node se ugasi i ponovo podigne. Baza ostane.",
-          "kljucnaIdeja": "Restart samo Node procesa čuva režim upisan u jednoj celini.",
+          "kljucnaIdeja": "Restart samo Node procesa čuva režim upisan u jednoj transakciji.",
           "isecakNaslov": "Restart procesa",
           "isecak": "node server/server.js",
           "delic": "SELECT ukljucen FROM ventilator WHERE id = 1",
@@ -3332,12 +3332,12 @@
             {
               "key": "A",
               "text": "Podrazumevano isključeno, proces je nov.",
-              "why": "Uspešna celina je u bazi.",
+              "why": "Uspešna transakcija je u bazi.",
               "ok": false
             },
             {
               "key": "B",
-              "text": "Režim iz uspele celine.",
+              "text": "Režim iz uspele transakcije.",
               "why": "Restart samo procesa ne briše bazu.",
               "ok": true
             }
@@ -3358,12 +3358,12 @@
             {
               "key": "A",
               "text": "Oba, jer su bila namenjena istoj komandi.",
-              "why": "Namera nije celina.",
+              "why": "Namera nije transakcija.",
               "ok": false
             },
             {
               "key": "B",
-              "text": "Ništa. Odvojeni upiti nisu jedna celina.",
+              "text": "Ništa. Odvojeni upiti nisu jedna transakcija.",
               "why": "Prvi može da ostane bez drugog.",
               "ok": true
             }
@@ -3423,12 +3423,12 @@
         },
         {
           "putanja": "server/baza.js",
-          "naslov": "Kredencijal",
+          "naslov": "Credential",
           "nivo": "Osnovno",
           "minuta": 8,
           "tekst": "Browser traži sobu.",
-          "kljucnaIdeja": "Browser ne dobija kredencijale baze.",
-          "isecakNaslov": "Kredencijal",
+          "kljucnaIdeja": "Browser ne dobija credential baze.",
+          "isecakNaslov": "Credential",
           "isecak": "GET /api/soba",
           "delic": "// nema lozinke u JSON-u",
           "pitalica": "Šta odgovor ne sme da nosi?",
@@ -3441,7 +3441,7 @@
             },
             {
               "key": "B",
-              "text": "Kredencijale baze.",
+              "text": "Credential baze.",
               "why": "Oni ostaju na kutiji.",
               "ok": true
             }
@@ -3468,7 +3468,7 @@
             {
               "key": "B",
               "text": "Na kutiji, pre upisa.",
-              "why": "Loše telo ne otvara celinu.",
+              "why": "Loše telo ne otvara transakciju.",
               "ok": true
             }
           ]
@@ -3479,7 +3479,7 @@
           "nivo": "Osnovno",
           "minuta": 8,
           "tekst": "Režim jeste upisan, red istorije nije.",
-          "kljucnaIdeja": "Evidencija nije pouzdana dok režim i istorija nisu jedna celina.",
+          "kljucnaIdeja": "Evidencija nije pouzdana dok režim i istorija nisu jedna transakcija.",
           "isecakNaslov": "Istorija nije sporedna",
           "isecak": "UPDATE bez INSERT",
           "delic": "BEGIN; UPDATE; INSERT; COMMIT;",
@@ -3493,7 +3493,7 @@
             },
             {
               "key": "B",
-              "text": "Nije, dok nisu jedna celina.",
+              "text": "Nije, dok nisu jedna transakcija.",
               "why": "Oba ili nijedan.",
               "ok": true
             }
@@ -3533,7 +3533,7 @@
         "options": [
           {
             "key": "A",
-            "text": "Ne moraju. Keš ikonice i keš temperature nisu isti rok.",
+            "text": "Ne moraju. Cache ikonice i cache temperature nisu isti rok.",
             "ok": true,
             "why": "Svežina jednog resursa ne važi za drugi."
           },
@@ -3747,25 +3747,25 @@
         },
         {
           "putanja": "client/js/displej.js",
-          "naslov": "Dovod",
+          "naslov": "Push",
           "nivo": "Osnovno",
           "minuta": 8,
           "tekst": "Soba mašina se pomeri iako Pročitaj nije pritisnut.",
-          "kljucnaIdeja": "Postojeći dovod puni samo sobu mašina. Čas ga ne imenuje.",
-          "isecakNaslov": "Dovod",
+          "kljucnaIdeja": "Push puni samo sobu mašina. Soba prekidača ga ne koristi.",
+          "isecakNaslov": "Push",
           "isecak": "soba mašina dobije broj",
-          "delic": "// soba prekidača ignoriše dovod",
-          "pitalica": "Kako čas zove taj dovod?",
+          "delic": "// soba prekidača ignoriše push",
+          "pitalica": "Šta push uradi sobi prekidača?",
           "opcije": [
             {
               "key": "A",
-              "text": "Imenuje ga i okreće ga na sobu prekidača.",
-              "why": "Čas ga ne imenuje i ne okreće ga tamo.",
+              "text": "Hrani i sobu prekidača.",
+              "why": "Push puni samo sobu mašina.",
               "ok": false
             },
             {
               "key": "B",
-              "text": "Ne imenuje ga. Soba prekidača ga ne koristi.",
+              "text": "Ništa. Soba prekidača i dalje čita.",
               "why": "Ona i dalje čita.",
               "ok": true
             }
@@ -3773,19 +3773,19 @@
         },
         {
           "putanja": "client/js/displej.js",
-          "naslov": "Bez guranja",
+          "naslov": "Nema push",
           "nivo": "Osnovno",
           "minuta": 8,
           "tekst": "Drugi način da soba prekidača sazna broj ovde se ne gradi.",
           "kljucnaIdeja": "Displej prekidača i dalje čita. Novi server se ne uvodi.",
-          "isecakNaslov": "Bez guranja",
+          "isecakNaslov": "Nema push",
           "isecak": "displej i dalje čita",
           "delic": "// nema novog servera",
           "pitalica": "Šta čas od njih napravi?",
           "opcije": [
             {
               "key": "A",
-              "text": "Server koji gura cifre na displej prekidača.",
+              "text": "Push na displej prekidača.",
               "why": "Ovaj čas to ne pravi.",
               "ok": false
             },
@@ -3855,7 +3855,7 @@
           "nivo": "Osnovno",
           "minuta": 8,
           "tekst": "Ikonica stila je nova. Temperatura je stara.",
-          "kljucnaIdeja": "Keš ikonice i keš temperature ne moraju isti rok.",
+          "kljucnaIdeja": "Cache ikonice i cache temperature ne moraju isti rok.",
           "isecakNaslov": "Dva roka",
           "isecak": "Cache-Control nije jedan rok za sve",
           "delic": "// dva resursa, dva roka",
@@ -3863,14 +3863,14 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Da, stranica je jedan keš.",
+              "text": "Da, stranica je jedan cache.",
               "why": "Resursi imaju svoje odgovore.",
               "ok": false
             },
             {
               "key": "B",
               "text": "Ne moraju.",
-              "why": "Keš ikonice i keš temperature nisu isti rok.",
+              "why": "Cache ikonice i cache temperature nisu isti rok.",
               "ok": true
             }
           ]
@@ -3927,7 +3927,7 @@
           "id": "sesija",
           "name": "Sesija",
           "hint": "ključ u cookie-ju, uloga na kutiji",
-          "body": "Dva neprozirna ključa stoje u kodu. HttpOnly cookie ne nosi ime uloge.",
+          "body": "Dva ključa stoje u kodu. Svaki je opaque token. HttpOnly cookie ne nosi ime uloge.",
           "code": "Set-Cookie: sesija=kljuc-posmatraca; HttpOnly"
         },
         {
@@ -3944,7 +3944,7 @@
           "naslov": "Dva ključa",
           "nivo": "Osnovno",
           "minuta": 8,
-          "tekst": "U kodu kutije stoje dva neprozirna ključa.",
+          "tekst": "U kodu kutije stoje dva ključa. Svaki je opaque token.",
           "kljucnaIdeja": "Dve sesije su pripremljene: posmatrač i operater.",
           "isecakNaslov": "Dva ključa",
           "isecak": "kljuc-posmatraca\nkljuc-operatera",
@@ -3970,12 +3970,12 @@
           "naslov": "HttpOnly",
           "nivo": "Osnovno",
           "minuta": 8,
-          "tekst": "Izbor na panelu traži kolačić.",
-          "kljucnaIdeja": "Cookie je HttpOnly i nosi neproziran ključ.",
+          "tekst": "Izbor na panelu traži cookie.",
+          "kljucnaIdeja": "Cookie je HttpOnly i nosi opaque token.",
           "isecakNaslov": "HttpOnly",
           "isecak": "Set-Cookie: sesija=...; HttpOnly",
           "delic": "Set-Cookie: sesija=kljuc; HttpOnly",
-          "pitalica": "Šta stranica sme da pročita iz tog kolačića?",
+          "pitalica": "Šta stranica sme da pročita iz tog cookie-ja?",
           "opcije": [
             {
               "key": "A",
@@ -3985,7 +3985,7 @@
             },
             {
               "key": "B",
-              "text": "Ništa iz JS-a. Ključ ostaje u kolačiću.",
+              "text": "Ništa iz JS-a. Ključ ostaje u cookie-ju.",
               "why": "Kutija po ključu nađe ulogu.",
               "ok": true
             }
@@ -3996,7 +3996,7 @@
           "naslov": "Mapa",
           "nivo": "Osnovno",
           "minuta": 8,
-          "tekst": "Isti kolačić, druga reč u mapi.",
+          "tekst": "Isti cookie, druga reč u mapi.",
           "kljucnaIdeja": "Uloga ostaje u mapi na kutiji.",
           "isecakNaslov": "Mapa",
           "isecak": "mapa.set(kljuc, uloga)",
@@ -4011,7 +4011,7 @@
             },
             {
               "key": "B",
-              "text": "Svojoj mapi, po ključu iz kolačića.",
+              "text": "Svojoj mapi, po ključu iz cookie-ja.",
               "why": "Ime uloge iz browsera se ne čita.",
               "ok": true
             }
@@ -4022,7 +4022,7 @@
           "naslov": "Čitanje",
           "nivo": "Osnovno",
           "minuta": 8,
-          "tekst": "Neko traži GET /api/soba bez kolačića.",
+          "tekst": "Neko traži GET /api/soba bez cookie-ja.",
           "kljucnaIdeja": "Čitanje ne traži sesiju.",
           "isecakNaslov": "Čitanje",
           "isecak": "GET /api/soba",
@@ -4048,7 +4048,7 @@
           "naslov": "401",
           "nivo": "Osnovno",
           "minuta": 8,
-          "tekst": "Komanda ode bez kolačića.",
+          "tekst": "Komanda ode bez cookie-ja.",
           "kljucnaIdeja": "Komanda bez cookie-ja dobija 401.",
           "isecakNaslov": "401",
           "isecak": "nema cookie",
@@ -4231,7 +4231,7 @@
           "nivo": "Osnovno",
           "minuta": 8,
           "tekst": "Četiri odgovora na komandu imaju red.",
-          "kljucnaIdeja": "Red je: nema kolačića 401, posmatrač 403, loše telo 400, izvučen ventilator 500, operater 200.",
+          "kljucnaIdeja": "Red je: nema cookie-ja 401, posmatrač 403, loše telo 400, izvučen ventilator 500, operater 200.",
           "isecakNaslov": "Redosled",
           "isecak": "401, 403, 400, 500, 200",
           "delic": "401 → 403 → 400 → 500 → 200",
@@ -4239,7 +4239,7 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Pre provere kolačića.",
+              "text": "Pre provere cookie-ja.",
               "why": "Telo se gleda posle uloge.",
               "ok": false
             },
