@@ -69,53 +69,53 @@ The editor MUST offer a Klijent tab for `client/` and a Server tab for `server/`
 - **WHEN** the teacher opens any step of week 1 on Editor
 - **THEN** no file buffer is open and the Server tab is absent
 ### Requirement: Čuvanje i greška fronta
-The text shown in the editor for a Klijent file MUST update the embedded panel without writing that file to disk and without reloading the page. If that text throws, the panel MUST keep the last valid drawing and the editor MUST say that the fragment was not applied. A server error MUST use a different sentence from a front error.
+The text shown in the editor for a Klijent file MUST update the iframe without writing that file to disk and without reloading the lecture page. The shell MUST NOT execute that file in the lecture page and MUST NOT keep a previous simulated number. A server error MUST use a different sentence from a front error.
 
 #### Scenario: Bad front file
 - **WHEN** the text shown for a Klijent file throws
-- **THEN** the previous number remains on the panel and the editor shows that the fragment was not applied
+- **THEN** the shell does not put back a previous number and does not say that the fragment was not applied
 
 #### Scenario: Style changes the blades
-- **WHEN** the fan already exists and the shown stylesheet changes the blade duration, direction, or angle
-- **THEN** the machine room shows that change without a page reload
+- **WHEN** the loaded document already draws a fan and the shown stylesheet changes the blade duration, direction, or angle
+- **THEN** the iframe shows that change without a lecture-page reload
 ### Requirement: Server se ne izvršava u browseru
-The site MUST NOT execute a server file in the browser. The `server/` tree on disk MUST remain the source of a local Node process that speaks HTTP/1.1 without a web framework.
+The site MUST NOT execute a server file in the browser. The running Node process MUST be the source that speaks HTTP/1.1 without a web framework, using the server files the preview has written for the active switch.
 
 #### Scenario: Back tab does not run the handler
 - **WHEN** the teacher opens a file under `server/` in the editor
 - **THEN** the browser does not run that file as the room handler
 ### Requirement: Šta važi posle čuvanja
-The running process MUST keep reading `server/soba.js`, `server/ventilator.js`, and `server/sesija.js` from disk, and `server/server.js`, `server/stanje.js`, and `server/baza.js` when the process starts. Text in the editor MUST NOT replace that source. If the process is not up, the panel MUST say so beside the editor and the network record MUST have no successful status for that request.
+The running process MUST keep reading `server/soba.js`, `server/ventilator.js`, and `server/sesija.js` from disk, and `server/server.js`, `server/stanje.js`, and `server/baza.js` when the process starts. While Editor is open, the preview MUST replace each server file in the open step's tree with the text of the active Moj kod / Lekcija switch. If the process is not up, the panel MUST say so beside the editor and the network record MUST have no successful status for that request.
 
 #### Scenario: Saved room module
 - **WHEN** the teacher changes `server/soba.js` in the editor and the browser sends the next room read
-- **THEN** that read still uses the file on disk
+- **THEN** that read uses the file written from the active switch
 
 #### Scenario: Startup file
 - **WHEN** the teacher changes `server/server.js` in the editor without restarting the process
 - **THEN** the running process does not use that editor text
 ### Requirement: Panel prati čas
-Before the server lecture, the panel MUST NOT send a room read or a command. The network panel MAY still show the document and the stylesheet. The next-step control MUST exist only while the temperature simulation lives in the browser, MUST increase the temperature by a delta, and MUST ignore the switch. From the server lecture on, that control MUST NOT be the source of the reading.
+Before the server lecture, the shell MUST NOT send a room read or a command. From that lecture, the shell machine room MUST follow the live box, and a shell read control MAY send one room read. The iframe MAY send a request only when the loaded document does. The shell MUST NOT add a next-step control.
 
 #### Scenario: Early lecture has no room request
 - **WHEN** the teacher is on a lecture before the server
-- **THEN** the network record has no room-read or command request
+- **THEN** the network record has no room-read or command request from the shell
 ### Requirement: Rad van toka
-The files on disk MUST stay runnable outside the lecture flow: the front by itself, and from the server lecture onward the front together with the Node process. The same files on disk MUST be what the teacher retypes in VS Code. The editor MUST show the step original or the local working copy, and typing there MUST NOT change the files on disk.
+The finished client files on disk MUST stay openable outside the lecture flow. From the server lecture onward the Node process MUST run the server files the preview last wrote. The editor MUST show the step original or the local working copy according to the switch. Editing a client file MUST NOT change that client file on disk.
 
 #### Scenario: Front runs alone
 - **WHEN** the teacher opens `client/index.html` from disk outside the lecture site before the server lecture
-- **THEN** the switch room is visible without a Node process
+- **THEN** the page loads without a Node process
 
 #### Scenario: Typing stays in the browser
-- **WHEN** the teacher edits a file in the editor
-- **THEN** the file on disk is unchanged
+- **WHEN** the teacher edits a client file in the editor
+- **THEN** that client file on disk is unchanged
 ### Requirement: Tastatura i smanjeno pokretanje
-Focus MUST be visible. A concept and a quiz option MUST work from the keyboard. Reduced motion MUST leave the blades in a position that still shows the mode, without endless rotation. A form on the panel MUST NOT reload the document.
+Focus MUST be visible. A concept and a quiz option MUST work from the keyboard. Reduced motion MUST leave the shell fan in a position that still shows the mode, without endless rotation. The shell MUST NOT add a form that reloads the lecture page.
 
 #### Scenario: Reduced motion
 - **WHEN** the browser asks for reduced motion and the remote mode is on
-- **THEN** the blades show the on position and do not rotate endlessly
+- **THEN** the shell fan shows the on position and does not rotate endlessly
 ### Requirement: Crtez iz dokumenta
 A figure step MUST draw the diagram or timeline from the course document, using that document's labels. The shell MUST NOT hardcode those labels.
 
@@ -281,7 +281,7 @@ Below the lecture title the site MUST offer Gradivo, Diskusija, and Editor. Exac
 - **WHEN** the teacher chooses a glossary term while another tab is open
 - **THEN** Gradivo is the open tab and the first matching step is open
 ### Requirement: Editor i pregled
-The Editor tab MUST show the file editor on the left and the control-room preview on the right. Those two sides MUST start at equal width. The code surface MUST fill the width from the file tree to the divider. The preview MUST show the text currently in the editor. The Gradivo section and the discussion MUST NOT be on screen. The step selector MUST stay on screen.
+The Editor tab MUST show the file editor on the left and the preview on the right. Those two sides MUST start at equal width. The code surface MUST fill the width from the file tree to the divider. The preview MUST be an iframe of the client tree in the editor. The Gradivo section and the discussion MUST NOT be on screen. The step selector MUST stay on screen.
 
 #### Scenario: Preview sits on the right
 - **WHEN** the teacher opens Editor before moving the bar
@@ -292,12 +292,12 @@ The Editor tab MUST show the file editor on the left and the control-room previe
 - **THEN** the code surface reaches from the file tree to the divider
 
 #### Scenario: Preview follows the editor
-- **WHEN** the text in the editor changes
-- **THEN** the preview shows that text
+- **WHEN** the text of a client file in the tree changes
+- **THEN** the iframe renders the client document from that tree
 
 #### Scenario: Empty document leaves the preview empty
 - **WHEN** the editor shows an empty `client/index.html`
-- **THEN** the preview does not show a heading, a number, or a button from the switch room
+- **THEN** the iframe is blank and shows no shell heading, number, or button
 ### Requirement: Traka editora
 A vertical bar between the editor and the preview MUST move and MUST change their widths. The pointer and the arrow keys, while the bar has focus, MUST both move it. The bar MUST NOT hide either side.
 
@@ -313,11 +313,11 @@ A vertical bar between the editor and the preview MUST move and MUST change thei
 - **WHEN** the lecture page is laid out in one column and Editor is open
 - **THEN** the editor is above the preview and the bar is not shown
 ### Requirement: Pregled ostaje trenutan
-Opening Editor MUST show the preview of the text then in the editor, including a working copy stored in this browser.
+Opening Editor MUST show the iframe of the client tree then in the editor, including a working copy stored in this browser.
 
 #### Scenario: Return shows the current room
 - **WHEN** the teacher leaves Editor and opens Editor again
-- **THEN** the preview shows the text then in the editor
+- **THEN** the iframe shows the client tree then in the editor
 ### Requirement: Zaglavlje školjke
 The header MUST show the institution, its mark, and the course title from the course document, plus term search, the week slider, previous week, next week, save-step, help, the initials from the document, and the control that pins the theme. The site title MUST NOT be Kontrolna soba.
 
@@ -493,15 +493,15 @@ The editor MUST keep one working copy per file in this browser's localStorage, s
 - **WHEN** the teacher edits a file and loads the page again
 - **THEN** that file's working copy is still available
 ### Requirement: Prekidač verzije
-A button beside the file path, different from reset, MUST switch between the working copy and the built-in original of the open step, and MUST NOT delete the working copy. The button MUST show a pencil while the working copy is on screen and a page while the built-in original is on screen. Its accessible name MUST say radna verzija or ugrađena verzija, for the view the click will show.
+A button beside the file path, different from reset, MUST switch between the working copy and the built-in original of the open step, and MUST NOT delete the working copy. The button MUST show a pencil while the working copy is on screen and a page while the built-in original is on screen. Its accessible name MUST say radna verzija or ugrađena verzija, for the view the click will show. The same switch MUST select the text written for every server file in the open step's tree.
 
 #### Scenario: Toggle shows the original
 - **WHEN** the teacher activates the version control while the working copy is on screen
-- **THEN** the editor shows the original of the open step and the working copy remains stored
+- **THEN** the editor shows the original of the open step, the working copy remains stored, and each server file in the tree on disk is that step's snapshot
 
 #### Scenario: Toggle returns to the typed code
 - **WHEN** the teacher activates the version control while the original is on screen
-- **THEN** the editor shows the same stored working copy
+- **THEN** the editor shows the same stored working copy, and each server file that has a working copy is written from that copy
 ### Requirement: Četiri teme
 The lecture site MUST provide mornar, ugalj, pesak, and terakota. Mornar and ugalj MUST use a dark surface and light text. Pesak and terakota MUST use a light surface and dark text. Lecture text, borders, code blocks, and the panel chrome MUST follow the active theme.
 
@@ -586,12 +586,6 @@ A directory in the editor tree MUST show `folder`. A file in the editor tree MUS
 #### Scenario: Tree icons
 - **WHEN** the teacher opens Editor and the tree lists a directory and a file
 - **THEN** the directory shows `folder` and the file shows `file-text`
-### Requirement: Panel bez ikonica školjke
-The switch, the temperature control, and the other controls on the panel MUST NOT show a shell icon.
-
-#### Scenario: Panel controls stay plain
-- **WHEN** the panel is visible
-- **THEN** its controls show their words and no shell icon
 ### Requirement: Reset radne verzije
 The editor MUST offer a reset button for the open file, separate from the version switch. Activating it MUST replace that file's stored working copy with the built-in original of the open step and MUST show that text. It MUST NOT change the file on disk or any other file's working copy.
 
@@ -658,34 +652,8 @@ Once `client/index.html` has a body and the snapshot contains at least one `clie
 #### Scenario: Canvas appears with the line
 - **WHEN** the teacher shows the built-in version of `client/index.html` on Linija
 - **THEN** the document contains a canvas of 320 by 120 and mentions `nacrtajLiniju`
-### Requirement: Rani klijentski skript
-The panel MUST apply `client/js/korak.js` only when the shown text declares `function korak`, `client/js/niz.js` only when it declares both `pripremiLiniju` and `nacrtajLiniju`, `client/js/displej.js` only when it declares `class Displej`, and `client/js/prekidac.js` only when it declares `class Prekidac`. Until then the editor MUST clear the fragment-not-applied message. A shown buffer that declares the symbol and then throws MUST still keep the last drawing and show that message.
-
-#### Scenario: Early object does not report a failure
-- **WHEN** the teacher shows `client/js/korak.js` on Objekat and that text does not declare `function korak`
-- **THEN** the editor does not say that the fragment was not applied
-
-#### Scenario: Thrown buffer still reports
-- **WHEN** the shown text declares the symbol for that file and executing it throws
-- **THEN** the panel keeps the last valid drawing and the editor says that the fragment was not applied
-### Requirement: Panel nedelje istorije
-While week 1 is open the panel MUST NOT paint 24, MUST NOT show Sledeći, MUST NOT show the machine room, the log, or the chart, and MUST NOT send a room request. The digits MUST NOT be the failed-read dashes.
-
-#### Scenario: History panel stays quiet
-- **WHEN** the teacher opens week 1
-- **THEN** the digits are not 24, Sledeći is absent, the machine room is hidden, and no room request is sent
-### Requirement: Panel nedelje stranice
-The week Šta browser prikazuje MUST paint 24 and MUST hide the machine room. The log MUST show only on JavaScript opisuje stanje. The chart MUST show only on Događaji povezuju korisnika.
-
-#### Scenario: Page week paints 24
-- **WHEN** the teacher opens Šta browser prikazuje
-- **THEN** the digits are 24 and the machine room is hidden
-
-#### Scenario: Log and chart stay on their weeks
-- **WHEN** the teacher opens JavaScript opisuje stanje and then Događaji povezuju korisnika
-- **THEN** the log shows only on the first of those weeks and the chart shows only on the second
 ### Requirement: Panel od Node nedelje
-The machine room and the read control MUST show from Od naivnog prenosa do HTTP-a, pa Node onward. The waiting label and the cable control MUST show from Čekanje i neuspeh onward. History and the database flag MUST show from Trajno stanje i Docker onward. Periodic reading, freshness, and age MUST show from Koliko je prikaz svež onward. Roles MUST show from Ko sme da upravlja onward.
+The shell machine room MUST show beside the iframe from Od naivnog prenosa do HTTP-a, pa Node onward. That room is not a file from the editor. The waiting label and the cable control MUST show from Čekanje i neuspeh onward. History and the database flag MUST show from Trajno stanje i Docker onward. Periodic reading, freshness, and age MUST show from Koliko je prikaz svež onward. Roles MUST show from Ko sme da upravlja onward.
 
 #### Scenario: Node week shows the machine room
 - **WHEN** the teacher opens Od naivnog prenosa do HTTP-a, pa Node
@@ -694,3 +662,43 @@ The machine room and the read control MUST show from Od naivnog prenosa do HTTP-
 #### Scenario: Later weeks open their controls
 - **WHEN** the teacher opens Ko sme da upravlja
 - **THEN** roles, history, and periodic reading are visible
+### Requirement: Iframe učitava klijentsko stablo
+The preview MUST be one iframe beside the shell machine room. Its document MUST be the editor text of `client/index.html` when that file is in the open step's client tree. Every other client file in that tree MUST supply the resource the document loads, using the Moj kod or Lekcija text the editor would show for that file. The shell MUST NOT paint a switch room inside the iframe. An absolute font or asset URL that the editor does not hold as text MUST stay a request to the running Node process.
+
+#### Scenario: Stylesheet comes from the tree
+- **WHEN** `client/index.html` links `css/soba.css` and that file is in the tree
+- **THEN** the iframe uses the editor text of that stylesheet and not the file on disk
+
+#### Scenario: Script runs in the iframe
+- **WHEN** the document loads a client script that is in the tree
+- **THEN** that script runs inside the iframe from the editor text
+### Requirement: Dodat element se vidi
+An element the teacher adds to the client document MUST appear in the iframe. The preview MUST NOT limit the visible document to a heading, a digit, and one button.
+
+#### Scenario: Extra paragraph is visible
+- **WHEN** the teacher adds a paragraph the course snapshot did not contain
+- **THEN** the iframe shows that paragraph
+### Requirement: Putanja van stabla nije disk
+A client URL in the loaded document that is not a file in the editor tree MUST NOT be filled from disk.
+
+#### Scenario: Missing stylesheet is not the finished file
+- **WHEN** `client/index.html` links `css/soba.css` and that file is not yet in the tree
+- **THEN** the iframe does not receive the finished stylesheet from disk
+### Requirement: Server prati Moj kod i Lekciju
+The preview MUST send every server file in the open step's tree to `POST /api/fajl` as the whole text the Moj kod / Lekcija switch selects. The Node process MUST write that text and reload `soba.js`, `ventilator.js`, and `sesija.js` from disk. The browser MUST NOT run that file.
+
+#### Scenario: Lekcija writes the snapshot
+- **WHEN** the teacher selects Lekcija and the tree contains `server/soba.js`
+- **THEN** the next room read uses the step snapshot of `server/soba.js` written to disk
+
+#### Scenario: Moj kod writes the working copy
+- **WHEN** the teacher selects Moj kod and `server/soba.js` has a working copy
+- **THEN** the next room read uses that working copy written to disk
+
+#### Scenario: Moj kod without a working copy
+- **WHEN** Moj kod is selected and `server/ventilator.js` has no working copy
+- **THEN** the file written to disk is that step's snapshot
+
+#### Scenario: Switch while a client file is open
+- **WHEN** the open file is `client/index.html` and the teacher changes Moj kod / Lekcija
+- **THEN** every server file in the tree is written from that same switch
