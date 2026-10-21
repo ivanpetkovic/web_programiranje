@@ -4,13 +4,18 @@ const path = require("path");
 const vm = require("vm");
 const { state, dovodi, trenutnoStanje, objaviStanje } = require("./stanje");
 const { pripremiBazu, dohvatiBazu } = require("./baza");
+const { dokumentJeKurs } = require("./kurs");
 
 const PODRAZUMEVANI_PORT = 8787;
 const GRANICA_JSON = 4096;
+const GRANICA_KURSA = 2000000;
 const GRANICA_IZVORA = 200000;
 const NAJDUZA_PUTANJA = 200;
 const PORT = Number(process.env.PORT) || PODRAZUMEVANI_PORT;
 const SAJT = path.join(__dirname, "..", "site");
+const KURS = process.env.KURS_DATOTEKA
+  ? path.resolve(process.env.KURS_DATOTEKA)
+  : path.join(SAJT, "kurs.json");
 const KLIJENT = path.join(__dirname, "..", "client");
 const FONT = path.join(KLIJENT, "assets", "fonts", "digital-7", "digital-7 (mono).ttf");
 const NAPOMENA_BINARNOG = "Binarni fajl. Pregledač ga učitava kao fajl, ne kao tekst.";
@@ -348,6 +353,22 @@ function pojmovnik(odgovor) {
   });
 }
 
+async function sacuvajKurs(zahtev, odgovor) {
+  const tekst = await procitajTelo(zahtev, GRANICA_KURSA);
+  let kurs;
+  try {
+    kurs = JSON.parse(tekst);
+  } catch {
+    return posaljiJson(odgovor, 400, { greska: "neispravan json" });
+  }
+  if (!dokumentJeKurs(kurs)) return posaljiJson(odgovor, 400, { greska: "dokument nije kurs" });
+  const telo = `${JSON.stringify(kurs, null, 2)}\n`;
+  const privremeno = path.join(path.dirname(KURS), ".kurs-studio.tmp");
+  fs.writeFileSync(privremeno, telo);
+  fs.renameSync(privremeno, KURS);
+  return posaljiJson(odgovor, 200, { ok: true });
+}
+
 function stranicaSajta(odgovor, url) {
   const relativna = url.pathname === "/" ? "/index.html" : url.pathname;
   const fajl = path.normalize(path.join(SAJT, relativna));
@@ -361,6 +382,10 @@ function stranicaSajta(odgovor, url) {
 
 async function razvrstaj(zahtev, odgovor) {
   const url = new URL(zahtev.url, `http://${zahtev.headers.host}`);
+  if (zahtev.method === "PUT" && url.pathname === "/api/kurs") return sacuvajKurs(zahtev, odgovor);
+  if (zahtev.method === "GET" && (url.pathname === "/studio" || url.pathname === "/studio/")) {
+    return posaljiFajl(odgovor, path.join(SAJT, "studio.html"));
+  }
   if (zahtev.method === "GET" && url.pathname === "/api/soba") return citanjeSobe(odgovor, url);
   if (zahtev.method === "PUT" && url.pathname === "/api/ventilator") return komandaVentilatora(zahtev, odgovor);
   if (zahtev.method === "GET" && url.pathname === "/api/stablo") return stablo(odgovor, url);
