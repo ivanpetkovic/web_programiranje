@@ -2,25 +2,29 @@
 
 ## ADDED Requirements
 
-### Requirement: Školjka ne crta sobu
-The editor preview MUST show the loaded client document and MUST NOT draw a switch room, a machine room, a fan, a digit, or a control that the document does not contain.
+### Requirement: Soba mašina je školjka
+The preview MUST show one machine room beside the iframe once the server lecture has started. That room MUST show the box temperature and one fan. It MUST NOT be a file from the editor. It MUST follow the live process. Before the server lecture the machine room MUST stay hidden.
 
 #### Scenario: Document without a fan
-- **WHEN** the loaded client document has no fan
-- **THEN** the preview shows no fan and no machine room
+- **WHEN** the loaded client document has no fan and the server lecture is open
+- **THEN** the shell machine room still shows one fan
+
+#### Scenario: Fan is absent before the server lecture
+- **WHEN** the lecture has not yet introduced the Node server
+- **THEN** the machine room is hidden
 
 ## MODIFIED Requirements
 
 ### Requirement: Jedan panel i dve sobe
-The editor preview MUST show the loaded client document. It MUST NOT draw a switch room before the document contains one, and it MUST NOT draw a machine room or a fan that the document does not contain. The box MUST remain one temperature and one fan. The preview MUST NOT add a second device, a second room, or a second fan.
+The preview MUST show the client document in the iframe and, once the server exists, one shell machine room. The machine room shows the fan. The box MUST remain one temperature and one fan. The preview MUST NOT add a second device, a second room, or a second fan.
 
 #### Scenario: Fan is absent before the server
 - **WHEN** the lecture has not yet introduced the Node server
-- **THEN** the preview does not draw fan blades, and it draws a switch room only when the loaded document contains one
+- **THEN** the shell does not draw fan blades
 
 #### Scenario: Fan appears with the server
 - **WHEN** the lecture has introduced the running server
-- **THEN** the preview shows one fan only when the loaded document draws one, and the shell has not added another
+- **THEN** the shell machine room shows one fan whose blades spin only while the remote mode is on
 
 ### Requirement: Čitanje sobe
 A successful room read MUST return HTTP 200 with the temperature and the fan mode as JSON text. The shell preview MUST NOT paint dashes or digits. A loaded document that parses the response MUST update its own display from that text.
@@ -45,11 +49,11 @@ A read while the fan is unplugged MUST return HTTP 500 and MUST NOT include a te
 - **THEN** the network record has no HTTP status from that process
 
 ### Requirement: Komanda željenog stanja
-The command MUST send the desired fan state as a JSON object whose only field is a boolean. A successful command MUST return HTTP 200 and only the mode. It MUST NOT return a temperature. The shell MUST NOT write a temperature or move blades. Repeating the same desired state MUST leave that state in place.
+The command MUST send the desired fan state as a JSON object whose only field is a boolean. A successful command MUST return HTTP 200 and only the mode. It MUST NOT return a temperature and MUST NOT write a temperature onto a display. The shell fan MUST follow the remote mode. Repeating the same desired state MUST leave that state in place.
 
 #### Scenario: Operator turns the fan on
 - **WHEN** an authorized command sends the desired state on and the fan is plugged in
-- **THEN** the response is HTTP 200 with only the mode
+- **THEN** the response is HTTP 200 with only the mode and the shell blades follow that remote mode
 
 #### Scenario: Command body is not a mode
 - **WHEN** the command body is not JSON, or is JSON that is not exactly one boolean field for the desired state
@@ -82,11 +86,11 @@ The shell MUST NOT offer observer or operator controls. A control in the loaded 
 - **THEN** the box sends an HttpOnly cookie and decides the role from its own map
 
 ### Requirement: Dovod sobe mašina
-The shell MUST NOT open a one-way feed and MUST NOT draw a machine-room display or blades. The lecture MUST NOT name that feed. Server-sent events and WebSocket MAY be named as other ways to feed a switch room and MUST NOT be a feed the shell opens.
+The page MUST receive the box temperature and mode through a one-way feed that updates only the shell machine-room display and the blades. The lecture MUST NOT name that feed. The iframe display MUST ignore it unless the loaded document reads the room itself. Server-sent events and WebSocket MAY be named as other ways to feed a switch room and MUST NOT be that feed.
 
 #### Scenario: Machine room moves without a read
 - **WHEN** the box temperature or mode changes and the loaded document has not read again
-- **THEN** the shell does not move a machine-room display or blades
+- **THEN** the machine-room display and the blades follow the box
 
 ### Requirement: Prag upozorenja
 The shell MUST NOT show a warning threshold. A threshold in the loaded document MUST NOT add a device, a room, or a fan.
@@ -107,11 +111,11 @@ The shell MUST NOT list stored commands. A command whose write was withdrawn MUS
 - **THEN** that command is absent from that list
 
 ### Requirement: Font displeja
-The shell MUST NOT add a temperature display. A temperature the loaded document shows MAY use Digital-7 Mono (Style-7). The course MUST be allowed to embed that font for educational use.
+The shell machine-room temperature and a temperature the loaded document shows MUST render with Digital-7 Mono (Style-7). The course MUST be allowed to embed that font for educational use.
 
 #### Scenario: Both rooms use the face
-- **WHEN** the loaded document shows a temperature in the switch room and in the machine room
-- **THEN** both displays use Digital-7 Mono and the shell has not added another temperature display
+- **WHEN** the shell machine room and the loaded document both show a temperature
+- **THEN** both displays use Digital-7 Mono
 
 ### Requirement: Različita svežina ikonice
 The shell MUST NOT draw a fan icon. A fan icon and a temperature in the loaded document MUST be allowed different freshness lifetimes. A fresh fan icon MUST NOT reset the age of the temperature.

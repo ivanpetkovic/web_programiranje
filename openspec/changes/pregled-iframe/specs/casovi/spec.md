@@ -18,7 +18,7 @@ The week titled Šta browser prikazuje MUST show the loaded client document and 
 - **THEN** the network record shows no room API request
 
 ### Requirement: Čas 5 crta kutiju tek posle servera
-The shell MUST NOT draw the box, the machine room, or the fan. Those appear only when the loaded client document contains them. From this lecture the server MUST own the temperature. The week 5 fragment MUST NOT contain the Err branch, so a failed read leaves the document's own display unchanged by an Err branch.
+The shell MUST draw the machine room and its fan beside the iframe only after that server is running. That room is not a file from the editor. From this lecture the server MUST own the temperature, and the room module on disk MUST be the text of the active Moj kod / Lekcija switch. The week 5 fragment MUST NOT contain the Err branch, so a failed read leaves the document's own display unchanged by an Err branch.
 
 #### Scenario: Known path and unknown path
 - **WHEN** the saved room module is running
@@ -29,7 +29,7 @@ The shell MUST NOT draw the box, the machine room, or the fan. Those appear only
 - **THEN** the iframe does not show Err from the shell
 
 ### Requirement: Čas 9 ponavlja čitanje
-The shell MUST NOT add a periodic-reading control. A control in the loaded document that turns periodic reading on MUST send one read immediately and then repeat it. A failed round MUST show Err by the same branch as the single read when that document contains that branch. The machine-room feed MUST stay unnamed and MUST NOT be drawn by the shell. The lecture MUST NOT build SSE or WebSocket and MUST NOT name them on the page.
+The shell MAY offer the periodic-reading control on this lecture. A control that turns periodic reading on MUST send one read immediately and then repeat it. A failed round MUST show Err by the same branch as the single read when that branch exists. The machine-room feed MUST stay unnamed. The shell machine room MUST follow that feed. The lecture MUST NOT build SSE or WebSocket and MUST NOT name them on the page.
 
 #### Scenario: Periodic read starts at once
 - **WHEN** the loaded document turns periodic reading on
@@ -40,8 +40,8 @@ The shell MUST NOT add a periodic-reading control. A control in the loaded docum
 - **THEN** the page does not name SSE or WebSocket
 
 ### Requirement: Panel ne dobija drugi uređaj
-The preview MUST NOT add a room, a temperature, or a fan. A later lecture MUST NOT gain a second device by shell drawing. A lecture MUST NOT add a second scored quiz.
+The preview MUST keep one shell machine room, one temperature on that room, and one fan. The iframe MUST NOT add a second fan. A lecture MUST NOT add a second scored quiz.
 
 #### Scenario: After the last lecture
 - **WHEN** the teacher finishes week 11
-- **THEN** the preview shows only the loaded client document and the shell has not added a machine room or a fan
+- **THEN** the preview still has one shell machine room, one temperature, and one fan beside the iframe
