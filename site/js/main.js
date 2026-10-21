@@ -1,5 +1,5 @@
 import { napraviPogled, postaviPogled } from "./cm-editor.js";
-import { dokument, lectures, preduslovCasa } from "./lectures.js";
+import { dokument, lectures } from "./lectures.js";
 import { natpisNedelje, pomeriNedelju, polozajiKlizaca, procenat, ucitajKurs } from "./model.js";
 import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./pojmovnik.js";
 import { PORUKA, sklopiDokument, tekstoviServera, trajanjeLopatica } from "./pregled.js";
@@ -559,10 +559,7 @@ function renderLecture() {
   document.querySelector("#kartica-popuna").style.width = `${udeo}%`;
   saIkonom(document.querySelector("#kartica-koraci"), "book-open", `${item.steps.length} koraka u ovoj nedelji`);
   saIkonom(document.querySelector("#kartica-minuta"), "clock", `Proc. vreme: ~${item.minuta} min`);
-  document.querySelector("#mrvice").textContent = `${dokument.naslov} › Nedelja ${item.n} › Korak ${i + 1}`;
   naslovCasa.textContent = `Nedelja ${item.n} — ${item.title}`;
-  document.querySelector("#podnaslov-casa").textContent = item.outcome;
-  saIkonom(document.querySelector("#preduslov"), "graduation-cap", `Preduslov: ${preduslovCasa(item.n)}`);
   postaviDefiniciju(aktivnaDefinicija);
   casEl.replaceChildren();
   const birac = nacrtajBirac(item, i);

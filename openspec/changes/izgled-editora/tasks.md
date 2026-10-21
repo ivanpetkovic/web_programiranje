@@ -17,7 +17,7 @@
 ## 4. Birač koraka
 
 - [x] 4.1 U `renderLecture` zameni `.korak-traka` biračem: `chevron-left` bez reči Prethodni korak, red klase `korak` sa tekstom Korak n od N, naslov otvorenog koraka, traka čija je širina `popunaKoraka`, `Svi koraci` sa `menu`, i dugme Sledeći sa `chevron-right`. Nivo (`chart-column`), minuti (`clock`) i Sačuvaj korak (`bookmark`) ostanu u lekciji, van birača. Svi koraci nudi svaki korak nedelje i otvara izabrani. Prethodni je onemogućen na prvom, Sledeći na poslednjem. Birač se crta u `#birac-mesto`, izvan Gradiva, i ostaje na Diskusiji i Editoru. U `test/tema.test.mjs` i `test/ikonice.test.mjs` ukloni traženje `.hod-koraka` i `trakaKoraka.append(prethodni, broj, daljeKorak`, zadrži da `#sledeci` sobe nema klasu hoda, i proveri natpis Korak n od N, naslov koraka i poziv `popunaKoraka`. Pokreni `node --test test/tema.test.mjs test/ikonice.test.mjs`.
-- [x] 4.2 U `site/css/site.css` daj Sledeći pozadinu `var(--ink)` i tekst koji na njoj ima kontrast najmanje 4.5:1 u sve četiri teme. Ne koristi `var(--amber)` za to dugme. Preduslov dobija `graduation-cap` i i dalje počinje sa Preduslov:. Proveri pozadinu, kontrast i `graduation-cap` u `test/tema.test.mjs` i `test/ikonice.test.mjs`. Pokreni `node --test test/tema.test.mjs test/ikonice.test.mjs`.
+- [x] 4.2 U `site/css/site.css` daj Sledeći pozadinu `var(--ink)` i tekst koji na njoj ima kontrast najmanje 4.5:1 u sve četiri teme. Ne koristi `var(--amber)` za to dugme. Glava časa nema mrvice, podnaslov ni poziv preduslova. Proveri pozadinu, kontrast i odsustvo preduslova u `test/tema.test.mjs` i `test/ikonice.test.mjs`. Pokreni `node --test test/tema.test.mjs test/ikonice.test.mjs`.
 
 ## 5. Cela provera
 

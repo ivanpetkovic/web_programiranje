@@ -9,7 +9,7 @@
 ## MODIFIED Requirements
 
 ### Requirement: Zaglavlje lekcije
-The open lesson MUST show the course breadcrumb, the week title, the week subtitle, and the step selector outside the Gradivo section. The selector MUST stay on screen on Gradivo, Diskusija, and Editor. It MUST NOT show one button per step. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the lesson and MUST NOT sit inside the selector.
+The open lesson MUST show the week title and the step selector outside the Gradivo section. It MUST NOT show a course breadcrumb or a week subtitle. The selector MUST stay on screen on Gradivo, Diskusija, and Editor. It MUST NOT show one button per step. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the lesson and MUST NOT sit inside the selector.
 
 #### Scenario: The selector replaces a button per step
 - **WHEN** a week is open on its first step on Gradivo
@@ -150,11 +150,11 @@ Klijent MUST show `monitor` and the word Klijent. When Server is present it MUST
 - **THEN** Klijent shows `monitor`, the tree is labeled Fajlovi, and that file's row is current
 
 ### Requirement: Poziv preduslova
-The prerequisite line MUST show `graduation-cap` and MUST begin with Preduslov:.
+The lecture header MUST NOT show a prerequisite callout. The course document MUST keep the prerequisite for the studio.
 
-#### Scenario: Callout names the prerequisite
+#### Scenario: Callout is absent
 - **WHEN** the teacher opens a lecture
-- **THEN** the prerequisite shows `graduation-cap` and begins with Preduslov:
+- **THEN** the page does not show a line that begins with Preduslov:
 
 ### Requirement: Izabrani tab časa
 The selected tab among Gradivo, Diskusija, and Editor MUST use the accent border and an accent-tinted background. The other two MUST stay plain. The three words and their icons MUST stay.
