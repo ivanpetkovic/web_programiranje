@@ -51,7 +51,7 @@ test("ugovor čitanja, tela, fonta, stabla, istorije i uloge", async (t) => {
     env: {
       ...process.env,
       PORT: String(PORT),
-      DATABASE_URL: "postgresql://soba:soba@127.0.0.1:5432/soba",
+      DATABASE_URL: "postgres://kutija:kutija@127.0.0.1:5432/kontrolna",
     },
     stdio: ["ignore", "pipe", "pipe"],
   });
