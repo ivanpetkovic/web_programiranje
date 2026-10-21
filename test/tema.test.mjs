@@ -136,7 +136,7 @@ test("gradivo, jedna kolona i birač", () => {
   const tabovi = html.indexOf('class="cas-tabovi"');
   const mesto = html.indexOf('id="birac-mesto"');
   const sekcija = html.indexOf('id="sekcija-koraci"');
-  assert.ok(tabovi > 0 && tabovi < mesto && mesto < sekcija);
+  assert.ok(mesto > 0 && mesto < tabovi && tabovi < sekcija);
   assert.equal(html.match(/id="birac-mesto"/g).length, 1);
   assert.match(main, /querySelector\("#birac-mesto"\)/);
   assert.match(main, /biracMesto\.replaceChildren\(birac\)/);
