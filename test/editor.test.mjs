@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
-import { PORUKA, primeniPrikaz } from "../site/js/pregled.js";
+import { PORUKA, primeniPrikaz, sakrivenoUSobi } from "../site/js/pregled.js";
 import { rezimPosleAkcije, upisPosleAkcije } from "../site/js/birac.js";
 import {
   polazniTekst,
@@ -203,6 +203,30 @@ test("klijentski bafer ne čuva fajl, serverski ne crta sobu", () => {
   assert.equal(htmlPrikaz.sacuvanFajl, false);
   assert.equal(htmlPrikaz.crtez.cifra, "10");
   assert.equal(htmlPrikaz.crtez.naslov, "Soba prekidača");
+  assert.equal(htmlPrikaz.crtez.dugme, undefined);
+  const prazan = primeniPrikaz(stanje, { strana: "client", put: "index.html", tekst: "" });
+  assert.equal(prazan.crtao, true);
+  assert.equal(prazan.crtez.cifra, undefined);
+  assert.equal(prazan.crtez.naslov, undefined);
+  assert.equal(prazan.crtez.dugme, undefined);
+  assert.deepEqual(sakrivenoUSobi(prazan.crtez), { naslov: true, cifra: true, dugme: true });
+  const skica = primeniPrikaz(stanje, { strana: "client", put: "index.html", tekst: "client/\nserver/\n" });
+  assert.equal(skica.crtez.naslov, undefined);
+  assert.equal(skica.crtez.cifra, undefined);
+  const saDugmetom = tekstPrikaza({
+    putanja: "client/index.html",
+    original: "<p class=\"digit\">24</p>",
+    radne: { "client/index.html": "client/\nserver/\n" },
+    rezim: "radna",
+  });
+  assert.equal(saDugmetom.tekst, "<p class=\"digit\">24</p>");
+  const prazanFajl = tekstPrikaza({
+    putanja: "client/index.html",
+    original: "",
+    radne: {},
+    rezim: "radna",
+  });
+  assert.equal(prazanFajl.tekst, "");
   const stil = primeniPrikaz(stanje, {
     strana: "client",
     put: "css/soba.css",

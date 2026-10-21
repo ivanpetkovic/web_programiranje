@@ -45,7 +45,8 @@ test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
         continue;
       }
       assert.ok(korak.putanja.includes("/"));
-      assert.ok(korak.delic);
+      assert.equal(typeof korak.delic, "string");
+      if (korak.naslov !== "Podela") assert.ok(korak.delic);
     }
   });
 });
@@ -116,7 +117,7 @@ test("nedelja stranice sklapa stranicu, a kasnije nedelje nemaju original", () =
   const sirovi = dokument.nedelje[1].steps;
   assert.deepEqual(sirovi.map((korak) => korak.naslov), redosled);
   assert.equal(sirovi.length, 19);
-  assert.equal(sirovi.find((korak) => korak.naslov === "Podela").original, "client/\nserver/\n");
+  assert.equal(sirovi.find((korak) => korak.naslov === "Podela").original, "");
   const broj = sirovi.find((korak) => korak.naslov === "Broj");
   assert.match(broj.original, /<!DOCTYPE html>/);
   assert.match(broj.original, /<p class="digit">24<\/p>/);

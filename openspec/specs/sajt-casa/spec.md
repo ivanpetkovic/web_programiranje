@@ -294,6 +294,10 @@ The Editor tab MUST show the file editor on the left and the control-room previe
 #### Scenario: Preview follows the editor
 - **WHEN** the text in the editor changes
 - **THEN** the preview shows that text
+
+#### Scenario: Empty document leaves the preview empty
+- **WHEN** the editor shows an empty `client/index.html`
+- **THEN** the preview does not show a heading, a number, or a button from the switch room
 ### Requirement: Traka editora
 A vertical bar between the editor and the preview MUST move and MUST change their widths. The pointer and the arrow keys, while the bar has focus, MUST both move it. The bar MUST NOT hide either side.
 
@@ -621,9 +625,9 @@ The short quiz MUST lay each option on its own row at every width. A lesson wide
 ### Requirement: Snimak fajla na koraku
 The built-in version of a file MUST be the snapshot of course steps through the open step. A whole-file original MUST replace that file. A later fragment MUST be appended. The finished file on disk MUST NOT replace a snapshot that has text.
 
-#### Scenario: Podela is the folder sketch
+#### Scenario: Podela is an empty document
 - **WHEN** the teacher shows the built-in version of `client/index.html` on Podela
-- **THEN** the text is the folder sketch `client/` and `server/` and contains no script
+- **THEN** the text is empty and contains no script
 
 #### Scenario: Selektor is one rule
 - **WHEN** the teacher shows the built-in version of `client/css/soba.css` on Selektor

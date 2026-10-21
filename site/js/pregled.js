@@ -26,6 +26,13 @@ export function citajHtmlSobu(tekst) {
   };
 }
 
+export function sakrivenoUSobi(crtez) {
+  const naslov = !crtez || crtez.naslov === undefined;
+  const cifra = !crtez || crtez.cifra === undefined;
+  const dugme = !crtez || crtez.dugme === undefined;
+  return { naslov, cifra, dugme };
+}
+
 export function trajanjeLopatica(css) {
   const pogodak = String(css).match(/animation-duration:\s*([0-9.]+)s/);
   return pogodak ? `${pogodak[1]}s` : null;
@@ -40,10 +47,7 @@ export function primeniPrikaz(stanje, ulaz) {
   try {
     if (put === "client/index.html") {
       const deo = citajHtmlSobu(ulaz.tekst);
-      const crtez = { ...stanje.crtez };
-      if (deo.cifra !== undefined) crtez.cifra = deo.cifra;
-      if (deo.naslov !== undefined) crtez.naslov = deo.naslov;
-      if (deo.dugme !== undefined) crtez.dugme = deo.dugme;
+      const crtez = { cifra: deo.cifra, naslov: deo.naslov, dugme: deo.dugme };
       return { ...stanje, crtez, poruka: "", sacuvanFajl, crtao: true };
     }
     if (put === "client/css/soba.css") {

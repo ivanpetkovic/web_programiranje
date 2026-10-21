@@ -43,7 +43,7 @@ A step that names a file MUST show its prose, then the key-idea callout, then th
 - **WHEN** the teacher opens a week 1 step that has no figure
 - **THEN** the prose and the key idea are visible before the quiz, and no snippet or file path is shown
 ### Requirement: Arhitektura na početku
-The first step of week 1 MUST be titled LO and MUST name no file. Podela MUST be the first step of week 2 and MUST keep its original as the two lines `client/` and `server/`. `client/` MUST be what the browser loads. `server/` MUST be what Node runs, from week 5. Until week 5 the Server tab MUST be absent. The course MUST NOT start by writing the whole application in one file.
+The first step of week 1 MUST be titled LO and MUST name no file. Podela MUST be the first step of week 2 and the built-in text of `client/index.html` MUST be empty. The step prose MUST name `client/` as what the browser loads and `server/` as what Node runs, from week 5. Until week 5 the Server tab MUST be absent. The course MUST NOT start by writing the whole application in one file.
 
 #### Scenario: Empty server folder
 - **WHEN** the teacher is still before the server lecture
@@ -51,7 +51,7 @@ The first step of week 1 MUST be titled LO and MUST name no file. Podela MUST be
 
 #### Scenario: Podela names the folders
 - **WHEN** the teacher opens Podela
-- **THEN** its original is `client/` and `server/`
+- **THEN** the prose names the two folders and the built-in `client/index.html` is empty
 
 #### Scenario: First step is Web
 - **WHEN** the teacher opens the first step of week 1
