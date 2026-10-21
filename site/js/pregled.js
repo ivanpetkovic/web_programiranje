@@ -181,7 +181,7 @@ export function sklopiDokument(mapa, napraviAdresu = dataAdresa) {
   return tekstFajla("index.html");
 }
 
-export function tekstoviServera(verzije, radne, rezim) {
+export function tekstoviServera(verzije, radne, verzija) {
   const izlaz = {};
   for (const [putanja, original] of Object.entries(verzije || {})) {
     if (!putanja.startsWith("server/")) continue;
@@ -189,7 +189,7 @@ export function tekstoviServera(verzije, radne, rezim) {
       putanja,
       original: typeof original === "string" ? original : "",
       radne,
-      rezim,
+      verzija,
       binarni: false,
     }).tekst;
   }

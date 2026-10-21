@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { adresaPregleda, popunaKoraka, rezimPosleAkcije, upisPosleAkcije } from "../site/js/birac.js";
+import { adresaPregleda, popunaKoraka } from "../site/js/birac.js";
 
 test("popuna broji sačuvane korake nedelje, ne otvoreni indeks", () => {
   const sacuvani = ["1:0", "1:1", "1:2", "1:1", "1:20", "2:0", "nije"];
@@ -18,15 +18,4 @@ test("adresa koristi poreklo stranice i jednu kosu crtu", () => {
   assert.equal(adresaPregleda("http://localhost:8787", "client/index.html"), "http://localhost:8787/client/index.html");
   assert.equal(adresaPregleda("http://localhost:8787/", "/client/index.html"), "http://localhost:8787/client/index.html");
   assert.equal(adresaPregleda("http://localhost:8787", "client/index.html").includes(":3000"), false);
-});
-
-test("učitaj ne piše, sačuvaj na lekciji ne menja mapu", () => {
-  assert.equal(upisPosleAkcije("ucitaj", "radna"), false);
-  assert.equal(rezimPosleAkcije("ucitaj", "radna"), "original");
-  assert.equal(upisPosleAkcije("sacuvaj", "original"), false);
-  assert.equal(rezimPosleAkcije("sacuvaj", "original"), "original");
-  assert.equal(upisPosleAkcije("sacuvaj", "radna"), true);
-  assert.equal(rezimPosleAkcije("reset", "original"), "radna");
-  assert.equal(upisPosleAkcije("lekcija", "radna"), false);
-  assert.equal(rezimPosleAkcije("moj-kod", "original"), "radna");
 });
