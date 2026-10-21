@@ -14,6 +14,7 @@
   --line: #3a342c;
   --amber: #ffb000;
   --korak: #ffb000;
+  --korak-buduci: #d9d3c7;
   --amber-dim: #6a4a12;
   --on-amber: #1a1204;
   --good: #d7e7a1;
@@ -34,6 +35,7 @@ html[data-tema="ugalj"] {
   --line: #3a342c;
   --amber: #ffb000;
   --korak: #ffb000;
+  --korak-buduci: #d9d3c7;
   --amber-dim: #6a4a12;
   --on-amber: #1a1204;
   --good: #d7e7a1;
@@ -54,6 +56,7 @@ html[data-tema="mornar"] {
   --line: #1e3a5f;
   --amber: #ffb000;
   --korak: #ffb000;
+  --korak-buduci: #d9d3c7;
   --amber-dim: #3d3414;
   --on-amber: #1a1204;
   --good: #d7e7a1;
@@ -74,6 +77,7 @@ html[data-tema="pesak"] {
   --line: #e4d8c4;
   --amber: #a86300;
   --korak: #a86300;
+  --korak-buduci: #8f897f;
   --amber-dim: #fde8c4;
   --on-amber: #fffdf8;
   --good: #3f6212;
@@ -94,6 +98,7 @@ html[data-tema="terakota"] {
   --line: #e4cbb8;
   --amber: #b81400;
   --korak: #b81400;
+  --korak-buduci: #8f897f;
   --amber-dim: #f8d8c0;
   --on-amber: #fffdf8;
   --good: #3f6212;
@@ -115,6 +120,7 @@ html[data-tema="terakota"] {
     --line: #e4d8c4;
     --amber: #a86300;
     --korak: #a86300;
+    --korak-buduci: #8f897f;
     --amber-dim: #fde8c4;
     --on-amber: #fffdf8;
     --good: #3f6212;
@@ -188,6 +194,7 @@ button[aria-pressed="true"] { border-color: var(--amber); color: var(--amber); }
   padding: 1rem;
 }
 .cas-glava { display: grid; gap: 0.7rem; }
+#birac-mesto { justify-self: start; max-width: 100%; }
 .cas-glava h1 { margin: 0; }
 .cas-tabovi { display: flex; gap: 0.45rem; flex-wrap: wrap; }
 .cas-tabovi button[aria-selected="true"] { border-color: var(--amber); background: var(--amber-dim); color: var(--amber); }
@@ -563,15 +570,24 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 .birac {
   display: grid;
   gap: 0.7rem;
+  width: max-content;
+  max-width: 100%;
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 16px;
-  padding: 0.85rem 1rem 0;
+  padding: 0.85rem 1rem;
 }
 .birac-red { display: flex; align-items: center; gap: 0.75rem; }
-.birac-red > div:nth-child(2) { flex: 1; min-width: 0; }
+.birac-red > div:nth-child(2) { min-width: 0; }
 .birac-red .korak { margin: 0; font-weight: 700; }
-.birac-naslov { margin: 0.1rem 0 0; color: var(--muted); }
+.birac-naslov {
+  max-width: 16rem;
+  margin: 0.1rem 0 0;
+  overflow: hidden;
+  color: var(--muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .birac-nazad {
   width: 2.4rem;
   height: 2.4rem;
@@ -599,14 +615,18 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 }
 .birac-meni button { width: 100%; text-align: left; background: transparent; border: 0; }
 .birac-meni button[aria-selected="true"] { background: var(--amber-dim); }
-.birac-traka {
-  height: 0.45rem;
-  margin: 0.15rem -1rem 0;
-  background: var(--line);
-  border-radius: 0 0 15px 15px;
-  overflow: hidden;
+.birac-krugovi { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.birac-krug {
+  width: 0.7rem;
+  height: 0.7rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  font-size: 0;
+  line-height: 0;
 }
-.birac-traka > span { display: block; height: 100%; background: var(--amber); }
+.birac-krug-dosegnut { background: var(--amber); }
+.birac-krug-buduci { background: var(--korak-buduci); }
 .sledeci-korak {
   display: inline-flex;
   align-items: center;
