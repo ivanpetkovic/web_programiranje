@@ -1,0 +1,4617 @@
+{
+  "ustanova": "Elektronski fakultet",
+  "ustanovaRed": "Univerzitet u Nišu",
+  "ustanovaBok": "Elektronski fakultet, Niš",
+  "naslov": "Veb programiranje",
+  "oznaka": "MP",
+  "grb": "/img/elfak_logo.png",
+  "trajanjeNedelja": 11,
+  "preduslovPrve": "Još nema fajla. Priča počinje pre stranice.",
+  "nedelje": [
+    {
+      "naslov": "Zašto je Web nastao",
+      "podnaslov": "Web je usluga na Internetu. Stranica je dokument. server/ još nema fajlove.",
+      "ishod": "Web je usluga na Internetu. Stranica je dokument. server/ još nema fajlove.",
+      "minuta": 90,
+      "problem": "Ista reč „web” pokrije mrežu, stranicu iz 1991, Gmail i blockchain. Šta je stranica iz 1991. već bila?",
+      "pretpostavka": "Web, Internet, aplikacija i blockchain su isto, samo noviji naziv.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mreža kojom poruka uopšte stiže.",
+          "ok": false,
+          "why": "Mreža je Internet. Stranica iz 1991. nije mreža."
+        },
+        {
+          "key": "B",
+          "text": "Hipertekstni dokument koji browser dovuče po URL-u.",
+          "ok": true,
+          "why": "To nije mreža, nije aplikacija i nije blockchain. Dokument se dovuče po URL-u."
+        },
+        {
+          "key": "C",
+          "text": "Aplikacija kao Gmail, jer se stranica već osvežava u delu.",
+          "ok": false,
+          "why": "Aplikacija stiže kad zahtev menja deo. Stranica iz 1991. to još nije."
+        },
+        {
+          "key": "D",
+          "text": "Ledger koji drži više strana.",
+          "ok": false,
+          "why": "Ledger je kasniji odgovor na pitanje ko drži zapis. Nije stranica iz 1991."
+        }
+      ],
+      "rezerva": {
+        "problem": "Kadar filma zakasni. Da li čekamo taj bajt?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Čekamo ga, jer je svaki bajt deo dokumenta.",
+            "ok": false,
+            "why": "Dokument čeka bajt. Kadar koji zakasni više nije ovaj trenutak slike."
+          },
+          {
+            "key": "B",
+            "text": "Kadar sme da se odbaci, a dokument ne sme da izgubi bajt.",
+            "ok": true,
+            "why": "UDP sme da odbaci kadar. TCP ne sme da izgubi bajt dokumenta."
+          },
+          {
+            "key": "C",
+            "text": "Odbacimo i kadar i bajt dokumenta, jer je mreža ista.",
+            "ok": false,
+            "why": "Ista mreža nosi oba. Pravilo čekanja nije isto."
+          }
+        ]
+      },
+      "izlaz": "Šta je hipertekst, po čemu TCP nije UDP, i šta Ajax doda a prva stranica nema?",
+      "pojmoviCasa": [
+        {
+          "id": "hipertekst",
+          "name": "Hipertekst",
+          "hint": "tekst čija veza vodi na drugi tekst",
+          "body": "Veza je adresa drugog teksta. Čitalac prati ideju, ne broj stranice.",
+          "code": "Tekst → Veza → Drugi tekst"
+        },
+        {
+          "id": "tcp",
+          "name": "TCP",
+          "hint": "tok koji čeka svaki bajt",
+          "body": "TCP je pouzdan tok bajtova. Dokument ne sme da izgubi bajt.",
+          "code": "bajt, bajt, bajt → dokument"
+        },
+        {
+          "id": "udp",
+          "name": "UDP",
+          "hint": "datagram koji sme da se odbaci",
+          "body": "UDP sme da odbaci zakasneli kadar. Glas i slika ne čekaju taj bajt.",
+          "code": "kadar koji zakasni → odbaci"
+        },
+        {
+          "id": "html",
+          "name": "HTML",
+          "hint": "oznake strukture za čoveka",
+          "body": "Rani HTML imenuje naslov, vezu i spisak. Ne imenuje boju.",
+          "code": "<h1>naslov</h1>"
+        },
+        {
+          "id": "xml",
+          "name": "XML",
+          "hint": "stablo zapisa između programa",
+          "body": "XML nosi zapis. Dva programa ne moraju da se dogovore o ekranu.",
+          "code": "<zapis>24</zapis>"
+        },
+        {
+          "id": "ecmascript",
+          "name": "ECMAScript",
+          "hint": "ime standarda, ne žig",
+          "body": "JavaScript je žig. ECMA-262 zove jezik ECMAScript. ES3, ES5 i ES6 su godine.",
+          "code": "ECMA-262"
+        },
+        {
+          "id": "ajax",
+          "name": "Ajax",
+          "hint": "zahtev koji menja deo dokumenta",
+          "body": "Dokument ostaje. Zahtev promeni deo. To je veb aplikacija, ne prezentacioni sajt.",
+          "code": "dokument ostaje\nzahtev menja deo"
+        },
+        {
+          "id": "w3c",
+          "name": "W3C",
+          "hint": "telo koje drži značenje oznake",
+          "body": "W3C postoji da značenje oznake ne bude privatna reč jedne firme.",
+          "code": "oznaka → preporuka"
+        }
+      ],
+      "steps": [
+        {
+          "naslov": "LO",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Zašto uopšte slati poruku ako veza može da pukne usred reči? 29. oktobra 1969. sa UCLA ka SRI stiže „LO”, pa sistem padne umesto „LOGIN”. To je mreža paketa. To nije Web.",
+          "kljucnaIdeja": "Mreža paketa iz 1969. još nema stranicu u browseru.",
+          "pitalica": "Šta je stiglo 29. oktobra 1969?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "To već jeste Web, jer je poruka stigla.",
+              "why": "Stigla su dva slova po mreži. Nema URL ni dokument u browseru.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Poruka iz 1969. nije Web.",
+              "why": "LO je mreža paketa. Web je povezani dokument, mnogo kasnije.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Paket",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Zašto seći poruku, umesto da se rezerviše veza od kraja do kraja? Ako je veza rezervisana, prekid ubije celu poruku. Paket ide drugim putem i poruka se sklopi.",
+          "kljucnaIdeja": "Prekinuta veza ne mora da ubije poruku.",
+          "pitalica": "Šta prekinuta veza uradi poruci od paketa?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Ubije je, jer put je jedan.",
+              "why": "Paket ne traži jednu rezervisanu vezu.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Prekinuta veza ne mora da ubije poruku.",
+              "why": "Drugi paket može drugim putem. Poruka se sklopi na kraju.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "TCP i UDP",
+          "nivo": "Osnovno",
+          "minuta": 5,
+          "tekst": "Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? TCP je pouzdan tok bajtova: dokument traži svaki bajt. UDP sme da odbaci datagram, pa glas, slika ili igra ne čekaju zakasneli kadar.",
+          "kljucnaIdeja": "Dokument čeka bajt. Zakasneli kadar sme da se odbaci.",
+          "pitalica": "Šta radimo sa zakasnelim kadrom?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Čekamo ga, kao što dokument čeka bajt.",
+              "why": "Kadar koji zakasni više ne pripada slici koja je prošla.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Kadar sme da se odbaci, a dokument ne sme da izgubi bajt.",
+              "why": "TCP čuva svaki bajt dokumenta. UDP sme da odbaci glas ili sliku.",
+              "ok": true
+            }
+          ],
+          "figura": {
+            "vrsta": "put",
+            "cvorovi": [
+              {
+                "id": "bajt",
+                "natpis": "Bajt"
+              },
+              {
+                "id": "tcp",
+                "natpis": "TCP"
+              },
+              {
+                "id": "udp",
+                "natpis": "UDP"
+              }
+            ]
+          }
+        },
+        {
+          "naslov": "Internet",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Zašto jedan plan adresa za mnogo mreža? 1. januara 1983. mreže prelaze na TCP/IP. Taj dan zovu flag day. Internet je mreža mreža. Web još ne postoji.",
+          "kljucnaIdeja": "Flag day spaja mreže. Ne rađa stranicu.",
+          "pitalica": "Šta je mreža posle flag day 1983?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "To već jeste Web.",
+              "why": "1983. još nema predlog povezanih dokumenata.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Mreža iz 1983. nije Web.",
+              "why": "Internet je mreža mreža. Web stiže kao usluga na njoj.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Hipertekst",
+          "nivo": "Osnovno",
+          "minuta": 5,
+          "tekst": "Zašto pratiti ideju, umesto broja stranice? Bush 1945. opisuje Memex. Nelson 1965. kuje reč hipertekst. Veza je adresa drugog teksta, ne ukras na margini.",
+          "kljucnaIdeja": "Veza vodi na drugi tekst, ne na sledeći broj stranice.",
+          "pitalica": "Šta je veza u hipertekstu?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Ukras koji browser sme da ignoriše.",
+              "why": "Veza je razlog što je tekst hipertekst.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Veza je adresa drugog teksta.",
+              "why": "Čitalac prati ideju. Ne okreće fiksni broj stranice.",
+              "ok": true
+            }
+          ],
+          "figura": {
+            "vrsta": "put",
+            "cvorovi": [
+              {
+                "id": "tekst",
+                "natpis": "Tekst"
+              },
+              {
+                "id": "veza",
+                "natpis": "Veza"
+              },
+              {
+                "id": "drugi",
+                "natpis": "Drugi tekst"
+              }
+            ]
+          }
+        },
+        {
+          "naslov": "Predlog",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Zašto je laboratoriji fizike uopšte trebalo ovo? Berners-Lee u CERN-u, marta 1989, predlaže povezane dokumente. Šef dopisuje „vague but exciting”. Web je jedna usluga na Internetu, ne sam Internet.",
+          "kljucnaIdeja": "Web je usluga. Internet je mreža ispod nje.",
+          "pitalica": "Šta je Web u odnosu na Internet?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Web jeste cela mreža.",
+              "why": "Mreža već radi pre predloga iz 1989.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Web je jedna usluga na Internetu.",
+              "why": "Predlog rešava dokumente laboratorije, ne kablove.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "HTML",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Zašto oznake koje čovek može da otkuca, a ne binarni raspored strane? 1991. izlazi prva javna stranica. Rane oznake nose strukturu: naslov, veza, spisak. Ne nose boju.",
+          "kljucnaIdeja": "Rana oznaka kaže šta je deo teksta, ne kako je ofarban.",
+          "pitalica": "Šta rana HTML oznaka imenuje?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Boju i tačan raspored piksela.",
+              "why": "Boja stiže kasnije. Prva stranica je struktura.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Rani HTML imenuje strukturu, ne boju.",
+              "why": "Naslov, veza i spisak su uloge dela teksta.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "W3C",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Ko odlučuje šta oznaka zna ako se browseri ne slažu? Berners-Lee 1994. osniva W3C da sledeća oznaka ne bude privatna reč jedne firme. To je preporuka, ne zakon jednog proizvođača.",
+          "kljucnaIdeja": "Značenje oznake nije vlasništvo jedne firme.",
+          "pitalica": "Čija je reč šta oznaka zna?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "One firme koja prva isporuči browser.",
+              "why": "Zato telo i postoji: da značenje ne ostane privatno.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Nijedan proizvođač ne poseduje značenje oznake.",
+              "why": "W3C drži preporuku koju browseri mogu da podele.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Rat browsera",
+          "nivo": "Osnovno",
+          "minuta": 5,
+          "tekst": "Šta se desi stranici kad svaki browser izmisli svoju oznaku? Netscape i Internet Explorer ratuju. Jedan ima blink, drugi marquee. Stranica piše „best viewed in” i puca u drugom browseru. Standard načas izgubi, pa opet postane potreban.",
+          "kljucnaIdeja": "Privatna oznaka radi samo tamo gde je izmišljena.",
+          "pitalica": "Zašto stranica puca u drugom browseru?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Zato što W3C zabrani oba browsera.",
+              "why": "Puca oznaka koju drugi browser ne poznaje.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Stranica puca jer browseri izmišljaju svoje oznake.",
+              "why": "blink i marquee nisu isti jezik. Stranica traži jedan od njih.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "XML",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Kako dva programa razmene zapis, a da se ne dogovore o ekranu? HTML ostaje hipertekst za čoveka. XML, 1998, jeste gramatika stabla podataka. Program čita zapis. Ne crta stranicu.",
+          "kljucnaIdeja": "XML nosi stablo zapisa. HTML nosi tekst za čoveka.",
+          "pitalica": "Šta XML nosi između dva programa?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Raspored stranice koji browser mora da nacrta.",
+              "why": "Ekran nije ugovor između programa.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "XML nosi zapis, ne raspored stranice.",
+              "why": "Dva programa slože stablo. Ne slože prozor.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Deset dana",
+          "nivo": "Osnovno",
+          "minuta": 5,
+          "tekst": "Zašto jezik u dokumentu, ako je stranica već stigla? Maja 1995. Brendan Eich napiše jezik za deset dana. Imena idu Mocha, pa LiveScript, pa JavaScript, jer se Java reklamirala. To nije Java.",
+          "kljucnaIdeja": "Ime je reklamni susret. Jezik nije Java.",
+          "pitalica": "Da li je JavaScript isto što i Java?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Jeste. Ime kaže da je u pitanju Java.",
+              "why": "Ime je došlo iz reklame. Jezik je drugi.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Jezik nije Java.",
+              "why": "Deset dana u browseru nisu Java. Mocha i LiveScript su ranija imena.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "ECMA",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Čije je ime jezika ako ga isporučuju dva browsera? JavaScript je žig. Standard ECMA-262 iz 1997. zove jezik ECMAScript. ES3, ES5 i ES6 su ista reč u različitim godinama.",
+          "kljucnaIdeja": "Standard nosi drugo ime jer je JavaScript žig.",
+          "pitalica": "Kako se zove standard jezika?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Java, jer je žig dovoljan.",
+              "why": "Žig nije tekst standarda.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ime standarda je ECMAScript.",
+              "why": "ECMA-262 drži jezik. ES3, ES5 i ES6 su godine te iste reči.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Bez plugina",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Šta plugin traži od čoveka, a skripta u stranici ne traži? Aplet, Flash i Silverlight traže da se nešto instalira. Jezik u stranici je već u browseru. Zato ostaje.",
+          "kljucnaIdeja": "Pobedio je jezik koji ne traži instalaciju.",
+          "pitalica": "Zašto je jezik u stranici ostao, a plugin nije?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Zato što je plugin brži.",
+              "why": "Brzina plugina ne skida instalaciju.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Jezik je pobedio jer je već u stranici.",
+              "why": "Aplet, Flash i Silverlight traže plugin. Skripta je već tu.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Web 2.0",
+          "nivo": "Osnovno",
+          "minuta": 5,
+          "tekst": "Ko je autor ako čitalac sme da menja stranicu? DiNucci 1999. kuje ime Web 2.0. O'Reilly ga 2004. proširi. Wikipedia od 2001. i blog daju pero čitaocu. Stranica više nije samo objavljen dokument.",
+          "kljucnaIdeja": "Čitalac postaje autor kad stranica primi njegov upis.",
+          "pitalica": "Ko piše stranicu u Web 2.0?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Samo redakcija koja je stranicu objavila.",
+              "why": "Redakcija više nije jedini autor.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Čitalac može da menja stranicu.",
+              "why": "Blog i Wikipedia puštaju upis onoga ko čita.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Ajax",
+          "nivo": "Osnovno",
+          "minuta": 6,
+          "tekst": "Zašto mapa ne učita novi dokument kad je povučeš? Garrett februara 2005. imenuje obrazac. Gmail i Google Maps ostave dokument na mestu, a zahtev promeni deo. Veb aplikacija nije prezentacioni sajt.",
+          "kljucnaIdeja": "Dokument ostaje. Zahtev menja deo, ne celu stranu.",
+          "pitalica": "Šta Ajax uradi stranici?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Zameni ceo dokument novim fajlom.",
+              "why": "Mapa se vuče bez nove strane.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Dokument ostaje, a zahtev menja deo.",
+              "why": "Gmail i Maps ne učitavaju novu stranu za svaki pokret.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Streaming",
+          "nivo": "Osnovno",
+          "minuta": 5,
+          "tekst": "Šta video-klub prodaje kad film krene pre nego što stigne ceo? YouTube 2005. i Netflix, koji silazi sa diska, puste sliku pre kraja fajla. Zakasneli kadar sme da se odbaci, kao UDP. Prenos novca ne sme da izgubi bajt, kao TCP.",
+          "kljucnaIdeja": "Film sme da krene pre poslednjeg bajta. Uplata ne sme.",
+          "pitalica": "Kad sme reprodukcija da krene?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Tek kad ceo fajl stigne, kao disk u ruci.",
+              "why": "Disk je morao da stigne. Tok ne mora.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Reprodukcija može da krene pre nego što stigne ceo fajl.",
+              "why": "Zakasneli kadar se odbaci. Bajta uplate se ne odbacuje.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Ekonomija",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Zašto stranica stigne do kupca do koga radnja na uglu ne stiže? Kopija više nema cenu štampe. Oglas u novinama umre ujutru. Lista na stranici ostane.",
+          "kljucnaIdeja": "Stranica dosegne kupca kome radnja na uglu ne dosegne.",
+          "pitalica": "Šta stranica uradi oglasu koji novine ugase ujutru?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "I ona ugasi oglas u ponoć.",
+              "why": "Cena štampe više ne gasi listu.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Stranica stiže do kupca do koga radnja na uglu ne stiže.",
+              "why": "Lista ostane. Novinski oglas ne ostane.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Društvo",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Šta je štamparija odbijala, a obrazac objavljuje? 1993. AOL otvori Usenet i klub postane grad. To zovu Eternal September. Britannica 2012. ugasi štampu posle Wikipedije. Oskudan postane pažnja, ne papir.",
+          "kljucnaIdeja": "Objava više ne čeka kapiju štamparije.",
+          "pitalica": "Šta obrazac uradi tekstu koji štamparija ne bi pustila?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Vrati ga uredniku da čeka hartiju.",
+              "why": "Hartija više nije kapija.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Objava više ne čeka štampariju.",
+              "why": "Eternal September i kraj štampe Britannice su isti pomak: tekst izađe bez štamparije.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Web 3.0",
+          "nivo": "Osnovno",
+          "minuta": 5,
+          "tekst": "Čijem ledgeru veruješ ako ne veruješ ledgeru banke? Ime Web 3.0 prvo znači semantički web, a kasnije blockchain. White paper iz oktobra 2008. nudi ledger koji drži više strana. Taj ledger nije novi Internet. Stranica i dalje traži browser.",
+          "kljucnaIdeja": "Ledger više strana nije nova mreža.",
+          "pitalica": "Šta blockchain nije?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Novi Internet, umesto mreže iz 1983.",
+              "why": "Stranica i dalje ide browserom preko Interneta.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ledger nije novi Internet.",
+              "why": "Ledger menja ko drži zapis. Ne menja mrežu ni browser.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Dokument",
+          "nivo": "Osnovno",
+          "minuta": 5,
+          "tekst": "Šta od ove nedelje sledeća stranica još nema? Imaće dokument. Još nema jezik u stranici, zahtev koji menja deo, ni server. server/ je i dalje prazan.",
+          "kljucnaIdeja": "Sledeća nedelja piše dokument. Ostalo čeka svoje časove.",
+          "pitalica": "Šta sledeća nedelja piše?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Server, jezik i Ajax odjednom.",
+              "why": "To su kasniji časovi. server/ je prazan.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Sledeća nedelja piše dokument.",
+              "why": "Jezik, delimičan zahtev i server još nisu na stranici.",
+              "ok": true
+            }
+          ],
+          "figura": {
+            "vrsta": "linija",
+            "pokret": "redom",
+            "oznake": [
+              {
+                "godina": "1969",
+                "natpis": "Paket"
+              },
+              {
+                "godina": "1989",
+                "natpis": "Predlog"
+              },
+              {
+                "godina": "1995",
+                "natpis": "Jezik"
+              },
+              {
+                "godina": "2005",
+                "natpis": "Ajax"
+              },
+              {
+                "godina": "2008",
+                "natpis": "Ledger"
+              },
+              {
+                "godina": "sledeća",
+                "natpis": "Dokument"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "naslov": "Šta browser prikazuje",
+      "podnaslov": "Dokument, prikaz i merenje nisu ista stvar.",
+      "ishod": "Dokument, prikaz i merenje nisu ista stvar.",
+      "minuta": 90,
+      "problem": "U alatima browsera „24 °C” postane „10 °C”. Šta je promenjeno?",
+      "pretpostavka": "Ekran jeste stanje kutije.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Merenje temperature.",
+          "ok": false,
+          "why": "Merenje nismo dirali. Broj na ekranu nije nova temperatura."
+        },
+        {
+          "key": "B",
+          "text": "HTML dokument.",
+          "ok": false,
+          "why": "Nema zahteva koji menja dokument. Osvežavanje vraća 24."
+        },
+        {
+          "key": "C",
+          "text": "Lokalni prikaz u ovom browseru.",
+          "ok": true,
+          "why": "Alati menjaju sliku u ovom browseru. Osvežavanje vraća dokument sa 24."
+        },
+        {
+          "key": "D",
+          "text": "I merenje i dokument, jer ekran jeste stanje kutije.",
+          "ok": false,
+          "why": "Ekran nije stanje kutije. Osvežavanje vraća dokument."
+        }
+      ],
+      "rezerva": {
+        "problem": "HTML je stigao, CSS nije. Šta ostaje na strani?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Sadržaj može ostati vidljiv bez očekivanog izgleda.",
+            "ok": true,
+            "why": "Stil opisuje izgled. Dokument i dalje nosi tekst."
+          },
+          {
+            "key": "B",
+            "text": "Bez CSS-a stranica je prazna.",
+            "ok": false,
+            "why": "Browser i dalje prikaže sadržaj dokumenta."
+          },
+          {
+            "key": "C",
+            "text": "CSS jeste dokument, pa ništa nije stiglo.",
+            "ok": false,
+            "why": "Dokument i stil su dva zahteva."
+          }
+        ]
+      },
+      "izlaz": "Gde je dokument, gde je prikaz, a šta osvežavanje vraća?",
+      "pojmoviCasa": [
+        {
+          "id": "prikaz",
+          "name": "Prikaz",
+          "hint": "ono što ovaj browser crta",
+          "body": "Prikaz je slika dokumenta u jednom browseru. Izmena u alatima ostaje u toj slici.",
+          "code": "<p>24</p>\n<!-- alati pokažu 10, dokument i dalje kaže 24 -->"
+        },
+        {
+          "id": "dokument",
+          "name": "Dokument",
+          "hint": "HTML koji stigne",
+          "body": "Dokument je HTML koji browser učita. Iz prikaza se ne šalje nazad.",
+          "code": "GET /\n\n<p class=\"digit\">24</p>"
+        },
+        {
+          "id": "css",
+          "name": "CSS",
+          "hint": "izgled istog dokumenta",
+          "body": "CSS opisuje izgled. Ime u stilu i calc računaju dužinu. Ako stil ne stigne, sadržaj i dalje može da se pročita.",
+          "code": ":root {\n  --broj: 2rem;\n}\n\n.digit {\n  font-size: calc(var(--broj) * 2);\n}"
+        }
+      ],
+      "steps": [
+        {
+          "putanja": "client/index.html",
+          "naslov": "Podela",
+          "nivo": "Osnovno",
+          "minuta": 6,
+          "tekst": "Dva foldera stoje jedan pored drugog pre ijedne funkcije.",
+          "kljucnaIdeja": "client/ je ono što browser učita. server/ još nema fajlove.",
+          "isecakNaslov": "Podela",
+          "isecak": "",
+          "delic": "",
+          "original": "",
+          "pitalica": "Šta browser učitava na ovom času?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Oba foldera odjednom.",
+              "why": "Server još ne radi.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "client/. server/ je prazno mesto.",
+              "why": "Browser učitava klijent. Server čeka Node.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
+          "naslov": "Stranica",
+          "nivo": "Osnovno",
+          "minuta": 6,
+          "tekst": "Stranica počinje praznim dokumentom, ne panelom.",
+          "kljucnaIdeja": "Element html i atribut lang otvaraju dokument.",
+          "isecakNaslov": "Stranica",
+          "isecak": "<!DOCTYPE html>\n<html lang=\"sr\">\n</html>",
+          "delic": "<!DOCTYPE html>\n<html lang=\"sr\">\n</html>",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n</html>\n",
+          "pitalica": "Šta je ovaj fajl?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Naredba koju Node pokreće.",
+              "why": "Node se na ovom času ne pokreće.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "HTML dokument koji browser učita.",
+              "why": "Ovo je dokument, ne proces.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
+          "naslov": "Glava",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Charset i naslov dokumenta stoje u glavi, pre sadržaja.",
+          "kljucnaIdeja": "Element head nosi charset i title. Još nema onoga što se vidi u sobi.",
+          "isecakNaslov": "Glava",
+          "isecak": "<meta charset=\"utf-8\">\n<title>Soba</title>",
+          "delic": "<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n</head>",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n</head>\n</html>\n",
+          "pitalica": "Gde stoje charset i title?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "U merenju temperature.",
+              "why": "Merenja još nema.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "U glavi dokumenta.",
+              "why": "head nosi opis dokumenta.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
+          "naslov": "Telo",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Telo je prazno mesto za ono što će soba prikazati.",
+          "kljucnaIdeja": "Element body drži sadržaj. Stil i komanda još nisu tu.",
+          "isecakNaslov": "Telo",
+          "isecak": "<body>\n</body>",
+          "delic": "<body>\n</body>",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n</head>\n<body>\n</body>\n</html>\n",
+          "pitalica": "Šta je body na ovom koraku?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Stil broja.",
+              "why": "Stil je poseban fajl.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Prazno mesto za sadržaj.",
+              "why": "Sadržaj dolazi u telo.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
+          "naslov": "Naslov",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Naslov je deo dokumenta, ne merenje.",
+          "kljucnaIdeja": "Element h1 je naslov, ne pasus.",
+          "isecakNaslov": "Naslov",
+          "isecak": "<h1>Soba prekidača</h1>",
+          "delic": "<h1>Soba prekidača</h1>",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n</head>\n<body>\n<h1>Soba prekidača</h1>\n</body>\n</html>\n",
+          "pitalica": "Osvežavanje stranice...",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Zaboravlja naslov.",
+              "why": "Naslov je u fajlu.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ponovo učita naslov iz fajla.",
+              "why": "Dokument se čita iznova.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
+          "naslov": "Broj",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "U pasusu stoji broj, kao običan tekst.",
+          "kljucnaIdeja": "Element p i atribut class drže 24.",
+          "isecakNaslov": "Broj",
+          "isecak": "<p class=\"digit\">24</p>",
+          "delic": "<p class=\"digit\">24</p>",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n</head>\n<body>\n<h1>Soba prekidača</h1>\n<p class=\"digit\">24</p>\n</body>\n</html>\n",
+          "pitalica": "Odakle je 24 na početku?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Iz merenja kutije.",
+              "why": "Kutije još nema.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Iz statičnog teksta dokumenta.",
+              "why": "24 je sadržaj HTML-a.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
+          "naslov": "Dugme",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Dugme je element dokumenta. Još ništa ne šalje.",
+          "kljucnaIdeja": "Element button i atribut type jesu u dokumentu. Komanda dolazi tek kad postoji server.",
+          "isecakNaslov": "Dugme",
+          "isecak": "<button type=\"button\">Uključi</button>",
+          "delic": "<button type=\"button\">Uključi</button>",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n</head>\n<body>\n<h1>Soba prekidača</h1>\n<p class=\"digit\">24</p>\n<button type=\"button\">Uključi</button>\n</body>\n</html>\n",
+          "pitalica": "Klik na ovo dugme na času 1...",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Šalje komandu ventilatoru.",
+              "why": "Ventilatora i servera još nema.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne menja dokument.",
+              "why": "Dugme još nema ponašanje.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
+          "naslov": "Veza",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Dokument kaže browseru gde je stil.",
+          "kljucnaIdeja": "Element link i atribut href učitavaju stil. Broj i dalje stoji u HTML-u.",
+          "isecakNaslov": "Veza",
+          "isecak": "<link rel=\"stylesheet\" href=\"css/soba.css\">",
+          "delic": "<link rel=\"stylesheet\" href=\"css/soba.css\">",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n<link rel=\"stylesheet\" href=\"css/soba.css\">\n</head>\n<body>\n<h1>Soba prekidača</h1>\n<p class=\"digit\">24</p>\n<button type=\"button\">Uključi</button>\n</body>\n</html>\n",
+          "pitalica": "Šta ova veza radi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Šalje komandu ventilatoru.",
+              "why": "Ovo je veza ka stilu, ne komanda.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Traži da browser učita stil.",
+              "why": "href pokazuje na css fajl.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/css/soba.css",
+          "naslov": "Selektor",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Klasa bira broj, ne ceo dokument.",
+          "kljucnaIdeja": "Klasni selektor .digit bira broj. Dokument i dalje kaže 24.",
+          "isecakNaslov": "Selektor",
+          "isecak": "letter-spacing: 0.08em;",
+          "delic": "letter-spacing: 0.08em;",
+          "original": ".digit {\n  letter-spacing: 0.08em;\n}\n",
+          "pitalica": "Šta .digit bira?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Svaki element na stranici.",
+              "why": "Tačka bira klasu, ne sve elemente.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Element sa klasom digit.",
+              "why": "Selektor .digit gleda atribut class.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/css/soba.css",
+          "naslov": "Okvir",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Kutija dobija ivicu.",
+          "kljucnaIdeja": "border je ivica kutije. Broj u fajlu i dalje je 24.",
+          "isecakNaslov": "Okvir",
+          "isecak": "border: 1px solid #3a342c;",
+          "delic": "border: 1px solid #3a342c;",
+          "original": ".digit {\n  letter-spacing: 0.08em;\n  border: 1px solid #3a342c;\n}\n",
+          "pitalica": "Šta border menja?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Broj 24 u dokumentu.",
+              "why": "Broj ostaje u HTML-u.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ivicu kutije.",
+              "why": "border je deo box modela.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/css/soba.css",
+          "naslov": "Unutra",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Unutar ivice ostaje prazan prostor.",
+          "kljucnaIdeja": "padding je prostor unutar ivice.",
+          "isecakNaslov": "Unutra",
+          "isecak": "padding: 1rem;",
+          "delic": "padding: 1rem;",
+          "original": ".digit {\n  letter-spacing: 0.08em;\n  border: 1px solid #3a342c;\n  padding: 1rem;\n}\n",
+          "pitalica": "Gde je padding?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Van ivice, prema susedima.",
+              "why": "To je margin.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Unutar ivice, oko sadržaja.",
+              "why": "padding je unutrašnji razmak.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/css/soba.css",
+          "naslov": "Spolja",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Van ivice kutija se odmiče.",
+          "kljucnaIdeja": "margin je prostor van ivice.",
+          "isecakNaslov": "Spolja",
+          "isecak": "margin: 1rem;",
+          "delic": "margin: 1rem;",
+          "original": ".digit {\n  letter-spacing: 0.08em;\n  border: 1px solid #3a342c;\n  padding: 1rem;\n  margin: 1rem;\n}\n",
+          "pitalica": "Gde je margin?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Unutar ivice.",
+              "why": "To je padding.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Van ivice.",
+              "why": "margin odmiče kutiju od suseda.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/css/soba.css",
+          "naslov": "Promenljiva",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Dužina broja dobija ime u stilu.",
+          "kljucnaIdeja": "Ime --broj drži 2rem. var(--broj) čita to ime.",
+          "isecakNaslov": "Promenljiva",
+          "isecak": "--broj: 2rem;\nfont-size: var(--broj);",
+          "delic": "--broj: 2rem;\nfont-size: var(--broj);",
+          "original": ":root {\n  --broj: 2rem;\n}\n\n.digit {\n  letter-spacing: 0.08em;\n  border: 1px solid #3a342c;\n  padding: 1rem;\n  margin: 1rem;\n  font-size: var(--broj);\n}\n",
+          "pitalica": "Šta čita var(--broj)?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Broj 24 iz HTML-a.",
+              "why": "24 je sadržaj dokumenta.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ime --broj iz stila.",
+              "why": "var čita CSS ime.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/css/soba.css",
+          "naslov": "Calc",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tekst": "Ista imenovana dužina može da se izračuna.",
+          "kljucnaIdeja": "calc množi imenovanu dužinu. Broj 24 u dokumentu ostaje.",
+          "isecakNaslov": "Calc",
+          "isecak": "font-size: calc(var(--broj) * 2);",
+          "delic": "font-size: calc(var(--broj) * 2);",
+          "original": ":root {\n  --broj: 2rem;\n}\n\n.digit {\n  letter-spacing: 0.08em;\n  border: 1px solid #3a342c;\n  padding: 1rem;\n  margin: 1rem;\n  font-size: calc(var(--broj) * 2);\n}\n",
+          "pitalica": "Šta calc menja?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Tekst 24 u fajlu.",
+              "why": "Dokument se ne dira.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Veličinu broja u stilu.",
+              "why": "calc računa dužinu, ne sadržaj.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
+          "naslov": "Osvežavanje",
+          "nivo": "Osnovno",
+          "minuta": 6,
+          "tekst": "U alatima je neko prekucao 24 u 10.",
+          "kljucnaIdeja": "Osvežavanje vraća dokument. 10 je bio samo lokalni prikaz.",
+          "isecakNaslov": "Osvežavanje",
+          "isecak": "<!-- osvežavanje vraća dokument -->",
+          "delic": "<!-- osvežavanje vraća dokument -->",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n<link rel=\"stylesheet\" href=\"css/soba.css\">\n</head>\n<body>\n<h1>Soba prekidača</h1>\n<p class=\"digit\">24</p>\n<button type=\"button\">Uključi</button>\n<!-- osvežavanje vraća dokument -->\n</body>\n</html>\n",
+          "pitalica": "Šta osvežavanje uradi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Upisuje 10 u fajl.",
+              "why": "Alati nisu sačuvali fajl.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Vraća dokument, opet 24.",
+              "why": "Prikaz se pravi iznova iz fajla.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
+          "naslov": "Alati",
+          "nivo": "Osnovno",
+          "minuta": 6,
+          "tekst": "Izmena u alatima vidi se odmah na ekranu.",
+          "kljucnaIdeja": "Alati menjaju sliku u ovom browseru. Dokument ostaje.",
+          "isecakNaslov": "Alati",
+          "isecak": "element.textContent = \"10\"",
+          "delic": "<!-- prikaz može da kaže 10; fajl i dalje kaže 24 -->",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n<link rel=\"stylesheet\" href=\"css/soba.css\">\n</head>\n<body>\n<h1>Soba prekidača</h1>\n<p class=\"digit\">24</p>\n<!-- prikaz može da kaže 10; fajl i dalje kaže 24 -->\n<button type=\"button\">Uključi</button>\n<!-- osvežavanje vraća dokument -->\n</body>\n</html>\n",
+          "pitalica": "Šta je time promenjeno?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Merenje.",
+              "why": "Merenje nismo dirali.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Lokalni prikaz, ne dokument.",
+              "why": "Fajl i dalje kaže 24.",
+              "ok": true
+            },
+            {
+              "key": "C",
+              "text": "I merenje i dokument.",
+              "why": "Dokument se nije sačuvao.",
+              "ok": false
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
+          "naslov": "Dva zahteva",
+          "nivo": "Osnovno",
+          "minuta": 6,
+          "tekst": "Stranica traži dokument, pa stil.",
+          "kljucnaIdeja": "Network pokazuje dokument i stil. Čitanje sobe još ne postoji.",
+          "isecakNaslov": "Dva zahteva",
+          "isecak": "GET /\nGET /css/soba.css",
+          "delic": "<!-- nema /api/soba -->",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n<link rel=\"stylesheet\" href=\"css/soba.css\">\n</head>\n<body>\n<h1>Soba prekidača</h1>\n<p class=\"digit\">24</p>\n<!-- prikaz može da kaže 10; fajl i dalje kaže 24 -->\n<button type=\"button\">Uključi</button>\n<!-- osvežavanje vraća dokument -->\n<!-- nema /api/soba -->\n</body>\n</html>\n",
+          "pitalica": "Da li se vidi zahtev za sobu?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da, inače broj ne bi postojao.",
+              "why": "Broj je u dokumentu.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne. Nema zahteva za API sobe.",
+              "why": "Stižu dokument i stil.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
+          "naslov": "Soba prekidača",
+          "nivo": "Osnovno",
+          "minuta": 6,
+          "tekst": "Na ekranu je jedna soba i jedan broj.",
+          "kljucnaIdeja": "Čas 1 crta samo sobu prekidača. Lopatice nisu deo ovog prikaza.",
+          "isecakNaslov": "Soba prekidača",
+          "isecak": "soba prekidača\n24",
+          "delic": "<!-- samo soba prekidača -->",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n<link rel=\"stylesheet\" href=\"css/soba.css\">\n</head>\n<body>\n<h1>Soba prekidača</h1>\n<p class=\"digit\">24</p>\n<!-- prikaz može da kaže 10; fajl i dalje kaže 24 -->\n<button type=\"button\">Uključi</button>\n<!-- osvežavanje vraća dokument -->\n<!-- nema /api/soba -->\n<!-- samo soba prekidača -->\n</body>\n</html>\n",
+          "pitalica": "Gde je ventilator?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "U sobi prekidača, mali.",
+              "why": "Lopatica još nema.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Nigde. Soba mašina se ne crta.",
+              "why": "Crta se samo soba prekidača.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
+          "naslov": "Semantika",
+          "nivo": "Osnovno",
+          "minuta": 6,
+          "tekst": "Naslov nije podebljan pasus.",
+          "kljucnaIdeja": "Semantički HTML ostaje i kad se stil promeni.",
+          "isecakNaslov": "Semantika",
+          "isecak": "<!-- naslov je h1, ne pasus -->",
+          "delic": "<!-- naslov je h1, ne pasus -->",
+          "original": "<!DOCTYPE html>\n<html lang=\"sr\">\n<head>\n<meta charset=\"utf-8\">\n<title>Soba</title>\n<link rel=\"stylesheet\" href=\"css/soba.css\">\n</head>\n<body>\n<h1>Soba prekidača</h1>\n<p class=\"digit\">24</p>\n<!-- prikaz može da kaže 10; fajl i dalje kaže 24 -->\n<button type=\"button\">Uključi</button>\n<!-- osvežavanje vraća dokument -->\n<!-- nema /api/soba -->\n<!-- samo soba prekidača -->\n<!-- naslov je h1, ne pasus -->\n</body>\n</html>\n",
+          "pitalica": "Zašto h1, a ne samo velika slova?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Zato što server tako čita temperaturu.",
+              "why": "Server se na ovom času ne pokreće.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Zato što dokument kaže šta je naslov.",
+              "why": "h1 imenuje naslov.",
+              "ok": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "naslov": "JavaScript opisuje stanje",
+      "podnaslov": "Objekat drži temperaturu. Ekran je još ne crta.",
+      "ishod": "Objekat drži temperaturu. Ekran je još ne crta.",
+      "minuta": 90,
+      "problem": "Objekat je u const, a druga promenljiva pokazuje na njega. Šta sme?",
+      "pretpostavka": "const zamrzava objekat, ili drugo ime pravi kopiju.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Polje sme da se menja, i drugo ime vidi istu izmenu.",
+          "ok": true,
+          "why": "const drži ime, ne zamrzava polja. Drugo ime nije kopija."
+        },
+        {
+          "key": "B",
+          "text": "const zamrzne objekat.",
+          "ok": false,
+          "why": "Zabrana važi za novu dodelu imena, ne za polje."
+        },
+        {
+          "key": "C",
+          "text": "Drugo ime pravi kopiju.",
+          "ok": false,
+          "why": "Oba imena pokazuju na isti objekat."
+        },
+        {
+          "key": "D",
+          "text": "Polje sme da se menja samo uz let.",
+          "ok": false,
+          "why": "let nije uslov za izmenu polja."
+        }
+      ],
+      "rezerva": {
+        "problem": "temperatura === \"24\" kad je u objektu broj 24. Šta važi?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Strogo poređenje je netačno. Tekst i broj nisu isti tip.",
+            "ok": true,
+            "why": "=== ne pretvara tip."
+          },
+          {
+            "key": "B",
+            "text": "Uvek je tačno, jer oba izgledaju kao 24.",
+            "ok": false,
+            "why": "Izgled na ekranu nije tip vrednosti."
+          }
+        ]
+      },
+      "izlaz": "Šta const drži, a šta polje objekta sme?",
+      "pojmoviCasa": [
+        {
+          "id": "const",
+          "name": "const",
+          "hint": "ime se ne dodeljuje ponovo",
+          "body": "const vezuje ime. Polje objekta i dalje sme da se promeni.",
+          "code": "const soba = { temperatura: 24 };\nsoba.temperatura = 25;"
+        },
+        {
+          "id": "referenca",
+          "name": "Referenca",
+          "hint": "dva imena, isti objekat",
+          "body": "Dodela objekta kopira referencu. Izmena kroz jedno ime vidi se kroz drugo.",
+          "code": "const a = { temperatura: 24 };\nconst b = a;\nb.temperatura = 25;"
+        },
+        {
+          "id": "niz",
+          "name": "map, filter, reduce",
+          "hint": "niz tačaka, bez petlje",
+          "body": "iznadPraga bira tačke, temperature vadi visinu, prosek sabira. Svaka funkcija radi jednu stvar.",
+          "code": "function iznadPraga(tacke) {\n  return tacke.filter((tacka) => tacka.temperatura >= 24);\n}"
+        }
+      ],
+      "steps": [
+        {
+          "putanja": "client/js/korak.js",
+          "naslov": "Objekat",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Stanje stane u jedan objekat, pre bilo kog ekrana.",
+          "kljucnaIdeja": "Objekat drži temperaturu i željeno stanje prekidača.",
+          "isecakNaslov": "Objekat",
+          "isecak": "const soba = { temperatura: 24, zeljeno: false };",
+          "delic": "const soba = { temperatura: 24, zeljeno: false };",
+          "pitalica": "Gde je temperatura?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "U natpisu na dugmetu.",
+              "why": "Ekran je još ne čita objekat.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "U polju objekta.",
+              "why": "Objekat drži broj.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/korak.js",
+          "naslov": "const",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Ime je vezano. Polje nije.",
+          "kljucnaIdeja": "const ne zamrzava objekat.",
+          "isecakNaslov": "const",
+          "isecak": "const soba = { temperatura: 24 };\nsoba.temperatura = 25;",
+          "delic": "soba.temperatura = 25;",
+          "pitalica": "Šta const brani?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Svaku izmenu polja.",
+              "why": "Polje i dalje sme da se menja.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Novu dodelu tog imena.",
+              "why": "soba = {} ne prolazi. soba.temperatura = 25 prolazi.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/korak.js",
+          "naslov": "Drugo ime",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Dva imena mogu pokazivati na isti objekat.",
+          "kljucnaIdeja": "Izmena kroz jedno ime vidi se kroz drugo.",
+          "isecakNaslov": "Drugo ime",
+          "isecak": "const drugo = soba;\ndrugo.temperatura = 26;",
+          "delic": "const drugo = soba;",
+          "pitalica": "Šta drugo vidi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Kopiju, pa soba ostaje 24.",
+              "why": "Nema kopije objekta.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Isti objekat, pa se vidi 26.",
+              "why": "Dodela kopira referencu.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/korak.js",
+          "naslov": "Nova dodela",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Ime const ne sme da pokaže na drugi objekat.",
+          "kljucnaIdeja": "Nova dodela imena ne prolazi. Polje je i dalje slobodno.",
+          "isecakNaslov": "Nova dodela",
+          "isecak": "soba = { temperatura: 24 };",
+          "delic": "// soba = { temperatura: 24 } ne prolazi",
+          "pitalica": "Šta se desi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Polje se vrati na 24.",
+              "why": "Ovo nije izmena polja.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Dodela imena ne prolazi.",
+              "why": "const brani novo vezivanje imena.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/korak.js",
+          "naslov": "Delta",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Jedna funkcija diže broj za fiksnu deltu.",
+          "kljucnaIdeja": "Sledeći korak uveća temperaturu za deltu i ne gleda prekidač.",
+          "isecakNaslov": "Delta",
+          "isecak": "let delta = 1;\nfunction korak(soba) {\n  soba.temperatura += delta;\n}",
+          "delic": "function korak(soba) {\n  soba.temperatura += delta;\n}",
+          "pitalica": "Da li funkcija gleda prekidač?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da, inače bi ventilator uticao.",
+              "why": "Režim ne ulazi u računicu.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne. Uvek doda deltu.",
+              "why": "Željeno stanje se ignoriše.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/korak.js",
+          "naslov": "Prekidač uključen",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Prekidač je na uključeno, pa se zove korak.",
+          "kljucnaIdeja": "Sledeći poziv daje višu temperaturu i kad je prekidač na uključeno.",
+          "isecakNaslov": "Prekidač uključen",
+          "isecak": "soba.zeljeno = true;\nkorak(soba);",
+          "delic": "korak(soba);",
+          "pitalica": "Šta konzola vidi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Isti broj, jer je prekidač uključen.",
+              "why": "Delta ne pita prekidač.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Broj veći za deltu.",
+              "why": "Računica je uvek ista.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/korak.js",
+          "naslov": "Konzola",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Broj se prati ispisom, ne na displeju.",
+          "kljucnaIdeja": "Vrednosti se prate u konzoli. DOM se ne vezuje.",
+          "isecakNaslov": "Konzola",
+          "isecak": "console.log(soba.temperatura);",
+          "delic": "console.log(soba.temperatura);",
+          "pitalica": "Šta ekranski broj uradi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Prati konzolu.",
+              "why": "Crtanja još nema.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ostaje. Konzola je drugi izlaz.",
+              "why": "Displej čeka čas 3.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/niz.js",
+          "naslov": "filter",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Niz tačaka bira one iznad praga.",
+          "kljucnaIdeja": "filter radi jednu stvar: bira tačke.",
+          "isecakNaslov": "filter",
+          "isecak": "function iznadPraga(tacke) {\n  return tacke.filter((t) => t.temperatura >= 24);\n}",
+          "delic": "function iznadPraga(tacke) {\n  return tacke.filter((tacka) => tacka.temperatura >= 24);\n}",
+          "pitalica": "Šta filter vrati?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Jedan broj, prosek.",
+              "why": "Prosek je reduce.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Nov niz tačaka koje prolaze.",
+              "why": "filter bira, ne crta.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/niz.js",
+          "naslov": "map",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Od tačke ostane visina.",
+          "kljucnaIdeja": "map vadi visinu. Petlja ostaje za crtanje, kasnije.",
+          "isecakNaslov": "map",
+          "isecak": "function temperature(tacke) {\n  return tacke.map((t) => t.temperatura);\n}",
+          "delic": "function temperature(tacke) {\n  return tacke.map((tacka) => tacka.temperatura);\n}",
+          "pitalica": "Šta map promeni?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Iste tačke, samo sakrije niske.",
+              "why": "To radi filter.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Svaku tačku pretvori u broj.",
+              "why": "Izlaz je niz visina.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/niz.js",
+          "naslov": "reduce",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Visine se saberu u jedan broj.",
+          "kljucnaIdeja": "Konzola ispiše visine i prosek. Taj niz još ne crta displej.",
+          "isecakNaslov": "reduce",
+          "isecak": "function prosek(visine) {\n  const zbir = visine.reduce((s, v) => s + v, 0);\n  return visine.length ? zbir / visine.length : 0;\n}",
+          "delic": "const zbir = visine.reduce((s, v) => s + v, 0);",
+          "pitalica": "Šta reduce vrati?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Niz, kao map.",
+              "why": "reduce skuplja u jednu vrednost.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Jednu vrednost, ovde prosek.",
+              "why": "Zbir pa deljenje.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/niz.js",
+          "naslov": "Prag",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Jedna izmena menja koji redovi ostanu.",
+          "kljucnaIdeja": "Editor sme da promeni prag filtera. Ekranski broj i dalje stoji.",
+          "isecakNaslov": "Prag",
+          "isecak": "tacka.temperatura >= prag",
+          "delic": "const prag = 24;",
+          "pitalica": "Ako prag poraste, prosek...",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Uvek ostane isti.",
+              "why": "Manje tačaka uđe u sabiranje.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Računa se iz tačaka iznad novog praga.",
+              "why": "filter bira pre reduce.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/korak.js",
+          "naslov": "Tip",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Broj i tekst istog zapisa nisu ista vrednost.",
+          "kljucnaIdeja": "Rezervna provera je strogo poređenje broja i teksta temperature.",
+          "isecakNaslov": "Tip",
+          "isecak": "24 === \"24\"",
+          "delic": "24 === \"24\" // false",
+          "pitalica": "Šta === kaže?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Tačno, oba su 24.",
+              "why": "Strogo poređenje ne pretvara tip.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Netačno. Broj nije tekst.",
+              "why": "Jedna promena: kopija polja u novi objekat više ne prati izmenu.",
+              "ok": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "naslov": "Događaji povezuju korisnika",
+      "podnaslov": "Klik menja stanje. Poseban kod crta prikaz.",
+      "ishod": "Klik menja stanje. Poseban kod crta prikaz.",
+      "minuta": 90,
+      "problem": "Menjanje objekta menja tekst na stranici…",
+      "pretpostavka": "Objekat ili const sami osvežavaju DOM.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Samo ako postoji kod koji crta prikaz.",
+          "ok": true,
+          "why": "Objekat i ekran su razdvojeni dok crtanje ne pozovemo."
+        },
+        {
+          "key": "B",
+          "text": "Uvek, jer je objekat na stranici.",
+          "ok": false,
+          "why": "Bez poziva crtanja ekran ostaje star."
+        },
+        {
+          "key": "C",
+          "text": "Samo ako je objekat u const.",
+          "ok": false,
+          "why": "const ne crta."
+        }
+      ],
+      "rezerva": {
+        "problem": "Listener dobije funkciju, ili rezultat poziva. Šta čeka klik?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Funkcija čeka klik. Poziv sa zagradama odradi se odmah.",
+            "ok": true,
+            "why": "Zagrade znače poziv sada, ne kasnije."
+          },
+          {
+            "key": "B",
+            "text": "Oba čekaju klik.",
+            "ok": false,
+            "why": "Rezultat poziva nije funkcija koju klik može da zove."
+          }
+        ]
+      },
+      "izlaz": "Ko menja objekat, a ko upisuje broj na ekran?",
+      "pojmoviCasa": [
+        {
+          "id": "dom",
+          "name": "DOM",
+          "hint": "stablo koje browser drži",
+          "body": "DOM je objekat dokumenta u browseru. Crtanje upisuje tekst u to stablo.",
+          "code": "class Displej {\n  crtaj(vrednost) {\n    this.element.textContent = String(vrednost);\n  }\n}"
+        },
+        {
+          "id": "handler",
+          "name": "Handler",
+          "hint": "funkcija na događaj",
+          "body": "Listener čeka događaj ako dobije funkciju. Poziv sa zagradama odradi se odmah.",
+          "code": "dugme.addEventListener(\"click\", nacrtaj);"
+        },
+        {
+          "id": "closure",
+          "name": "Closure",
+          "hint": "unutrašnja funkcija pamti prag",
+          "body": "Sinhrona funkcija vrati funkciju koja i dalje vidi prag. Tajmer nije deo ovog primera.",
+          "code": "function granica(prag) {\n  return (t) => t >= prag;\n}"
+        }
+      ],
+      "steps": [
+        {
+          "putanja": "client/js/prekidac.js",
+          "naslov": "Put klika",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Klik nije još crtež.",
+          "kljucnaIdeja": "Ishod časa je taj put, ne jedan poziv koji radi sve.",
+          "isecakNaslov": "Put klika",
+          "isecak": "klik → handler → stanje → prikaz",
+          "delic": "dugme.addEventListener(\"click\", naKlik);",
+          "pitalica": "Šta je prvi korak posle klika?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Browser sam upiše novi broj.",
+              "why": "Broj čeka posebno crtanje.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Handler. Crtanje je kasnije.",
+              "why": "Put je klik, handler, stanje, prikaz.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/prekidac.js",
+          "naslov": "Funkcija",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Listener dobija funkciju, ne njen rezultat.",
+          "kljucnaIdeja": "Listener sa funkcijom čeka klik.",
+          "isecakNaslov": "Funkcija",
+          "isecak": "addEventListener(\"click\", naKlik)",
+          "delic": "addEventListener(\"click\", naKlik);",
+          "pitalica": "Kada se naKlik zove?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Dok se red registruje.",
+              "why": "Bez zagrada nema poziva sada.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Kad klik stigne.",
+              "why": "Listener čuva funkciju.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/prekidac.js",
+          "naslov": "Poziv odmah",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Zagrade na registraciji znače poziv sada.",
+          "kljucnaIdeja": "Listener sa pozivom dobija povratnu vrednost i klik nema šta da zove.",
+          "isecakNaslov": "Poziv odmah",
+          "isecak": "addEventListener(\"click\", naKlik())",
+          "delic": "addEventListener(\"click\", naKlik());",
+          "pitalica": "Šta klik kasnije ima da zove?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Istu funkciju.",
+              "why": "U listener je ušao rezultat, ne funkcija.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ništa, ako je rezultat undefined.",
+              "why": "Poziv se desio odmah.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/korak.js",
+          "naslov": "Stanje",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Handler menja objekat.",
+          "kljucnaIdeja": "Sledeći korak menja temperaturu u objektu.",
+          "isecakNaslov": "Stanje",
+          "isecak": "korak(soba);",
+          "delic": "korak(soba);",
+          "pitalica": "Da li je ekran već nov?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da, objekat jeste ekran.",
+              "why": "Još nema crtanja.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne. Broj je samo u objektu.",
+              "why": "Prikaz je poseban korak.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Bez crtanja",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Na ovom koraku panel ne zove crtaj.",
+          "kljucnaIdeja": "Izostanak crtanja ostavlja novi broj u stanju i star na ekranu.",
+          "isecakNaslov": "Bez crtanja",
+          "isecak": "soba.temperatura += delta;",
+          "delic": "// crtaj se ne zove",
+          "pitalica": "Šta displej pokaže?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Novi broj, jer se objekat promenio.",
+              "why": "Niko nije upisao tekst.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Stari broj.",
+              "why": "Stanje i prikaz su razdvojeni.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "crtaj",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Klasa upisuje tekst u element.",
+          "kljucnaIdeja": "Displej.crtaj upisuje broj. Ista klasa kasnije dobija i sobu mašina.",
+          "isecakNaslov": "crtaj",
+          "isecak": "class Displej {\n  crtaj(vrednost) {\n    this.element.textContent = String(vrednost);\n  }\n}",
+          "delic": "crtaj(vrednost) {\n  this.element.textContent = String(vrednost);\n}",
+          "pitalica": "Ko upisuje cifre?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Sam objekat sobe.",
+              "why": "Objekat nema element.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Displej.crtaj.",
+              "why": "this je instanca na kojoj je metod pozvan.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/niz.js",
+          "naslov": "Linija",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Isti niz tačaka može da se vidi kao linija.",
+          "kljucnaIdeja": "Linija je slika visina posle filter i map.",
+          "isecakNaslov": "Linija",
+          "isecak": "nacrtajLiniju(platno, visine)",
+          "delic": "nacrtajLiniju(platno, visine);",
+          "pitalica": "Da li linija zameni displej?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da, jedan prikaz je dovoljan.",
+              "why": "Linija je slika visina. Displej je poseban.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne. Oba postoje, svaki crta svoje.",
+              "why": "filter i map pripreme visine.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/prekidac.js",
+          "naslov": "Prekidač",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Klasa pomera natpis, ne temperaturu.",
+          "kljucnaIdeja": "Prekidac.crtaj pomera natpis. Oba su ES6 klase.",
+          "isecakNaslov": "Prekidač",
+          "isecak": "class Prekidac {\n  crtaj(ukljucen) {\n    this.element.textContent = ukljucen ? \"Isključi\" : \"Uključi\";\n  }\n}",
+          "delic": "crtaj(ukljucen) {\n  this.element.textContent = ukljucen ? \"Isključi\" : \"Uključi\";\n}",
+          "pitalica": "Šta crtaj prekidača menja?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Broj temperature.",
+              "why": "To radi Displej.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Natpis željenog stanja.",
+              "why": "Željeno stanje stoji u objektu, natpis na dugmetu.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
+          "naslov": "Forma",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Forma na panelu ne sme da osveži dokument.",
+          "kljucnaIdeja": "Forma na panelu ne osvežava dokument.",
+          "isecakNaslov": "Forma",
+          "isecak": "forma.addEventListener(\"submit\", (e) => e.preventDefault());",
+          "delic": "e.preventDefault();",
+          "pitalica": "Šta submit uradi bez preventDefault?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Ostane na istoj strani i samo promeni broj.",
+              "why": "Podrazumevano šalje formu i učita dokument iznova.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Učita dokument iznova.",
+              "why": "Zaustavljanje submita čuva prikaz.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/niz.js",
+          "naslov": "Closure",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Spoljašnja funkcija vrati unutrašnju i pamti prag.",
+          "kljucnaIdeja": "Closure je sinhrona funkcija koja vrati funkciju i pamti prag.",
+          "isecakNaslov": "Closure",
+          "isecak": "function granica(prag) {\n  return (t) => t >= prag;\n}",
+          "delic": "function granica(prag) {\n  return (t) => t >= prag;\n}",
+          "pitalica": "Šta unutrašnja funkcija i dalje vidi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Samo argumente svog kasnijeg poziva.",
+              "why": "Vidi i prag iz spolja.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Prag koji je granica dobila.",
+              "why": "To je sinhroni closure.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/niz.js",
+          "naslov": "Bez tajmera",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Ovaj primer ne zakazuje posao.",
+          "kljucnaIdeja": "Tajmer nije deo closure primera na trećem času.",
+          "isecakNaslov": "Bez tajmera",
+          "isecak": "const visoka = granica(24);",
+          "delic": "const visoka = granica(24);",
+          "pitalica": "Gde je setTimeout?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Unutar granice, da sačeka prag.",
+              "why": "Tajmer nije deo ovog primera.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Nigde u ovom primeru.",
+              "why": "Poziv je sinhron.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
+          "naslov": "Soba mašina",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Druga soba još nema šta da pokaže.",
+          "kljucnaIdeja": "Soba mašina se ne crta. Fokus stiže i sa tastature.",
+          "isecakNaslov": "Soba mašina",
+          "isecak": "<!-- soba mašina kasnije -->",
+          "delic": "<!-- nema sobe mašina -->",
+          "pitalica": "Da li se ventilator crta?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da, lopatice u sobi prekidača.",
+              "why": "Lopatica nema pre servera.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne. Soba mašina još nije na ekranu.",
+              "why": "Ista klasa Displej čeka drugi čas.",
+              "ok": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "naslov": "Od naivnog prenosa do HTTP-a, pa Node",
+      "podnaslov": "Jedan zahtev i jedan odgovor. Kutija drži temperaturu.",
+      "ishod": "Jedan zahtev i jedan odgovor. Kutija drži temperaturu.",
+      "minuta": 90,
+      "problem": "Handler u Node-u pozove document i ugasi dugme. Šta se desi?",
+      "pretpostavka": "Server vidi isti dokument, ili 404 i ugašen port jesu isto.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Server vrati podatak, a browser menja prikaz kad obradi odgovor.",
+          "ok": true,
+          "why": "DOM ostaje u browseru. Handler vraća JSON ili dokument."
+        },
+        {
+          "key": "B",
+          "text": "Server vidi isto dugme i ugasi ga.",
+          "ok": false,
+          "why": "Poziv DOM-a na serveru ne menja dugme u browseru."
+        },
+        {
+          "key": "C",
+          "text": "404 i ugašen port jesu ista tišina.",
+          "ok": false,
+          "why": "404 ima status. Ugašen port nema HTTP status."
+        }
+      ],
+      "rezerva": {
+        "problem": "Putanja koje nema i ugašen port. Da li je ista greška?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Nije. 404 ima status. Ugašen port nema HTTP status.",
+            "ok": true,
+            "why": "Network razlikuje ta dva reda."
+          },
+          {
+            "key": "B",
+            "text": "Jeste. Oba znače da odgovora nema.",
+            "ok": false,
+            "why": "404 jeste odgovor."
+          }
+        ]
+      },
+      "izlaz": "Čiji je DOM, a ko vraća JSON?",
+      "pojmoviCasa": [
+        {
+          "id": "http",
+          "name": "HTTP zahtev",
+          "hint": "metod, putanja, status",
+          "body": "HTTP daje smisao toku bajtova: metod, putanja, zaglavlja, telo, status. Ovde je to HTTP/1.1.",
+          "code": "GET /api/soba HTTP/1.1\n\nHTTP/1.1 200 OK"
+        },
+        {
+          "id": "json",
+          "name": "JSON",
+          "hint": "tekst, ne objekat",
+          "body": "Telo je tekst. Panel pravi vrednost tek kad pročita taj tekst.",
+          "code": "const tekst = await response.text();\nconst soba = JSON.parse(tekst);"
+        }
+      ],
+      "steps": [
+        {
+          "putanja": "server/server.js",
+          "naslov": "Cela poruka",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Soba prekidača pošalje jednu celu poruku i čeka da stigne cela.",
+          "kljucnaIdeja": "Naivan prenos pretpostavlja celu poruku, redom.",
+          "isecakNaslov": "Cela poruka",
+          "isecak": "pošalji(celaPoruka)",
+          "delic": "pošalji(celaPoruka);",
+          "pitalica": "Šta ovaj prenos pretpostavlja?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da delovi smeju da zamene red.",
+              "why": "To pretpostavka još ne priznaje.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Da poruka stigne cela i redom.",
+              "why": "Naivan prenos.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/server.js",
+          "naslov": "Pad pretpostavke",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Poruka se izgubi, ili dve polovine zamene red.",
+          "kljucnaIdeja": "Pretpostavka padne pre nego što se bilo koji protokol imenuje.",
+          "isecakNaslov": "Pad pretpostavke",
+          "isecak": "polovina B stiže pre polovine A",
+          "delic": "// poruka nije stigla cela",
+          "pitalica": "Šta je time palo?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "HTTP status.",
+              "why": "HTTP još nije imenovan.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Pretpostavka da cela poruka stigne redom.",
+              "why": "Zato treba delovi i redni brojevi.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/server.js",
+          "naslov": "Potvrda",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Popravka još nema ime: delovi, redni brojevi, potvrda prijema.",
+          "kljucnaIdeja": "Delovi, redni brojevi i potvrda prijema popravljaju naivan prenos.",
+          "isecakNaslov": "Potvrda",
+          "isecak": "deo, redniBroj, potvrda",
+          "delic": "potvrdi(redniBroj);",
+          "pitalica": "Šta potvrda kaže pošiljaocu?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Koji je ventilator uključen.",
+              "why": "Smisao zahteva još ne postoji.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Koji deo je primljen.",
+              "why": "Red se popravlja bez imena protokola.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/server.js",
+          "naslov": "TCP",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Tek sada se imenuje pouzdan tok bajtova.",
+          "kljucnaIdeja": "TCP je pouzdan tok bajtova. Još ne znači „uključi ventilator”.",
+          "isecakNaslov": "TCP",
+          "isecak": "TCP",
+          "delic": "// TCP: pouzdan tok bajtova",
+          "pitalica": "Šta TCP garantuje ovde?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da će ventilator biti uključen.",
+              "why": "Tok bajtova nema taj smisao.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Da bajtovi stignu pouzdano i redom.",
+              "why": "Segmentacija TCP-a nije IP fragmentacija.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/server.js",
+          "naslov": "HTTP",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Na tok se stavi metod, putanja, zaglavlja, telo i status.",
+          "kljucnaIdeja": "HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1.",
+          "isecakNaslov": "HTTP",
+          "isecak": "GET /api/soba HTTP/1.1",
+          "delic": "GET /api/soba HTTP/1.1",
+          "pitalica": "Šta HTTP doda na TCP?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Još jedan redni broj.",
+              "why": "Red već drži TCP.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Smisao: šta se traži i koji je status odgovora.",
+              "why": "Metod, putanja, zaglavlja, telo, status.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/server.js",
+          "naslov": "createServer",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Običan Node, nema framework.",
+          "kljucnaIdeja": "http.createServer dolazi pre slušanja porta.",
+          "isecakNaslov": "createServer",
+          "isecak": "const server = http.createServer(obrada);",
+          "delic": "const server = http.createServer(obrada);",
+          "pitalica": "Šta ova linija uradi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Otvori browser.",
+              "why": "Browser je druga strana.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Napravi server koji za svaki zahtev zove obradu.",
+              "why": "Još ne sluša port.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/server.js",
+          "naslov": "listen",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Server kaže na kom portu čeka.",
+          "kljucnaIdeja": "listen otvara port. Zahtev još nije poslat.",
+          "isecakNaslov": "listen",
+          "isecak": "server.listen(8787);",
+          "delic": "server.listen(8787);",
+          "pitalica": "Da li je adresa već u browseru?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da, listen otvori i stranicu.",
+              "why": "listen samo čeka vezu.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne. Port je otvoren, stranicu još niko nije tražio.",
+              "why": "Adresa dolazi sledeća.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/server.js",
+          "naslov": "Komanda",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Proces se podiže iz terminala.",
+          "kljucnaIdeja": "Komanda je node server/server.js. Browser je i dalje poseban korak.",
+          "isecakNaslov": "Komanda",
+          "isecak": "node server/server.js",
+          "delic": "node server/server.js",
+          "pitalica": "Šta ova komanda pokrene?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Samo CSS sobe.",
+              "why": "To nije Node.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Node proces koji sluša port.",
+              "why": "Isti fajl koji ima createServer i listen.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/soba.js",
+          "naslov": "Adresa",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Ista adresa se otvori u browseru, kao stranica, ne iz koda.",
+          "kljucnaIdeja": "Čitanje sobe se prvo otvara direktno u browseru. U telu je JSON tekst.",
+          "isecakNaslov": "Adresa",
+          "isecak": "http://127.0.0.1:8787/api/soba",
+          "delic": "GET /api/soba HTTP/1.1",
+          "pitalica": "Kako čas prvi put vidi čitanje?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Pozivom iz koda stranice.",
+              "why": "Poziv iz koda dolazi kasnije.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Tako što se adresa otvori u browseru.",
+              "why": "Odgovor se vidi i u logu procesa.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/soba.js",
+          "naslov": "Ruta",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Poznata putanja vraća temperaturu i režim.",
+          "kljucnaIdeja": "Poznata putanja vraća temperaturu i režim. Ostale vraćaju 404.",
+          "isecakNaslov": "Ruta",
+          "isecak": "if (putanja === \"/api/soba\") return 200;",
+          "delic": "if (putanja !== \"/api/soba\") return 404;",
+          "pitalica": "Šta nepoznata putanja vrati?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Isti JSON, da panel ne pukne.",
+              "why": "Nepoznata putanja nije soba.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "404.",
+              "why": "Status postoji. To nije ugašen port.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/soba.js",
+          "naslov": "Soba mašina",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Tek sada se crtaju kutija, soba mašina i ventilator.",
+          "kljucnaIdeja": "Ventilator se crta tek kad server radi, i samo u sobi mašina.",
+          "isecakNaslov": "Soba mašina",
+          "isecak": "soba mašina, ventilator priključen",
+          "delic": "<!-- soba mašina -->",
+          "pitalica": "Gde se lopatice vrte?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "U sobi prekidača, od prve nedelje.",
+              "why": "Taj crtež ne postoji.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "U sobi mašina, samo dok je udaljeni režim uključen.",
+              "why": "CSS transformacija pokazuje režim kutije.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/soba.js",
+          "naslov": "Bez Err",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Isečak ovog časa nema granu koja piše Err.",
+          "kljucnaIdeja": "Neuspeh na času 4 ostavlja crte. Dugme Pročitaj šalje jedno čitanje. Sledeći korak na klijentu više nije izvor temperature.",
+          "isecakNaslov": "Bez Err",
+          "isecak": "if (response.ok) displej.textContent = telo.temperatura;",
+          "delic": "if (response.ok) displej.textContent = String(telo.temperatura);",
+          "pitalica": "Šta neuspeh uradi displeju?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Upiše Err.",
+              "why": "Tu grane još nema.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ostavi crte.",
+              "why": "Nema broja za neuspeh i nema reči Err.",
+              "ok": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "naslov": "Čekanje i neuspeh",
+      "podnaslov": "Čekanje, podatak i greška. 200 nije 500, a 500 nije ugašen port.",
+      "ishod": "Čekanje, podatak i greška. 200 nije 500, a 500 nije ugašen port.",
+      "minuta": 90,
+      "problem": "fetch je dobio HTTP 500. Da li je to catch?",
+      "pretpostavka": "Svaki neuspeh je catch, ili 500 znači da odgovora nema.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Odgovor postoji. Uspeh se čita iz statusa.",
+          "ok": true,
+          "why": "500 ne ulazi sam u catch. Ugašen server nema taj odgovor."
+        },
+        {
+          "key": "B",
+          "text": "Svaki neuspeh je catch.",
+          "ok": false,
+          "why": "Status koji nije uspeh i dalje je odgovor."
+        },
+        {
+          "key": "C",
+          "text": "500 znači da odgovora nema.",
+          "ok": false,
+          "why": "Odgovor jeste stigao. Nema ga kad je proces ugašen."
+        }
+      ],
+      "rezerva": {
+        "problem": "Zahtev još čeka. Da li je ceo browser stao?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Nije. await zaustavlja tu funkciju. Drugi klik i dalje važi.",
+            "ok": true,
+            "why": "Čekanje nije blokada browsera."
+          },
+          {
+            "key": "B",
+            "text": "Jeste. Dok odgovor ne stigne, ništa ne prima klik.",
+            "ok": false,
+            "why": "Samo ta funkcija čeka."
+          }
+        ]
+      },
+      "izlaz": "Koja greška ima status, a koja nema odgovor?",
+      "pojmoviCasa": [
+        {
+          "id": "await",
+          "name": "await",
+          "hint": "ova funkcija čeka",
+          "body": "await zaustavlja tu funkciju, ne ceo browser. Drugi klik i dalje važi.",
+          "code": "const response = await fetch(\"/api/soba\");\nif (!response.ok) displej.textContent = \"Err\";"
+        },
+        {
+          "id": "takt",
+          "name": "Takt",
+          "hint": "kutija sama menja broj",
+          "body": "Takt je setInterval u Node procesu. Diže temperaturu dok je režim isključen.",
+          "code": "setInterval(() => {\n  temperatura += ukljucen ? -0.5 : 0.5;\n}, 1000);"
+        }
+      ],
+      "steps": [
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Tri stanja",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Ekran čeka, ima podatak, ili ima grešku.",
+          "kljucnaIdeja": "Dugme učitava temperaturu. Ekran je u jednom od ta tri stanja.",
+          "isecakNaslov": "Tri stanja",
+          "isecak": "čeka | cifre | greška",
+          "delic": "displej.textContent = \"----\";",
+          "pitalica": "Koliko je vidljivih stanja displeja?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Jedno: uvek cifre.",
+              "why": "Čekanje i greška se vide.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Tri.",
+              "why": "Čekanje nije još ni podatak ni greška.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "200",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Uspeh nosi temperaturu i režim.",
+          "kljucnaIdeja": "HTTP 200 sa temperaturom i režimom upisuje cifre.",
+          "isecakNaslov": "200",
+          "isecak": "HTTP/1.1 200 OK\n{\"temperatura\":24,\"ukljucen\":false}",
+          "delic": "if (response.ok) displej.textContent = String(telo.temperatura);",
+          "pitalica": "Šta displej upiše?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Err, jer je broj sa servera.",
+              "why": "200 je uspeh.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Cifre iz tela.",
+              "why": "response.ok jeste uspeh.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "Izvučen kabl",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Pripremljeni 500 jeste ventilator koji nije priključen.",
+          "kljucnaIdeja": "Izvučen ventilator vraća HTTP 500. Odgovor stiže.",
+          "isecakNaslov": "Izvučen kabl",
+          "isecak": "if (!prikljucen) return 500;",
+          "delic": "return { status: 500 };",
+          "pitalica": "Da li je odgovor stigao?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Nije. 500 znači tišinu.",
+              "why": "Status postoji.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Jeste. Status je 500.",
+              "why": "Telo nema temperaturu za displej.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Err",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Završen neuspeh više ne ostavlja crte.",
+          "kljucnaIdeja": "Završen status koji nije uspeh piše Err.",
+          "isecakNaslov": "Err",
+          "isecak": "if (!response.ok) displej.textContent = \"Err\";",
+          "delic": "if (!response.ok) displej.textContent = \"Err\";",
+          "pitalica": "Šta soba prekidača pokaže na 500?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Poslednje cifre, kao da je uspeh.",
+              "why": "Neuspeh ima svoju granu.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Err.",
+              "why": "Nema broja u tom odgovoru.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Nema statusa",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Proces se ugasi. Zahtev nema HTTP status.",
+          "kljucnaIdeja": "Isečak piše Err i za status koji nije uspeh i za izostanak odgovora. Nastavnik tu liniju može da izmeni.",
+          "isecakNaslov": "Nema statusa",
+          "isecak": "catch { displej.textContent = \"Err\"; }",
+          "delic": "catch {\n  displej.textContent = \"Err\";\n}",
+          "pitalica": "Po čemu se ovo razlikuje od 500?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Ni po čemu. Oba su catch.",
+              "why": "500 ima status u Network panelu.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Network nema status. 500 ima status 500.",
+              "why": "Ista reč Err na ekranu ne briše tu razliku.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "fetch",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Čitanje iz koda dolazi tek sada.",
+          "kljucnaIdeja": "Isti zahtev sada polazi iz koda. Protokol je i dalje HTTP/1.1.",
+          "isecakNaslov": "fetch",
+          "isecak": "const response = await fetch(\"/api/soba\");",
+          "delic": "const response = await fetch(\"/api/soba\");",
+          "pitalica": "Da li je fetch prvi način da se soba vidi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da, adresa u browseru ne važi.",
+              "why": "Adresa je bila na času 4.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne. Adresa je već pokazala isti odgovor.",
+              "why": "fetch je poziv iz koda.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Nije catch",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "500 ne skače sam u catch.",
+          "kljucnaIdeja": "500 ne vodi samo po sebi u catch. Odgovor postoji.",
+          "isecakNaslov": "Nije catch",
+          "isecak": "const response = await fetch(\"/api/soba\");\nif (!response.ok) { /* Err */ }",
+          "delic": "if (!response.ok) displej.textContent = \"Err\";",
+          "pitalica": "Gde se 500 vidi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Samo u catch.",
+              "why": "fetch se razreši odgovorom.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "U statusu odgovora.",
+              "why": "Uspeh se čita iz statusa.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "await",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Čekanje stoji unutar jedne funkcije.",
+          "kljucnaIdeja": "await zaustavlja tu funkciju, ne ceo browser.",
+          "isecakNaslov": "await",
+          "isecak": "async function procitaj() {\n  const response = await fetch(\"/api/soba\");\n}",
+          "delic": "const response = await fetch(\"/api/soba\");",
+          "pitalica": "Šta await zaustavi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Ceo browser.",
+              "why": "Drugi klik i dalje važi.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Tu funkciju.",
+              "why": "Ostatak stranice i dalje prima događaje.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/stanje.js",
+          "naslov": "Takt",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Kad await već postoji, u proces ulazi interval.",
+          "kljucnaIdeja": "Takt je setInterval u Node procesu. Nepriključen ventilator ostavlja režim isključen, pa temperatura i dalje raste.",
+          "isecakNaslov": "Takt",
+          "isecak": "setInterval(() => {\n  temperatura += ukljucen ? -0.5 : 0.5;\n}, 1000);",
+          "delic": "setInterval(pomeriTemperaturu, 1000);",
+          "pitalica": "Kad temperatura krene da se menja sama?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Od časa 1.",
+              "why": "Do await-a kutija drži broj miran.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Tek kad interval postoji u procesu.",
+              "why": "Diže dok je režim isključen, spušta dok je uključen.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/stanje.js",
+          "naslov": "Režim isključen",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Kabl je izvučen, prekidač na ekranu kaže uključi.",
+          "kljucnaIdeja": "Soba mašina pokazuje temperaturu koju takt menja. Čitanje i dalje može da vrati 500.",
+          "isecakNaslov": "Režim isključen",
+          "isecak": "ukljucen === false",
+          "delic": "temperatura += ukljucen ? -0.5 : 0.5;",
+          "pitalica": "Šta takt uradi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Spusti temperaturu, jer prekidač tako kaže.",
+              "why": "Režim kutije je isključen.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Diže je. Režim je isključen.",
+              "why": "Prekidač nije režim kutije.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Posle uspeha",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Uspeh upiše cifre. Sledeći neuspeh ih zameni.",
+          "kljucnaIdeja": "Posle HTTP 200 displej čuva poslednje cifre dok browser ponovo ne pročita kutiju.",
+          "isecakNaslov": "Posle uspeha",
+          "isecak": "Err",
+          "delic": "displej.textContent = String(telo.temperatura);",
+          "pitalica": "Šta ostane na displeju posle 200, dok nema novog čitanja?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Crte, jer je čitanje gotovo.",
+              "why": "Cifre ostaju do sledećeg čitanja.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Poslednje cifre.",
+              "why": "Komanda ih ne briše.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Drugi klik",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Prvi zahtev još čeka. Stigne drugi klik.",
+          "kljucnaIdeja": "Drugi klik za vreme čekanja i dalje radi.",
+          "isecakNaslov": "Drugi klik",
+          "isecak": "procitaj(); procitaj();",
+          "delic": "procitaj();\nprocitaj();",
+          "pitalica": "Da li drugi klik važi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Ne, browser je u await-u.",
+              "why": "await nije brava stranice.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Da. Čekanje ne blokira browser.",
+              "why": "Rezerva ako je glavna pitalica već to rekla.",
+              "ok": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "naslov": "Komande i ponavljanje",
+      "podnaslov": "Željeno stanje, provera tela i smisao ponavljanja.",
+      "ishod": "Željeno stanje, provera tela i smisao ponavljanja.",
+      "minuta": 90,
+      "problem": "Koju komandu smemo da pošaljemo dvaput?",
+      "pretpostavka": "Prebacivanje je bezbednije jer vraća nazad, ili forma garantuje telo.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Postavljanje na uključeno.",
+          "ok": true,
+          "why": "Drugi put ostavlja isti željeni efekat."
+        },
+        {
+          "key": "B",
+          "text": "Prebacivanje režima, jer vraća nazad.",
+          "ok": false,
+          "why": "Drugi put poništi prvi efekat."
+        },
+        {
+          "key": "C",
+          "text": "Bilo koju koja vrati 200.",
+          "ok": false,
+          "why": "Status 200 ne znači da ponavljanje ima isti efekat."
+        }
+      ],
+      "rezerva": {
+        "problem": "Telo je {\"ukljucen\":\"da\"}. Šta server vrati?",
+        "options": [
+          {
+            "key": "A",
+            "text": "HTTP 400. Telo nije režim.",
+            "ok": true,
+            "why": "Tekst nije boolean. Forma to ne sprečava."
+          },
+          {
+            "key": "B",
+            "text": "HTTP 200 i režim uključen.",
+            "ok": false,
+            "why": "Server ne pogađa tekst."
+          }
+        ]
+      },
+      "izlaz": "Koja komanda sme dvaput, a koja drugi put poništi efekat?",
+      "pojmoviCasa": [
+        {
+          "id": "zeljeno",
+          "name": "Željeno stanje",
+          "hint": "šta komanda traži",
+          "body": "Komanda šalje uključeno ili isključeno. Uspeh vraća samo režim. Temperatura nije u tom telu.",
+          "code": "PUT /api/ventilator\n{\"ukljucen\":true}"
+        },
+        {
+          "id": "validacija",
+          "name": "Validacija",
+          "hint": "server proverava telo",
+          "body": "Tekst umesto boolean vrednosti dobija HTTP 400. Forma ne sprečava drugačije telo.",
+          "code": "{\"ukljucen\":\"da\"}\n\nHTTP/1.1 400"
+        }
+      ],
+      "steps": [
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "Željeno stanje",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Komanda kaže u kom stanju ventilator treba da bude.",
+          "kljucnaIdeja": "Komanda postavlja ventilator na uključeno ili isključeno.",
+          "isecakNaslov": "Željeno stanje",
+          "isecak": "{ \"ukljucen\": true }",
+          "delic": "ukljucen: true",
+          "pitalica": "Šta telo nosi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Koliko je sada stepeni.",
+              "why": "Temperatura nije u komandi.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Boolean željenog stanja.",
+              "why": "Jedno polje.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "PUT",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Metod i putanja su deo zahteva.",
+          "kljucnaIdeja": "Komanda je PUT /api/ventilator.",
+          "isecakNaslov": "PUT",
+          "isecak": "PUT /api/ventilator",
+          "delic": "PUT /api/ventilator",
+          "pitalica": "Koji je zahtev?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "GET /api/soba",
+              "why": "To je čitanje.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "PUT /api/ventilator",
+              "why": "Telo nosi željeno stanje.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "Jedno polje",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Telo sme da ima samo ukljucen, i to boolean.",
+          "kljucnaIdeja": "Server prima tačno jedno polje ukljucen.",
+          "isecakNaslov": "Jedno polje",
+          "isecak": "Object.keys(telo)",
+          "delic": "typeof telo.ukljucen === \"boolean\"",
+          "pitalica": "Šta prolazi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "{ ukljucen: true, temperatura: 24 }",
+              "why": "Suvišno polje nije režim.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "{ ukljucen: true }",
+              "why": "Tačno jedno boolean polje.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "Samo režim",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Uspeh ne vraća sobu.",
+          "kljucnaIdeja": "Uspešan odgovor nosi samo režim.",
+          "isecakNaslov": "Samo režim",
+          "isecak": "HTTP/1.1 200 OK\n{\"ukljucen\":true}",
+          "delic": "{ \"ukljucen\": true }",
+          "pitalica": "Šta nije u telu?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Režim.",
+              "why": "Režim jeste odgovor.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Temperatura.",
+              "why": "Displej temperature menja samo čitanje.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/prekidac.js",
+          "naslov": "Displej miruje",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Stigao je 200 na komandu.",
+          "kljucnaIdeja": "Komanda ne menja displej sobe prekidača.",
+          "isecakNaslov": "Displej miruje",
+          "isecak": "odgovor: { ukljucen: true }",
+          "delic": "// cifre ostaju",
+          "pitalica": "Šta displej temperature uradi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Upisuje novu temperaturu iz odgovora.",
+              "why": "U odgovoru je nema.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ostaje na poslednjem čitanju.",
+              "why": "Komanda ne crta cifre.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "400",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Neko pošalje tekst umesto boolean vrednosti.",
+          "kljucnaIdeja": "Telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400.",
+          "isecakNaslov": "400",
+          "isecak": "{ \"ukljucen\": \"da\" }",
+          "delic": "return { status: 400 };",
+          "pitalica": "Koji je status?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "200, forma bi to ionako sprečila.",
+              "why": "Forma ne sprečava drugačije telo.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "400. Telo nije režim.",
+              "why": "Režim u kutiji se ne menja.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "Dvaput uključeno",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Ista komanda ode dvaput.",
+          "kljucnaIdeja": "Dva slanja „uključeno” ostavljaju isti željeni efekat.",
+          "isecakNaslov": "Dvaput uključeno",
+          "isecak": "PUT { \"ukljucen\": true }\nPUT { \"ukljucen\": true }",
+          "delic": "ukljucen = true;",
+          "pitalica": "Šta ostane?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Isključeno, jer je drugi put poništio.",
+              "why": "Ovo nije prebacivanje.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Uključeno.",
+              "why": "Postavljanje na isto stanje ostaje.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "Prebacivanje",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Druga komanda samo okrene trenutni režim.",
+          "kljucnaIdeja": "Dva slanja prebacivanja menjaju ishod.",
+          "isecakNaslov": "Prebacivanje",
+          "isecak": "ukljucen = !ukljucen",
+          "delic": "ukljucen = !ukljucen;",
+          "pitalica": "Šta drugi put uradi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Ostavi isti efekat.",
+              "why": "Drugi put poništi prvi.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Vrati prethodno stanje.",
+              "why": "Zato prebacivanje nije bezbedno za ponavljanje.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "200 nije smisao",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Obe komande mogu da vrate 200.",
+          "kljucnaIdeja": "Status 200 ne znači da ponavljanje ima isti efekat.",
+          "isecakNaslov": "200 nije smisao",
+          "isecak": "200 i 200",
+          "delic": "// 200 nije smisao ponavljanja",
+          "pitalica": "Šta status kaže o ponavljanju?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da smeju obe, jer je 200 uspeh.",
+              "why": "Status ne kaže da li drugi put poništava.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ništa o smislu drugog slanja.",
+              "why": "Smisao je u tome šta telo traži.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "Kabl napolju",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Komanda traži uključeno, ventilator nije priključen.",
+          "kljucnaIdeja": "Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500.",
+          "isecakNaslov": "Kabl napolju",
+          "isecak": "return 500",
+          "delic": "if (telo.ukljucen && !prikljucen) return 500;",
+          "pitalica": "Šta lopatice urade?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Krenu, jer prekidač tako kaže.",
+              "why": "Nema kabla. Režim se ne uključi.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne vrte se. Prekidač sme da ostane na uključi.",
+              "why": "Odgovor je 500.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "Granica",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Pomoćni kod za telo ima granicu veličine.",
+          "kljucnaIdeja": "Pomoćni kod odbija prevelik unos i neispravan JSON.",
+          "isecakNaslov": "Granica",
+          "isecak": "if (telo.length > granica) odbij",
+          "delic": "if (preveliko) return 400;",
+          "pitalica": "Šta veliko telo dobije?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "200 i odsečen JSON.",
+              "why": "Neispravan ili prevelik unos se odbija.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Odbijenicu, pre nego što postane režim.",
+              "why": "Režim se ne pogađa iz otpada.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/prekidac.js",
+          "naslov": "Forma nije brava",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Dugme šalje boolean. Alat pošalje nešto drugo.",
+          "kljucnaIdeja": "Forma ne sprečava drugačije telo.",
+          "isecakNaslov": "Forma nije brava",
+          "isecak": "curl -X PUT --data '{\"ukljucen\":\"da\"}'",
+          "delic": "PUT /api/ventilator",
+          "pitalica": "Da li forma to spreči?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da, server vidi samo formu.",
+              "why": "Zahtev mimo ekrana i dalje stiže.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne. Server i dalje proverava telo.",
+              "why": "400 ostaje na serveru.",
+              "ok": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "naslov": "Trajno stanje i Docker",
+      "podnaslov": "Režim i istorija su jedna transakcija.",
+      "ishod": "Režim i istorija su jedna transakcija.",
+      "minuta": 90,
+      "problem": "Režim je upisan, istorija nije. Da li je evidencija cela?",
+      "pretpostavka": "Bitno stanje je sačuvano pa je istorija sporedna, ili kontejner sam čuva oba upisa.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nije, dok oba upisa nisu jedna transakcija.",
+          "ok": true,
+          "why": "Ili oba uspeju, ili se oba povuku."
+        },
+        {
+          "key": "B",
+          "text": "Jeste, istorija je sporedna.",
+          "ok": false,
+          "why": "Istorija je deo evidencije komande."
+        },
+        {
+          "key": "C",
+          "text": "Kontejner sam čuva oba upisa.",
+          "ok": false,
+          "why": "Kontejner ne spaja dva odvojena upita."
+        }
+      ],
+      "rezerva": {
+        "problem": "Gde sme da stoji credential baze?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Na kutiji. Browser ih ne dobija.",
+            "ok": true,
+            "why": "Stranica ne otvara bazu."
+          },
+          {
+            "key": "B",
+            "text": "U odgovoru JSON-a, da panel proveri vezu.",
+            "ok": false,
+            "why": "Credential u browseru više nije tajna kutije."
+          }
+        ]
+      },
+      "izlaz": "Šta restart procesa čuva, a šta brisanje skladišta briše?",
+      "pojmoviCasa": [
+        {
+          "id": "transakcija",
+          "name": "Transakcija",
+          "hint": "oba upisa ili nijedan",
+          "body": "Povezani upis režima i istorije je jedna transakcija. Restart procesa ne spaja odvojene upite.",
+          "code": "BEGIN;\nUPDATE ventilator SET ukljucen = $1;\nINSERT INTO istorija(komanda) VALUES ($2);\nCOMMIT;"
+        }
+      ],
+      "steps": [
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "Parametar",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Vrednost ulazi kao parametar, ne lepljenjem teksta.",
+          "kljucnaIdeja": "Upit je parametrizovan.",
+          "isecakNaslov": "Parametar",
+          "isecak": "UPDATE ventilator SET ukljucen = $1",
+          "delic": "UPDATE ventilator SET ukljucen = $1 WHERE id = 1",
+          "pitalica": "Zašto $1?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da se tekst komande spoji u SQL.",
+              "why": "Lepljenje teksta je drugi čas, kao opomena.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Da vrednost ostane podatak, ne deo upita.",
+              "why": "Upit je parametrizovan.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/baza.js",
+          "naslov": "Dva reda",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Režim i istorija su dva upisa.",
+          "kljucnaIdeja": "Čitanje i izmena režima idu uz zapis komande.",
+          "isecakNaslov": "Dva reda",
+          "isecak": "UPDATE ...\nINSERT INTO istorija ...",
+          "delic": "INSERT INTO istorija (komanda) VALUES ($1)",
+          "pitalica": "Šta evidencija traži?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Samo režim.",
+              "why": "Istorija nije sporedna.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Oba reda.",
+              "why": "Komanda bez istorije nije cela evidencija.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "BEGIN",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Dva upita ulaze u jednu transakciju.",
+          "kljucnaIdeja": "Povezani upis režima i istorije je jedna transakcija.",
+          "isecakNaslov": "BEGIN",
+          "isecak": "BEGIN",
+          "delic": "BEGIN;",
+          "pitalica": "Šta BEGIN otvori?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Novi Node proces.",
+              "why": "Proces već radi.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Transakciju koja još nije potvrđena.",
+              "why": "COMMIT ili ROLLBACK je zatvaraju.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "COMMIT",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Oba upita su prošla.",
+          "kljucnaIdeja": "Ili oba uspeju, ili se oba povuku.",
+          "isecakNaslov": "COMMIT",
+          "isecak": "COMMIT",
+          "delic": "COMMIT;",
+          "pitalica": "Šta posle COMMIT-a važi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Samo do restarta procesa.",
+              "why": "Baza drži red i posle procesa.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Oba reda ostaju.",
+              "why": "Transakcija je uspela.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "ROLLBACK",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Drugi upit u transakciji padne.",
+          "kljucnaIdeja": "Jedna promena: drugi upit ne uspe, pa se prvi povuče.",
+          "isecakNaslov": "ROLLBACK",
+          "isecak": "ROLLBACK",
+          "delic": "ROLLBACK;",
+          "pitalica": "Šta ostane od prvog upita?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Režim, istorija može kasnije.",
+              "why": "Transakcija se povlači cela.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ni režim ni istorija te transakcije.",
+              "why": "Restart ne spaja ono što nije bilo jedna transakcija.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/baza.js",
+          "naslov": "Restart procesa",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Node se ugasi i ponovo podigne. Baza ostane.",
+          "kljucnaIdeja": "Restart samo Node procesa čuva režim upisan u jednoj transakciji.",
+          "isecakNaslov": "Restart procesa",
+          "isecak": "node server/server.js",
+          "delic": "SELECT ukljucen FROM ventilator WHERE id = 1",
+          "pitalica": "Šta sledeće čitanje vidi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Podrazumevano isključeno, proces je nov.",
+              "why": "Uspešna transakcija je u bazi.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Režim iz uspele transakcije.",
+              "why": "Restart samo procesa ne briše bazu.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/baza.js",
+          "naslov": "Dva odvojena upita",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Neko uradi UPDATE, pa kasnije INSERT, bez BEGIN.",
+          "kljucnaIdeja": "Restart ne spaja dva odvojena upita.",
+          "isecakNaslov": "Dva odvojena upita",
+          "isecak": "UPDATE;\n-- proces padne\nINSERT;",
+          "delic": "// nema BEGIN",
+          "pitalica": "Šta restart spoji?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Oba, jer su bila namenjena istoj komandi.",
+              "why": "Namera nije transakcija.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ništa. Odvojeni upiti nisu jedna transakcija.",
+              "why": "Prvi može da ostane bez drugog.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/baza.js",
+          "naslov": "Kontejner",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Kontejner se obriše. Disk baze ostane.",
+          "kljucnaIdeja": "Kontejner sam ne čini upise atomskim ni trajnim.",
+          "isecakNaslov": "Kontejner",
+          "isecak": "docker compose down",
+          "delic": "docker compose down",
+          "pitalica": "Šta nestane?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "I režim, jer je kontejner držao podatak u sebi.",
+              "why": "Trajnost je na disku, ne u imenu kontejnera.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Proces baze. Podatak ostaje ako disk ostane.",
+              "why": "Kontejner nije atomičnost upisa.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/baza.js",
+          "naslov": "Disk",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Obriše se i trajno skladište.",
+          "kljucnaIdeja": "Demonstracija razlikuje restart procesa, uklanjanje kontejnera i uklanjanje trajnog skladišta.",
+          "isecakNaslov": "Disk",
+          "isecak": "volume",
+          "delic": "# volume",
+          "pitalica": "Šta čitanje posle toga vidi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Isti režim. Docker pamti sam.",
+              "why": "Bez diska nema prethodnog reda.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Početno stanje, ne stari režim.",
+              "why": "Volume je bio trajnost.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/baza.js",
+          "naslov": "Credential",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Browser traži sobu.",
+          "kljucnaIdeja": "Browser ne dobija credential baze.",
+          "isecakNaslov": "Credential",
+          "isecak": "GET /api/soba",
+          "delic": "// nema lozinke u JSON-u",
+          "pitalica": "Šta odgovor ne sme da nosi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Temperaturu.",
+              "why": "To jeste čitanje.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Credential baze.",
+              "why": "Oni ostaju na kutiji.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "Put",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Zahtev dođe, upit prođe, rezultat se vrati.",
+          "kljucnaIdeja": "Ishod časa je taj put. Baza ne vidi telo koje nije režim.",
+          "isecakNaslov": "Put",
+          "isecak": "zahtev → upit → rezultat → odgovor",
+          "delic": "if (!teloJeRezim(telo)) return 400;",
+          "pitalica": "Gde je provera tela u tom putu?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "U browseru, pre slanja.",
+              "why": "Browser nije jedina provera.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Na kutiji, pre upisa.",
+              "why": "Loše telo ne otvara transakciju.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/baza.js",
+          "naslov": "Istorija nije sporedna",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Režim jeste upisan, red istorije nije.",
+          "kljucnaIdeja": "Evidencija nije pouzdana dok režim i istorija nisu jedna transakcija.",
+          "isecakNaslov": "Istorija nije sporedna",
+          "isecak": "UPDATE bez INSERT",
+          "delic": "BEGIN; UPDATE; INSERT; COMMIT;",
+          "pitalica": "Da li je evidencija cela?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Jeste. Bitno je samo trenutno stanje.",
+              "why": "Istorija je deo komande.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Nije, dok nisu jedna transakcija.",
+              "why": "Oba ili nijedan.",
+              "ok": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "naslov": "Koliko je prikaz svež",
+      "podnaslov": "Displej čuva poslednje čitanje. Takt ga ne pomera.",
+      "ishod": "Displej čuva poslednje čitanje. Takt ga ne pomera.",
+      "minuta": 90,
+      "problem": "Displej kaže 24 °C, a očitavanje je staro deset minuta. Šta taj broj znači?",
+      "pretpostavka": "Broj na ekranu jeste sadašnja temperatura, ili stariji odgovor sme da pregazi noviji.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Poslednje očitavanje, ne sadašnju temperaturu.",
+          "ok": true,
+          "why": "Broj nosi vrednost i trenutak. Starost je deo prikaza."
+        },
+        {
+          "key": "B",
+          "text": "Sadašnju temperaturu kutije.",
+          "ok": false,
+          "why": "Kutija je u međuvremenu mogla da promeni broj."
+        },
+        {
+          "key": "C",
+          "text": "Stariji odgovor sme da pregazi noviji jer je sa servera.",
+          "ok": false,
+          "why": "Stariji trenutak ne pobedi samo zato što je stigao kasnije."
+        }
+      ],
+      "rezerva": {
+        "problem": "Ikonica je sveža, temperatura je stara deset minuta. Da li dele rok?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Ne moraju. Cache ikonice i cache temperature nisu isti rok.",
+            "ok": true,
+            "why": "Svežina jednog resursa ne važi za drugi."
+          },
+          {
+            "key": "B",
+            "text": "Moraju. Stranica je jedna.",
+            "ok": false,
+            "why": "Stranica sklapa više odgovora."
+          }
+        ]
+      },
+      "izlaz": "Šta broj na ekranu dokazuje o trenutku merenja?",
+      "pojmoviCasa": [
+        {
+          "id": "ocitavanje",
+          "name": "Očitavanje",
+          "hint": "vrednost i trenutak",
+          "body": "Čitanje od ovog časa nosi i trenutak. Displej pokazuje starost.",
+          "code": "{\"temperatura\":24,\"ukljucen\":false,\"trenutak\":\"2026-10-18T08:00:00Z\"}"
+        },
+        {
+          "id": "polling",
+          "name": "Periodično čitanje",
+          "hint": "isto čitanje, samo se ponavlja",
+          "body": "Prekidač odmah pošalje jedno čitanje, pa ga ponavlja.",
+          "code": "procitaj();\nconst id = setInterval(procitaj, 4000);"
+        }
+      ],
+      "steps": [
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Miruje",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Takt u kutiji menja broj. Displej sobe prekidača stoji.",
+          "kljucnaIdeja": "Displej stoji jer ga ne pomera ni takt ni odgovor komande.",
+          "isecakNaslov": "Miruje",
+          "isecak": "displej ostaje 24",
+          "delic": "// cifre čekaju čitanje",
+          "pitalica": "Zašto displej stoji?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Zato što je takt stao.",
+              "why": "Takt i dalje radi u procesu.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Zato što ga ni takt ni komanda ne pomeraju.",
+              "why": "Treba novo čitanje.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/soba.js",
+          "naslov": "Trenutak",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Očitavanje više nije samo broj.",
+          "kljucnaIdeja": "Očitavanje nosi vrednost i trenutak.",
+          "isecakNaslov": "Trenutak",
+          "isecak": "{ temperatura: 24, trenutak }",
+          "delic": "trenutak",
+          "pitalica": "Šta očitavanje nosi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Samo temperaturu.",
+              "why": "Starost se ne vidi iz samog broja.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Vrednost i trenutak.",
+              "why": "Displej može da pokaže starost.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Starost",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Pored cifara stoji trenutak.",
+          "kljucnaIdeja": "Displej pokazuje starost. Broj nije sam od sebe sadašnjost.",
+          "isecakNaslov": "Starost",
+          "isecak": "starost.textContent = trenutak",
+          "delic": "starost.textContent = trenutak;",
+          "pitalica": "Šta 24 od pre deset minuta znači?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Sadašnju temperaturu.",
+              "why": "To je poslednje očitavanje.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Poslednje očitavanje.",
+              "why": "Starost je deo prikaza.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Odmah jedno",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Prekidač periodičnog čitanja se uključi.",
+          "kljucnaIdeja": "Uključivanje odmah pošalje jedno čitanje, pa ga ponavlja.",
+          "isecakNaslov": "Odmah jedno",
+          "isecak": "procitaj();\nsetInterval(procitaj, 4000);",
+          "delic": "procitaj();\nsetInterval(procitaj, 4000);",
+          "pitalica": "Šta se desi u tom trenutku?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Čeka se pun interval, pa prvo čitanje.",
+              "why": "Čas šalje jedno odmah.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ode jedno čitanje odmah, pa se ponavlja.",
+              "why": "Dugme Pročitaj i dalje šalje jedno.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Neuspeo krug",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Jedan krug u nizu dobije 500.",
+          "kljucnaIdeja": "Neuspeo krug piše Err istom granom kao Pročitaj.",
+          "isecakNaslov": "Neuspeo krug",
+          "isecak": "if (!response.ok) displej.textContent = \"Err\"",
+          "delic": "if (!response.ok) displej.textContent = \"Err\";",
+          "pitalica": "Koja grana piše Err?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Nova, samo za periodično čitanje.",
+              "why": "Ista grana kao Pročitaj.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ista kao jedno čitanje.",
+              "why": "Neuspeh je i dalje neuspeh.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Stariji gubi",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Sporiji zahtev, meren ranije, stiže posle bržeg.",
+          "kljucnaIdeja": "Sa proverom, noviji broj ostaje. Bez provere, stariji pregazi ekran.",
+          "isecakNaslov": "Stariji gubi",
+          "isecak": "pristigliTrenutak < poznatiTrenutak",
+          "delic": "if (pristigli < poznati) return;",
+          "pitalica": "Šta ostane na ekranu dok je provera uključena?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Stariji broj, jer je stigao poslednji.",
+              "why": "Poslednji dolazak nije novije merenje.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Noviji broj.",
+              "why": "Stariji trenutak se odbaci.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Komanda nije čitanje",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Stigao je 200 na PUT.",
+          "kljucnaIdeja": "Odgovor komande ne osvežava temperaturu sobe prekidača.",
+          "isecakNaslov": "Komanda nije čitanje",
+          "isecak": "{ ukljucen: true }",
+          "delic": "// PUT ne nosi trenutak čitanja",
+          "pitalica": "Da li se starost temperature osveži?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da, svaki 200 je novo očitavanje.",
+              "why": "U telu nema temperature ni trenutka čitanja.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne. Temperatura čeka novo čitanje.",
+              "why": "Komanda ne upisuje cifre.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Push",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Soba mašina se pomeri iako Pročitaj nije pritisnut.",
+          "kljucnaIdeja": "Push puni samo sobu mašina. Soba prekidača ga ne koristi.",
+          "isecakNaslov": "Push",
+          "isecak": "soba mašina dobije broj",
+          "delic": "// soba prekidača ignoriše push",
+          "pitalica": "Šta push uradi sobi prekidača?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Hrani i sobu prekidača.",
+              "why": "Push puni samo sobu mašina.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ništa. Soba prekidača i dalje čita.",
+              "why": "Ona i dalje čita.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Nema push",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Drugi način da soba prekidača sazna broj ovde se ne gradi.",
+          "kljucnaIdeja": "Displej prekidača i dalje čita. Novi server se ne uvodi.",
+          "isecakNaslov": "Nema push",
+          "isecak": "displej i dalje čita",
+          "delic": "// nema novog servera",
+          "pitalica": "Šta čas od njih napravi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Push na displej prekidača.",
+              "why": "Ovaj čas to ne pravi.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ništa novo. Displej prekidača i dalje čita.",
+              "why": "Čitanje ostaje ovde.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Pročitaj ostaje",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Periodično čitanje je uključeno.",
+          "kljucnaIdeja": "Dugme Pročitaj ostaje.",
+          "isecakNaslov": "Pročitaj ostaje",
+          "isecak": "dugme Pročitaj",
+          "delic": "procitaj();",
+          "pitalica": "Šta Pročitaj i dalje radi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Ništa. Zamenjeno je intervalom.",
+              "why": "Ostaje i šalje jedno čitanje.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Jedno čitanje.",
+              "why": "Interval je poseban prekidač.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Bez provere",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Ista trka, provera isključena.",
+          "kljucnaIdeja": "Jedna promena u editoru uključuje ili isključuje odbacivanje starijeg trenutka.",
+          "isecakNaslov": "Bez provere",
+          "isecak": "uvek upiši pristigli broj",
+          "delic": "return true; // primi i stariji",
+          "pitalica": "Šta stariji odgovor uradi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "I dalje gubi, jer je server poslao oba.",
+              "why": "Bez provere poslednji dolazak pobedi.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Pregazi noviji broj.",
+              "why": "Zato provera postoji.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/displej.js",
+          "naslov": "Dva roka",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Ikonica stila je nova. Temperatura je stara.",
+          "kljucnaIdeja": "Cache ikonice i cache temperature ne moraju isti rok.",
+          "isecakNaslov": "Dva roka",
+          "isecak": "Cache-Control nije jedan rok za sve",
+          "delic": "// dva resursa, dva roka",
+          "pitalica": "Da li dele svežinu?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da, stranica je jedan cache.",
+              "why": "Resursi imaju svoje odgovore.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne moraju.",
+              "why": "Cache ikonice i cache temperature nisu isti rok.",
+              "ok": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "naslov": "Ko sme da upravlja",
+      "podnaslov": "Cookie nosi ključ. Kutija drži ulogu.",
+      "ishod": "Cookie nosi ključ. Kutija drži ulogu.",
+      "minuta": 90,
+      "problem": "Posmatrač nema dugme „Uključi”. Da li je server zaštićen?",
+      "pretpostavka": "Ko ne vidi dugme, ne može da pošalje komandu, ili CORS dokazuje korisnika.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nije. Server proverava ulogu na zahtevu.",
+          "ok": true,
+          "why": "Sakriveno dugme ne zaustavlja komandu mimo ekrana."
+        },
+        {
+          "key": "B",
+          "text": "Jeste, ko ne vidi dugme ne može da pošalje komandu.",
+          "ok": false,
+          "why": "Isti zahtev i dalje stiže."
+        },
+        {
+          "key": "C",
+          "text": "CORS dokazuje ko je korisnik.",
+          "ok": false,
+          "why": "CORS nije autentifikacija."
+        }
+      ],
+      "rezerva": {
+        "problem": "Alat van browsera pročita telo. JS druge stranice ne mora da sme. Šta CORS dokazuje?",
+        "options": [
+          {
+            "key": "A",
+            "text": "JS ne čita telo. To nije dokaz da server ćuti.",
+            "ok": true,
+            "why": "CORS nije autentifikacija. Alat van browsera i dalje čita telo."
+          },
+          {
+            "key": "B",
+            "text": "Da je pozivalac operater.",
+            "ok": false,
+            "why": "Pregledačko pravilo nije uloga na kutiji."
+          }
+        ]
+      },
+      "izlaz": "Gde se proverava pravo: na dugmetu ili na zahtevu?",
+      "pojmoviCasa": [
+        {
+          "id": "sesija",
+          "name": "Sesija",
+          "hint": "ključ u cookie-ju, uloga na kutiji",
+          "body": "Dva ključa stoje u kodu. Svaki je opaque token. HttpOnly cookie ne nosi ime uloge.",
+          "code": "Set-Cookie: sesija=kljuc-posmatraca; HttpOnly"
+        },
+        {
+          "id": "statusi",
+          "name": "401 i 403",
+          "hint": "nema sesije, ili uloga ne sme",
+          "body": "Komanda bez cookie-ja je 401. Posmatrač je 403. Loše telo je 400. Izvučen ventilator je 500.",
+          "code": "nema cookie → 401\nposmatrac → 403\noperater → 200"
+        }
+      ],
+      "steps": [
+        {
+          "putanja": "server/sesija.js",
+          "naslov": "Dva ključa",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "U kodu kutije stoje dva ključa. Svaki je opaque token.",
+          "kljucnaIdeja": "Dve sesije su pripremljene: posmatrač i operater.",
+          "isecakNaslov": "Dva ključa",
+          "isecak": "kljuc-posmatraca\nkljuc-operatera",
+          "delic": "const KLJUC_POSMATRACA = \"kljuc-posmatraca\";",
+          "pitalica": "Šta ključ nije?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Nasumičan niz koji kutija poznaje.",
+              "why": "To jeste.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ime uloge upisano u browseru.",
+              "why": "Uloga nije deo onoga što browser sme da kaže.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/sesija.js",
+          "naslov": "HttpOnly",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Izbor na panelu traži cookie.",
+          "kljucnaIdeja": "Cookie je HttpOnly i nosi opaque token.",
+          "isecakNaslov": "HttpOnly",
+          "isecak": "Set-Cookie: sesija=...; HttpOnly",
+          "delic": "Set-Cookie: sesija=kljuc; HttpOnly",
+          "pitalica": "Šta stranica sme da pročita iz tog cookie-ja?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Ulogu, da sakrije dugme pouzdano.",
+              "why": "HttpOnly se ne čita iz JS-a, a uloga ionako nije u njemu.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ništa iz JS-a. Ključ ostaje u cookie-ju.",
+              "why": "Kutija po ključu nađe ulogu.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/sesija.js",
+          "naslov": "Mapa",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Isti cookie, druga reč u mapi.",
+          "kljucnaIdeja": "Uloga ostaje u mapi na kutiji.",
+          "isecakNaslov": "Mapa",
+          "isecak": "mapa.set(kljuc, uloga)",
+          "delic": "ULOGA_PO_KLJUCU.get(kljuc)",
+          "pitalica": "Kome kutija veruje?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Polju uloga u JSON telu.",
+              "why": "Browser bi to sam napisao.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Svojoj mapi, po ključu iz cookie-ja.",
+              "why": "Ime uloge iz browsera se ne čita.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/soba.js",
+          "naslov": "Čitanje",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Neko traži GET /api/soba bez cookie-ja.",
+          "kljucnaIdeja": "Čitanje ne traži sesiju.",
+          "isecakNaslov": "Čitanje",
+          "isecak": "GET /api/soba",
+          "delic": "GET /api/soba",
+          "pitalica": "Šta čitanje traži?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Sesiju operatera.",
+              "why": "Čitanje ne traži sesiju.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ništa o ulozi.",
+              "why": "Komanda je ta koja proverava.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/sesija.js",
+          "naslov": "401",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Komanda ode bez cookie-ja.",
+          "kljucnaIdeja": "Komanda bez cookie-ja dobija 401.",
+          "isecakNaslov": "401",
+          "isecak": "nema cookie",
+          "delic": "return { status: 401 };",
+          "pitalica": "Koji je status?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "403, kao posmatrač.",
+              "why": "Posmatrač ima ključ.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "401.",
+              "why": "Nema sesije.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/sesija.js",
+          "naslov": "403",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Kolačić je ključ posmatrača.",
+          "kljucnaIdeja": "Komanda posmatrača dobija 403. Režim se ne menja.",
+          "isecakNaslov": "403",
+          "isecak": "uloga === \"posmatrac\"",
+          "delic": "return { status: 403 };",
+          "pitalica": "Koji je status?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "200, dugme je ionako sakriveno.",
+              "why": "Sakriveno dugme nije provera.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "403.",
+              "why": "Uloga ne sme da komanduje.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "400 posle uloge",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Operater pošalje tekst umesto boolean vrednosti.",
+          "kljucnaIdeja": "Tek posle uloge kutija gleda telo: loš unos je 400.",
+          "isecakNaslov": "400 posle uloge",
+          "isecak": "{ \"ukljucen\": \"da\" }",
+          "delic": "if (!teloJeRezim(telo)) return 400;",
+          "pitalica": "Šta se gleda prvo?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Telo. 400 stiže i bez sesije.",
+              "why": "Uloga se gleda pre tela.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Uloga, pa telo. Ovo je 400.",
+              "why": "Loš unos nije 401.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "500 posle uloge",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Operater traži uključeno, kabl je napolju.",
+          "kljucnaIdeja": "Izvučen ventilator je 500 i posle provere uloge.",
+          "isecakNaslov": "500 posle uloge",
+          "isecak": "prikljucen === false",
+          "delic": "return { status: 500 };",
+          "pitalica": "Koji je status?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "403, ventilator se štiti ulogom.",
+              "why": "Uloga je prošla.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "500.",
+              "why": "Izvučen ventilator nije odbijena uloga.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "200 operater",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Operater pošalje { ukljucen: true }, kabl je u kutiji.",
+          "kljucnaIdeja": "Operater dobija 200 i samo režim.",
+          "isecakNaslov": "200 operater",
+          "isecak": "HTTP/1.1 200",
+          "delic": "{ \"ukljucen\": true }",
+          "pitalica": "Šta telo odgovora nosi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Temperaturu i režim.",
+              "why": "Komanda ne vraća temperaturu.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Samo režim.",
+              "why": "Uspeh je 200.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/prekidac.js",
+          "naslov": "Sakriveno dugme",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Dugme se skine sa ekrana. Zahtev i dalje ode.",
+          "kljucnaIdeja": "Dugme može da se sakrije, a zahtev mimo ekrana i dalje stiže.",
+          "isecakNaslov": "Sakriveno dugme",
+          "isecak": "PUT /api/ventilator",
+          "delic": "prekidac.hidden = true;",
+          "pitalica": "Šta sakrivanje uradi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Server više ne prima tu komandu.",
+              "why": "Zahtev mimo ekrana stiže.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ništa na serveru.",
+              "why": "Provera je na zahtevu.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/sesija.js",
+          "naslov": "CORS",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Drugi origin. Browser zabrani JS-u da pročita telo.",
+          "kljucnaIdeja": "Čitanje koje browser zabrani ne dokazuje da server ćuti.",
+          "isecakNaslov": "CORS",
+          "isecak": "Access-Control",
+          "delic": "// CORS nije uloga",
+          "pitalica": "Šta je time dokazano?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Ko je korisnik.",
+              "why": "CORS nije autentifikacija.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Samo šta taj browser dozvoli tom JS-u.",
+              "why": "Alat van browsera i dalje čita telo.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/sesija.js",
+          "naslov": "Redosled",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Četiri odgovora na komandu imaju red.",
+          "kljucnaIdeja": "Red je: nema cookie-ja 401, posmatrač 403, loše telo 400, izvučen ventilator 500, operater 200.",
+          "isecakNaslov": "Redosled",
+          "isecak": "401, 403, 400, 500, 200",
+          "delic": "401 → 403 → 400 → 500 → 200",
+          "pitalica": "Kad stiže 400?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Pre provere cookie-ja.",
+              "why": "Telo se gleda posle uloge.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Posle 401 i 403, a pre 500 izvučenog kabla.",
+              "why": "Uspeh je tek na kraju.",
+              "ok": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "naslov": "Ceo sistem",
+      "podnaslov": "Ekran „uključeno” nije dokaz upisa. Ćutanje nije ni dokaz ni opovrgavanje.",
+      "ishod": "Ekran „uključeno” nije dokaz upisa. Ćutanje nije ni dokaz ni opovrgavanje.",
+      "minuta": 90,
+      "problem": "Ekran kaže „uključeno”, odgovor nije stigao. Šta znamo?",
+      "pretpostavka": "Ćutanje znači da upis nije prošao, ili ekran znači da jeste.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ne znamo ishod upisa. Treba log i ponovno čitanje.",
+          "ok": true,
+          "why": "Ćutanje nije ni dokaz ni opovrgavanje. Ponavljanje zavisi od smisla komande."
+        },
+        {
+          "key": "B",
+          "text": "Upis nije prošao.",
+          "ok": false,
+          "why": "Odgovor može da stigne kasnije, ili da je upis prošao a odgovor izgubljen."
+        },
+        {
+          "key": "C",
+          "text": "Upis jeste prošao, jer ekran tako kaže.",
+          "ok": false,
+          "why": "Ekran može da požuri pre odgovora."
+        }
+      ],
+      "rezerva": null,
+      "izlaz": "Zapiši gde se proverava pravo, gde stoji stanje, i šta izostanak odgovora ne dokazuje.",
+      "pojmoviCasa": [
+        {
+          "id": "tri",
+          "name": "Tri stanja",
+          "hint": "nije stiglo, prošlo je, nije prošlo",
+          "body": "Dok odgovor nije stigao, upis nije ni dokazan ni opovrgnut.",
+          "code": "ekran: uključeno\nodgovor: još nema\n→ čitaj log i sobu"
+        },
+        {
+          "id": "ts",
+          "name": "TypeScript",
+          "hint": "anotacija nije provera uloge",
+          "body": "Anotacija poznatog objekta sobe nije runtime validacija. Tip ne dokazuje ulogu.",
+          "code": "type Soba = { temperatura: number; ukljucen: boolean };"
+        }
+      ],
+      "steps": [
+        {
+          "putanja": "server/server.js",
+          "naslov": "Put",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Jedan zahtev prođe kroz već pripremljene delove.",
+          "kljucnaIdeja": "Demonstracija je jedan zahtev kroz browser, Node i PostgreSQL.",
+          "isecakNaslov": "Put",
+          "isecak": "browser → Node → baza → log",
+          "delic": "browser → Node → baza → log",
+          "pitalica": "Šta čas prati?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Novi deploy na javnu adresu.",
+              "why": "Ceo deployment se ne izvodi uživo.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Jedan zahtev koji već ima gde da se vidi.",
+              "why": "Network i log.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/js/prekidac.js",
+          "naslov": "Ekran požuri",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Natpis kaže uključeno. Odgovor još nije stigao.",
+          "kljucnaIdeja": "Kad ekran kaže uključeno a odgovor nije stigao, ne znamo ishod upisa.",
+          "isecakNaslov": "Ekran požuri",
+          "isecak": "ekran: uključeno\nodgovor: nema",
+          "delic": "// odgovor još nema",
+          "pitalica": "Šta ekran dokazuje o upisu?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da upis jeste prošao.",
+              "why": "Ekran može da se promeni pre odgovora.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ništa o ishodu upisa.",
+              "why": "Treba log i ponovno čitanje.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/baza.js",
+          "naslov": "Tri stanja",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Upis je ili nepoznat, ili prošao, ili nije.",
+          "kljucnaIdeja": "Upis nije ni dokazan ni opovrgnut samim ekranom.",
+          "isecakNaslov": "Tri stanja",
+          "isecak": "nije stiglo | prošlo je | nije prošlo",
+          "delic": "nije stiglo",
+          "pitalica": "U koje stanje spada ćutanje?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Nije prošlo.",
+              "why": "To bi bio zaključak bez odgovora.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Nije stiglo. Ishod je nepoznat.",
+              "why": "Ćutanje nije ni dokaz ni opovrgavanje.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/server.js",
+          "naslov": "Log",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Treba odluka da li komandu ponoviti.",
+          "kljucnaIdeja": "Treba log i ponovno čitanje, pa odluka o ponavljanju.",
+          "isecakNaslov": "Log",
+          "isecak": "log + novo čitanje",
+          "delic": "čitaj log\nGET /api/soba",
+          "pitalica": "Šta je dovoljno pre ponavljanja?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Sam natpis na dugmetu.",
+              "why": "Natpis nije evidencija upisa.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Log i ponovno čitanje sobe.",
+              "why": "Tek onda smisao komande.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "Ponovi prebacivanje",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Komanda koja prebacuje režim možda jeste prošla, odgovor se izgubio.",
+          "kljucnaIdeja": "Slepo ponavljanje komande koja prebacuje režim može da poništi upis.",
+          "isecakNaslov": "Ponovi prebacivanje",
+          "isecak": "ukljucen = !ukljucen",
+          "delic": "ukljucen = !ukljucen;",
+          "pitalica": "Šta slepo ponavljanje može?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Samo da dovrši isto.",
+              "why": "Drugi put poništi upis koji jeste prošao.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Da poništi upis koji jeste prošao.",
+              "why": "Zato smisao komande ulazi u odluku.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "Ponovi postavljanje",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Ista komanda kaže uključeno, dvaput.",
+          "kljucnaIdeja": "Ponovljeno postavljanje na uključeno ostavlja isti željeni efekat.",
+          "isecakNaslov": "Ponovi postavljanje",
+          "isecak": "{ \"ukljucen\": true }",
+          "delic": "{ \"ukljucen\": true }",
+          "pitalica": "Šta drugi put ostavi, ako je prvi prošao?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Suprotan režim.",
+              "why": "Ovo nije prebacivanje.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Isti željeni efekat.",
+              "why": "Ponavljanje postavljanja ne okreće režim.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/soba.js",
+          "naslov": "Anotacija",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Objekat sobe dobije tip.",
+          "kljucnaIdeja": "TypeScript je anotacija poznatog objekta sobe. Nema posebnog TS zadatka.",
+          "isecakNaslov": "Anotacija",
+          "isecak": "type Soba = { temperatura: number; ukljucen: boolean };",
+          "delic": "type Soba = { temperatura: number; ukljucen: boolean };",
+          "pitalica": "Šta tip proveri dok proces radi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Ulogu operatera na zahtevu.",
+              "why": "Tip nije provera uloge.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ništa u toku zahteva. To je anotacija.",
+              "why": "Statička provera nije runtime validacija.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/ventilator.js",
+          "naslov": "Runtime",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Telo i dalje stiže kao JSON tekst.",
+          "kljucnaIdeja": "Statička provera nije runtime validacija.",
+          "isecakNaslov": "Runtime",
+          "isecak": "teloJeRezim(telo)",
+          "delic": "if (!teloJeRezim(telo)) return 400;",
+          "pitalica": "Šta i dalje odbija tekst „da”?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Anotacija Soba.",
+              "why": "Anotacija ne radi u zahtevu.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Provera na kutiji, u toku zahteva.",
+              "why": "To ostaje 400.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/server.js",
+          "naslov": "Adrese",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Na dijagramu stoje dve adrese.",
+          "kljucnaIdeja": "Lokalna i javna adresa stoje na dijagramu. Ceo deployment se ne izvodi.",
+          "isecakNaslov": "Adrese",
+          "isecak": "127.0.0.1 i javna adresa",
+          "delic": "// dijagram, ne deploy",
+          "pitalica": "Šta se uživo ne radi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Jedan zahtev na lokalnom Node-u.",
+              "why": "To jeste demonstracija.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ceo deployment.",
+              "why": "Jedan namerni neuspeh je dovoljan.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/server.js",
+          "naslov": "Jedan neuspeh",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Dovoljno je da jedan zahtev namerno ne uspe.",
+          "kljucnaIdeja": "Jedan namerni neuspeh je dovoljan.",
+          "isecakNaslov": "Jedan neuspeh",
+          "isecak": "500 ili nema statusa",
+          "delic": "// jedan zahtev",
+          "pitalica": "Šta taj neuspeh pokaže?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da je ceo sistem oboren.",
+              "why": "Jedan zahtev nije deploy.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Gde se vidi razlika između odgovora i ćutanja.",
+              "why": "Network i log.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "client/index.html",
+          "naslov": "Izlaz",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Nema opcija i nema polja. Rečenica stoji na kraju časa.",
+          "kljucnaIdeja": "Izlaz je rečenica, bez opcija, bez pečata i bez polja.",
+          "isecakNaslov": "Izlaz",
+          "isecak": "gde je pravo, gde je stanje, šta ćutanje ne dokazuje",
+          "delic": "gde je pravo\ngde je stanje\nšta ćutanje ne dokazuje",
+          "pitalica": "Šta izlaz nema?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Mesto za upis.",
+              "why": "Nema polja.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Pečat i opcije.",
+              "why": "Nema glasanja i nema polja.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "putanja": "server/server.js",
+          "naslov": "Jedna soba",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tekst": "Tip i predlog asistenta ostanu rečenica, bez novog glasanja.",
+          "kljucnaIdeja": "Nema druge pitalice. Panel i dalje ima jednu temperaturu i jedan ventilator.",
+          "isecakNaslov": "Jedna soba",
+          "isecak": "jedna temperatura, jedan ventilator",
+          "delic": "// nema drugog glasanja",
+          "pitalica": "Ako je glavna diskusija potrošila vreme, rezerva o tipu...",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Postane druga pitalica sa pečatom.",
+              "why": "Nema drugog glasanja.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ostane rečenica u času.",
+              "why": "Panel ima jednu temperaturu i jedan ventilator.",
+              "ok": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

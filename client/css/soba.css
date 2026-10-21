@@ -1,3 +1,20 @@
+@font-face {
+  font-family: "Digital-7 Mono";
+  src: url("/client/assets/fonts/digital-7/digital-7%20(mono).ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+}
+
+.digit {
+  font-family: "Digital-7 Mono", ui-monospace, monospace;
+  font-style: normal;
+  font-size: 4.4rem;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  color: var(--amber);
+}
+
 .blades.spin {
   animation-duration: 1.2s;
 }

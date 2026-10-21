@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="sr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Studio</title>
+    <script>
+      try {
+        var mapa = { tamna: "ugalj", svetla: "pesak", mornar: "mornar", ugalj: "ugalj", pesak: "pesak", terakota: "terakota" };
+        var tema = mapa[localStorage.getItem("tema")];
+        if (tema) document.documentElement.dataset.tema = tema;
+      } catch (e) {}
+    </script>
+    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="stylesheet" href="/css/studio.css" />
+  </head>
+  <body class="studio-tela">
+    <header class="studio-top">
+      <a class="brand" href="/studio">Studio</a>
+      <p id="ime-kursa"></p>
+      <p id="stanje" class="stanje" role="status"></p>
+      <p id="poruka" class="poruka" role="status"></p>
+      <label class="kao-dugme" for="fajl">Učitaj</label>
+      <input id="fajl" type="file" accept="application/json,.json" hidden />
+      <button type="button" id="preuzmi">Preuzmi</button>
+      <button type="button" id="sacuvaj" class="primarno">Sačuvaj</button>
+      <a class="kao-dugme" href="/">Čas</a>
+    </header>
+    <div id="nacrt" class="banner" hidden>
+      <p>U browseru stoji nacrt koji nije u kurs.json.</p>
+      <button type="button" id="vrati-nacrt">Vrati nacrt</button>
+      <button type="button" id="odbaci-nacrt">Odbaci</button>
+    </div>
+    <div id="studio" class="studio">
+      <nav id="spisak" class="spisak" aria-label="Nedelje i koraci"></nav>
+      <main id="rad" class="rad"></main>
+    </div>
+    <script type="module" src="/js/studio-strana.js"></script>
+  </body>
+</html>

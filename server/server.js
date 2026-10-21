@@ -4,15 +4,22 @@ const path = require("path");
 const vm = require("vm");
 const { state, dovodi, trenutnoStanje, objaviStanje } = require("./stanje");
 const { pripremiBazu, dohvatiBazu } = require("./baza");
+const { dokumentJeKurs } = require("./kurs");
 
 const PODRAZUMEVANI_PORT = 8787;
 const GRANICA_JSON = 4096;
+const GRANICA_KURSA = 2000000;
 const GRANICA_IZVORA = 200000;
 const NAJDUZA_PUTANJA = 200;
 const PORT = Number(process.env.PORT) || PODRAZUMEVANI_PORT;
 const SAJT = path.join(__dirname, "..", "site");
+const KURS = process.env.KURS_DATOTEKA
+  ? path.resolve(process.env.KURS_DATOTEKA)
+  : path.join(SAJT, "kurs.json");
 const KLIJENT = path.join(__dirname, "..", "client");
-const FONT = path.join(__dirname, "..", "assets", "fonts", "digital-7", "digital-7 (mono).ttf");
+const FONT = path.join(KLIJENT, "assets", "fonts", "digital-7", "digital-7 (mono).ttf");
+const NAPOMENA_BINARNOG = "Binarni fajl. Pregledač ga učitava kao fajl, ne kao tekst.";
+const TEKSTUALNI = new Set([".html", ".css", ".js", ".mjs", ".json", ".md", ".txt", ".svg"]);
 const KORENI = { client: KLIJENT, server: __dirname };
 const MODULI_PO_ZAHTEVU = new Set(["soba.js", "ventilator.js", "sesija.js"]);
 const MODULI_PRI_POKRETANJU = new Set(["server.js", "stanje.js", "baza.js"]);
@@ -22,6 +29,8 @@ const TIPOVI = {
   ".js": "text/javascript; charset=utf-8",
   ".ttf": "font/ttf",
   ".svg": "image/svg+xml",
+  ".png": "image/png",
+  ".json": "application/json",
 };
 
 function ucitajModul(ime) {
@@ -129,6 +138,10 @@ function fajlJeCitljiv(fajl) {
   return Boolean(fajl) && fs.existsSync(fajl) && fs.statSync(fajl).isFile();
 }
 
+function fajlJeBinaran(fajl) {
+  return !TEKSTUALNI.has(path.extname(fajl).toLowerCase());
+}
+
 function osveziModul(fajl) {
   if (!MODULI_PO_ZAHTEVU.has(path.basename(fajl))) return;
   delete require.cache[require.resolve(fajl)];
@@ -191,6 +204,10 @@ function procitajFajl(odgovor, url) {
     posaljiJson(odgovor, 404, { greska: "nema fajla" });
     return;
   }
+  if (fajlJeBinaran(fajl)) {
+    posaljiJson(odgovor, 200, { binarni: true, napomena: NAPOMENA_BINARNOG });
+    return;
+  }
   posaljiJson(odgovor, 200, { izvor: fs.readFileSync(fajl, "utf8") });
 }
 
@@ -199,6 +216,10 @@ async function sacuvajFajl(zahtev, odgovor) {
   const fajl = putanjaFajla(telo.strana, telo.put);
   if (!fajlJeCitljiv(fajl)) {
     posaljiJson(odgovor, 404, { greska: "nema fajla" });
+    return;
+  }
+  if (fajlJeBinaran(fajl)) {
+    posaljiJson(odgovor, 400, { greska: "binarni fajl se ne upisuje kao tekst" });
     return;
   }
   if (typeof telo.izvor !== "string") {
@@ -320,6 +341,34 @@ function stranicaKlijenta(odgovor, url) {
   posaljiFajl(odgovor, fajl);
 }
 
+function pojmovnik(odgovor) {
+  fs.readFile(path.join(__dirname, "..", "GLOSSARY.md"), (greska, sadrzaj) => {
+    if (greska) {
+      odgovor.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
+      odgovor.end("nema");
+      return;
+    }
+    odgovor.writeHead(200, { "content-type": "text/plain; charset=utf-8", "cache-control": "no-store" });
+    odgovor.end(sadrzaj);
+  });
+}
+
+async function sacuvajKurs(zahtev, odgovor) {
+  const tekst = await procitajTelo(zahtev, GRANICA_KURSA);
+  let kurs;
+  try {
+    kurs = JSON.parse(tekst);
+  } catch {
+    return posaljiJson(odgovor, 400, { greska: "neispravan json" });
+  }
+  if (!dokumentJeKurs(kurs)) return posaljiJson(odgovor, 400, { greska: "dokument nije kurs" });
+  const telo = `${JSON.stringify(kurs, null, 2)}\n`;
+  const privremeno = path.join(path.dirname(KURS), ".kurs-studio.tmp");
+  fs.writeFileSync(privremeno, telo);
+  fs.renameSync(privremeno, KURS);
+  return posaljiJson(odgovor, 200, { ok: true });
+}
+
 function stranicaSajta(odgovor, url) {
   const relativna = url.pathname === "/" ? "/index.html" : url.pathname;
   const fajl = path.normalize(path.join(SAJT, relativna));
@@ -333,6 +382,10 @@ function stranicaSajta(odgovor, url) {
 
 async function razvrstaj(zahtev, odgovor) {
   const url = new URL(zahtev.url, `http://${zahtev.headers.host}`);
+  if (zahtev.method === "PUT" && url.pathname === "/api/kurs") return sacuvajKurs(zahtev, odgovor);
+  if (zahtev.method === "GET" && (url.pathname === "/studio" || url.pathname === "/studio/")) {
+    return posaljiFajl(odgovor, path.join(SAJT, "studio.html"));
+  }
   if (zahtev.method === "GET" && url.pathname === "/api/soba") return citanjeSobe(odgovor, url);
   if (zahtev.method === "PUT" && url.pathname === "/api/ventilator") return komandaVentilatora(zahtev, odgovor);
   if (zahtev.method === "GET" && url.pathname === "/api/stablo") return stablo(odgovor, url);
@@ -345,6 +398,7 @@ async function razvrstaj(zahtev, odgovor) {
   if (zahtev.method === "POST" && url.pathname === "/api/uloge") return postaviUloge(zahtev, odgovor);
   if (zahtev.method === "POST" && url.pathname === "/api/baza") return postaviBazu(zahtev, odgovor);
   if (zahtev.method === "GET" && url.pathname === "/dovod") return otvoriDovod(zahtev, odgovor);
+  if (zahtev.method === "GET" && url.pathname === "/pojmovnik") return pojmovnik(odgovor);
   if (zahtev.method === "GET" && url.pathname === "/fonts/digital-7-mono.ttf") return posaljiFajl(odgovor, FONT);
   if (zahtev.method === "GET" && url.pathname.startsWith("/client/")) return stranicaKlijenta(odgovor, url);
   if (zahtev.method === "GET") return stranicaSajta(odgovor, url);
@@ -365,6 +419,6 @@ pripremiBazu()
   })
   .finally(() => {
     server.listen(PORT, "0.0.0.0", () => {
-      console.log(`kontrolna soba http://127.0.0.1:${PORT}`);
+      console.log(`Web Programiranje http://127.0.0.1:${PORT}`);
     });
   });
