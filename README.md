@@ -46,7 +46,7 @@ Panel raste sa časom. Do četvrte nedelje živi u browseru, u `client/`. Od če
 | 4 | Od naivnog prenosa do HTTP-a, pa Node | Jedan zahtev i jedan odgovor. Kutija drži temperaturu. |
 | 5 | Čekanje i neuspeh | Čekanje, podatak i greška. 200 nije 500, a 500 nije ugašen port. |
 | 6 | Komande i ponavljanje | Željeno stanje, provera tela i smisao ponavljanja. |
-| 7 | Trajno stanje i Docker | Režim i istorija su jedna celina upisa. |
+| 7 | Trajno stanje i Docker | Režim i istorija su jedna transakcija. |
 | 8 | Koliko je prikaz svež | Displej čuva poslednje čitanje. Takt ga ne pomera. |
 | 9 | Ko sme da upravlja | Cookie nosi ključ. Kutija drži ulogu. |
 | 10 | Ceo sistem | Ekran „uključeno” nije dokaz upisa. Ćutanje nije ni dokaz ni opovrgavanje. |

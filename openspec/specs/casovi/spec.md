@@ -343,7 +343,7 @@ Week 1 MUST be titled Zašto je Web nastao and MUST contain exactly the 20 steps
 
 #### Scenario: Twenty story steps
 - **WHEN** the teacher opens week 1
-- **THEN** the steps are LO, Paket, TCP i UDP, Internet, Hipertekst, Predlog, HTML, W3C, Rat browsera, XML, Deset dana, ECMA, Bez dodatka, Web 2.0, Ajax, Striming, Ekonomija, Društvo, Web 3.0, and Dokument, in that order
+- **THEN** the steps are LO, Paket, TCP i UDP, Internet, Hipertekst, Predlog, HTML, W3C, Rat browsera, XML, Deset dana, ECMA, Bez plugina, Web 2.0, Ajax, Streaming, Ekonomija, Društvo, Web 3.0, and Dokument, in that order
 
 #### Scenario: Minutes sum to the budget
 - **WHEN** the shipped week 1 is read
@@ -407,7 +407,7 @@ XML MUST tell that two programs can exchange a tree without agreeing on a screen
 - **WHEN** the teacher reveals the XML quiz
 - **THEN** the marked answer says XML carries a record, not a page layout
 ### Requirement: JavaScript i ECMA
-Deset dana MUST tell that Brendan Eich wrote the language in ten days in May 1995, that the names were Mocha, then LiveScript, then JavaScript, and that it is not Java. ECMA MUST tell that JavaScript is a trademark and ECMA-262 names the language ECMAScript, and that ES3, ES5, and ES6 are the same word in different years. The step MUST NOT teach the standard's grammar. Bez dodatka MUST tell that applets, Flash, and Silverlight asked for a plugin and the script was already in the page.
+Deset dana MUST tell that Brendan Eich wrote the language in ten days in May 1995, that the names were Mocha, then LiveScript, then JavaScript, and that it is not Java. ECMA MUST tell that JavaScript is a trademark and ECMA-262 names the language ECMAScript, and that ES3, ES5, and ES6 are the same word in different years. The step MUST NOT teach the standard's grammar. Bez plugina MUST tell that applets, Flash, and Silverlight asked for a plugin and the script was already in the page.
 
 #### Scenario: The name is not Java
 - **WHEN** the teacher reveals the Deset dana quiz
@@ -418,7 +418,7 @@ Deset dana MUST tell that Brendan Eich wrote the language in ten days in May 199
 - **THEN** the marked answer says the standard name is ECMAScript
 
 #### Scenario: Already in the page
-- **WHEN** the teacher reveals the Bez dodatka quiz
+- **WHEN** the teacher reveals the Bez plugina quiz
 - **THEN** the marked answer says the language won because it was already in the page
 ### Requirement: Web 2.0 i Ajax
 Web 2.0 MUST tell that the reader becomes an author, naming the 1999 coinage, the 2004 popularization, and Wikipedia. Ajax MUST tell that Garrett named the pattern in February 2005 and that Gmail and Maps keep the document while a request updates a piece. The step MUST say a web application is not a presentation site.
@@ -430,11 +430,11 @@ Web 2.0 MUST tell that the reader becomes an author, naming the 1999 coinage, th
 #### Scenario: The document stays
 - **WHEN** the teacher reveals the Ajax quiz
 - **THEN** the marked answer says the document stays and a request updates a piece
-### Requirement: Striming, ekonomija i društvo
-Striming MUST tell YouTube in 2005 and Netflix leaving discs, and MUST tie a dropped frame back to UDP and a transfer that cannot drop a byte back to TCP. Ekonomija MUST tell that a copy no longer costs a printing and that a listing outlives a newspaper ad. Društvo MUST tell the 1993 Eternal September and Britannica ending print in 2012.
+### Requirement: Streaming, ekonomija i društvo
+Streaming MUST tell YouTube in 2005 and Netflix leaving discs, and MUST tie a dropped frame back to UDP and a transfer that cannot drop a byte back to TCP. Ekonomija MUST tell that a copy no longer costs a printing and that a listing outlives a newspaper ad. Društvo MUST tell the 1993 Eternal September and Britannica ending print in 2012.
 
 #### Scenario: Play starts early
-- **WHEN** the teacher reveals the Striming quiz
+- **WHEN** the teacher reveals the Streaming quiz
 - **THEN** the marked answer says playback can start before the whole file arrives
 
 #### Scenario: The listing outlives the paper

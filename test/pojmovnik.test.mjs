@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "../site/js/pojmovnik.js";
+import { dokument } from "../site/js/lectures.js";
 
 const markdown = fs.readFileSync(new URL("../GLOSSARY.md", import.meta.url), "utf8");
 const pojmovi = pojmoviIzTeksta(markdown);
@@ -38,6 +39,26 @@ test("pogodak deli nedelje i ćuti kad glave nema", () => {
   assert.deepEqual(pogodak.prvi, { nedelja: 1, korak: 0 });
   assert.deepEqual(lekcijePojma(kurs, "Operater").nedelje, []);
   assert.equal(lekcijePojma(kurs, "Operater").prvi, null);
+});
+
+test("termini gradiva izbegavaju kalk i javljaju se u kursu", () => {
+  const trazi = (ime) => pojmovi.find((pojam) => pojam.ime === ime);
+  const blockchain = trazi("blockchain");
+  const veza = trazi("veza od kraja do kraja");
+  const token = trazi("opaque token");
+  const transakcija = trazi("Transakcija");
+  assert.match(blockchain.izbegava, /Knjiga na lancu/);
+  assert.match(blockchain.izbegava, /lanac blokova/);
+  assert.match(veza.izbegava, /Žica/);
+  assert.match(token.izbegava, /Neprozirni ključ/);
+  assert.match(transakcija.izbegava, /celina upisa/);
+  assert.match(trazi("flag day").izbegava, /Dan zastave/);
+  assert.match(trazi("cookie").izbegava, /Kolačić/);
+  assert.match(trazi("cache").izbegava, /Keš/);
+  assert.match(trazi("push").izbegava, /Dovod/);
+  assert.equal(lekcijePojma(dokument, "blockchain").nedelje.includes(1), true);
+  assert.equal(lekcijePojma(dokument, "veza od kraja do kraja").prvi.korak >= 0, true);
+  assert.equal(lekcijePojma(dokument, "Žica").nedelje.length, 0);
 });
 
 test("pitanje koje počinje upitom vraća svoj korak", () => {

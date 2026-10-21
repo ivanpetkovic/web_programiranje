@@ -103,8 +103,73 @@ Displej sobe prekidača. Pre prvog uspelog čitanja pokazuje crte. Uspešno čit
 _Avoid_: Displej sobe mašina, prekidač.
 
 **Sesija**:
-Pripremljeni par ključa i uloge. Browser drži ključ, kutija drži ulogu.
-_Avoid_: Nalog, prijava, lozinka.
+Pripremljeni par ključa i uloge. Ključ je opaque token: browser ga drži, kutija drži ulogu.
+_Avoid_: Nalog, prijava, lozinka, neprozirni ključ.
+
+**Transakcija**:
+Upis režima i istorije koji ili oba uspeju, ili se oba povuku.
+_Avoid_: Celina, celina upisa.
+
+## Termini gradiva
+
+**veza od kraja do kraja**:
+Rezervisana veza kojom cela poruka ide jednim putem. Paket je ne traži.
+_Avoid_: Žica.
+
+**flag day**:
+Dan kad sve mreže prelaze na isti protokol. Za Internet je to 1. januar 1983.
+_Avoid_: Dan zastave.
+
+**plugin**:
+Program koji se instalira pored stranice da bi jezik uopšte radio.
+_Avoid_: Dodatak.
+
+**streaming**:
+Prenos u kome slika krene pre poslednjeg bajta.
+_Avoid_: Striming.
+
+**Eternal September**:
+Trenutak kad zatvoren klub postane javan. Za Usenet je to septembar 1993.
+_Avoid_: Večni septembar.
+
+**blockchain**:
+Zapis koji više strana drži u lancu. Nije Internet i nije stranica.
+_Avoid_: Knjiga na lancu, lanac blokova.
+
+**ledger**:
+Zapis koji strana drži. Banka drži svoj. Više strana može da drži isti.
+_Avoid_: Knjiga.
+
+**white paper**:
+Dokument koji predlaže sistem. Bitcoinov je iz oktobra 2008.
+_Avoid_: Beli papir.
+
+**cookie**:
+HttpOnly zapis koji browser nosi kutiji. Ne nosi ime uloge.
+_Avoid_: Kolačić.
+
+**cache**:
+Sačuvan odgovor sa svojim rokom. Ikonica i temperatura ne dele rok.
+_Avoid_: Keš.
+
+**credential**:
+Podatak kojim se kutija javlja bazi. Browser ga ne dobija.
+_Avoid_: Kredencijal.
+
+**push**:
+Poruka kutije ka browseru, bez novog čitanja. Ide u sobu mašina.
+_Avoid_: Dovod, guranje.
+
+**opaque token**:
+Ključ sesije koji browser nosi, a ne čita. Kutija po njemu nađe ulogu.
+_Avoid_: Neprozirni ključ.
+
+**klijent**:
+Deo koji browser učita. Na času je tab Klijent.
+_Avoid_: Front.
+
+**framework**:
+Tuđi skelet servera. Kurs ga ne uvodi.
 
 **Posmatrač**:
 Uloga koja sme da pregleda stanje kontrolne sobe, ali ne i da upravlja ventilatorom.
