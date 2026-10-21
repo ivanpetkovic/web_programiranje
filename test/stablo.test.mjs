@@ -14,11 +14,11 @@ function indeks(naslov) {
   return nadjen;
 }
 
-test("podela drži samo skicu, ne poslednji index.html", () => {
+test("podela drži prazan index.html, ne poslednji fajl sa diska", () => {
   const stablo = stabloDo(koraci, indeks("Podela"));
   assert.deepEqual(fajloviStrane(stablo, "client"), ["index.html"]);
   assert.equal(fajloviStrane(stablo, "server").length, 0);
-  assert.equal(stablo.verzije["client/index.html"], "client/\nserver/\n");
+  assert.equal(stablo.verzije["client/index.html"], "");
   assert.equal(stablo.verzije["client/index.html"].includes("<script"), false);
   assert.notEqual(stablo.verzije["client/index.html"].trim(), diskHtml.trim());
 });

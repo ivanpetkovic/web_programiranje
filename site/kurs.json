@@ -719,9 +719,9 @@
           "tekst": "Dva foldera stoje jedan pored drugog pre ijedne funkcije.",
           "kljucnaIdeja": "client/ je ono što browser učita. server/ još nema fajlove.",
           "isecakNaslov": "Podela",
-          "isecak": "client/\nserver/",
-          "delic": "client/\nserver/",
-          "original": "client/\nserver/\n",
+          "isecak": "",
+          "delic": "",
+          "original": "",
           "pitalica": "Šta browser učitava na ovom času?",
           "opcije": [
             {

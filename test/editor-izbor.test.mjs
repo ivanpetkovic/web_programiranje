@@ -171,11 +171,22 @@ async function otvoriStranu(port) {
 function stanjeEditora() {
   const sadrzaj = document.querySelector(".cm-content");
   const otvoren = document.querySelector("#tree button[aria-current='true']");
+  const soba = document.querySelector("#soba-prekidaca");
+  const naslov = soba?.querySelector("h2");
+  const cifra = document.querySelector("#displej");
+  const dugme = document.querySelector("#prekidac");
+  const vidljivo = (el) => (el && !el.hidden ? el.textContent : "");
   return {
     putanja: document.querySelector("#putanja")?.textContent || "",
     otvoren: otvoren?.dataset.put || "",
     tekst: sadrzaj ? sadrzaj.innerText.replace(/\s+$/g, "") : "",
     spreman: Boolean(sadrzaj && document.querySelector("#birac-meni button")),
+    pregled: {
+      soba: Boolean(soba?.hidden),
+      naslov: vidljivo(naslov),
+      cifra: vidljivo(cifra),
+      dugme: vidljivo(dugme),
+    },
   };
 }
 
@@ -208,6 +219,10 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
     await cekajHttp(`http://127.0.0.1:${portSajta}/`);
     strana = await otvoriStranu(portChrome);
     await strana.idi(`http://127.0.0.1:${portSajta}/#cas-2`);
+    await strana.vrednost(
+      `localStorage.setItem("radnaVerzija", ${JSON.stringify(JSON.stringify({ "client/index.html": "client/\nserver/\n" }))})`,
+    );
+    await strana.idi(`http://127.0.0.1:${portSajta}/?skica=1#cas-2`);
     const kurs = JSON.parse(readFileSync(path.join(koren, "site/kurs.json"), "utf8"));
     const prva = kurs.nedelje[1].steps;
     const htmlKoraka = prva.find((korak) => korak.naslov === "Stranica").original.trim();
@@ -230,13 +245,27 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
     await strana.vrednost(`document.querySelector('#tab-editor').click()`);
     await strana.vrednost(klikNaKorak("Podela"));
     const podela = await sačekaj(
-      (s) => s.spreman && s.putanja === "client/index.html" && s.tekst.includes("server/"),
+      (s) => s.spreman && s.putanja === "client/index.html" && s.tekst.trim() === "" && s.pregled.soba,
     );
-    assert.equal(podela.tekst.includes("<!DOCTYPE html>"), false);
+    assert.equal(podela.tekst.includes("client/"), false);
+    assert.equal(podela.tekst.includes("server/"), false);
+    assert.equal(podela.pregled.naslov, "");
+    assert.equal(podela.pregled.cifra, "");
+    assert.equal(podela.pregled.dugme, "");
     await strana.vrednost(klikNaKorak("Stranica"));
-    const posleKoraka = await sačekaj((s) => s.tekst.trim() === htmlKoraka);
+    const posleKoraka = await sačekaj((s) => s.tekst.trim() === htmlKoraka && s.pregled.soba);
     assert.notEqual(posleKoraka.tekst.trim(), podela.tekst.trim());
     assert.equal(posleKoraka.putanja, "client/index.html");
+    await strana.vrednost(klikNaKorak("Naslov"));
+    const naslov = await sačekaj((s) => s.pregled.naslov === "Soba prekidača" && s.pregled.cifra === "");
+    assert.equal(naslov.pregled.dugme, "");
+    assert.equal(naslov.pregled.soba, false);
+    await strana.vrednost(klikNaKorak("Dugme"));
+    const dugme = await sačekaj(
+      (s) => s.pregled.naslov === "Soba prekidača" && s.pregled.cifra === "24" && s.pregled.dugme === "Uključi",
+    );
+    assert.equal(dugme.tekst.includes("<button"), true);
+    assert.equal(dugme.tekst.includes("client/\nserver"), false);
 
     await strana.vrednost(klikNaKorak("Spolja"));
     const otvorenCss = await sačekaj(

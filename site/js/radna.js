@@ -1,5 +1,13 @@
 export const RADNA_KLJUC = "radnaVerzija";
 
+const SKICA_FOLDERA = /^\s*client\/\s*\nserver\/\s*$/;
+
+export function bezSkiceFoldera(putanja, tekst) {
+  const sadrzaj = tekst ?? "";
+  if (putanja === "client/index.html" && SKICA_FOLDERA.test(sadrzaj)) return "";
+  return sadrzaj;
+}
+
 export function procitajRadne(skladiste) {
   try {
     const raw = skladiste.getItem(RADNA_KLJUC);
@@ -40,12 +48,14 @@ export function polazniTekst(putanja, original, disk) {
 
 export function tekstPrikaza({ putanja, original, radne, rezim, binarni }) {
   if (binarni) return { tekst: original, razlika: false, samoCitaj: true };
+  const ugradjen = bezSkiceFoldera(putanja, original);
   if (rezim === "radna") {
     const sacuvano = imaRadnu(radne, putanja) ? radne[putanja] : "";
-    const tekst = sacuvano.trim() ? sacuvano : original;
+    const radni = bezSkiceFoldera(putanja, sacuvano);
+    const tekst = radni.trim() ? radni : ugradjen;
     return { tekst, razlika: false, samoCitaj: false };
   }
-  return { tekst: original, razlika: true, samoCitaj: true };
+  return { tekst: ugradjen, razlika: true, samoCitaj: true };
 }
 
 export function rezimPosleKoraka(radne, putanja) {
