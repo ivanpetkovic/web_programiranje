@@ -86,12 +86,16 @@ test("svaka paleta drži kontrast, zlato samo na tamnima, bunar taman", () => {
   for (const tema of [ugalj, mornar]) {
     assert.equal(tema.amber, "#ffb000");
     assert.equal(tema.korak, "#ffb000");
+    assert.equal(tema["korak-buduci"], "#d9d3c7");
+    assert.ok(kontrast(tema["korak-buduci"], tema.paper) >= 3, "buduci");
     assert.equal(tema.naslov, "#f7f4ee");
     assert.equal(tema["on-amber"], "#1a1204");
   }
   for (const tema of [pesak, terakota]) {
     assert.notEqual(tema.amber, "#ffb000");
     assert.equal(tema.korak, tema.amber);
+    assert.equal(tema["korak-buduci"], "#8f897f");
+    assert.ok(kontrast(tema["korak-buduci"], tema.paper) >= 3, "buduci");
     assert.equal(tema.naslov, tema.ink);
   }
   assert.equal(pesakSistem.korak, pesak.korak);
@@ -147,8 +151,15 @@ test("gradivo, jedna kolona i birač", () => {
   assert.equal(main.includes('className = "hod-koraka"'), false);
   assert.equal(css.includes(".hod-koraka"), false);
   assert.match(main, /className = "sledeci-korak"/);
-  assert.match(main, /aria-label", "Napredak kroz korake"/);
-  assert.match(main, /\(\(i \+ 1\) \/ item\.steps\.length\) \* 100/);
+  assert.equal(main.includes("Napredak kroz korake"), false);
+  assert.equal(main.includes("progressbar"), false);
+  assert.equal(main.includes("((i + 1) / item.steps.length) * 100"), false);
+  assert.match(main, /aria-label", "Koraci"/);
+  assert.match(main, /item\.steps\.forEach\(\(korakNed, ki\) => \{[\s\S]*krug\.className = ki <= i \? "birac-krug birac-krug-dosegnut" : "birac-krug birac-krug-buduci"/);
+  assert.match(main, /krug\.setAttribute\("aria-label", `\$\{ki \+ 1\} \$\{korakNed\.naslov\}`\)/);
+  assert.match(main, /krug\.setAttribute\("aria-current", "step"\)/);
+  assert.equal(/krug\.className[\s\S]{0,120}sacuvani/.test(main), false);
+  assert.match(main, /korakPoCasu\.set\(cas, ki\)/);
   assert.match(main, /naslovBiraca\.textContent = korak\.naslov/);
   assert.match(main, /Korak \$\{i \+ 1\} od \$\{item\.steps\.length\}/);
   assert.match(main, /saIkonom\(sviKoraci, "menu", "Svi koraci"\)/);
@@ -213,8 +224,32 @@ test("red koraka koristi ćilibar, a beleške ostaju prigušene", () => {
   assert.match(css, /\.brand\s*\{\s*color:\s*var\(--amber\)/);
   assert.match(css, /#kartica-popuna\s*\{[^}]*background:\s*var\(--amber\)/);
   assert.equal(css.includes(".koraci-kontrole"), false);
-  assert.match(css, /\.birac-traka > span\s*\{[^}]*background:\s*var\(--amber\)/);
-  assert.equal(blok(css, "\\.birac\\s*\\{").includes("overflow:"), false);
+  assert.equal(css.includes(".birac-traka"), false);
+  const mesto = blok(css, "#birac-mesto\\s*\\{");
+  assert.match(mesto, /justify-self:\s*start/);
+  assert.match(mesto, /max-width:\s*100%/);
+  const birac = blok(css, "\\.birac\\s*\\{");
+  assert.match(birac, /width:\s*max-content/);
+  assert.match(birac, /max-width:\s*100%/);
+  assert.equal(birac.includes("overflow:"), false);
+  assert.equal(/\.birac-red > div:nth-child\(2\)\s*\{[^}]*flex:\s*1/.test(css), false);
+  const naslov = blok(css, "\\.birac-naslov\\s*\\{");
+  assert.match(naslov, /max-width:\s*16rem/);
+  assert.match(naslov, /text-overflow:\s*ellipsis/);
+  const krugovi = blok(css, "\\.birac-krugovi\\s*\\{");
+  assert.match(krugovi, /display:\s*flex/);
+  assert.match(krugovi, /flex-wrap:\s*wrap/);
+  assert.match(krugovi, /gap:\s*0\.35rem/);
+  assert.equal(krugovi.includes("%"), false);
+  const krug = blok(css, "\\.birac-krug\\s*\\{");
+  assert.match(krug, /width:\s*0\.7rem/);
+  assert.match(krug, /height:\s*0\.7rem/);
+  assert.match(krug, /border-radius:\s*999px/);
+  assert.match(krug, /font-size:\s*0/);
+  assert.match(css, /\.birac-krug-dosegnut\s*\{[^}]*background:\s*var\(--amber\)/);
+  assert.match(css, /\.birac-krug-buduci\s*\{[^}]*background:\s*var\(--korak-buduci\)/);
+  assert.equal(ugalj.amber, "#ffb000");
+  assert.equal(mornar.amber, "#ffb000");
   assert.match(css, /\.option\.izabrano\s*\{[^}]*border-color:\s*var\(--amber\)/);
   assert.match(css, /font-family:\s*system-ui,\s*"Segoe UI",\s*sans-serif/);
   assert.match(css, /\.cas-glava h1\s*\{\s*color:\s*var\(--naslov\)/);

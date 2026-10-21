@@ -22,7 +22,7 @@ function zahtev(method, put) {
 test("pojmovnik je sirov spisak, a soba i dalje vraća očitavanje", async () => {
   const proc = spawn(process.execPath, ["server/server.js"], {
     cwd: KORENI,
-    env: { ...process.env, PORT: String(PORT), DATABASE_URL: "postgresql://soba:soba@127.0.0.1:5432/soba" },
+    env: { ...process.env, PORT: String(PORT), DATABASE_URL: "postgres://kutija:kutija@127.0.0.1:5432/kontrolna" },
     stdio: ["ignore", "pipe", "pipe"],
   });
   let dnevnik = "";
