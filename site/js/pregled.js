@@ -1,3 +1,5 @@
+import { tekstPrikaza } from "./radna.js";
+
 export const PORUKA = "Delić nije primenjen.";
 
 const SKRIPTOVI = new Set([
@@ -70,4 +72,126 @@ export function primeniPrikaz(stanje, ulaz) {
   } catch {
     return { ...stanje, poruka: PORUKA, sacuvanFajl, crtao: false };
   }
+}
+
+function normalizuj(put) {
+  let p = String(put).replace(/\\/g, "/").replace(/^\.\//, "");
+  if (p.startsWith("client/")) p = p.slice("client/".length);
+  return p.split("?")[0].split("#")[0];
+}
+
+function mime(kljuc) {
+  if (kljuc.endsWith(".css")) return "text/css";
+  if (kljuc.endsWith(".js")) return "text/javascript";
+  if (kljuc.endsWith(".svg")) return "image/svg+xml";
+  if (kljuc.endsWith(".html")) return "text/html";
+  return "text/plain";
+}
+
+function dataAdresa(tekst, tip) {
+  return `data:${tip};charset=utf-8,${encodeURIComponent(tekst)}`;
+}
+
+function dekodiraj(vrednost) {
+  try {
+    return decodeURIComponent(vrednost);
+  } catch {
+    return vrednost;
+  }
+}
+
+function spoji(od, ref) {
+  const baza = od.includes("/") ? od.split("/").slice(0, -1) : [];
+  for (const deo of ref.split("/")) {
+    if (!deo || deo === ".") continue;
+    if (deo === "..") baza.pop();
+    else baza.push(dekodiraj(deo));
+  }
+  return baza.join("/");
+}
+
+export function sklopiDokument(mapa, napraviAdresu = dataAdresa) {
+  const fajlovi = new Map();
+  for (const [put, tekst] of Object.entries(mapa || {})) {
+    if (typeof tekst !== "string" || put.startsWith("server/")) continue;
+    const kljuc = normalizuj(put);
+    if (kljuc) fajlovi.set(kljuc, tekst);
+  }
+  const html = fajlovi.get("index.html");
+  if (html == null || !String(html).trim()) return "";
+
+  const obradjeno = new Map();
+  const adrese = new Map();
+
+  function prazna() {
+    return napraviAdresu("", "text/plain");
+  }
+
+  function razresi(od, vrednost) {
+    const cist = String(vrednost).trim();
+    if (!cist || cist.startsWith("#") || cist.startsWith("//")) return cist;
+    if (/^(?:data:|blob:|mailto:|javascript:)/i.test(cist) || /^https?:\/\//i.test(cist)) return cist;
+    if (cist.startsWith("/api/") || cist === "/api") return cist;
+    if (cist.startsWith("/client/assets/") || cist.startsWith("/fonts/")) return cist;
+    const kljuc = cist.startsWith("/client/")
+      ? normalizuj(dekodiraj(cist.slice("/client/".length)))
+      : cist.startsWith("/")
+        ? ""
+        : spoji(od, cist.split("?")[0].split("#")[0]);
+    if (kljuc && fajlovi.has(kljuc)) return adresaZa(kljuc);
+    return prazna();
+  }
+
+  function zameniUrl(css, od) {
+    return css.replace(/url\(\s*(['"]?)([^'")]+)\1\s*\)/gi, (_sve, navod, vrednost) => {
+      const nova = razresi(od, vrednost.trim());
+      return `url(${navod}${nova}${navod})`;
+    });
+  }
+
+  function tekstFajla(kljuc) {
+    if (obradjeno.has(kljuc)) return obradjeno.get(kljuc);
+    const sirov = fajlovi.get(kljuc) ?? "";
+    obradjeno.set(kljuc, sirov);
+    let izlaz = sirov;
+    if (kljuc.endsWith(".css")) izlaz = zameniUrl(sirov, kljuc);
+    else if (kljuc.endsWith(".html")) {
+      izlaz = izlaz.replace(/(<style\b[^>]*>)([\s\S]*?)(<\/style>)/gi, (_sve, a, telo, b) => `${a}${zameniUrl(telo, kljuc)}${b}`);
+      izlaz = izlaz
+        .split(/(<script\b[^>]*>[\s\S]*?<\/script>)/gi)
+        .map((deo) => {
+          if (/^<script\b/i.test(deo)) {
+            return deo.replace(/\bsrc\s*=\s*(["'])(.*?)\1/gi, (_sve, navod, vrednost) => `src=${navod}${razresi(kljuc, vrednost)}${navod}`);
+          }
+          return deo.replace(/\b(href|src)\s*=\s*(["'])(.*?)\2/gi, (_sve, ime, navod, vrednost) => `${ime}=${navod}${razresi(kljuc, vrednost)}${navod}`);
+        })
+        .join("");
+    }
+    obradjeno.set(kljuc, izlaz);
+    return izlaz;
+  }
+
+  function adresaZa(kljuc) {
+    if (adrese.has(kljuc)) return adrese.get(kljuc);
+    const url = napraviAdresu(tekstFajla(kljuc), mime(kljuc));
+    adrese.set(kljuc, url);
+    return url;
+  }
+
+  return tekstFajla("index.html");
+}
+
+export function tekstoviServera(verzije, radne, rezim) {
+  const izlaz = {};
+  for (const [putanja, original] of Object.entries(verzije || {})) {
+    if (!putanja.startsWith("server/")) continue;
+    izlaz[putanja] = tekstPrikaza({
+      putanja,
+      original: typeof original === "string" ? original : "",
+      radne,
+      rezim,
+      binarni: false,
+    }).tekst;
+  }
+  return izlaz;
 }

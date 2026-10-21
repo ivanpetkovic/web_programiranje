@@ -171,21 +171,32 @@ async function otvoriStranu(port) {
 function stanjeEditora() {
   const sadrzaj = document.querySelector(".cm-content");
   const otvoren = document.querySelector("#tree button[aria-current='true']");
-  const soba = document.querySelector("#soba-prekidaca");
-  const naslov = soba?.querySelector("h2");
-  const cifra = document.querySelector("#displej");
-  const dugme = document.querySelector("#prekidac");
-  const vidljivo = (el) => (el && !el.hidden ? el.textContent : "");
+  const okvir = document.querySelector("#pregled-strana");
+  const doc = okvir && okvir.contentDocument;
+  const telo = doc && doc.body ? doc.body.innerText.replace(/\s+/g, " ").trim() : "";
+  let stil = "";
+  if (doc) {
+    for (const sheet of doc.styleSheets) {
+      try {
+        for (const pravilo of sheet.cssRules) stil += pravilo.cssText;
+      } catch {
+        /* prazan ili tuđi stil */
+      }
+    }
+  }
   return {
     putanja: document.querySelector("#putanja")?.textContent || "",
     otvoren: otvoren?.dataset.put || "",
     tekst: sadrzaj ? sadrzaj.innerText.replace(/\s+$/g, "") : "",
     spreman: Boolean(sadrzaj && document.querySelector("#birac-meni button")),
     pregled: {
-      soba: Boolean(soba?.hidden),
-      naslov: vidljivo(naslov),
-      cifra: vidljivo(cifra),
-      dugme: vidljivo(dugme),
+      prazan: telo === "" && !doc?.querySelector("h1"),
+      naslov: doc?.querySelector("h1")?.textContent || "",
+      cifra: doc?.querySelector(".digit")?.textContent || "",
+      dugme: doc?.querySelector("button")?.textContent || "",
+      pasus: [...(doc?.querySelectorAll("p") || [])].map((p) => p.textContent).join(" "),
+      stil,
+      veza: doc?.querySelector('link[rel="stylesheet"]')?.getAttribute("href") || "",
     },
   };
 }
@@ -245,7 +256,7 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
     await strana.vrednost(`document.querySelector('#tab-editor').click()`);
     await strana.vrednost(klikNaKorak("Podela"));
     const podela = await sačekaj(
-      (s) => s.spreman && s.putanja === "client/index.html" && s.tekst.trim() === "" && s.pregled.soba,
+      (s) => s.spreman && s.putanja === "client/index.html" && s.tekst.trim() === "" && s.pregled.prazan,
     );
     assert.equal(podela.tekst.includes("client/"), false);
     assert.equal(podela.tekst.includes("server/"), false);
@@ -253,13 +264,17 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
     assert.equal(podela.pregled.cifra, "");
     assert.equal(podela.pregled.dugme, "");
     await strana.vrednost(klikNaKorak("Stranica"));
-    const posleKoraka = await sačekaj((s) => s.tekst.trim() === htmlKoraka && s.pregled.soba);
+    const posleKoraka = await sačekaj((s) => s.tekst.trim() === htmlKoraka && s.pregled.prazan);
     assert.notEqual(posleKoraka.tekst.trim(), podela.tekst.trim());
     assert.equal(posleKoraka.putanja, "client/index.html");
     await strana.vrednost(klikNaKorak("Naslov"));
-    const naslov = await sačekaj((s) => s.pregled.naslov === "Soba prekidača" && s.pregled.cifra === "");
-    assert.equal(naslov.pregled.dugme, "");
-    assert.equal(naslov.pregled.soba, false);
+    const naslov = await sačekaj((s) => s.pregled.naslov === "Soba prekidača" && s.pregled.cifra === "" && s.pregled.dugme === "");
+    assert.equal(naslov.pregled.pasus.includes("24"), false);
+    await strana.vrednost(klikNaKorak("Veza"));
+    const veza = await sačekaj((s) => s.tekst.includes('href="css/soba.css"') && s.pregled.naslov === "Soba prekidača");
+    assert.equal(veza.pregled.veza.includes("css/soba.css"), false);
+    assert.equal(veza.pregled.veza.includes("/client/css/soba.css"), false);
+    assert.equal(veza.pregled.stil.includes("Digital-7"), false);
     await strana.vrednost(klikNaKorak("Dugme"));
     const dugme = await sačekaj(
       (s) => s.pregled.naslov === "Soba prekidača" && s.pregled.cifra === "24" && s.pregled.dugme === "Uključi",
@@ -296,6 +311,25 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
     assert.equal(posleNiza.tekst.includes("<!DOCTYPE html>"), false);
     assert.equal(posleNiza.tekst.includes("margin: 1rem;"), false);
     assert.equal(posleNiza.tekst.includes(htmlKoraka), false);
+
+    await strana.vrednost(`location.hash = "cas-2"`);
+    await strana.vrednost(`document.querySelector('#tab-editor').click()`);
+    await strana.vrednost(klikNaKorak("Naslov"));
+    await sačekaj((s) => s.pregled.naslov === "Soba prekidača" && s.putanja === "client/index.html");
+    await strana.vrednost(`(() => {
+      document.querySelector("#moj-kod").click();
+      const cm = document.querySelector(".cm-content");
+      cm.focus();
+      const sel = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(cm);
+      range.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(range);
+      return document.execCommand("insertText", false, "\\n<p>dodat pasus</p>\\n");
+    })()`);
+    const saPasusom = await sačekaj((s) => s.pregled.pasus.includes("dodat pasus"));
+    assert.equal(saPasusom.pregled.naslov, "Soba prekidača");
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
     throw greska;

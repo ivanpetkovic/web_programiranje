@@ -61,15 +61,19 @@ The first step of week 1 MUST be titled LO and MUST name no file. Podela MUST be
 - **WHEN** the teacher opens week 5
 - **THEN** the Server tab is present
 ### Requirement: Čas 2 prikazuje dokument
-The week titled Šta browser prikazuje MUST leave only the switch room on screen. The temperature MUST be the static content of `client/index.html`, the number 24. The machine room and the fan MUST NOT be drawn. Starting Node MUST NOT be part of this lecture. Refreshing the page MUST restore the document. A change made only in the browser tools MUST be described as a change to the local display.
+The week titled Šta browser prikazuje MUST show the loaded client document and nothing the shell adds. The temperature MUST be the static content of `client/index.html`, the number 24, once that document contains it. The shell MUST NOT draw the switch room, the machine room, or the fan. Starting Node MUST NOT be part of this lecture. Refreshing the preview MUST restore the editor document. A change made only in the browser tools MUST be described as a change to the local display.
 
 #### Scenario: Refresh restores 24
-- **WHEN** the teacher changes the visible 24 °C to 10 °C in the browser tools and refreshes
-- **THEN** the document shows 24 °C again
+- **WHEN** the loaded document contains 24 and the teacher changes the visible 24 to 10 in the browser tools and refreshes the preview
+- **THEN** the iframe shows 24 again
+
+#### Scenario: Empty step shows no shell room
+- **WHEN** the open step's `client/index.html` is empty
+- **THEN** the preview is blank and does not show a heading, a number, or a button
 
 #### Scenario: No room request
-- **WHEN** the week titled Šta browser prikazuje is open
-- **THEN** the network record shows the document and the style, and no room API request
+- **WHEN** the week titled Šta browser prikazuje is open and the loaded document does not request the room
+- **THEN** the network record shows no room API request
 ### Requirement: Čas 3 drži stanje u objektu
 The week titled JavaScript opisuje stanje MUST read a small synchronous program. An object MUST hold the temperature and the desired switch state. The next-step function MUST always increase the temperature by a delta and MUST ignore the fan mode. Values MUST be followed in the console. The DOM MUST NOT be updated yet. An array of points MUST pass through filter, map, and reduce.
 
@@ -111,15 +115,15 @@ After the HTTP steps, the lecture MUST start a plain Node server with `http.crea
 - **WHEN** the teacher follows the server steps
 - **THEN** `node server/server.js` is shown and the room read is opened by address before any fetch call
 ### Requirement: Čas 5 crta kutiju tek posle servera
-The box, the machine room, and the fan MUST be drawn only after that server is running. From this lecture the server MUST own the temperature. The week 5 fragment MUST NOT contain the Err branch, so a failed read leaves dashes.
+The shell MUST draw the machine room and its fan beside the iframe only after that server is running. That room is not a file from the editor. From this lecture the server MUST own the temperature, and the room module on disk MUST be the text of the active Moj kod / Lekcija switch. The week 5 fragment MUST NOT contain the Err branch, so a failed read leaves the document's own display unchanged by an Err branch.
 
 #### Scenario: Known path and unknown path
 - **WHEN** the saved room module is running
 - **THEN** the known path returns the temperature and the mode, and an unknown path returns 404
 
 #### Scenario: No Err branch yet
-- **WHEN** a read fails during week 5
-- **THEN** the switch display keeps dashes and does not show Err
+- **WHEN** a read fails during week 5 and the loaded document has no Err branch
+- **THEN** the iframe does not show Err from the shell
 ### Requirement: Čas 6 razlikuje odgovor od izostanka
 The week titled Čekanje i neuspeh MUST contrast HTTP 200 with HTTP 500. The prepared 500 MUST be the unplugged fan: a response arrives, the status is 500, and the switch display shows Err. HTTP 200 MUST write the digits. The lecture MUST open a front fragment that already writes Err both for a non-success status and for an absent response, and the teacher MUST be able to change that line. Once await exists, the box interval MUST start. Until then the box temperature MUST stay still.
 
@@ -153,15 +157,15 @@ The week titled Koliko je prikaz svež MUST treat the still display as a reason 
 - **WHEN** the freshness check is on and an earlier measurement arrives after a later one
 - **THEN** the switch display keeps the newer value
 ### Requirement: Čas 9 ponavlja čitanje
-Turning periodic reading on MUST send one read immediately and then repeat it. A failed round MUST show Err by the same branch as the single read. The machine-room feed MUST stay unnamed and MUST NOT drive the switch display. The lecture MUST NOT build SSE or WebSocket and MUST NOT name them on the page.
+The shell MAY offer the periodic-reading control on this lecture. A control that turns periodic reading on MUST send one read immediately and then repeat it. A failed round MUST show Err by the same branch as the single read when that branch exists. The machine-room feed MUST stay unnamed. The shell machine room MUST follow that feed. The lecture MUST NOT build SSE or WebSocket and MUST NOT name them on the page.
 
 #### Scenario: Periodic read starts at once
-- **WHEN** the teacher turns periodic reading on
-- **THEN** one read is sent immediately and a failed round shows Err
+- **WHEN** the loaded document turns periodic reading on
+- **THEN** one read is sent immediately and a failed round shows Err only by that document's branch
 
 #### Scenario: Push is not named
 - **WHEN** the teacher opens the week titled Koliko je prikaz svež
-- **THEN** the page does not name SSE or WebSocket and the switch display is still fed by reading
+- **THEN** the page does not name SSE or WebSocket
 ### Requirement: Čas 10 proverava ulogu na zahtevu
 The week titled Ko sme da upravlja MUST prepare an observer key and an operator key in the box. Choosing a role MUST request an HttpOnly cookie with that key. A read MUST NOT require a session. A command without a cookie MUST get 401, an observer command MUST get 403, a bad body MUST get 400, an unplugged fan MUST get 500, and an operator success MUST get 200 with only the mode. Hiding the button MUST leave a command sent outside the screen possible. CORS MUST NOT be treated as authentication.
 
@@ -175,11 +179,11 @@ The week titled Ceo sistem MUST walk one request through the browser, Node, the 
 - **WHEN** the screen shows the fan as on and the command response has not arrived
 - **THEN** the lecture states that the log and a new read are required before deciding whether to repeat the command
 ### Requirement: Panel ne dobija drugi uređaj
-Every lecture MUST keep one room pair, one temperature reading, and one fan. A later lecture MUST add data to that same panel. A lecture MUST NOT add a second scored quiz.
+The preview MUST keep one shell machine room, one temperature on that room, and one fan. The iframe MUST NOT add a second fan. A lecture MUST NOT add a second scored quiz.
 
 #### Scenario: After the last lecture
 - **WHEN** the teacher finishes week 11
-- **THEN** the panel still has one switch room, one machine room, one temperature, and one fan
+- **THEN** the preview still has one shell machine room, one temperature, and one fan beside the iframe
 ### Requirement: Preduslov nedelje
 Each lecture MUST name a prerequisite and an outcome. Week 1's prerequisite MUST say that there is no file yet and that the story starts before the page. Week 1's outcome MUST say that the Web is a service on the Internet, that a page is a document, and that `server/` still has no files. Each later lecture's prerequisite MUST be the outcome the previous lecture already reached.
 

@@ -2,7 +2,7 @@ import { napraviPogled, postaviPogled } from "./cm-editor.js";
 import { dokument, lectures, preduslovCasa } from "./lectures.js";
 import { natpisNedelje, pomeriNedelju, polozajiKlizaca, procenat, ucitajKurs } from "./model.js";
 import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./pojmovnik.js";
-import { PORUKA, primeniPrikaz, sakrivenoUSobi } from "./pregled.js";
+import { PORUKA, sklopiDokument, tekstoviServera, trajanjeLopatica } from "./pregled.js";
 import { procitajRadne, serverTabVidljiv, tekstPrikaza, upisiRadnu } from "./radna.js";
 import { razlikaOriginala } from "./razlika.js";
 import { adresaPregleda, izborFajla, prikaziIzlaz, rezimPosleAkcije, upisPosleAkcije } from "./birac.js";
@@ -21,24 +21,17 @@ const traka = document.querySelector("#traka");
 const q = document.querySelector("#q");
 const tooltip = document.querySelector("#tooltip");
 const typeahead = document.querySelector("#typeahead");
-const displej = document.querySelector("#displej");
 const displejMasina = document.querySelector("#displej-masina");
 const sobaMasina = document.querySelector("#soba-masina");
-const prekidac = document.querySelector("#prekidac");
-const sledeci = document.querySelector("#sledeci");
 const procitaj = document.querySelector("#procitaj");
 const polling = document.querySelector("#polling");
 const svezina = document.querySelector("#svezina");
 const prag = document.querySelector("#prag");
 const stanjeCitanja = document.querySelector("#stanje-citanja");
 const istorija = document.querySelector("#istorija");
-const fanLocal = document.querySelector("#fan-local");
-const bladesLocal = document.querySelector("#blades-local");
 const blades = document.querySelector("#blades");
 const kabl = document.querySelector("#kabl");
 const sesije = document.querySelector("#sesije");
-const log = document.querySelector("#log");
-const grafikon = document.querySelector("#grafikon");
 const kutijaMsg = document.querySelector("#kutija-msg");
 const editorDom = document.querySelector("#editor");
 const editorErr = document.querySelector("#editor-err");
@@ -48,8 +41,8 @@ const dugmeReseta = document.querySelector("#reset-radne");
 const tree = document.querySelector("#tree");
 const tabFront = document.querySelector("#tab-front");
 const tabBack = document.querySelector("#tab-back");
-const stilPregleda = document.querySelector("#stil-pregleda");
 const starost = document.querySelector("#starost");
+const pregledStrana = document.querySelector("#pregled-strana");
 const temaDugme = document.querySelector("#tema");
 const otvoreniPojmovi = new Set();
 const otvoreneNedelje = new Set();
@@ -59,13 +52,6 @@ let pojmovi = [];
 let aktivnaDefinicija = null;
 let typeaheadIndeks = -1;
 
-const soba = { temperatura: 24, zeljeno: false };
-const tacke = [
-  { temperatura: 22 },
-  { temperatura: 24 },
-  { temperatura: 26 },
-  { temperatura: 23 },
-];
 let cas = 1;
 let deo = "koraci";
 let udeoEditora = 72;
@@ -78,11 +64,11 @@ const zakljucakPoCasu = new Map();
 const objasnjenjePoKoraku = new Map();
 const FAZE = ["Izbor", "Poređenje", "Pretpostavke", "Analiza", "Ponovni izbor"];
 let pollId = 0;
-let cifreSobe = null;
 let poslednjiTrenutak = null;
+let upisRedni = 0;
+let bloboviPregleda = [];
 const poslato = { takt: false, uloge: false, baza: false };
 let dovod = null;
-let lastSpin = "1.2s";
 let strana = "client";
 let openedForCas = 0;
 const openPath = { client: "", server: "" };
@@ -91,37 +77,9 @@ let rezim = "original";
 let prikazaniTekst = "";
 let otvoreniKljuc = "";
 let pogled = null;
-let displejSobe = {
-  crtaj(vrednost) {
-    displej.textContent = String(vrednost);
-  },
-  prikaziOcitavanje(odgovor, telo) {
-    if (!odgovor.ok) {
-      this.crtaj("Err");
-      return;
-    }
-    this.crtaj(telo.temperatura);
-  },
-};
 let displejMasine = {
   crtaj(vrednost) {
     displejMasina.textContent = String(vrednost);
-  },
-};
-function podrazumevanoObradi(niz) {
-  const izabrane = niz.filter((tacka) => tacka.temperatura >= 24);
-  const visine = izabrane.map((tacka) => tacka.temperatura);
-  const zbir = visine.reduce((s, v) => s + v, 0);
-  return { visine, prosek: visine.length ? zbir / visine.length : 0 };
-}
-let obradiNiz = podrazumevanoObradi;
-let nacrtajNiz = () => {};
-let prekidacSobe = {
-  ukljucen: false,
-  crtaj(ukljucen) {
-    this.ukljucen = ukljucen;
-    prekidac.setAttribute("aria-pressed", String(ukljucen));
-    prekidac.textContent = ukljucen ? "Isključi" : "Uključi";
   },
 };
 
@@ -839,7 +797,6 @@ function nacrtajDiskusiju(item) {
 function fitPanel() {
   const local = cas < 5;
   sobaMasina.hidden = local;
-  sledeci.hidden = cas < 2 || cas > 4;
   procitaj.hidden = cas < 5;
   polling.hidden = cas < 9;
   svezina.hidden = cas < 9;
@@ -848,17 +805,11 @@ function fitPanel() {
   istorija.hidden = cas < 8;
   kabl.hidden = cas < 6;
   sesije.hidden = cas < 10;
-  fanLocal.hidden = true;
-  bladesLocal.classList.remove("spin");
   starost.hidden = cas < 9;
   focusFile();
   loadSide();
-  log.hidden = cas !== 3;
-  grafikon.hidden = cas !== 4;
   if (cas < 9) zaustaviPeriodicno();
-  if (cas === 3 || cas === 4) osveziNiz();
-  osveziPrikaz();
-  if (pogled && openPath[strana] !== "index.html") applyLive();
+  applyLive();
   if (cas >= 5 && !dovod) connectDovod();
   uskladiKutiju();
 }
@@ -867,10 +818,6 @@ function zaustaviPeriodicno() {
   clearInterval(pollId);
   pollId = 0;
   polling.setAttribute("aria-pressed", "false");
-}
-
-function zapamtiCifreSobe() {
-  if (cas >= 5) cifreSobe = displej.textContent;
 }
 
 function uskladiZastavicu(ime, put, ukljucen) {
@@ -1168,225 +1115,58 @@ function openFile(put) {
   osveziEditor();
 }
 
-function applyCss(source) {
-  stilPregleda.textContent = source;
-  const match = source.match(/animation-duration:\s*([0-9.]+)s/);
-  if (match) {
-    lastSpin = `${match[1]}s`;
-    bladesLocal.style.animationDuration = lastSpin;
-    blades.style.animationDuration = lastSpin;
+function mapaStabla() {
+  const stablo = stabloDo(kursKoraci(), indeksUKursu());
+  const mapa = {};
+  for (const [putanja, original] of Object.entries(stablo.verzije)) {
+    if (!putanja.startsWith("client/")) continue;
+    const binarni = /\.(ttf|png|jpe?g|woff2?)$/i.test(putanja);
+    mapa[putanja] = tekstPrikaza({ putanja, original: original || "", radne, rezim, binarni }).tekst;
   }
-  editorErr.textContent = "";
-  return true;
+  return { verzije: stablo.verzije, klijent: mapa };
 }
 
-function applyKorak(source, quiet) {
-  try {
-    const fn = new Function(`${source}\nreturn { korak, delta };`);
-    const api = fn();
-    if (typeof api.korak !== "function" || typeof api.delta !== "number") {
-      throw new Error("Fajl treba funkciju korak i broj delta.");
-    }
-    window.__korak = api.korak;
-    if (!quiet) editorErr.textContent = "";
-    return true;
-  } catch (err) {
-    if (!quiet) editorErr.textContent = PORUKA;
-    return false;
-  }
+function sklopiIframe(klijent) {
+  if (!pregledStrana) return;
+  for (const url of bloboviPregleda) URL.revokeObjectURL(url);
+  bloboviPregleda = [];
+  pregledStrana.srcdoc = sklopiDokument(klijent, (tekst, tip) => {
+    const url = URL.createObjectURL(new Blob([tekst], { type: `${tip};charset=utf-8` }));
+    bloboviPregleda.push(url);
+    return url;
+  });
+  const trajanje = trajanjeLopatica(klijent["client/css/soba.css"] || "");
+  if (trajanje && blades) blades.style.animationDuration = trajanje;
 }
 
-function applyDisplej(source, quiet) {
-  try {
-    const Displej = new Function(`${source}\nreturn Displej;`)();
-    const sobaInstanca = new Displej(displej);
-    const masinaInstanca = new Displej(displejMasina);
-    if (typeof sobaInstanca.crtaj !== "function" || typeof sobaInstanca.prikaziOcitavanje !== "function") {
-      throw new Error("Klasa Displej treba crtaj i prikaziOcitavanje.");
-    }
-    displejSobe = sobaInstanca;
-    displejMasine = masinaInstanca;
-    if (!quiet) editorErr.textContent = "";
-    return true;
-  } catch (err) {
-    if (!quiet) editorErr.textContent = PORUKA;
-    return false;
-  }
-}
-
-function applyPrekidac(source, quiet) {
-  try {
-    const Prekidac = new Function(`${source}\nreturn Prekidac;`)();
-    const instanca = new Prekidac(prekidac);
-    if (typeof instanca.crtaj !== "function") throw new Error("Klasa Prekidac treba crtaj.");
-    prekidacSobe = instanca;
-    if (!quiet) editorErr.textContent = "";
-    return true;
-  } catch (err) {
-    if (!quiet) editorErr.textContent = PORUKA;
-    return false;
-  }
-}
-
-function applyNiz(source, quiet) {
-  try {
-    const api = new Function(`${source}\nreturn { pripremiLiniju, nacrtajLiniju };`)();
-    if (typeof api.pripremiLiniju !== "function" || typeof api.nacrtajLiniju !== "function") {
-      throw new Error("Fajl treba funkcije pripremiLiniju i nacrtajLiniju.");
-    }
-    const probe = api.pripremiLiniju([{ temperatura: 24 }, { temperatura: 22 }]);
-    if (!probe || !Array.isArray(probe.visine) || typeof probe.prosek !== "number") {
-      throw new Error("pripremiLiniju vraća visine i prosek.");
-    }
-    obradiNiz = api.pripremiLiniju;
-    nacrtajNiz = api.nacrtajLiniju;
-    if (!quiet) editorErr.textContent = "";
-    osveziNiz();
-    return true;
-  } catch (err) {
-    if (!quiet) editorErr.textContent = PORUKA;
-    return false;
-  }
-}
-
-function osveziNiz() {
-  let slika;
-  try {
-    slika = obradiNiz(tacke);
-    if (!slika || !Array.isArray(slika.visine) || typeof slika.prosek !== "number") {
-      throw new Error("pripremiLiniju vraća visine i prosek.");
-    }
-  } catch (err) {
-    if (strana === "client" && openPath.client === "js/niz.js") editorErr.textContent = PORUKA;
-    return;
-  }
-  if (cas === 3) {
-    log.hidden = false;
-    const prosek = Math.round(slika.prosek * 10) / 10;
-    log.textContent = `konzola: temperatura ${soba.temperatura} | visine ${slika.visine.join(", ")} | prosek ${prosek}`;
-  }
-  if (cas === 4) {
+async function upisiServere(verzije) {
+  const token = ++upisRedni;
+  const tela = tekstoviServera(verzije, radne, rezim);
+  for (const [putanja, izvor] of Object.entries(tela)) {
+    let odgovor;
     try {
-      nacrtajNiz(grafikon, slika.visine);
-    } catch (err) {
-      if (strana === "client" && openPath.client === "js/niz.js") editorErr.textContent = PORUKA;
+      odgovor = await fetch("/api/fajl", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ strana: "server", put: putanja.slice("server/".length), izvor }),
+      });
+    } catch {
+      return;
+    }
+    if (token !== upisRedni) return;
+    if (!odgovor.ok && `${strana}/${openPath[strana]}` === putanja) {
+      const telo = await odgovor.json().catch(() => ({}));
+      editorErr.textContent = telo.greska || PORUKA;
     }
   }
-}
-
-function crtezSobe() {
-  return {
-    cifra: displej.textContent,
-    naslov: document.querySelector("#soba-prekidaca h2").textContent,
-    dugme: prekidac.textContent,
-  };
-}
-
-function naslikajSobu(crtez) {
-  const sakrij = sakrivenoUSobi(crtez);
-  const sobaEl = document.querySelector("#soba-prekidaca");
-  const naslov = sobaEl.querySelector("h2");
-  const header = sobaEl.querySelector(".room-h");
-  const red = prekidac.parentElement;
-  naslov.hidden = sakrij.naslov;
-  if (!sakrij.naslov) naslov.textContent = crtez.naslov;
-  displej.hidden = sakrij.cifra;
-  if (!sakrij.cifra) displej.textContent = crtez.cifra;
-  prekidac.hidden = sakrij.dugme;
-  if (!sakrij.dugme) prekidac.textContent = crtez.dugme;
-  sledeci.hidden = cas < 2 || cas > 4 || sakrij.cifra;
-  header.hidden = sakrij.naslov && starost.hidden;
-  red.hidden = [...red.children].every((el) => el.hidden);
-  sobaEl.hidden = [...sobaEl.children].every((el) => el.hidden);
-}
-
-function tekstSnimka(puna) {
-  if (`${strana}/${openPath[strana]}` === puna) return prikazaniTekst;
-  const { original } = izvorZaPutanju(puna);
-  return tekstPrikaza({ putanja: puna, original, radne, rezim, binarni: false }).tekst;
-}
-
-function stilIzDokumenta(html) {
-  const povezan = /href=["']css\/soba\.css["']/.test(html);
-  const tekst = povezan ? tekstSnimka("client/css/soba.css") : "";
-  stilPregleda.textContent = tekst;
-  const match = tekst.match(/animation-duration:\s*([0-9.]+)s/);
-  if (!match) return;
-  lastSpin = `${match[1]}s`;
-  bladesLocal.style.animationDuration = lastSpin;
-  blades.style.animationDuration = lastSpin;
-}
-
-function ocitanjeNedelje() {
-  if (cas === 1) displejSobe.crtaj("");
-  else if (cas >= 5 && !displej.hidden) displejSobe.crtaj(cifreSobe === null ? "----" : cifreSobe);
-}
-
-function osveziPrikaz() {
-  const otvorenHtml = strana === "client" && openPath.client === "index.html";
-  const html = otvorenHtml ? prikazaniTekst : tekstSnimka("client/index.html");
-  const izlaz = primeniPrikaz(
-    { crtez: crtezSobe(), stil: stilPregleda.textContent, trajanje: lastSpin },
-    { strana: "client", put: "index.html", tekst: html },
-  );
-  if (!izlaz.crtao) {
-    if (otvorenHtml) editorErr.textContent = izlaz.poruka;
-    return false;
-  }
-  stilIzDokumenta(html);
-  naslikajSobu(izlaz.crtez);
-  ocitanjeNedelje();
-  if (otvorenHtml) editorErr.textContent = "";
-  return true;
 }
 
 function applyLive() {
-  const put = openPath[strana];
-  const tekst = prikazaniTekst;
-  if (put === "index.html" || put === "client/index.html") return osveziPrikaz();
-  const stanje = { crtez: crtezSobe(), stil: stilPregleda.textContent, trajanje: lastSpin };
-  const izlaz = primeniPrikaz(stanje, { strana, put, tekst });
-  if (!izlaz.crtao) {
-    editorErr.textContent = izlaz.poruka;
-    return !izlaz.poruka;
-  }
-  if (strana === "client" && put === "css/soba.css") return applyCss(tekst);
-  if (strana === "client" && put === "js/korak.js") {
-    if (!/\bfunction\s+korak\b/.test(tekst)) {
-      editorErr.textContent = "";
-      return true;
-    }
-    return applyKorak(tekst);
-  }
-  if (strana === "client" && put === "js/niz.js") {
-    if (!/\bfunction\s+pripremiLiniju\b/.test(tekst) || !/\bfunction\s+nacrtajLiniju\b/.test(tekst)) {
-      editorErr.textContent = "";
-      return true;
-    }
-    return applyNiz(tekst);
-  }
-  if (strana === "client" && put === "js/displej.js") {
-    if (!/\bclass\s+Displej\b/.test(tekst)) {
-      editorErr.textContent = "";
-      return true;
-    }
-    return applyDisplej(tekst);
-  }
-  if (strana === "client" && put === "js/prekidac.js") {
-    if (!/\bclass\s+Prekidac\b/.test(tekst)) {
-      editorErr.textContent = "";
-      return true;
-    }
-    return applyPrekidac(tekst);
-  }
+  const { verzije, klijent } = mapaStabla();
+  sklopiIframe(klijent);
+  upisiServere(verzije);
   editorErr.textContent = "";
   return true;
-}
-
-async function prime(put, apply) {
-  const response = await fetch(`/api/fajl?strana=client&put=${encodeURIComponent(put)}`);
-  const data = await response.json();
-  if (data.izvor) apply(data.izvor);
 }
 
 function connectDovod() {
@@ -1411,84 +1191,22 @@ async function readRoom() {
       return;
     }
     if (!response.ok) {
-      if (cas === 5) displejSobe.crtaj("----");
-      if (cas >= 6) {
-        displejSobe.prikaziOcitavanje(response, data);
-        stanjeCitanja.textContent = "greška";
-      }
-      starost.textContent = "";
+      if (cas >= 6) stanjeCitanja.textContent = "greška";
       kutijaMsg.textContent = `HTTP ${response.status}`;
-      zapamtiCifreSobe();
       return;
     }
-    if (data.trenutak) poslednjiTrenutak = data.trenutak;
-    displejSobe.prikaziOcitavanje(response, data);
-    prekidacSobe.crtaj(data.ukljucen);
-    if (data.trenutak) starost.textContent = data.trenutak;
+    if (data.trenutak) {
+      poslednjiTrenutak = data.trenutak;
+      starost.textContent = data.trenutak;
+    }
     if (cas >= 6) stanjeCitanja.textContent = "podatak";
     if (cas >= 8) nacrtajIstoriju(data.istorija);
     kutijaMsg.textContent = "HTTP 200";
-    zapamtiCifreSobe();
   } catch {
-    if (cas === 5) displejSobe.crtaj("----");
-    if (cas >= 6) {
-      displejSobe.prikaziOcitavanje({ ok: false }, null);
-      stanjeCitanja.textContent = "greška";
-    }
-    kutijaMsg.textContent = "nema statusa";
-    zapamtiCifreSobe();
-  }
-}
-
-async function sendCommand(ukljucen) {
-  const prethodno = prekidacSobe.ukljucen;
-  prekidacSobe.crtaj(ukljucen);
-  try {
-    const response = await fetch("/api/ventilator", {
-      method: "PUT",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ ukljucen }),
-    });
-    kutijaMsg.textContent = `HTTP ${response.status}`;
-    if (response.ok) {
-      const data = await response.json();
-      prekidacSobe.crtaj(data.ukljucen);
-      if (cas >= 8) await osveziIstoriju();
-      return;
-    }
-    if (response.status !== 500) prekidacSobe.crtaj(prethodno);
-  } catch {
+    if (cas >= 6) stanjeCitanja.textContent = "greška";
     kutijaMsg.textContent = "nema statusa";
   }
 }
-
-prekidac.addEventListener("click", () => {
-  if (cas < 3) return;
-  if (cas < 5) {
-    soba.zeljeno = !soba.zeljeno;
-    prekidacSobe.crtaj(soba.zeljeno);
-    return;
-  }
-  sendCommand(!prekidacSobe.ukljucen);
-});
-
-sledeci.addEventListener("click", () => {
-  if (typeof window.__korak === "function") window.__korak(soba);
-  else soba.temperatura += 1;
-  if (cas === 3 || cas === 4) {
-    tacke.push({ temperatura: soba.temperatura });
-    if (tacke.length > 40) tacke.shift();
-  }
-  if (cas === 3) {
-    osveziNiz();
-    return;
-  }
-  if (cas === 4) {
-    osveziNiz();
-    if (trenutniKorak() && trenutniKorak().crta === false) return;
-    displejSobe.crtaj(soba.temperatura);
-  }
-});
 
 procitaj.addEventListener("click", readRoom);
 svezina.addEventListener("click", () => {
@@ -1717,10 +1435,6 @@ traka.addEventListener("keydown", (event) => {
 
 primeniUdeo();
 
-prime("js/korak.js", (source) => applyKorak(source, true));
-prime("js/niz.js", (source) => applyNiz(source, true));
-prime("js/displej.js", (source) => applyDisplej(source, true));
-prime("js/prekidac.js", (source) => applyPrekidac(source, true));
 const pocetno = procitajMesto();
 const izHesha = Number((location.hash.match(/cas-(\d+)/) || [])[1]);
 if (izHesha >= 1 && izHesha <= dokument.trajanjeNedelja) {
