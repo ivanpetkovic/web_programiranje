@@ -120,7 +120,8 @@ test("ugovor čitanja, tela, fonta, stabla, istorije i uloge", async (t) => {
     const stranica = await zahtev("GET", "/");
     const stil = await zahtev("GET", "/css/site.css");
     const font = await zahtev("GET", "/fonts/digital-7-mono.ttf");
-    assert.match(stranica.body, /id="displej"[^>]*class="digit"|class="digit"[^>]*id="displej"/);
+    assert.match(stranica.body, /<iframe[^>]*id="pregled-strana"/);
+    assert.doesNotMatch(stranica.body, /id="displej"/);
     assert.match(stranica.body, /id="displej-masina"[^>]*class="digit"|class="digit"[^>]*id="displej-masina"/);
     assert.match(stil.body, /font-family:\s*"Digital-7 Mono"/);
     assert.equal(font.status, 200);
