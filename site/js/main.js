@@ -525,6 +525,7 @@ function renderLecture() {
     greska.hidden = false;
     greska.textContent = provera.greska;
     nav.replaceChildren();
+    biracMesto.replaceChildren();
     return;
   }
   greska.hidden = true;

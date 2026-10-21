@@ -133,9 +133,14 @@ test("gradivo, jedna kolona i birač", () => {
   assert.equal(html.includes('id="koraci-kontrole"'), false);
   assert.equal(main.includes("#koraci-kontrole"), false);
   assert.equal(main.includes("pill.textContent"), false);
-  assert.match(html, /id="birac-mesto"/);
+  const tabovi = html.indexOf('class="cas-tabovi"');
+  const mesto = html.indexOf('id="birac-mesto"');
+  const sekcija = html.indexOf('id="sekcija-koraci"');
+  assert.ok(tabovi > 0 && tabovi < mesto && mesto < sekcija);
+  assert.equal(html.match(/id="birac-mesto"/g).length, 1);
   assert.match(main, /querySelector\("#birac-mesto"\)/);
   assert.match(main, /biracMesto\.replaceChildren\(birac\)/);
+  assert.equal(main.includes("casEl.append(birac"), false);
   assert.match(main, /casEl\.append\(metaKoraka, naslovKoraka, primer, kljucna\)/);
   assert.match(css, /\.opcije-mreza\s*\{\s*display:\s*grid;\s*grid-template-columns:\s*1fr;\s*gap:\s*0\.55rem;\s*\}/);
   assert.equal(/@media\s*\(\s*min-width:\s*861px\s*\)\s*\{[^}]*\.opcije-mreza\s*\{\s*grid-template-columns:\s*1fr\s+1fr/.test(css), false);

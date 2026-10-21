@@ -9,7 +9,7 @@
 ## MODIFIED Requirements
 
 ### Requirement: Zaglavlje lekcije
-The open lesson MUST show the course breadcrumb, the week title, the week subtitle, and the step selector on Gradivo. It MUST NOT show one button per step. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the lesson and MUST NOT sit inside the selector.
+The open lesson MUST show the course breadcrumb, the week title, the week subtitle, and the step selector outside the Gradivo section. The selector MUST stay on screen on Gradivo, Diskusija, and Editor. It MUST NOT show one button per step. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the lesson and MUST NOT sit inside the selector.
 
 #### Scenario: The selector replaces a button per step
 - **WHEN** a week is open on its first step on Gradivo
@@ -44,15 +44,15 @@ The editor MUST offer Resetuj for the open file, separate from the version switc
 ## ADDED Requirements
 
 ### Requirement: Birač koraka
-On Gradivo, the selector MUST show Korak {n} od {N}, the open step's title, a previous control, Svi koraci, and Sledeći. It MUST NOT show the week title as that second line, and MUST NOT be on screen on Editor or Diskusija.
+The selector MUST sit outside the Gradivo section and MUST stay on screen on Gradivo, Diskusija, and Editor. It MUST show Korak {n} od {N}, the open step's title, a previous control, Svi koraci, and Sledeći. It MUST NOT show the week title as that second line. Choosing a step MUST keep the open tab.
 
 #### Scenario: Step title sits under the count
 - **WHEN** week 1 is open on Alati
 - **THEN** the selector reads Korak 14 od 17 and Alati
 
-#### Scenario: Editor hides the selector
-- **WHEN** the teacher opens Editor
-- **THEN** the selector is not on screen and the page does not show one button per step
+#### Scenario: Editor keeps the selector
+- **WHEN** the teacher opens Editor and activates Sledeći
+- **THEN** the selector stays on screen, Editor stays the open tab, and the next step opens
 
 ### Requirement: Traka završenih koraka
 The selector bar MUST fill by the number of saved steps in the open week divided by that week's step count. The open index MUST NOT set the fill. The page MUST NOT show the sentence Progress indicates completed steps, not just the current position.

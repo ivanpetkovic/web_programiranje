@@ -349,7 +349,7 @@ The left column MUST list every week in the course document. A week MUST show it
 - **WHEN** the teacher chooses a step in the expanded week
 - **THEN** that step is the open lesson
 ### Requirement: Zaglavlje lekcije
-The open lesson MUST show the course breadcrumb, the week title, the week subtitle, and the step selector outside the Gradivo section. It MUST NOT show one button per step. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the Gradivo section and MUST NOT sit inside the selector.
+The open lesson MUST show the course breadcrumb, the week title, the week subtitle, and the step selector outside the Gradivo section. The selector MUST stay on screen on Gradivo, Diskusija, and Editor. It MUST NOT show one button per step. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the Gradivo section and MUST NOT sit inside the selector.
 
 #### Scenario: The selector replaces a button per step
 - **WHEN** a week is open on its first step
@@ -421,7 +421,7 @@ The search placeholder MUST be Nađi pojam, pitanje ili primer koda... Choosing 
 - **WHEN** the teacher chooses a quiz question from the typeahead
 - **THEN** the step that asks that question becomes the open lesson on Gradivo
 ### Requirement: Birač koraka
-The selector MUST sit outside the Gradivo section and MUST stay on screen while Gradivo, Diskusija, or Editor is open. It MUST show Korak {n} od {N}, the open step's title, a previous control, Svi koraci, Sledeći, and a progress bar filled by the open step. The filled width MUST be n/N. The number of saved steps MUST NOT set that width. It MUST NOT show one button per step. The previous control MUST show only `chevron-left` and MUST be named Prethodni korak. Sledeći MUST show that word and `chevron-right`, and MUST use the theme ink as its background. Sledeći MUST NOT use the accent background. The temperature control on the panel MUST stay without that background. The page MUST NOT show the sentence Progress indicates completed steps, not just the current position.
+The selector MUST sit outside the Gradivo section and MUST stay on screen while Gradivo, Diskusija, or Editor is open. It MUST show Korak {n} od {N}, the open step's title, a previous control, Svi koraci, Sledeći, and a progress bar filled by the open step. The filled width MUST be n/N. The number of saved steps MUST NOT set that width. Choosing a step MUST keep the open tab. It MUST NOT show one button per step. The previous control MUST show only `chevron-left` and MUST be named Prethodni korak. Sledeći MUST show that word and `chevron-right`, and MUST use the theme ink as its background. Sledeći MUST NOT use the accent background. The temperature control on the panel MUST stay without that background. The page MUST NOT show the sentence Progress indicates completed steps, not just the current position.
 
 #### Scenario: Step title sits under the count
 - **WHEN** a step is open
