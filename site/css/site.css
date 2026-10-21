@@ -620,7 +620,8 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 .sledeci-korak:disabled { opacity: 0.45; }
 .meta-koraka { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
 .pregled-h h2 { margin: 0; font-size: 1rem; }
-.pregled-okvir { display: grid; gap: 0.7rem; }
+.pregled-okvir { display: grid; grid-template-rows: auto minmax(18rem, 1fr) auto; gap: 0.7rem; min-height: 0; }
+#pregled-strana { display: block; width: 100%; height: 100%; min-height: 18rem; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
 .pregled-chrome {
   display: flex;
   align-items: center;

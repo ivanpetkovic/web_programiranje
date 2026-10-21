@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
-import { PORUKA, primeniPrikaz, sakrivenoUSobi } from "../site/js/pregled.js";
+import { PORUKA, primeniPrikaz, sakrivenoUSobi, sklopiDokument, tekstoviServera } from "../site/js/pregled.js";
 import { rezimPosleAkcije, upisPosleAkcije } from "../site/js/birac.js";
 import {
   polazniTekst,
@@ -161,7 +161,7 @@ test("tab Server čeka petu nedelju", () => {
   assert.equal(serverTabVidljiv(4), false);
   assert.equal(serverTabVidljiv(5), true);
   assert.match(main, /serverTabVidljiv\(cas\)/);
-  assert.match(main, /if \(cas === 1\) displejSobe\.crtaj\(""\)/);
+  assert.equal(main.includes("displejSobe.crtaj"), false);
   assert.equal(main.includes('if (cas < 3) displejSobe.crtaj("24")'), false);
   assert.match(html, />Klijent</);
   assert.match(html, />Server</);
@@ -188,7 +188,7 @@ test("nema dugmadi za upis fajla na disk", () => {
   assert.match(main, /dugmeReseta\.addEventListener\("click"/);
   assert.match(main, /upisiRadnu\(localStorage/);
   assert.equal(main.includes("/api/fajl/povrati"), false);
-  assert.equal(main.includes('fetch("/api/fajl"'), false);
+  assert.match(main, /fetch\("\/api\/fajl"/);
   assert.match(css, /\.editor\s*\{[^}]*min-width:\s*0/);
   assert.match(css, /\.cm-editor\s*\{[^}]*width:\s*100%/);
 });
@@ -254,6 +254,72 @@ test("klijentski bafer ne čuva fajl, serverski ne crta sobu", () => {
   assert.equal(server.crtez.cifra, "24");
   assert.equal(server.sacuvanFajl, false);
   assert.equal(server.poruka, "");
+});
+
+test("lekcija i moj kod biraju serverski tekst", () => {
+  const verzije = {
+    "server/soba.js": "snimak sobe",
+    "server/ventilator.js": "snimak ventilatora",
+    "client/index.html": "<p>klijent</p>",
+  };
+  const lekcija = tekstoviServera(verzije, { "server/soba.js": "moj kod sobe" }, "original");
+  assert.equal(lekcija["server/soba.js"], "snimak sobe");
+  assert.equal(lekcija["server/ventilator.js"], "snimak ventilatora");
+  assert.equal(lekcija["client/index.html"], undefined);
+  const moj = tekstoviServera(verzije, { "server/soba.js": "moj kod sobe" }, "radna");
+  assert.equal(moj["server/soba.js"], "moj kod sobe");
+  assert.equal(moj["server/ventilator.js"], "snimak ventilatora");
+  assert.equal(main.includes("new Function"), false);
+  assert.match(main, /tekstoviServera\(/);
+  const server = fs.readFileSync(new URL("../server/server.js", import.meta.url), "utf8");
+  const sacuvaj = server.slice(server.indexOf("async function sacuvajFajl"), server.indexOf("async function povratiFajl"));
+  const provera = sacuvaj.indexOf("sintaksaJeIspravna");
+  const upis = sacuvaj.indexOf("writeFileSync");
+  assert.ok(provera >= 0 && upis > provera);
+});
+
+test("pregled je iframe pored sobe mašina", () => {
+  assert.match(html, /<iframe id="pregled-strana"/);
+  assert.match(html, /id="soba-masina"/);
+  assert.equal(html.includes('id="soba-prekidaca"'), false);
+  assert.match(css, /#pregled-strana\s*\{[^}]*width:\s*100%/);
+  assert.match(css, /#pregled-strana\s*\{[^}]*height:\s*100%/);
+  assert.match(html, /<p id="pregled-adresa"><\/p>/);
+  assert.equal(html.includes('id="pregled-adresa"') && html.includes("<input id=\"pregled-adresa\""), false);
+});
+
+test("sklop dokumenta nosi dodatni element i stil iz mape", () => {
+  const adrese = new Map();
+  let n = 0;
+  function napravi(tekst) {
+    const id = `blob:test/${n++}`;
+    adrese.set(id, tekst);
+    return id;
+  }
+  const html = sklopiDokument(
+    {
+      "client/index.html": '<link rel="stylesheet" href="css/soba.css"><p>dodat</p><script src="js/korak.js"></script><script src="js/niz.js"></script><script>fetch("/api/soba")</script>',
+      "client/js/korak.js": "let korak = 1;",
+      "client/js/niz.js": "let niz = [];",
+      "client/css/soba.css": '.digit{color:red} .fan{background:url("/client/assets/fonts/a.ttf")}',
+    },
+    napravi,
+  );
+  assert.match(html, /<p>dodat<\/p>/);
+  assert.equal(html.includes("css/soba.css"), false);
+  assert.match(html, /\/api\/soba/);
+  const href = html.match(/href="([^"]+)"/)[1];
+  const skriptovi = [...html.matchAll(/src="([^"]+)"/g)].map((pogodak) => pogodak[1]);
+  assert.equal(skriptovi.length, 2);
+  assert.equal(adrese.get(skriptovi[0]), "let korak = 1;");
+  assert.equal(adrese.get(skriptovi[1]), "let niz = [];");
+  assert.match(adrese.get(href), /color:red/);
+  assert.match(adrese.get(href), /\/client\/assets\/fonts\/a\.ttf/);
+  const bez = sklopiDokument({ "client/index.html": '<link href="css/soba.css">' }, napravi);
+  assert.equal(bez.includes("css/soba.css"), false);
+  assert.equal(bez.includes("/client/css/soba.css"), false);
+  assert.equal(sklopiDokument({}), "");
+  assert.equal(sklopiDokument({ "client/index.html": "  " }), "");
 });
 
 test("neuspeo upis ostaje u mapi za ovu stranicu", () => {

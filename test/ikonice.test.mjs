@@ -82,7 +82,8 @@ test("pitanje, stablo, olovka i panel", () => {
   const osvezi = main.slice(main.indexOf("function osveziPregled"), main.indexOf("function loadSide"));
   assert.match(osvezi, /applyLive\(\)/);
   assert.equal(osvezi.includes("location.reload"), false);
-  assert.match(main, /prekidac\.textContent = ukljucen \? "Isključi" : "Uključi"/);
+  assert.match(html, /id="procitaj"/);
+  assert.equal(main.includes("procitaj.append(ikonica"), false);
   assert.equal(main.includes("prekidac.append(ikonica"), false);
   assert.equal(html.includes('id="sledeci" class="hod-koraka"'), false);
 });
