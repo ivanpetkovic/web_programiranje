@@ -78,7 +78,10 @@ test("pitanje, stablo, olovka i panel", () => {
   assert.match(main, /adresaPregleda\(location\.origin/);
   assert.match(main, /serverTabVidljiv\(cas\)/);
   assert.match(main, /saIkonom\(sviKoraci, "menu", "Svi koraci"\)/);
-  assert.match(main, /graduation-cap[\s\S]{0,20}Preduslov:/);
+  assert.equal(html.includes('id="mrvice"'), false);
+  assert.equal(html.includes('id="podnaslov-casa"'), false);
+  assert.equal(html.includes('id="preduslov"'), false);
+  assert.equal(main.includes("Preduslov:"), false);
   const osvezi = main.slice(main.indexOf("function osveziPregled"), main.indexOf("function loadSide"));
   assert.match(osvezi, /applyLive\(\)/);
   assert.equal(osvezi.includes("location.reload"), false);

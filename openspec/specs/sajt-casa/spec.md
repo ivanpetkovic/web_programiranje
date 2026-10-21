@@ -183,11 +183,11 @@ A repeat-question action MUST clear the mark and the reasons and MUST return tha
 - **WHEN** the teacher repeats a quiz whose explanation is open
 - **THEN** no answer is marked and the reasons are hidden
 ### Requirement: Preduslov i ishod
-Before its question, the open lecture MUST show its prerequisite and its outcome.
+The course document MUST still record each week's prerequisite and outcome. The open lecture MUST show the week title and MUST NOT show a breadcrumb, an outcome line, or a prerequisite callout above the steps.
 
-#### Scenario: Outcome is visible first
+#### Scenario: Header is the week title
 - **WHEN** the teacher opens a lecture
-- **THEN** the prerequisite and the outcome are visible before the quiz
+- **THEN** the week title is visible and the page does not show a breadcrumb, the outcome sentence, or a line that begins with Preduslov:
 ### Requirement: Sintaksna greška ne zamenjuje izvor
 A syntax error in a server file in the editor MUST remain in the working copy and MUST NOT replace the file on disk. The next request MUST still use the file on disk.
 
@@ -349,7 +349,7 @@ The left column MUST list every week in the course document. A week MUST show it
 - **WHEN** the teacher chooses a step in the expanded week
 - **THEN** that step is the open lesson
 ### Requirement: Zaglavlje lekcije
-The open lesson MUST show the course breadcrumb, the week title, the week subtitle, and the step selector outside the Gradivo section. The selector MUST stay on screen on Gradivo, Diskusija, and Editor. It MUST NOT show one button per step. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the Gradivo section and MUST NOT sit inside the selector.
+The open lesson MUST show the week title and the step selector outside the Gradivo section. It MUST NOT show a course breadcrumb or a week subtitle. The selector MUST stay on screen on Gradivo, Diskusija, and Editor. It MUST NOT show one button per step. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the Gradivo section and MUST NOT sit inside the selector.
 
 #### Scenario: The selector replaces a button per step
 - **WHEN** a week is open on its first step
