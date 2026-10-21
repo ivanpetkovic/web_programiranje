@@ -504,17 +504,23 @@ function nacrtajBirac(item, i) {
   });
   akcije.append(sviKoraci, meni, daljeKorak);
   red.append(prethodni, sredina, akcije);
-  const trakaPopune = document.createElement("div");
-  trakaPopune.className = "birac-traka";
-  trakaPopune.setAttribute("role", "progressbar");
-  trakaPopune.setAttribute("aria-valuemin", "1");
-  trakaPopune.setAttribute("aria-valuemax", String(item.steps.length));
-  trakaPopune.setAttribute("aria-valuenow", String(i + 1));
-  trakaPopune.setAttribute("aria-label", "Napredak kroz korake");
-  const punjenje = document.createElement("span");
-  punjenje.style.width = item.steps.length ? `${((i + 1) / item.steps.length) * 100}%` : "0%";
-  trakaPopune.append(punjenje);
-  birac.append(red, trakaPopune);
+  const krugovi = document.createElement("div");
+  krugovi.className = "birac-krugovi";
+  krugovi.setAttribute("role", "group");
+  krugovi.setAttribute("aria-label", "Koraci");
+  item.steps.forEach((korakNed, ki) => {
+    const krug = document.createElement("button");
+    krug.type = "button";
+    krug.className = ki <= i ? "birac-krug birac-krug-dosegnut" : "birac-krug birac-krug-buduci";
+    krug.setAttribute("aria-label", `${ki + 1} ${korakNed.naslov}`);
+    if (ki === i) krug.setAttribute("aria-current", "step");
+    krug.addEventListener("click", () => {
+      korakPoCasu.set(cas, ki);
+      renderLecture();
+    });
+    krugovi.append(krug);
+  });
+  birac.append(red, krugovi);
   return birac;
 }
 
