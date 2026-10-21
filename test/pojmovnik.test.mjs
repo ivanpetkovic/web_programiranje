@@ -26,6 +26,24 @@ test("Kontrolna soba i Čitanje nose definiciju iz pojmovnika", () => {
   assert.equal(pojmovi.some((pojam) => pojam.ime === "Jezik kursa"), false);
 });
 
+test("Alati browsera dolaze iz GLOSSARY.md, a alat van browsera nije taj pojam", () => {
+  const alati = pojmovi.find((pojam) => pojam.ime === "Alati browsera");
+  assert.match(alati.definicija, /DevTools/);
+  assert.match(alati.definicija, /prikaz/);
+  assert.match(alati.izbegava, /Izmena fajla/);
+  const kurs = {
+    nedelje: [
+      {
+        steps: [
+          { tekst: "Alati browsera menjaju prikaz.", kljucnaIdeja: "", pitalica: "?", isecak: "", opcije: [] },
+          { tekst: "Alat van browsera pročita telo.", kljucnaIdeja: "", pitalica: "?", isecak: "", opcije: [] },
+        ],
+      },
+    ],
+  };
+  assert.deepEqual(lekcijePojma(kurs, "Alati browsera").pogoci, [{ nedelja: 1, korak: 0 }]);
+});
+
 test("pogodak deli nedelje i ćuti kad glave nema", () => {
   const kurs = {
     nedelje: [
