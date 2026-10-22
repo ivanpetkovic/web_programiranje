@@ -103,4 +103,4 @@ test/          provere kursa, editora i ugovora API-ja
 GLOSSARY.md    pojmovnik
 ```
 
-Fascikle `1_htm, css, js`, `2_fje`, `3_proto`, `4-oop`, `5-async`, `6_ts_vite` i `7_tipovi` su raniji samostalni primeri. Nisu tok sajta časa.
+`primeri/` drži samostalne primere. Svaki podfolder je jedan primer; `primer.json` daje natpis u selektoru. Kontrolna soba nije folder: to je stablo časa iz `client/` i `server/`, i ono je podrazumevani primer.
