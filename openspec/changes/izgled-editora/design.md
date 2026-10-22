@@ -56,13 +56,13 @@ Alternativa: upisati `http://localhost:3000/...` kao na slici. Odbijena jer proc
 
 ### Ikonice ulaze u postojeći sprite
 
-`monitor`, `server`, `save`, `refresh-cw` i `pencil` dobijaju isti potez kao ostali `currentColor` simboli, u `site/icons/svg_currentColor/` i u `sprite.svg`. Učitaj koristi postojeći `folder`, Svi koraci postojeći `menu`, preduslov postojeći `graduation-cap`. Preduslov ostaje `Preduslov: ${preduslovCasa(n)}`, uz ikonicu. Izabrani tab časa dobija ivicu `var(--amber)` i pozadinu `var(--amber-dim)`.
+`monitor`, `server`, `save`, `refresh-cw` i `pencil` dobijaju isti potez kao ostali `currentColor` simboli, u `site/icons/svg_currentColor/` i u `sprite.svg`. Učitaj koristi postojeći `folder`, Svi koraci postojeći `menu`. Glava časa ne prikazuje preduslov. Izabrani tab časa dobija ivicu `var(--amber)` i pozadinu `var(--amber-dim)`.
 
 Klijent i Server dobijaju ikonice u `loadSide` / stalnim ikonicama. `osveziServerTab` i dalje krije Server u nedeljama 1–3.
 
 ## Risks / Trade-offs
 
-- [Tamno dugme na maketi postaje svetlo na mornaru i uglju] → Mastilo teme drži kontrast. Naglasak ostaje za segment, tekući korak i preduslov.
+- [Tamno dugme na maketi postaje svetlo na mornaru i uglju] → Mastilo teme drži kontrast. Naglasak ostaje za segment i tekući korak.
 - [Dva natpisa Sačuvaj] → U editoru je „Sačuvaj” i dira samo radnu verziju. „Sačuvaj korak” i bukmark u zaglavlju i dalje pišu `sacuvani`.
 - [Testovi traže `.hod-koraka` i redosled `trakaKoraka.append`] → `test/tema.test.mjs` i `test/ikonice.test.mjs` prate deltu. `#sledeci` sobe i dalje nema klasu hoda.
 - [Maketa crta tab Server na klijentskom primeru] → `serverTabVidljiv` ostaje. Nedelja 1 nema Server.

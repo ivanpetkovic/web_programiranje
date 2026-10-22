@@ -185,15 +185,15 @@ The preview MUST keep one shell machine room, one temperature on that room, and 
 - **WHEN** the teacher finishes week 11
 - **THEN** the preview still has one shell machine room, one temperature, and one fan beside the iframe
 ### Requirement: Preduslov nedelje
-Each lecture MUST name a prerequisite and an outcome. Week 1's prerequisite MUST say that there is no file yet and that the story starts before the page. Week 1's outcome MUST say that the Web is a service on the Internet, that a page is a document, and that `server/` still has no files. Each later lecture's prerequisite MUST be the outcome the previous lecture already reached.
+Each lecture MUST name a prerequisite and an outcome in the course document. Week 1's prerequisite MUST say that there is no file yet and that the story starts before the page. Week 1's outcome MUST say that the Web is a service on the Internet, that a page is a document, and that `server/` still has no files. Each later lecture's prerequisite MUST be the outcome the previous lecture already reached. The lecture page MUST NOT display that prerequisite or that outcome.
 
 #### Scenario: Later lecture names the previous outcome
 - **WHEN** the teacher opens week 2 or any later week
-- **THEN** its prerequisite is the outcome already reached and its own outcome is shown
+- **THEN** the course document's prerequisite for that week is the outcome already reached, and the page shows the week title without a prerequisite line or an outcome line
 
 #### Scenario: Week 1 names the folders
 - **WHEN** the teacher opens week 1
-- **THEN** the prerequisite says that there is no file yet and that the story starts before the page
+- **THEN** the course document's prerequisite says that there is no file yet and that the story starts before the page, and the page does not show that sentence
 ### Requirement: Rezerve časova 2 do 6
 The week Šta browser prikazuje reserve MUST ask whether the content stays visible when CSS does not arrive. The week JavaScript opisuje stanje reserve MUST ask about strict comparison of the temperature number and its text. The week Događaji povezuju korisnika reserve MUST separate a listener that receives a function from one that receives an immediate call. The week Od naivnog prenosa do HTTP-a, pa Node reserve MUST compare status 404 with a stopped process that has no HTTP status. The week Čekanje i neuspeh reserve MUST ask whether another click works while the first read is still waiting.
 

@@ -184,7 +184,11 @@ test("gradivo, jedna kolona i birač", () => {
   const tab = blok(css, '\\.cas-tabovi button\\[aria-selected="true"\\]\\s*\\{');
   assert.match(tab, /border-color:\s*var\(--amber\)/);
   assert.match(tab, /background:\s*var\(--amber-dim\)/);
-  assert.match(main, /graduation-cap[\s\S]{0,20}Preduslov:/);
+  assert.equal(html.includes('id="mrvice"'), false);
+  assert.equal(html.includes('id="podnaslov-casa"'), false);
+  assert.equal(html.includes('id="preduslov"'), false);
+  assert.equal(css.includes(".preduslov"), false);
+  assert.equal(main.includes("Preduslov:"), false);
 });
 
 test("boje razlike prate token palete", () => {
