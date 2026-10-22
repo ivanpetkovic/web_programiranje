@@ -55,7 +55,7 @@ test("linija ređa godinu pa natpis", () => {
   assert.equal(svg.includes("React"), false);
 });
 
-test("LO nema crtež, Hipertekst crta vezu, Podela otvara index", () => {
+test("LO nema crtež, Hipertekst crta vezu, Stranica otvara index", () => {
   const istorija = dokument.nedelje[0].steps;
   const lo = prikazKoraka(istorija[0]);
   assert.equal(lo.svg, null);
@@ -65,9 +65,9 @@ test("LO nema crtež, Hipertekst crta vezu, Podela otvara index", () => {
   assert.match(veza.svg, />Drugi tekst</);
   assert.equal(veza.putanja, null);
   const stranica = dokument.nedelje[1].steps;
-  const podela = prikazKoraka(stranica.find((korak) => korak.naslov === "Podela"));
-  assert.equal(podela.svg, null);
-  assert.equal(podela.putanja, "client/index.html");
+  const stranicaKorak = prikazKoraka(stranica.find((korak) => korak.naslov === "Stranica"));
+  assert.equal(stranicaKorak.svg, null);
+  assert.equal(stranicaKorak.putanja, "client/index.html");
   assert.match(main, /putanjaKoraka\.id = "putanja-koraka"/);
   assert.match(main, /if \(figura\) casEl\.append\(figura\)/);
 });
@@ -85,11 +85,11 @@ test("izlaz je rečenica na poslednjem koraku, pretpostavke ostaju", () => {
   assert.equal(main.includes('textContent = "Osvrt"'), false);
 });
 
-test("LO ne otvara soba.css, Podela otvara index.html", () => {
+test("LO ne otvara soba.css, Stranica otvara index.html", () => {
   const istorija = dokument.nedelje[0].steps;
   const stranica = dokument.nedelje[1].steps;
   assert.equal(izborFajla(istorija[0]), null);
-  assert.equal(izborFajla(stranica.find((korak) => korak.naslov === "Podela")), "client/index.html");
+  assert.equal(izborFajla(stranica.find((korak) => korak.naslov === "Stranica")), "client/index.html");
   assert.equal(main.includes("fileForLecture"), false);
   assert.equal(main.includes('openPath = { client: "css/soba.css"'), false);
 });

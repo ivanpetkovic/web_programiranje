@@ -21,6 +21,10 @@ export function mapirajKorak(korak) {
     pitalica: korak.pitalica,
     opcije: korak.opcije,
     figura: korak.figura,
+    tipPrimer: korak.tipPrimer,
+    samostalniPrimer: korak.samostalniPrimer,
+    dijagram: korak.dijagram,
+    analiza: korak.analiza,
   };
 }
 

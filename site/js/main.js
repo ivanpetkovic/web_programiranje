@@ -372,6 +372,19 @@ function odaberiPredlog(stavka) {
   otvoriNedelju(stavka.nedelja, stavka.korak);
 }
 
+function nacrtajTekstBloka(tekst, naslovTekst) {
+  const blok = document.createElement("section");
+  blok.className = "isecak";
+  const glava = document.createElement("header");
+  const naslov = document.createElement("span");
+  saIkonom(naslov, "file-text", naslovTekst);
+  glava.append(naslov);
+  const pre = document.createElement("pre");
+  pre.textContent = tekst;
+  blok.append(glava, pre);
+  return blok;
+}
+
 function nacrtajIsecak(korak) {
   const blok = document.createElement("section");
   blok.className = "isecak";
@@ -688,13 +701,27 @@ function renderLecture() {
   });
   radnjePitanja.append(otvori, ponovi);
   biracMesto.replaceChildren(birac);
+  const izolovan = !figura && !imaFajl && korak.samostalniPrimer?.tekst
+    ? nacrtajTekstBloka(korak.samostalniPrimer.tekst, "Mali eksperiment")
+    : null;
+  const dijagram = !figura && korak.dijagram?.tekst
+    ? nacrtajTekstBloka(korak.dijagram.tekst, "Dijagram")
+    : null;
+  const analiza = otvoreno && korak.analiza ? document.createElement("p") : null;
+  if (analiza) {
+    analiza.className = "why analiza";
+    analiza.textContent = korak.analiza;
+  }
   casEl.append(metaKoraka, naslovKoraka, primer, kljucna);
   if (figura) casEl.append(figura);
   else if (imaFajl) {
     if (isecak) casEl.append(isecak);
     casEl.append(put, vec);
   }
+  if (izolovan) casEl.append(izolovan);
+  if (dijagram) casEl.append(dijagram);
   casEl.append(pitanjeBlok, radnjePitanja);
+  if (analiza) casEl.append(analiza);
   if (izlaz) casEl.append(izlaz);
   diskusijaMesto.replaceChildren(nacrtajDiskusiju(item));
   prikaziDeo();
