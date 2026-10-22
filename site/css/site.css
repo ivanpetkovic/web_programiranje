@@ -516,6 +516,10 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 .isecak pre { margin: 0; border-radius: 0; }
 .isecak .br { display: inline-block; width: 1.6rem; color: var(--muted); }
 .isecak .komentar { color: var(--good); }
+.isecak .red.novo,
+.isecak .red.novo .komentar { color: var(--diff-dodato); }
+.isecak .red.novo .br { color: var(--muted); }
+.isecak .red.novo { background: color-mix(in srgb, var(--diff-dodato) 16%, transparent); }
 .pitanje-blok { margin-top: 1rem; }
 .radnje-pitanja {
   display: flex;
