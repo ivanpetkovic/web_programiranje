@@ -12,6 +12,7 @@ import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
 
 const nav = document.querySelector("#nav");
+const navPreklop = document.querySelector("#nav-preklop");
 const casEl = document.querySelector("#cas");
 const biracMesto = document.querySelector("#birac-mesto");
 const naslovCasa = document.querySelector("#naslov-casa");
@@ -54,6 +55,7 @@ let typeaheadIndeks = -1;
 
 let cas = 1;
 let deo = "koraci";
+let navOtvoren = true;
 let udeoEditora = 72;
 const korakPoCasu = new Map();
 const rezervaPoCasu = new Map();
@@ -234,6 +236,12 @@ function prikaziDeo() {
     tab.tabIndex = otvoren ? 0 : -1;
   }
   document.body.classList.toggle("editor-pun", deo === "editor");
+}
+
+function prikaziNav() {
+  document.body.classList.toggle("nav-skriven", !navOtvoren);
+  navPreklop.setAttribute("aria-expanded", String(navOtvoren));
+  navPreklop.setAttribute("aria-label", navOtvoren ? "Sakrij navigaciju" : "Prikaži navigaciju");
 }
 
 function usko() {
@@ -1298,6 +1306,12 @@ for (const ime of ["koraci", "diskusija", "editor"]) {
     prikaziDeo();
   });
 }
+
+navPreklop.addEventListener("click", () => {
+  navOtvoren = !navOtvoren;
+  prikaziNav();
+});
+prikaziNav();
 
 traka.addEventListener("pointerdown", (event) => {
   if (usko()) return;
