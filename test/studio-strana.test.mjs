@@ -28,6 +28,9 @@ test("strana čita kurs.json, šalje PUT i drži nacrt studio:kurs", () => {
   const preuzmi = strana.slice(strana.indexOf("function preuzmiDatoteku"), strana.indexOf("async function sacuvaj"));
   assert.match(preuzmi, /download = ime/);
   assert.match(preuzmi, /"kurs\.json"/);
+  assert.match(strana, /from "\.\/izvoz-xml\.js"/);
+  assert.match(strana, /from "\.\/uvoz-xml\.js"/);
+  assert.equal(strana.includes("kurs-xml"), false);
   assert.match(strana, /ispisiXml\(kurs\), "kurs\.xml"/);
   assert.match(strana, /procitajXml\(tekst\)/);
   assert.equal(preuzmi.includes("/api/kurs"), false);

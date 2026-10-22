@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
-import { ispisiXml, procitajXml } from "../site/js/kurs-xml.js";
+import { ispisiXml } from "../site/js/izvoz-xml.js";
+import { procitajXml } from "../site/js/uvoz-xml.js";
 import { procitajTekst } from "../site/js/studio.js";
 
 const json = fs.readFileSync(new URL("../site/kurs.json", import.meta.url), "utf8");

@@ -27,7 +27,8 @@ import {
   ukloniPojam,
   vrstaKoraka,
 } from "./studio.js";
-import { ispisiXml, procitajXml } from "./kurs-xml.js";
+import { ispisiXml } from "./izvoz-xml.js";
+import { procitajXml } from "./uvoz-xml.js";
 
 const KLJUC = "studio:kurs";
 const spisak = document.querySelector("#spisak");
