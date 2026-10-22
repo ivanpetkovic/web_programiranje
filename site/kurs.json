@@ -62,12 +62,6 @@
       "body": "Podatak koji browser čuva i, prema pravilima cookie-ja, šalje sa odgovarajućim HTTP zahtevima. U Kontrolnoj sobi sadrži sesijski token sa HttpOnly."
     },
     {
-      "id": "transakcija",
-      "name": "transakcija",
-      "hint": "",
-      "body": "Grupa operacija nad bazom tretirana kao jedna atomska jedinica. U Kontrolnoj sobi povezuje promenu režima i zapis istorije."
-    },
-    {
       "id": "cache",
       "name": "cache",
       "hint": "",
@@ -3330,29 +3324,29 @@
       ]
     },
     {
-      "naslov": "PostgreSQL, transakcije i Docker",
-      "podnaslov": "Režim i istorija su jedna transakcija.",
-      "ishod": "Režim i istorija su jedna transakcija.",
+      "naslov": "PostgreSQL i Docker",
+      "podnaslov": "Restart procesa čuva režim. Brisanje skladišta ga briše.",
+      "ishod": "Restart procesa čuva režim. Brisanje skladišta ga briše.",
       "minuta": 90,
-      "problem": "Režim je upisan, istorija nije. Da li je evidencija cela?",
-      "pretpostavka": "Bitno stanje je sačuvano pa je istorija sporedna, ili kontejner sam čuva oba upisa.",
+      "problem": "Node se ugasi i ponovo podigne. Da li režim ostane?",
+      "pretpostavka": "Novi proces krene od isključenog, ili kontejner drži podatak umesto diska.",
       "options": [
         {
           "key": "A",
-          "text": "Nije, dok oba upisa nisu jedna transakcija.",
-          "why": "Ili oba uspeju, ili se oba povuku.",
+          "text": "Da. Ostao je u bazi.",
+          "why": "Restart procesa ne briše bazu.",
           "ok": true
         },
         {
           "key": "B",
-          "text": "Jeste, istorija je sporedna.",
-          "why": "Istorija je deo evidencije komande.",
+          "text": "Ne. Novi proces krene od isključenog.",
+          "why": "Proces je nov, red u bazi nije.",
           "ok": false
         },
         {
           "key": "C",
-          "text": "Kontejner sam čuva oba upisa.",
-          "why": "Kontejner ne spaja dva odvojena upita.",
+          "text": "Kontejner sam briše režim kad se proces ugasi.",
+          "why": "Gašenje procesa nije brisanje diska.",
           "ok": false
         }
       ],
@@ -3374,243 +3368,32 @@
         ]
       },
       "izlaz": "Šta restart procesa čuva, a šta brisanje skladišta briše?",
-      "pojmoviCasa": [
-        {
-          "id": "transakcija",
-          "name": "Transakcija",
-          "hint": "oba upisa ili nijedan",
-          "body": "Povezani upis režima i istorije je jedna transakcija. Restart procesa ne spaja odvojene upite.",
-          "code": "BEGIN;\nUPDATE ventilator SET ukljucen = $1;\nINSERT INTO istorija(komanda) VALUES ($2);\nCOMMIT;"
-        }
-      ],
+      "pojmoviCasa": [],
       "steps": [
-        {
-          "naslov": "Parametar",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Vrednost ulazi kao parametar, ne lepljenjem teksta.",
-          "kljucnaIdeja": "Upit je parametrizovan.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "Parametar",
-          "isecak": "UPDATE ventilator SET ukljucen = $1",
-          "delic": "UPDATE ventilator SET ukljucen = $1 WHERE id = 1",
-          "analiza": "Zašto: Upit je parametrizovan. U ovom koraku: Vrednost ulazi kao parametar, ne lepljenjem teksta. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Zašto $1?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Da se tekst komande spoji u SQL.",
-              "why": "Lepljenje teksta je drugi čas, kao opomena. Ta pretpostavka zanemaruje ključnu razliku: Upit je parametrizovan.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Da vrednost ostane podatak, ne deo upita.",
-              "why": "Upit je parametrizovan. To je u skladu sa razlikom koju pravi ovaj korak: Upit je parametrizovan.",
-              "ok": true
-            }
-          ]
-        },
-        {
-          "naslov": "Dva reda",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Režim i istorija su dva upisa.",
-          "kljucnaIdeja": "Čitanje i izmena režima idu uz zapis komande.",
-          "putanja": "server/baza.js",
-          "isecakNaslov": "Dva reda",
-          "isecak": "UPDATE ...\nINSERT INTO istorija ...",
-          "delic": "INSERT INTO istorija (komanda) VALUES ($1)",
-          "analiza": "Zašto: Čitanje i izmena režima idu uz zapis komande. U ovom koraku: Režim i istorija su dva upisa. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Šta evidencija traži?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Samo režim.",
-              "why": "Istorija nije sporedna. Ta pretpostavka zanemaruje ključnu razliku: Čitanje i izmena režima idu uz zapis komande.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Oba reda.",
-              "why": "Komanda bez istorije nije cela evidencija. To je u skladu sa razlikom koju pravi ovaj korak: Čitanje i izmena režima idu uz zapis komande.",
-              "ok": true
-            }
-          ]
-        },
-        {
-          "naslov": "BEGIN",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Dva upita ulaze u jednu transakciju.",
-          "kljucnaIdeja": "Povezani upis režima i istorije je jedna transakcija.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "BEGIN",
-          "isecak": "BEGIN",
-          "delic": "BEGIN;",
-          "analiza": "Zašto: Povezani upis režima i istorije je jedna transakcija. U ovom koraku: Dva upita ulaze u jednu transakciju. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Šta BEGIN otvori?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Novi Node proces.",
-              "why": "Proces već radi. Ta pretpostavka zanemaruje ključnu razliku: Povezani upis režima i istorije je jedna transakcija.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Transakciju koja još nije potvrđena.",
-              "why": "COMMIT ili ROLLBACK je zatvaraju. To je u skladu sa razlikom koju pravi ovaj korak: Povezani upis režima i istorije je jedna transakcija.",
-              "ok": true
-            }
-          ]
-        },
-        {
-          "naslov": "COMMIT",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Oba upita su prošla.",
-          "kljucnaIdeja": "Ili oba uspeju, ili se oba povuku.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "COMMIT",
-          "isecak": "COMMIT",
-          "delic": "COMMIT;",
-          "analiza": "Zašto: Ili oba uspeju, ili se oba povuku. U ovom koraku: Oba upita su prošla. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Šta posle COMMIT-a važi?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Samo do restarta procesa.",
-              "why": "Baza drži red i posle procesa. Ta pretpostavka zanemaruje ključnu razliku: Ili oba uspeju, ili se oba povuku.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Oba reda ostaju.",
-              "why": "Transakcija je uspela. To je u skladu sa razlikom koju pravi ovaj korak: Ili oba uspeju, ili se oba povuku.",
-              "ok": true
-            }
-          ]
-        },
-        {
-          "naslov": "Zašto SQL parametri?",
-          "nivo": "Primena",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "SQL tekst i vrednost iz zahteva nisu ista stvar.",
-          "kljucnaIdeja": "Parametrizovani upit sprečava da ulazni podatak promeni strukturu SQL naredbe.",
-          "putanja": "server/baza.js",
-          "isecakNaslov": "Zašto SQL parametri?",
-          "isecak": "await db.query(\n \"UPDATE ventilator SET ukljucen=$1 WHERE id=$2\",\n [ukljucen, 1]\n);",
-          "delic": "await db.query(\n \"UPDATE ventilator SET ukljucen=$1 WHERE id=$2\",\n [ukljucen, 1]\n);",
-          "analiza": "Pokazati konkretan primer interpolacije i parametrizacije. Ne koristiti korisničke vrednosti za SQL identifikatore bez posebnog postupka.",
-          "formatPitalice": "kod-izlaz",
-          "pitalica": "Zašto je $1 bezbedniji od spajanja SQL stringa sa korisničkim unosom?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Zato što PostgreSQL ignoriše svaku grešku.",
-              "why": "Parametri ne isključuju sve greške u bazi.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Zato što se vrednost tretira kao podatak, ne SQL kod.",
-              "why": "Parametrizacija razdvaja SQL strukturu od vrednosti.",
-              "ok": true
-            },
-            {
-              "key": "C",
-              "text": "Zato što upit ne treba transakciju.",
-              "why": "Parametrizacija ne zamenjuje transakciju.",
-              "ok": false
-            }
-          ]
-        },
-        {
-          "naslov": "ROLLBACK",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Drugi upit u transakciji padne.",
-          "kljucnaIdeja": "Jedna promena: drugi upit ne uspe, pa se prvi povuče.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "ROLLBACK",
-          "isecak": "ROLLBACK",
-          "delic": "ROLLBACK;",
-          "analiza": "Zašto: Jedna promena: drugi upit ne uspe, pa se prvi povuče. U ovom koraku: Drugi upit u transakciji padne. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Šta ostane od prvog upita?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Režim, istorija može kasnije.",
-              "why": "Transakcija se povlači cela. Ta pretpostavka zanemaruje ključnu razliku: Jedna promena: drugi upit ne uspe, pa se prvi povuče.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Ni režim ni istorija te transakcije.",
-              "why": "Restart ne spaja ono što nije bilo jedna transakcija. To je u skladu sa razlikom koju pravi ovaj korak: Jedna promena: drugi upit ne uspe, pa se prvi povuče.",
-              "ok": true
-            }
-          ]
-        },
         {
           "naslov": "Restart procesa",
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Node se ugasi i ponovo podigne. Baza ostane.",
-          "kljucnaIdeja": "Restart samo Node procesa čuva režim upisan u jednoj transakciji.",
+          "kljucnaIdeja": "Restart samo Node procesa čuva režim u bazi.",
           "putanja": "server/baza.js",
           "isecakNaslov": "Restart procesa",
           "isecak": "node server/server.js",
           "delic": "SELECT ukljucen FROM ventilator WHERE id = 1",
-          "analiza": "Zašto: Restart samo Node procesa čuva režim upisan u jednoj transakciji. U ovom koraku: Node se ugasi i ponovo podigne. Baza ostane. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "analiza": "Zašto: Restart samo Node procesa čuva režim u bazi. U ovom koraku: Node se ugasi i ponovo podigne. Baza ostane. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta sledeće čitanje vidi?",
           "opcije": [
             {
               "key": "A",
               "text": "Podrazumevano isključeno, proces je nov.",
-              "why": "Uspešna transakcija je u bazi. Ta pretpostavka zanemaruje ključnu razliku: Restart samo Node procesa čuva režim upisan u jednoj transakciji.",
+              "why": "Proces je nov, red u bazi nije. Ta pretpostavka zanemaruje ključnu razliku: Restart samo Node procesa čuva režim u bazi.",
               "ok": false
             },
             {
               "key": "B",
-              "text": "Režim iz uspele transakcije.",
-              "why": "Restart samo procesa ne briše bazu. To je u skladu sa razlikom koju pravi ovaj korak: Restart samo Node procesa čuva režim upisan u jednoj transakciji.",
-              "ok": true
-            }
-          ]
-        },
-        {
-          "naslov": "Dva odvojena upita",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Neko uradi UPDATE, pa kasnije INSERT, bez BEGIN.",
-          "kljucnaIdeja": "Restart ne spaja dva odvojena upita.",
-          "putanja": "server/baza.js",
-          "isecakNaslov": "Dva odvojena upita",
-          "isecak": "UPDATE;\n-- proces padne\nINSERT;",
-          "delic": "// nema BEGIN",
-          "analiza": "Zašto: Restart ne spaja dva odvojena upita. U ovom koraku: Neko uradi UPDATE, pa kasnije INSERT, bez BEGIN. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Šta restart spoji?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Oba, jer su bila namenjena istoj komandi.",
-              "why": "Namera nije transakcija. Ta pretpostavka zanemaruje ključnu razliku: Restart ne spaja dva odvojena upita.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Ništa. Odvojeni upiti nisu jedna transakcija.",
-              "why": "Prvi može da ostane bez drugog. To je u skladu sa razlikom koju pravi ovaj korak: Restart ne spaja dva odvojena upita.",
+              "text": "Režim koji je baza već držala.",
+              "why": "Restart samo procesa ne briše bazu. To je u skladu sa razlikom koju pravi ovaj korak: Restart samo Node procesa čuva režim u bazi.",
               "ok": true
             }
           ]
@@ -3621,61 +3404,25 @@
           "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Kontejner se obriše. Disk baze ostane.",
-          "kljucnaIdeja": "Kontejner sam ne čini upise atomskim ni trajnim.",
+          "kljucnaIdeja": "Brisanje kontejnera ne briše disk baze.",
           "putanja": "server/baza.js",
-          "isecakNaslov": "Kontejner",
-          "isecak": "docker compose down",
-          "delic": "docker compose down",
-          "analiza": "Zašto: Kontejner sam ne čini upise atomskim ni trajnim. U ovom koraku: Kontejner se obriše. Disk baze ostane. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+        "isecakNaslov": "Kontejner",
+        "isecak": "docker compose down",
+        "delic": "docker compose down",
+          "analiza": "Zašto: Brisanje kontejnera ne briše disk baze. U ovom koraku: Kontejner se obriše. Disk baze ostane. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta nestane?",
           "opcije": [
             {
               "key": "A",
               "text": "I režim, jer je kontejner držao podatak u sebi.",
-              "why": "Trajnost je na disku, ne u imenu kontejnera. Ta pretpostavka zanemaruje ključnu razliku: Kontejner sam ne čini upise atomskim ni trajnim.",
+              "why": "Trajnost je na disku, ne u imenu kontejnera. Ta pretpostavka zanemaruje ključnu razliku: Brisanje kontejnera ne briše disk baze.",
               "ok": false
             },
             {
               "key": "B",
               "text": "Proces baze. Podatak ostaje ako disk ostane.",
-              "why": "Kontejner nije atomičnost upisa. To je u skladu sa razlikom koju pravi ovaj korak: Kontejner sam ne čini upise atomskim ni trajnim.",
+              "why": "Kontejner nije disk. To je u skladu sa razlikom koju pravi ovaj korak: Brisanje kontejnera ne briše disk baze.",
               "ok": true
-            }
-          ]
-        },
-        {
-          "naslov": "Transakcija i pad procesa",
-          "nivo": "Primena",
-          "minuta": 4,
-          "tipPrimer": "eksperiment",
-          "tekst": "Posle UPDATE, pre INSERT zapisa u istoriju, proces padne.",
-          "kljucnaIdeja": "Transakcija štiti atomski upis: ili oba, ili nijedan.",
-          "samostalniPrimer": {
-            "jezik": "sql",
-            "izolovan": true,
-            "tekst": "BEGIN;\nUPDATE ventilator SET ukljucen=true WHERE id=1;\nINSERT INTO istorija(komanda) VALUES ('on');\nCOMMIT;"
-          },
-          "analiza": "Dijagram BEGIN → UPDATE → INSERT → COMMIT; bočna grana greške → ROLLBACK. Razlikovati pad Node-a i gubitak podataka u bazi.",
-          "formatPitalice": "problem",
-          "pitalica": "Ako do greške dođe pre COMMIT, šta važi?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "UPDATE mora ostati sačuvan.",
-              "why": "Bez potvrđene transakcije nije garantovan trajni efekat.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Nepotvrđene izmene te transakcije se povlače.",
-              "why": "PostgreSQL povlači nepotvrđenu transakciju pri prekidu konekcije.",
-              "ok": true
-            },
-            {
-              "key": "C",
-              "text": "INSERT se izvršava naknadno automatski.",
-              "why": "Baza neće sama dopisati nedostajući deo.",
-              "ok": false
             }
           ]
         },
@@ -3758,35 +3505,7 @@
             {
               "key": "B",
               "text": "Na kutiji, pre upisa.",
-              "why": "Loše telo ne otvara transakciju. To je u skladu sa razlikom koju pravi ovaj korak: Ishod časa je taj put. Baza ne vidi telo koje nije režim.",
-              "ok": true
-            }
-          ]
-        },
-        {
-          "naslov": "Istorija nije sporedna",
-          "nivo": "Osnovno",
-          "minuta": 3,
-          "tipPrimer": "aplikacija",
-          "tekst": "Režim jeste upisan, red istorije nije.",
-          "kljucnaIdeja": "Evidencija nije pouzdana dok režim i istorija nisu jedna transakcija.",
-          "putanja": "server/baza.js",
-          "isecakNaslov": "Istorija nije sporedna",
-          "isecak": "UPDATE bez INSERT",
-          "delic": "BEGIN; UPDATE; INSERT; COMMIT;",
-          "analiza": "Zašto: Evidencija nije pouzdana dok režim i istorija nisu jedna transakcija. U ovom koraku: Režim jeste upisan, red istorije nije. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Da li je evidencija cela?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Jeste. Bitno je samo trenutno stanje.",
-              "why": "Istorija je deo komande. Ta pretpostavka zanemaruje ključnu razliku: Evidencija nije pouzdana dok režim i istorija nisu jedna transakcija.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Nije, dok nisu jedna transakcija.",
-              "why": "Oba ili nijedan. To je u skladu sa razlikom koju pravi ovaj korak: Evidencija nije pouzdana dok režim i istorija nisu jedna transakcija.",
+              "why": "Loše telo ne stiže do upisa. To je u skladu sa razlikom koju pravi ovaj korak: Ishod časa je taj put. Baza ne vidi telo koje nije režim.",
               "ok": true
             }
           ]
@@ -4874,16 +4593,16 @@
           "nivo": "Primena",
           "minuta": 4,
           "tipPrimer": "pitalica-kod",
-          "tekst": "Klijent pošalje komandu, server potvrdi transakciju, odgovor nestane.",
+          "tekst": "Klijent pošalje komandu, server upiše režim, odgovor nestane.",
           "kljucnaIdeja": "Odsustvo odgovora ne dokazuje da zahtev nije izvršen.",
           "samostalniPrimer": {
             "jezik": "text",
             "izolovan": true,
-            "tekst": "PUT /api/ventilator {\"ukljucen\":true}\nSERVER: COMMIT\nMREŽA: odgovor se izgubi\nKLIJENT: timeout"
+            "tekst": "PUT /api/ventilator {\"ukljucen\":true}\nSERVER: upis\nMREŽA: odgovor se izgubi\nKLIJENT: timeout"
           },
           "dijagram": {
             "format": "text",
-            "tekst": "browser → Node → BEGIN → UPDATE → COMMIT\n              odgovor ✕ ────────▶ browser"
+            "tekst": "browser → Node → upis\n              odgovor ✕ ────────▶ browser"
           },
           "analiza": "Dijagram putanje zahteva; razlikovati pouzdanost prenosa odgovora i trajnost upisa. Razgovarati o idempotency key za operacije koje nisu prirodno idempotentne.",
           "formatPitalice": "problem",
@@ -4892,7 +4611,7 @@
             {
               "key": "A",
               "text": "Da ventilator nije uključen.",
-              "why": "Timeout nije rollback.",
+              "why": "Timeout nije dokaz da upis nije prošao.",
               "ok": false
             },
             {

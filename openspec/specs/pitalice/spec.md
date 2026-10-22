@@ -67,7 +67,7 @@ Each main quiz MUST use the counterexample named for that lecture. The week Brow
 - **WHEN** the main quiz of Browser: HTML, CSS i prikaz is analyzed
 - **THEN** the marked answer is the local display and the panel counterexample is that refresh restores 24
 ### Requirement: Pitalice časova 7 do 11
-The week API komande, validacija i idempotentnost MUST ask whether repeating a command is safe. The week PostgreSQL, transakcije i Docker MUST ask whether the record is reliable before the mode and the history are one unit. The week Svežina podataka, periodično čitanje i push MUST ask whether 24 °C from ten minutes ago is the current temperature. The week Bezbednost, sesije i prava pristupa MUST ask whether hiding the button protects the server. The week Ceo sistem, dijagnostika i LLM MUST ask what may be claimed when the screen says on and no response has arrived.
+The week API komande, validacija i idempotentnost MUST ask whether repeating a command is safe. The week PostgreSQL i Docker MUST ask whether the mode remains after only the Node process restarts. The week Svežina podataka, periodično čitanje i push MUST ask whether 24 °C from ten minutes ago is the current temperature. The week Bezbednost, sesije i prava pristupa MUST ask whether hiding the button protects the server. The week Ceo sistem, dijagnostika i LLM MUST ask what may be claimed when the screen says on and no response has arrived.
 
 #### Scenario: Lecture 10 stays undecided
 - **WHEN** the Ceo sistem, dijagnostika i LLM main quiz is analyzed

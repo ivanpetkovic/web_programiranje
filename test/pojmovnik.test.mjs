@@ -64,12 +64,10 @@ test("termini gradiva izbegavaju kalk i javljaju se u kursu", () => {
   const blockchain = trazi("blockchain");
   const veza = trazi("veza od kraja do kraja");
   const token = trazi("opaque token");
-  const transakcija = trazi("Transakcija");
   assert.match(blockchain.izbegava, /Knjiga na lancu/);
   assert.match(blockchain.izbegava, /lanac blokova/);
   assert.match(veza.izbegava, /Žica/);
   assert.match(token.izbegava, /Neprozirni ključ/);
-  assert.match(transakcija.izbegava, /celina upisa/);
   assert.match(trazi("flag day").izbegava, /Dan zastave/);
   assert.match(trazi("cookie").izbegava, /Kolačić/);
   assert.match(trazi("cache").izbegava, /Keš/);

@@ -661,7 +661,7 @@ Script tags MUST be inserted into an HTML snapshot only when that snapshot conta
 - **WHEN** the teacher shows the built-in version of `client/index.html` at the end of the week titled DOM, događaji i prikaz stanja
 - **THEN** the document contains no canvas and does not mention `nacrtajLiniju`
 ### Requirement: Panel od Node nedelje
-The shell machine room MUST show beside the iframe from Od mrežnog prenosa do HTTP-a i Node.js-a onward. That room is not a file from the editor. The waiting label and the cable control MUST show from Asinhronost, event loop i neuspeh onward. History and the database flag MUST show from PostgreSQL, transakcije i Docker onward. Periodic reading, freshness, and age MUST show from Svežina podataka, periodično čitanje i push onward. Roles MUST show from Bezbednost, sesije i prava pristupa onward.
+The shell machine room MUST show beside the iframe from Od mrežnog prenosa do HTTP-a i Node.js-a onward. That room is not a file from the editor. The waiting label and the cable control MUST show from Asinhronost, event loop i neuspeh onward. History and the database flag MUST show from PostgreSQL i Docker onward. Periodic reading, freshness, and age MUST show from Svežina podataka, periodično čitanje i push onward. Roles MUST show from Bezbednost, sesije i prava pristupa onward.
 
 #### Scenario: Node week shows the machine room
 - **WHEN** the teacher opens Od mrežnog prenosa do HTTP-a i Node.js-a

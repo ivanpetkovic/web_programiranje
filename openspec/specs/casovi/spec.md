@@ -7,15 +7,15 @@ Deset nedelja vodi nastavnika od praznog `client/index.html` do iste kontrolne s
 ## Requirements
 
 ### Requirement: Nedelja ima naslov i korake
-The course MUST be one document that sets its duration as a number of weeks and lists that many weeks, in order, each with a title. The shell MUST use that duration and MUST NOT hardcode a week count. The shipped document MUST set the duration to eleven, use the titles below, and give each week 10 to 22 steps. A step that names a file MUST be one fragment, not the whole week. The minute budget MUST stay a teaching label and MUST NOT be a timer.
+The course MUST be one document that sets its duration as a number of weeks and lists that many weeks, in order, each with a title. The shell MUST use that duration and MUST NOT hardcode a week count. The shipped document MUST set the duration to eleven, use the titles below, and give the week titled PostgreSQL i Docker 5 steps and every other week 10 to 22 steps. A step that names a file MUST be one fragment, not the whole week. The minute budget MUST stay a teaching label and MUST NOT be a timer.
 
 #### Scenario: Titles are visible
 - **WHEN** the teacher opens the shipped course
-- **THEN** the weeks appear in order as: Zašto Web postoji: zahtevi i protokoli; Browser: HTML, CSS i prikaz; JavaScript: vrednosti, objekti i prototipovi; DOM, događaji i prikaz stanja; Od mrežnog prenosa do HTTP-a i Node.js-a; Asinhronost, event loop i neuspeh; API komande, validacija i idempotentnost; PostgreSQL, transakcije i Docker; Svežina podataka, periodično čitanje i push; Bezbednost, sesije i prava pristupa; Ceo sistem, dijagnostika i LLM
+- **THEN** the weeks appear in order as: Zašto Web postoji: zahtevi i protokoli; Browser: HTML, CSS i prikaz; JavaScript: vrednosti, objekti i prototipovi; DOM, događaji i prikaz stanja; Od mrežnog prenosa do HTTP-a i Node.js-a; Asinhronost, event loop i neuspeh; API komande, validacija i idempotentnost; PostgreSQL i Docker; Svežina podataka, periodično čitanje i push; Bezbednost, sesije i prava pristupa; Ceo sistem, dijagnostika i LLM
 
 #### Scenario: A lecture is a sequence of steps
 - **WHEN** the teacher opens any week of the shipped course
-- **THEN** that week shows between 10 and 22 steps, week 1 shows 12, the week titled Browser: HTML, CSS i prikaz shows 15, and no step of week 1 names a file
+- **THEN** that week shows between 5 and 22 steps, week 1 shows 12, the week titled Browser: HTML, CSS i prikaz shows 15, the week titled PostgreSQL i Docker shows 5, and no step of week 1 names a file
 
 #### Scenario: Figure steps name no file
 - **WHEN** the teacher opens Hipertekst, TCP i UDP, or Dokument
@@ -121,10 +121,10 @@ The week titled API komande, validacija i idempotentnost MUST send a command tha
 - **WHEN** the command body carries text instead of a boolean
 - **THEN** the response is HTTP 400 and the mode is unchanged
 ### Requirement: Čas 8 upisuje jednu celinu
-The week titled PostgreSQL, transakcije i Docker MUST store the mode and the command history through parameterized queries in PostgreSQL. Those two writes MUST be one unit. Restarting only the Node process after a successful unit MUST keep the mode. A failed second write MUST withdraw the first. The browser MUST NOT receive database credentials. The demonstration MUST distinguish restarting the process, removing the container, and removing the durable storage.
+The week titled PostgreSQL i Docker MUST keep the fan mode in PostgreSQL. Restarting only the Node process MUST keep that mode. Removing the container MUST NOT by itself remove the mode when the disk remains. Removing the durable storage MUST drop the previous mode. The browser MUST NOT receive database credentials. The lecture MUST NOT teach a parameterized query or a transaction.
 
 #### Scenario: Restart keeps the mode
-- **WHEN** the mode and history have been stored in one successful unit and only Node restarts
+- **WHEN** the mode has been stored and only the Node process restarts
 - **THEN** the following read returns that mode
 ### Requirement: Čas 9 nosi trenutak
 The week titled Svežina podataka, periodično čitanje i push MUST treat the still display as a reason for a new read. A reading MUST carry a value and a moment, and the display MUST show its age. An older moment that arrives later MUST NOT replace a newer moment while that check is on.
@@ -167,7 +167,7 @@ The week Browser: HTML, CSS i prikaz reserve MUST ask whether the content stays 
 - **WHEN** the teacher opens the reserve of Od mrežnog prenosa do HTTP-a i Node.js-a
 - **THEN** the question compares a missing path that returns 404 with a stopped process that has no status
 ### Requirement: Rezerve časova 7 do 10
-The week API komande, validacija i idempotentnost reserve MUST send a body the form does not offer, with text instead of a boolean. The week PostgreSQL, transakcije i Docker reserve MUST refuse giving database credentials to the browser. The week Svežina podataka, periodično čitanje i push reserve MUST compare the freshness of the fan icon with the freshness of the reading. The week Bezbednost, sesije i prava pristupa reserve MUST separate a browser that cannot read a body from a server that stays silent.
+The week API komande, validacija i idempotentnost reserve MUST send a body the form does not offer, with text instead of a boolean. The week PostgreSQL i Docker reserve MUST refuse giving database credentials to the browser. The week Svežina podataka, periodično čitanje i push reserve MUST compare the freshness of the fan icon with the freshness of the reading. The week Bezbednost, sesije i prava pristupa reserve MUST separate a browser that cannot read a body from a server that stays silent.
 
 #### Scenario: Lecture 6 reserve
 - **WHEN** the teacher opens the reserve of API komande, validacija i idempotentnost
@@ -198,7 +198,7 @@ The lectures MUST NOT teach database administration, and MUST NOT include a logi
 - **THEN** the page has one isolated print-order quiz that names the call stack, the microtask queue, and the task queue, and it does not teach database administration
 
 #### Scenario: No database administration
-- **WHEN** the teacher opens the week titled PostgreSQL, transakcije i Docker
+- **WHEN** the teacher opens the week titled PostgreSQL i Docker
 - **THEN** the lecture does not teach database administration
 
 #### Scenario: No login and no attack
@@ -405,11 +405,11 @@ Each step MUST carry a level of Osnovno or Primena. The lesson MUST show that le
 - **WHEN** the teacher opens Širina kutije
 - **THEN** the lesson shows Primena
 ### Requirement: Minuti koraka i budžet nedelje
-Each shipped week MUST set its minute budget to 90. The step minute labels of each shipped week MUST sum to 55. The progress card MUST show the week budget. The sum of step labels MUST NOT be required to equal that budget.
+Each shipped week MUST set its minute budget to 90. Every shipped week except PostgreSQL i Docker MUST have step minute labels that sum to 55. That week MUST sum to 20. The progress card MUST show the week budget. The sum of step labels MUST NOT be required to equal that budget.
 
 #### Scenario: Labels sum below the budget
 - **WHEN** the shipped course is read
-- **THEN** every week has step minute labels that sum to 55 and a week budget of 90
+- **THEN** every week except PostgreSQL i Docker has step minute labels that sum to 55, that week sums to 20, and every week budget is 90
 ### Requirement: Čas 4 crta prekidač
 The week titled DOM, događaji i prikaz stanja MUST let the switch change the desired state in the object, and a separate draw MUST move its label. Display and switch MUST be ES6 classes. The machine room MUST still be absent. A form on the panel MUST NOT reload the document. The week MUST NOT add a canvas and MUST NOT contain a step titled Linija.
 

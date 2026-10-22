@@ -118,10 +118,6 @@ _Avoid_: Displej sobe mašina, prekidač.
 Pripremljeni par ključa i uloge. Ključ je opaque token: browser ga drži, kutija drži ulogu.
 _Avoid_: Nalog, prijava, lozinka, neprozirni ključ.
 
-**Transakcija**:
-Upis režima i istorije koji ili oba uspeju, ili se oba povuku.
-_Avoid_: Celina, celina upisa.
-
 ## Termini gradiva
 
 **veza od kraja do kraja**:

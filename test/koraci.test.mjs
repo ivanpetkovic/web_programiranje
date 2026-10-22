@@ -13,7 +13,7 @@ function tekst(korak) {
   return [korak.naslov, korak.primer, korak.kod, korak.pitalica, korak.objasnjenje, korak.delic, korak.putanja].join("\n");
 }
 
-test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
+test("jedanaest časova ima naslov i korake", () => {
   assert.equal(lectures.length, 11);
   const naslovi = [
     "Zašto Web postoji: zahtevi i protokoli",
@@ -23,7 +23,7 @@ test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
     "Od mrežnog prenosa do HTTP-a i Node.js-a",
     "Asinhronost, event loop i neuspeh",
     "API komande, validacija i idempotentnost",
-    "PostgreSQL, transakcije i Docker",
+    "PostgreSQL i Docker",
     "Svežina podataka, periodično čitanje i push",
     "Bezbednost, sesije i prava pristupa",
     "Ceo sistem, dijagnostika i LLM",
@@ -31,7 +31,8 @@ test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
   lectures.forEach((cas, i) => {
     assert.equal(cas.n, i + 1);
     assert.equal(cas.title, naslovi[i]);
-    assert.ok(cas.steps.length >= 10 && cas.steps.length <= 22, `čas ${cas.n}: ${cas.steps.length}`);
+    const donja = cas.n === 8 ? 5 : 10;
+    assert.ok(cas.steps.length >= donja && cas.steps.length <= 22, `čas ${cas.n}: ${cas.steps.length}`);
     for (const korak of cas.steps) {
       assert.ok(korak.primer);
       assert.ok(korak.pitalica);
@@ -192,6 +193,15 @@ test("nema preglednog spiska ni naslova Osvrt", () => {
   assert.equal(naslovi.includes("Osvrt"), false);
   assert.match(dokument.dopunaGlosara.find((pojam) => pojam.id === "push").body, /SSE/);
   assert.match(dokument.dopunaGlosara.find((pojam) => pojam.id === "push").body, /WebSocket/);
+});
+
+test("nedelja baze nema parametar ni transakciju", () => {
+  const cas = lectures[7];
+  assert.deepEqual(cas.steps.map((korak) => korak.naslov), ["Restart procesa", "Kontejner", "Disk", "Credential", "Put"]);
+  assert.equal(cas.steps.reduce((zbir, korak) => zbir + korak.minuta, 0), 20);
+  assert.match(cas.options.find((opcija) => opcija.ok).text, /Ostao je u bazi/);
+  const telo = JSON.stringify(dokument.nedelje[7]);
+  assert.equal(/transakci|BEGIN|ROLLBACK|COMMIT|parametr|\$1/.test(telo), false);
 });
 
 test("čas 11 ne tvrdi da je upis prošao", () => {
