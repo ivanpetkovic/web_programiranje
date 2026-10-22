@@ -82,8 +82,8 @@ test("pitanje, stablo, olovka i panel", () => {
   assert.equal(html.includes('id="podnaslov-casa"'), false);
   assert.equal(html.includes('id="preduslov"'), false);
   assert.equal(main.includes("Preduslov:"), false);
-  const osvezi = main.slice(main.indexOf("function osveziPregled"), main.indexOf("function loadSide"));
-  assert.match(osvezi, /applyLive\(\)/);
+  const osvezi = main.slice(main.indexOf("function osveziPregled"), main.indexOf("function connectDovod"));
+  assert.match(osvezi, /primeniDogadaj\(\{ tip: "zivo" \}\)/);
   assert.equal(osvezi.includes("location.reload"), false);
   assert.match(html, /id="procitaj"/);
   assert.equal(main.includes("procitaj.append(ikonica"), false);

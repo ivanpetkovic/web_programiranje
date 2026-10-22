@@ -46,20 +46,16 @@ export function polazniTekst(putanja, original, disk) {
   return saDiska;
 }
 
-export function tekstPrikaza({ putanja, original, radne, rezim, binarni }) {
+export function tekstPrikaza({ putanja, original, radne, verzija, binarni }) {
   if (binarni) return { tekst: original, razlika: false, samoCitaj: true };
   const ugradjen = bezSkiceFoldera(putanja, original);
-  if (rezim === "radna") {
+  if (verzija === "radna") {
     const sacuvano = imaRadnu(radne, putanja) ? radne[putanja] : "";
     const radni = bezSkiceFoldera(putanja, sacuvano);
     const tekst = radni.trim() ? radni : ugradjen;
     return { tekst, razlika: false, samoCitaj: false };
   }
   return { tekst: ugradjen, razlika: true, samoCitaj: true };
-}
-
-export function rezimPosleKoraka(radne, putanja) {
-  return imaRadnu(radne, putanja) ? "radna" : "original";
 }
 
 export function serverTabVidljiv(nedelja) {

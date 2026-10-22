@@ -2,11 +2,10 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 import { PORUKA, primeniPrikaz, sakrivenoUSobi, sklopiDokument, tekstoviServera } from "../site/js/pregled.js";
-import { rezimPosleAkcije, upisPosleAkcije } from "../site/js/birac.js";
 import {
+  imaRadnu,
   polazniTekst,
   procitajRadne,
-  rezimPosleKoraka,
   serverTabVidljiv,
   tekstPrikaza,
   upisiRadnu,
@@ -47,13 +46,13 @@ test("radna verzija je jedna po putanji i preživljava čitanje", () => {
   assert.equal(upis.sacuvano, true);
   const ponovo = procitajRadne(skladiste);
   assert.equal(ponovo["client/index.html"], "ukucano");
-  assert.equal(rezimPosleKoraka(ponovo, "client/index.html"), "radna");
-  assert.equal(rezimPosleKoraka(ponovo, "client/css/soba.css"), "original");
+  assert.equal(imaRadnu(ponovo, "client/index.html"), true);
+  assert.equal(imaRadnu(ponovo, "client/css/soba.css"), false);
   const ekran = tekstPrikaza({
     putanja: "client/index.html",
     original: "original",
     radne: ponovo,
-    rezim: "radna",
+    verzija: "radna",
   });
   assert.equal(ekran.tekst, "ukucano");
   assert.equal(ekran.razlika, false);
@@ -61,7 +60,7 @@ test("radna verzija je jedna po putanji i preživljava čitanje", () => {
     putanja: "client/index.html",
     original: "drugi original",
     radne: ponovo,
-    rezim: rezimPosleKoraka(ponovo, "client/index.html"),
+    verzija: "radna",
   });
   assert.equal(drugiKorak.tekst, "ukucano");
 });
@@ -77,7 +76,7 @@ test("reset zameni radnu verziju originalom koraka", () => {
     putanja: "client/index.html",
     original: "ceo fajl",
     radne: reset.mapa,
-    rezim: "radna",
+    verzija: "radna",
   });
   assert.equal(ekran.tekst, "ceo fajl");
   assert.equal(fs.readFileSync(new URL("../client/index.html", import.meta.url), "utf8").includes("ukucano"), false);
@@ -89,7 +88,7 @@ test("prekidač menja prikaz i ne briše mapu", () => {
     putanja: "client/index.html",
     original: "ceo fajl",
     radne,
-    rezim: "original",
+    verzija: "ugradjena",
   });
   assert.equal(original.tekst, "ceo fajl");
   assert.equal(original.samoCitaj, true);
@@ -99,7 +98,7 @@ test("prekidač menja prikaz i ne briše mapu", () => {
     putanja: "client/index.html",
     original: "ceo fajl",
     radne,
-    rezim: "radna",
+    verzija: "radna",
   });
   assert.equal(radna.tekst, "ukucano");
   assert.equal(radna.razlika, false);
@@ -121,7 +120,7 @@ test("verzija koraka pobeđuje poslednji fajl sa diska", () => {
     putanja: "client/assets/fonts/digital-7/digital-7 (mono).ttf",
     original: "Binarni fajl. Pregledač ga učitava kao fajl, ne kao tekst.",
     radne: { "client/assets/fonts/digital-7/digital-7 (mono).ttf": "izmena" },
-    rezim: "radna",
+    verzija: "radna",
     binarni: true,
   });
   assert.equal(font.samoCitaj, true);
@@ -131,11 +130,11 @@ test("verzija koraka pobeđuje poslednji fajl sa diska", () => {
     putanja: "client/css/soba.css",
     original: cssDisk,
     radne: { "client/css/soba.css": "" },
-    rezim: "radna",
+    verzija: "radna",
   });
   assert.equal(prazna.tekst, cssDisk);
-  assert.match(main, /rezim = "radna"/);
-  assert.match(main, /stabloDo\(/);
+  assert.equal(main.includes("rezim"), false);
+  assert.match(fs.readFileSync(new URL("../site/js/verzija.js", import.meta.url), "utf8"), /stabloDo\(/);
   assert.equal(main.includes("/api/stablo"), false);
   assert.equal(main.includes("polazniTekst"), false);
   assert.match(main, /editor-pun/);
@@ -145,12 +144,12 @@ test("verzija koraka pobeđuje poslednji fajl sa diska", () => {
 
 test("dok fajl nije dirnut oba prikaza nose original", () => {
   const radne = {};
-  for (const rezim of ["original", "radna"]) {
+  for (const verzija of ["ugradjena", "radna"]) {
     const ekran = tekstPrikaza({
       putanja: "client/index.html",
       original: "ceo fajl",
       radne,
-      rezim,
+      verzija,
     });
     assert.equal(ekran.tekst, "ceo fajl");
   }
@@ -172,13 +171,9 @@ test("nema dugmadi za upis fajla na disk", () => {
   assert.equal(html.includes('id="povrati"'), false);
   assert.match(html, /id="sacuvaj-radnu"/);
   assert.equal(html.includes(">Povrati<"), false);
-  assert.equal(upisPosleAkcije("ucitaj", "radna"), false);
-  assert.equal(rezimPosleAkcije("ucitaj", "radna"), "original");
-  assert.equal(upisPosleAkcije("sacuvaj", "original"), false);
-  assert.equal(rezimPosleAkcije("sacuvaj", "original"), "original");
   const ucitaj = main.slice(main.indexOf("function ucitajLekciju"), main.indexOf("function sacuvajRadnu"));
   assert.equal(ucitaj.includes("upisiRadnu"), false);
-  assert.match(main, /if \(!upisPosleAkcije\("sacuvaj", rezim\)\) return/);
+  assert.match(ucitaj, /tip: "ucitaj"/);
   assert.equal(html.includes("<textarea"), false);
   assert.match(html, /id="verzija"/);
   assert.match(html, /id="reset-radne"/);
@@ -217,14 +212,14 @@ test("klijentski bafer ne čuva fajl, serverski ne crta sobu", () => {
     putanja: "client/index.html",
     original: "<p class=\"digit\">24</p>",
     radne: { "client/index.html": "client/\nserver/\n" },
-    rezim: "radna",
+    verzija: "radna",
   });
   assert.equal(saDugmetom.tekst, "<p class=\"digit\">24</p>");
   const prazanFajl = tekstPrikaza({
     putanja: "client/index.html",
     original: "",
     radne: {},
-    rezim: "radna",
+    verzija: "radna",
   });
   assert.equal(prazanFajl.tekst, "");
   const stil = primeniPrikaz(stanje, {
@@ -262,7 +257,7 @@ test("lekcija i moj kod biraju serverski tekst", () => {
     "server/ventilator.js": "snimak ventilatora",
     "client/index.html": "<p>klijent</p>",
   };
-  const lekcija = tekstoviServera(verzije, { "server/soba.js": "moj kod sobe" }, "original");
+  const lekcija = tekstoviServera(verzije, { "server/soba.js": "moj kod sobe" }, "ugradjena");
   assert.equal(lekcija["server/soba.js"], "snimak sobe");
   assert.equal(lekcija["server/ventilator.js"], "snimak ventilatora");
   assert.equal(lekcija["client/index.html"], undefined);
@@ -270,7 +265,7 @@ test("lekcija i moj kod biraju serverski tekst", () => {
   assert.equal(moj["server/soba.js"], "moj kod sobe");
   assert.equal(moj["server/ventilator.js"], "snimak ventilatora");
   assert.equal(main.includes("new Function"), false);
-  assert.match(main, /tekstoviServera\(/);
+  assert.match(fs.readFileSync(new URL("../site/js/verzija.js", import.meta.url), "utf8"), /tekstoviServera\(/);
   const server = fs.readFileSync(new URL("../server/server.js", import.meta.url), "utf8");
   const sacuvaj = server.slice(server.indexOf("async function sacuvajFajl"), server.indexOf("async function povratiFajl"));
   const provera = sacuvaj.indexOf("sintaksaJeIspravna");

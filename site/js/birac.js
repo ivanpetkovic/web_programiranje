@@ -30,14 +30,3 @@ export function adresaPregleda(poreklo, putanja) {
   return `${koren}/${put}`;
 }
 
-export function rezimPosleAkcije(akcija, rezim) {
-  if (akcija === "ucitaj" || akcija === "lekcija") return "original";
-  if (akcija === "moj-kod" || akcija === "reset") return "radna";
-  return rezim;
-}
-
-export function upisPosleAkcije(akcija, rezim) {
-  if (akcija === "reset") return true;
-  if (akcija === "sacuvaj") return rezim === "radna";
-  return false;
-}
