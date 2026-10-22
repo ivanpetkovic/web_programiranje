@@ -5,6 +5,7 @@ const vm = require("vm");
 const { state, dovodi, trenutnoStanje, objaviStanje } = require("./stanje");
 const { pripremiBazu, dohvatiBazu } = require("./baza");
 const { dokumentJeKurs } = require("./kurs");
+const { spisakPrimera, ucitajPrimer } = require("./primeri");
 
 const PODRAZUMEVANI_PORT = 8787;
 const GRANICA_JSON = 4096;
@@ -17,6 +18,7 @@ const KURS = process.env.KURS_DATOTEKA
   ? path.resolve(process.env.KURS_DATOTEKA)
   : path.join(SAJT, "kurs.json");
 const KLIJENT = path.join(__dirname, "..", "client");
+const PRIMERI = path.join(__dirname, "..", "primeri");
 const FONT = path.join(KLIJENT, "assets", "fonts", "digital-7", "digital-7 (mono).ttf");
 const NAPOMENA_BINARNOG = "Binarni fajl. Pregledač ga učitava kao fajl, ne kao tekst.";
 const TEKSTUALNI = new Set([".html", ".css", ".js", ".mjs", ".json", ".md", ".txt", ".svg"]);
@@ -187,6 +189,19 @@ async function komandaVentilatora(zahtev, odgovor) {
   const rezultat = await ucitajModul("ventilator.js").komanda({ state, db: dohvatiBazu() }, telo);
   if (rezultat.status === 200) objaviStanje();
   posaljiJson(odgovor, rezultat.status, rezultat.body);
+}
+
+function primeri(odgovor) {
+  posaljiJson(odgovor, 200, { podrazumevani: "kontrolna-soba", primeri: spisakPrimera(PRIMERI) });
+}
+
+function fajloviPrimera(odgovor, url) {
+  const primer = ucitajPrimer(PRIMERI, url.searchParams.get("id"));
+  if (!primer) {
+    posaljiJson(odgovor, 404, { greska: "nema primera" });
+    return;
+  }
+  posaljiJson(odgovor, 200, primer);
 }
 
 function stablo(odgovor, url) {
@@ -388,6 +403,8 @@ async function razvrstaj(zahtev, odgovor) {
   }
   if (zahtev.method === "GET" && url.pathname === "/api/soba") return citanjeSobe(odgovor, url);
   if (zahtev.method === "PUT" && url.pathname === "/api/ventilator") return komandaVentilatora(zahtev, odgovor);
+  if (zahtev.method === "GET" && url.pathname === "/api/primeri") return primeri(odgovor);
+  if (zahtev.method === "GET" && url.pathname === "/api/primeri/fajlovi") return fajloviPrimera(odgovor, url);
   if (zahtev.method === "GET" && url.pathname === "/api/stablo") return stablo(odgovor, url);
   if (zahtev.method === "GET" && url.pathname === "/api/fajl") return procitajFajl(odgovor, url);
   if (zahtev.method === "POST" && url.pathname === "/api/fajl") return sacuvajFajl(zahtev, odgovor);
