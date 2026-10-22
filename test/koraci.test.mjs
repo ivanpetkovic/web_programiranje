@@ -16,17 +16,17 @@ function tekst(korak) {
 test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
   assert.equal(lectures.length, 11);
   const naslovi = [
-    "Zašto je Web nastao",
-    "Šta browser prikazuje",
-    "JavaScript opisuje stanje",
-    "Događaji povezuju korisnika",
-    "Od naivnog prenosa do HTTP-a, pa Node",
-    "Čekanje i neuspeh",
-    "Komande i ponavljanje",
-    "Trajno stanje i Docker",
-    "Koliko je prikaz svež",
-    "Ko sme da upravlja",
-    "Ceo sistem",
+    "Zašto Web postoji: zahtevi i protokoli",
+    "Browser: HTML, CSS i prikaz",
+    "JavaScript: vrednosti, objekti i prototipovi",
+    "DOM, događaji i prikaz stanja",
+    "Od mrežnog prenosa do HTTP-a i Node.js-a",
+    "Asinhronost, event loop i neuspeh",
+    "API komande, validacija i idempotentnost",
+    "PostgreSQL, transakcije i Docker",
+    "Svežina podataka, periodično čitanje i push",
+    "Bezbednost, sesije i prava pristupa",
+    "Ceo sistem, dijagnostika i LLM",
   ];
   lectures.forEach((cas, i) => {
     assert.equal(cas.n, i + 1);
@@ -38,15 +38,13 @@ test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
       assert.ok(korak.opcije.length >= 2);
       assert.equal(korak.opcije.filter((opcija) => opcija.ok).length, 1);
       assert.ok(korak.objasnjenje);
-      if (cas.n === 1) assert.match(korak.primer, /^\S[^?]*\?/);
-      if (korak.figura || cas.n === 1) {
-        assert.equal(korak.putanja, undefined);
+      if (!korak.putanja) {
         assert.equal(korak.delic, undefined);
         continue;
       }
       assert.ok(korak.putanja.includes("/"));
       assert.equal(typeof korak.delic, "string");
-      if (korak.naslov !== "Podela") assert.ok(korak.delic);
+      assert.ok(korak.delic);
     }
   });
 });
@@ -81,21 +79,18 @@ test("preduslov časa 1 je priča pre stranice, a časa 2 je ishod istorije", ()
   assert.match(lectures[0].outcome, /server\/ još nema fajlove/);
 });
 
-test("nedelja istorije drži dvadeset koraka bez fajla", () => {
+test("nedelja istorije drži korake bez fajla", () => {
   const redosled = [
-    "LO", "Paket", "TCP i UDP", "Internet", "Hipertekst", "Predlog", "HTML", "W3C",
-    "Rat browsera", "XML", "Deset dana", "ECMA", "Bez plugina", "Web 2.0", "Ajax",
-    "Streaming", "Ekonomija", "Društvo", "Web 3.0", "Dokument",
+    "LO", "Paket", "Paket ili rezervisana veza", "TCP i UDP", "Hipertekst", "Predlog",
+    "HTTP kao dogovor", "HTML", "Rat browsera", "Od URL-a do prikaza", "Ajax", "Dokument",
   ];
   const sirovi = dokument.nedelje[0].steps;
   assert.deepEqual(sirovi.map((korak) => korak.naslov), redosled);
-  assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 90);
+  assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 55);
   const tacan = (naslov) => sirovi.find((korak) => korak.naslov === naslov).opcije.find((opcija) => opcija.ok).text;
   assert.match(tacan("LO"), /1969.*nije Web/);
   assert.match(tacan("TCP i UDP"), /Kadar sme da se odbaci/);
-  assert.match(tacan("Deset dana"), /nije Java/);
   assert.match(tacan("Ajax"), /Dokument ostaje/);
-  assert.match(tacan("Web 3.0"), /nije novi Internet/);
   for (const korak of sirovi) {
     assert.equal("putanja" in korak, false);
     assert.equal("isecak" in korak, false);
@@ -109,73 +104,35 @@ test("nedelja istorije drži dvadeset koraka bez fajla", () => {
   );
 });
 
-test("nedelja stranice sklapa stranicu, a kasnije nedelje nemaju original", () => {
+test("nedelja stranice drži isečke dokumenta, bez ugrađenog originala", () => {
   const redosled = [
-    "Podela", "Stranica", "Glava", "Telo", "Naslov", "Broj", "Dugme", "Veza",
-    "Selektor", "Okvir", "Unutra", "Spolja", "Promenljiva", "Calc", "Osvežavanje", "Alati", "Dva zahteva", "Soba prekidača", "Semantika",
+    "Stranica", "Glava", "Naslov", "Širina kutije", "Broj", "Dugme", "Veza",
+    "Specifičnost selektora", "Selektor", "Okvir", "Osvežavanje", "Raspored pri uskom ekranu",
+    "Alati", "Dva zahteva", "Semantika",
   ];
   const sirovi = dokument.nedelje[1].steps;
   assert.deepEqual(sirovi.map((korak) => korak.naslov), redosled);
-  assert.equal(sirovi.length, 19);
-  assert.equal(sirovi.find((korak) => korak.naslov === "Podela").original, "");
   const broj = sirovi.find((korak) => korak.naslov === "Broj");
-  assert.match(broj.original, /<!DOCTYPE html>/);
-  assert.match(broj.original, /<p class="digit">24<\/p>/);
+  assert.match(broj.isecak, /<p class="digit">24<\/p>/);
   assert.match(broj.kljucnaIdeja, /class/);
   assert.match(sirovi.find((korak) => korak.naslov === "Naslov").kljucnaIdeja, /h1/);
   assert.match(sirovi.find((korak) => korak.naslov === "Dugme").kljucnaIdeja, /button/);
   assert.match(sirovi.find((korak) => korak.naslov === "Dugme").kljucnaIdeja, /type/);
   const selektor = sirovi.find((korak) => korak.naslov === "Selektor");
   const okvir = sirovi.find((korak) => korak.naslov === "Okvir");
-  const unutra = sirovi.find((korak) => korak.naslov === "Unutra");
-  const spolja = sirovi.find((korak) => korak.naslov === "Spolja");
-  assert.match(selektor.original, /^\.digit \{\n  letter-spacing: 0\.08em;\n\}\n$/);
+  assert.equal(selektor.isecak, "letter-spacing: 0.08em;");
   assert.match(selektor.kljucnaIdeja, /selektor/i);
   assert.equal(okvir.isecak, "border: 1px solid #3a342c;");
-  assert.match(okvir.original, /letter-spacing: 0\.08em;/);
-  assert.match(okvir.original, /border:/);
-  assert.match(unutra.original, /border:/);
-  assert.match(unutra.original, /padding:/);
-  assert.match(spolja.original, /\.digit/);
-  assert.match(spolja.original, /border:/);
-  assert.match(spolja.original, /padding:/);
-  assert.match(spolja.original, /margin:/);
-  assert.match(spolja.kljucnaIdeja, /margin/);
-  const promenljiva = sirovi.find((korak) => korak.naslov === "Promenljiva");
-  const calc = sirovi.find((korak) => korak.naslov === "Calc");
-  assert.match(promenljiva.original, /--broj: 2rem;/);
-  assert.match(promenljiva.original, /font-size: var\(--broj\);/);
-  assert.match(promenljiva.original, /padding:/);
-  assert.match(promenljiva.original, /margin:/);
-  assert.match(promenljiva.kljucnaIdeja, /var\(--broj\)/);
-  assert.equal(promenljiva.isecak, "--broj: 2rem;\nfont-size: var(--broj);");
-  assert.match(calc.original, /--broj: 2rem;/);
-  assert.match(calc.original, /font-size: calc\(var\(--broj\) \* 2\);/);
-  assert.match(calc.original, /padding:/);
-  assert.match(calc.original, /margin:/);
-  assert.match(calc.kljucnaIdeja, /calc/);
-  assert.equal(calc.isecak, "font-size: calc(var(--broj) * 2);");
   assert.match(dokument.nedelje[1].pojmoviCasa.find((pojam) => pojam.id === "css").body, /calc/);
-  const html = sirovi.filter((korak) => korak.putanja === "client/index.html");
-  for (let i = 1; i < html.length; i += 1) {
-    if (html[i].naslov === "Stranica") continue;
-    for (const linija of html[i - 1].original.split("\n")) {
-      if (linija) assert.ok(html[i].original.includes(linija), `${html[i].naslov} gubi ${linija}`);
-    }
-    assert.ok(html[i].original.length > html[i - 1].original.length, html[i].naslov);
-  }
-  assert.match(sirovi.find((korak) => korak.naslov === "Osvežavanje").original, /osvežavanje vraća dokument/);
+  assert.match(sirovi.find((korak) => korak.naslov === "Osvežavanje").isecak, /osvežavanje vraća dokument/);
   const semantika = sirovi.find((korak) => korak.naslov === "Semantika");
-  assert.match(semantika.original, /naslov je h1/);
-  assert.match(semantika.original, /24/);
-  assert.match(semantika.original, /nema \/api\/soba/);
-  assert.equal(semantika.original.includes("soba mašina"), false);
-  assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 90);
-  assert.equal(sirovi.some((korak) => ["Web", "Internet", "Istorija"].includes(korak.naslov)), false);
-  for (const nedelja of dokument.nedelje.slice(2)) {
+  assert.match(semantika.isecak, /naslov je h1/);
+  assert.equal(semantika.isecak.includes("soba mašina"), false);
+  assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 55);
+  for (const nedelja of dokument.nedelje) {
     for (const korak of nedelja.steps) {
       assert.equal("original" in korak, false);
-      assert.equal(mapirajKorak(korak).original, korak.delic);
+      if (korak.delic) assert.equal(mapirajKorak(korak).original, korak.delic);
     }
   }
 });
@@ -223,12 +180,9 @@ test("gradivo ne krije termin kalkom", () => {
     assert.equal(telo.includes(rec), false, rec);
   }
   assert.match(telo, /veza od kraja do kraja/);
-  assert.match(telo, /flag day/);
   assert.match(telo, /blockchain/);
-  assert.match(telo, /White paper/);
   assert.match(telo, /opaque token/);
   assert.match(telo, /credential baze/);
-  assert.match(telo, /Eternal September/);
 });
 
 test("nema preglednog spiska ni naslova Osvrt", () => {
@@ -236,8 +190,8 @@ test("nema preglednog spiska ni naslova Osvrt", () => {
   for (const nedelja of dokument.nedelje) assert.equal("overview" in nedelja, false);
   const naslovi = dokument.nedelje.flatMap((nedelja) => nedelja.steps.map((korak) => korak.naslov));
   assert.equal(naslovi.includes("Osvrt"), false);
-  assert.equal(JSON.stringify(dokument).includes("SSE"), false);
-  assert.equal(JSON.stringify(dokument).includes("WebSocket"), false);
+  assert.match(dokument.dopunaGlosara.find((pojam) => pojam.id === "push").body, /SSE/);
+  assert.match(dokument.dopunaGlosara.find((pojam) => pojam.id === "push").body, /WebSocket/);
 });
 
 test("čas 11 ne tvrdi da je upis prošao", () => {
