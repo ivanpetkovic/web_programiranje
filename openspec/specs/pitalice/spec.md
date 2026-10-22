@@ -61,16 +61,16 @@ The last step of the lecture MUST show the exit question as a sentence, without 
 - **WHEN** the teacher reaches the assumptions phase of the discussion
 - **THEN** the page still offers a field for the heard sentences
 ### Requirement: Pitalice časova 2 do 6
-Each main quiz MUST use the counterexample named for that lecture. The week Šta browser prikazuje MUST ask whether tools changed the measurement, the document, or the display, and refresh MUST restore 24. The week JavaScript opisuje stanje MUST ask what a second name for a const object shares. The week Događaji povezuju korisnika MUST ask whether changing the object by itself changes the page. The week Od naivnog prenosa do HTTP-a, pa Node MUST ask whether the handler can change the button through the DOM. The week Čekanje i neuspeh MUST ask whether HTTP 500 by itself enters catch.
+Each main quiz MUST use the counterexample named for that lecture. The week Browser: HTML, CSS i prikaz MUST ask whether tools changed the measurement, the document, or the display, and refresh MUST restore 24. The week JavaScript: vrednosti, objekti i prototipovi MUST ask what a second name for a const object shares. The week DOM, događaji i prikaz stanja MUST ask whether changing the object by itself changes the page. The week Od mrežnog prenosa do HTTP-a i Node.js-a MUST ask whether the handler can change the button through the DOM. The week Asinhronost, event loop i neuspeh MUST ask whether HTTP 500 by itself enters catch.
 
 #### Scenario: Lecture 1 counterexample
-- **WHEN** the main quiz of Šta browser prikazuje is analyzed
+- **WHEN** the main quiz of Browser: HTML, CSS i prikaz is analyzed
 - **THEN** the marked answer is the local display and the panel counterexample is that refresh restores 24
 ### Requirement: Pitalice časova 7 do 11
-The week Komande i ponavljanje MUST ask whether repeating a command is safe. The week Trajno stanje i Docker MUST ask whether the record is reliable before the mode and the history are one unit. The week Koliko je prikaz svež MUST ask whether 24 °C from ten minutes ago is the current temperature. The week Ko sme da upravlja MUST ask whether hiding the button protects the server. The week Ceo sistem MUST ask what may be claimed when the screen says on and no response has arrived.
+The week API komande, validacija i idempotentnost MUST ask whether repeating a command is safe. The week PostgreSQL, transakcije i Docker MUST ask whether the record is reliable before the mode and the history are one unit. The week Svežina podataka, periodično čitanje i push MUST ask whether 24 °C from ten minutes ago is the current temperature. The week Bezbednost, sesije i prava pristupa MUST ask whether hiding the button protects the server. The week Ceo sistem, dijagnostika i LLM MUST ask what may be claimed when the screen says on and no response has arrived.
 
 #### Scenario: Lecture 10 stays undecided
-- **WHEN** the Ceo sistem main quiz is analyzed
+- **WHEN** the Ceo sistem, dijagnostika i LLM main quiz is analyzed
 - **THEN** the marked answer says the missing response neither proves nor disproves the write
 ### Requirement: Editor ne otvara razlog
 The editor MAY change the panel during assumptions or analysis. Changing the code MUST NOT open the reasons by itself. The page MUST NOT include a review block.
@@ -82,17 +82,17 @@ The editor MAY change the panel during assumptions or analysis. Changing the cod
 Weeks 1 through 10 MUST each have a reserve quiz. It MUST stay closed until the teacher opens it, and it MUST then start again at choice. Week 11 MUST NOT open that vote. Its note about a type and an assistant suggestion MUST stay a sentence in the lecture.
 
 #### Scenario: Lecture 9 reserve starts at choice
-- **WHEN** the teacher opens the reserve of Ko sme da upravlja
+- **WHEN** the teacher opens the reserve of Bezbednost, sesije i prava pristupa
 - **THEN** the reserve shows unmarked options and hidden reasons
 
 #### Scenario: Lecture 10 reserve is a sentence
-- **WHEN** the teacher finishes the Ceo sistem discussion without opening a reserve
+- **WHEN** the teacher finishes the Ceo sistem, dijagnostika i LLM discussion without opening a reserve
 - **THEN** the lecture contains the type and assistant sentence and no second set of options
 ### Requirement: Izlaz časa 11
-The Ceo sistem exit MUST be a sentence asking where the right is checked, where the state lives, and what silence does not prove. It MUST NOT offer options, a text field, or a mark.
+The Ceo sistem, dijagnostika i LLM exit MUST be a sentence asking where the right is checked, where the state lives, and what silence does not prove. It MUST NOT offer options, a text field, or a mark.
 
 #### Scenario: Exit stays free text
-- **WHEN** the teacher reaches the Ceo sistem exit
+- **WHEN** the teacher reaches the Ceo sistem, dijagnostika i LLM exit
 - **THEN** the page shows that sentence and no text field and no options
 ### Requirement: Diskusija nedelje istorije
 The week 1 main quiz MUST ask what a 1991 page already is when one word covers the network, that page, Gmail, and a ledger. The marked answer MUST say it is a hypertext document fetched by a URL, and MUST deny that it is the network, an application, or a ledger.

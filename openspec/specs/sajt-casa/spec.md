@@ -17,7 +17,7 @@ The lecture site MUST be a static page with no build step. It MUST read one cour
 - **WHEN** the course document sets a duration other than ten and lists that many weeks
 - **THEN** the page lists that many weeks and does not add or remove weeks to reach ten
 ### Requirement: Korak na sajtu
-A step that names a file MUST show, in order, the step prose, the key-idea callout, the code snippet, and a short quiz with unmarked answers. The next step MUST treat that step's file fragment as already typed. The site MUST show the file path of the fragment. A figure step MUST show the prose, the key-idea callout, the figure, and the short quiz, and MUST NOT show a code snippet or a file path. A step that names no file and has no figure MUST show the prose, the key-idea callout, and the short quiz, and MUST NOT show a snippet, a file path, or a figure.
+A step that names a file MUST show, in order, the step prose, the key-idea callout, the code snippet, and a short quiz with unmarked answers. The next step MUST treat that step's file fragment as already typed. The site MUST show the file path of the fragment. A figure step MUST show the prose, the key-idea callout, the figure, and the short quiz, and MUST NOT show a code snippet or a file path. A step that names no file and has no figure MUST show the prose, the key-idea callout, and the short quiz, and MUST NOT show a file path. When that step carries an isolated example, the site MUST show it as Mali eksperiment before the quiz. When it carries a diagram and no figure, the site MUST show it as Dijagram before the quiz. The analysis sentence MUST stay hidden until the explanation is open.
 
 #### Scenario: Callout comes before the quiz
 - **WHEN** the teacher opens a step that names a file
@@ -38,6 +38,10 @@ A step that names a file MUST show, in order, the step prose, the key-idea callo
 #### Scenario: Story step has no figure
 - **WHEN** the teacher opens LO
 - **THEN** the prose and the key idea are visible before the quiz, and no snippet, file path, or figure is shown
+
+#### Scenario: Isolated example comes before the quiz
+- **WHEN** the teacher opens Širina kutije
+- **THEN** Mali eksperiment is visible before the quiz, no file path is shown, and the analysis sentence stays hidden until the explanation is open
 ### Requirement: Dva stabla
 The editor MUST offer a Klijent tab for `client/` and a Server tab for `server/`. The Server tab MUST be absent during weeks 1, 2, 3, and 4, and MUST be present from week 5. Each visible tab MUST show that side's file tree as introduced by a step at or before the open step, the open file's path, and a place for an error. A file MUST appear when such a step first names it and MUST remain on later steps. Prepared copies MUST stay out of the tree. During week 1 the editor MUST NOT open a buffer.
 
@@ -58,7 +62,7 @@ The editor MUST offer a Klijent tab for `client/` and a Server tab for `server/`
 - **THEN** the tree includes `client/index.html`, `client/css/soba.css`, `client/js/korak.js`, `client/js/niz.js`, `client/js/displej.js`, and `client/js/prekidac.js`, and does not include a server file
 
 #### Scenario: Podela lists only the sketch
-- **WHEN** the teacher opens Podela on Klijent
+- **WHEN** the teacher opens Stranica on Klijent
 - **THEN** the tree lists only `client/index.html`
 
 #### Scenario: Tree grows with the open step
@@ -557,7 +561,7 @@ When the step sets a level, the lesson MUST show `chart-column` beside that leve
 - **WHEN** the open step sets a level and a minute label
 - **THEN** the lesson shows `chart-column`, `clock`, and `bookmark` with the words Sačuvaj korak, outside the selector
 ### Requirement: Ikonice isečka
-The key-idea callout MUST show `lightbulb`. When the step has a snippet, the snippet title MUST show `folder`, the copy control MUST show `copy` and the word Kopiraj, and the file path MUST show `file-text` and the path text. A figure step MUST NOT show those snippet icons. A step with no snippet and no figure MUST NOT show those snippet icons.
+The key-idea callout MUST show `lightbulb`. When the step has a snippet, the snippet title MUST show `folder`, the copy control MUST show `copy` and the word Kopiraj, and the file path MUST show `file-text` and the path text. A figure step MUST NOT show those snippet icons. A step with no snippet, no figure, no isolated example, and no diagram MUST NOT show those snippet icons. Mali eksperiment and Dijagram MUST show `file-text` on their title and MUST NOT show `folder`, Kopiraj, or a file path.
 
 #### Scenario: Snippet chrome
 - **WHEN** the teacher opens a step that has a snippet on Gradivo
@@ -570,6 +574,10 @@ The key-idea callout MUST show `lightbulb`. When the step has a snippet, the sni
 #### Scenario: Story step has no snippet chrome
 - **WHEN** the teacher opens LO on Gradivo
 - **THEN** the callout shows `lightbulb` and the snippet title, copy control, and file path are absent
+
+#### Scenario: Isolated block has a title icon
+- **WHEN** the teacher opens Širina kutije on Gradivo
+- **THEN** Mali eksperiment shows `file-text`, and the copy control and the file path are absent
 ### Requirement: Ikonice pitanja
 The question label MUST show `question`. Before the explanation, the chosen option MUST show `circle-dot`, every other option MUST show `circle`, and no option MUST show `check-circle`. After the explanation is open, the correct option MUST show `check-circle`.
 
@@ -617,15 +625,15 @@ The short quiz MUST lay each option on its own row at every width. A lesson wide
 - **WHEN** the lecture page is laid out in one column and a short quiz is open
 - **THEN** the options are in one column
 ### Requirement: Snimak fajla na koraku
-The built-in version of a file MUST be the snapshot of course steps through the open step. A whole-file original MUST replace that file. A later fragment MUST be appended. The finished file on disk MUST NOT replace a snapshot that has text.
+The built-in version of a file MUST be the snapshot of course fragments through the open step. A later fragment MUST be appended. The finished file on disk MUST NOT replace a snapshot that has text. The shipped document MUST NOT store a separate whole-file original.
 
 #### Scenario: Podela is an empty document
-- **WHEN** the teacher shows the built-in version of `client/index.html` on Podela
-- **THEN** the text is empty and contains no script
+- **WHEN** the teacher shows the built-in version of `client/index.html` on Stranica
+- **THEN** the text starts with a doctype and an `html` element in Serbian, contains no heading and no script, and is not the finished file on disk
 
 #### Scenario: Selektor is one rule
 - **WHEN** the teacher shows the built-in version of `client/css/soba.css` on Selektor
-- **THEN** the text is one class rule and is not the finished stylesheet on disk
+- **THEN** the text is the declaration `letter-spacing: 0.08em;` and is not the finished stylesheet on disk
 
 #### Scenario: Delta keeps the earlier object
 - **WHEN** the teacher shows the built-in version of `client/js/korak.js` on Delta
@@ -635,7 +643,7 @@ The built-in version of a file MUST be the snapshot of course steps through the 
 - **WHEN** the teacher shows the built-in version of `client/js/displej.js` on the step that introduces `class Displej`
 - **THEN** the text contains `class Displej` and is not the finished file on disk
 ### Requirement: Vezivanje stranice
-Once `client/index.html` has a body and the snapshot contains at least one `client/js` file, that HTML snapshot MUST include a script source for each such file in introduction order and one classic inline script that binds the symbols those files declare. An HTML snapshot with no client script MUST contain no script tag.
+Script tags MUST be inserted into an HTML snapshot only when that snapshot contains `</body>`. The shipped page document closes `</html>` before later fragments, so those fragments MUST be appended after `</html>` and MUST NOT add a script tag. An HTML snapshot with no client script MUST contain no script tag.
 
 #### Scenario: Semantika has no script
 - **WHEN** the teacher shows the built-in version of `client/index.html` on Semantika
@@ -643,24 +651,24 @@ Once `client/index.html` has a body and the snapshot contains at least one `clie
 
 #### Scenario: Objekat binds the existing script
 - **WHEN** the teacher shows the built-in version of `client/index.html` on Objekat
-- **THEN** the document loads `js/korak.js` and the click handler sets the digit from `soba.temperatura`
+- **THEN** the document does not load `js/korak.js` and contains no script tag, while `client/js/korak.js` holds the room object
 
 #### Scenario: Classes are constructed when declared
 - **WHEN** the teacher shows the built-in version of `client/index.html` on Prekidač
-- **THEN** the document loads `js/korak.js` before `js/niz.js`, then `js/prekidac.js`, then `js/displej.js`, and the inline script constructs `Displej` and `Prekidac`
+- **THEN** the document does not construct `Displej` or `Prekidac`, and those classes live in `client/js/displej.js` and `client/js/prekidac.js`
 
 #### Scenario: Canvas appears with the line
-- **WHEN** the teacher shows the built-in version of `client/index.html` on Linija
-- **THEN** the document contains a canvas of 320 by 120 and mentions `nacrtajLiniju`
+- **WHEN** the teacher shows the built-in version of `client/index.html` at the end of the week titled DOM, događaji i prikaz stanja
+- **THEN** the document contains no canvas and does not mention `nacrtajLiniju`
 ### Requirement: Panel od Node nedelje
-The shell machine room MUST show beside the iframe from Od naivnog prenosa do HTTP-a, pa Node onward. That room is not a file from the editor. The waiting label and the cable control MUST show from Čekanje i neuspeh onward. History and the database flag MUST show from Trajno stanje i Docker onward. Periodic reading, freshness, and age MUST show from Koliko je prikaz svež onward. Roles MUST show from Ko sme da upravlja onward.
+The shell machine room MUST show beside the iframe from Od mrežnog prenosa do HTTP-a i Node.js-a onward. That room is not a file from the editor. The waiting label and the cable control MUST show from Asinhronost, event loop i neuspeh onward. History and the database flag MUST show from PostgreSQL, transakcije i Docker onward. Periodic reading, freshness, and age MUST show from Svežina podataka, periodično čitanje i push onward. Roles MUST show from Bezbednost, sesije i prava pristupa onward.
 
 #### Scenario: Node week shows the machine room
-- **WHEN** the teacher opens Od naivnog prenosa do HTTP-a, pa Node
+- **WHEN** the teacher opens Od mrežnog prenosa do HTTP-a i Node.js-a
 - **THEN** the machine room and the read control are visible and roles are hidden
 
 #### Scenario: Later weeks open their controls
-- **WHEN** the teacher opens Ko sme da upravlja
+- **WHEN** the teacher opens Bezbednost, sesije i prava pristupa
 - **THEN** roles, history, and periodic reading are visible
 ### Requirement: Iframe učitava klijentsko stablo
 The preview MUST be one iframe beside the shell machine room. Its document MUST be the editor text of `client/index.html` when that file is in the open step's client tree. Every other client file in that tree MUST supply the resource the document loads, using the Moj kod or Lekcija text the editor would show for that file. The shell MUST NOT paint a switch room inside the iframe. An absolute font or asset URL that the editor does not hold as text MUST stay a request to the running Node process.
