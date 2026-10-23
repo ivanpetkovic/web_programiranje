@@ -122,14 +122,15 @@ function preveziModule(sirov, od, fajlovi, moduli, adresaZa) {
   });
 }
 
-export function sklopiDokument(mapa, napraviAdresu = dataAdresa) {
+export function sklopiDokument(mapa, napraviAdresu = dataAdresa, ulaz = "index.html") {
   const fajlovi = new Map();
   for (const [put, tekst] of Object.entries(mapa || {})) {
     if (typeof tekst !== "string" || put.startsWith("server/")) continue;
     const kljuc = normalizuj(put);
     if (kljuc) fajlovi.set(kljuc, tekst);
   }
-  const html = fajlovi.get("index.html");
+  const koren = normalizuj(ulaz) || "index.html";
+  const html = fajlovi.get(koren);
   if (html == null || !String(html).trim()) return "";
 
   const obradjeno = new Map();
@@ -203,7 +204,7 @@ export function sklopiDokument(mapa, napraviAdresu = dataAdresa) {
     return url;
   }
 
-  return tekstFajla("index.html");
+  return tekstFajla(koren);
 }
 
 export const TIP_KONZOLE = "pregled-konzola";

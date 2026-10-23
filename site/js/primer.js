@@ -12,6 +12,13 @@ export function pocetniFajl(putanje) {
   return lista.find((put) => put.endsWith(".html")) || lista[0] || "";
 }
 
+export function htmlZaPregled(putanje, otvoreno) {
+  const lista = Array.isArray(putanje) ? putanje : [];
+  if (otvoreno && String(otvoreno).endsWith(".html") && lista.includes(otvoreno)) return otvoreno;
+  if (lista.includes("index.html")) return "index.html";
+  return lista.find((put) => put.endsWith(".html")) || "";
+}
+
 export function primeniPrimer(stanje, radne, dogadaj) {
   const sledece = {
     id: stanje.id,

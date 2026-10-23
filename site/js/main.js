@@ -9,7 +9,7 @@ import { nacrtajFiguru } from "./crtez.js";
 import { prikazKoraka } from "./figura.js";
 import { blokoviTeksta, imaMermaid, nacrtajMermaid, osveziMermaid } from "./mermaid.js";
 import { potez, praznoStanje, prikaz as prikazDiskusije } from "./diskusija.js";
-import { PODRAZUMEVANI_PRIMER, pocetniFajl, primeniPrimer } from "./primer.js";
+import { PODRAZUMEVANI_PRIMER, htmlZaPregled, pocetniFajl, primeniPrimer } from "./primer.js";
 import { praznaSesija, primeni } from "./verzija.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
@@ -1078,11 +1078,11 @@ function dodajZapisKonzole(zapis) {
   if (konzolaTelo) konzolaTelo.scrollTop = konzolaTelo.scrollHeight;
 }
 
-function mapaPregleda(klijent) {
-  if (!primerAktivan() || klijent["index.html"]) return klijent;
-  const html = stanjePrimera.putanje.find((put) => put.endsWith(".html") && !put.includes("/"));
-  if (!html || !klijent[html]) return klijent;
-  return { ...klijent, "index.html": klijent[html] };
+function ulazPregleda(klijent) {
+  if (!primerAktivan()) return "index.html";
+  const izbor = htmlZaPregled(stanjePrimera.putanje, stanjePrimera.otvoreno);
+  if (izbor && typeof klijent[izbor] === "string" && klijent[izbor].trim()) return izbor;
+  return "index.html";
 }
 
 function sklopiIframe(klijent) {
@@ -1096,7 +1096,7 @@ function sklopiIframe(klijent) {
     const url = URL.createObjectURL(new Blob([telo], { type: `${tip};charset=utf-8` }));
     bloboviPregleda.push(url);
     return url;
-  });
+  }, ulazPregleda(klijent));
   pregledStrana.srcdoc = dokument ? ubaciMostKonzole(dokument, generacija) : "";
   const trajanje = trajanjeLopatica(klijent["client/css/soba.css"] || "");
   if (trajanje && blades) blades.style.animationDuration = trajanje;
@@ -1161,7 +1161,7 @@ function nacrtajPrikaz(rezultat, sacuvano, dogadaj) {
     if (!sacuvano) editorErr.textContent = "Pregledač nije sačuvao radnu verziju.";
     return;
   }
-  sklopiIframe(mapaPregleda(rezultat.prikaz.klijent));
+  sklopiIframe(rezultat.prikaz.klijent);
   if (!primerAktivan()) upisiServere(rezultat.prikaz.server);
   editorErr.textContent = "";
   if (!sacuvano) editorErr.textContent = "Pregledač nije sačuvao radnu verziju.";

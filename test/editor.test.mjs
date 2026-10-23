@@ -318,6 +318,36 @@ test("sklop dokumenta nosi dodatni element i stil iz mape", () => {
   assert.equal(sklopiDokument({ "client/index.html": "  " }), "");
 });
 
+test("otvorena html strana u pregled vuče svoj css i js", () => {
+  const adrese = new Map();
+  let n = 0;
+  function napravi(tekst) {
+    const id = `blob:test/${n++}`;
+    adrese.set(id, tekst);
+    return id;
+  }
+  const mapa = {
+    "index.html": '<p>prva strana</p><link rel="stylesheet" href="./a.css"><script src="./a.js"></script>',
+    "a.css": "p { color: red }",
+    "a.js": "console.log('prva')",
+    "b/druga.html": '<p>druga strana</p><link rel="stylesheet" href="./stil.css"><script src="../zajednicki.js"></script>',
+    "b/stil.css": ".druga { font-size: 26px }",
+    "zajednicki.js": "console.log('zajednicki')",
+  };
+  const html = sklopiDokument(mapa, napravi, "b/druga.html");
+  assert.match(html, /druga strana/);
+  assert.equal(html.includes("prva strana"), false);
+  assert.equal(html.includes("./stil.css"), false);
+  assert.equal(html.includes("../zajednicki.js"), false);
+  const href = html.match(/href="([^"]+)"/)[1];
+  const src = html.match(/src="([^"]+)"/)[1];
+  assert.equal(adrese.get(href), ".druga { font-size: 26px }");
+  assert.equal(adrese.get(src), "console.log('zajednicki')");
+  const prva = sklopiDokument(mapa, napravi, "index.html");
+  assert.match(prva, /prva strana/);
+  assert.equal(prva.includes("druga strana"), false);
+});
+
 test("modul u pregledu uvozi susedni fajl preko blob adrese", () => {
   const adrese = new Map();
   let n = 0;

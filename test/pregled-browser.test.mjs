@@ -26,6 +26,16 @@ function stanje() {
     cifra: doc?.querySelector(".digit")?.textContent || "",
     dugmad: [...(doc?.querySelectorAll("button") || [])].map((dugme) => dugme.textContent),
     pasusi: [...(doc?.querySelectorAll("p") || [])].map((p) => p.textContent),
+    velicina: (() => {
+      const el = doc?.querySelector(".boldiraj");
+      if (!el || !doc.defaultView) return "";
+      return doc.defaultView.getComputedStyle(el).fontSize;
+    })(),
+    tezina: (() => {
+      const el = doc?.querySelector(".boldiraj");
+      if (!el || !doc.defaultView) return "";
+      return doc.defaultView.getComputedStyle(el).fontWeight;
+    })(),
     html: doc?.documentElement?.innerHTML || "",
     konzola,
   };
@@ -154,15 +164,37 @@ test("pregled pokreće primere, uključujući ES modul", { timeout: 50000 }, asy
     }
 
     await primer("HTML, CSS i JS");
-    const html = await sačekaj((s) => s.pasusi.includes("Ja sam novi element"));
+    const html = await sačekaj((s) => s.pasusi.includes("Ja sam novi element") && s.velicina === "26px");
+    assert.equal(html.tezina, "700");
+    assert.equal(html.fajlovi.includes("prvi.html"), true);
+    assert.equal(html.fajlovi.includes("master.css"), true);
+    assert.equal(html.fajlovi.includes("uvod.js"), true);
     assert.deepEqual(ucitajGreske(html.konzola), []);
-    belezi(`HTML, CSS i JS: ${JSON.stringify(html.konzola)}`);
+    belezi(`HTML, CSS i JS: velicina=${html.velicina} tezina=${html.tezina} konzola=${JSON.stringify(html.konzola)}`);
+    await snimi("primer-html-css");
+    await strana.vrednost(klikNaFajl("uvod.js"));
+    const posleSkripte = await sačekaj(
+      (s) => s.putanja.endsWith("uvod.js") && s.pasusi.includes("Ja sam novi element") && s.velicina === "26px",
+    );
+    assert.equal(posleSkripte.tezina, "700");
+    await strana.vrednost(klikNaFajl("prvi.html"));
+    const ponovo = await sačekaj(
+      (s) => s.putanja.endsWith("prvi.html") && s.pasusi.includes("Ja sam novi element") && s.velicina === "26px",
+    );
+    assert.equal(ponovo.tezina, "700");
 
     await primer("Funkcije");
     const funkcije = await sačekaj((s) => s.dugmad.filter((natpis) => natpis.startsWith("Click ")).length === 3);
     assert.deepEqual(ucitajGreske(funkcije.konzola), []);
     assert.ok(funkcije.konzola.some((red) => red.includes("i=0")));
     belezi(`Funkcije: ${JSON.stringify(funkcije.konzola)}`);
+    const jsFajl = funkcije.fajlovi.find((put) => put.endsWith(".js"));
+    assert.ok(jsFajl);
+    await strana.vrednost(klikNaFajl(jsFajl));
+    const funkcijePosle = await sačekaj(
+      (s) => s.putanja.endsWith(jsFajl) && s.dugmad.filter((natpis) => natpis.startsWith("Click ")).length === 3,
+    );
+    assert.deepEqual(ucitajGreske(funkcijePosle.konzola), []);
 
     await primer("Prototip");
     const prototip = await sačekaj((s) => s.konzola.some((red) => red.includes("Ime: marko")));

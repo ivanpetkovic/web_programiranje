@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { pocetniFajl, primeniPrimer } from "../site/js/primer.js";
+import { htmlZaPregled, pocetniFajl, primeniPrimer } from "../site/js/primer.js";
 
 const verzije = {
   "index.html": "<p>funkcije</p>\n",
@@ -18,6 +18,16 @@ function stanje() {
     kljuc: "",
   };
 }
+
+test("pregled prati otvorenu html stranu, inače index ili prvi html", () => {
+  const putanje = ["index.html", "src/main.js", "stranice/druga.html"];
+  assert.equal(htmlZaPregled(putanje, "stranice/druga.html"), "stranice/druga.html");
+  assert.equal(htmlZaPregled(putanje, "src/main.js"), "index.html");
+  assert.equal(htmlZaPregled(putanje, "nema.html"), "index.html");
+  assert.equal(htmlZaPregled(["src/a.js", "prvi.html", "druga.html"], "src/a.js"), "prvi.html");
+  assert.equal(htmlZaPregled(["src/a.js"], "src/a.js"), "");
+  assert.equal(htmlZaPregled(null, "index.html"), "");
+});
 
 test("prazan izbor otvara index.html i sve fajlove u stablu", () => {
   assert.equal(pocetniFajl(["src/a.js", "prvi.html"]), "prvi.html");
