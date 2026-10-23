@@ -368,11 +368,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
     animation: none;
     transform: rotate(40deg);
   }
-  .figura-marker {
-    animation: none;
-    offset-distance: 100%;
-  }
-  .figura-oznaka {
+  .figura-crtez[data-pokret] svg .crtez-redom {
     animation: none;
     opacity: 1;
   }
@@ -568,28 +564,31 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 .obrazlozenje:not(.otvoreno):hover,
 .ponovi-pitanje:hover { filter: brightness(1.08); }
 .figura { margin: 0.8rem 0; overflow-x: auto; }
-.figura-put,
-.figura-linija { width: 100%; height: auto; display: block; }
-.figura-put text,
-.figura-linija text { fill: var(--ink); font-size: 13px; font-family: inherit; }
-.figura-put line,
-.figura-put rect,
-.figura-linija line,
-.figura-oznaka circle { fill: none; stroke: var(--line); }
-.figura-put rect { fill: var(--paper); }
 .figura-mermaid svg { max-width: 100%; height: auto; }
-.figura-oznaka circle { fill: var(--amber); stroke: none; }
-.figura-marker { fill: var(--amber); }
-.figura-put[data-pokret="jednom"] .figura-marker {
-  offset-distance: 0%;
-  animation: figura-put 2.4s ease-in-out 1 forwards;
+.figura-crtez.ceka { min-height: 4.5rem; }
+.figura-crtez svg { width: 100%; height: auto; display: block; margin: 0 auto; }
+.figura-crtez svg text, .figura-crtez svg tspan { fill: var(--ink) !important; font-family: inherit !important; }
+.figura-crtez[data-vrsta="linija"] svg text { font-size: 22px !important; }
+.figura-crtez svg .nodeLabel, .figura-crtez svg .nodeLabel p { color: var(--ink) !important; font-family: inherit !important; }
+.figura-crtez svg .node rect, .figura-crtez svg .node-bkg {
+  fill: var(--paper) !important;
+  stroke: var(--muted) !important;
+  stroke-width: 1px !important;
+  filter: none !important;
 }
-.figura-linija[data-pokret="redom"] .figura-oznaka {
+.figura-crtez svg .flowchart-link, .figura-crtez svg .lineWrapper line {
+  stroke: var(--muted) !important;
+  stroke-width: 1.5px !important;
+}
+.figura-crtez svg .timeline-node line { stroke: none !important; }
+.figura-crtez svg .arrowMarkerPath, .figura-crtez svg defs path { fill: var(--muted) !important; stroke: var(--muted) !important; }
+.figura-crtez svg .taskWrapper .node-bkg { stroke: var(--amber) !important; }
+.figura-crtez[data-pokret] svg .crtez-redom {
   opacity: 0;
-  animation: figura-oznaka 0.45s ease 1 forwards;
+  animation: figura-redom 0.45s ease 1 forwards;
+  animation-delay: calc(var(--redom, 0) * 0.35s);
 }
-@keyframes figura-put { to { offset-distance: 100%; } }
-@keyframes figura-oznaka { to { opacity: 1; } }
+@keyframes figura-redom { to { opacity: 1; } }
 .opcije-mreza { display: grid; grid-template-columns: 1fr; gap: 0.55rem; }
 .birac {
   display: grid;

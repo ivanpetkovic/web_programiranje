@@ -1,4 +1,4 @@
-import { svgFigura } from "./figura.js";
+import { nacrtajFiguru } from "./crtez.js";
 import { blokoviTeksta, imaMermaid, nacrtajMermaid } from "./mermaid.js";
 import {
   dodajKorak,
@@ -597,7 +597,7 @@ function poljaFigure(korak) {
   const lista = el("div", { class: "cvorovi" });
   napuniCvorove(lista, korak);
   const pregled = el("div", { class: "figura", id: "pregled-figure" });
-  pregled.innerHTML = svgFigura(korak.figura);
+  nacrtajFiguru(pregled, korak.figura);
   return el("div", { class: "figura-editor" }, [
     birac,
     el("label", { class: "kvacica" }, [input, "Pokret"]),
@@ -718,7 +718,7 @@ function pomeriStavku(niz, indeks, smer, lista, korak) {
 
 function osveziPregled(korak) {
   const pregled = document.querySelector("#pregled-figure");
-  if (pregled) pregled.innerHTML = svgFigura(korak.figura);
+  if (pregled) nacrtajFiguru(pregled, korak.figura);
 }
 
 function osveziNatpisNedelje(indeks, naslov) {

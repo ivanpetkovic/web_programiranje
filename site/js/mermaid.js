@@ -163,6 +163,20 @@ export function nacrtajMermaid(dom, izvor) {
   });
 }
 
+export function crtajSvg(id, izvor, podesavanja) {
+  return uRed(async () => {
+    try {
+      const mermaid = await ucitajBiblioteku();
+      mermaid.initialize({ ...podesavanja, startOnLoad: false, securityLevel: "strict", suppressErrorRendering: true });
+      const { svg } = await mermaid.render(id, izvor);
+      if (!svgJeBezbedan(svg)) throw new Error("svg");
+      return svg;
+    } finally {
+      ocistiPrivremeno(id);
+    }
+  });
+}
+
 export function osveziMermaid() {
   for (const dom of document.querySelectorAll(".figura-mermaid")) {
     if (izvori.has(dom)) void nacrtajMermaid(dom, izvori.get(dom));
