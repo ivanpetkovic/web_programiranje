@@ -139,8 +139,9 @@ test("verzija koraka pobeđuje poslednji fajl sa diska", () => {
   assert.equal(main.includes("/api/stablo"), false);
   assert.equal(main.includes("polazniTekst"), false);
   assert.match(main, /editor-pun/);
-  assert.match(css, /body\.editor-pun \.okvir\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/);
-  assert.match(css, /body\.editor-pun #nav,\s*body\.editor-pun #kartica\s*\{[^}]*display:\s*none/);
+  assert.match(css, /body\.editor-pun \.okvir\s*\{[^}]*grid-template-columns:\s*17rem minmax\(0,\s*1fr\)/);
+  assert.match(css, /body\.editor-pun #kartica\s*\{[^}]*display:\s*none/);
+  assert.equal(/body\.editor-pun #nav/.test(css), false);
 });
 
 test("dok fajl nije dirnut oba prikaza nose original", () => {
@@ -176,12 +177,11 @@ test("nema dugmadi za upis fajla na disk", () => {
   assert.equal(ucitaj.includes("upisiRadnu"), false);
   assert.match(ucitaj, /tip: "ucitaj"/);
   assert.equal(html.includes("<textarea"), false);
-  assert.match(html, /id="verzija"/);
-  assert.match(html, /id="reset-radne"/);
-  assert.match(html, /Resetuj radnu verziju/);
-  assert.match(main, /Prikaži ugrađenu verziju/);
-  assert.match(main, /Prikaži radnu verziju/);
-  assert.match(main, /dugmeReseta\.addEventListener\("click"/);
+  assert.equal(html.includes('id="verzija"'), false);
+  assert.equal(html.includes('id="reset-radne"'), false);
+  assert.match(main, /querySelector\("#resetuj"\)\.addEventListener\("click", resetujRadnu\)/);
+  assert.match(main, /querySelector\("#moj-kod"\)\.addEventListener\("click"/);
+  assert.match(main, /querySelector\("#lekcija"\)\.addEventListener\("click"/);
   assert.match(main, /upisiRadnu\(localStorage/);
   assert.equal(main.includes("/api/fajl/povrati"), false);
   assert.match(main, /fetch\("\/api\/fajl"/);
@@ -378,6 +378,21 @@ test("most konzole javlja ispis, grešku i odbijanje", () => {
   assert.match(html, /Nema zapisa\./);
   assert.match(main, /ubaciMostKonzole\(dokument, generacija\)/);
   assert.match(css, /\.pregled-konzola\s*\{[^}]*background:\s*var\(--code\)/);
+});
+
+test("editor ne krije navigaciju, a panel ima preklop", () => {
+  assert.match(html, /id="nav-preklop"/);
+  assert.match(html, /data-ikona="panel-left"/);
+  assert.match(html, /aria-controls="nav"/);
+  assert.match(main, /navOtvoren = !navOtvoren/);
+  assert.match(main, /classList\.toggle\("nav-skriven", !navOtvoren\)/);
+  assert.match(main, /Sakrij navigaciju/);
+  assert.match(main, /Prikaži navigaciju/);
+  const prikaz = main.slice(main.indexOf("function prikaziDeo"), main.indexOf("function prikaziNav"));
+  assert.match(prikaz, /editor-pun/);
+  assert.equal(prikaz.includes("navOtvoren"), false);
+  assert.equal(prikaz.includes("nav-skriven"), false);
+  assert.match(css, /body\.nav-skriven #nav\s*\{[^}]*display:\s*none/);
 });
 
 test("neuspeo upis ostaje u mapi za ovu stranicu", () => {
