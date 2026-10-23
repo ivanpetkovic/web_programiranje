@@ -45,7 +45,7 @@ test("tabovi, traka i isečak zadržavaju natpise", () => {
   assert.match(main, /ikonica\("chart-column"\)/);
   assert.match(main, /saIkonom\(sacuvajKorak, "bookmark", "Sačuvaj korak"\)/);
   assert.match(main, /saIkonom\(kljucnaNaslov, "lightbulb", "Ključna ideja"\)/);
-  assert.match(main, /saIkonom\(naslov, "folder", korak\.isecakNaslov\)/);
+  assert.match(main, /saIkonom\(naslov, "folder", fajl\.ime\)/);
   assert.match(main, /natpisKopiranja\("Kopiraj"\)/);
   assert.match(main, /ikonica\("file-text"\)/);
   assert.match(main, /ikonica\("chevron-left"\)/);

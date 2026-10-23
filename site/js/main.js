@@ -13,7 +13,7 @@ import { PODRAZUMEVANI_PRIMER, pocetniFajl, primeniPrimer } from "./primer.js";
 import { praznaSesija, primeni } from "./verzija.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
-import { spojeniPrikaz } from "./razlika.js";
+import { prikazPriloga, ulaziUFajl } from "./prilog.js";
 
 const nav = document.querySelector("#nav");
 const navPreklop = document.querySelector("#nav-preklop");
@@ -268,7 +268,7 @@ function crtajNav() {
 function vecUkucano(item, doIndeksa, putanja) {
   return item.steps
     .slice(0, doIndeksa)
-    .filter((korak) => korak.putanja === putanja)
+    .filter((korak) => korak.putanja === putanja && ulaziUFajl(korak.delic))
     .map((korak) => korak.delic)
     .join("\n\n");
 }
@@ -494,19 +494,19 @@ function nacrtajTekstBloka(tekst, naslovTekst) {
   return blok;
 }
 
-function nacrtajIsecak(korak, ranije) {
+function nacrtajFajl(fajl) {
   const blok = document.createElement("section");
   blok.className = "isecak";
   const glava = document.createElement("header");
   const naslov = document.createElement("span");
-  saIkonom(naslov, "folder", korak.isecakNaslov);
+  saIkonom(naslov, "folder", fajl.ime);
   const kopiraj = document.createElement("button");
   kopiraj.type = "button";
   const natpisKopiranja = (tekst) => saIkonom(kopiraj, "copy", tekst);
   natpisKopiranja("Kopiraj");
   kopiraj.addEventListener("click", async () => {
     try {
-      await navigator.clipboard.writeText(korak.isecak);
+      await navigator.clipboard.writeText(fajl.linije.map((linija) => linija.tekst).join("\n"));
       natpisKopiranja("Kopirano");
     } catch {
       natpisKopiranja("Kopiraj");
@@ -514,7 +514,7 @@ function nacrtajIsecak(korak, ranije) {
   });
   glava.append(naslov, kopiraj);
   const pre = document.createElement("pre");
-  for (const [indeks, linija] of spojeniPrikaz(ranije, korak.isecak).entries()) {
+  for (const [indeks, linija] of fajl.linije.entries()) {
     const red = document.createElement("span");
     red.className = linija.tip === "dodato" ? "red novo" : "red";
     const brojReda = document.createElement("span");
@@ -727,9 +727,12 @@ function renderLecture() {
     nacrtajFiguru(figura, korak.figura);
   }
   const imaFajl = !figura && Boolean(korak.putanja);
-  const imaIsecak = imaFajl && typeof korak.isecak === "string" && korak.isecak.trim() !== "";
   const ranije = imaFajl ? vecUkucano(item, i, prikaz.putanja) : "";
-  const isecak = imaIsecak ? nacrtajIsecak(korak, ranije) : null;
+  const prilog = imaFajl ? prikazPriloga(korak, ranije) : { fajl: null, komanda: "", http: "" };
+  const imaRedove = prilog.fajl && prilog.fajl.linije.some((linija) => linija.tekst !== "");
+  const isecak = imaRedove ? nacrtajFajl(prilog.fajl) : null;
+  const httpBlok = prilog.http ? nacrtajTekstBloka(prilog.http, "HTTP") : null;
+  const komandaBlok = prilog.komanda ? nacrtajTekstBloka(prilog.komanda, "Komanda") : null;
   const put = imaFajl ? document.createElement("p") : null;
   const vec = imaFajl ? document.createElement("pre") : null;
   if (put) {
@@ -741,8 +744,8 @@ function renderLecture() {
     if (fajl) put.append(fajl);
     put.append(document.createTextNode("Fajl: "), putanjaKoraka);
     vec.className = "vec";
-    vec.hidden = !ranije || imaIsecak;
-    vec.textContent = ranije && !imaIsecak ? `Već u fajlu:\n${ranije}` : "";
+    vec.hidden = !ranije || Boolean(isecak);
+    vec.textContent = ranije && !isecak ? `Već u fajlu:\n${ranije}` : "";
   }
   const pitanjeBlok = document.createElement("section");
   pitanjeBlok.className = "pitanje-blok";
@@ -827,6 +830,8 @@ function renderLecture() {
   if (figura) casEl.append(figura);
   else if (imaFajl) {
     if (isecak) casEl.append(isecak);
+    if (httpBlok) casEl.append(httpBlok);
+    if (komandaBlok) casEl.append(komandaBlok);
     casEl.append(put, vec);
   }
   if (izolovan) casEl.append(izolovan);

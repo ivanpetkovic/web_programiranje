@@ -1,3 +1,5 @@
+import { ulaziUFajl } from "./prilog.js";
+
 const POCETAK = "<!-- povezi-pocetak -->";
 const KRAJ = "<!-- povezi-kraj -->";
 const kes = new WeakMap();
@@ -170,7 +172,7 @@ function izgradi(koraci) {
   const redosled = [];
   const snimci = [];
   for (const korak of koraci) {
-    if (korak && korak.putanja) {
+    if (korak && korak.putanja && ulaziUFajl(korak.delic)) {
       let cilj = korak.putanja;
       let zaSpajanje = korak;
       if (cilj === "client/index.html" && jeSkript(korak.delic) && ceoTekst(korak) === null) {

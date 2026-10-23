@@ -13,9 +13,8 @@ function linijePrikaza(tekst) {
 export function spojeniPrikaz(ranije, dodatak) {
   const nove = linijePrikaza(dodatak);
   const stare = linijePrikaza(ranije);
-  if (!stare.length || !nove.length) {
-    return nove.map((tekst) => ({ tekst, tip: "isto" }));
-  }
+  if (!nove.length) return stare.map((tekst) => ({ tekst, tip: "isto" }));
+  if (!stare.length) return nove.map((tekst) => ({ tekst, tip: "isto" }));
   const izlaz = stare.map((tekst) => ({ tekst, tip: "isto" }));
   if (izlaz[izlaz.length - 1].tekst !== "") izlaz.push({ tekst: "", tip: "isto" });
   for (const tekst of nove) izlaz.push({ tekst, tip: "dodato" });

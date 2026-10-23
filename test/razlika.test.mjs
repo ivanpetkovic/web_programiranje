@@ -60,6 +60,12 @@ test("dodatak stoji u istom kodu i nosi oznaku dodato", () => {
   assert.equal(linije.findIndex((linija) => linija.tip === "dodato") > linije.findIndex((linija) => linija.tip === "isto"), true);
 });
 
+test("prazan dodatak ostavlja raniji fajl bez nove linije", () => {
+  assert.deepEqual(spojeniPrikaz("const server = http.createServer(obrada);", ""), [
+    { tekst: "const server = http.createServer(obrada);", tip: "isto" },
+  ]);
+});
+
 test("prvi isečak nema raniji tekst pa ostaje neoznačen", () => {
   assert.deepEqual(spojeniPrikaz("", "const soba = { temperatura: 24, zeljeno: false };"), [
     { tekst: "const soba = { temperatura: 24, zeljeno: false };", tip: "isto" },
