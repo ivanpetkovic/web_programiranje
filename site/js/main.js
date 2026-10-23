@@ -2,7 +2,7 @@ import { napraviPogled, postaviPogled } from "./cm-editor.js";
 import { dokument, lectures } from "./lectures.js";
 import { natpisNedelje, pomeriNedelju, polozajiKlizaca, procenat, ucitajKurs } from "./model.js";
 import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./pojmovnik.js";
-import { PORUKA, sklopiDokument, trajanjeLopatica } from "./pregled.js";
+import { PORUKA, porukaKonzole, sklopiDokument, trajanjeLopatica, ubaciMostKonzole } from "./pregled.js";
 import { procitajRadne, serverTabVidljiv, upisiRadnu } from "./radna.js";
 import { adresaPregleda, izborFajla, prikaziIzlaz } from "./birac.js";
 import { nacrtajFiguru } from "./crtez.js";
@@ -46,6 +46,9 @@ const tabFront = document.querySelector("#tab-front");
 const tabBack = document.querySelector("#tab-back");
 const starost = document.querySelector("#starost");
 const pregledStrana = document.querySelector("#pregled-strana");
+const konzolaZapisi = document.querySelector("#pregled-konzola-zapisi");
+const konzolaPrazno = document.querySelector("#pregled-konzola-prazno");
+const konzolaTelo = document.querySelector(".pregled-konzola-telo");
 const temaDugme = document.querySelector("#tema");
 const otvoreniPojmovi = new Set();
 const otvoreneNedelje = new Set();
@@ -68,6 +71,8 @@ let pollId = 0;
 let poslednjiTrenutak = null;
 let upisRedni = 0;
 let bloboviPregleda = [];
+let konzolaGeneracija = 0;
+const KONZOLA_REDOVA = 200;
 const poslato = { takt: false, uloge: false, baza: false };
 let dovod = null;
 let sesija = praznaSesija(procitajRadne(localStorage));
@@ -1050,6 +1055,29 @@ function osveziAdresu() {
   el.textContent = adresaPregleda(location.origin, `${sesija.strana}/${put}`);
 }
 
+function ocistiKonzolu() {
+  if (!konzolaZapisi) return;
+  konzolaZapisi.replaceChildren();
+  if (konzolaPrazno) konzolaPrazno.hidden = false;
+}
+
+function dodajZapisKonzole(zapis) {
+  if (!konzolaZapisi) return;
+  if (konzolaPrazno) konzolaPrazno.hidden = true;
+  const li = document.createElement("li");
+  li.className = `nivo-${zapis.nivo}`;
+  const nivo = document.createElement("span");
+  nivo.className = "nivo";
+  nivo.textContent = `${zapis.nivo} `;
+  const tekst = document.createElement("span");
+  tekst.className = "tekst";
+  tekst.textContent = zapis.tekst;
+  li.append(nivo, tekst);
+  konzolaZapisi.append(li);
+  while (konzolaZapisi.children.length > KONZOLA_REDOVA) konzolaZapisi.firstElementChild.remove();
+  if (konzolaTelo) konzolaTelo.scrollTop = konzolaTelo.scrollHeight;
+}
+
 function mapaPregleda(klijent) {
   if (!primerAktivan() || klijent["index.html"]) return klijent;
   const html = stanjePrimera.putanje.find((put) => put.endsWith(".html") && !put.includes("/"));
@@ -1059,13 +1087,17 @@ function mapaPregleda(klijent) {
 
 function sklopiIframe(klijent) {
   if (!pregledStrana) return;
+  const generacija = ++konzolaGeneracija;
+  ocistiKonzolu();
   for (const url of bloboviPregleda) URL.revokeObjectURL(url);
   bloboviPregleda = [];
-  pregledStrana.srcdoc = sklopiDokument(klijent, (tekst, tip) => {
-    const url = URL.createObjectURL(new Blob([tekst], { type: `${tip};charset=utf-8` }));
+  const dokument = sklopiDokument(klijent, (tekst, tip, kljuc) => {
+    const telo = tip === "text/javascript" && kljuc ? `${tekst}\n//# sourceURL=${kljuc}\n` : tekst;
+    const url = URL.createObjectURL(new Blob([telo], { type: `${tip};charset=utf-8` }));
     bloboviPregleda.push(url);
     return url;
   });
+  pregledStrana.srcdoc = dokument ? ubaciMostKonzole(dokument, generacija) : "";
   const trajanje = trajanjeLopatica(klijent["client/css/soba.css"] || "");
   if (trajanje && blades) blades.style.animationDuration = trajanje;
 }
@@ -1444,6 +1476,18 @@ document.querySelector("#moj-kod").addEventListener("click", () => primeniDogada
 document.querySelector("#lekcija").addEventListener("click", () => primeniDogadaj({ tip: "ugradjena" }));
 poveziPrimer();
 document.querySelector("#pregled-osvezi").addEventListener("click", osveziPregled);
+document.querySelector("#pregled-konzola-obrisi").addEventListener("click", ocistiKonzolu);
+window.addEventListener("message", (event) => {
+  if (!pregledStrana || event.source !== pregledStrana.contentWindow) return;
+  if (event.origin !== location.origin && event.origin !== "null") return;
+  const zapis = porukaKonzole(event.data);
+  if (!zapis || zapis.generacija !== konzolaGeneracija) return;
+  if (zapis.nivo === "clear") {
+    ocistiKonzolu();
+    return;
+  }
+  dodajZapisKonzole(zapis);
+});
 
 function osveziTypeahead() {
   const stavke = predlozi(dokument, pojmovi, q.value);

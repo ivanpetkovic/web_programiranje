@@ -115,6 +115,16 @@
                   <button type="button" id="pregled-osvezi" aria-label="Osveži pregled" data-ikona="refresh-cw"></button>
                 </div>
               <iframe id="pregled-strana" title="Pregled dokumenta"></iframe>
+              <div id="pregled-konzola" class="pregled-konzola" aria-label="Konzola pregleda">
+                <div class="pregled-konzola-h">
+                  <h3>Konzola</h3>
+                  <button type="button" id="pregled-konzola-obrisi">Obriši</button>
+                </div>
+                <div class="pregled-konzola-telo">
+                  <p id="pregled-konzola-prazno" class="pregled-konzola-prazno">Nema zapisa.</p>
+                  <ol id="pregled-konzola-zapisi" aria-live="polite"></ol>
+                </div>
+              </div>
               <div class="room machine" id="soba-masina" hidden>
                 <header class="room-h"><h2>Soba mašina</h2></header>
                 <p class="digit" id="displej-masina">24</p>

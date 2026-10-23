@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
-import { PORUKA, primeniPrikaz, sakrivenoUSobi, sklopiDokument, tekstoviServera } from "../site/js/pregled.js";
+import vm from "node:vm";
+import { PORUKA, mostKonzole, porukaKonzole, primeniPrikaz, sakrivenoUSobi, sklopiDokument, tekstoviServera, ubaciMostKonzole } from "../site/js/pregled.js";
 import {
   imaRadnu,
   polazniTekst,
@@ -315,6 +316,68 @@ test("sklop dokumenta nosi dodatni element i stil iz mape", () => {
   assert.equal(bez.includes("/client/css/soba.css"), false);
   assert.equal(sklopiDokument({}), "");
   assert.equal(sklopiDokument({ "client/index.html": "  " }), "");
+});
+
+test("most konzole javlja ispis, grešku i odbijanje", () => {
+  const most = mostKonzole(4);
+  assert.equal(most.toLowerCase().includes("</script"), false);
+  const ugradjen = ubaciMostKonzole("<!DOCTYPE html>\n<html><body><p>dodat</p></body></html>", 4);
+  const telo = ugradjen.match(/<script>([\s\S]*?)<\/script>/)[1];
+  assert.equal(telo.includes("\n"), false);
+  const poruke = [];
+  const slusaci = {};
+  const window = {
+    addEventListener(tip, fn) {
+      slusaci[tip] = fn;
+    },
+  };
+  const konzola = {
+    log() {},
+    info() {},
+    warn() {},
+    error() {},
+    debug() {},
+    clear() {},
+  };
+  const parent = {
+    postMessage(data) {
+      poruke.push(data);
+    },
+  };
+  const context = vm.createContext({
+    window,
+    parent,
+    console: konzola,
+    location: { origin: "http://cas.test" },
+    JSON,
+    Error,
+    String,
+    Node: undefined,
+  });
+  vm.runInContext(telo, context);
+  context.console.log("zdravo", 7, { n: 1 });
+  context.console.clear();
+  slusaci.error({ message: "Uncaught SyntaxError: puklo", filename: "blob:http://cas.test/abc", lineno: 2, colno: 4 });
+  slusaci.unhandledrejection({ reason: new Error("odbijeno") });
+  assert.equal(poruke[0].generacija, 4);
+  assert.equal(poruke[0].nivo, "log");
+  assert.equal(poruke[0].tekst, 'zdravo 7 {"n":1}');
+  assert.equal(poruke[1].nivo, "clear");
+  assert.match(poruke[2].tekst, /SyntaxError: puklo \(skript:2:4\)/);
+  assert.match(poruke[3].tekst, /Neobrađeno odbijanje:[\s\S]*odbijeno/);
+  const prva = ugradjen.split("\n")[0];
+  assert.match(prva, /^<!DOCTYPE html><script>.*<\/script>$/);
+  assert.equal(ugradjen.split("\n")[1], "<html><body><p>dodat</p></body></html>");
+  assert.equal(ubaciMostKonzole("<html></html>", 2).startsWith("<script>"), true);
+  assert.equal(ubaciMostKonzole("", 1), "");
+  assert.equal(porukaKonzole(poruke[0]).tekst, poruke[0].tekst);
+  assert.equal(porukaKonzole({ tip: "drugo", nivo: "log", tekst: "x", generacija: 1 }), null);
+  assert.equal(porukaKonzole({ ...poruke[0], tekst: "a".repeat(4001) }).tekst.length, 4000);
+  assert.match(html, /id="pregled-konzola"/);
+  assert.match(html, /id="pregled-konzola-zapisi"/);
+  assert.match(html, /Nema zapisa\./);
+  assert.match(main, /ubaciMostKonzole\(dokument, generacija\)/);
+  assert.match(css, /\.pregled-konzola\s*\{[^}]*background:\s*var\(--code\)/);
 });
 
 test("editor ne krije navigaciju, a panel ima preklop", () => {
