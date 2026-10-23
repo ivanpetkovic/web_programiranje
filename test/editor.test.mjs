@@ -256,11 +256,15 @@ test("lekcija i moj kod biraju serverski tekst", () => {
   const verzije = {
     "server/soba.js": "snimak sobe",
     "server/ventilator.js": "snimak ventilatora",
+    "server/server.js": "skica servera",
+    "server/baza.js": "skica baze",
     "client/index.html": "<p>klijent</p>",
   };
   const lekcija = tekstoviServera(verzije, { "server/soba.js": "moj kod sobe" }, "ugradjena");
   assert.equal(lekcija["server/soba.js"], "snimak sobe");
   assert.equal(lekcija["server/ventilator.js"], "snimak ventilatora");
+  assert.equal(lekcija["server/server.js"], undefined);
+  assert.equal(lekcija["server/baza.js"], undefined);
   assert.equal(lekcija["client/index.html"], undefined);
   const moj = tekstoviServera(verzije, { "server/soba.js": "moj kod sobe" }, "radna");
   assert.equal(moj["server/soba.js"], "moj kod sobe");
@@ -275,6 +279,7 @@ test("lekcija i moj kod biraju serverski tekst", () => {
 });
 
 test("pregled je iframe pored sobe mašina", () => {
+  assert.match(html, /<p id="editor-napomena" hidden><\/p>/);
   assert.match(html, /<iframe id="pregled-strana"/);
   assert.match(html, /id="soba-masina"/);
   assert.equal(html.includes('id="soba-prekidaca"'), false);

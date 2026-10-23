@@ -109,7 +109,7 @@ The week titled Od naivnog prenosa do HTTP-a, pa Node MUST introduce a naive who
 - **WHEN** the teacher is still on the transfer steps
 - **THEN** `node server/server.js` has not been introduced yet
 ### Requirement: Čas 5 pali Node pre fetch-a
-After the HTTP steps, the lecture MUST start a plain Node server with `http.createServer`, `listen`, the command `node server/server.js`, the same address in the browser, and then the route. The room read MUST be opened by that address before any fetch call.
+After the HTTP steps, the lecture MUST start a plain Node server with `http.createServer`, `listen`, the command `node server/server.js`, the same address in the browser, and then the route. The createServer step MUST bind the name `http` with `require("http")` before `http.createServer`. The room read MUST be opened by that address before any fetch call.
 
 #### Scenario: Server starts before fetch
 - **WHEN** the teacher follows the server steps

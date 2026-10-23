@@ -2194,17 +2194,18 @@ GET /api/soba HTTP/1.1
 
 ~8 min · `server/server.js`
 
-Običan Node, nema framework.
+Običan Node, nema framework. http je ugrađeni modul, vezan sa require("http").
 
 > **Ključna ideja.** http.createServer dolazi pre slušanja porta.
 
 **Isečak.** createServer
 
 ```javascript
+const http = require("http");
 const server = http.createServer(obrada);
 ```
 
-**Pitalica.** Šta ova linija uradi?
+**Pitalica.** Šta createServer uradi?
 
 - A. Otvori browser.
   Browser je druga strana.

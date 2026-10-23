@@ -1394,13 +1394,14 @@ POST /api/soba HTTP/1.1]]></samostalni-primer><pitalica vrsta="kratka" format="p
         </korak>
         <korak broj="7" nivo="Osnovno" minuta="4" primer="aplikacija">
           <naslov>createServer</naslov>
-          <tekst>Običan Node, nema framework.</tekst>
+          <tekst>Običan Node, nema framework. http je ugrađeni modul, vezan sa require("http").</tekst>
           <kljucna-ideja>http.createServer dolazi pre slušanja porta.</kljucna-ideja>
           <fajl putanja="server/server.js">
-            <isecak naslov="createServer" jezik="javascript">const server = http.createServer(obrada);</isecak>
+            <isecak naslov="createServer" jezik="javascript"><![CDATA[const http = require("http");
+const server = http.createServer(obrada);]]></isecak>
           </fajl>
           <pitalica vrsta="kratka">
-            <pitanje>Šta ova linija uradi?</pitanje>
+            <pitanje>Šta createServer uradi?</pitanje>
             <opcije>
               <opcija oznaka="A" drzi="ne">
                 <tekst>Otvori browser.</tekst>
@@ -1411,7 +1412,7 @@ POST /api/soba HTTP/1.1]]></samostalni-primer><pitalica vrsta="kratka" format="p
                 <razlog>Još ne sluša port. To je u skladu sa razlikom koju pravi ovaj korak: http.createServer dolazi pre slušanja porta.</razlog>
               </opcija>
             </opcije>
-          <analiza>Zašto: http.createServer dolazi pre slušanja porta. U ovom koraku: Običan Node, nema framework. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.</analiza></pitalica>
+          <analiza>Zašto: http.createServer dolazi pre slušanja porta. U ovom koraku: Običan Node, nema framework. http je ugrađeni modul, vezan sa require("http"). Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.</analiza></pitalica>
         </korak>
         <korak broj="8" nivo="Osnovno" minuta="4" primer="aplikacija">
           <naslov>listen</naslov>
@@ -1455,7 +1456,8 @@ POST /api/soba HTTP/1.1]]></samostalni-primer><pitalica vrsta="kratka" format="p
             </opcije>
           <analiza>Zašto: Komanda je node server/server.js. Browser je i dalje poseban korak. U ovom koraku: Proces se podiže iz terminala. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.</analiza></pitalica>
         </korak>
-        <korak nivo="Primena" minuta="4" primer="eksperiment" broj="10"><naslov>Konkurentni zahtevi</naslov><tekst>Dva klijenta istovremeno traže podatke.</tekst><kljucna-ideja>Node event loop omogućava obradu događaja; blokirajući kod i dalje može zaustaviti odziv.</kljucna-ideja><samostalni-primer jezik="javascript" izolovan="da"><![CDATA[http.createServer(async (req, res) => {
+        <korak nivo="Primena" minuta="4" primer="eksperiment" broj="10"><naslov>Konkurentni zahtevi</naslov><tekst>Dva klijenta istovremeno traže podatke.</tekst><kljucna-ideja>Node event loop omogućava obradu događaja; blokirajući kod i dalje može zaustaviti odziv.</kljucna-ideja><samostalni-primer jezik="javascript" izolovan="da"><![CDATA[const http = require("http");
+http.createServer(async (req, res) => {
   // obrada dva različita zahteva
 });]]></samostalni-primer><pitalica vrsta="kratka" format="kod-izlaz"><pitanje>Šta je opasno ako handler radi dug CPU izračun bez predaha?</pitanje><opcije><opcija oznaka="A" drzi="da"><tekst>Sledeći događaji mogu čekati.</tekst><razlog>JS handler može blokirati glavni event loop.</razlog></opcija><opcija oznaka="B" drzi="ne"><tekst>Node automatski pokreće jedan JS thread po HTTP zahtevu.</tekst><razlog>Node ne daje svaki zahtev zasebnom JS thread-u po ovom modelu.</razlog></opcija><opcija oznaka="C" drzi="ne"><tekst>TCP automatski rešava spor JS kod.</tekst><razlog>TCP ne upravlja izvršavanjem JavaScript koda.</razlog></opcija></opcije><analiza>Uvod u narednu nedelju: razlika između mrežnog I/O čekanja i sinhronog CPU rada.</analiza></pitalica></korak><korak broj="11" nivo="Osnovno" minuta="4" primer="aplikacija">
           <naslov>Adresa</naslov>

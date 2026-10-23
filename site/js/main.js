@@ -2,7 +2,7 @@ import { napraviPogled, postaviPogled } from "./cm-editor.js";
 import { dokument, lectures } from "./lectures.js";
 import { natpisNedelje, pomeriNedelju, polozajiKlizaca, procenat, ucitajKurs } from "./model.js";
 import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./pojmovnik.js";
-import { PORUKA, porukaKonzole, sklopiDokument, trajanjeLopatica, ubaciMostKonzole } from "./pregled.js";
+import { PORUKA, modulPoZahtevu, porukaKonzole, sklopiDokument, trajanjeLopatica, ubaciMostKonzole } from "./pregled.js";
 import { procitajRadne, serverTabVidljiv, upisiRadnu } from "./radna.js";
 import { adresaPregleda, izborFajla, prikaziIzlaz } from "./birac.js";
 import { nacrtajFiguru } from "./crtez.js";
@@ -40,6 +40,7 @@ const sesije = document.querySelector("#sesije");
 const kutijaMsg = document.querySelector("#kutija-msg");
 const editorDom = document.querySelector("#editor");
 const editorErr = document.querySelector("#editor-err");
+const editorNapomena = document.querySelector("#editor-napomena");
 const putanja = document.querySelector("#putanja");
 const tree = document.querySelector("#tree");
 const tabFront = document.querySelector("#tab-front");
@@ -1172,6 +1173,13 @@ async function upisiServere(tela) {
   }
 }
 
+function osveziNapomenu(putanja) {
+  if (!editorNapomena) return;
+  const prikaz = Boolean(putanja) && putanja.startsWith("server/") && !modulPoZahtevu(putanja);
+  editorNapomena.hidden = !prikaz;
+  editorNapomena.textContent = prikaz ? "Izmene ostaju u editoru. Proces ovaj fajl čita samo kad krene." : "";
+}
+
 function postaviEditor(editor) {
   prikazaniTekst = editor.tekst;
   if (!pogled) pogled = napraviPogled(editorDom);
@@ -1194,6 +1202,7 @@ function nacrtajPrikaz(rezultat, sacuvano, dogadaj) {
   if (editor.prazno) {
     paintTree([], "");
     putanja.textContent = "";
+    osveziNapomenu("");
     if (pogled) postaviPogled(pogled, { tekst: "", samoCitaj: true, linije: [], put: "", onPromena() {} });
     const adresa = document.querySelector("#pregled-adresa");
     if (adresa) adresa.textContent = "";
@@ -1201,6 +1210,7 @@ function nacrtajPrikaz(rezultat, sacuvano, dogadaj) {
   }
   paintTree(rezultat.prikaz.fajlovi, otvorenUStablu());
   putanja.textContent = editor.putanja;
+  osveziNapomenu(editor.putanja);
   markOpen(otvorenUStablu());
   osveziAdresu();
   osveziSegment();

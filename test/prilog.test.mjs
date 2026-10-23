@@ -40,6 +40,7 @@ test("komanda nije red imenovanog fajla", () => {
   assert.equal(prikaz.komanda, "node server/server.js");
   assert.equal(tekst.includes("node server/server.js"), false);
   assert.equal(prikaz.fajl.linije.some((linija) => jeShell(linija.tekst)), false);
+  assert.match(tekst, /const http = require\("http"\)/);
   assert.match(tekst, /http\.createServer/);
   assert.match(tekst, /server\.listen\(8787\)/);
   assert.ok(greskaSintakse("node server/server.js", "server.js"));
@@ -90,6 +91,7 @@ test("HTTP red nije u server.js, a sklopljeni fajl prolazi proveru", () => {
   assert.equal(prikaz.fajl.linije.some((linija) => linija.tekst.includes("GET /api/soba")), false);
   assert.equal(tekst.includes("GET /api/soba"), false);
   assert.equal(tekst.includes("node server/server.js"), false);
+  assert.match(tekst, /require\("http"\)/);
   assert.match(tekst, /createServer/);
   assert.match(tekst, /listen/);
   assert.equal(greskaSintakse(tekst, "server/server.js"), null);

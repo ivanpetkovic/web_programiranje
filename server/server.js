@@ -241,6 +241,10 @@ async function sacuvajFajl(zahtev, odgovor) {
     posaljiJson(odgovor, 400, { greska: "nema izvora" });
     return;
   }
+  if (MODULI_PRI_POKRETANJU.has(path.basename(fajl))) {
+    posaljiJson(odgovor, 200, { sacuvan: false, pokretanje: true });
+    return;
+  }
   const greskaSintakse = sintaksaJeIspravna(telo.izvor, fajl);
   if (greskaSintakse) {
     posaljiJson(odgovor, 400, { greska: greskaSintakse });

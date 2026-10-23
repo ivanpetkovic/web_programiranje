@@ -79,21 +79,21 @@ The text shown in the editor for a Klijent file MUST update the iframe without w
 - **WHEN** the loaded document already draws a fan and the shown stylesheet changes the blade duration, direction, or angle
 - **THEN** the iframe shows that change without a lecture-page reload
 ### Requirement: Server se ne izvršava u browseru
-The site MUST NOT execute a server file in the browser. The running Node process MUST be the source that speaks HTTP/1.1 without a web framework, using the server files the preview has written for the active switch.
+The site MUST NOT execute a server file in the browser. The running Node process MUST be the source that speaks HTTP/1.1 without a web framework, using the per-request server files the preview has written for the active switch.
 
 #### Scenario: Back tab does not run the handler
 - **WHEN** the teacher opens a file under `server/` in the editor
 - **THEN** the browser does not run that file as the room handler
 ### Requirement: Šta važi posle čuvanja
-The running process MUST keep reading `server/soba.js`, `server/ventilator.js`, and `server/sesija.js` from disk, and `server/server.js`, `server/stanje.js`, and `server/baza.js` when the process starts. While Editor is open, the preview MUST replace each server file in the open step's tree with the text of the active Moj kod / Lekcija switch. If the process is not up, the panel MUST say so beside the editor and the network record MUST have no successful status for that request.
+The running process MUST keep reading `server/soba.js`, `server/ventilator.js`, and `server/sesija.js` from disk on the next request, and `server/server.js`, `server/stanje.js`, and `server/baza.js` only when the process starts. While Editor is open, the preview MUST replace each of those per-request server files in the open step's tree with the text of the active Moj kod / Lekcija switch. The preview MUST NOT write `server/server.js`, `server/stanje.js`, or `server/baza.js`. When one of those files is open, the editor MUST say that the text stays in the editor and that the process reads that file only when it starts. If the process is not up, the panel MUST say so beside the editor and the network record MUST have no successful status for that request.
 
 #### Scenario: Saved room module
 - **WHEN** the teacher changes `server/soba.js` in the editor and the browser sends the next room read
 - **THEN** that read uses the file written from the active switch
 
 #### Scenario: Startup file
-- **WHEN** the teacher changes `server/server.js` in the editor without restarting the process
-- **THEN** the running process does not use that editor text
+- **WHEN** the teacher changes `server/server.js` in the editor
+- **THEN** the file on disk is unchanged, the editor says the process reads that file only when it starts, and the running process does not use that editor text
 ### Requirement: Panel prati čas
 Before the server lecture, the shell MUST NOT send a room read or a command. From that lecture, the shell machine room MUST follow the live box, and a shell read control MAY send one room read. The iframe MAY send a request only when the loaded document does. The shell MUST NOT add a next-step control.
 
@@ -101,7 +101,7 @@ Before the server lecture, the shell MUST NOT send a room read or a command. Fro
 - **WHEN** the teacher is on a lecture before the server
 - **THEN** the network record has no room-read or command request from the shell
 ### Requirement: Rad van toka
-The finished client files on disk MUST stay openable outside the lecture flow. From the server lecture onward the Node process MUST run the server files the preview last wrote. The editor MUST show the step original or the local working copy according to the switch. Editing a client file MUST NOT change that client file on disk.
+The finished client files on disk MUST stay openable outside the lecture flow. From the server lecture onward the Node process MUST run the per-request server files the preview last wrote. The editor MUST show the step original or the local working copy according to the switch. Editing a client file MUST NOT change that client file on disk.
 
 #### Scenario: Front runs alone
 - **WHEN** the teacher opens `client/index.html` from disk outside the lecture site before the server lecture
