@@ -628,16 +628,19 @@ function nacrtajBirac(item, i) {
   krugovi.setAttribute("role", "group");
   krugovi.setAttribute("aria-label", "Koraci");
   item.steps.forEach((korakNed, ki) => {
-    const krug = document.createElement("button");
-    krug.type = "button";
-    krug.className = ki <= i ? "birac-krug birac-krug-dosegnut" : "birac-krug birac-krug-buduci";
-    krug.setAttribute("aria-label", `${ki + 1} ${korakNed.naslov}`);
-    if (ki === i) krug.setAttribute("aria-current", "step");
-    krug.addEventListener("click", () => {
+    const domacin = document.createElement("button");
+    domacin.type = "button";
+    domacin.className = "birac-krug-domacin";
+    domacin.setAttribute("aria-label", `${ki + 1} ${korakNed.naslov}`);
+    if (ki === i) domacin.setAttribute("aria-current", "step");
+    domacin.addEventListener("click", () => {
       korakPoCasu.set(cas, ki);
       renderLecture();
     });
-    krugovi.append(krug);
+    const krug = document.createElement("span");
+    krug.className = ki <= i ? "birac-krug birac-krug-dosegnut" : "birac-krug birac-krug-buduci";
+    domacin.append(krug);
+    krugovi.append(domacin);
   });
   birac.append(red, krugovi);
   return birac;
