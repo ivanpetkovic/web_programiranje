@@ -66,7 +66,7 @@ function ekstenzije(put, samoCitaj, linije, onPromena) {
       ".cm-gutters": { backgroundColor: "var(--code)", color: "var(--muted)", borderRight: "1px solid var(--line)" },
       ".cm-content": { caretColor: "var(--ink)" },
       "& .cm-cursor, & .cm-dropCursor": { borderLeftColor: "var(--ink)" },
-      "&.cm-focused": { outline: "2px solid var(--amber)", outlineOffset: "2px" },
+      "&.cm-focused": { outline: "2px solid var(--amber)", outlineOffset: "-2px" },
     }, { dark: tamnaTema() }),
     polje,
     samoCitaj ? [EditorState.readOnly.of(true), EditorView.editable.of(false)] : slusac,

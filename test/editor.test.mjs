@@ -176,12 +176,11 @@ test("nema dugmadi za upis fajla na disk", () => {
   assert.equal(ucitaj.includes("upisiRadnu"), false);
   assert.match(ucitaj, /tip: "ucitaj"/);
   assert.equal(html.includes("<textarea"), false);
-  assert.match(html, /id="verzija"/);
-  assert.match(html, /id="reset-radne"/);
-  assert.match(html, /Resetuj radnu verziju/);
-  assert.match(main, /Prikaži ugrađenu verziju/);
-  assert.match(main, /Prikaži radnu verziju/);
-  assert.match(main, /dugmeReseta\.addEventListener\("click"/);
+  assert.equal(html.includes('id="verzija"'), false);
+  assert.equal(html.includes('id="reset-radne"'), false);
+  assert.match(main, /querySelector\("#resetuj"\)\.addEventListener\("click", resetujRadnu\)/);
+  assert.match(main, /querySelector\("#moj-kod"\)\.addEventListener\("click"/);
+  assert.match(main, /querySelector\("#lekcija"\)\.addEventListener\("click"/);
   assert.match(main, /upisiRadnu\(localStorage/);
   assert.equal(main.includes("/api/fajl/povrati"), false);
   assert.match(main, /fetch\("\/api\/fajl"/);

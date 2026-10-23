@@ -493,7 +493,7 @@ The editor MUST keep one working copy per file in this browser's localStorage, s
 - **WHEN** the teacher edits a file and loads the page again
 - **THEN** that file's working copy is still available
 ### Requirement: Prekidač verzije
-A button beside the file path, different from reset, MUST switch between the working copy and the built-in original of the open step, and MUST NOT delete the working copy. The button MUST show a pencil while the working copy is on screen and a page while the built-in original is on screen. Its accessible name MUST say radna verzija or ugrađena verzija, for the view the click will show. The same switch MUST select the text written for every server file in the open step's tree.
+The Moj kod | Lekcija segment in the file bar, different from reset, MUST switch between the working copy and the built-in original of the open step, and MUST NOT delete the working copy. Moj kod MUST show the working copy and Lekcija the built-in original, and the segment MUST mark the view on screen as pressed. The file path is the editor's header and MUST NOT carry its own version or reset button. The same switch MUST select the text written for every server file in the open step's tree.
 
 #### Scenario: Toggle shows the original
 - **WHEN** the teacher activates the version control while the working copy is on screen

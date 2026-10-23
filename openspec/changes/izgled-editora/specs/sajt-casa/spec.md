@@ -121,15 +121,15 @@ Sačuvaj MUST write the text of Moj kod into this browser's working copy for the
 - **THEN** the stored working copy is unchanged
 
 ### Requirement: Moj kod i Lekcija
-Moj kod MUST show the working copy and MUST be editable. Lekcija MUST show the built-in original and MUST be read-only. The segment and the version button beside the path MUST select the same view. Moj kod MUST show `pencil` on that button. Lekcija MUST show `file-text` on that button. The selected segment MUST use the accent fill.
+Moj kod MUST show the working copy and MUST be editable. Lekcija MUST show the built-in original and MUST be read-only. The segment is the only version control; the path MUST NOT carry a version or reset button. The selected segment MUST use the accent fill.
 
 #### Scenario: Segment returns to the typed code
 - **WHEN** the teacher chooses Moj kod while Lekcija is on screen
-- **THEN** the editor shows the stored working copy and the path button shows `pencil`
+- **THEN** the editor shows the stored working copy and Moj kod is pressed
 
-#### Scenario: Lesson matches the version button
+#### Scenario: Lesson keeps the working copy
 - **WHEN** the teacher chooses Lekcija
-- **THEN** the path button shows `file-text` and the working copy remains stored
+- **THEN** Lekcija is pressed and the working copy remains stored
 
 ### Requirement: Okvir pregleda
 The preview MUST be titled Pregled and MUST wrap the room in a browser frame. The frame MUST show decorative traffic lights, a decorative lock, and the open file as a URL on the page origin. That address MUST NOT be editable and MUST NOT navigate. Refresh in the frame MUST reapply the editor text to the preview and MUST NOT reload the lecture page. The address MUST NOT hardcode port 3000.
