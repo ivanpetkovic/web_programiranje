@@ -73,6 +73,18 @@ test("levi panel drži svoj skrol dok se otvara nedelja 10", { timeout: 30000 },
     const dole = await stanje();
     assert.ok(dole.vrh >= -2 && dole.dno <= dole.prozor + 2, `nav ne prati stranu: ${JSON.stringify(dole)}`);
     assert.ok(Math.abs(dole.skrol - posle.skrol) <= 1, "skrol strane ne menja skrol nava");
+
+    await strana.vrednost(`window.scrollTo(0, 0)`);
+    await pauza(80);
+    const gore = await strana.vrednost(`(() => {
+      const nav = document.querySelector("#nav");
+      nav.scrollTop = nav.scrollHeight;
+      const poslednja = [...nav.querySelectorAll(".nedelja-red")].at(-1).getBoundingClientRect();
+      return { dno: nav.getBoundingClientRect().bottom, poslednja: poslednja.bottom, prozor: innerHeight, strana: scrollY };
+    })()`);
+    assert.equal(gore.strana, 0);
+    assert.ok(gore.dno <= gore.prozor + 1, `dno nava je ispod prozora na vrhu strane: ${JSON.stringify(gore)}`);
+    assert.ok(gore.poslednja <= gore.prozor + 1, `poslednja nedelja se ne vidi bez skrola strane: ${JSON.stringify(gore)}`);
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
     throw greska;

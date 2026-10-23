@@ -1592,6 +1592,21 @@ navPreklop.addEventListener("click", () => {
 });
 prikaziNav();
 
+const navOmot = document.querySelector(".nav-omot");
+let vrhNavaZakazan = false;
+function postaviVrhNava() {
+  vrhNavaZakazan = false;
+  navOmot.style.setProperty("--nav-vrh", `${Math.max(0, navOmot.getBoundingClientRect().top)}px`);
+}
+function zakaziVrhNava() {
+  if (vrhNavaZakazan) return;
+  vrhNavaZakazan = true;
+  requestAnimationFrame(postaviVrhNava);
+}
+window.addEventListener("scroll", zakaziVrhNava, { passive: true });
+window.addEventListener("resize", zakaziVrhNava);
+new ResizeObserver(zakaziVrhNava).observe(document.querySelector(".top"));
+
 traka.addEventListener("pointerdown", (event) => {
   if (usko()) return;
   event.preventDefault();
