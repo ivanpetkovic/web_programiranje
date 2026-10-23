@@ -4,6 +4,24 @@ export function linijeTeksta(tekst) {
   return s.split("\n");
 }
 
+function linijePrikaza(tekst) {
+  const s = String(tekst ?? "");
+  if (s === "") return [];
+  return s.split("\n");
+}
+
+export function spojeniPrikaz(ranije, dodatak) {
+  const nove = linijePrikaza(dodatak);
+  const stare = linijePrikaza(ranije);
+  if (!stare.length || !nove.length) {
+    return nove.map((tekst) => ({ tekst, tip: "isto" }));
+  }
+  const izlaz = stare.map((tekst) => ({ tekst, tip: "isto" }));
+  if (izlaz[izlaz.length - 1].tekst !== "") izlaz.push({ tekst: "", tip: "isto" });
+  for (const tekst of nove) izlaz.push({ tekst, tip: "dodato" });
+  return izlaz;
+}
+
 export function razlikaLinija(prethodni, tekuci) {
   const a = linijeTeksta(prethodni);
   const b = linijeTeksta(tekuci);

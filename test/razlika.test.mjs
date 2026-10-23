@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { prethodniUKursu, razlikaLinija, razlikaOriginala } from "../site/js/razlika.js";
+import { prethodniUKursu, razlikaLinija, razlikaOriginala, spojeniPrikaz } from "../site/js/razlika.js";
 
 test("zeleno je dodato, crveno obrisano", () => {
   assert.deepEqual(razlikaLinija("a\nb\n", "a\nc\n"), [
@@ -34,5 +34,38 @@ test("radna verzija se ne poredi", () => {
   assert.deepEqual(saRadnom, [
     { tip: "isto", tekst: "a" },
     { tip: "dodato", tekst: "b" },
+  ]);
+});
+
+test("dodatak stoji u istom kodu i nosi oznaku dodato", () => {
+  const linije = spojeniPrikaz(
+    "const soba = { temperatura: 24, zeljeno: false };\n\nsoba.temperatura = 25;\n\nconst drugo = soba;",
+    "let delta = 1;\nfunction korak(soba) {\n  soba.temperatura += delta;\n}",
+  );
+  assert.deepEqual(
+    linije.filter((linija) => linija.tip === "isto").map((linija) => linija.tekst),
+    [
+      "const soba = { temperatura: 24, zeljeno: false };",
+      "",
+      "soba.temperatura = 25;",
+      "",
+      "const drugo = soba;",
+      "",
+    ],
+  );
+  assert.deepEqual(
+    linije.filter((linija) => linija.tip === "dodato").map((linija) => linija.tekst),
+    ["let delta = 1;", "function korak(soba) {", "  soba.temperatura += delta;", "}"],
+  );
+  assert.equal(linije.findIndex((linija) => linija.tip === "dodato") > linije.findIndex((linija) => linija.tip === "isto"), true);
+});
+
+test("prvi isečak nema raniji tekst pa ostaje neoznačen", () => {
+  assert.deepEqual(spojeniPrikaz("", "const soba = { temperatura: 24, zeljeno: false };"), [
+    { tekst: "const soba = { temperatura: 24, zeljeno: false };", tip: "isto" },
+  ]);
+  assert.deepEqual(spojeniPrikaz(null, "a\nb"), [
+    { tekst: "a", tip: "isto" },
+    { tekst: "b", tip: "isto" },
   ]);
 });

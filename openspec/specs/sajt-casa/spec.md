@@ -117,7 +117,7 @@ Focus MUST be visible. A concept and a quiz option MUST work from the keyboard. 
 - **WHEN** the browser asks for reduced motion and the remote mode is on
 - **THEN** the shell fan shows the on position and does not rotate endlessly
 ### Requirement: Crtez iz dokumenta
-A figure step MUST draw the diagram or timeline from the course document, using that document's labels. The shell MUST NOT hardcode those labels.
+A figure step MUST draw the diagram or timeline from the course document, using that document's labels. The shell MUST render a path as a Mermaid flowchart and a timeline as a Mermaid timeline, from the vendored Mermaid script. The shell MUST NOT hardcode those labels.
 
 #### Scenario: Labels come from the document
 - **WHEN** the teacher opens the Web figure
@@ -126,8 +126,8 @@ A figure step MUST draw the diagram or timeline from the course document, using 
 A path animation MUST play once and MUST NOT loop. A timeline MUST reveal its marks in order once. Reduced motion MUST show the finished figure with every mark visible and with nothing traveling.
 
 #### Scenario: Path plays once
-- **WHEN** the teacher opens the Internet figure and the browser allows motion
-- **THEN** a marker travels from the browser to the document once and does not repeat
+- **WHEN** the teacher opens a path figure with motion and the browser allows motion
+- **THEN** its boxes and arrows appear in path order once and do not repeat
 
 #### Scenario: Reduced motion is still
 - **WHEN** the browser asks for reduced motion and a figure step is open
@@ -493,7 +493,7 @@ The editor MUST keep one working copy per file in this browser's localStorage, s
 - **WHEN** the teacher edits a file and loads the page again
 - **THEN** that file's working copy is still available
 ### Requirement: Prekidač verzije
-A button beside the file path, different from reset, MUST switch between the working copy and the built-in original of the open step, and MUST NOT delete the working copy. The button MUST show a pencil while the working copy is on screen and a page while the built-in original is on screen. Its accessible name MUST say radna verzija or ugrađena verzija, for the view the click will show. The same switch MUST select the text written for every server file in the open step's tree.
+The Moj kod | Lekcija segment in the file bar, different from reset, MUST switch between the working copy and the built-in original of the open step, and MUST NOT delete the working copy. Moj kod MUST show the working copy and Lekcija the built-in original, and the segment MUST mark the view on screen as pressed. The file path is the editor's header and MUST NOT carry its own version or reset button. The same switch MUST select the text written for every server file in the open step's tree.
 
 #### Scenario: Toggle shows the original
 - **WHEN** the teacher activates the version control while the working copy is on screen

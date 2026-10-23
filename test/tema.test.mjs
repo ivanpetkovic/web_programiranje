@@ -145,7 +145,7 @@ test("gradivo, jedna kolona i birač", () => {
   assert.match(main, /querySelector\("#birac-mesto"\)/);
   assert.match(main, /biracMesto\.replaceChildren\(birac\)/);
   assert.equal(main.includes("casEl.append(birac"), false);
-  assert.match(main, /casEl\.append\(metaKoraka, naslovKoraka, primer, kljucna\)/);
+  assert.match(main, /casEl\.append\(metaKoraka, naslovKoraka, \.\.\.proza, kljucna\)/);
   assert.match(css, /\.opcije-mreza\s*\{\s*display:\s*grid;\s*grid-template-columns:\s*1fr;\s*gap:\s*0\.55rem;\s*\}/);
   assert.equal(/@media\s*\(\s*min-width:\s*861px\s*\)\s*\{[^}]*\.opcije-mreza\s*\{\s*grid-template-columns:\s*1fr\s+1fr/.test(css), false);
   assert.equal(main.includes('className = "hod-koraka"'), false);
