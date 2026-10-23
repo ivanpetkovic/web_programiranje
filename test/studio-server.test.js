@@ -121,6 +121,18 @@ test("čuvanje kursa piše JSON i odbija dokument koji čas ne bi učitao", asyn
     assert.equal(JSON.parse(preveliko.body).greska, "telo je preveliko");
     assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).nedelje[0].visak, "ostaje");
 
+    const serverFajl = path.join(KORENI, "server", "server.js");
+    const preServera = fs.readFileSync(serverFajl, "utf8");
+    const skica = await zahtev(
+      "POST",
+      "/api/fajl",
+      JSON.stringify({ strana: "server", put: "server.js", izvor: "const http = require(\"http\");\n" }),
+      { "content-type": "application/json" }
+    );
+    assert.equal(skica.status, 200);
+    assert.deepEqual(JSON.parse(skica.body), { sacuvan: false, pokretanje: true });
+    assert.equal(fs.readFileSync(serverFajl, "utf8"), preServera);
+
     const stranica = await zahtev("GET", "/studio");
     assert.equal(stranica.status, 200);
     assert.match(stranica.body, /id="studio"/);

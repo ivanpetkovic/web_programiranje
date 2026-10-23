@@ -288,10 +288,17 @@ export function porukaKonzole(data) {
   return { nivo: data.nivo, tekst, generacija: data.generacija };
 }
 
+const MODULI_PO_ZAHTEVU = new Set(["soba.js", "ventilator.js", "sesija.js"]);
+
+export function modulPoZahtevu(putanja) {
+  const ime = String(putanja ?? "").split("/").filter(Boolean).pop();
+  return MODULI_PO_ZAHTEVU.has(ime);
+}
+
 export function tekstoviServera(verzije, radne, verzija) {
   const izlaz = {};
   for (const [putanja, original] of Object.entries(verzije || {})) {
-    if (!putanja.startsWith("server/")) continue;
+    if (!putanja.startsWith("server/") || !modulPoZahtevu(putanja)) continue;
     izlaz[putanja] = tekstPrikaza({
       putanja,
       original: typeof original === "string" ? original : "",

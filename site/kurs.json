@@ -2230,14 +2230,14 @@
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "aplikacija",
-          "tekst": "Običan Node, nema framework.",
+          "tekst": "Običan Node, nema framework. http je ugrađeni modul, vezan sa require(\"http\").",
           "kljucnaIdeja": "http.createServer dolazi pre slušanja porta.",
           "putanja": "server/server.js",
           "isecakNaslov": "createServer",
-          "isecak": "const server = http.createServer(obrada);",
-          "delic": "const server = http.createServer(obrada);",
-          "analiza": "Zašto: http.createServer dolazi pre slušanja porta. U ovom koraku: Običan Node, nema framework. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Šta ova linija uradi?",
+          "isecak": "const http = require(\"http\");\nconst server = http.createServer(obrada);",
+          "delic": "const http = require(\"http\");\nconst server = http.createServer(obrada);",
+          "analiza": "Zašto: http.createServer dolazi pre slušanja porta. U ovom koraku: Običan Node, nema framework. http je ugrađeni modul, vezan sa require(\"http\"). Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Šta createServer uradi?",
           "opcije": [
             {
               "key": "A",
@@ -2319,7 +2319,7 @@
           "samostalniPrimer": {
             "jezik": "javascript",
             "izolovan": true,
-            "tekst": "http.createServer(async (req, res) => {\n  // obrada dva različita zahteva\n});"
+            "tekst": "const http = require(\"http\");\nhttp.createServer(async (req, res) => {\n  // obrada dva različita zahteva\n});"
           },
           "analiza": "Uvod u narednu nedelju: razlika između mrežnog I/O čekanja i sinhronog CPU rada.",
           "formatPitalice": "kod-izlaz",

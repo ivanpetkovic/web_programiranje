@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import test from "node:test";
 import { cekajHttp, otvoriStranu, pauza, pokreni, slobodanPort, ugasi } from "./chrome.mjs";
 
@@ -28,6 +28,8 @@ function stanje() {
     pasusi: [...(doc?.querySelectorAll("p") || [])].map((p) => p.textContent),
     html: doc?.documentElement?.innerHTML || "",
     konzola,
+    napomena: document.querySelector("#editor-napomena")?.textContent || "",
+    proza: document.querySelector("#cas")?.innerText || "",
   };
 }
 
@@ -192,6 +194,57 @@ test("pregled pokreće primere, uključujući ES modul", { timeout: 50000 }, asy
       assert.deepEqual(ucitajGreske(prazan.konzola), []);
       belezi(`${naslov}: nema dist/bundle.js, iframe nema dugme`);
     }
+  } catch (greska) {
+    greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
+    throw greska;
+  }
+});
+
+test("nedelja 5 drži require u editoru i ne upisuje server.js", { timeout: 40000 }, async (t) => {
+  const portSajta = await slobodanPort();
+  const portChrome = await slobodanPort();
+  const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
+  const fajl = new URL("../server/server.js", import.meta.url);
+  const pre = readFileSync(fajl, "utf8");
+  let strana;
+  t.after(() => {
+    writeFileSync(DNEVNIK, `${zapisi.join("\n")}\n`);
+    strana?.zatvori();
+    ugasi(server);
+  });
+  try {
+    await cekajHttp(`http://127.0.0.1:${portSajta}/`);
+    strana = await otvoriStranu(portChrome);
+    await strana.posalji("Emulation.setDeviceMetricsOverride", {
+      width: 1400,
+      height: 900,
+      deviceScaleFactor: 1,
+      mobile: false,
+    });
+    await strana.idi(`http://127.0.0.1:${portSajta}/#cas-5`);
+    const { sačekaj, snimi } = await saAlatom(strana);
+    await strana.vrednost(`(() => {
+      const dugme = [...document.querySelectorAll("#nav .korak-red")].find((b) => b.textContent === "7 createServer");
+      if (!dugme) throw new Error("nema koraka createServer");
+      dugme.click();
+    })()`);
+    const create = await sačekaj((s) => s.proza.includes("ugrađeni modul"));
+    assert.match(create.proza, /require\("http"\)/);
+    await strana.vrednost(`document.querySelector("#tab-editor").click()`);
+    await strana.vrednost(`(() => {
+      const dugme = [...document.querySelectorAll("#nav .korak-red")].find((b) => b.textContent === "8 listen");
+      if (!dugme) throw new Error("nema koraka listen");
+      dugme.click();
+    })()`);
+    const listen = await sačekaj(
+      (s) => s.putanja === "server/server.js" && s.tekst.includes("server.listen(8787);") && s.tekst.includes('require("http")'),
+    );
+    assert.match(listen.tekst, /const http = require\("http"\);\s*const server = http\.createServer\(obrada\);/);
+    assert.match(listen.napomena, /samo kad krene/);
+    await pauza(400);
+    assert.equal(readFileSync(fajl, "utf8"), pre);
+    belezi(`nedelja 5 listen: ${listen.napomena}`);
+    await snimi("nedelja-5-listen");
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
     throw greska;
