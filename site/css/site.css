@@ -717,22 +717,23 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 }
 .birac-meni button { width: 100%; text-align: left; background: transparent; border: 0; }
 .birac-meni button[aria-selected="true"] { background: var(--amber-dim); }
-.birac-krugovi { display: flex; flex-wrap: wrap; gap: 0.15rem 0; }
+.birac-krugovi { display: flex; flex-wrap: wrap; gap: 0; }
 .birac-krug-domacin {
   display: grid;
   flex: none;
   place-items: center;
   margin: 0;
-  padding: 0.4rem 0.175rem;
+  padding: 0;
   border: 0;
   background: transparent;
-  border-radius: 999px;
+  border-radius: 0;
   line-height: 0;
 }
 .birac-krug {
   display: block;
   width: 0.7rem;
   height: 0.7rem;
+  margin: 0.4rem 0.175rem;
   padding: 0;
   border: 0;
   border-radius: 999px;
