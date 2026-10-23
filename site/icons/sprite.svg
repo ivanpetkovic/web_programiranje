@@ -74,6 +74,13 @@
   <symbol id="menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
     <path d="M4 7h16M4 12h16M4 17h16"/>
   </symbol>
+  <symbol id="palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/>
+    <circle cx="8.5" cy="7.5" r="1.05" fill="currentColor" stroke="none"/>
+    <circle cx="13.5" cy="6.5" r="1.05" fill="currentColor" stroke="none"/>
+    <circle cx="17.5" cy="10.5" r="1.05" fill="currentColor" stroke="none"/>
+    <circle cx="6.5" cy="12.5" r="1.05" fill="currentColor" stroke="none"/>
+  </symbol>
   <symbol id="message-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
     <path d="M20.7 11.5a8.7 8.7 0 0 1-8.9 8.5 9.4 9.4 0 0 1-4.2-1l-4.4 1.5 1.4-4.2a8.5 8.5 0 0 1-1.2-4.5 8.6 8.6 0 0 1 8.7-8.6 8.7 8.7 0 0 1 8.6 8.3Z"/>
   </symbol>

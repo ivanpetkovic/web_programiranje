@@ -158,22 +158,85 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 .brand { color: var(--amber); text-decoration: none; font-weight: 700; }
 .tema-meni { position: relative; }
+#tema {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.38rem 0.7rem 0.38rem 0.62rem;
+  border-radius: 12px;
+  border-color: var(--amber);
+  background: color-mix(in srgb, var(--amber) 12%, var(--paper));
+  color: var(--amber);
+  font-weight: 650;
+  white-space: nowrap;
+}
+#tema .ikona-slot { display: grid; place-items: center; }
+#tema .ikona { width: 1.15rem; height: 1.15rem; }
 .tema-spisak {
   position: absolute;
   right: 0;
-  top: calc(100% + 0.35rem);
-  z-index: 4;
+  top: calc(100% + 0.7rem);
+  z-index: 6;
   margin: 0;
-  padding: 0.3rem;
+  padding: 0.35rem;
   list-style: none;
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(42, 26, 20, 0.14);
   display: grid;
-  min-width: 9rem;
+  min-width: 19.5rem;
+  max-width: calc(100vw - 1.5rem);
 }
-.tema-spisak button { text-align: left; }
-.tema-spisak button[aria-current="true"] { color: var(--amber); border-color: var(--amber); }
+.tema-spisak::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  right: 2.1rem;
+  width: 12px;
+  height: 12px;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+  transform: rotate(45deg);
+}
+.tema-spisak li + li { border-top: 1px solid var(--line); }
+.tema-spisak li:has(button[aria-current="true"]) { border-top-color: transparent; }
+.tema-spisak button {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr) 1.2rem;
+  gap: 0.75rem;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 0.65rem 0.6rem;
+  color: var(--ink);
+}
+.tema-spisak button img {
+  width: 4.5rem;
+  height: 2.85rem;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+.tema-tekst { display: grid; gap: 0.08rem; min-width: 0; }
+.tema-tekst strong { font-weight: 700; letter-spacing: -0.01em; }
+.tema-opis { color: var(--muted); font-size: 0.86rem; font-weight: 450; }
+.tema-kvacica { display: grid; color: var(--amber); }
+.tema-kvacica .ikona { width: 1.15rem; height: 1.15rem; }
+.tema-spisak button:hover { background: color-mix(in srgb, var(--ink) 5%, transparent); }
+.tema-spisak button[aria-current="true"] {
+  color: var(--amber);
+  border-color: var(--amber);
+  background: color-mix(in srgb, var(--amber) 10%, var(--paper));
+}
+.tema-spisak button[aria-current="true"]:hover {
+  background: color-mix(in srgb, var(--amber) 16%, var(--paper));
+}
+.tema-spisak button[aria-current="true"] .tema-opis { color: var(--muted); }
 .meta, .starost, .log { color: var(--muted); }
 .korak { color: var(--korak); }
 .cas-glava h1 { color: var(--naslov); }

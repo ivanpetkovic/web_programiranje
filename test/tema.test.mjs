@@ -205,7 +205,20 @@ test("spisak tema zakuca paletu i ne pomera čas", () => {
     assert.match(main, new RegExp(natpis));
   }
   assert.match(main, /return window\.matchMedia\("\(prefers-color-scheme: light\)"\)\.matches \? "pesak" : "ugalj"/);
-  const telo = main.slice(main.indexOf("function zakucajTemu"), main.indexOf("for (const [id, natpis] of TEME)"));
+  const telo = main.slice(main.indexOf("function zakucajTemu"), main.indexOf("for (const [id, natpis, opis] of TEME)"));
+  for (const opis of ["Plava, sveža i smirena", "Tamna i fokusirana", "Svetla i neutralna", "Topla i prirodna"]) {
+    assert.ok(main.includes(opis), opis);
+  }
+  assert.match(main, /\/icons\/teme\/\$\{id\}\.png/);
+  assert.match(html, /data-ikona="palette"/);
+  assert.match(html, /class="tema-natpis"/);
+  const dugmeTeme = blok(css, "#tema\\s*\\{");
+  assert.match(dugmeTeme, /border-color:\s*var\(--amber\)/);
+  assert.match(dugmeTeme, /color:\s*var\(--amber\)/);
+  assert.match(css, /\.tema-opis\s*\{[^}]*color:\s*var\(--muted\)/);
+  for (const id of ["mornar", "ugalj", "pesak", "terakota"]) {
+    assert.equal(fs.existsSync(new URL(`../site/icons/teme/${id}.png`, import.meta.url)), true, id);
+  }
   assert.match(telo, /dataset\.tema = id/);
   assert.match(telo, /localStorage\.setItem\("tema", id\)/);
   assert.equal(telo.includes("otvoriNedelju"), false);

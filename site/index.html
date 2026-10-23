@@ -41,7 +41,11 @@
       <button type="button" id="sacuvaj-zaglavlje" aria-label="Sačuvaj korak" data-ikona="bookmark"></button>
       <button type="button" id="pomoc" aria-label="Pomoć" data-ikona="help-circle"></button>
       <div class="tema-meni">
-        <button type="button" id="tema" aria-haspopup="listbox" aria-expanded="false" aria-controls="tema-spisak">Ugalj</button>
+        <button type="button" id="tema" aria-haspopup="listbox" aria-expanded="false" aria-controls="tema-spisak">
+          <span class="ikona-slot" data-ikona="palette"></span>
+          <span class="tema-natpis">Ugalj</span>
+          <span class="ikona-slot" data-ikona="chevron-down"></span>
+        </button>
         <ul id="tema-spisak" class="tema-spisak" role="listbox" hidden></ul>
       </div>
       <span id="oznaka" class="oznaka"></span>
