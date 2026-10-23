@@ -1936,10 +1936,10 @@
           "tipPrimer": "aplikacija",
           "tekst": "Forma na panelu ne sme da osveži dokument.",
           "kljucnaIdeja": "Forma na panelu ne osvežava dokument.",
-          "putanja": "client/index.html",
+          "putanja": "client/js/strana.js",
           "isecakNaslov": "Forma",
-          "isecak": "forma.addEventListener(\"submit\", (e) => e.preventDefault());",
-          "delic": "e.preventDefault();",
+          "isecak": "const forma = document.querySelector(\"form\");\nif (forma) forma.addEventListener(\"submit\", (e) => e.preventDefault());",
+          "delic": "const forma = document.querySelector(\"form\");\nif (forma) forma.addEventListener(\"submit\", (e) => e.preventDefault());",
           "analiza": "Zašto: Forma na panelu ne osvežava dokument. U ovom koraku: Forma na panelu ne sme da osveži dokument. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta submit uradi bez preventDefault?",
           "opcije": [

@@ -318,6 +318,42 @@ test("sklop dokumenta nosi dodatni element i stil iz mape", () => {
   assert.equal(sklopiDokument({ "client/index.html": "  " }), "");
 });
 
+test("modul u pregledu uvozi susedni fajl preko blob adrese", () => {
+  const adrese = new Map();
+  let n = 0;
+  function napravi(tekst) {
+    const id = `blob:test/${n++}`;
+    adrese.set(id, tekst);
+    return id;
+  }
+  const html = sklopiDokument(
+    {
+      "index.html": '<script type="module" src="./src/props/main.js"></script>',
+      "src/props/main.js": 'import { Proizvod } from "./props.js";\n',
+      "src/props/props.js": "export class Proizvod {}\n",
+      "src/firma.js": 'import { Radnik } from "./firma/radnik.js";\n',
+      "src/firma/radnik.js": "export class Radnik {}\n",
+    },
+    napravi,
+  );
+  assert.match(html, /type="module"/);
+  assert.equal(html.includes("./src/props/main.js"), false);
+  assert.equal(html.includes("./props.js"), false);
+  const src = html.match(/src="([^"]+)"/)[1];
+  assert.equal(adrese.get(src), 'import { Proizvod } from "blob:test/0";\n');
+  assert.equal(adrese.get("blob:test/0"), "export class Proizvod {}\n");
+  const klasican = sklopiDokument(
+    {
+      "index.html": '<script src="js/korak.js"></script>',
+      "js/korak.js": 'import { x } from "./nema.js";\nconst a = 1;\n',
+    },
+    napravi,
+  );
+  assert.equal(klasican.includes("importmap"), false);
+  assert.match(klasican, /src="blob:test\/2"/);
+  assert.match(adrese.get("blob:test/2"), /import \{ x \} from "\.\/nema\.js"/);
+});
+
 test("most konzole javlja ispis, grešku i odbijanje", () => {
   const most = mostKonzole(4);
   assert.equal(most.toLowerCase().includes("</script"), false);

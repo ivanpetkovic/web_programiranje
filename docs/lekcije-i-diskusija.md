@@ -1852,7 +1852,7 @@ crtaj(ukljucen) {
 
 #### Korak 9. Forma
 
-~8 min · `client/index.html`
+~8 min · `client/js/strana.js`
 
 Forma na panelu ne sme da osveži dokument.
 
@@ -1860,14 +1860,16 @@ Forma na panelu ne sme da osveži dokument.
 
 **Isečak.** Forma
 
-```text
-forma.addEventListener("submit", (e) => e.preventDefault());
+```javascript
+const forma = document.querySelector("form");
+if (forma) forma.addEventListener("submit", (e) => e.preventDefault());
 ```
 
 **U fajl.**
 
-```text
-e.preventDefault();
+```javascript
+const forma = document.querySelector("form");
+if (forma) forma.addEventListener("submit", (e) => e.preventDefault());
 ```
 
 **Pitalica.** Šta submit uradi bez preventDefault?
