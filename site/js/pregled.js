@@ -110,6 +110,18 @@ function spoji(od, ref) {
   return baza.join("/");
 }
 
+// Jedan red: `import … from "./a.js"`, `export … from "./a.js"`, `import "./a.js"` ili `import("./a.js")`.
+const UVOZ = /^([ \t]*(?:import|export)\b[^\n]*?\bfrom[ \t]*|[ \t]*import\s*\(\s*|[ \t]*import[ \t]*)(['"])(\.{1,2}\/[^'"]+)\2/gm;
+
+function preveziModule(sirov, od, fajlovi, moduli, adresaZa) {
+  return sirov.replace(UVOZ, (sve, prefiks, navod, spec) => {
+    const cilj = spoji(od, spec.split("?")[0].split("#")[0]);
+    if (!fajlovi.has(cilj)) return sve;
+    moduli.add(cilj);
+    return `${prefiks}${navod}${adresaZa(cilj)}${navod}`;
+  });
+}
+
 export function sklopiDokument(mapa, napraviAdresu = dataAdresa) {
   const fajlovi = new Map();
   for (const [put, tekst] of Object.entries(mapa || {})) {
@@ -122,6 +134,7 @@ export function sklopiDokument(mapa, napraviAdresu = dataAdresa) {
 
   const obradjeno = new Map();
   const adrese = new Map();
+  const moduli = new Set();
 
   function prazna() {
     return napraviAdresu("", "text/plain");
@@ -155,13 +168,25 @@ export function sklopiDokument(mapa, napraviAdresu = dataAdresa) {
     obradjeno.set(kljuc, sirov);
     let izlaz = sirov;
     if (kljuc.endsWith(".css")) izlaz = zameniUrl(sirov, kljuc);
-    else if (kljuc.endsWith(".html")) {
+    else if (kljuc.endsWith(".js") && moduli.has(kljuc)) {
+      izlaz = preveziModule(sirov, kljuc, fajlovi, moduli, adresaZa);
+    } else if (kljuc.endsWith(".html")) {
       izlaz = izlaz.replace(/(<style\b[^>]*>)([\s\S]*?)(<\/style>)/gi, (_sve, a, telo, b) => `${a}${zameniUrl(telo, kljuc)}${b}`);
       izlaz = izlaz
         .split(/(<script\b[^>]*>[\s\S]*?<\/script>)/gi)
         .map((deo) => {
           if (/^<script\b/i.test(deo)) {
-            return deo.replace(/\bsrc\s*=\s*(["'])(.*?)\1/gi, (_sve, navod, vrednost) => `src=${navod}${razresi(kljuc, vrednost)}${navod}`);
+            const modul = /\btype\s*=\s*(['"])module\1/i.test(deo);
+            return deo.replace(/\bsrc\s*=\s*(["'])(.*?)\1/gi, (_sve, navod, vrednost) => {
+              if (modul) {
+                const cist = String(vrednost).trim();
+                const cilj = cist.startsWith("/") || /^(?:data:|blob:|https?:|mailto:|javascript:)/i.test(cist)
+                  ? ""
+                  : spoji(kljuc, cist.split("?")[0].split("#")[0]);
+                if (cilj && fajlovi.has(cilj)) moduli.add(cilj);
+              }
+              return `src=${navod}${razresi(kljuc, vrednost)}${navod}`;
+            });
           }
           return deo.replace(/\b(href|src)\s*=\s*(["'])(.*?)\2/gi, (_sve, ime, navod, vrednost) => `${ime}=${navod}${razresi(kljuc, vrednost)}${navod}`);
         })

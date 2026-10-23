@@ -35,10 +35,48 @@ function vecIma(baza, telo) {
   return baza.includes(`\n${telo}\n`) || baza.endsWith(`\n${telo}`);
 }
 
+function jeSkript(telo) {
+  const t = String(telo ?? "").trim();
+  if (!t || t.startsWith("<")) return false;
+  return /=>|\b(?:const|let|var|function|class|return|if|catch|await|import|export|preventDefault)\b|[;{}()]/.test(t);
+}
+
+function kodZaStranu(korak) {
+  const delic = String(korak.delic ?? "").trim();
+  const isecak = String(korak.isecak ?? "").trim();
+  if (!isecak.includes("preventDefault")) return delic;
+  const poziv = /;\s*$/.test(isecak) ? isecak : `${isecak};`;
+  if (/\bforma\b/.test(poziv) && !/\b(?:const|let|var)\s+forma\b/.test(poziv)) {
+    return `const forma = document.querySelector("form");\nif (forma) ${poziv}`;
+  }
+  return poziv;
+}
+
+function ubaciUGlavu(html, telo) {
+  if (/<\/head>/i.test(html)) return html.replace(/<\/head>/i, `${telo}\n</head>`);
+  if (/<html\b[^>]*>/i.test(html)) return html.replace(/<html\b[^>]*>/i, (otvor) => `${otvor}\n${telo}`);
+  return `${telo}\n${html}`;
+}
+
+function osigurajTelo(html) {
+  if (/<\/body>/i.test(html)) return html;
+  if (/<\/html>/i.test(html)) return html.replace(/<\/html>/i, "<body>\n</body>\n</html>");
+  return `${html.replace(/\s*$/, "")}\n<body>\n</body>\n`;
+}
+
+function ubaciUTelo(html, telo) {
+  return osigurajTelo(html).replace(/<\/body>/i, `${telo}\n</body>`);
+}
+
 function ubaciUHtml(html, telo) {
-  if (vecIma(html, telo)) return html.endsWith("\n") ? html : `${html}\n`;
-  const umetak = telo.startsWith("<") ? telo : `<!-- ${telo.replace(/--/g, "")} -->`;
-  return html.replace("</body>", `${umetak}\n</body>`);
+  const trim = String(telo ?? "").trim();
+  if (!trim) return html.endsWith("\n") || html === "" ? html : `${html}\n`;
+  if (vecIma(html, trim)) return html.endsWith("\n") ? html : `${html}\n`;
+  if (/^<!doctype\b/i.test(trim) || /^<html\b/i.test(trim)) return html.trim() ? html : `${trim}\n`;
+  if (/^<head\b/i.test(trim) || /^<(?:link|meta|title)\b/i.test(trim)) return ubaciUGlavu(html, trim);
+  if (trim.startsWith("<")) return ubaciUTelo(html, trim);
+  if (jeSkript(trim)) return html;
+  return ubaciUTelo(html, `<!-- ${trim.replace(/--/g, "")} -->`);
 }
 
 function dopuni(putanja, tekst) {
@@ -54,7 +92,11 @@ function spoj(trenutni, korak) {
   if (ceoTekst(korak) !== null) return dodatak;
   const telo = dodatak.trim();
   if (!telo) return baza;
-  if (korak.putanja === "client/index.html" && baza.includes("</body>")) return ubaciUHtml(baza, telo);
+  if (korak.putanja === "client/index.html" && (/<html\b|<\/html>|<\/body>/i.test(baza) || !baza.trim())) {
+    if (!baza.trim()) return `${telo}\n`;
+    const ugradjen = ubaciUHtml(baza, telo);
+    return ugradjen.endsWith("\n") ? ugradjen : `${ugradjen}\n`;
+  }
   if (vecIma(baza, telo)) return baza.endsWith("\n") || baza === "" ? baza : `${baza}\n`;
   if (!baza.trim()) return `${telo}\n`;
   return `${baza.trimEnd()}\n\n${telo}\n`;
@@ -129,8 +171,15 @@ function izgradi(koraci) {
   const snimci = [];
   for (const korak of koraci) {
     if (korak && korak.putanja) {
-      if (!verzije.has(korak.putanja)) redosled.push(korak.putanja);
-      verzije.set(korak.putanja, dopuni(korak.putanja, spoj(verzije.get(korak.putanja) || "", korak)));
+      let cilj = korak.putanja;
+      let zaSpajanje = korak;
+      if (cilj === "client/index.html" && jeSkript(korak.delic) && ceoTekst(korak) === null) {
+        cilj = "client/js/strana.js";
+        const kod = kodZaStranu(korak);
+        zaSpajanje = { ...korak, putanja: cilj, delic: kod, isecak: kod };
+      }
+      if (!verzije.has(cilj)) redosled.push(cilj);
+      verzije.set(cilj, dopuni(cilj, spoj(verzije.get(cilj) || "", zaSpajanje)));
       poveziKlijent(verzije);
     }
     snimci.push({ putanje: redosled.slice(), verzije: Object.fromEntries(verzije) });
