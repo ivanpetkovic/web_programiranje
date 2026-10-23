@@ -202,6 +202,7 @@ button.tacan[aria-pressed="true"] {
 }
 .hod, .red-akcija { display: flex; flex-wrap: wrap; gap: 0.45rem; }
 .figura { margin-top: 0.4rem; }
+.mermaid-pregled:empty { display: none; }
 
 @media (max-width: 860px) {
   body.studio-tela { overflow: auto; height: auto; }
