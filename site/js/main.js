@@ -6,6 +6,7 @@ import { PORUKA, sklopiDokument, trajanjeLopatica } from "./pregled.js";
 import { procitajRadne, serverTabVidljiv, upisiRadnu } from "./radna.js";
 import { adresaPregleda, izborFajla, prikaziIzlaz } from "./birac.js";
 import { prikazKoraka } from "./figura.js";
+import { blokoviTeksta, imaMermaid, nacrtajMermaid, osveziMermaid } from "./mermaid.js";
 import { potez, praznoStanje, prikaz as prikazDiskusije } from "./diskusija.js";
 import { PODRAZUMEVANI_PRIMER, pocetniFajl, primeniPrimer } from "./primer.js";
 import { praznaSesija, primeni } from "./verzija.js";
@@ -320,6 +321,28 @@ function fragmentTeksta(tekst) {
   return frag;
 }
 
+function cvoroviProze(tekst, dijagrami) {
+  if (!imaMermaid(tekst)) {
+    const p = document.createElement("p");
+    p.append(fragmentTeksta(tekst));
+    return [p];
+  }
+  const cvorovi = [];
+  for (const blok of blokoviTeksta(tekst)) {
+    if (blok.vrsta === "tekst") {
+      const p = document.createElement("p");
+      p.append(fragmentTeksta(blok.tekst));
+      cvorovi.push(p);
+      continue;
+    }
+    const dijagram = document.createElement("div");
+    dijagram.className = "figura figura-mermaid";
+    dijagrami.push([dijagram, blok.izvor]);
+    cvorovi.push(dijagram);
+  }
+  return cvorovi;
+}
+
 function prikaziTooltip(sidro, pojam) {
   const polja = poljaPojma(pojam);
   tooltip.hidden = false;
@@ -610,15 +633,13 @@ function renderLecture() {
   metaKoraka.append(nivo, minuta, sacuvajKorak);
   const naslovKoraka = document.createElement("h2");
   naslovKoraka.append(fragmentTeksta(korak.naslov));
-  const primer = document.createElement("p");
-  primer.append(fragmentTeksta(korak.tekst));
+  const dijagrami = [];
+  const proza = cvoroviProze(korak.tekst, dijagrami);
   const kljucna = document.createElement("aside");
   kljucna.className = "kljucna";
   const kljucnaNaslov = document.createElement("strong");
   saIkonom(kljucnaNaslov, "lightbulb", "Ključna ideja");
-  const kljucnaTekst = document.createElement("p");
-  kljucnaTekst.append(fragmentTeksta(korak.kljucnaIdeja));
-  kljucna.append(kljucnaNaslov, kljucnaTekst);
+  kljucna.append(kljucnaNaslov, ...cvoroviProze(korak.kljucnaIdeja, dijagrami));
   const prikaz = prikazKoraka(korak);
   const figura = prikaz.svg ? document.createElement("div") : null;
   if (figura) {
@@ -721,7 +742,8 @@ function renderLecture() {
     analiza.className = "why analiza";
     analiza.textContent = korak.analiza;
   }
-  casEl.append(metaKoraka, naslovKoraka, primer, kljucna);
+  casEl.append(metaKoraka, naslovKoraka, ...proza, kljucna);
+  for (const [omot, izvor] of dijagrami) void nacrtajMermaid(omot, izvor);
   if (figura) casEl.append(figura);
   else if (imaFajl) {
     if (isecak) casEl.append(isecak);
@@ -1500,6 +1522,7 @@ function zakucajTemu(id) {
     localStorage.setItem("tema", id);
   } catch (e) {}
   natpisTeme();
+  osveziMermaid();
   temaSpisak.hidden = true;
   temaDugme.setAttribute("aria-expanded", "false");
   if (pogled) osveziEditor();

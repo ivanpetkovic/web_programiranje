@@ -568,10 +568,16 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 .obrazlozenje:not(.otvoreno):hover,
 .ponovi-pitanje:hover { filter: brightness(1.08); }
 .figura { margin: 0.8rem 0; overflow-x: auto; }
-.figura svg { width: 100%; height: auto; display: block; }
-.figura text { fill: var(--ink); font-size: 13px; font-family: inherit; }
-.figura line, .figura rect, .figura-oznaka circle { fill: none; stroke: var(--line); }
-.figura rect { fill: var(--paper); }
+.figura-put,
+.figura-linija { width: 100%; height: auto; display: block; }
+.figura-put text,
+.figura-linija text { fill: var(--ink); font-size: 13px; font-family: inherit; }
+.figura-put line,
+.figura-put rect,
+.figura-linija line,
+.figura-oznaka circle { fill: none; stroke: var(--line); }
+.figura-put rect { fill: var(--paper); }
+.figura-mermaid svg { max-width: 100%; height: auto; }
 .figura-oznaka circle { fill: var(--amber); stroke: none; }
 .figura-marker { fill: var(--amber); }
 .figura-put[data-pokret="jednom"] .figura-marker {

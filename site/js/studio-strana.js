@@ -1,4 +1,5 @@
 import { svgFigura } from "./figura.js";
+import { blokoviTeksta, imaMermaid, nacrtajMermaid } from "./mermaid.js";
 import {
   dodajKorak,
   dodajNedelju,
@@ -64,6 +65,37 @@ function dugme(natpis, onClick, attrs = {}) {
   const node = el("button", { type: "button", text: natpis, ...attrs });
   node.addEventListener("click", onClick);
   return node;
+}
+
+function poljeSaDijagramom(natpis, vrednost, onInput, opcije) {
+  const pregled = el("div", { class: "mermaid-pregled" });
+  let rok = 0;
+  const osvezi = (tekst) => {
+    clearTimeout(rok);
+    if (!imaMermaid(tekst)) {
+      pregled.replaceChildren();
+      return;
+    }
+    rok = setTimeout(() => {
+      if (!pregled.isConnected) return;
+      pregled.replaceChildren();
+      for (const blok of blokoviTeksta(tekst)) {
+        if (blok.vrsta !== "mermaid") continue;
+        const dijagram = document.createElement("div");
+        dijagram.className = "figura figura-mermaid";
+        pregled.append(dijagram);
+        void nacrtajMermaid(dijagram, blok.izvor);
+      }
+    }, 180);
+  };
+  osvezi(vrednost ?? "");
+  return el("div", { class: "sa-dijagramom" }, [
+    polje(natpis, vrednost, (sadrzaj) => {
+      onInput(sadrzaj);
+      osvezi(sadrzaj);
+    }, opcije),
+    pregled,
+  ]);
 }
 
 function polje(natpis, vrednost, onInput, opcije = {}) {
@@ -352,8 +384,9 @@ function panelKoraka(nedeljaIndeks, indeks) {
         polje("Nivo", korak.nivo, (vrednost) => { korak.nivo = vrednost; }),
         polje("Minuta", korak.minuta, (vrednost) => { korak.minuta = vrednost; }, { tip: "number" }),
       ]),
-      polje("Tekst", korak.tekst, (vrednost) => { korak.tekst = vrednost; }, { visered: true, redovi: 6 }),
-      polje("Ključna ideja", korak.kljucnaIdeja, (vrednost) => { korak.kljucnaIdeja = vrednost; }, { visered: true, redovi: 3 }),
+      poljeSaDijagramom("Tekst", korak.tekst, (vrednost) => { korak.tekst = vrednost; }, { visered: true, redovi: 6 }),
+      poljeSaDijagramom("Ključna ideja", korak.kljucnaIdeja, (vrednost) => { korak.kljucnaIdeja = vrednost; }, { visered: true, redovi: 3 }),
+      el("p", { class: "meta", text: "Blok ```mermaid u tekstu ili ključnoj ideji crta dijagram." }),
     ]),
     sekcija("Sadržaj", [sadrzajKoraka(korak)]),
     sekcija("Pitalica", [
