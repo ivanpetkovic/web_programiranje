@@ -8,11 +8,14 @@ import { adresaPregleda, izborFajla, prikaziIzlaz } from "./birac.js";
 import { prikazKoraka } from "./figura.js";
 import { blokoviTeksta, imaMermaid, nacrtajMermaid, osveziMermaid } from "./mermaid.js";
 import { potez, praznoStanje, prikaz as prikazDiskusije } from "./diskusija.js";
+import { PODRAZUMEVANI_PRIMER, pocetniFajl, primeniPrimer } from "./primer.js";
 import { praznaSesija, primeni } from "./verzija.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
+import { spojeniPrikaz } from "./razlika.js";
 
 const nav = document.querySelector("#nav");
+const navPreklop = document.querySelector("#nav-preklop");
 const casEl = document.querySelector("#cas");
 const biracMesto = document.querySelector("#birac-mesto");
 const naslovCasa = document.querySelector("#naslov-casa");
@@ -55,6 +58,7 @@ let typeaheadIndeks = -1;
 
 let cas = 1;
 let deo = "koraci";
+let navOtvoren = true;
 let udeoEditora = 72;
 const korakPoCasu = new Map();
 const rezervaPoCasu = new Map();
@@ -67,6 +71,12 @@ let bloboviPregleda = [];
 const poslato = { takt: false, uloge: false, baza: false };
 let dovod = null;
 let sesija = praznaSesija(procitajRadne(localStorage));
+let primerId = PODRAZUMEVANI_PRIMER;
+let stanjePrimera = null;
+let spisakPrimera = [{ id: PODRAZUMEVANI_PRIMER, naslov: "Kontrolna soba" }];
+let primerZahtev = 0;
+let meniPrimera = 0;
+const sacuvaniPrimeri = new Map();
 let prikazaniTekst = "";
 let pogled = null;
 let displejMasine = {
@@ -237,6 +247,12 @@ function prikaziDeo() {
   document.body.classList.toggle("editor-pun", deo === "editor");
 }
 
+function prikaziNav() {
+  document.body.classList.toggle("nav-skriven", !navOtvoren);
+  navPreklop.setAttribute("aria-expanded", String(navOtvoren));
+  navPreklop.setAttribute("aria-label", navOtvoren ? "Sakrij navigaciju" : "Prikaži navigaciju");
+}
+
 function usko() {
   return window.matchMedia("(max-width: 860px)").matches;
 }
@@ -388,7 +404,20 @@ function odaberiPredlog(stavka) {
   otvoriNedelju(stavka.nedelja, stavka.korak);
 }
 
-function nacrtajIsecak(korak) {
+function nacrtajTekstBloka(tekst, naslovTekst) {
+  const blok = document.createElement("section");
+  blok.className = "isecak";
+  const glava = document.createElement("header");
+  const naslov = document.createElement("span");
+  saIkonom(naslov, "file-text", naslovTekst);
+  glava.append(naslov);
+  const pre = document.createElement("pre");
+  pre.textContent = tekst;
+  blok.append(glava, pre);
+  return blok;
+}
+
+function nacrtajIsecak(korak, ranije) {
   const blok = document.createElement("section");
   blok.className = "isecak";
   const glava = document.createElement("header");
@@ -408,21 +437,21 @@ function nacrtajIsecak(korak) {
   });
   glava.append(naslov, kopiraj);
   const pre = document.createElement("pre");
-  for (const [indeks, linija] of korak.isecak.split("\n").entries()) {
+  for (const [indeks, linija] of spojeniPrikaz(ranije, korak.isecak).entries()) {
     const red = document.createElement("span");
-    red.className = "red";
+    red.className = linija.tip === "dodato" ? "red novo" : "red";
     const brojReda = document.createElement("span");
     brojReda.className = "br";
     brojReda.textContent = String(indeks + 1);
     const telo = document.createElement("span");
-    const taraba = linija.indexOf("#");
+    const taraba = linija.tekst.indexOf("#");
     if (taraba >= 0) {
-      telo.append(document.createTextNode(linija.slice(0, taraba)));
+      telo.append(document.createTextNode(linija.tekst.slice(0, taraba)));
       const komentar = document.createElement("span");
       komentar.className = "komentar";
-      komentar.textContent = linija.slice(taraba);
+      komentar.textContent = linija.tekst.slice(taraba);
       telo.append(komentar);
-    } else telo.textContent = linija;
+    } else telo.textContent = linija.tekst;
     red.append(brojReda, telo, document.createTextNode("\n"));
     pre.append(red);
   }
@@ -619,7 +648,8 @@ function renderLecture() {
   }
   const imaFajl = !figura && Boolean(korak.putanja);
   const imaIsecak = imaFajl && typeof korak.isecak === "string" && korak.isecak.trim() !== "";
-  const isecak = imaIsecak ? nacrtajIsecak(korak) : null;
+  const ranije = imaFajl ? vecUkucano(item, i, prikaz.putanja) : "";
+  const isecak = imaIsecak ? nacrtajIsecak(korak, ranije) : null;
   const put = imaFajl ? document.createElement("p") : null;
   const vec = imaFajl ? document.createElement("pre") : null;
   if (put) {
@@ -631,9 +661,8 @@ function renderLecture() {
     if (fajl) put.append(fajl);
     put.append(document.createTextNode("Fajl: "), putanjaKoraka);
     vec.className = "vec";
-    const ranije = vecUkucano(item, i, prikaz.putanja);
-    vec.hidden = !ranije;
-    vec.textContent = ranije ? `Već u fajlu:\n${ranije}` : "";
+    vec.hidden = !ranije || imaIsecak;
+    vec.textContent = ranije && !imaIsecak ? `Već u fajlu:\n${ranije}` : "";
   }
   const pitanjeBlok = document.createElement("section");
   pitanjeBlok.className = "pitanje-blok";
@@ -702,14 +731,28 @@ function renderLecture() {
   });
   radnjePitanja.append(otvori, ponovi);
   biracMesto.replaceChildren(birac);
+  const izolovan = !figura && !imaFajl && korak.samostalniPrimer?.tekst
+    ? nacrtajTekstBloka(korak.samostalniPrimer.tekst, "Mali eksperiment")
+    : null;
+  const dijagram = !figura && korak.dijagram?.tekst
+    ? nacrtajTekstBloka(korak.dijagram.tekst, "Dijagram")
+    : null;
+  const analiza = otvoreno && korak.analiza ? document.createElement("p") : null;
+  if (analiza) {
+    analiza.className = "why analiza";
+    analiza.textContent = korak.analiza;
+  }
   casEl.append(metaKoraka, naslovKoraka, ...proza, kljucna);
-  for (const [dijagram, izvor] of dijagrami) void nacrtajMermaid(dijagram, izvor);
+  for (const [omot, izvor] of dijagrami) void nacrtajMermaid(omot, izvor);
   if (figura) casEl.append(figura);
   else if (imaFajl) {
     if (isecak) casEl.append(isecak);
     casEl.append(put, vec);
   }
+  if (izolovan) casEl.append(izolovan);
+  if (dijagram) casEl.append(dijagram);
   casEl.append(pitanjeBlok, radnjePitanja);
+  if (analiza) casEl.append(analiza);
   if (izlaz) casEl.append(izlaz);
   diskusijaMesto.replaceChildren(nacrtajDiskusiju(item));
   prikaziDeo();
@@ -822,6 +865,7 @@ function fitPanel() {
   kabl.hidden = cas < 6;
   sesije.hidden = cas < 10;
   starost.hidden = cas < 9;
+  osveziDugmePrimera();
   primeniDogadaj({ tip: "fokus", putanja: izborFajla(trenutniKorak()), kljuc: `${cas}:${indeksKoraka()}` });
   if (cas < 9) zaustaviPeriodicno();
   applyLive();
@@ -886,7 +930,19 @@ function indeksUKursu() {
   return n;
 }
 
-function paintTree(paths) {
+function primerAktivan() {
+  return primerId !== PODRAZUMEVANI_PRIMER && Boolean(stanjePrimera);
+}
+
+function aktivnaVerzija() {
+  return primerAktivan() ? stanjePrimera.verzija : sesija.verzija;
+}
+
+function otvorenUStablu() {
+  return primerAktivan() ? stanjePrimera.otvoreno : sesija.otvoreno[sesija.strana];
+}
+
+function paintTree(paths, otvoren) {
   const root = { dirs: new Map(), files: [] };
   for (const put of paths) {
     const parts = put.split("/");
@@ -897,10 +953,10 @@ function paintTree(paths) {
     }
     node.files.push({ name: parts[parts.length - 1], put });
   }
-  tree.replaceChildren(renderNode(root));
+  tree.replaceChildren(renderNode(root, otvoren));
 }
 
-function renderNode(node) {
+function renderNode(node, otvoren) {
   const ul = document.createElement("ul");
   for (const [name, child] of node.dirs) {
     const li = document.createElement("li");
@@ -909,7 +965,7 @@ function renderNode(node) {
     const fascikla = ikonica("folder");
     if (fascikla) span.append(fascikla);
     span.append(document.createTextNode(`${name}/`));
-    li.append(span, renderNode(child));
+    li.append(span, renderNode(child, otvoren));
     ul.append(li);
   }
   for (const file of node.files) {
@@ -920,7 +976,7 @@ function renderNode(node) {
     if (list) button.append(list);
     button.append(document.createTextNode(file.name));
     button.dataset.put = file.put;
-    button.setAttribute("aria-current", file.put === sesija.otvoreno[sesija.strana] ? "true" : "false");
+    button.setAttribute("aria-current", file.put === otvoren ? "true" : "false");
     button.addEventListener("click", () => {
       primeniDogadaj({ tip: "otvori", put: file.put });
     });
@@ -936,8 +992,12 @@ function markOpen(put) {
   }
 }
 
-function osveziServerTab() {
-  tabBack.hidden = !serverTabVidljiv(cas);
+function osveziStrane() {
+  const strane = document.querySelector("#strane");
+  const ugradjen = !primerAktivan();
+  if (strane) strane.hidden = !ugradjen;
+  tabFront.hidden = !ugradjen;
+  tabBack.hidden = !ugradjen || !serverTabVidljiv(cas);
 }
 
 function ikonaVerzije(vrsta) {
@@ -956,7 +1016,7 @@ function ikonaVerzije(vrsta) {
 }
 
 function osveziDugmeVerzije(binarni) {
-  const radnaNaEkranu = sesija.verzija === "radna";
+  const radnaNaEkranu = aktivnaVerzija() === "radna";
   const natpis = binarni
     ? "Binarni fajl se ne uređuje kao tekst."
     : radnaNaEkranu
@@ -973,9 +1033,22 @@ function osveziDugmeVerzije(binarni) {
 
 function osveziAdresu() {
   const el = document.querySelector("#pregled-adresa");
+  if (!el) return;
+  if (primerAktivan()) {
+    const put = stanjePrimera.otvoreno;
+    el.textContent = put ? adresaPregleda(location.origin, `primeri/${stanjePrimera.id}/${put}`) : "";
+    return;
+  }
   const put = sesija.otvoreno[sesija.strana];
-  if (!el || !put) return;
+  if (!put) return;
   el.textContent = adresaPregleda(location.origin, `${sesija.strana}/${put}`);
+}
+
+function mapaPregleda(klijent) {
+  if (!primerAktivan() || klijent["index.html"]) return klijent;
+  const html = stanjePrimera.putanje.find((put) => put.endsWith(".html") && !put.includes("/"));
+  if (!html || !klijent[html]) return klijent;
+  return { ...klijent, "index.html": klijent[html] };
 }
 
 function sklopiIframe(klijent) {
@@ -1024,7 +1097,58 @@ function postaviEditor(editor) {
   });
 }
 
+function nacrtajPrikaz(rezultat, sacuvano, dogadaj) {
+  osveziStrane();
+  if (!primerAktivan()) {
+    tabFront.setAttribute("aria-selected", String(sesija.strana === "client"));
+    tabBack.setAttribute("aria-selected", String(sesija.strana === "server"));
+  }
+  const editor = rezultat.prikaz.editor;
+  if (editor.prazno) {
+    paintTree([], "");
+    putanja.textContent = "";
+    if (pogled) postaviPogled(pogled, { tekst: "", samoCitaj: true, linije: [], put: "", onPromena() {} });
+    const adresa = document.querySelector("#pregled-adresa");
+    if (adresa) adresa.textContent = "";
+    return;
+  }
+  paintTree(rezultat.prikaz.fajlovi, otvorenUStablu());
+  putanja.textContent = editor.putanja;
+  markOpen(otvorenUStablu());
+  osveziAdresu();
+  osveziDugmeVerzije(false);
+  if (dogadaj.tip === "unos") prikazaniTekst = dogadaj.tekst;
+  else if (rezultat.osvezi || !pogled) postaviEditor(editor);
+  if (!rezultat.zivo) {
+    if (!sacuvano) editorErr.textContent = "Pregledač nije sačuvao radnu verziju.";
+    return;
+  }
+  sklopiIframe(mapaPregleda(rezultat.prikaz.klijent));
+  if (!primerAktivan()) upisiServere(rezultat.prikaz.server);
+  editorErr.textContent = "";
+  if (!sacuvano) editorErr.textContent = "Pregledač nije sačuvao radnu verziju.";
+}
+
+function uskladiSobu() {
+  if (sobaMasina) sobaMasina.hidden = primerAktivan() || cas < 5;
+}
+
 function primeniDogadaj(dogadaj) {
+  uskladiSobu();
+  if (primerAktivan() && dogadaj.tip !== "fokus") {
+    const pre = sesija;
+    const rezultat = primeniPrimer(stanjePrimera, pre.radne, dogadaj);
+    stanjePrimera = rezultat.stanje;
+    sacuvaniPrimeri.set(stanjePrimera.id, stanjePrimera);
+    let sacuvano = true;
+    if (rezultat.upis) {
+      const upis = upisiRadnu(localStorage, pre.radne, rezultat.upis.putanja, rezultat.upis.tekst);
+      sesija = { ...sesija, radne: upis.mapa };
+      sacuvano = upis.sacuvano;
+    }
+    nacrtajPrikaz(rezultat, sacuvano, dogadaj);
+    return;
+  }
   const pre = sesija;
   const rezultat = primeni(sesija, dogadaj, { koraci: kursKoraci(), indeks: indeksUKursu(), nedelja: cas });
   sesija = rezultat.sesija;
@@ -1034,33 +1158,148 @@ function primeniDogadaj(dogadaj) {
     sesija = { ...sesija, radne: upis.mapa };
     sacuvano = upis.sacuvano;
   }
-  osveziServerTab();
-  tabFront.setAttribute("aria-selected", String(sesija.strana === "client"));
-  tabBack.setAttribute("aria-selected", String(sesija.strana === "server"));
-  const editor = rezultat.prikaz.editor;
-  if (editor.prazno) {
-    paintTree([]);
-    putanja.textContent = "";
-    if (pogled) postaviPogled(pogled, { tekst: "", samoCitaj: true, linije: [], put: "", onPromena() {} });
-    const adresa = document.querySelector("#pregled-adresa");
-    if (adresa) adresa.textContent = "";
+  if (primerAktivan()) {
+    if (rezultat.zivo) upisiServere(rezultat.prikaz.server);
     return;
   }
-  paintTree(rezultat.prikaz.fajlovi);
-  putanja.textContent = editor.putanja;
-  markOpen(sesija.otvoreno[sesija.strana]);
-  osveziAdresu();
-  osveziDugmeVerzije(false);
-  if (dogadaj.tip === "unos") prikazaniTekst = dogadaj.tekst;
-  else if (rezultat.osvezi || !pogled) postaviEditor(editor);
-  if (!rezultat.zivo) {
-    if (!sacuvano) editorErr.textContent = "Pregledač nije sačuvao radnu verziju.";
+  nacrtajPrikaz(rezultat, sacuvano, dogadaj);
+}
+
+function naslovPrimera(id) {
+  return spisakPrimera.find((primer) => primer.id === id)?.naslov || "Kontrolna soba";
+}
+
+function osveziDugmePrimera() {
+  const dugme = document.querySelector("#primer");
+  if (!dugme) return;
+  dugme.replaceChildren();
+  const znak = ikonica("menu");
+  if (znak) dugme.append(znak);
+  const tekst = document.createElement("span");
+  tekst.textContent = naslovPrimera(primerId);
+  dugme.append(tekst);
+  const dole = ikonica("chevron-down");
+  if (dole) dugme.append(dole);
+  dugme.setAttribute("aria-label", `Primer: ${naslovPrimera(primerId)}`);
+}
+
+function nacrtajMeniPrimera() {
+  const meni = document.querySelector("#primer-meni");
+  meni.replaceChildren();
+  for (const primer of spisakPrimera) {
+    const li = document.createElement("li");
+    const dugme = document.createElement("button");
+    dugme.type = "button";
+    dugme.setAttribute("role", "option");
+    dugme.textContent = primer.naslov;
+    if (primer.id === primerId) dugme.setAttribute("aria-selected", "true");
+    dugme.addEventListener("click", () => {
+      izaberiPrimer(primer.id);
+    });
+    li.append(dugme);
+    meni.append(li);
+  }
+}
+
+async function ucitajSpisakPrimera() {
+  try {
+    const odgovor = await fetch("/api/primeri");
+    if (!odgovor.ok) return;
+    const telo = await odgovor.json();
+    if (Array.isArray(telo.primeri) && telo.primeri.length) spisakPrimera = telo.primeri;
+  } catch {
+    /* meni ostaje na poslednjem spisku, podrazumevano samo kontrolna soba */
+  }
+}
+
+async function izaberiPrimer(id) {
+  const meni = document.querySelector("#primer-meni");
+  const dugme = document.querySelector("#primer");
+  meni.hidden = true;
+  dugme.setAttribute("aria-expanded", "false");
+  if (id === PODRAZUMEVANI_PRIMER) {
+    if (stanjePrimera) sacuvaniPrimeri.set(stanjePrimera.id, stanjePrimera);
+    primerId = PODRAZUMEVANI_PRIMER;
+    stanjePrimera = null;
+    osveziDugmePrimera();
+    primeniDogadaj({ tip: sesija.verzija === "ugradjena" ? "ugradjena" : "radna" });
     return;
   }
-  sklopiIframe(rezultat.prikaz.klijent);
-  upisiServere(rezultat.prikaz.server);
+  const token = ++primerZahtev;
+  let telo;
+  try {
+    const odgovor = await fetch(`/api/primeri/fajlovi?id=${encodeURIComponent(id)}`);
+    telo = await odgovor.json().catch(() => null);
+    if (!odgovor.ok || !telo || !Array.isArray(telo.fajlovi)) throw new Error("nema");
+  } catch {
+    if (token === primerZahtev) editorErr.textContent = "Primer nije učitan.";
+    return;
+  }
+  if (token !== primerZahtev) return;
+  if (stanjePrimera) sacuvaniPrimeri.set(stanjePrimera.id, stanjePrimera);
+  const pre = sacuvaniPrimeri.get(id);
+  primerId = id;
+  stanjePrimera = {
+    id,
+    otvoreno: pre?.otvoreno && telo.fajlovi.includes(pre.otvoreno) ? pre.otvoreno : pocetniFajl(telo.fajlovi),
+    verzija: pre?.verzija || "radna",
+    putanje: telo.fajlovi,
+    verzije: telo.verzije || {},
+    kljuc: "",
+  };
+  osveziDugmePrimera();
   editorErr.textContent = "";
-  if (!sacuvano) editorErr.textContent = "Pregledač nije sačuvao radnu verziju.";
+  const rezultat = primeniPrimer(stanjePrimera, sesija.radne, { tip: stanjePrimera.verzija });
+  stanjePrimera = rezultat.stanje;
+  sacuvaniPrimeri.set(id, stanjePrimera);
+  nacrtajPrikaz(rezultat, true, { tip: stanjePrimera.verzija });
+}
+
+async function preklopiMeniPrimera() {
+  const meni = document.querySelector("#primer-meni");
+  const dugme = document.querySelector("#primer");
+  if (!meni.hidden) {
+    meni.hidden = true;
+    dugme.setAttribute("aria-expanded", "false");
+    meniPrimera += 1;
+    return;
+  }
+  const token = ++meniPrimera;
+  await ucitajSpisakPrimera();
+  if (token !== meniPrimera) return;
+  nacrtajMeniPrimera();
+  meni.hidden = false;
+  dugme.setAttribute("aria-expanded", "true");
+  const izabran = meni.querySelector("[aria-selected='true']") || meni.querySelector("button");
+  izabran?.focus();
+}
+
+function poveziPrimer() {
+  const dugme = document.querySelector("#primer");
+  const meni = document.querySelector("#primer-meni");
+  dugme.addEventListener("click", () => {
+    preklopiMeniPrimera();
+  });
+  meni.addEventListener("keydown", (dogadjaj) => {
+    const stavke = [...meni.querySelectorAll("button")];
+    const trenutni = stavke.indexOf(document.activeElement);
+    if (dogadjaj.key === "ArrowDown") {
+      dogadjaj.preventDefault();
+      stavke[Math.min(stavke.length - 1, Math.max(0, trenutni) + 1)]?.focus();
+    } else if (dogadjaj.key === "ArrowUp") {
+      dogadjaj.preventDefault();
+      stavke[Math.max(0, trenutni - 1)]?.focus();
+    } else if (dogadjaj.key === "Escape") {
+      meni.hidden = true;
+      dugme.setAttribute("aria-expanded", "false");
+      dugme.focus();
+    }
+  });
+  document.addEventListener("click", (dogadjaj) => {
+    if (dugme.parentElement.contains(dogadjaj.target)) return;
+    meni.hidden = true;
+    dugme.setAttribute("aria-expanded", "false");
+  });
 }
 
 function onPromena(tekst) {
@@ -1170,7 +1409,7 @@ tabBack.addEventListener("click", () => {
 });
 
 dugmeVerzije.addEventListener("click", () => {
-  primeniDogadaj({ tip: sesija.verzija === "radna" ? "ugradjena" : "radna" });
+  primeniDogadaj({ tip: aktivnaVerzija() === "radna" ? "ugradjena" : "radna" });
 });
 
 dugmeReseta.addEventListener("click", resetujRadnu);
@@ -1179,6 +1418,7 @@ document.querySelector("#ucitaj").addEventListener("click", ucitajLekciju);
 document.querySelector("#sacuvaj-radnu").addEventListener("click", sacuvajRadnu);
 document.querySelector("#moj-kod").addEventListener("click", () => primeniDogadaj({ tip: "radna" }));
 document.querySelector("#lekcija").addEventListener("click", () => primeniDogadaj({ tip: "ugradjena" }));
+poveziPrimer();
 document.querySelector("#pregled-osvezi").addEventListener("click", osveziPregled);
 
 function osveziTypeahead() {
@@ -1321,6 +1561,12 @@ for (const ime of ["koraci", "diskusija", "editor"]) {
     prikaziDeo();
   });
 }
+
+navPreklop.addEventListener("click", () => {
+  navOtvoren = !navOtvoren;
+  prikaziNav();
+});
+prikaziNav();
 
 traka.addEventListener("pointerdown", (event) => {
   if (usko()) return;
