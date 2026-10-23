@@ -277,7 +277,10 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 .tabs button[aria-selected="true"] { border-color: var(--amber); background: var(--amber-dim); color: var(--amber); }
 .traka-fajla { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; margin-top: 0.7rem; }
 .traka-fajla button, .segment button { display: inline-flex; align-items: center; gap: 0.35rem; }
-.segment { margin-left: auto; display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.primer-birac { position: relative; margin-left: auto; }
+.primer-birac .birac-meni { left: 0; right: auto; max-height: 22rem; }
+#primer span { max-width: 11rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.segment { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
 .segment button { border: 0; border-radius: 999px; background: transparent; }
 .segment button[aria-pressed="true"] { background: var(--amber); color: var(--on-amber); border-color: var(--amber); }
 .fajlovi-natpis { margin: 0 0 0.35rem; color: var(--muted); font-size: 0.82rem; }
