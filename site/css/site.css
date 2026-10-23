@@ -495,8 +495,8 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 .okvir > .nav-omot {
   position: sticky;
   top: 1rem;
-  max-height: calc(100vh - 2rem);
-  max-height: calc(100dvh - 2rem);
+  max-height: calc(100vh - var(--nav-vrh, 1rem) - 1rem);
+  max-height: calc(100dvh - var(--nav-vrh, 1rem) - 1rem);
   grid-template-rows: auto minmax(0, 1fr);
 }
 .nav-omot > .nav { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
