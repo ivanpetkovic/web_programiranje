@@ -492,6 +492,14 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 }
 body.nav-skriven .nav-preklop { justify-self: start; }
 .nav { display: block; border: 0; padding: 0.2rem 0.2rem 1rem; }
+.okvir > .nav-omot {
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
+  grid-template-rows: auto minmax(0, 1fr);
+}
+.nav-omot > .nav { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
 .nav a { color: inherit; }
 .kurs-zaglavlje { margin-bottom: 0.8rem; display: flex; gap: 0.45rem; align-items: flex-start; }
 .kurs-zaglavlje > span { min-width: 0; }
@@ -747,4 +755,6 @@ body.nav-skriven .nav-preklop { justify-self: start; }
   body.editor-pun .okvir,
   body.nav-skriven .okvir,
   body.editor-pun.nav-skriven .okvir { grid-template-columns: 1fr; }
+  .okvir > .nav-omot { position: static; max-height: none; }
+  .nav-omot > .nav { overflow: visible; }
 }
