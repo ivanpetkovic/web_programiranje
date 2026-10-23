@@ -1120,6 +1120,29 @@ tabBack.addEventListener("click", () => {
   primeniDogadaj({ tip: "strana", strana: "server" });
 });
 
+const STABLO_KLJUC = "stabloSklopljeno";
+const dugmeStabla = document.querySelector("#sklopi-stablo");
+
+function postaviStablo(sklopljeno) {
+  document.querySelector("#file-layout").classList.toggle("sklopljeno", sklopljeno);
+  const natpis = sklopljeno ? "Rasklopi stablo fajlova" : "Sklopi stablo fajlova";
+  dugmeStabla.setAttribute("aria-expanded", String(!sklopljeno));
+  dugmeStabla.setAttribute("aria-label", natpis);
+  dugmeStabla.title = natpis;
+}
+
+try {
+  postaviStablo(localStorage.getItem(STABLO_KLJUC) === "1");
+} catch {}
+
+dugmeStabla.addEventListener("click", () => {
+  const sklopljeno = dugmeStabla.getAttribute("aria-expanded") === "true";
+  postaviStablo(sklopljeno);
+  try {
+    localStorage.setItem(STABLO_KLJUC, sklopljeno ? "1" : "0");
+  } catch {}
+});
+
 document.querySelector("#resetuj").addEventListener("click", resetujRadnu);
 document.querySelector("#ucitaj").addEventListener("click", ucitajLekciju);
 document.querySelector("#sacuvaj-radnu").addEventListener("click", sacuvajRadnu);

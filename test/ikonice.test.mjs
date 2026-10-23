@@ -69,6 +69,9 @@ test("pitanje, stablo, olovka i panel", () => {
   assert.match(html, /id="sacuvaj-radnu" data-ikona="save">Sačuvaj/);
   assert.match(html, /id="resetuj" data-ikona="refresh-cw">Resetuj/);
   assert.match(html, />Fajlovi</);
+  assert.match(html, /id="sklopi-stablo"[^>]*aria-expanded="true"[^>]*aria-controls="tree"[^>]*data-ikona="panel-left"/);
+  assert.match(main, /classList\.toggle\("sklopljeno", sklopljeno\)/);
+  assert.match(main, /localStorage\.setItem\(STABLO_KLJUC/);
   assert.match(html, /<h2>Pregled<\/h2>/);
   assert.match(html, /<p id="pregled-adresa"><\/p>/);
   assert.match(main, /adresaPregleda\(location\.origin/);

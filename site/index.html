@@ -80,9 +80,12 @@
                   <button type="button" id="lekcija" aria-pressed="false">Lekcija</button>
                 </div>
               </div>
-              <div class="file-layout">
+              <div class="file-layout" id="file-layout">
                 <div class="stablo-kolona">
-                  <p class="fajlovi-natpis">Fajlovi</p>
+                  <div class="fajlovi-natpis">
+                    <span>Fajlovi</span>
+                    <button type="button" id="sklopi-stablo" aria-expanded="true" aria-controls="tree" aria-label="Sklopi stablo fajlova" title="Sklopi stablo fajlova" data-ikona="panel-left"></button>
+                  </div>
                   <div id="tree" class="tree"></div>
                 </div>
                 <div class="editor" id="editor-wrap">

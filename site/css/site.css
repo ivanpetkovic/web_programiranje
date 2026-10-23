@@ -297,7 +297,12 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
   padding: 0 0.75rem;
   border-bottom: 1px solid var(--line);
 }
-.fajlovi-natpis { color: var(--muted); font-size: 0.82rem; }
+.fajlovi-natpis { justify-content: space-between; gap: 0.4rem; padding-right: 0.3rem; color: var(--muted); font-size: 0.82rem; }
+#sklopi-stablo { display: inline-flex; padding: 0.2rem; border: 0; background: transparent; color: var(--muted); }
+#sklopi-stablo:hover { color: var(--ink); }
+.file-layout.sklopljeno, body.editor-pun .file-layout.sklopljeno { grid-template-columns: 2.4rem minmax(0, 1fr); }
+.sklopljeno .fajlovi-natpis { justify-content: center; padding: 0; }
+.sklopljeno .fajlovi-natpis span, .sklopljeno #tree { display: none; }
 .tree { flex: 1; padding: 0.4rem; font-family: ui-monospace, monospace; font-size: 0.88rem; overflow-x: auto; }
 .tree ul { list-style: none; margin: 0; padding: 0 0 0 0.75rem; }
 .tree > ul { padding-left: 0; }
