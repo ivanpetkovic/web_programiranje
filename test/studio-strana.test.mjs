@@ -12,6 +12,8 @@ test("studio strana je na srpskom i nudi učitaj, preuzmi i sačuvaj", () => {
   assert.match(html, /aria-label="Nedelje i koraci"/);
   assert.match(html, />Učitaj</);
   assert.match(html, /id="preuzmi">Preuzmi</);
+  assert.match(html, /id="preuzmi-xml">Preuzmi XML</);
+  assert.match(html, /accept="[^"]*\.xml/);
   assert.match(html, /id="sacuvaj"[^>]*>Sačuvaj</);
   assert.match(html, /href="\/css\/studio.css"/);
   assert.match(css, /\.studio\b/);
@@ -23,8 +25,14 @@ test("strana čita kurs.json, šalje PUT i drži nacrt studio:kurs", () => {
   assert.equal(strana.split('fetch("/api/kurs"').length - 1, 1);
   assert.match(strana, /Potvrdi/);
 
-  const preuzmi = strana.slice(strana.indexOf("function preuzmiTekst"), strana.indexOf("async function sacuvaj"));
-  assert.match(preuzmi, /download = "kurs\.json"/);
+  const preuzmi = strana.slice(strana.indexOf("function preuzmiDatoteku"), strana.indexOf("async function sacuvaj"));
+  assert.match(preuzmi, /download = ime/);
+  assert.match(preuzmi, /"kurs\.json"/);
+  assert.match(strana, /from "\.\/izvoz-xml\.js"/);
+  assert.match(strana, /from "\.\/uvoz-xml\.js"/);
+  assert.equal(strana.includes("kurs-xml"), false);
+  assert.match(strana, /ispisiXml\(kurs\), "kurs\.xml"/);
+  assert.match(strana, /procitajXml\(tekst\)/);
   assert.equal(preuzmi.includes("/api/kurs"), false);
 
   const ucitaj = strana.slice(strana.indexOf("async function ucitajFajl"), strana.indexOf("function procitajNacrt"));

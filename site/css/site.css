@@ -277,7 +277,10 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 .tabs button[aria-selected="true"] { border-color: var(--amber); background: var(--amber-dim); color: var(--amber); }
 .traka-fajla { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; margin-top: 0.7rem; }
 .traka-fajla button, .segment button { display: inline-flex; align-items: center; gap: 0.35rem; }
-.segment { margin-left: auto; display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.primer-birac { position: relative; margin-left: auto; }
+.primer-birac .birac-meni { left: 0; right: auto; max-height: 22rem; }
+#primer span { max-width: 11rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.segment { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
 .segment button { border: 0; border-radius: 999px; background: transparent; }
 .segment button[aria-pressed="true"] { background: var(--amber); color: var(--on-amber); border-color: var(--amber); }
 .file-layout {
@@ -325,8 +328,11 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 #editor { width: 100%; min-width: 0; min-height: 18rem; height: 100%; }
 .cm-editor { width: 100%; max-width: 100%; min-height: 18rem; height: 100%; }
 .cm-scroller { overflow: auto; width: 100%; max-width: 100%; }
-body.editor-pun .okvir { grid-template-columns: minmax(0, 1fr); }
-body.editor-pun #nav, body.editor-pun #kartica { display: none; }
+body.editor-pun .okvir { grid-template-columns: 17rem minmax(0, 1fr); }
+body.editor-pun #kartica { display: none; }
+body.nav-skriven .okvir { grid-template-columns: auto minmax(0, 1fr) 16rem; }
+body.editor-pun.nav-skriven .okvir { grid-template-columns: auto minmax(0, 1fr); }
+body.nav-skriven #nav { display: none; }
 body.editor-pun .stranica, body.editor-pun .podela, body.editor-pun .files { width: 100%; max-width: none; min-width: 0; }
 body.editor-pun .file-layout { width: 100%; grid-template-columns: 19rem minmax(0, 1fr); }
 .cm-linija-dodato, .cm-linija-dodato span { color: var(--diff-dodato) !important; }
@@ -480,6 +486,15 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
   padding: 1rem 1.1rem 2rem;
   align-items: start;
 }
+.nav-omot { display: grid; align-content: start; gap: 0.35rem; min-width: 0; }
+.nav-preklop {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem;
+}
+body.nav-skriven .nav-preklop { justify-self: start; }
 .nav { display: block; border: 0; padding: 0.2rem 0.2rem 1rem; }
 .nav a { color: inherit; }
 .kurs-zaglavlje { margin-bottom: 0.8rem; display: flex; gap: 0.45rem; align-items: flex-start; }
@@ -524,6 +539,10 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 .isecak pre { margin: 0; border-radius: 0; }
 .isecak .br { display: inline-block; width: 1.6rem; color: var(--muted); }
 .isecak .komentar { color: var(--good); }
+.isecak .red.novo,
+.isecak .red.novo .komentar { color: var(--diff-dodato); }
+.isecak .red.novo .br { color: var(--muted); }
+.isecak .red.novo { background: color-mix(in srgb, var(--diff-dodato) 16%, transparent); }
 .pitanje-blok { margin-top: 1rem; }
 .radnje-pitanja {
   display: flex;
@@ -557,10 +576,16 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 .obrazlozenje:not(.otvoreno):hover,
 .ponovi-pitanje:hover { filter: brightness(1.08); }
 .figura { margin: 0.8rem 0; overflow-x: auto; }
-.figura svg { width: 100%; height: auto; display: block; }
-.figura text { fill: var(--ink); font-size: 13px; font-family: inherit; }
-.figura line, .figura rect, .figura-oznaka circle { fill: none; stroke: var(--line); }
-.figura rect { fill: var(--paper); }
+.figura-put,
+.figura-linija { width: 100%; height: auto; display: block; }
+.figura-put text,
+.figura-linija text { fill: var(--ink); font-size: 13px; font-family: inherit; }
+.figura-put line,
+.figura-put rect,
+.figura-linija line,
+.figura-oznaka circle { fill: none; stroke: var(--line); }
+.figura-put rect { fill: var(--paper); }
+.figura-mermaid svg { max-width: 100%; height: auto; }
 .figura-oznaka circle { fill: var(--amber); stroke: none; }
 .figura-marker { fill: var(--amber); }
 .figura-put[data-pokret="jednom"] .figura-marker {
@@ -719,5 +744,8 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 #pomoc-dijalog { border: 1px solid var(--line); border-radius: 16px; background: var(--paper); color: var(--ink); max-width: 32rem; }
 #pomoc-dijalog::backdrop { background: rgba(0, 0, 0, 0.35); }
 @media (max-width: 860px) {
-  .okvir { grid-template-columns: 1fr; }
+  .okvir,
+  body.editor-pun .okvir,
+  body.nav-skriven .okvir,
+  body.editor-pun.nav-skriven .okvir { grid-template-columns: 1fr; }
 }

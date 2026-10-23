@@ -1,4 +1,5 @@
 import { svgFigura } from "./figura.js";
+import { blokoviTeksta, imaMermaid, nacrtajMermaid } from "./mermaid.js";
 import {
   dodajKorak,
   dodajNedelju,
@@ -27,6 +28,8 @@ import {
   ukloniPojam,
   vrstaKoraka,
 } from "./studio.js";
+import { ispisiXml } from "./izvoz-xml.js";
+import { procitajXml } from "./uvoz-xml.js";
 
 const KLJUC = "studio:kurs";
 const spisak = document.querySelector("#spisak");
@@ -62,6 +65,37 @@ function dugme(natpis, onClick, attrs = {}) {
   const node = el("button", { type: "button", text: natpis, ...attrs });
   node.addEventListener("click", onClick);
   return node;
+}
+
+function poljeSaDijagramom(natpis, vrednost, onInput, opcije) {
+  const pregled = el("div", { class: "mermaid-pregled" });
+  let rok = 0;
+  const osvezi = (tekst) => {
+    clearTimeout(rok);
+    if (!imaMermaid(tekst)) {
+      pregled.replaceChildren();
+      return;
+    }
+    rok = setTimeout(() => {
+      if (!pregled.isConnected) return;
+      pregled.replaceChildren();
+      for (const blok of blokoviTeksta(tekst)) {
+        if (blok.vrsta !== "mermaid") continue;
+        const dijagram = document.createElement("div");
+        dijagram.className = "figura figura-mermaid";
+        pregled.append(dijagram);
+        void nacrtajMermaid(dijagram, blok.izvor);
+      }
+    }, 180);
+  };
+  osvezi(vrednost ?? "");
+  return el("div", { class: "sa-dijagramom" }, [
+    polje(natpis, vrednost, (sadrzaj) => {
+      onInput(sadrzaj);
+      osvezi(sadrzaj);
+    }, opcije),
+    pregled,
+  ]);
 }
 
 function polje(natpis, vrednost, onInput, opcije = {}) {
@@ -260,7 +294,11 @@ function panelKursa() {
     el("h1", { text: "Kurs" }),
     el("p", {
       class: "uvod",
-      text: "Kurs je fajl kurs.json. Sačuvaj upisuje taj fajl. Učitaj otvara drugi JSON. Preuzmi skida kopiju.",
+      text: "Sačuvaj upisuje kurs.json, fajl koji čas otvara. Učitaj prima JSON ili semantički XML. Preuzmi skida JSON. Preuzmi XML skida kurs.xml.",
+    }),
+    el("p", {
+      class: "uvod",
+      text: "Naslov i ustanova su zaglavlje časa. Ishod nedelje je podnaslov u spisku. Na Gradivu korak ide redom: tekst, ključna ideja, isečak ili crtež, pa kratka pitalica. Razlog i oznaka drži ostaju zatvoreni do Obrazloženja. Delić iz u-fajl ulazi u fajl, a prethodni delići stoje kao Već u fajlu. Ugrađena verzija je Lekcija u editoru. Diskusija nedelje je tab Diskusija, izlaz je rečenica na poslednjem koraku, a pojmovi se uređuju ovde.",
     }),
     el("div", { class: "mreza" }, [
       polje("Naslov", kurs.naslov, (vrednost) => {
@@ -346,8 +384,9 @@ function panelKoraka(nedeljaIndeks, indeks) {
         polje("Nivo", korak.nivo, (vrednost) => { korak.nivo = vrednost; }),
         polje("Minuta", korak.minuta, (vrednost) => { korak.minuta = vrednost; }, { tip: "number" }),
       ]),
-      polje("Tekst", korak.tekst, (vrednost) => { korak.tekst = vrednost; }, { visered: true, redovi: 6 }),
-      polje("Ključna ideja", korak.kljucnaIdeja, (vrednost) => { korak.kljucnaIdeja = vrednost; }, { visered: true, redovi: 3 }),
+      poljeSaDijagramom("Tekst", korak.tekst, (vrednost) => { korak.tekst = vrednost; }, { visered: true, redovi: 6 }),
+      poljeSaDijagramom("Ključna ideja", korak.kljucnaIdeja, (vrednost) => { korak.kljucnaIdeja = vrednost; }, { visered: true, redovi: 3 }),
+      el("p", { class: "meta", text: "Blok ```mermaid u tekstu ili ključnoj ideji crta dijagram." }),
     ]),
     sekcija("Sadržaj", [sadrzajKoraka(korak)]),
     sekcija("Pitalica", [
@@ -757,15 +796,19 @@ function izborPosleBrisanjaKoraka(nedeljaIndeks, indeks) {
   return izbor;
 }
 
-function preuzmiTekst(tekst) {
-  const url = URL.createObjectURL(new Blob([tekst], { type: "application/json" }));
+function preuzmiDatoteku(tekst, ime, tip) {
+  const url = URL.createObjectURL(new Blob([tekst], { type: tip }));
   const veza = document.createElement("a");
   veza.href = url;
-  veza.download = "kurs.json";
+  veza.download = ime;
   document.body.append(veza);
   veza.click();
   veza.remove();
   URL.revokeObjectURL(url);
+}
+
+function preuzmiTekst(tekst) {
+  preuzmiDatoteku(tekst, "kurs.json", "application/json");
 }
 
 async function sacuvaj() {
@@ -801,7 +844,9 @@ async function sacuvaj() {
 }
 
 async function ucitajFajl(fajl) {
-  const rezultat = procitajTekst(await fajl.text());
+  const tekst = await fajl.text();
+  const xml = fajl.name.toLowerCase().endsWith(".xml") || tekst.trimStart().startsWith("<");
+  const rezultat = xml ? procitajXml(tekst) : procitajTekst(tekst);
   if (!rezultat.ok) {
     postaviPoruku(rezultat.greska, "greska");
     return;
@@ -811,7 +856,11 @@ async function ucitajFajl(fajl) {
   document.querySelector("#nacrt").hidden = true;
   oznaciPrljavo();
   nacrtaj();
-  postaviPoruku(rezultat.napomena || `Učitan je ${fajl.name}. Sačuvaj da upišeš kurs.json.`, "dobro");
+  const uvod = rezultat.napomena || `Učitan je ${fajl.name}. Sačuvaj da upišeš kurs.json.`;
+  const rupa = rezultat.nedostajeUgradjena
+    ? ` ${rezultat.nedostajeUgradjena} koraka nema ugrađenu verziju, pa editor sklapa fajl iz delića.`
+    : "";
+  postaviPoruku(`${uvod}${rupa}`, "dobro");
 }
 
 function procitajNacrt() {
@@ -849,6 +898,10 @@ async function pokreni() {
   document.querySelector("#preuzmi").addEventListener("click", () => {
     preuzmiTekst(spremiTekst(kurs));
     postaviPoruku("Preuzet je kurs.json.", "dobro");
+  });
+  document.querySelector("#preuzmi-xml").addEventListener("click", () => {
+    preuzmiDatoteku(ispisiXml(kurs), "kurs.xml", "application/xml");
+    postaviPoruku("Preuzet je kurs.xml.", "dobro");
   });
   document.querySelector("#vrati-nacrt").addEventListener("click", () => {
     const nacrt = procitajNacrt();

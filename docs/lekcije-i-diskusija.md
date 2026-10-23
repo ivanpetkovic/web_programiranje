@@ -1,5 +1,7 @@
 # Veb programiranje — lekcije i diskusija
 
+Ovaj izvoz je stariji tok. Revidirani kurs je u `docs/kurs.xml` i `site/kurs.json`.
+
 Elektronski fakultet, Univerzitet u Nišu. Oznaka MP.
 
 Jedanaest nedelja, svaka po 90 minuta. Povezujući primer je kontrolna soba. Do pete nedelje panel živi u browseru, u `client/`. Od pete nedelje sluša Node proces iz `server/server.js`, a soba mašina stoji pored panela. Od osme nedelje režim i istorija ostaju u PostgreSQL-u. Nema stvarnog hardvera.

@@ -47,7 +47,10 @@
       <span id="oznaka" class="oznaka"></span>
     </header>
     <div class="okvir">
-      <nav id="nav" class="nav" aria-label="Nedelje"></nav>
+      <div class="nav-omot">
+        <button type="button" id="nav-preklop" class="nav-preklop" aria-controls="nav" aria-expanded="true" aria-label="Sakrij navigaciju" data-ikona="panel-left"></button>
+        <nav id="nav" class="nav" aria-label="Nedelje"></nav>
+      </div>
       <main class="stranica">
         <p id="greska-kursa" class="err" hidden></p>
         <div class="cas-glava">
@@ -67,7 +70,7 @@
         <section id="sekcija-editor" role="tabpanel" aria-labelledby="tab-editor" hidden>
           <div class="podela" id="podela">
             <section class="files" id="files" aria-label="Fajlovi">
-              <div class="tabs" role="tablist" aria-label="Strana">
+              <div class="tabs" id="strane" role="tablist" aria-label="Strana">
                 <button type="button" id="tab-front" role="tab" aria-selected="true" aria-controls="tree" data-ikona="monitor">Klijent</button>
                 <button type="button" id="tab-back" role="tab" aria-selected="false" aria-controls="tree" data-ikona="server">Server</button>
               </div>
@@ -75,6 +78,10 @@
                 <button type="button" id="ucitaj" data-ikona="folder">Učitaj</button>
                 <button type="button" id="sacuvaj-radnu" data-ikona="save">Sačuvaj</button>
                 <button type="button" id="resetuj" data-ikona="refresh-cw">Resetuj</button>
+                <div class="birac-akcije primer-birac">
+                  <button type="button" id="primer" class="birac-svi" aria-haspopup="listbox" aria-expanded="false" aria-controls="primer-meni" aria-label="Primer: Kontrolna soba">Kontrolna soba</button>
+                  <ul id="primer-meni" class="birac-meni" hidden role="listbox"></ul>
+                </div>
                 <div class="segment" role="group" aria-label="Verzija fajla">
                   <button type="button" id="moj-kod" aria-pressed="true">Moj kod</button>
                   <button type="button" id="lekcija" aria-pressed="false">Lekcija</button>

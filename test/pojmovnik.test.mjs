@@ -74,7 +74,7 @@ test("termini gradiva izbegavaju kalk i javljaju se u kursu", () => {
   assert.match(trazi("cookie").izbegava, /Kolačić/);
   assert.match(trazi("cache").izbegava, /Keš/);
   assert.match(trazi("push").izbegava, /Dovod/);
-  assert.equal(lekcijePojma(dokument, "blockchain").nedelje.includes(1), true);
+  assert.match(dokument.nedelje[0].problem, /blockchain/);
   assert.equal(lekcijePojma(dokument, "veza od kraja do kraja").prvi.korak >= 0, true);
   assert.equal(lekcijePojma(dokument, "Žica").nedelje.length, 0);
 });
