@@ -11,6 +11,7 @@ import { PODRAZUMEVANI_PRIMER, pocetniFajl, primeniPrimer } from "./primer.js";
 import { praznaSesija, primeni } from "./verzija.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
+import { spojeniPrikaz } from "./razlika.js";
 
 const nav = document.querySelector("#nav");
 const navPreklop = document.querySelector("#nav-preklop");
@@ -393,7 +394,7 @@ function nacrtajTekstBloka(tekst, naslovTekst) {
   return blok;
 }
 
-function nacrtajIsecak(korak) {
+function nacrtajIsecak(korak, ranije) {
   const blok = document.createElement("section");
   blok.className = "isecak";
   const glava = document.createElement("header");
@@ -413,21 +414,21 @@ function nacrtajIsecak(korak) {
   });
   glava.append(naslov, kopiraj);
   const pre = document.createElement("pre");
-  for (const [indeks, linija] of korak.isecak.split("\n").entries()) {
+  for (const [indeks, linija] of spojeniPrikaz(ranije, korak.isecak).entries()) {
     const red = document.createElement("span");
-    red.className = "red";
+    red.className = linija.tip === "dodato" ? "red novo" : "red";
     const brojReda = document.createElement("span");
     brojReda.className = "br";
     brojReda.textContent = String(indeks + 1);
     const telo = document.createElement("span");
-    const taraba = linija.indexOf("#");
+    const taraba = linija.tekst.indexOf("#");
     if (taraba >= 0) {
-      telo.append(document.createTextNode(linija.slice(0, taraba)));
+      telo.append(document.createTextNode(linija.tekst.slice(0, taraba)));
       const komentar = document.createElement("span");
       komentar.className = "komentar";
-      komentar.textContent = linija.slice(taraba);
+      komentar.textContent = linija.tekst.slice(taraba);
       telo.append(komentar);
-    } else telo.textContent = linija;
+    } else telo.textContent = linija.tekst;
     red.append(brojReda, telo, document.createTextNode("\n"));
     pre.append(red);
   }
@@ -626,7 +627,8 @@ function renderLecture() {
   }
   const imaFajl = !figura && Boolean(korak.putanja);
   const imaIsecak = imaFajl && typeof korak.isecak === "string" && korak.isecak.trim() !== "";
-  const isecak = imaIsecak ? nacrtajIsecak(korak) : null;
+  const ranije = imaFajl ? vecUkucano(item, i, prikaz.putanja) : "";
+  const isecak = imaIsecak ? nacrtajIsecak(korak, ranije) : null;
   const put = imaFajl ? document.createElement("p") : null;
   const vec = imaFajl ? document.createElement("pre") : null;
   if (put) {
@@ -638,9 +640,8 @@ function renderLecture() {
     if (fajl) put.append(fajl);
     put.append(document.createTextNode("Fajl: "), putanjaKoraka);
     vec.className = "vec";
-    const ranije = vecUkucano(item, i, prikaz.putanja);
-    vec.hidden = !ranije;
-    vec.textContent = ranije ? `Već u fajlu:\n${ranije}` : "";
+    vec.hidden = !ranije || imaIsecak;
+    vec.textContent = ranije && !imaIsecak ? `Već u fajlu:\n${ranije}` : "";
   }
   const pitanjeBlok = document.createElement("section");
   pitanjeBlok.className = "pitanje-blok";
