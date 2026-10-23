@@ -320,8 +320,11 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 #editor { width: 100%; min-width: 0; min-height: 18rem; height: 100%; }
 .cm-editor { width: 100%; max-width: 100%; min-height: 18rem; height: 100%; }
 .cm-scroller { overflow: auto; width: 100%; max-width: 100%; }
-body.editor-pun .okvir { grid-template-columns: minmax(0, 1fr); }
-body.editor-pun #nav, body.editor-pun #kartica { display: none; }
+body.editor-pun .okvir { grid-template-columns: 17rem minmax(0, 1fr); }
+body.editor-pun #kartica { display: none; }
+body.nav-skriven .okvir { grid-template-columns: auto minmax(0, 1fr) 16rem; }
+body.editor-pun.nav-skriven .okvir { grid-template-columns: auto minmax(0, 1fr); }
+body.nav-skriven #nav { display: none; }
 body.editor-pun .stranica, body.editor-pun .podela, body.editor-pun .files { width: 100%; max-width: none; min-width: 0; }
 body.editor-pun .file-layout { width: 100%; grid-template-columns: 19rem minmax(0, 1fr); }
 .cm-linija-dodato, .cm-linija-dodato span { color: var(--diff-dodato) !important; }
@@ -475,6 +478,15 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
   padding: 1rem 1.1rem 2rem;
   align-items: start;
 }
+.nav-omot { display: grid; align-content: start; gap: 0.35rem; min-width: 0; }
+.nav-preklop {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem;
+}
+body.nav-skriven .nav-preklop { justify-self: start; }
 .nav { display: block; border: 0; padding: 0.2rem 0.2rem 1rem; }
 .nav a { color: inherit; }
 .kurs-zaglavlje { margin-bottom: 0.8rem; display: flex; gap: 0.45rem; align-items: flex-start; }
@@ -714,5 +726,8 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 #pomoc-dijalog { border: 1px solid var(--line); border-radius: 16px; background: var(--paper); color: var(--ink); max-width: 32rem; }
 #pomoc-dijalog::backdrop { background: rgba(0, 0, 0, 0.35); }
 @media (max-width: 860px) {
-  .okvir { grid-template-columns: 1fr; }
+  .okvir,
+  body.editor-pun .okvir,
+  body.nav-skriven .okvir,
+  body.editor-pun.nav-skriven .okvir { grid-template-columns: 1fr; }
 }
