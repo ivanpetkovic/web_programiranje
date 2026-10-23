@@ -131,7 +131,16 @@ Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? TCP je pouzdan tok 
 
 > **Ključna ideja.** Dokument čeka bajt. Zakasneli kadar sme da se odbaci.
 
-**Crtež.** Bajt → TCP → UDP
+**Crtež.**
+
+```mermaid
+flowchart LR
+  c0["Bajt"]
+  c1["TCP"]
+  c2["UDP"]
+  c0 --> c1
+  c1 --> c2
+```
 
 **Pitalica.** Šta radimo sa zakasnelim kadrom?
 
@@ -167,7 +176,16 @@ Zašto pratiti ideju, umesto broja stranice? Bush 1945. opisuje Memex. Nelson 19
 
 > **Ključna ideja.** Veza vodi na drugi tekst, ne na sledeći broj stranice.
 
-**Crtež.** Tekst → Veza → Drugi tekst
+**Crtež.**
+
+```mermaid
+flowchart LR
+  c0["Tekst"]
+  c1["Veza"]
+  c2["Drugi tekst"]
+  c0 --> c1
+  c1 --> c2
+```
 
 **Pitalica.** Šta je veza u hipertekstu?
 
@@ -424,7 +442,17 @@ Zašto stranica stigne do kupca do koga radnja na uglu ne stiže? Kopija više n
 
 > **Ključna ideja.** Sledeća nedelja piše dokument. Ostalo čeka svoje časove.
 
-**Crtež.** 1969 Paket · 1989 Predlog · 1995 Jezik · 2005 Ajax · 2008 Ledger · sledeća Dokument
+**Crtež.**
+
+```mermaid
+timeline
+  1969 : Paket
+  1989 : Predlog
+  1995 : Jezik
+  2005 : Ajax
+  2008 : Ledger
+  sledeća : Dokument
+```
 
 **Pitalica.** Šta sledeća nedelja piše?
 
