@@ -51,6 +51,7 @@ const MESTO_KLJUC = "web-programiranje:korak";
 let pojmovi = [];
 let aktivnaDefinicija = null;
 let typeaheadIndeks = -1;
+let sidroNava = 0;
 
 let cas = 1;
 let deo = "koraci";
@@ -156,7 +157,33 @@ function otvoriNedelju(n, korak) {
   else renderLecture();
 }
 
+function redNedelje(n) {
+  return nav.querySelector(`.nedelja-red[data-n="${n}"]`);
+}
+
+function prvaVidljivaNedelja() {
+  const vrh = nav.getBoundingClientRect().top;
+  const red = [...nav.querySelectorAll(".nedelja-red")].find((dugme) => dugme.getBoundingClientRect().bottom > vrh);
+  return red ? Number(red.dataset.n) : 0;
+}
+
+function odmakOdVrha(n) {
+  const red = redNedelje(n);
+  return red ? red.getBoundingClientRect().top - nav.getBoundingClientRect().top : null;
+}
+
 function paintNav() {
+  const sidro = sidroNava || prvaVidljivaNedelja();
+  sidroNava = 0;
+  const odmak = odmakOdVrha(sidro);
+  const skrol = nav.scrollTop;
+  crtajNav();
+  nav.scrollTop = skrol;
+  const posle = odmakOdVrha(sidro);
+  if (odmak !== null && posle !== null) nav.scrollTop += posle - odmak;
+}
+
+function crtajNav() {
   const mesto = procitajMesto();
   const provera = ucitajKurs(dokument);
   nav.replaceChildren();
@@ -179,6 +206,7 @@ function paintNav() {
     const dugme = document.createElement("button");
     dugme.type = "button";
     dugme.className = "nedelja-red";
+    dugme.dataset.n = String(item.n);
     if (item.n === cas) dugme.setAttribute("aria-current", "page");
     dugme.setAttribute("aria-expanded", String(otvoren));
     const kvaka = ikonica(nedeljaZavrsena(item, mesto) ? "check-circle" : "circle");
@@ -196,6 +224,7 @@ function paintNav() {
       if (item.n === cas) return;
       if (otvoreneNedelje.has(item.n)) otvoreneNedelje.delete(item.n);
       else otvoreneNedelje.add(item.n);
+      sidroNava = item.n;
       paintNav();
     });
     nav.append(dugme);
@@ -209,7 +238,10 @@ function paintNav() {
       korakDugme.className = "korak-red";
       korakDugme.textContent = `${ki + 1} ${korak.naslov}`;
       if (item.n === cas && ki === indeksKoraka()) korakDugme.setAttribute("aria-current", "page");
-      korakDugme.addEventListener("click", () => otvoriNedelju(item.n, ki));
+      korakDugme.addEventListener("click", () => {
+        sidroNava = item.n;
+        otvoriNedelju(item.n, ki);
+      });
       stavka.append(korakDugme);
       lista.append(stavka);
     });

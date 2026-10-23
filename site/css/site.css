@@ -473,6 +473,14 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
   align-items: start;
 }
 .nav { display: block; border: 0; padding: 0.2rem 0.2rem 1rem; }
+.okvir > .nav {
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
 .nav a { color: inherit; }
 .kurs-zaglavlje { margin-bottom: 0.8rem; display: flex; gap: 0.45rem; align-items: flex-start; }
 .kurs-zaglavlje > span { min-width: 0; }
@@ -712,4 +720,5 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 #pomoc-dijalog::backdrop { background: rgba(0, 0, 0, 0.35); }
 @media (max-width: 860px) {
   .okvir { grid-template-columns: 1fr; }
+  .okvir > .nav { position: static; max-height: none; overflow: visible; }
 }
