@@ -5,6 +5,7 @@ import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./pojmovnik
 import { PORUKA, sklopiDokument, trajanjeLopatica } from "./pregled.js";
 import { procitajRadne, serverTabVidljiv, upisiRadnu } from "./radna.js";
 import { adresaPregleda, izborFajla, prikaziIzlaz } from "./birac.js";
+import { nacrtajFiguru } from "./crtez.js";
 import { prikazKoraka } from "./figura.js";
 import { potez, praznoStanje, prikaz as prikazDiskusije } from "./diskusija.js";
 import { praznaSesija, primeni } from "./verzija.js";
@@ -591,10 +592,10 @@ function renderLecture() {
   kljucnaTekst.append(fragmentTeksta(korak.kljucnaIdeja));
   kljucna.append(kljucnaNaslov, kljucnaTekst);
   const prikaz = prikazKoraka(korak);
-  const figura = prikaz.svg ? document.createElement("div") : null;
+  const figura = prikaz.mermaid ? document.createElement("div") : null;
   if (figura) {
     figura.className = "figura";
-    figura.innerHTML = prikaz.svg;
+    nacrtajFiguru(figura, korak.figura);
   }
   const imaFajl = !figura && Boolean(korak.putanja);
   const imaIsecak = imaFajl && typeof korak.isecak === "string" && korak.isecak.trim() !== "";

@@ -117,7 +117,7 @@ Focus MUST be visible. A concept and a quiz option MUST work from the keyboard. 
 - **WHEN** the browser asks for reduced motion and the remote mode is on
 - **THEN** the shell fan shows the on position and does not rotate endlessly
 ### Requirement: Crtez iz dokumenta
-A figure step MUST draw the diagram or timeline from the course document, using that document's labels. The shell MUST NOT hardcode those labels.
+A figure step MUST draw the diagram or timeline from the course document, using that document's labels. The shell MUST render a path as a Mermaid flowchart and a timeline as a Mermaid timeline, from the vendored Mermaid script. The shell MUST NOT hardcode those labels.
 
 #### Scenario: Labels come from the document
 - **WHEN** the teacher opens the Web figure
@@ -126,8 +126,8 @@ A figure step MUST draw the diagram or timeline from the course document, using 
 A path animation MUST play once and MUST NOT loop. A timeline MUST reveal its marks in order once. Reduced motion MUST show the finished figure with every mark visible and with nothing traveling.
 
 #### Scenario: Path plays once
-- **WHEN** the teacher opens the Internet figure and the browser allows motion
-- **THEN** a marker travels from the browser to the document once and does not repeat
+- **WHEN** the teacher opens a path figure with motion and the browser allows motion
+- **THEN** its boxes and arrows appear in path order once and do not repeat
 
 #### Scenario: Reduced motion is still
 - **WHEN** the browser asks for reduced motion and a figure step is open
