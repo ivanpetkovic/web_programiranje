@@ -686,6 +686,54 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
   font-size: 0.82rem;
 }
 #pregled-osvezi { padding: 0.28rem; display: inline-flex; }
+.pregled-konzola {
+  display: grid;
+  grid-template-rows: auto minmax(4.5rem, 8.5rem);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--code);
+  color: var(--ink);
+  min-width: 0;
+  overflow: hidden;
+}
+.pregled-konzola-h {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.28rem 0.55rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+.pregled-konzola-h h3 { margin: 0; font-size: 0.82rem; font-weight: 650; }
+#pregled-konzola-obrisi { padding: 0.15rem 0.55rem; font-size: 0.78rem; }
+.pregled-konzola-telo { min-height: 0; overflow: auto; }
+.pregled-konzola-prazno {
+  margin: 0;
+  padding: 0.45rem 0.6rem;
+  color: var(--muted);
+  font-family: ui-monospace, monospace;
+  font-size: 0.78rem;
+}
+#pregled-konzola-zapisi {
+  margin: 0;
+  padding: 0.25rem 0 0.4rem;
+  list-style: none;
+  font-family: ui-monospace, monospace;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+#pregled-konzola-zapisi li {
+  display: grid;
+  grid-template-columns: 3.4rem minmax(0, 1fr);
+  gap: 0.4rem;
+  padding: 0.08rem 0.6rem;
+}
+#pregled-konzola-zapisi .nivo { color: var(--muted); }
+#pregled-konzola-zapisi li.nivo-warn .nivo { color: var(--amber); }
+#pregled-konzola-zapisi li.nivo-error .nivo,
+#pregled-konzola-zapisi li.nivo-error .tekst { color: var(--bad); }
+#pregled-konzola-zapisi .tekst { white-space: pre-wrap; overflow-wrap: anywhere; }
 .option.izabrano { border-color: var(--amber); box-shadow: inset 0 0 0 1px var(--amber); }
 .pojam-crta {
   background: transparent;

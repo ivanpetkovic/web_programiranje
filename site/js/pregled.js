@@ -173,12 +173,94 @@ export function sklopiDokument(mapa, napraviAdresu = dataAdresa) {
 
   function adresaZa(kljuc) {
     if (adrese.has(kljuc)) return adrese.get(kljuc);
-    const url = napraviAdresu(tekstFajla(kljuc), mime(kljuc));
+    const url = napraviAdresu(tekstFajla(kljuc), mime(kljuc), kljuc);
     adrese.set(kljuc, url);
     return url;
   }
 
   return tekstFajla("index.html");
+}
+
+export const TIP_KONZOLE = "pregled-konzola";
+
+const NIVOI_KONZOLE = new Set(["log", "info", "warn", "error", "debug", "clear"]);
+const GRANICA_ZAPISA = 4000;
+
+export function mostKonzole(generacija) {
+  const broj = Number.isInteger(generacija) ? generacija : 0;
+  return `(function () {
+  var TIP = ${JSON.stringify(TIP_KONZOLE)};
+  var GENERACIJA = ${broj};
+  function tekst(v) {
+    if (typeof v === "string") return v;
+    if (typeof v === "undefined") return "undefined";
+    if (typeof v === "symbol") return String(v);
+    if (typeof v === "bigint") return String(v) + "n";
+    if (typeof v === "number" || typeof v === "boolean") return String(v);
+    if (v === null) return "null";
+    if (typeof Error !== "undefined" && v instanceof Error) return v.stack || (v.name + ": " + v.message);
+    if (typeof Node !== "undefined" && v instanceof Node) {
+      if (v.nodeType === 1 && v.outerHTML) return v.outerHTML;
+      return String(v);
+    }
+    try { return JSON.stringify(v); }
+    catch (e) {
+      try { return String(v); }
+      catch (e2) { return "[vrednost]"; }
+    }
+  }
+  function imeFajla(fajl) {
+    if (!fajl || fajl === "about:srcdoc") return "stranica";
+    if (String(fajl).indexOf("blob:") === 0) return "skript";
+    var cist = String(fajl).split("?")[0].split("#")[0];
+    var delovi = cist.split("/");
+    return delovi[delovi.length - 1] || "stranica";
+  }
+  function posalji(nivo, delovi) {
+    try {
+      var cilj = location.origin && location.origin !== "null" ? location.origin : "*";
+      parent.postMessage({ tip: TIP, nivo: nivo, tekst: delovi.join(" "), generacija: GENERACIJA }, cilj);
+    } catch (e) {}
+  }
+  ["log", "info", "warn", "error", "debug"].forEach(function (nivo) {
+    var original = console[nivo] && console[nivo].bind(console);
+    console[nivo] = function () {
+      var delovi = [];
+      for (var i = 0; i < arguments.length; i++) delovi.push(tekst(arguments[i]));
+      posalji(nivo, delovi);
+      if (original) original.apply(console, arguments);
+    };
+  });
+  if (console.clear) {
+    var originalClear = console.clear.bind(console);
+    console.clear = function () {
+      posalji("clear", []);
+      originalClear();
+    };
+  }
+  window.addEventListener("error", function (e) {
+    if (!e || !e.message) return;
+    var mesto = e.lineno ? " (" + imeFajla(e.filename) + ":" + e.lineno + ":" + (e.colno || 0) + ")" : "";
+    posalji("error", [e.message + mesto]);
+  });
+  window.addEventListener("unhandledrejection", function (e) {
+    posalji("error", ["Neobrađeno odbijanje: " + tekst(e && e.reason)]);
+  });
+})();`;
+}
+
+export function ubaciMostKonzole(html, generacija) {
+  if (!html) return html;
+  const skript = `<script>${mostKonzole(generacija).replace(/\s*\n\s*/g, " ")}</script>`;
+  if (/^<!doctype html>/i.test(html)) return html.replace(/^(<!doctype html>)/i, `$1${skript}`);
+  return skript + html;
+}
+
+export function porukaKonzole(data) {
+  if (!data || data.tip !== TIP_KONZOLE || !NIVOI_KONZOLE.has(data.nivo)) return null;
+  if (typeof data.tekst !== "string" || !Number.isInteger(data.generacija)) return null;
+  const tekst = data.tekst.length > GRANICA_ZAPISA ? data.tekst.slice(0, GRANICA_ZAPISA) : data.tekst;
+  return { nivo: data.nivo, tekst, generacija: data.generacija };
 }
 
 export function tekstoviServera(verzije, radne, verzija) {
