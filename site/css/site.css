@@ -280,14 +280,25 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 .segment { margin-left: auto; display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
 .segment button { border: 0; border-radius: 999px; background: transparent; }
 .segment button[aria-pressed="true"] { background: var(--amber); color: var(--on-amber); border-color: var(--amber); }
-.fajlovi-natpis { margin: 0 0 0.35rem; color: var(--muted); font-size: 0.82rem; }
 .file-layout {
   display: grid;
   grid-template-columns: 11rem minmax(0, 1fr);
+  align-items: stretch;
   gap: 0.8rem;
   margin-top: 0.7rem;
 }
-.tree { font-family: ui-monospace, monospace; font-size: 0.88rem; overflow-x: auto; }
+.stablo-kolona, .editor { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.stablo-kolona { display: flex; flex-direction: column; min-width: 0; }
+.fajlovi-natpis, .putanja-red {
+  display: flex;
+  align-items: center;
+  min-height: 2.4rem;
+  margin: 0;
+  padding: 0 0.75rem;
+  border-bottom: 1px solid var(--line);
+}
+.fajlovi-natpis { color: var(--muted); font-size: 0.82rem; }
+.tree { flex: 1; padding: 0.4rem; font-family: ui-monospace, monospace; font-size: 0.88rem; overflow-x: auto; }
 .tree ul { list-style: none; margin: 0; padding: 0 0 0 0.75rem; }
 .tree > ul { padding-left: 0; }
 .tree .dir { color: var(--muted); }
@@ -301,19 +312,11 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 }
 .tree button[aria-current="true"] { color: var(--amber); background: var(--amber-dim); }
 #putanja { font-family: ui-monospace, monospace; color: var(--muted); }
-.editor { display: grid; gap: 0.35rem; min-width: 0; width: 100%; align-content: stretch; grid-template-rows: auto minmax(18rem, 1fr) auto; }
-.putanja-red { display: flex; align-items: center; gap: 0.5rem; min-width: 0; width: 100%; }
-.putanja-red #putanja { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
-.putanja-akcije {
-  margin-left: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.2rem;
-  flex: 0 0 auto;
-}
-#verzija, #reset-radne { display: inline-flex; align-items: center; justify-content: center; padding: 0.28rem; flex: 0 0 auto; }
-.putanja-akcije .ikona { width: 1.45rem; height: 1.45rem; }
+.editor { display: grid; gap: 0; min-width: 0; width: 100%; align-content: stretch; grid-template-rows: auto minmax(18rem, 1fr) auto; }
+.putanja-red { min-width: 0; }
+.putanja-red #putanja { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.88rem; }
+#editor-err { padding: 0.35rem 0.75rem; border-top: 1px solid var(--line); }
+#editor-err:empty { display: none; }
 #editor { width: 100%; min-width: 0; min-height: 18rem; height: 100%; }
 .cm-editor { width: 100%; max-width: 100%; min-height: 18rem; height: 100%; }
 .cm-scroller { overflow: auto; width: 100%; max-width: 100%; }

@@ -61,12 +61,8 @@ test("pitanje, stablo, olovka i panel", () => {
   assert.match(main, /return ikonica\("circle"\)/);
   assert.match(main, /ikonica\("folder"\)/);
   assert.match(main, /ikonica\("file-text"\)/);
-  assert.match(main, /function ikonaVerzije/);
-  assert.match(main, /vrsta === "olovka"/);
-  assert.match(main, /ikonaVerzije\(radnaNaEkranu \? "olovka" : "list"\)/);
-  assert.match(html, /id="reset-radne"[\s\S]*M13\.5 8a5\.5/);
-  assert.equal(main.includes("staviIkonu(dugmeVerzije"), false);
-  assert.equal(main.includes("staviIkonu(dugmeReseta"), false);
+  assert.equal(main.includes("ikonaVerzije"), false);
+  assert.match(html, /<div class="putanja-red">\s*<span id="putanja">[^<]*<\/span>\s*<\/div>/);
   assert.match(html, /data-ikona="monitor">Klijent/);
   assert.match(html, /data-ikona="server">Server/);
   assert.match(html, /id="ucitaj" data-ikona="folder">Učitaj/);

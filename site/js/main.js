@@ -36,8 +36,6 @@ const kutijaMsg = document.querySelector("#kutija-msg");
 const editorDom = document.querySelector("#editor");
 const editorErr = document.querySelector("#editor-err");
 const putanja = document.querySelector("#putanja");
-const dugmeVerzije = document.querySelector("#verzija");
-const dugmeReseta = document.querySelector("#reset-radne");
 const tree = document.querySelector("#tree");
 const tabFront = document.querySelector("#tab-front");
 const tabBack = document.querySelector("#tab-back");
@@ -918,35 +916,10 @@ function osveziServerTab() {
   tabBack.hidden = !serverTabVidljiv(cas);
 }
 
-function ikonaVerzije(vrsta) {
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("class", "ikona");
-  svg.setAttribute("viewBox", "0 0 16 16");
-  svg.setAttribute("aria-hidden", "true");
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("fill", "currentColor");
-  path.setAttribute(
-    "d",
-    vrsta === "olovka" ? "M11.2 1.4l3.4 3.4L6 13.4H2.6V10L11.2 1.4z" : "M3 1h7l4 4v10H3V1zm7 1.2V5h2.8L10 2.2z",
-  );
-  svg.append(path);
-  return svg;
-}
-
-function osveziDugmeVerzije(binarni) {
+function osveziSegment() {
   const radnaNaEkranu = sesija.verzija === "radna";
-  const natpis = binarni
-    ? "Binarni fajl se ne uređuje kao tekst."
-    : radnaNaEkranu
-      ? "Prikaži ugrađenu verziju"
-      : "Prikaži radnu verziju";
-  dugmeVerzije.replaceChildren(ikonaVerzije(radnaNaEkranu ? "olovka" : "list"));
   document.querySelector("#moj-kod").setAttribute("aria-pressed", String(radnaNaEkranu));
   document.querySelector("#lekcija").setAttribute("aria-pressed", String(!radnaNaEkranu));
-  dugmeVerzije.disabled = Boolean(binarni);
-  dugmeVerzije.setAttribute("aria-label", natpis);
-  dugmeVerzije.title = natpis;
-  dugmeReseta.disabled = Boolean(binarni);
 }
 
 function osveziAdresu() {
@@ -1028,7 +1001,7 @@ function primeniDogadaj(dogadaj) {
   putanja.textContent = editor.putanja;
   markOpen(sesija.otvoreno[sesija.strana]);
   osveziAdresu();
-  osveziDugmeVerzije(false);
+  osveziSegment();
   if (dogadaj.tip === "unos") prikazaniTekst = dogadaj.tekst;
   else if (rezultat.osvezi || !pogled) postaviEditor(editor);
   if (!rezultat.zivo) {
@@ -1147,11 +1120,6 @@ tabBack.addEventListener("click", () => {
   primeniDogadaj({ tip: "strana", strana: "server" });
 });
 
-dugmeVerzije.addEventListener("click", () => {
-  primeniDogadaj({ tip: sesija.verzija === "radna" ? "ugradjena" : "radna" });
-});
-
-dugmeReseta.addEventListener("click", resetujRadnu);
 document.querySelector("#resetuj").addEventListener("click", resetujRadnu);
 document.querySelector("#ucitaj").addEventListener("click", ucitajLekciju);
 document.querySelector("#sacuvaj-radnu").addEventListener("click", sacuvajRadnu);
