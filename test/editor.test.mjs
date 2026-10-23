@@ -138,8 +138,9 @@ test("verzija koraka pobeđuje poslednji fajl sa diska", () => {
   assert.equal(main.includes("/api/stablo"), false);
   assert.equal(main.includes("polazniTekst"), false);
   assert.match(main, /editor-pun/);
-  assert.match(css, /body\.editor-pun \.okvir\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/);
-  assert.match(css, /body\.editor-pun #nav,\s*body\.editor-pun #kartica\s*\{[^}]*display:\s*none/);
+  assert.match(css, /body\.editor-pun \.okvir\s*\{[^}]*grid-template-columns:\s*17rem minmax\(0,\s*1fr\)/);
+  assert.match(css, /body\.editor-pun #kartica\s*\{[^}]*display:\s*none/);
+  assert.equal(/body\.editor-pun #nav/.test(css), false);
 });
 
 test("dok fajl nije dirnut oba prikaza nose original", () => {
@@ -315,6 +316,21 @@ test("sklop dokumenta nosi dodatni element i stil iz mape", () => {
   assert.equal(bez.includes("/client/css/soba.css"), false);
   assert.equal(sklopiDokument({}), "");
   assert.equal(sklopiDokument({ "client/index.html": "  " }), "");
+});
+
+test("editor ne krije navigaciju, a panel ima preklop", () => {
+  assert.match(html, /id="nav-preklop"/);
+  assert.match(html, /data-ikona="panel-left"/);
+  assert.match(html, /aria-controls="nav"/);
+  assert.match(main, /navOtvoren = !navOtvoren/);
+  assert.match(main, /classList\.toggle\("nav-skriven", !navOtvoren\)/);
+  assert.match(main, /Sakrij navigaciju/);
+  assert.match(main, /Prikaži navigaciju/);
+  const prikaz = main.slice(main.indexOf("function prikaziDeo"), main.indexOf("function prikaziNav"));
+  assert.match(prikaz, /editor-pun/);
+  assert.equal(prikaz.includes("navOtvoren"), false);
+  assert.equal(prikaz.includes("nav-skriven"), false);
+  assert.match(css, /body\.nav-skriven #nav\s*\{[^}]*display:\s*none/);
 });
 
 test("neuspeo upis ostaje u mapi za ovu stranicu", () => {

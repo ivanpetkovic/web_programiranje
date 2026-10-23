@@ -14,11 +14,12 @@ function indeks(naslov) {
   return nadjen;
 }
 
-test("podela drži prazan index.html, ne poslednji fajl sa diska", () => {
-  const stablo = stabloDo(koraci, indeks("Podela"));
+test("stranica drži početni index.html, ne poslednji fajl sa diska", () => {
+  const stablo = stabloDo(koraci, indeks("Stranica"));
   assert.deepEqual(fajloviStrane(stablo, "client"), ["index.html"]);
   assert.equal(fajloviStrane(stablo, "server").length, 0);
-  assert.equal(stablo.verzije["client/index.html"], "");
+  assert.match(stablo.verzije["client/index.html"], /<!DOCTYPE html>/);
+  assert.equal(stablo.verzije["client/index.html"].includes("<h1"), false);
   assert.equal(stablo.verzije["client/index.html"].includes("<script"), false);
   assert.notEqual(stablo.verzije["client/index.html"].trim(), diskHtml.trim());
 });
@@ -26,20 +27,20 @@ test("podela drži prazan index.html, ne poslednji fajl sa diska", () => {
 test("selektor je verzija tog koraka, ne stil sa diska", () => {
   const stablo = stabloDo(koraci, indeks("Selektor"));
   assert.deepEqual(fajloviStrane(stablo, "client"), ["index.html", "css/soba.css"]);
-  assert.equal(stablo.verzije["client/css/soba.css"], ".digit {\n  letter-spacing: 0.08em;\n}\n");
+  assert.equal(stablo.verzije["client/css/soba.css"], "letter-spacing: 0.08em;\n");
   assert.equal(stablo.verzije["client/css/soba.css"].includes("Digital-7"), false);
   assert.equal(fajloviStrane(stablo, "client").includes("js/korak.js"), false);
 });
 
-test("semantika je ceo dokument nedelje 1, bez skripti", () => {
-  const korak = koraci[indeks("Semantika")];
+test("semantika je skup delića dokumenta, bez skripti", () => {
   const html = stabloDo(koraci, indeks("Semantika")).verzije["client/index.html"];
-  assert.equal(html, korak.original);
+  assert.match(html, /naslov je h1/);
+  assert.match(html, /class="digit"/);
   assert.equal(html.includes("<script"), false);
   assert.match(html, /24/);
 });
 
-test("objekat vezuje postojeći korak.js i ne prikazuje krajnji fajl", () => {
+test("objekat dodaje korak.js i ne ubacuje skriptu u dokument bez tela", () => {
   const stablo = stabloDo(koraci, indeks("Objekat"));
   const html = stablo.verzije["client/index.html"];
   const js = stablo.verzije["client/js/korak.js"];
@@ -48,8 +49,8 @@ test("objekat vezuje postojeći korak.js i ne prikazuje krajnji fajl", () => {
   assert.match(js, /const soba = \{ temperatura: 24, zeljeno: false \}/);
   assert.equal(js.includes("function korak"), false);
   assert.notEqual(js.trim(), diskKorak.trim());
-  assert.match(html, /<script src="js\/korak\.js"><\/script>/);
-  assert.match(html, /cifra\.textContent = String\(soba\.temperatura\)/);
+  assert.equal(html.includes("<script"), false);
+  assert.equal(html.includes("cifra.textContent"), false);
   assert.equal(html.includes("js/niz.js"), false);
   assert.equal(html.includes("new Displej"), false);
   assert.notEqual(html.trim(), diskHtml.trim());
@@ -66,33 +67,26 @@ test("svaki sledeći korak istog fajla ima svoju verziju", () => {
   assert.notEqual(kasno, kraj);
   const htmlRano = stabloDo(koraci, indeks("Objekat")).verzije["client/index.html"];
   const htmlKasno = stabloDo(koraci, indeks("Delta")).verzije["client/index.html"];
-  assert.match(htmlKasno, /korak\(soba\)/);
-  assert.equal(htmlRano.includes("korak(soba)"), false);
+  assert.equal(htmlRano, htmlKasno);
+  assert.equal(htmlKasno.includes("<script"), false);
+  assert.equal(htmlKasno.includes("korak(soba)"), false);
 });
 
-test("init vezuje klase čim postoje u stablu", () => {
+test("prekidač drži klase u svojim fajlovima", () => {
   const pre = stabloDo(koraci, indeks("crtaj"));
-  const linija = stabloDo(koraci, indeks("Linija"));
   const prekidac = stabloDo(koraci, indeks("Prekidač"));
   assert.match(pre.verzije["client/js/displej.js"], /class Displej/);
   assert.equal(pre.verzije["client/index.html"].includes("<canvas"), false);
-  assert.match(linija.verzije["client/index.html"], /<canvas width="320" height="120"><\/canvas>/);
-  assert.match(linija.verzije["client/index.html"], /nacrtajLiniju/);
+  assert.equal(pre.verzije["client/index.html"].includes("<script"), false);
   const html = prekidac.verzije["client/index.html"];
-  assert.match(html, /<script src="js\/displej\.js"><\/script>/);
-  assert.match(html, /<script src="js\/prekidac\.js"><\/script>/);
-  assert.match(html, /new Displej\(cifra\)/);
-  assert.match(html, /new Prekidac\(dugme\)/);
-  assert.match(html, /prekidac\.crtaj/);
-  assert.match(html, /displej\.crtaj\(soba\.temperatura\)/);
   assert.match(prekidac.verzije["client/js/prekidac.js"], /class Prekidac/);
-  assert.ok(html.indexOf("js/korak.js") < html.indexOf("js/niz.js"));
-  assert.ok(html.indexOf("js/niz.js") < html.indexOf("js/prekidac.js"));
-  assert.ok(html.indexOf("js/prekidac.js") < html.indexOf("js/displej.js"));
+  assert.equal(html.includes("<script"), false);
+  assert.equal(html.includes("new Displej"), false);
+  assert.equal(html.includes("new Prekidac"), false);
 });
 
-test("kraj nedelje 3 ima klijentske fajlove kursa, svaki u verziji do tog koraka", () => {
-  const stablo = stabloDo(koraci, indeks("Soba mašina"));
+test("kraj nedelje događaja ima klijentske fajlove kursa, svaki u verziji do tog koraka", () => {
+  const stablo = stabloDo(koraci, indeks("Closure"));
   const fajlovi = fajloviStrane(stablo, "client");
   for (const put of ["index.html", "css/soba.css", "js/korak.js", "js/niz.js", "js/displej.js", "js/prekidac.js"]) {
     assert.ok(fajlovi.includes(put), put);

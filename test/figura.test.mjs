@@ -68,7 +68,7 @@ test("natpis ne lomi Mermaid sintaksu", () => {
   assert.equal(mermaidFigura({ vrsta: "nepoznata" }), "");
 });
 
-test("LO nema crtež, Hipertekst crta vezu, Podela otvara index", () => {
+test("LO nema crtež, Hipertekst crta vezu, Stranica otvara index", () => {
   const istorija = dokument.nedelje[0].steps;
   const lo = prikazKoraka(istorija[0]);
   assert.equal(lo.mermaid, null);
@@ -78,14 +78,15 @@ test("LO nema crtež, Hipertekst crta vezu, Podela otvara index", () => {
   assert.match(veza.mermaid, /"Drugi tekst"/);
   assert.equal(veza.putanja, null);
   const stranica = dokument.nedelje[1].steps;
-  const podela = prikazKoraka(stranica.find((korak) => korak.naslov === "Podela"));
-  assert.equal(podela.mermaid, null);
-  assert.equal(podela.putanja, "client/index.html");
+  const stranicaKorak = prikazKoraka(stranica.find((korak) => korak.naslov === "Stranica"));
+  assert.equal(stranicaKorak.mermaid, null);
+  assert.equal(stranicaKorak.putanja, "client/index.html");
   assert.match(main, /putanjaKoraka\.id = "putanja-koraka"/);
   assert.match(main, /if \(figura\) casEl\.append\(figura\)/);
   assert.match(main, /nacrtajFiguru\(figura, korak\.figura\)/);
-  assert.match(crtez, /\/vendor\/mermaid\/mermaid\.min\.js/);
-  assert.ok(fs.existsSync(new URL("../site/vendor/mermaid/mermaid.min.js", import.meta.url)));
+  assert.match(crtez, /import \{ crtajSvg \} from "\.\/mermaid\.js"/);
+  assert.equal(crtez.includes("/vendor/mermaid/"), false);
+  assert.equal(fs.existsSync(new URL("../site/vendor/mermaid/mermaid.min.js", import.meta.url)), false);
 });
 
 test("izlaz je rečenica na poslednjem koraku, pretpostavke ostaju", () => {
@@ -101,21 +102,21 @@ test("izlaz je rečenica na poslednjem koraku, pretpostavke ostaju", () => {
   assert.equal(main.includes('textContent = "Osvrt"'), false);
 });
 
-test("LO ne otvara soba.css, Podela otvara index.html", () => {
+test("LO ne otvara soba.css, Stranica otvara index.html", () => {
   const istorija = dokument.nedelje[0].steps;
   const stranica = dokument.nedelje[1].steps;
   assert.equal(izborFajla(istorija[0]), null);
-  assert.equal(izborFajla(stranica.find((korak) => korak.naslov === "Podela")), "client/index.html");
+  assert.equal(izborFajla(stranica.find((korak) => korak.naslov === "Stranica")), "client/index.html");
   assert.equal(main.includes("fileForLecture"), false);
   assert.equal(main.includes('openPath = { client: "css/soba.css"'), false);
 });
 
 test("pokret figure traje jednom i staje uz elise", () => {
-  assert.match(css, /\.figura\[data-pokret\] svg \.crtez-redom \{[^}]*animation:[^;]*\s1\s/);
-  assert.match(css, /\.figura\[data-pokret\] svg \.crtez-redom \{[^}]*animation-delay:[^;]*var\(--redom/);
+  assert.match(css, /\.figura-crtez\[data-pokret\] svg \.crtez-redom \{[^}]*animation:[^;]*\s1\s/);
+  assert.match(css, /\.figura-crtez\[data-pokret\] svg \.crtez-redom \{[^}]*animation-delay:[^;]*var\(--redom/);
   const upit = css.match(/@media\s*\(\s*prefers-reduced-motion:\s*reduce\s*\)\s*\{([\s\S]*?)\n\}/);
   assert.ok(upit);
   assert.match(upit[1], /\.blades\.spin \{[^}]*animation:\s*none/);
-  assert.match(upit[1], /\.figura\[data-pokret\] svg \.crtez-redom \{[^}]*animation:\s*none/);
-  assert.match(upit[1], /\.figura\[data-pokret\] svg \.crtez-redom \{[^}]*opacity:\s*1/);
+  assert.match(upit[1], /\.figura-crtez\[data-pokret\] svg \.crtez-redom \{[^}]*animation:\s*none/);
+  assert.match(upit[1], /\.figura-crtez\[data-pokret\] svg \.crtez-redom \{[^}]*opacity:\s*1/);
 });

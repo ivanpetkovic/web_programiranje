@@ -1,36 +1,15 @@
 import { mermaidFigura, tekstoviFigure } from "./figura.js";
+import { crtajSvg } from "./mermaid.js";
 
-const IZVOR_MERMAIDA = "/vendor/mermaid/mermaid.min.js";
+const PODESAVANJA = {
+  theme: "base",
+  look: "classic",
+  fontFamily: "inherit",
+  flowchart: { curve: "linear" },
+  timeline: { disableMulticolor: true },
+};
 const nacrtano = new Map();
-let ucitavanje = null;
 let brojac = 0;
-
-function ucitajMermaid() {
-  if (ucitavanje) return ucitavanje;
-  ucitavanje = new Promise((resolve, reject) => {
-    const skripta = document.createElement("script");
-    skripta.src = IZVOR_MERMAIDA;
-    skripta.onload = () => {
-      window.mermaid.initialize({
-        startOnLoad: false,
-        securityLevel: "strict",
-        theme: "base",
-        look: "classic",
-        fontFamily: "inherit",
-        flowchart: { curve: "linear" },
-        timeline: { disableMulticolor: true },
-      });
-      resolve(window.mermaid);
-    };
-    skripta.onerror = () => {
-      ucitavanje = null;
-      skripta.remove();
-      reject(new Error("Mermaid se nije učitao."));
-    };
-    document.head.append(skripta);
-  });
-  return ucitavanje;
-}
 
 function oznaciRedosled(mesto) {
   const svg = mesto.querySelector("svg");
@@ -69,7 +48,7 @@ function stegni(svg) {
 
 function sredi(svg, vrsta) {
   const merilo = document.createElement("div");
-  merilo.className = "figura";
+  merilo.className = "figura figura-crtez";
   merilo.dataset.vrsta = vrsta;
   merilo.style.cssText = "position:absolute;left:-10000px;top:0;width:760px;visibility:hidden";
   merilo.innerHTML = svg;
@@ -93,6 +72,7 @@ function postaviSvg(mesto, svg) {
 // Mermaid crta asinhrono; keš po izvoru drži isti crtež bez treptanja kad se korak ponovo iscrta.
 export function nacrtajFiguru(mesto, figura) {
   const izvor = mermaidFigura(figura);
+  mesto.classList.add("figura-crtez");
   mesto.dataset.izvor = izvor;
   mesto.dataset.vrsta = figura?.vrsta || "";
   if (figura?.pokret) mesto.dataset.pokret = figura.pokret;
@@ -105,9 +85,8 @@ export function nacrtajFiguru(mesto, figura) {
   }
   mesto.classList.add("ceka");
   mesto.replaceChildren();
-  return ucitajMermaid()
-    .then((mermaid) => mermaid.render(`crtez-${++brojac}`, izvor))
-    .then(({ svg }) => {
+  return crtajSvg(`crtez-${++brojac}`, izvor, PODESAVANJA)
+    .then((svg) => {
       const sredjen = sredi(svg, figura.vrsta);
       nacrtano.set(izvor, sredjen);
       if (mesto.dataset.izvor === izvor) postaviSvg(mesto, sredjen);

@@ -277,7 +277,10 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 .tabs button[aria-selected="true"] { border-color: var(--amber); background: var(--amber-dim); color: var(--amber); }
 .traka-fajla { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; margin-top: 0.7rem; }
 .traka-fajla button, .segment button { display: inline-flex; align-items: center; gap: 0.35rem; }
-.segment { margin-left: auto; display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.primer-birac { position: relative; margin-left: auto; }
+.primer-birac .birac-meni { left: 0; right: auto; max-height: 22rem; }
+#primer span { max-width: 11rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.segment { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
 .segment button { border: 0; border-radius: 999px; background: transparent; }
 .segment button[aria-pressed="true"] { background: var(--amber); color: var(--on-amber); border-color: var(--amber); }
 .fajlovi-natpis { margin: 0 0 0.35rem; color: var(--muted); font-size: 0.82rem; }
@@ -317,8 +320,11 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 #editor { width: 100%; min-width: 0; min-height: 18rem; height: 100%; }
 .cm-editor { width: 100%; max-width: 100%; min-height: 18rem; height: 100%; }
 .cm-scroller { overflow: auto; width: 100%; max-width: 100%; }
-body.editor-pun .okvir { grid-template-columns: minmax(0, 1fr); }
-body.editor-pun #nav, body.editor-pun #kartica { display: none; }
+body.editor-pun .okvir { grid-template-columns: 17rem minmax(0, 1fr); }
+body.editor-pun #kartica { display: none; }
+body.nav-skriven .okvir { grid-template-columns: auto minmax(0, 1fr) 16rem; }
+body.editor-pun.nav-skriven .okvir { grid-template-columns: auto minmax(0, 1fr); }
+body.nav-skriven #nav { display: none; }
 body.editor-pun .stranica, body.editor-pun .podela, body.editor-pun .files { width: 100%; max-width: none; min-width: 0; }
 body.editor-pun .file-layout { width: 100%; grid-template-columns: 19rem minmax(0, 1fr); }
 .cm-linija-dodato, .cm-linija-dodato span { color: var(--diff-dodato) !important; }
@@ -362,7 +368,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
     animation: none;
     transform: rotate(40deg);
   }
-  .figura[data-pokret] svg .crtez-redom {
+  .figura-crtez[data-pokret] svg .crtez-redom {
     animation: none;
     opacity: 1;
   }
@@ -468,6 +474,15 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
   padding: 1rem 1.1rem 2rem;
   align-items: start;
 }
+.nav-omot { display: grid; align-content: start; gap: 0.35rem; min-width: 0; }
+.nav-preklop {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem;
+}
+body.nav-skriven .nav-preklop { justify-self: start; }
 .nav { display: block; border: 0; padding: 0.2rem 0.2rem 1rem; }
 .nav a { color: inherit; }
 .kurs-zaglavlje { margin-bottom: 0.8rem; display: flex; gap: 0.45rem; align-items: flex-start; }
@@ -512,6 +527,10 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 .isecak pre { margin: 0; border-radius: 0; }
 .isecak .br { display: inline-block; width: 1.6rem; color: var(--muted); }
 .isecak .komentar { color: var(--good); }
+.isecak .red.novo,
+.isecak .red.novo .komentar { color: var(--diff-dodato); }
+.isecak .red.novo .br { color: var(--muted); }
+.isecak .red.novo { background: color-mix(in srgb, var(--diff-dodato) 16%, transparent); }
 .pitanje-blok { margin-top: 1rem; }
 .radnje-pitanja {
   display: flex;
@@ -545,25 +564,26 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 .obrazlozenje:not(.otvoreno):hover,
 .ponovi-pitanje:hover { filter: brightness(1.08); }
 .figura { margin: 0.8rem 0; overflow-x: auto; }
-.figura.ceka { min-height: 4.5rem; }
-.figura svg { width: 100%; height: auto; display: block; margin: 0 auto; }
-.figura svg text, .figura svg tspan { fill: var(--ink) !important; font-family: inherit !important; }
-.figura[data-vrsta="linija"] svg text { font-size: 22px !important; }
-.figura svg .nodeLabel, .figura svg .nodeLabel p { color: var(--ink) !important; font-family: inherit !important; }
-.figura svg .node rect, .figura svg .node-bkg {
+.figura-mermaid svg { max-width: 100%; height: auto; }
+.figura-crtez.ceka { min-height: 4.5rem; }
+.figura-crtez svg { width: 100%; height: auto; display: block; margin: 0 auto; }
+.figura-crtez svg text, .figura-crtez svg tspan { fill: var(--ink) !important; font-family: inherit !important; }
+.figura-crtez[data-vrsta="linija"] svg text { font-size: 22px !important; }
+.figura-crtez svg .nodeLabel, .figura-crtez svg .nodeLabel p { color: var(--ink) !important; font-family: inherit !important; }
+.figura-crtez svg .node rect, .figura-crtez svg .node-bkg {
   fill: var(--paper) !important;
   stroke: var(--muted) !important;
   stroke-width: 1px !important;
   filter: none !important;
 }
-.figura svg .flowchart-link, .figura svg .lineWrapper line {
+.figura-crtez svg .flowchart-link, .figura-crtez svg .lineWrapper line {
   stroke: var(--muted) !important;
   stroke-width: 1.5px !important;
 }
-.figura svg .timeline-node line { stroke: none !important; }
-.figura svg .arrowMarkerPath, .figura svg defs path { fill: var(--muted) !important; stroke: var(--muted) !important; }
-.figura svg .taskWrapper .node-bkg { stroke: var(--amber) !important; }
-.figura[data-pokret] svg .crtez-redom {
+.figura-crtez svg .timeline-node line { stroke: none !important; }
+.figura-crtez svg .arrowMarkerPath, .figura-crtez svg defs path { fill: var(--muted) !important; stroke: var(--muted) !important; }
+.figura-crtez svg .taskWrapper .node-bkg { stroke: var(--amber) !important; }
+.figura-crtez[data-pokret] svg .crtez-redom {
   opacity: 0;
   animation: figura-redom 0.45s ease 1 forwards;
   animation-delay: calc(var(--redom, 0) * 0.35s);
@@ -715,5 +735,8 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 #pomoc-dijalog { border: 1px solid var(--line); border-radius: 16px; background: var(--paper); color: var(--ink); max-width: 32rem; }
 #pomoc-dijalog::backdrop { background: rgba(0, 0, 0, 0.35); }
 @media (max-width: 860px) {
-  .okvir { grid-template-columns: 1fr; }
+  .okvir,
+  body.editor-pun .okvir,
+  body.nav-skriven .okvir,
+  body.editor-pun.nav-skriven .okvir { grid-template-columns: 1fr; }
 }
