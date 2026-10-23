@@ -33,6 +33,22 @@ export function ulaziUFajl(tekst) {
   return !jeShell(tekst) && !imaHttpRed(tekst);
 }
 
+export function jeKomentarLinije(tekst) {
+  const red = String(tekst ?? "").trim();
+  return red.startsWith("//") || red.startsWith("/*") || red.startsWith("*") || red.startsWith("*/");
+}
+
+function jeKod(tekst) {
+  const telo = String(tekst ?? "").trim();
+  if (!telo) return true;
+  try {
+    new Function(telo);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function komandaKoraka(korak) {
   if (!korak) return "";
   if (jeShell(korak.isecak)) return String(korak.isecak).trim();
@@ -48,11 +64,13 @@ export function httpKoraka(korak) {
 
 export function dodatakPrikaza(korak) {
   if (!korak?.putanja) return "";
-  if (jeShell(korak.isecak) || jeHttp(korak.isecak)) {
-    const delic = String(korak.delic ?? "");
-    return ulaziUFajl(delic) ? delic : "";
-  }
-  return String(korak.isecak ?? "");
+  const delic = String(korak.delic ?? "");
+  const isecak = String(korak.isecak ?? "");
+  if (!ulaziUFajl(delic)) return "";
+  if (jeKomentarLinije(delic) && !jeKomentarLinije(isecak)) return delic;
+  if (String(korak.putanja).endsWith(".js") && !jeKod(isecak)) return delic;
+  if (jeShell(isecak) || jeHttp(isecak)) return delic;
+  return isecak;
 }
 
 export function prikazPriloga(korak, ranije) {

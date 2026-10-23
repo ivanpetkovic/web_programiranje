@@ -604,6 +604,7 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 .isecak { margin: 0.8rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .isecak header { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0.7rem; background: var(--paper); }
 .isecak pre { margin: 0; border-radius: 0; }
+.isecak .err { margin: 0; padding: 0.45rem 0.7rem; border-top: 1px solid var(--line); }
 .isecak .br { display: inline-block; width: 1.6rem; color: var(--muted); }
 .isecak .komentar { color: var(--good); }
 .isecak .red.novo,

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import vm from "node:vm";
 import test from "node:test";
 import { lectures } from "../site/js/lectures.js";
-import { jeShell, prikazPriloga, ulaziUFajl } from "../site/js/prilog.js";
+import { jeKomentarLinije, jeShell, prikazPriloga, ulaziUFajl } from "../site/js/prilog.js";
 import { stabloDo } from "../site/js/stablo.js";
 
 const koraci = lectures.flatMap((cas) => cas.steps);
@@ -30,6 +30,20 @@ function ranijeDo(indeksKoraka, putanja) {
     .map((korak) => korak.delic)
     .join("\n\n");
 }
+
+test("pad pretpostavke dodaje komentar, a celaPoruka je uvedena", () => {
+  const i = indeks("Pad pretpostavke");
+  const prikaz = prikazPriloga(koraci[i], ranijeDo(i, "server/server.js"));
+  const dodato = prikaz.fajl.linije.filter((linija) => linija.tip === "dodato").map((linija) => linija.tekst);
+  const tekst = stabloDo(koraci, i).verzije["server/server.js"];
+  assert.deepEqual(dodato, ["// poruka nije stigla cela"]);
+  assert.equal(dodato.every((linija) => jeKomentarLinije(linija)), true);
+  assert.equal(prikaz.fajl.linije.some((linija) => linija.tekst.includes("polovina B")), false);
+  assert.match(tekst, /const celaPoruka = "cela poruka"/);
+  assert.match(tekst, /function pošalji\(poruka\)/);
+  assert.equal(tekst.includes("polovina B"), false);
+  vm.runInNewContext(tekst, {}, { filename: "server.js" });
+});
 
 test("komanda nije red imenovanog fajla", () => {
   const i = indeks("Komanda");

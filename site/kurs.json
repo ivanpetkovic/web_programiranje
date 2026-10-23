@@ -2058,8 +2058,8 @@
           "kljucnaIdeja": "Naivan prenos pretpostavlja celu poruku, redom.",
           "putanja": "server/server.js",
           "isecakNaslov": "Cela poruka",
-          "isecak": "pošalji(celaPoruka)",
-          "delic": "pošalji(celaPoruka);",
+          "isecak": "const celaPoruka = \"cela poruka\";\nfunction pošalji(poruka) {\n  return poruka;\n}\npošalji(celaPoruka);",
+          "delic": "const celaPoruka = \"cela poruka\";\nfunction pošalji(poruka) {\n  return poruka;\n}\npošalji(celaPoruka);",
           "analiza": "Zašto: Naivan prenos pretpostavlja celu poruku, redom. U ovom koraku: Soba prekidača pošalje jednu celu poruku i čeka da stigne cela. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta ovaj prenos pretpostavlja?",
           "opcije": [

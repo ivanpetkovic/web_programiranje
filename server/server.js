@@ -1,7 +1,7 @@
+const { proveriJs } = require("../site/js/provera-izvora.js");
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-const vm = require("vm");
 const { state, dovodi, trenutnoStanje, objaviStanje } = require("./stanje");
 const { pripremiBazu, dohvatiBazu } = require("./baza");
 const { dokumentJeKurs } = require("./kurs");
@@ -152,12 +152,7 @@ function osveziModul(fajl) {
 
 function sintaksaJeIspravna(izvor, ime) {
   if (!ime.endsWith(".js")) return null;
-  try {
-    new vm.Script(izvor, { filename: ime });
-    return null;
-  } catch (greska) {
-    return greska.message;
-  }
+  return proveriJs(izvor) || null;
 }
 
 async function citanjeSobe(odgovor, url) {

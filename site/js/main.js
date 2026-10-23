@@ -13,7 +13,8 @@ import { PODRAZUMEVANI_PRIMER, pocetniFajl, primeniPrimer } from "./primer.js";
 import { praznaSesija, primeni } from "./verzija.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
-import { prikazPriloga, ulaziUFajl } from "./prilog.js";
+import { jeKomentarLinije, prikazPriloga, ulaziUFajl } from "./prilog.js";
+import { proveriJs } from "./provera-izvora.js";
 
 const nav = document.querySelector("#nav");
 const navPreklop = document.querySelector("#nav-preklop");
@@ -515,24 +516,34 @@ function nacrtajFajl(fajl) {
   glava.append(naslov, kopiraj);
   const pre = document.createElement("pre");
   for (const [indeks, linija] of fajl.linije.entries()) {
+    const komentarLinija = jeKomentarLinije(linija.tekst);
     const red = document.createElement("span");
-    red.className = linija.tip === "dodato" ? "red novo" : "red";
+    red.className = linija.tip === "dodato" && !komentarLinija ? "red novo" : "red";
     const brojReda = document.createElement("span");
     brojReda.className = "br";
     brojReda.textContent = String(indeks + 1);
     const telo = document.createElement("span");
     const taraba = linija.tekst.indexOf("#");
-    if (taraba >= 0) {
-      telo.append(document.createTextNode(linija.tekst.slice(0, taraba)));
+    if (komentarLinija || taraba >= 0) {
+      const od = komentarLinija ? 0 : taraba;
+      if (od > 0) telo.append(document.createTextNode(linija.tekst.slice(0, od)));
       const komentar = document.createElement("span");
       komentar.className = "komentar";
-      komentar.textContent = linija.tekst.slice(taraba);
+      komentar.textContent = linija.tekst.slice(od);
       telo.append(komentar);
     } else telo.textContent = linija.tekst;
     red.append(brojReda, telo, document.createTextNode("\n"));
     pre.append(red);
   }
   blok.append(glava, pre);
+  const tekst = fajl.linije.map((linija) => linija.tekst).join("\n");
+  const greska = String(fajl.putanja || "").endsWith(".js") ? proveriJs(tekst) : "";
+  if (greska) {
+    const poruka = document.createElement("p");
+    poruka.className = "err";
+    poruka.textContent = greska;
+    blok.append(poruka);
+  }
   return blok;
 }
 
