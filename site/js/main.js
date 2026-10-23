@@ -346,6 +346,8 @@ function fragmentTeksta(tekst) {
     const otvori = () => prikaziTooltip(dugme, pogodak.pojam);
     dugme.addEventListener("mouseenter", otvori);
     dugme.addEventListener("focus", otvori);
+    dugme.addEventListener("mouseleave", zakaziZatvaranjeTooltipa);
+    dugme.addEventListener("blur", zakaziZatvaranjeTooltipa);
     dugme.addEventListener("click", () => {
       if (tooltip.dataset.ime === pogodak.pojam.ime && !tooltip.hidden) sakrijTooltip();
       else otvori();
@@ -379,7 +381,37 @@ function cvoroviProze(tekst, dijagrami) {
   return cvorovi;
 }
 
+const KASNIJENJE_TOOLTIPA = 1000;
+let zatvaranjeTooltipa = 0;
+
+function prekiniZatvaranjeTooltipa() {
+  clearTimeout(zatvaranjeTooltipa);
+  zatvaranjeTooltipa = 0;
+}
+
+function drziTooltip() {
+  if (tooltip.matches(":hover")) return true;
+  return [...document.querySelectorAll(".pojam-crta")].some((dugme) => dugme.matches(":hover"));
+}
+
+function zakaziZatvaranjeTooltipa() {
+  prekiniZatvaranjeTooltipa();
+  zatvaranjeTooltipa = setTimeout(() => {
+    zatvaranjeTooltipa = 0;
+    if (drziTooltip()) return;
+    sakrijTooltip();
+  }, KASNIJENJE_TOOLTIPA);
+}
+
+function ciljDrziTooltip(cilj) {
+  if (!(cilj instanceof Node)) return false;
+  if (tooltip.contains(cilj)) return true;
+  const el = cilj instanceof Element ? cilj : cilj.parentElement;
+  return Boolean(el && el.closest(".pojam-crta"));
+}
+
 function prikaziTooltip(sidro, pojam) {
+  prekiniZatvaranjeTooltipa();
   const polja = poljaPojma(pojam);
   tooltip.hidden = false;
   tooltip.dataset.ime = polja.ime;
@@ -401,9 +433,17 @@ function prikaziTooltip(sidro, pojam) {
 }
 
 function sakrijTooltip() {
+  prekiniZatvaranjeTooltipa();
   tooltip.hidden = true;
   tooltip.dataset.ime = "";
 }
+
+tooltip.addEventListener("mouseenter", prekiniZatvaranjeTooltipa);
+tooltip.addEventListener("mouseleave", zakaziZatvaranjeTooltipa);
+document.addEventListener("pointerdown", (dogadjaj) => {
+  if (tooltip.hidden || ciljDrziTooltip(dogadjaj.target)) return;
+  zakaziZatvaranjeTooltipa();
+});
 
 function postaviDefiniciju(polja) {
   aktivnaDefinicija = polja;
