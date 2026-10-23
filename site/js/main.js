@@ -114,6 +114,7 @@ function popuniStalneIkonice() {
   saIkonom(document.querySelector("#tab-koraci"), "file-text", "Gradivo");
   saIkonom(document.querySelector("#tab-diskusija"), "messages-square", "Diskusija");
   saIkonom(document.querySelector("#tab-editor"), "code-xml", "Editor");
+  natpisTeme();
 }
 
 function lecture() {
@@ -1603,12 +1604,13 @@ document.querySelector("#pomoc").addEventListener("click", () => {
 });
 
 const TEME = [
-  ["mornar", "Mornar"],
-  ["ugalj", "Ugalj"],
-  ["pesak", "Pesak"],
-  ["terakota", "Terakota"],
+  ["mornar", "Mornar", "Plava, sveža i smirena"],
+  ["ugalj", "Ugalj", "Tamna i fokusirana"],
+  ["pesak", "Pesak", "Svetla i neutralna"],
+  ["terakota", "Terakota", "Topla i prirodna"],
 ];
 const temaSpisak = document.querySelector("#tema-spisak");
+const temaNatpis = document.querySelector("#tema .tema-natpis");
 
 function temaSada() {
   const zakucana = document.documentElement.dataset.tema;
@@ -1618,9 +1620,18 @@ function temaSada() {
 
 function natpisTeme() {
   const sad = temaSada();
-  temaDugme.textContent = TEME.find(([id]) => id === sad)[1];
+  const natpis = TEME.find(([id]) => id === sad)[1];
+  temaNatpis.textContent = natpis;
+  temaDugme.setAttribute("aria-label", `Tema: ${natpis}`);
   for (const dugme of temaSpisak.querySelectorAll("button")) {
-    dugme.setAttribute("aria-current", dugme.dataset.tema === sad ? "true" : "false");
+    const trenutna = dugme.dataset.tema === sad;
+    dugme.setAttribute("aria-current", trenutna ? "true" : "false");
+    const kvacica = dugme.querySelector(".tema-kvacica");
+    if (!kvacica) continue;
+    kvacica.replaceChildren();
+    if (!trenutna) continue;
+    const znak = ikonica("check");
+    if (znak) kvacica.append(znak);
   }
 }
 
@@ -1636,12 +1647,29 @@ function zakucajTemu(id) {
   if (pogled) osveziEditor();
 }
 
-for (const [id, natpis] of TEME) {
+for (const [id, natpis, opis] of TEME) {
   const stavka = document.createElement("li");
   const dugme = document.createElement("button");
   dugme.type = "button";
   dugme.dataset.tema = id;
-  dugme.textContent = natpis;
+  dugme.setAttribute("role", "option");
+  const slika = document.createElement("img");
+  slika.src = `/icons/teme/${id}.png`;
+  slika.alt = "";
+  slika.width = 72;
+  slika.height = 44;
+  const tekst = document.createElement("span");
+  tekst.className = "tema-tekst";
+  const ime = document.createElement("strong");
+  ime.textContent = natpis;
+  const sitno = document.createElement("small");
+  sitno.className = "tema-opis";
+  sitno.textContent = opis;
+  tekst.append(ime, sitno);
+  const kvacica = document.createElement("span");
+  kvacica.className = "tema-kvacica";
+  kvacica.setAttribute("aria-hidden", "true");
+  dugme.append(slika, tekst, kvacica);
   dugme.addEventListener("click", () => zakucajTemu(id));
   stavka.append(dugme);
   temaSpisak.append(stavka);
@@ -1651,6 +1679,16 @@ temaDugme.addEventListener("click", () => {
   const otvoren = temaSpisak.hidden;
   temaSpisak.hidden = !otvoren;
   temaDugme.setAttribute("aria-expanded", String(otvoren));
+});
+document.addEventListener("click", (event) => {
+  if (temaSpisak.hidden || event.target.closest(".tema-meni")) return;
+  temaSpisak.hidden = true;
+  temaDugme.setAttribute("aria-expanded", "false");
+});
+window.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape" || temaSpisak.hidden) return;
+  temaSpisak.hidden = true;
+  temaDugme.setAttribute("aria-expanded", "false");
 });
 natpisTeme();
 
