@@ -51,16 +51,8 @@ test("semantički XML otvara isti čas koji sajt crta iz kurs.json", () => {
   const procitan = procitajXml(xml);
   assert.equal(procitan.ok, true);
   assert.equal(procitan.napomena, "");
-  assert.equal(procitan.kurs.nedelje[0].steps[0].naslov, "LO");
-  assert.equal(procitan.kurs.nedelje[0].steps[0].opcije.find((opcija) => opcija.ok).key, "B");
-  assert.equal(procitan.kurs.nedelje[0].steps[2].figura.vrsta, "put");
-  assert.equal(procitan.kurs.nedelje[0].steps[2].figura.cvorovi[1].natpis, "TCP");
-  assert.equal(procitan.kurs.nedelje[0].steps.at(-1).figura.pokret, "redom");
-  const glava = procitan.kurs.nedelje[1].steps[2];
-  assert.equal(glava.naslov, "Glava");
-  assert.notEqual(glava.delic, glava.isecak);
-  assert.match(glava.delic, /<head>/);
-  assert.equal(procitan.nedostajeUgradjena > 0, true);
+  assert.equal(procitan.kurs.nedelje[0].steps[0].naslov, kurs.nedelje[0].steps[0].naslov);
+  assert.deepEqual(procitan.kurs, kurs);
   assert.deepEqual(ekran(procitan.kurs), ekran(kurs));
 });
 
@@ -68,16 +60,36 @@ test("izvoz kurs.json i povratni uvoz čuvaju ugrađenu verziju", () => {
   const nazad = procitajXml(ispisiXml(kurs));
   assert.equal(nazad.ok, true);
   assert.deepEqual(nazad.kurs, kurs);
-  const ugradjena = nazad.kurs.nedelje[1].steps[1];
-  assert.equal(typeof ugradjena.original, "string");
-  assert.match(ugradjena.original, /<!DOCTYPE html>/);
+  const originali = (dokument) => dokument.nedelje.flatMap((nedelja) => nedelja.steps).map((korak) => korak.original).filter((tekst) => typeof tekst === "string");
+  assert.ok(originali(kurs).length > 0);
+  assert.deepEqual(originali(nazad.kurs), originali(kurs));
+});
+
+test("polja koja XML ne imenuje prolaze kroz dopunska-polja", () => {
+  const korak = { naslov: "HTTP", nivo: 1, minuta: 2, tekst: "t", kljucnaIdeja: "k", pitalica: "", opcije: [], isecakNaslov: "Zahtev", isecak: "GET / HTTP/1.1", probaj: "Promeni putanju." };
+  const primer = { ...kurs, ciljnaGrupa: "3. godina", nedelje: [{ ...kurs.nedelje[0], diskusijaMinuta: 20, steps: [korak] }] };
+  const nazad = procitajXml(ispisiXml(primer));
+  assert.equal(nazad.ok, true);
+  assert.equal(nazad.kurs.ciljnaGrupa, "3. godina");
+  assert.equal(nazad.kurs.nedelje[0].diskusijaMinuta, 20);
+  assert.equal(nazad.kurs.nedelje[0].steps[0].probaj, "Promeni putanju.");
+  assert.equal(nazad.kurs.nedelje[0].steps[0].isecak, "GET / HTTP/1.1");
+  assert.equal(nazad.kurs.nedelje[0].steps[0].putanja, undefined);
+});
+
+test("dopunska polja ne smeju da menjaju prototip", () => {
+  const xmlSaPoljem = ispisiXml(kurs).replace(/(<dopunska-polja format="json"><!\[CDATA\[)[^\]]*/, '$1{"__proto__":{"zagadjeno":true}}');
+  const procitan = procitajXml(xmlSaPoljem);
+  assert.equal(procitan.ok, false);
+  assert.equal({}.zagadjeno, undefined);
 });
 
 test("razlog ostaje u opciji, a navodnici u problemu ostaju tekst", () => {
   const izXml = procitajXml(xml).kurs.nedelje[2].rezerva.problem;
   assert.equal(izXml, kurs.nedelje[2].rezerva.problem);
-  assert.match(izXml, /"24"/);
-  assert.match(procitajXml(xml).kurs.nedelje[0].steps[0].opcije[0].why, /slova/);
+  const primer = { ...kurs, nedelje: [{ ...kurs.nedelje[0], problem: 'Da li je "24" broj?' }] };
+  assert.equal(procitajXml(ispisiXml(primer)).kurs.nedelje[0].problem, 'Da li je "24" broj?');
+  assert.equal(procitajXml(xml).kurs.nedelje[0].steps[0].opcije[0].why, kurs.nedelje[0].steps[0].opcije[0].why);
 });
 
 test("podnaslov različit od ishoda ostaje podnaslov spiska", () => {

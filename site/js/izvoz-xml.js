@@ -43,6 +43,7 @@ export function ispisiXml(kurs) {
     "  </ustanova>",
     linija("naslov", kurs?.naslov || "", 1),
     ...OBRAZAC,
+    ...dopunskaPolja(kurs, ["ustanova", "ustanovaRed", "ustanovaBok", "naslov", "oznaka", "grb", "trajanjeNedelja", "preduslovPrve", "nedelje"], 1),
     "  <nedelje>",
   ];
   nedelje.forEach((nedelja, indeks) => linije.push(...linijeNedelje(nedelja, indeks, kurs, nedelje)));
@@ -59,6 +60,7 @@ function linijeNedelje(nedelja, indeks, kurs, nedelje) {
   ];
   if ((nedelja.podnaslov || "") !== (nedelja.ishod || "")) linije.push(linija("podnaslov", nedelja.podnaslov || "", 3));
   const preduslov = indeks === 0 ? kurs?.preduslovPrve || "" : nedelje[indeks - 1]?.ishod || "";
+  linije.push(...dopunskaPolja(nedelja, ["naslov", "podnaslov", "ishod", "minuta", "problem", "pretpostavka", "options", "rezerva", "izlaz", "pojmoviCasa", "steps"], 3));
   linije.push(linija("preduslov", preduslov, 3), "      <lekcije>");
   (nedelja.steps || []).forEach((korak, ki) => linije.push(...linijeKoraka(korak, ki)));
   linije.push("      </lekcije>", "      <pojmovi>");
@@ -76,7 +78,9 @@ function linijeKoraka(korak, indeks) {
   linije.push(linija("tekst", korak.tekst || "", 5));
   linije.push(linija("kljucna-ideja", korak.kljucnaIdeja || "", 5));
   if (korak.figura) linije.push(...linijeCrteza(korak.figura));
-  else if (typeof korak.putanja === "string" || typeof korak.isecak === "string") linije.push(...linijeFajla(korak));
+  else if (typeof korak.putanja === "string") linije.push(...linijeFajla(korak));
+  else if (typeof korak.isecak === "string") linije.push(kod("primer", { naslov: korak.isecakNaslov || "" }, korak.isecak, 5));
+  linije.push(...dopunskaPolja(korak, ["naslov", "tekst", "kljucnaIdeja", "nivo", "minuta", "figura", "putanja", "isecak", "isecakNaslov", "delic", "original", "pitalica", "opcije"], 5));
   linije.push(...linijePitalice("kratka", korak.pitalica || "", korak.opcije || [], 5));
   linije.push("        </korak>");
   return linije;
@@ -186,4 +190,9 @@ function escapeText(sadrzaj) {
 
 function escapeAttr(sadrzaj) {
   return escapeText(sadrzaj).replace(/"/g, "&quot;");
+}
+
+function dopunskaPolja(vlasnik, poznata, uvlaka) {
+  const polja = Object.fromEntries(Object.entries(vlasnik || {}).filter(([ime]) => !poznata.includes(ime)));
+  return Object.keys(polja).length ? [kod("dopunska-polja", { format: "json" }, JSON.stringify(polja), uvlaka)] : [];
 }
