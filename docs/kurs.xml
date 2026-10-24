@@ -3374,7 +3374,7 @@ HTTP/1.1 400]]></zapis>
     </nedelja>
     <nedelja broj="8" minuta="90">
       <naslov>PostgreSQL, transakcije i Docker</naslov>
-      <ishod>Student objasni zašto režim i istorija ulaze u jednu transakciju i šta se povlači kad drugi upit padne.</ishod>
+      <ishod>Student objašnjava zašto režim i istorija ulaze u jednu transakciju i šta se povlači kad drugi upit padne.</ishod>
       <podnaslov>Režim i istorija su jedna transakcija.</podnaslov>
       <dopunska-polja format="json"><![CDATA[{"diskusijaMinuta":20}]]></dopunska-polja>
       <preduslov>Student obrazlaže da ponovljena komanda ima isti nameravani efekat, dok pomoćni zapis sme da se ponovi.</preduslov>
@@ -3951,7 +3951,7 @@ COMMIT;]]></zapis>
       <ishod>Student razlikuje redosled dolaska odgovora od svežine očitavanja i kaže šta takt ne pomera.</ishod>
       <podnaslov>Displej čuva poslednje čitanje. Takt ga ne pomera.</podnaslov>
       <dopunska-polja format="json"><![CDATA[{"diskusijaMinuta":20}]]></dopunska-polja>
-      <preduslov>Student objasni zašto režim i istorija ulaze u jednu transakciju i šta se povlači kad drugi upit padne.</preduslov>
+      <preduslov>Student objašnjava zašto režim i istorija ulaze u jednu transakciju i šta se povlači kad drugi upit padne.</preduslov>
       <lekcije>
         <korak broj="1" nivo="Osnovno" minuta="6">
           <naslov>Miruje</naslov>

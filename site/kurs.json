@@ -3669,7 +3669,7 @@
     {
       "naslov": "PostgreSQL, transakcije i Docker",
       "podnaslov": "Režim i istorija su jedna transakcija.",
-      "ishod": "Student objasni zašto režim i istorija ulaze u jednu transakciju i šta se povlači kad drugi upit padne.",
+      "ishod": "Student objašnjava zašto režim i istorija ulaze u jednu transakciju i šta se povlači kad drugi upit padne.",
       "minuta": 90,
       "problem": "Režim je upisan, istorija nije. Da li je evidencija cela?",
       "pretpostavka": "Bitno stanje je sačuvano pa je istorija sporedna, ili kontejner sam čuva oba upisa.",
