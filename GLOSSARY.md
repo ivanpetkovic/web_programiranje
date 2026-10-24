@@ -10,11 +10,11 @@ Pitanje koje proverava primenu prethodno objašnjenih pojmova, uz obrazloženje 
 _Avoid_: Pitalica koja zahteva još neobrađeno gradivo.
 
 **Glavna pitalica**:
-Jedina diskusija časa. Budžet razgovora pripada njoj.
+Glavna zajednička diskusija o jednom problemu časa, sa predviđenim vremenom za razmišljanje i obrazlaganje.
 _Avoid_: Kviz za svaki pojam.
 
 **Rezervna pitalica**:
-Drugo pitanje istog časa, otvoreno tek kad je glavna pitalica razjašnjena.
+Dopunsko pitanje koje koristi preostalo vreme glavne diskusije, kada je osnovni problem razjašnjen.
 _Avoid_: Druga obavezna diskusija.
 
 **Postepeni nedeljni plan**:
@@ -31,15 +31,15 @@ Interaktivni tok predavanja koji zamenjuje slajdove i ugrađuje povezujući prim
 _Avoid_: Prezentacija, slajdovi.
 
 **Editor časa**:
-Mesto na sajtu časa gde se menja jedan isečak povezujućeg primera koji već radi.
-_Avoid_: Prazan projekat, vežba.
+Prostor za kucanje i istraživanje koda tokom predavanja i samostalnog rada, uz ugrađene snimke fajlova.
+_Avoid_: Slika koda bez mogućnosti izmene.
 
 **Radna verzija**:
 Studentova kopija jednog fajla u ovom browseru.
 _Avoid_: Režim
 
 **Ugrađena verzija**:
-Snimak jednog fajla na otvorenom koraku.
+Pripremljen snimak celog fajla na otvorenom koraku, koji služi kao polazna tačka i poređenje sa radnom verzijom.
 _Avoid_: Režim, fajl sa diska
 
 ## Kontrolna soba
@@ -91,11 +91,11 @@ Stanje koje ovaj browser trenutno crta.
 _Avoid_: Stanje kutije.
 
 **Alati browsera**:
-Ugrađeni alati u kojima se gleda i menja prikaz ove stranice. Dokument ostaje isti. Engleski naziv je DevTools.
+Ugrađeni alati za pregled dokumenta, mreže i izvršavanja u browseru. Izmena elementa menja živi DOM tog dokumenta, bez automatske izmene izvornog fajla; engleski naziv je DevTools.
 _Avoid_: Izmena fajla, čuvanje dokumenta.
 
 **Čitanje**:
-Odgovor kutije koji nosi temperaturu i režim. HTTP 200 je uspeh. HTTP 500 znači da ventilator nije priključen, i iz tog odgovora displej sobe prekidača ne dobija broj.
+Odgovor kutije koji nosi temperaturu i režim. HTTP 200 je uspeh. U pripremljenom primeru HTTP 500 može značiti da ventilator nije priključen, i iz tog odgovora displej sobe prekidača ne dobija broj.
 _Avoid_: Komanda.
 
 **Komanda**:
@@ -115,7 +115,7 @@ Displej sobe prekidača. Pre prvog uspelog čitanja pokazuje crte. Uspešno čit
 _Avoid_: Displej sobe mašina, prekidač.
 
 **Sesija**:
-Pripremljeni par ključa i uloge. Ključ je opaque token: browser ga drži, kutija drži ulogu.
+Kontekst koji server povezuje sa zahtevima preko ključa sesije. Nastavne sesije služe istraživanju uloga, a ne predstavljaju bezbedan sistem prijave.
 _Avoid_: Nalog, prijava, lozinka, neprozirni ključ.
 
 **Transakcija**:
@@ -125,19 +125,19 @@ _Avoid_: Celina, celina upisa.
 ## Termini gradiva
 
 **veza od kraja do kraja**:
-Rezervisana veza kojom cela poruka ide jednim putem. Paket je ne traži.
+Veza između dva krajnja učesnika komunikacije; ne podrazumeva rezervisan fizički put.
 _Avoid_: Žica.
 
 **flag day**:
-Dan kad sve mreže prelaze na isti protokol. Za Internet je to 1. januar 1983.
+Dogovoren trenutak prelaska određenog sistema na novi protokol; u istoriji ARPANET-a vezuje se za prelazak na TCP/IP 1. januara 1983.
 _Avoid_: Dan zastave.
 
 **plugin**:
-Program koji se instalira pored stranice da bi jezik uopšte radio.
+Dodatno instalirana komponenta browsera; istorijski su takve komponente omogućavale sadržaje poput Flash-a.
 _Avoid_: Dodatak.
 
 **streaming**:
-Prenos u kome slika krene pre poslednjeg bajta.
+Reprodukcija sadržaja koja može početi pre završetka celog preuzimanja; ne određuje sama po sebi transportni protokol.
 _Avoid_: Striming.
 
 **Eternal September**:
@@ -157,23 +157,23 @@ Dokument koji predlaže sistem. Bitcoinov je iz oktobra 2008.
 _Avoid_: Beli papir.
 
 **cookie**:
-HttpOnly zapis koji browser nosi kutiji. Ne nosi ime uloge.
+Zapis koji browser čuva i pridružuje odgovarajućim zahtevima. Cookie sesije u primeru nosi ključ, a atribut HttpOnly ograničava pristup iz JavaScripta.
 _Avoid_: Kolačić.
 
 **cache**:
-Sačuvan odgovor sa svojim rokom. Ikonica i temperatura ne dele rok.
+Sačuvana kopija resursa čija upotreba zavisi od politike svežine i ponovne provere. Različiti resursi mogu imati različitu politiku.
 _Avoid_: Keš.
 
-**credential**:
-Podatak kojim se kutija javlja bazi. Browser ga ne dobija.
-_Avoid_: Kredencijal.
+**Pristupni podaci za bazu**:
+Podaci kojima server dobija pristup bazi; na engleskom credentials. Ne predstavljaju korisničku dozvolu za upravljanje uređajem.
+_Avoid_: Credential, kredencijal.
 
 **push**:
 Poruka kutije ka browseru, bez novog čitanja. Ide u sobu mašina.
 _Avoid_: Dovod, guranje.
 
 **opaque token**:
-Ključ sesije koji browser nosi, a ne čita. Kutija po njemu nađe ulogu.
+Ključ sesije čiji sadržaj klijent ne treba da tumači. Izraz sam po sebi ne garantuje nasumičnost, tajnost ili bezbednost ključa.
 _Avoid_: Neprozirni ključ.
 
 **klijent**:
@@ -181,7 +181,7 @@ Deo koji browser učita. Na času je tab Klijent.
 _Avoid_: Front.
 
 **framework**:
-Tuđi skelet servera. Kurs ga ne uvodi.
+Okvir koji organizuje česte poslove aplikacije. Kurs objašnjava svrhu okvira, dok povezujući primer koristi osnovne platformske API-je.
 
 **Posmatrač**:
 Uloga koja sme da pregleda stanje kontrolne sobe, ali ne i da upravlja ventilatorom.

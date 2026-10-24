@@ -14,7 +14,7 @@ test("Kontrolna soba i Čitanje nose definiciju iz pojmovnika", () => {
   assert.match(soba.izbegava, /nerazdvojena prostorija/);
   assert.equal(
     citanje.definicija,
-    "Odgovor kutije koji nosi temperaturu i režim. HTTP 200 je uspeh. HTTP 500 znači da ventilator nije priključen, i iz tog odgovora displej sobe prekidača ne dobija broj."
+    "Odgovor kutije koji nosi temperaturu i režim. HTTP 200 je uspeh. U pripremljenom primeru HTTP 500 može značiti da ventilator nije priključen, i iz tog odgovora displej sobe prekidača ne dobija broj."
   );
   assert.equal(citanje.izbegava, "Komanda.");
   assert.deepEqual(poljaPojma(soba), {
@@ -29,7 +29,7 @@ test("Kontrolna soba i Čitanje nose definiciju iz pojmovnika", () => {
 test("Alati browsera dolaze iz GLOSSARY.md, a alat van browsera nije taj pojam", () => {
   const alati = pojmovi.find((pojam) => pojam.ime === "Alati browsera");
   assert.match(alati.definicija, /DevTools/);
-  assert.match(alati.definicija, /prikaz/);
+  assert.match(alati.definicija, /živi DOM/);
   assert.match(alati.izbegava, /Izmena fajla/);
   const kurs = {
     nedelje: [
