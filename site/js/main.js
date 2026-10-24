@@ -840,6 +840,16 @@ function renderLecture() {
     analiza.textContent = korak.analiza;
   }
   casEl.append(metaKoraka, naslovKoraka, ...proza, kljucna);
+  if (korak.probaj) {
+    const probaj = document.createElement("aside");
+    probaj.className = "kljucna";
+    const naslovProbaj = document.createElement("strong");
+    naslovProbaj.textContent = "Probaj";
+    const opisProbaj = document.createElement("p");
+    opisProbaj.textContent = korak.probaj;
+    probaj.append(naslovProbaj, opisProbaj);
+    casEl.append(probaj);
+  }
   for (const [omot, izvor] of dijagrami) void nacrtajMermaid(omot, izvor);
   if (figura) casEl.append(figura);
   else if (imaFajl) {

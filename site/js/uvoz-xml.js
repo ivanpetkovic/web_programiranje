@@ -1,4 +1,9 @@
 export function procitajXml(tekst) {
+  try { return procitajKursXml(tekst); }
+  catch { return { ok: false, greska: "Neispravan XML ili dopunska polja.", kurs: null, napomena: "", nedostajeUgradjena: 0 }; }
+}
+
+function procitajKursXml(tekst) {
   let stablo;
   try {
     stablo = koren(tekst);
@@ -26,6 +31,7 @@ export function procitajXml(tekst) {
     preduslovPrve: tekstElementa(dete(deca(dete(stablo, "nedelje"), "nedelja")[0], "preduslov")),
     nedelje,
   };
+  Object.assign(kurs, dopunskaPolja(stablo));
   return { ok: true, greska: "", napomena, kurs, nedostajeUgradjena: brojBezUgradjene(kurs) };
 }
 
@@ -48,6 +54,7 @@ function procitajNedelju(el) {
   nedelja.izlaz = tekstIzlaza(diskusija);
   nedelja.pojmoviCasa = procitajPojmove(dete(el, "pojmovi"));
   nedelja.steps = deca(dete(el, "lekcije"), "korak").map(procitajKorak);
+  Object.assign(nedelja, dopunskaPolja(el));
   return nedelja;
 }
 
@@ -63,10 +70,15 @@ function procitajKorak(el) {
   const fajl = dete(el, "fajl");
   if (crtez) polja.figura = procitajCrtez(crtez);
   else if (fajl) procitajFajl(fajl, polja);
+  const primer = dete(el, "primer");
+  if (primer) {
+    polja.isecakNaslov = primer.attrs.naslov || "";
+    polja.isecak = sirovo(primer);
+  }
   const kratka = pitalicaVrste(el, "kratka") || dete(el, "pitalica");
   polja.pitalica = tekstElementa(dete(kratka, "pitanje"));
   polja.opcije = procitajOpcije(dete(kratka, "opcije"));
-  return sloziKorak(polja);
+  return { ...sloziKorak(polja), ...dopunskaPolja(el) };
 }
 
 function procitajFajl(fajl, polja) {
@@ -314,4 +326,13 @@ function dekodiraj(tekst) {
     const kodna = entitet[1] === "x" ? parseInt(entitet.slice(2), 16) : parseInt(entitet.slice(1), 10);
     return Number.isFinite(kodna) ? String.fromCodePoint(kodna) : celo;
   });
+}
+
+function dopunskaPolja(el) {
+  const zapis = dete(el, "dopunska-polja");
+  if (!zapis) return {};
+  const polja = JSON.parse(sirovo(zapis));
+  if (!polja || typeof polja !== "object" || Array.isArray(polja)) throw new Error("dopunska polja");
+  if (["__proto__", "prototype", "constructor"].some((ime) => Object.hasOwn(polja, ime))) throw new Error("dopunska polja");
+  return polja;
 }

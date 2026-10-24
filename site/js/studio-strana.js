@@ -324,7 +324,7 @@ function panelNedelje(indeks) {
     el("header", { class: "rad-h" }, [
       el("p", { class: "meta", text: `Nedelja ${indeks + 1} od ${kurs.nedelje.length}` }),
       el("h1", { id: "naslov-prikaz", text: nedelja.naslov || "Bez naslova" }),
-      el("p", { class: "meta", text: `${nedelja.steps.length} koraka · koraci ${zbir} min · čas ${nedelja.minuta || 0} min` }),
+      el("p", { class: "meta", text: `${nedelja.steps.length} koraka · koraci ${zbir} min · diskusija ${nedelja.diskusijaMinuta || 0} min · čas ${nedelja.minuta || 0} min` }),
       el("div", { class: "red-akcija" }, [
         dugme("Dodaj korak", () => dodajKorakNa(indeks)),
         dugmeBrisanja(`nedelja:${indeks}`, "Obriši nedelju", () => {
@@ -340,6 +340,7 @@ function panelNedelje(indeks) {
       polje("Podnaslov", nedelja.podnaslov, (vrednost) => { nedelja.podnaslov = vrednost; }, { visered: true, redovi: 2 }),
       polje("Ishod", nedelja.ishod, (vrednost) => { nedelja.ishod = vrednost; }, { visered: true, redovi: 2 }),
       polje("Minuta", nedelja.minuta, (vrednost) => { nedelja.minuta = vrednost; }, { tip: "number" }),
+      polje("Minuta glavne diskusije", nedelja.diskusijaMinuta || 0, (vrednost) => { nedelja.diskusijaMinuta = vrednost; }, { tip: "number" }),
       el("p", { class: "meta", text: `Preduslov: ${preduslovNedelje(kurs, indeks + 1) || "—"}` }),
     ]),
     sekcija("Diskusija", [
@@ -386,6 +387,7 @@ function panelKoraka(nedeljaIndeks, indeks) {
       ]),
       poljeSaDijagramom("Tekst", korak.tekst, (vrednost) => { korak.tekst = vrednost; }, { visered: true, redovi: 6 }),
       poljeSaDijagramom("Ključna ideja", korak.kljucnaIdeja, (vrednost) => { korak.kljucnaIdeja = vrednost; }, { visered: true, redovi: 3 }),
+      polje("Probaj", korak.probaj || "", (vrednost) => { korak.probaj = vrednost; }, { visered: true, redovi: 3 }),
       el("p", { class: "meta", text: "Blok ```mermaid u tekstu ili ključnoj ideji crta dijagram." }),
     ]),
     sekcija("Sadržaj", [sadrzajKoraka(korak)]),
