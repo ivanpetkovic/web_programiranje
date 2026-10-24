@@ -237,14 +237,32 @@ test("nedelja 5 drži require u editoru i ne upisuje server.js", { timeout: 4000
       dugme.click();
     })()`);
     const listen = await sačekaj(
-      (s) => s.putanja === "server/server.js" && s.tekst.includes("server.listen(8787);") && s.tekst.includes('require("http")'),
+      (s) => s.putanja === "server/server.js" && s.tekst.includes("server.listen(8787,") && s.tekst.includes('require("http")'),
     );
-    assert.match(listen.tekst, /const http = require\("http"\);\s*const server = http\.createServer\(obrada\);/);
+    assert.match(listen.tekst, /^const http = require\("http"\);/);
+    assert.match(listen.tekst, /function obrada\(req, res\)[\s\S]*const server = http\.createServer\(obrada\);/);
     assert.match(listen.napomena, /samo kad krene/);
     await pauza(400);
     assert.equal(readFileSync(fajl, "utf8"), pre);
     belezi(`nedelja 5 listen: ${listen.napomena}`);
     await snimi("nedelja-5-listen");
+    await strana.vrednost(`(() => {
+      const dugme = [...document.querySelectorAll("#nav .korak-red")].find((b) => b.textContent === "17 Modul sobe");
+      if (!dugme) throw new Error("nema koraka Modul sobe");
+      dugme.click();
+    })()`);
+    const modul = await sačekaj((s) => s.putanja === "server/soba.js" && s.tekst.includes("module.exports = { citaj };"));
+    assert.equal(modul.napomena, "");
+    const sobaNaDisku = new URL("../server/soba.js", import.meta.url);
+    const kraj = Date.now() + 4000;
+    while (readFileSync(sobaNaDisku, "utf8").includes("svezeOcitavanje") && Date.now() < kraj) await pauza(50);
+    assert.equal(readFileSync(sobaNaDisku, "utf8").includes("svezeOcitavanje"), false);
+    const citanje = await fetch(`http://127.0.0.1:${portSajta}/api/soba?svezina=1`);
+    assert.equal(citanje.status, 200);
+    assert.deepEqual(await citanje.json(), { temperatura: 24, ukljucen: false });
+    assert.equal(readFileSync(fajl, "utf8"), pre);
+    belezi("nedelja 5 modul sobe: proces čita soba.js iz lekcije, svezina=1 nema trenutak");
+    await snimi("nedelja-5-modul-sobe");
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
     throw greska;

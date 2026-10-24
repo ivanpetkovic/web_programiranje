@@ -94,6 +94,10 @@ The running process MUST keep reading `server/soba.js`, `server/ventilator.js`, 
 #### Scenario: Startup file
 - **WHEN** the teacher changes `server/server.js` in the editor
 - **THEN** the file on disk is unchanged, the editor says the process reads that file only when it starts, and the running process does not use that editor text
+
+#### Scenario: Lesson modules keep the process contract
+- **WHEN** the Lekcija side of any step from week 5 on is written for `server/soba.js`, `server/ventilator.js`, or `server/sesija.js`
+- **THEN** that file is valid JavaScript, exports what the process calls (`citaj`, `komanda`, `odbijenaKomanda`, `kljucZaUlogu`), returns `{ status, body }`, and after the last step of the course each of them has the same text as its copy in `server/prepared/`
 ### Requirement: Panel prati čas
 Before the server lecture, the shell MUST NOT send a room read or a command. From that lecture, the shell machine room MUST follow the live box, and a shell read control MAY send one room read. The iframe MAY send a request only when the loaded document does. The shell MUST NOT add a next-step control.
 
@@ -359,7 +363,11 @@ The open lesson MUST show the week title and the step selector outside the Gradi
 - **WHEN** the open step sets a level and Gradivo is open
 - **THEN** the Gradivo section shows that level outside the selector
 ### Requirement: Ključna ideja i isečak
-On Gradivo, the key-idea callout MUST be labeled Ključna ideja and MUST be visible without a further click. When the step has a code snippet, that snippet MUST show its title, line numbers, and a control that copies the snippet text.
+On Gradivo, the key-idea callout MUST be labeled Ključna ideja and MUST be visible without a further click. When the step has a code snippet, that snippet MUST show its title, line numbers, and a control that copies the snippet text. When the step carries the whole file, the snippet MUST show that file and mark the lines that are new against the file's previous version in the course, in their place.
+
+#### Scenario: Whole-file step marks new lines in place
+- **WHEN** the teacher opens a step that adds the 405 branch inside the handler of `server/server.js`
+- **THEN** the snippet shows the whole file and only the lines of that branch are marked, between the 404 branch and `listen`
 
 #### Scenario: Callout is already visible
 - **WHEN** the teacher opens a step on Gradivo

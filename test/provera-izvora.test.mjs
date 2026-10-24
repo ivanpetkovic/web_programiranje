@@ -3,25 +3,17 @@ import fs from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import { lectures } from "../site/js/lectures.js";
-import { prikazPriloga, ulaziUFajl } from "../site/js/prilog.js";
+import { prikazPriloga } from "../site/js/prilog.js";
 import { proveriJs } from "../site/js/provera-izvora.js";
+import { vecUFajlu } from "../site/js/stablo.js";
 
 const koraci = lectures.flatMap((cas) => cas.steps);
 
-function ranijeDo(indeksKoraka, putanja) {
-  return koraci
-    .slice(0, indeksKoraka)
-    .filter((korak) => korak.putanja === putanja && ulaziUFajl(korak.delic))
-    .map((korak) => korak.delic)
-    .join("\n\n");
-}
-
-function prikazaniJs(naslov) {
-  const i = koraci.findIndex((korak) => korak.naslov === naslov);
-  assert.ok(i >= 0, naslov);
+function prikazaniJs(i) {
   const korak = koraci[i];
-  const prikaz = prikazPriloga(korak, ranijeDo(i, korak.putanja));
-  return prikaz.fajl.linije.map((linija) => linija.tekst).join("\n");
+  const cas = lectures.find((c) => c.steps.includes(korak));
+  const ranije = vecUFajlu(koraci, koraci.indexOf(cas.steps[0]), i, korak.putanja);
+  return prikazPriloga(korak, ranije).fajl.linije.map((linija) => linija.tekst).join("\n");
 }
 
 test("rečenica u js fajlu ne prolazi", () => {
@@ -48,11 +40,17 @@ test("uvedeno ime i komentar prolaze", () => {
   assert.equal(proveriJs(izvor), "");
 });
 
-test("pad pretpostavke prolazi, a potvrda javlja grešku", () => {
-  assert.equal(proveriJs(prikazaniJs("Pad pretpostavke")), "");
-  const potvrda = proveriJs(prikazaniJs("Potvrda"));
-  assert.notEqual(potvrda, "");
-  assert.match(potvrda, /deo/);
+test("prikazani serverski isečci 5. i 7. nedelje prolaze, a prenos nije u fajlu", () => {
+  for (const n of [5, 7]) {
+    for (const korak of lectures[n - 1].steps) {
+      if (!korak.putanja?.startsWith("server/")) continue;
+      const tekst = prikazaniJs(koraci.indexOf(korak));
+      if (tekst.trim()) assert.equal(proveriJs(tekst), "", `${n}/${korak.naslov}`);
+    }
+  }
+  for (const naslov of ["Cela poruka", "Pad pretpostavke", "Potvrda", "TCP"]) {
+    assert.equal(lectures[4].steps.find((korak) => korak.naslov === naslov).putanja, undefined, naslov);
+  }
 });
 
 function jsFajlovi(dir) {
