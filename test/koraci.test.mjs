@@ -74,9 +74,10 @@ test("čas 5 otvara adresu pre fetch-a i nema Err", () => {
 test("preduslov časa 1 je priča pre stranice, a časa 2 je ishod istorije", () => {
   assert.equal(preduslovCasa(1), "Još nema fajla. Priča počinje pre stranice.");
   assert.equal(preduslovCasa(2), lectures[0].outcome);
-  assert.match(lectures[0].outcome, /Web je usluga na Internetu/);
-  assert.match(lectures[0].outcome, /Stranica je dokument/);
-  assert.match(lectures[0].outcome, /server\/ još nema fajlove/);
+  assert.match(lectures[0].podnaslov, /Web je usluga na Internetu/);
+  assert.match(lectures[0].podnaslov, /Stranica je dokument/);
+  assert.match(lectures[0].podnaslov, /server\/ još nema fajlove/);
+  assert.match(lectures[0].outcome, /^Student razlikuje uslugu Weba/);
 });
 
 test("nedelja istorije drži korake bez fajla", () => {
@@ -86,7 +87,7 @@ test("nedelja istorije drži korake bez fajla", () => {
   ];
   const sirovi = dokument.nedelje[0].steps;
   assert.deepEqual(sirovi.map((korak) => korak.naslov), redosled);
-  assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 55);
+  assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 70);
   const tacan = (naslov) => sirovi.find((korak) => korak.naslov === naslov).opcije.find((opcija) => opcija.ok).text;
   assert.match(tacan("LO"), /1969.*nije Web/);
   assert.match(tacan("TCP i UDP"), /Kadar sme da se odbaci/);
@@ -128,7 +129,7 @@ test("nedelja stranice drži isečke dokumenta, bez ugrađenog originala", () =>
   const semantika = sirovi.find((korak) => korak.naslov === "Semantika");
   assert.match(semantika.isecak, /naslov je h1/);
   assert.equal(semantika.isecak.includes("soba mašina"), false);
-  assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 55);
+  assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 70);
   for (const nedelja of dokument.nedelje) {
     for (const korak of nedelja.steps) {
       if ("original" in korak) {
@@ -197,6 +198,23 @@ test("nema preglednog spiska ni naslova Osvrt", () => {
   assert.equal(naslovi.includes("Osvrt"), false);
   assert.match(dokument.dopunaGlosara.find((pojam) => pojam.id === "push").body, /SSE/);
   assert.match(dokument.dopunaGlosara.find((pojam) => pojam.id === "push").body, /WebSocket/);
+});
+
+test("svaki čas ima 70 minuta koraka, 20 minuta diskusije i ishod različit od podnaslova", () => {
+  const kljucevi = {};
+  for (const nedelja of dokument.nedelje) {
+    assert.equal(nedelja.diskusijaMinuta, 20);
+    assert.equal(nedelja.minuta, 90);
+    assert.notEqual(nedelja.ishod, nedelja.podnaslov);
+    assert.match(nedelja.ishod, /^Student /);
+    assert.equal(nedelja.steps.reduce((zbir, korak) => zbir + korak.minuta, 0), 70);
+    for (const korak of nedelja.steps) {
+      const tacan = (korak.opcije || []).find((opcija) => opcija.ok);
+      if (tacan) kljucevi[tacan.key] = (kljucevi[tacan.key] || 0) + 1;
+    }
+  }
+  assert.ok(kljucevi.A > 40 && kljucevi.B > 40);
+  assert.match(dokument.nedelje[2].steps.find((korak) => korak.naslov === "Tip").probaj, /===/);
 });
 
 test("čas 11 ne tvrdi da je upis prošao", () => {

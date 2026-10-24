@@ -25,13 +25,13 @@
       <deo>kratka pitalica</deo>
       <napomena>Minuta uz korak je nastavna oznaka, ne tajmer. Kratka pitalica nema pretpostavke, poređenje ni drugu diskusiju. Isečak je ono što korak pokazuje. u-fajl je red koji ulazi u imenovani fajl kada se razlikuje od isečka. ugradjena je snimak fajla koji Editor pokazuje kao Lekciju.</napomena>
     </korak-redosled>
-    <diskusija-faze budzet-minuta="35">
-      <faza naziv="Izbor" minuta="3">Opcije su vidljive i neoznačene. Podvlačenje većine ne otkriva koja opcija drži.</faza>
-      <faza naziv="Poređenje" minuta="5">Razlozi u paru ili maloj grupi. Odgovor ostaje zatvoren.</faza>
-      <faza naziv="Pretpostavke" minuta="8">Nastavnik upisuje čute rečenice, i one koje ne drže.</faza>
-      <faza naziv="Analiza" minuta="7">Svaka opcija dobije razlog i jedna bude označena. Upisana pogrešna pretpostavka ostaje.</faza>
-      <faza naziv="Ponovni izbor" minuta="5">Podvlačenje sme da se pomeri. Upisuje se jedna zajednička rečenica.</faza>
-      <posle minuta="7">Rezerva, zatvorena do ovog trenutka, ili još ista ideja. Rezerva kreće opet od izbora.</posle>
+    <diskusija-faze budzet-minuta="20">
+      <faza naziv="Izbor" minuta="2">Opcije su vidljive i neoznačene. Podvlačenje većine ne otkriva koja opcija drži.</faza>
+      <faza naziv="Poređenje" minuta="3">Razlozi u paru ili maloj grupi. Odgovor ostaje zatvoren.</faza>
+      <faza naziv="Pretpostavke" minuta="5">Nastavnik upisuje čute rečenice, i one koje ne drže.</faza>
+      <faza naziv="Analiza" minuta="4">Svaka opcija dobije razlog i jedna bude označena. Upisana pogrešna pretpostavka ostaje.</faza>
+      <faza naziv="Ponovni izbor" minuta="3">Podvlačenje sme da se pomeri. Upisuje se jedna zajednička rečenica.</faza>
+      <posle minuta="3">Rezerva, zatvorena do ovog trenutka, ili još ista ideja. Rezerva kreće opet od izbora.</posle>
       <napomena>Jedna diskusija pripada celoj nedelji. Sajt ne pamti glas. Nastavnik jedini pomera fazu. Ako grupa ostane bez zaključka, sledeća nedelja sme da krene istom pitalicom.</napomena>
     </diskusija-faze>
     <izlaz-oblik>Rečenica na poslednjem koraku. Nema opcija, pečata ni polja za upis.</izlaz-oblik>
@@ -40,10 +40,12 @@
   <nedelje>
     <nedelja broj="1" minuta="90">
       <naslov>Zašto Web postoji: zahtevi i protokoli</naslov>
-      <ishod>Web je usluga na Internetu. Stranica je dokument. server/ još nema fajlove.</ishod>
+      <ishod>Student razlikuje uslugu Weba od mreže paketa i obrazlaže zašto zakasneli kadar i izgubljeni bajt nisu ista odluka.</ishod>
+      <podnaslov>Web je usluga na Internetu. Stranica je dokument. server/ još nema fajlove.</podnaslov>
+      <dopunska-polja format="json"><![CDATA[{"diskusijaMinuta":20}]]></dopunska-polja>
       <preduslov>Još nema fajla. Priča počinje pre stranice.</preduslov>
       <lekcije>
-        <korak broj="1" nivo="Osnovno" minuta="5">
+        <korak broj="1" nivo="Osnovno" minuta="7">
           <naslov>LO</naslov>
           <tekst>Zašto uopšte slati poruku ako veza može da pukne usred reči? 29. oktobra 1969. sa UCLA ka SRI stiže „LO”, pa sistem padne umesto „LOGIN”. To je mreža paketa. To nije Web.</tekst>
           <kljucna-ideja>Mreža paketa iz 1969. još nema stranicu u browseru.</kljucna-ideja>
@@ -51,18 +53,18 @@
           <pitalica vrsta="kratka">
             <pitanje>Šta je stiglo 29. oktobra 1969?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>To već jeste Web, jer je poruka stigla.</tekst>
-                <razlog>Stigla su dva slova po mreži. Nema URL ni dokument u browseru. Ta pretpostavka zanemaruje ključnu razliku: Mreža paketa iz 1969. još nema stranicu u browseru.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Poruka iz 1969. nije Web.</tekst>
                 <razlog>LO je mreža paketa. Web je povezani dokument, mnogo kasnije. To je u skladu sa razlikom koju pravi ovaj korak: Mreža paketa iz 1969. još nema stranicu u browseru.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>To već jeste Web, jer je poruka stigla.</tekst>
+                <razlog>Stigla su dva slova po mreži. Nema URL ni dokument u browseru. Ta pretpostavka zanemaruje ključnu razliku: Mreža paketa iz 1969. još nema stranicu u browseru.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="2" nivo="Osnovno" minuta="5">
+        <korak broj="2" nivo="Osnovno" minuta="7">
           <naslov>Paket</naslov>
           <tekst>Zašto seći poruku, umesto da se rezerviše veza od kraja do kraja? Ako je veza rezervisana, prekid ubije celu poruku. Paket ide drugim putem i poruka se sklopi.</tekst>
           <kljucna-ideja>Prekinuta veza ne mora da ubije poruku.</kljucna-ideja>
@@ -81,7 +83,7 @@
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="3" nivo="Primena" minuta="5">
+        <korak broj="3" nivo="Primena" minuta="7">
           <naslov>Paket ili rezervisana veza</naslov>
           <tekst>Dva udaljena računara prenose veliki fajl; veza može da otkaže.</tekst>
           <kljucna-ideja>Paketni prenos deli podatke; IP rutira pakete, TCP obezbeđuje pouzdan tok bajtova.</kljucna-ideja>
@@ -89,13 +91,13 @@
           <pitalica vrsta="kratka">
             <pitanje>Šta je tačno ako P3 stigne pre P2?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Aplikacija preko TCP-a obavezno vidi P3 pre P2.</tekst>
-                <razlog>TCP uređuje podatke pre nego što ih aplikacija čita; dolazak paketa nije redosled čitanja.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>TCP može sačekati P2 i isporučiti uređeni tok.</tekst>
                 <razlog>IP može isporučiti pakete drugim redom; TCP pomoću rednih brojeva omogućava uredan tok.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Aplikacija preko TCP-a obavezno vidi P3 pre P2.</tekst>
+                <razlog>TCP uređuje podatke pre nego što ih aplikacija čita; dolazak paketa nije redosled čitanja.</razlog>
               </opcija>
               <opcija oznaka="C" drzi="ne">
                 <tekst>Svaki IP paket mora istim putem.</tekst>
@@ -104,31 +106,31 @@
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="4" nivo="Osnovno" minuta="5">
+        <korak broj="4" nivo="Osnovno" minuta="6">
           <naslov>TCP i UDP</naslov>
-          <tekst>Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? TCP je pouzdan tok bajtova: dokument traži svaki bajt. UDP sme da odbaci datagram, pa glas, slika ili igra ne čekaju zakasneli kadar.</tekst>
-          <kljucna-ideja>Dokument čeka bajt. Zakasneli kadar sme da se odbaci.</kljucna-ideja>
+          <tekst>Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? UDP ne garantuje isporuku ni redosled. Aplikacija odlučuje da li zakasneli kadar još vredi. Dokument preko TCP-a traži bajtove. Streaming sam po sebi ne bira UDP.</tekst>
+          <kljucna-ideja>UDP ne garantuje isporuku. Odluku o zakasnelom kadru donosi aplikacija.</kljucna-ideja>
           <crtez vrsta="put">
             <cvor id="bajt">Bajt</cvor>
             <cvor id="tcp">TCP</cvor>
             <cvor id="udp">UDP</cvor>
           </crtez>
-          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"eksperiment","analiza":"Zašto: Dokument čeka bajt. Zakasneli kadar sme da se odbaci. U ovom koraku: Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? TCP je pouzdan tok bajtova: dokument traži svaki bajt. UDP sme da odbaci datagram, pa glas, slika ili igra ne čekaju zakasneli kadar. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
+          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"eksperiment","analiza":"Zašto: UDP ne garantuje isporuku. Odluku o zakasnelom kadru donosi aplikacija. U ovom koraku: Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? UDP ne garantuje isporuku ni redosled. Aplikacija odlučuje da li zakasneli kadar još vredi. Dokument preko TCP-a traži bajtove. Streaming sam po sebi ne bira UDP. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
           <pitalica vrsta="kratka">
             <pitanje>Šta radimo sa zakasnelim kadrom?</pitanje>
             <opcije>
               <opcija oznaka="A" drzi="ne">
                 <tekst>Čekamo ga, kao što dokument čeka bajt.</tekst>
-                <razlog>Kadar koji zakasni više ne pripada slici koja je prošla. Ta pretpostavka zanemaruje ključnu razliku: Dokument čeka bajt. Zakasneli kadar sme da se odbaci.</razlog>
+                <razlog>Dokument preko TCP-a traži bajtove. Zakasneli kadar medija nije isti slučaj: aplikacija sme da ga preskoči. Ta pretpostavka zanemaruje ključnu razliku: UDP ne garantuje isporuku. Odluku o zakasnelom kadru donosi aplikacija.</razlog>
               </opcija>
               <opcija oznaka="B" drzi="da">
                 <tekst>Kadar sme da se odbaci, a dokument ne sme da izgubi bajt.</tekst>
-                <razlog>TCP omogućava pouzdan uređen tok bajtova (dok je konekcija uspešna). UDP sme da odbaci glas ili sliku. To je u skladu sa razlikom koju pravi ovaj korak: Dokument čeka bajt. Zakasneli kadar sme da se odbaci.</razlog>
+                <razlog>TCP drži uređen tok bajtova dok veza traje. To ne dokazuje upisanu transakciju, niti da streaming ide preko UDP-a. Aplikacija bira šta radi sa kadrom koji zakasni. To je u skladu sa razlikom koju pravi ovaj korak: UDP ne garantuje isporuku. Odluku o zakasnelom kadru donosi aplikacija.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="5" nivo="Osnovno" minuta="5">
+        <korak broj="5" nivo="Osnovno" minuta="6">
           <naslov>Hipertekst</naslov>
           <tekst>Zašto pratiti ideju, umesto broja stranice? Bush 1945. opisuje Memex. Nelson 1965. kuje reč hipertekst. Veza je adresa drugog teksta, ne ukras na margini.</tekst>
           <kljucna-ideja>Veza vodi na drugi tekst, ne na sledeći broj stranice.</kljucna-ideja>
@@ -152,7 +154,7 @@
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="6" nivo="Osnovno" minuta="5">
+        <korak broj="6" nivo="Osnovno" minuta="6">
           <naslov>Predlog</naslov>
           <tekst>Zašto je laboratoriji fizike uopšte trebalo ovo? Berners-Lee u CERN-u, marta 1989, predlaže povezane dokumente. Šef dopisuje „vague but exciting”. Web je jedna usluga na Internetu, ne sam Internet.</tekst>
           <kljucna-ideja>Web je usluga. Internet je mreža ispod nje.</kljucna-ideja>
@@ -160,18 +162,18 @@
           <pitalica vrsta="kratka">
             <pitanje>Šta je Web u odnosu na Internet?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Web jeste cela mreža.</tekst>
-                <razlog>Mreža već radi pre predloga iz 1989. Ta pretpostavka zanemaruje ključnu razliku: Web je usluga. Internet je mreža ispod nje.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Web je jedna usluga na Internetu.</tekst>
                 <razlog>Predlog rešava dokumente laboratorije, ne kablove. To je u skladu sa razlikom koju pravi ovaj korak: Web je usluga. Internet je mreža ispod nje.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Web jeste cela mreža.</tekst>
+                <razlog>Mreža već radi pre predloga iz 1989. Ta pretpostavka zanemaruje ključnu razliku: Web je usluga. Internet je mreža ispod nje.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="7" nivo="Primena" minuta="5">
+        <korak broj="7" nivo="Primena" minuta="6">
           <naslov>HTTP kao dogovor</naslov>
           <tekst>Mreža može preneti bajtove, ali ne razume šta znači „daj dokument”.</tekst>
           <kljucna-ideja>HTTP definiše zahtev, odgovor, metode, zaglavlja i status.</kljucna-ideja>
@@ -194,7 +196,7 @@
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="8" nivo="Osnovno" minuta="4">
+        <korak broj="8" nivo="Osnovno" minuta="5">
           <naslov>HTML</naslov>
           <tekst>Zašto oznake koje čovek može da otkuca, a ne binarni raspored strane? 1991. izlazi prva javna stranica. Rane oznake nose strukturu: naslov, veza, spisak. Ne nose boju.</tekst>
           <kljucna-ideja>Rana oznaka kaže šta je deo teksta, ne kako je ofarban.</kljucna-ideja>
@@ -213,7 +215,7 @@
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="9" nivo="Osnovno" minuta="4">
+        <korak broj="9" nivo="Osnovno" minuta="5">
           <naslov>Rat browsera</naslov>
           <tekst>Šta se desi stranici kad svaki browser izmisli svoju oznaku? Netscape i Internet Explorer ratuju. Jedan ima blink, drugi marquee. Stranica piše „best viewed in” i puca u drugom browseru. Standard načas izgubi, pa opet postane potreban.</tekst>
           <kljucna-ideja>Privatna oznaka radi samo tamo gde je izmišljena.</kljucna-ideja>
@@ -221,18 +223,18 @@
           <pitalica vrsta="kratka">
             <pitanje>Zašto stranica puca u drugom browseru?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Zato što W3C zabrani oba browsera.</tekst>
-                <razlog>Puca oznaka koju drugi browser ne poznaje. Ta pretpostavka zanemaruje ključnu razliku: Privatna oznaka radi samo tamo gde je izmišljena.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Stranica puca jer browseri izmišljaju svoje oznake.</tekst>
                 <razlog>blink i marquee nisu isti jezik. Stranica traži jedan od njih. To je u skladu sa razlikom koju pravi ovaj korak: Privatna oznaka radi samo tamo gde je izmišljena.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Zato što W3C zabrani oba browsera.</tekst>
+                <razlog>Puca oznaka koju drugi browser ne poznaje. Ta pretpostavka zanemaruje ključnu razliku: Privatna oznaka radi samo tamo gde je izmišljena.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="10" nivo="Primena" minuta="4">
+        <korak broj="10" nivo="Primena" minuta="5">
           <naslov>Od URL-a do prikaza</naslov>
           <tekst>Student unosi URL. Koje stvari moraju da se dese pre prikaza?</tekst>
           <kljucna-ideja>DNS, uspostavljanje veze, zaštita HTTPS-a, HTTP i HTML imaju različite uloge.</kljucna-ideja>
@@ -240,13 +242,13 @@
           <pitalica vrsta="kratka">
             <pitanje>Šta je posao DNS-a?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Da vrati sadržaj HTML-a.</tekst>
-                <razlog>HTML tipično stiže preko HTTP-a, ne iz DNS odgovora.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Da pomogne da se ime domena razreši u adresu.</tekst>
                 <razlog>DNS omogućava razrešavanje imena; browser zatim komunicira sa serverom.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Da vrati sadržaj HTML-a.</tekst>
+                <razlog>HTML tipično stiže preko HTTP-a, ne iz DNS odgovora.</razlog>
               </opcija>
               <opcija oznaka="C" drzi="ne">
                 <tekst>Da odredi boju CSS dugmeta.</tekst>
@@ -255,7 +257,7 @@
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="11" nivo="Osnovno" minuta="4">
+        <korak broj="11" nivo="Osnovno" minuta="5">
           <naslov>Ajax</naslov>
           <tekst>Zašto mapa ne učita novi dokument kad je povučeš? Garrett februara 2005. imenuje obrazac. Gmail i Google Maps ostave dokument na mestu, a zahtev promeni deo. Veb aplikacija nije prezentacioni sajt.</tekst>
           <kljucna-ideja>Dokument ostaje. Zahtev menja deo, ne celu stranu.</kljucna-ideja>
@@ -274,7 +276,7 @@
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="12" nivo="Osnovno" minuta="4">
+        <korak broj="12" nivo="Osnovno" minuta="5">
           <naslov>Dokument</naslov>
           <tekst>Šta od ove nedelje sledeća stranica još nema? Imaće dokument. Još nema jezik u stranici, zahtev koji menja deo, ni server. server/ je i dalje prazan.</tekst>
           <kljucna-ideja>Sledeća nedelja piše dokument. Ostalo čeka svoje časove.</kljucna-ideja>
@@ -290,13 +292,13 @@
           <pitalica vrsta="kratka">
             <pitanje>Šta sledeća nedelja piše?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Server, jezik i Ajax odjednom.</tekst>
-                <razlog>To su kasniji časovi. server/ je prazan. Ta pretpostavka zanemaruje ključnu razliku: Sledeća nedelja piše dokument. Ostalo čeka svoje časove.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Sledeća nedelja piše dokument.</tekst>
                 <razlog>Jezik, delimičan zahtev i server još nisu na stranici. To je u skladu sa razlikom koju pravi ovaj korak: Sledeća nedelja piše dokument. Ostalo čeka svoje časove.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Server, jezik i Ajax odjednom.</tekst>
+                <razlog>To su kasniji časovi. server/ je prazan. Ta pretpostavka zanemaruje ključnu razliku: Sledeća nedelja piše dokument. Ostalo čeka svoje časove.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -404,10 +406,12 @@ zahtev menja deo]]></zapis>
     </nedelja>
     <nedelja broj="2" minuta="90">
       <naslov>Browser: HTML, CSS i prikaz</naslov>
-      <ishod>Dokument, prikaz i merenje nisu ista stvar.</ishod>
-      <preduslov>Web je usluga na Internetu. Stranica je dokument. server/ još nema fajlove.</preduslov>
+      <ishod>Student razlikuje izvorni fajl, živi DOM i merenje, i sastavlja prikaz koji se čita i na uskom ekranu.</ishod>
+      <podnaslov>Dokument, prikaz i merenje nisu ista stvar.</podnaslov>
+      <dopunska-polja format="json"><![CDATA[{"diskusijaMinuta":20}]]></dopunska-polja>
+      <preduslov>Student razlikuje uslugu Weba od mreže paketa i obrazlaže zašto zakasneli kadar i izgubljeni bajt nisu ista odluka.</preduslov>
       <lekcije>
-        <korak broj="1" nivo="Osnovno" minuta="4">
+        <korak broj="1" nivo="Osnovno" minuta="5">
           <naslov>Stranica</naslov>
           <tekst>Stranica počinje praznim dokumentom, ne panelom.</tekst>
           <kljucna-ideja>Element html i atribut lang otvaraju dokument.</kljucna-ideja>
@@ -431,7 +435,7 @@ zahtev menja deo]]></zapis>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="2" nivo="Osnovno" minuta="4">
+        <korak broj="2" nivo="Osnovno" minuta="5">
           <naslov>Glava</naslov>
           <tekst>Charset i naslov dokumenta stoje u glavi, pre sadržaja.</tekst>
           <kljucna-ideja>Element head nosi charset i title. Još nema onoga što se vidi u sobi.</kljucna-ideja>
@@ -458,7 +462,7 @@ zahtev menja deo]]></zapis>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="3" nivo="Osnovno" minuta="4">
+        <korak broj="3" nivo="Osnovno" minuta="5">
           <naslov>Naslov</naslov>
           <tekst>Naslov je deo dokumenta, ne merenje.</tekst>
           <kljucna-ideja>Element h1 je naslov, ne pasus.</kljucna-ideja>
@@ -469,18 +473,18 @@ zahtev menja deo]]></zapis>
           <pitalica vrsta="kratka">
             <pitanje>Osvežavanje stranice...</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Zaboravlja naslov.</tekst>
-                <razlog>Naslov je u fajlu. Ta pretpostavka zanemaruje ključnu razliku: Element h1 je naslov, ne pasus.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Ponovo učita naslov iz fajla.</tekst>
                 <razlog>Dokument se čita iznova. To je u skladu sa razlikom koju pravi ovaj korak: Element h1 je naslov, ne pasus.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Zaboravlja naslov.</tekst>
+                <razlog>Naslov je u fajlu. Ta pretpostavka zanemaruje ključnu razliku: Element h1 je naslov, ne pasus.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="4" nivo="Primena" minuta="4">
+        <korak broj="4" nivo="Primena" minuta="5">
           <naslov>Širina kutije</naslov>
           <tekst>CSS širina podrazumevano nije nužno ukupna širina elementa.</tekst>
           <kljucna-ideja>Content-box dodaje padding i border na deklarisanu width.</kljucna-ideja>
@@ -507,7 +511,7 @@ zahtev menja deo]]></zapis>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="5" nivo="Osnovno" minuta="4">
+        <korak broj="5" nivo="Osnovno" minuta="5">
           <naslov>Broj</naslov>
           <tekst>U pasusu stoji broj, kao običan tekst.</tekst>
           <kljucna-ideja>Element p i atribut class drže 24.</kljucna-ideja>
@@ -529,7 +533,7 @@ zahtev menja deo]]></zapis>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="6" nivo="Osnovno" minuta="4">
+        <korak broj="6" nivo="Osnovno" minuta="5">
           <naslov>Dugme</naslov>
           <tekst>Dugme je element dokumenta. Još ništa ne šalje.</tekst>
           <kljucna-ideja>Element button i atribut type jesu u dokumentu. Komanda dolazi tek kad postoji server.</kljucna-ideja>
@@ -540,18 +544,18 @@ zahtev menja deo]]></zapis>
           <pitalica vrsta="kratka">
             <pitanje>Klik na ovo dugme na času 1...</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Šalje komandu ventilatoru.</tekst>
-                <razlog>Ventilatora i servera još nema. Ta pretpostavka zanemaruje ključnu razliku: Element button i atribut type jesu u dokumentu. Komanda dolazi tek kad postoji server.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Ne menja dokument.</tekst>
                 <razlog>Dugme još nema ponašanje. To je u skladu sa razlikom koju pravi ovaj korak: Element button i atribut type jesu u dokumentu. Komanda dolazi tek kad postoji server.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Šalje komandu ventilatoru.</tekst>
+                <razlog>Ventilatora i servera još nema. Ta pretpostavka zanemaruje ključnu razliku: Element button i atribut type jesu u dokumentu. Komanda dolazi tek kad postoji server.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="7" nivo="Osnovno" minuta="4">
+        <korak broj="7" nivo="Osnovno" minuta="5">
           <naslov>Veza</naslov>
           <tekst>Dokument kaže browseru gde je stil.</tekst>
           <kljucna-ideja>Element link i atribut href učitavaju stil. Broj i dalje stoji u HTML-u.</kljucna-ideja>
@@ -562,18 +566,18 @@ zahtev menja deo]]></zapis>
           <pitalica vrsta="kratka">
             <pitanje>Šta ova veza radi?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Šalje komandu ventilatoru.</tekst>
-                <razlog>Ovo je veza ka stilu, ne komanda. Ta pretpostavka zanemaruje ključnu razliku: Element link i atribut href učitavaju stil. Broj i dalje stoji u HTML-u.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Traži da browser učita stil.</tekst>
                 <razlog>href pokazuje na css fajl. To je u skladu sa razlikom koju pravi ovaj korak: Element link i atribut href učitavaju stil. Broj i dalje stoji u HTML-u.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Šalje komandu ventilatoru.</tekst>
+                <razlog>Ovo je veza ka stilu, ne komanda. Ta pretpostavka zanemaruje ključnu razliku: Element link i atribut href učitavaju stil. Broj i dalje stoji u HTML-u.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="8" nivo="Primena" minuta="4">
+        <korak broj="8" nivo="Primena" minuta="5">
           <naslov>Specifičnost selektora</naslov>
           <tekst>Dva CSS pravila se primenjuju na isti element.</tekst>
           <kljucna-ideja>Cascade poredi poreklo/važnost, specifičnost, redosled i druge faktore.</kljucna-ideja>
@@ -596,7 +600,7 @@ zahtev menja deo]]></zapis>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="9" nivo="Osnovno" minuta="4">
+        <korak broj="9" nivo="Osnovno" minuta="5">
           <naslov>Selektor</naslov>
           <tekst>Klasa bira broj, ne ceo dokument.</tekst>
           <kljucna-ideja>Klasni selektor .digit bira broj. Dokument i dalje kaže 24.</kljucna-ideja>
@@ -607,18 +611,18 @@ zahtev menja deo]]></zapis>
           <pitalica vrsta="kratka">
             <pitanje>Šta .digit bira?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Svaki element na stranici.</tekst>
-                <razlog>Tačka bira klasu, ne sve elemente. Ta pretpostavka zanemaruje ključnu razliku: Klasni selektor .digit bira broj. Dokument i dalje kaže 24.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Element sa klasom digit.</tekst>
                 <razlog>Selektor .digit gleda atribut class. To je u skladu sa razlikom koju pravi ovaj korak: Klasni selektor .digit bira broj. Dokument i dalje kaže 24.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Svaki element na stranici.</tekst>
+                <razlog>Tačka bira klasu, ne sve elemente. Ta pretpostavka zanemaruje ključnu razliku: Klasni selektor .digit bira broj. Dokument i dalje kaže 24.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="10" nivo="Osnovno" minuta="4">
+        <korak broj="10" nivo="Osnovno" minuta="5">
           <naslov>Okvir</naslov>
           <tekst>Kutija dobija ivicu.</tekst>
           <kljucna-ideja>border je ivica kutije. Broj u fajlu i dalje je 24.</kljucna-ideja>
@@ -640,7 +644,7 @@ zahtev menja deo]]></zapis>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="11" nivo="Osnovno" minuta="3">
+        <korak broj="11" nivo="Osnovno" minuta="4">
           <naslov>Osvežavanje</naslov>
           <tekst>U alatima je neko prekucao 24 u 10.</tekst>
           <kljucna-ideja>Osvežavanje vraća dokument. 10 je bio samo lokalni prikaz.</kljucna-ideja>
@@ -662,7 +666,7 @@ zahtev menja deo]]></zapis>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="12" nivo="Primena" minuta="3">
+        <korak broj="12" nivo="Primena" minuta="4">
           <naslov>Raspored pri uskom ekranu</naslov>
           <tekst>Panel treba da radi na desktopu i telefonu bez posebnog HTML-a.</tekst>
           <kljucna-ideja>CSS Grid može prilagoditi broj kolona raspoloživoj širini.</kljucna-ideja>
@@ -673,13 +677,13 @@ zahtev menja deo]]></zapis>
           <pitalica vrsta="kratka">
             <pitanje>Šta grid radi kada nema dovoljno mesta za dve kolone minimalne širine?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Nastavlja da crta dve kolone uz horizontalni overflow u svim slučajevima.</tekst>
-                <razlog>Pravilo auto-fit dozvoljava prelom rasporeda.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Može preći na jednu kolonu.</tekst>
                 <razlog>Broj kolona se prilagođava dostupnom prostoru.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Nastavlja da crta dve kolone uz horizontalni overflow u svim slučajevima.</tekst>
+                <razlog>Pravilo auto-fit dozvoljava prelom rasporeda.</razlog>
               </opcija>
               <opcija oznaka="C" drzi="ne">
                 <tekst>Sam uklanja drugu kontrolu.</tekst>
@@ -688,34 +692,34 @@ zahtev menja deo]]></zapis>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="13" nivo="Osnovno" minuta="3">
+        <korak broj="13" nivo="Osnovno" minuta="4">
           <naslov>Alati</naslov>
           <tekst>Izmena u alatima vidi se odmah na ekranu.</tekst>
-          <kljucna-ideja>Alati menjaju sliku u ovom browseru. Dokument ostaje.</kljucna-ideja>
+          <kljucna-ideja>Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju.</kljucna-ideja>
           <fajl putanja="client/index.html">
             <isecak naslov="Alati" jezik="html"><![CDATA[element.textContent = "10"]]></isecak>
             <u-fajl jezik="html"><![CDATA[<!-- prikaz može da kaže 10; fajl i dalje kaže 24 -->]]></u-fajl>
           </fajl>
-          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Alati menjaju sliku u ovom browseru. Dokument ostaje. U ovom koraku: Izmena u alatima vidi se odmah na ekranu. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
+          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju. U ovom koraku: Izmena u alatima vidi se odmah na ekranu. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
           <pitalica vrsta="kratka">
             <pitanje>Šta je time promenjeno?</pitanje>
             <opcije>
               <opcija oznaka="A" drzi="ne">
                 <tekst>Merenje.</tekst>
-                <razlog>Merenje nismo dirali. Ta pretpostavka zanemaruje ključnu razliku: Alati menjaju sliku u ovom browseru. Dokument ostaje.</razlog>
+                <razlog>Merenje nismo dirali. Ta pretpostavka zanemaruje ključnu razliku: Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju.</razlog>
               </opcija>
-              <opcija oznaka="B" drzi="da">
-                <tekst>Lokalni prikaz, ne dokument.</tekst>
-                <razlog>Fajl i dalje kaže 24. To je u skladu sa razlikom koju pravi ovaj korak: Alati menjaju sliku u ovom browseru. Dokument ostaje.</razlog>
-              </opcija>
-              <opcija oznaka="C" drzi="ne">
+              <opcija oznaka="B" drzi="ne">
                 <tekst>I merenje i dokument.</tekst>
-                <razlog>Dokument se nije sačuvao. Ta pretpostavka zanemaruje ključnu razliku: Alati menjaju sliku u ovom browseru. Dokument ostaje.</razlog>
+                <razlog>Dokument se nije sačuvao. Ta pretpostavka zanemaruje ključnu razliku: Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju.</razlog>
+              </opcija>
+              <opcija oznaka="C" drzi="da">
+                <tekst>Živi DOM, ne izvorni fajl.</tekst>
+                <razlog>Fajl i dalje kaže 24. To je u skladu sa razlikom koju pravi ovaj korak: Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="14" nivo="Osnovno" minuta="3">
+        <korak broj="14" nivo="Osnovno" minuta="4">
           <naslov>Dva zahteva</naslov>
           <tekst>Stranica traži dokument, pa stil.</tekst>
           <kljucna-ideja>Network pokazuje dokument i stil. Čitanje sobe još ne postoji.</kljucna-ideja>
@@ -739,7 +743,7 @@ GET /css/soba.css]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="15" nivo="Osnovno" minuta="3">
+        <korak broj="15" nivo="Osnovno" minuta="4">
           <naslov>Semantika</naslov>
           <tekst>Naslov nije podebljan pasus.</tekst>
           <kljucna-ideja>Semantički HTML ostaje i kad se stil promeni.</kljucna-ideja>
@@ -750,13 +754,13 @@ GET /css/soba.css]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Zašto h1, a ne samo velika slova?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Zato što server tako čita temperaturu.</tekst>
-                <razlog>Server se na ovom času ne pokreće. Ta pretpostavka zanemaruje ključnu razliku: Semantički HTML ostaje i kad se stil promeni.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Zato što dokument kaže šta je naslov.</tekst>
                 <razlog>h1 imenuje naslov. To je u skladu sa razlikom koju pravi ovaj korak: Semantički HTML ostaje i kad se stil promeni.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Zato što server tako čita temperaturu.</tekst>
+                <razlog>Server se na ovom času ne pokreće. Ta pretpostavka zanemaruje ključnu razliku: Semantički HTML ostaje i kad se stil promeni.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -766,7 +770,7 @@ GET /css/soba.css]]></isecak>
         <pojam id="prikaz">
           <naziv>Prikaz</naziv>
           <nagovestaj>ono što ovaj browser crta</nagovestaj>
-          <opis>Prikaz je slika dokumenta u jednom browseru. Izmena u alatima ostaje u toj slici.</opis>
+          <opis>Prikaz je ono što ovaj browser crta. Izmena elementa u alatima menja živi DOM tog dokumenta, a ne izvorni fajl ni merenje.</opis>
           <zapis jezik="html"><![CDATA[<p>24</p>
 <!-- alati pokažu 10, dokument i dalje kaže 24 -->]]></zapis>
         </pojam>
@@ -842,10 +846,12 @@ GET /css/soba.css]]></isecak>
     </nedelja>
     <nedelja broj="3" minuta="90">
       <naslov>JavaScript: vrednosti, objekti i prototipovi</naslov>
-      <ishod>Objekat drži temperaturu. Ekran je još ne crta.</ishod>
-      <preduslov>Dokument, prikaz i merenje nisu ista stvar.</preduslov>
+      <ishod>Student razlikuje broj od teksta pod === i kaže da reduce u primeru vrati zbir, a prosek nastaje deljenjem.</ishod>
+      <podnaslov>Objekat drži temperaturu. Ekran je još ne crta.</podnaslov>
+      <dopunska-polja format="json"><![CDATA[{"diskusijaMinuta":20}]]></dopunska-polja>
+      <preduslov>Student razlikuje izvorni fajl, živi DOM i merenje, i sastavlja prikaz koji se čita i na uskom ekranu.</preduslov>
       <lekcije>
-        <korak broj="1" nivo="Osnovno" minuta="5">
+        <korak broj="1" nivo="Osnovno" minuta="7">
           <naslov>Objekat</naslov>
           <tekst>Stanje stane u jedan objekat, pre bilo kog ekrana.</tekst>
           <kljucna-ideja>Objekat drži temperaturu i željeno stanje prekidača.</kljucna-ideja>
@@ -856,18 +862,18 @@ GET /css/soba.css]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Gde je temperatura?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>U natpisu na dugmetu.</tekst>
-                <razlog>Ekran je još ne čita objekat. Ta pretpostavka zanemaruje ključnu razliku: Objekat drži temperaturu i željeno stanje prekidača.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>U polju objekta.</tekst>
                 <razlog>Objekat drži broj. To je u skladu sa razlikom koju pravi ovaj korak: Objekat drži temperaturu i željeno stanje prekidača.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>U natpisu na dugmetu.</tekst>
+                <razlog>Ekran je još ne čita objekat. Ta pretpostavka zanemaruje ključnu razliku: Objekat drži temperaturu i željeno stanje prekidača.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="2" nivo="Osnovno" minuta="5">
+        <korak broj="2" nivo="Osnovno" minuta="7">
           <naslov>const</naslov>
           <tekst>Ime je vezano. Polje nije.</tekst>
           <kljucna-ideja>const ne zamrzava objekat.</kljucna-ideja>
@@ -891,7 +897,7 @@ soba.temperatura = 25;]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="3" nivo="Primena" minuta="5">
+        <korak broj="3" nivo="Primena" minuta="7">
           <naslov>Primitivna vrednost i referenca</naslov>
           <tekst>Ista naredba dodele ne znači istu vrstu kopiranja.</tekst>
           <kljucna-ideja>Primitivne vrednosti se kopiraju kao vrednosti; objekti dele referencu na isti objekat.</kljucna-ideja>
@@ -899,13 +905,13 @@ soba.temperatura = 25;]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Šta se ispisuje?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>25 25</tekst>
-                <razlog>Promena b ne menja a.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>24 25</tekst>
                 <razlog>a ostaje 24, ali y i x upućuju na isti objekat pa je x.t 25.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>25 25</tekst>
+                <razlog>Promena b ne menja a.</razlog>
               </opcija>
               <opcija oznaka="C" drzi="ne">
                 <tekst>24 24</tekst>
@@ -914,7 +920,7 @@ soba.temperatura = 25;]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="4" nivo="Osnovno" minuta="5">
+        <korak broj="4" nivo="Osnovno" minuta="6">
           <naslov>Drugo ime</naslov>
           <tekst>Dva imena mogu pokazivati na isti objekat.</tekst>
           <kljucna-ideja>Izmena kroz jedno ime vidi se kroz drugo.</kljucna-ideja>
@@ -938,7 +944,7 @@ drugo.temperatura = 26;]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="5" nivo="Osnovno" minuta="5">
+        <korak broj="5" nivo="Osnovno" minuta="6">
           <naslov>Delta</naslov>
           <tekst>Jedna funkcija diže broj za fiksnu deltu.</tekst>
           <kljucna-ideja>Sledeći korak uveća temperaturu za deltu i ne gleda prekidač.</kljucna-ideja>
@@ -966,7 +972,7 @@ function korak(soba) {
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="6" nivo="Osnovno" minuta="5">
+        <korak broj="6" nivo="Osnovno" minuta="6">
           <naslov>Konzola</naslov>
           <tekst>Broj se prati ispisom, ne na displeju.</tekst>
           <kljucna-ideja>Vrednosti se prate u konzoli. DOM se ne vezuje.</kljucna-ideja>
@@ -977,18 +983,18 @@ function korak(soba) {
           <pitalica vrsta="kratka">
             <pitanje>Šta ekranski broj uradi?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Prati konzolu.</tekst>
-                <razlog>Crtanja još nema. Ta pretpostavka zanemaruje ključnu razliku: Vrednosti se prate u konzoli. DOM se ne vezuje.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Ostaje. Konzola je drugi izlaz.</tekst>
                 <razlog>Displej čeka čas 3. To je u skladu sa razlikom koju pravi ovaj korak: Vrednosti se prate u konzoli. DOM se ne vezuje.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Prati konzolu.</tekst>
+                <razlog>Crtanja još nema. Ta pretpostavka zanemaruje ključnu razliku: Vrednosti se prate u konzoli. DOM se ne vezuje.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="7" nivo="Primena" minuta="5">
+        <korak broj="7" nivo="Primena" minuta="6">
           <naslov>Prototipski lanac</naslov>
           <tekst>JavaScript objekat može naslediti ponašanje bez kopiranja svih polja.</tekst>
           <kljucna-ideja>Object.create postavlja prototip; sopstveno svojstvo zasenjuje nasleđeno.</kljucna-ideja>
@@ -1000,18 +1006,18 @@ function korak(soba) {
                 <tekst>on</tekst>
                 <razlog>Sopstveno status svojstvo je obrisano.</razlog>
               </opcija>
-              <opcija oznaka="B" drzi="da">
-                <tekst>off</tekst>
-                <razlog>Pretraga svojstva prelazi na prototip baza gde je status "off".</razlog>
-              </opcija>
-              <opcija oznaka="C" drzi="ne">
+              <opcija oznaka="B" drzi="ne">
                 <tekst>undefined</tekst>
                 <razlog>Svojstvo postoji na prototipu.</razlog>
+              </opcija>
+              <opcija oznaka="C" drzi="da">
+                <tekst>off</tekst>
+                <razlog>Pretraga svojstva prelazi na prototip baza gde je status "off".</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="8" nivo="Osnovno" minuta="4">
+        <korak broj="8" nivo="Osnovno" minuta="5">
           <naslov>filter</naslov>
           <tekst>Niz tačaka bira one iznad praga.</tekst>
           <kljucna-ideja>filter radi jednu stvar: bira tačke.</kljucna-ideja>
@@ -1038,7 +1044,7 @@ function korak(soba) {
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="9" nivo="Osnovno" minuta="4">
+        <korak broj="9" nivo="Osnovno" minuta="5">
           <naslov>map</naslov>
           <tekst>Od tačke ostane visina.</tekst>
           <kljucna-ideja>map vadi visinu. Petlja ostaje za crtanje, kasnije.</kljucna-ideja>
@@ -1054,18 +1060,18 @@ function korak(soba) {
           <pitalica vrsta="kratka">
             <pitanje>Šta map promeni?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Iste tačke, samo sakrije niske.</tekst>
-                <razlog>To radi filter. Ta pretpostavka zanemaruje ključnu razliku: map vadi visinu. Petlja ostaje za crtanje, kasnije.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Svaku tačku pretvori u broj.</tekst>
                 <razlog>Izlaz je niz visina. To je u skladu sa razlikom koju pravi ovaj korak: map vadi visinu. Petlja ostaje za crtanje, kasnije.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Iste tačke, samo sakrije niske.</tekst>
+                <razlog>To radi filter. Ta pretpostavka zanemaruje ključnu razliku: map vadi visinu. Petlja ostaje za crtanje, kasnije.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="10" nivo="Primena" minuta="4">
+        <korak broj="10" nivo="Primena" minuta="5">
           <naslov>Metode, this i klase</naslov>
           <tekst>Kada se funkcija izdvoji iz objekta, gubi se način poziva koji vezuje this.</tekst>
           <kljucna-ideja>this zavisi od oblika poziva; bind čuva izabrani prijemni objekat.</kljucna-ideja>
@@ -1088,10 +1094,10 @@ function korak(soba) {
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="11" nivo="Osnovno" minuta="4">
+        <korak broj="11" nivo="Osnovno" minuta="5">
           <naslov>reduce</naslov>
           <tekst>Visine se saberu u jedan broj.</tekst>
-          <kljucna-ideja>Konzola ispiše visine i prosek. Taj niz još ne crta displej.</kljucna-ideja>
+          <kljucna-ideja>reduce u ovom pozivu vrati zbir. Prosek nastaje tek deljenjem. Ispis još ne crta displej.</kljucna-ideja>
           <fajl putanja="client/js/niz.js">
             <isecak naslov="reduce" jezik="javascript"><![CDATA[function prosek(visine) {
   const zbir = visine.reduce((s, v) => s + v, 0);
@@ -1099,22 +1105,22 @@ function korak(soba) {
 }]]></isecak>
             <u-fajl jezik="javascript"><![CDATA[const zbir = visine.reduce((s, v) => s + v, 0);]]></u-fajl>
           </fajl>
-          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Konzola ispiše visine i prosek. Taj niz još ne crta displej. U ovom koraku: Visine se saberu u jedan broj. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
+          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: reduce u ovom pozivu vrati zbir. Prosek nastaje tek deljenjem. Ispis još ne crta displej. U ovom koraku: Visine se saberu u jedan broj. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.","probaj":"Ispiši vrednost koju vrati reduce, pa vrednost koju vrati prosek."}]]></dopunska-polja>
           <pitalica vrsta="kratka">
             <pitanje>Šta reduce vrati?</pitanje>
             <opcije>
               <opcija oznaka="A" drzi="ne">
                 <tekst>Niz, kao map.</tekst>
-                <razlog>reduce skuplja u jednu vrednost. Ta pretpostavka zanemaruje ključnu razliku: Konzola ispiše visine i prosek. Taj niz još ne crta displej.</razlog>
+                <razlog>reduce skuplja u jednu vrednost, ovde zbir, ne niz. Ta pretpostavka zanemaruje ključnu razliku: reduce u ovom pozivu vrati zbir. Prosek nastaje tek deljenjem. Ispis još ne crta displej.</razlog>
               </opcija>
               <opcija oznaka="B" drzi="da">
-                <tekst>Jednu vrednost, ovde prosek.</tekst>
-                <razlog>Zbir pa deljenje. To je u skladu sa razlikom koju pravi ovaj korak: Konzola ispiše visine i prosek. Taj niz još ne crta displej.</razlog>
+                <tekst>Jednu vrednost, ovde zbir.</tekst>
+                <razlog>Poziv reduce sabira visine. Deljenje koje daje prosek radi funkcija prosek, posle toga. To je u skladu sa razlikom koju pravi ovaj korak: reduce u ovom pozivu vrati zbir. Prosek nastaje tek deljenjem. Ispis još ne crta displej.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="12" nivo="Osnovno" minuta="4">
+        <korak broj="12" nivo="Osnovno" minuta="5">
           <naslov>Tip</naslov>
           <tekst>Broj i tekst istog zapisa nisu ista vrednost.</tekst>
           <kljucna-ideja>Rezervna provera je strogo poređenje broja i teksta temperature.</kljucna-ideja>
@@ -1122,17 +1128,17 @@ function korak(soba) {
             <isecak naslov="Tip" jezik="javascript"><![CDATA[24 === "24"]]></isecak>
             <u-fajl jezik="javascript"><![CDATA[24 === "24" // false]]></u-fajl>
           </fajl>
-          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Rezervna provera je strogo poređenje broja i teksta temperature. U ovom koraku: Broj i tekst istog zapisa nisu ista vrednost. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
+          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Rezervna provera je strogo poređenje broja i teksta temperature. U ovom koraku: Broj i tekst istog zapisa nisu ista vrednost. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.","probaj":"U konzoli uporedi 24 === \"24\" i 24 == \"24\"."}]]></dopunska-polja>
           <pitalica vrsta="kratka">
             <pitanje>Šta === kaže?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
+              <opcija oznaka="A" drzi="da">
+                <tekst>Netačno. Broj nije tekst.</tekst>
+                <razlog>24 i "24" nisu isti tip. === ne pretvara jedno u drugo, pa poređenje ne drži. To je u skladu sa razlikom koju pravi ovaj korak: Rezervna provera je strogo poređenje broja i teksta temperature.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
                 <tekst>Tačno, oba su 24.</tekst>
                 <razlog>Strogo poređenje ne pretvara tip. Ta pretpostavka zanemaruje ključnu razliku: Rezervna provera je strogo poređenje broja i teksta temperature.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
-                <tekst>Netačno. Broj nije tekst.</tekst>
-                <razlog>Jedna promena: kopija polja u novi objekat više ne prati izmenu. To je u skladu sa razlikom koju pravi ovaj korak: Rezervna provera je strogo poređenje broja i teksta temperature.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -1210,10 +1216,12 @@ b.temperatura = 25;]]></zapis>
     </nedelja>
     <nedelja broj="4" minuta="90">
       <naslov>DOM, događaji i prikaz stanja</naslov>
-      <ishod>Klik menja stanje. Poseban kod crta prikaz.</ishod>
-      <preduslov>Objekat drži temperaturu. Ekran je još ne crta.</preduslov>
+      <ishod>Student pokazuje da klik menja stanje, da poseban kod crta prikaz i da closure čuva leksičko okruženje.</ishod>
+      <podnaslov>Klik menja stanje. Poseban kod crta prikaz.</podnaslov>
+      <dopunska-polja format="json"><![CDATA[{"diskusijaMinuta":20}]]></dopunska-polja>
+      <preduslov>Student razlikuje broj od teksta pod === i kaže da reduce u primeru vrati zbir, a prosek nastaje deljenjem.</preduslov>
       <lekcije>
-        <korak broj="1" nivo="Osnovno" minuta="5">
+        <korak broj="1" nivo="Osnovno" minuta="7">
           <naslov>Put klika</naslov>
           <tekst>Klik nije još crtež.</tekst>
           <kljucna-ideja>Ishod časa je taj put, ne jedan poziv koji radi sve.</kljucna-ideja>
@@ -1236,7 +1244,7 @@ b.temperatura = 25;]]></zapis>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="2" nivo="Osnovno" minuta="5">
+        <korak broj="2" nivo="Osnovno" minuta="7">
           <naslov>Funkcija</naslov>
           <tekst>Listener dobija funkciju, ne njen rezultat.</tekst>
           <kljucna-ideja>Listener sa funkcijom čeka klik.</kljucna-ideja>
@@ -1259,7 +1267,7 @@ b.temperatura = 25;]]></zapis>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="3" nivo="Osnovno" minuta="5">
+        <korak broj="3" nivo="Osnovno" minuta="7">
           <naslov>Poziv odmah</naslov>
           <tekst>Zagrade na registraciji znače poziv sada.</tekst>
           <kljucna-ideja>Listener sa pozivom dobija povratnu vrednost i klik nema šta da zove.</kljucna-ideja>
@@ -1271,18 +1279,18 @@ b.temperatura = 25;]]></zapis>
           <pitalica vrsta="kratka">
             <pitanje>Šta klik kasnije ima da zove?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Istu funkciju.</tekst>
-                <razlog>U listener je ušao rezultat, ne funkcija. Ta pretpostavka zanemaruje ključnu razliku: Listener sa pozivom dobija povratnu vrednost i klik nema šta da zove.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Ništa, ako je rezultat undefined.</tekst>
                 <razlog>Poziv se desio odmah. To je u skladu sa razlikom koju pravi ovaj korak: Listener sa pozivom dobija povratnu vrednost i klik nema šta da zove.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Istu funkciju.</tekst>
+                <razlog>U listener je ušao rezultat, ne funkcija. Ta pretpostavka zanemaruje ključnu razliku: Listener sa pozivom dobija povratnu vrednost i klik nema šta da zove.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="4" nivo="Primena" minuta="5">
+        <korak broj="4" nivo="Primena" minuta="7">
           <naslov>Event bubbling</naslov>
           <tekst>Klik na dugme je i događaj u roditeljskom elementu.</tekst>
           <kljucna-ideja>Događaji prolaze kroz faze capture, target i bubble.</kljucna-ideja>
@@ -1294,18 +1302,18 @@ b.temperatura = 25;]]></zapis>
                 <tekst>outer pa inner</tekst>
                 <razlog>Roditelj se u bubble fazi poziva posle cilja.</razlog>
               </opcija>
-              <opcija oznaka="B" drzi="da">
-                <tekst>inner pa outer</tekst>
-                <razlog>Događaj kreće sa cilja i zatim se propagira ka roditelju.</razlog>
-              </opcija>
-              <opcija oznaka="C" drzi="ne">
+              <opcija oznaka="B" drzi="ne">
                 <tekst>Samo inner</tekst>
                 <razlog>Roditelj takođe prima događaj ako propagacija nije zaustavljena.</razlog>
+              </opcija>
+              <opcija oznaka="C" drzi="da">
+                <tekst>inner pa outer</tekst>
+                <razlog>Događaj kreće sa cilja i zatim se propagira ka roditelju.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="5" nivo="Osnovno" minuta="5">
+        <korak broj="5" nivo="Osnovno" minuta="6">
           <naslov>Stanje</naslov>
           <tekst>Handler menja objekat.</tekst>
           <kljucna-ideja>Sledeći korak menja temperaturu u objektu.</kljucna-ideja>
@@ -1327,7 +1335,7 @@ b.temperatura = 25;]]></zapis>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="6" nivo="Osnovno" minuta="5">
+        <korak broj="6" nivo="Osnovno" minuta="6">
           <naslov>Bez crtanja</naslov>
           <tekst>Na ovom koraku panel ne zove crtaj.</tekst>
           <kljucna-ideja>Izostanak crtanja ostavlja novi broj u stanju i star na ekranu.</kljucna-ideja>
@@ -1339,18 +1347,18 @@ b.temperatura = 25;]]></zapis>
           <pitalica vrsta="kratka">
             <pitanje>Šta displej pokaže?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Novi broj, jer se objekat promenio.</tekst>
-                <razlog>Niko nije upisao tekst. Ta pretpostavka zanemaruje ključnu razliku: Izostanak crtanja ostavlja novi broj u stanju i star na ekranu.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Stari broj.</tekst>
                 <razlog>Stanje i prikaz su razdvojeni. To je u skladu sa razlikom koju pravi ovaj korak: Izostanak crtanja ostavlja novi broj u stanju i star na ekranu.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Novi broj, jer se objekat promenio.</tekst>
+                <razlog>Niko nije upisao tekst. Ta pretpostavka zanemaruje ključnu razliku: Izostanak crtanja ostavlja novi broj u stanju i star na ekranu.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="7" nivo="Osnovno" minuta="5">
+        <korak broj="7" nivo="Osnovno" minuta="6">
           <naslov>crtaj</naslov>
           <tekst>Klasa upisuje tekst u element.</tekst>
           <kljucna-ideja>Displej.crtaj upisuje broj. Ista klasa kasnije dobija i sobu mašina.</kljucna-ideja>
@@ -1368,18 +1376,18 @@ b.temperatura = 25;]]></zapis>
           <pitalica vrsta="kratka">
             <pitanje>Ko upisuje cifre?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Sam objekat sobe.</tekst>
-                <razlog>Objekat nema element. Ta pretpostavka zanemaruje ključnu razliku: Displej.crtaj upisuje broj. Ista klasa kasnije dobija i sobu mašina.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Displej.crtaj.</tekst>
                 <razlog>this je instanca na kojoj je metod pozvan. To je u skladu sa razlikom koju pravi ovaj korak: Displej.crtaj upisuje broj. Ista klasa kasnije dobija i sobu mašina.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Sam objekat sobe.</tekst>
+                <razlog>Objekat nema element. Ta pretpostavka zanemaruje ključnu razliku: Displej.crtaj upisuje broj. Ista klasa kasnije dobija i sobu mašina.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="8" nivo="Primena" minuta="5">
+        <korak broj="8" nivo="Primena" minuta="6">
           <naslov>Class je sintaksa iznad prototipa</naslov>
           <tekst>Dve instance dele isti metod, ali ne i sopstvena polja.</tekst>
           <kljucna-ideja>Metode deklarisane u class telu se nalaze na prototipu.</kljucna-ideja>
@@ -1387,13 +1395,13 @@ b.temperatura = 25;]]></zapis>
           <pitalica vrsta="kratka">
             <pitanje>Šta se ispisuje?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="da">
-                <tekst>true</tekst>
-                <razlog>Metoda se deli preko Displej.prototype.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="ne">
+              <opcija oznaka="A" drzi="ne">
                 <tekst>false</tekst>
                 <razlog>Nisu napravljene dve funkcije za dve instance.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="da">
+                <tekst>true</tekst>
+                <razlog>Metoda se deli preko Displej.prototype.</razlog>
               </opcija>
               <opcija oznaka="C" drzi="ne">
                 <tekst>TypeError</tekst>
@@ -1402,7 +1410,7 @@ b.temperatura = 25;]]></zapis>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="9" nivo="Osnovno" minuta="5">
+        <korak broj="9" nivo="Osnovno" minuta="6">
           <naslov>Prekidač</naslov>
           <tekst>Klasa pomera natpis, ne temperaturu.</tekst>
           <kljucna-ideja>Prekidac.crtaj pomera natpis. Oba su ES6 klase.</kljucna-ideja>
@@ -1420,18 +1428,18 @@ b.temperatura = 25;]]></zapis>
           <pitalica vrsta="kratka">
             <pitanje>Šta crtaj prekidača menja?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Broj temperature.</tekst>
-                <razlog>To radi Displej. Ta pretpostavka zanemaruje ključnu razliku: Prekidac.crtaj pomera natpis. Oba su ES6 klase.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Natpis željenog stanja.</tekst>
                 <razlog>Željeno stanje stoji u objektu, natpis na dugmetu. To je u skladu sa razlikom koju pravi ovaj korak: Prekidac.crtaj pomera natpis. Oba su ES6 klase.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Broj temperature.</tekst>
+                <razlog>To radi Displej. Ta pretpostavka zanemaruje ključnu razliku: Prekidac.crtaj pomera natpis. Oba su ES6 klase.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="10" nivo="Osnovno" minuta="5">
+        <korak broj="10" nivo="Osnovno" minuta="6">
           <naslov>Forma</naslov>
           <tekst>Forma na panelu ne sme da osveži dokument.</tekst>
           <kljucna-ideja>Forma na panelu ne osvežava dokument.</kljucna-ideja>
@@ -1454,26 +1462,26 @@ if (forma) forma.addEventListener("submit", (e) => e.preventDefault());]]></isec
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="11" nivo="Osnovno" minuta="5">
+        <korak broj="11" nivo="Osnovno" minuta="6">
           <naslov>Closure</naslov>
           <tekst>Spoljašnja funkcija vrati unutrašnju i pamti prag.</tekst>
-          <kljucna-ideja>Closure je sinhrona funkcija koja vrati funkciju i pamti prag.</kljucna-ideja>
+          <kljucna-ideja>Closure je funkcija zajedno sa pristupom leksičkom okruženju u kome je nastala.</kljucna-ideja>
           <fajl putanja="client/js/niz.js">
             <isecak naslov="Closure" jezik="javascript"><![CDATA[function granica(prag) {
   return (t) => t >= prag;
 }]]></isecak>
           </fajl>
-          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Closure je sinhrona funkcija koja vrati funkciju i pamti prag. U ovom koraku: Spoljašnja funkcija vrati unutrašnju i pamti prag. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
+          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Closure je funkcija zajedno sa pristupom leksičkom okruženju u kome je nastala. U ovom koraku: Spoljašnja funkcija vrati unutrašnju i pamti prag. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
           <pitalica vrsta="kratka">
             <pitanje>Šta unutrašnja funkcija i dalje vidi?</pitanje>
             <opcije>
               <opcija oznaka="A" drzi="ne">
                 <tekst>Samo argumente svog kasnijeg poziva.</tekst>
-                <razlog>Vidi i prag iz spolja. Ta pretpostavka zanemaruje ključnu razliku: Closure je sinhrona funkcija koja vrati funkciju i pamti prag.</razlog>
+                <razlog>Vidi i prag iz spolja. Ta pretpostavka zanemaruje ključnu razliku: Closure je funkcija zajedno sa pristupom leksičkom okruženju u kome je nastala.</razlog>
               </opcija>
               <opcija oznaka="B" drzi="da">
                 <tekst>Prag koji je granica dobila.</tekst>
-                <razlog>To je sinhroni closure. To je u skladu sa razlikom koju pravi ovaj korak: Closure je sinhrona funkcija koja vrati funkciju i pamti prag.</razlog>
+                <razlog>Vidi prag koji je granica dobila. Primer jeste sinhron, ali callback nastao u istoj funkciji vidi ista vezivanja. To je u skladu sa razlikom koju pravi ovaj korak: Closure je funkcija zajedno sa pristupom leksičkom okruženju u kome je nastala.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -1548,10 +1556,12 @@ if (forma) forma.addEventListener("submit", (e) => e.preventDefault());]]></isec
     </nedelja>
     <nedelja broj="5" minuta="90">
       <naslov>Od mrežnog prenosa do HTTP-a i Node.js-a</naslov>
-      <ishod>Jedan zahtev i jedan odgovor. Kutija drži temperaturu.</ishod>
-      <preduslov>Klik menja stanje. Poseban kod crta prikaz.</preduslov>
+      <ishod>Student prati jedan HTTP zahtev od browsera do Node procesa i kaže šta zahtev, a šta odgovor nosi.</ishod>
+      <podnaslov>Jedan zahtev i jedan odgovor. Kutija drži temperaturu.</podnaslov>
+      <dopunska-polja format="json"><![CDATA[{"diskusijaMinuta":20}]]></dopunska-polja>
+      <preduslov>Student pokazuje da klik menja stanje, da poseban kod crta prikaz i da closure čuva leksičko okruženje.</preduslov>
       <lekcije>
-        <korak broj="1" nivo="Osnovno" minuta="5">
+        <korak broj="1" nivo="Osnovno" minuta="4">
           <naslov>Cela poruka</naslov>
           <tekst>Soba prekidača pošalje jednu celu poruku i čeka da stigne cela.</tekst>
           <kljucna-ideja>Naivan prenos pretpostavlja celu poruku, redom.</kljucna-ideja>
@@ -1559,18 +1569,18 @@ if (forma) forma.addEventListener("submit", (e) => e.preventDefault());]]></isec
           <pitalica vrsta="kratka">
             <pitanje>Šta ovaj prenos pretpostavlja?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Da delovi smeju da zamene red.</tekst>
-                <razlog>To pretpostavka još ne priznaje. Ta pretpostavka zanemaruje ključnu razliku: Naivan prenos pretpostavlja celu poruku, redom.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Da poruka stigne cela i redom.</tekst>
                 <razlog>Naivan prenos. To je u skladu sa razlikom koju pravi ovaj korak: Naivan prenos pretpostavlja celu poruku, redom.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Da delovi smeju da zamene red.</tekst>
+                <razlog>To pretpostavka još ne priznaje. Ta pretpostavka zanemaruje ključnu razliku: Naivan prenos pretpostavlja celu poruku, redom.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="2" nivo="Osnovno" minuta="5">
+        <korak broj="2" nivo="Osnovno" minuta="4">
           <naslov>Pad pretpostavke</naslov>
           <tekst>Poruka se izgubi, ili dve polovine zamene red.</tekst>
           <kljucna-ideja>Pretpostavka padne pre nego što se bilo koji protokol imenuje.</kljucna-ideja>
@@ -1578,18 +1588,18 @@ if (forma) forma.addEventListener("submit", (e) => e.preventDefault());]]></isec
           <pitalica vrsta="kratka">
             <pitanje>Šta je time palo?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>HTTP status.</tekst>
-                <razlog>HTTP još nije imenovan. Ta pretpostavka zanemaruje ključnu razliku: Pretpostavka padne pre nego što se bilo koji protokol imenuje.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Pretpostavka da cela poruka stigne redom.</tekst>
                 <razlog>Zato treba delovi i redni brojevi. To je u skladu sa razlikom koju pravi ovaj korak: Pretpostavka padne pre nego što se bilo koji protokol imenuje.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>HTTP status.</tekst>
+                <razlog>HTTP još nije imenovan. Ta pretpostavka zanemaruje ključnu razliku: Pretpostavka padne pre nego što se bilo koji protokol imenuje.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="3" nivo="Osnovno" minuta="5">
+        <korak broj="3" nivo="Osnovno" minuta="4">
           <naslov>Potvrda</naslov>
           <tekst>Popravka još nema ime: delovi, redni brojevi, potvrda prijema.</tekst>
           <kljucna-ideja>Delovi, redni brojevi i potvrda prijema popravljaju naivan prenos.</kljucna-ideja>
@@ -1616,13 +1626,13 @@ if (forma) forma.addEventListener("submit", (e) => e.preventDefault());]]></isec
           <pitalica vrsta="kratka">
             <pitanje>Šta TCP garantuje ovde?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Da će ventilator biti uključen.</tekst>
-                <razlog>Tok bajtova nema taj smisao. Ta pretpostavka zanemaruje ključnu razliku: TCP je pouzdan tok bajtova. Još ne znači „uključi ventilator”.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Da bajtovi stignu pouzdano i redom.</tekst>
                 <razlog>Segmentacija TCP-a nije IP fragmentacija. To je u skladu sa razlikom koju pravi ovaj korak: TCP je pouzdan tok bajtova. Još ne znači „uključi ventilator”.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Da će ventilator biti uključen.</tekst>
+                <razlog>Tok bajtova nema taj smisao. Ta pretpostavka zanemaruje ključnu razliku: TCP je pouzdan tok bajtova. Još ne znači „uključi ventilator”.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -1638,13 +1648,13 @@ if (forma) forma.addEventListener("submit", (e) => e.preventDefault());]]></isec
           <pitalica vrsta="kratka">
             <pitanje>Šta HTTP doda na TCP?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Još jedan redni broj.</tekst>
-                <razlog>Red već drži TCP. Ta pretpostavka zanemaruje ključnu razliku: HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Smisao: šta se traži i koji je status odgovora.</tekst>
                 <razlog>Metod, putanja, zaglavlja, telo, status. To je u skladu sa razlikom koju pravi ovaj korak: HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Još jedan redni broj.</tekst>
+                <razlog>Red već drži TCP. Ta pretpostavka zanemaruje ključnu razliku: HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -1697,13 +1707,13 @@ const server = http.createServer(obrada);
           <pitalica vrsta="kratka">
             <pitanje>Šta createServer uradi?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Otvori browser.</tekst>
-                <razlog>Browser je druga strana. Ta pretpostavka zanemaruje ključnu razliku: http.createServer dolazi pre slušanja porta.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Napravi server koji za svaki zahtev zove obradu.</tekst>
                 <razlog>Još ne sluša port. To je u skladu sa razlikom koju pravi ovaj korak: http.createServer dolazi pre slušanja porta.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Otvori browser.</tekst>
+                <razlog>Browser je druga strana. Ta pretpostavka zanemaruje ključnu razliku: http.createServer dolazi pre slušanja porta.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -1777,18 +1787,18 @@ GET /bilo-sta HTTP/1.1]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Šta browser pokaže za /bilo-sta?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Grešku, jer ta putanja ne postoji.</tekst>
-                <razlog>Za server ona postoji: obrada ne čita req.url, pa svima odgovori isto.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Isti tekst „soba” kao za /api/soba.</tekst>
                 <razlog>Ruta još ne postoji. Server ne razlikuje traženo od netraženog.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Grešku, jer ta putanja ne postoji.</tekst>
+                <razlog>Za server ona postoji: obrada ne čita req.url, pa svima odgovori isto.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="11" nivo="Osnovno" minuta="4">
+        <korak broj="11" nivo="Osnovno" minuta="3">
           <naslov>JSON telo</naslov>
           <tekst>Odgovor postaje JSON tekst sa temperaturom i režimom. Proces koji već radi i dalje vraća „soba” dok se ne pokrene ponovo.</tekst>
           <kljucna-ideja>res.end šalje tekst ili bajtove. Objekat prvo postane tekst kroz JSON.stringify. Izmena server.js važi tek posle ponovnog pokretanja procesa.</kljucna-ideja>
@@ -1810,18 +1820,18 @@ server.listen(8787, () => {
           <pitalica vrsta="kratka">
             <pitanje>Fajl je sačuvan, proces nije ponovo pokrenut. Šta browser dobija?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Novi JSON, jer je fajl sačuvan.</tekst>
-                <razlog>Proces je pročitao server.js kad je krenuo. Sačuvan fajl ne menja proces koji već radi.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Stari tekst „soba”.</tekst>
                 <razlog>Tek Ctrl+C i ponovo node server/server.js učita novu obradu.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Novi JSON, jer je fajl sačuvan.</tekst>
+                <razlog>Proces je pročitao server.js kad je krenuo. Sačuvan fajl ne menja proces koji već radi.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="12" nivo="Osnovno" minuta="4">
+        <korak broj="12" nivo="Osnovno" minuta="3">
           <naslov>Status i zaglavlje</naslov>
           <tekst>Pre tela odgovor nosi status i zaglavlja. Zaglavlje content-type kaže da je telo JSON.</tekst>
           <kljucna-ideja>writeHead šalje status i zaglavlja, end šalje telo. Bez writeHead Node pošalje 200 i nijedno zaglavlje o vrsti tela.</kljucna-ideja>
@@ -1855,7 +1865,7 @@ server.listen(8787, () => {
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="13" nivo="Osnovno" minuta="4">
+        <korak broj="13" nivo="Osnovno" minuta="3">
           <naslov>Jedan odgovor</naslov>
           <tekst>Pisanje statusa, zaglavlja i JSON tela ode u jednu funkciju. Obrada samo kaže koji status i koje telo.</tekst>
           <kljucna-ideja>posalji(res, status, body) piše svaki JSON odgovor istim putem: 200, 404 i 405 se razlikuju samo po argumentima.</kljucna-ideja>
@@ -1891,18 +1901,18 @@ server.listen(8787, () => {
           <pitalica vrsta="kratka">
             <pitanje>Zašto je status argument funkcije?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Da bi svaki odgovor bio 200.</tekst>
-                <razlog>Upravo suprotno: status se menja od odgovora do odgovora.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Da isti kod napiše i uspeh i grešku.</tekst>
                 <razlog>Sledeći koraci šalju 404 i 405 kroz istu funkciju.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Da bi svaki odgovor bio 200.</tekst>
+                <razlog>Upravo suprotno: status se menja od odgovora do odgovora.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="14" nivo="Primena" minuta="4">
+        <korak broj="14" nivo="Primena" minuta="3">
           <naslov>Putanja i metod čine rutu</naslov>
           <tekst>Ista putanja nije isto što i ista operacija.</tekst>
           <kljucna-ideja>HTTP metod utiče na značenje zahteva; server odlučuje koju kombinaciju podržava.</kljucna-ideja>
@@ -1910,22 +1920,22 @@ server.listen(8787, () => {
           <pitalica vrsta="kratka">
             <pitanje>Koji zahtev mora automatski izmeniti temperaturu?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
+              <opcija oznaka="A" drzi="da">
+                <tekst>Nijedan: implementacija i ugovor odlučuju šta je dozvoljeno.</tekst>
+                <razlog>API ugovor definiše podržane rute i način izmene.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
                 <tekst>GET</tekst>
                 <razlog>GET je bezbedna metoda koja ne bi trebalo da menja stanje po zahtevu klijenta.</razlog>
               </opcija>
-              <opcija oznaka="B" drzi="ne">
+              <opcija oznaka="C" drzi="ne">
                 <tekst>PUT</tekst>
                 <razlog>PUT obično postavlja reprezentaciju resursa, ali to ne znači da je svaki PUT endpoint podržan.</razlog>
-              </opcija>
-              <opcija oznaka="C" drzi="da">
-                <tekst>Nijedan: implementacija i ugovor odlučuju šta je dozvoljeno.</tekst>
-                <razlog>API ugovor definiše podržane rute i način izmene.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="15" nivo="Osnovno" minuta="4">
+        <korak broj="15" nivo="Osnovno" minuta="3">
           <naslov>Ruta</naslov>
           <tekst>Obrada pročita putanju iz req.url. Samo /api/soba vraća temperaturu i režim. Sve ostalo dobije 404 sa kratkim telom.</tekst>
           <kljucna-ideja>Endpoint je putanja koju obrada prepoznaje. Za nepoznatu putanju server ipak odgovori: 404 je status, ne ugašen port.</kljucna-ideja>
@@ -1976,7 +1986,7 @@ server.listen(8787, () => {
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="16" nivo="Osnovno" minuta="4">
+        <korak broj="16" nivo="Osnovno" minuta="3">
           <naslov>Metod</naslov>
           <tekst>Ista putanja, drugi metod. PUT /api/soba nije čitanje.</tekst>
           <kljucna-ideja>Ruta je putanja i metod zajedno. Poznata putanja sa nepodržanim metodom dobija 405, ne 404.</kljucna-ideja>
@@ -2015,13 +2025,13 @@ server.listen(8787, () => {
           <pitalica vrsta="kratka">
             <pitanje>Šta dobije PUT /api/soba?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>404.</tekst>
-                <razlog>Putanja postoji. 404 bi reklo da nje nema.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>405.</tekst>
                 <razlog>Putanja postoji, metod ne. Status to razlikuje.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>404.</tekst>
+                <razlog>Putanja postoji. 404 bi reklo da nje nema.</razlog>
               </opcija>
               <opcija oznaka="C" drzi="ne">
                 <tekst>200, jer je putanja tačna.</tekst>
@@ -2030,7 +2040,7 @@ server.listen(8787, () => {
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="17" nivo="Osnovno" minuta="4">
+        <korak broj="17" nivo="Osnovno" minuta="3">
           <naslov>Modul sobe</naslov>
           <tekst>Šta soba vraća ide u poseban fajl. Modul ne zna za HTTP: vraća samo status i telo.</tekst>
           <kljucna-ideja>soba.js izvozi citaj, a citaj vraća { status, body }. server.js je taj koji piše HTTP odgovor.</kljucna-ideja>
@@ -2076,7 +2086,7 @@ module.exports = { citaj };
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="18" nivo="Osnovno" minuta="4">
+        <korak broj="18" nivo="Osnovno" minuta="3">
           <naslov>Stanje na serveru</naslov>
           <tekst>server.js učita modul i drži stanje sobe u procesu. Ruta /api/soba sada pita modul.</tekst>
           <kljucna-ideja>Temperatura živi u procesu servera, u objektu state. require("./soba") se izvrši jednom, kad proces krene.</kljucna-ideja>
@@ -2132,7 +2142,7 @@ server.listen(8787, () => {
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="19" nivo="Primena" minuta="4">
+        <korak broj="19" nivo="Primena" minuta="3">
           <naslov>Konkurentni zahtevi</naslov>
           <tekst>Dva klijenta istovremeno traže podatke.</tekst>
           <kljucna-ideja>Node event loop omogućava obradu događaja; blokirajući kod i dalje može zaustaviti odziv.</kljucna-ideja>
@@ -2155,7 +2165,7 @@ server.listen(8787, () => {
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="20" nivo="Osnovno" minuta="4">
+        <korak broj="20" nivo="Osnovno" minuta="3">
           <naslov>Bez Err</naslov>
           <tekst>Displej iz prošle nedelje nema granu koja piše Err.</tekst>
           <kljucna-ideja>Neuspeh na času 4 ostavlja crte. Dugme Pročitaj šalje jedno čitanje. Sledeći korak na klijentu više nije izvor temperature.</kljucna-ideja>
@@ -2163,13 +2173,13 @@ server.listen(8787, () => {
           <pitalica vrsta="kratka">
             <pitanje>Šta neuspeh uradi displeju?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Upiše Err.</tekst>
-                <razlog>Tu grane još nema. Ta pretpostavka zanemaruje ključnu razliku: Neuspeh na času 4 ostavlja crte. Dugme Pročitaj šalje jedno čitanje. Sledeći korak na klijentu više nije izvor temperature.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Ostavi crte.</tekst>
                 <razlog>Nema broja za neuspeh i nema reči Err. To je u skladu sa razlikom koju pravi ovaj korak: Neuspeh na času 4 ostavlja crte. Dugme Pročitaj šalje jedno čitanje. Sledeći korak na klijentu više nije izvor temperature.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Upiše Err.</tekst>
+                <razlog>Tu grane još nema. Ta pretpostavka zanemaruje ključnu razliku: Neuspeh na času 4 ostavlja crte. Dugme Pročitaj šalje jedno čitanje. Sledeći korak na klijentu više nije izvor temperature.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -2235,10 +2245,12 @@ const soba = JSON.parse(tekst);]]></zapis>
     </nedelja>
     <nedelja broj="6" minuta="90">
       <naslov>Asinhronost, event loop i neuspeh</naslov>
-      <ishod>Čekanje, podatak i greška. 200 nije 500, a 500 nije ugašen port.</ishod>
-      <preduslov>Jedan zahtev i jedan odgovor. Kutija drži temperaturu.</preduslov>
+      <ishod>Student razlikuje čekanje, HTTP 200, HTTP 500 ovog primera i izostanak odgovora.</ishod>
+      <podnaslov>Čekanje, podatak i greška. 200 nije 500, a 500 nije ugašen port.</podnaslov>
+      <dopunska-polja format="json"><![CDATA[{"diskusijaMinuta":20}]]></dopunska-polja>
+      <preduslov>Student prati jedan HTTP zahtev od browsera do Node procesa i kaže šta zahtev, a šta odgovor nosi.</preduslov>
       <lekcije>
-        <korak broj="1" nivo="Osnovno" minuta="5">
+        <korak broj="1" nivo="Osnovno" minuta="7">
           <naslov>Tri stanja</naslov>
           <tekst>Ekran čeka, ima podatak, ili ima grešku.</tekst>
           <kljucna-ideja>Dugme učitava temperaturu. Ekran je u jednom od ta tri stanja.</kljucna-ideja>
@@ -2261,7 +2273,7 @@ const soba = JSON.parse(tekst);]]></zapis>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="2" nivo="Osnovno" minuta="5">
+        <korak broj="2" nivo="Osnovno" minuta="7">
           <naslov>200</naslov>
           <tekst>Uspeh nosi temperaturu i režim.</tekst>
           <kljucna-ideja>HTTP 200 sa temperaturom i režimom upisuje cifre.</kljucna-ideja>
@@ -2274,21 +2286,21 @@ const soba = JSON.parse(tekst);]]></zapis>
           <pitalica vrsta="kratka">
             <pitanje>Šta displej upiše?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Err, jer je broj sa servera.</tekst>
-                <razlog>200 je uspeh. Ta pretpostavka zanemaruje ključnu razliku: HTTP 200 sa temperaturom i režimom upisuje cifre.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Cifre iz tela.</tekst>
                 <razlog>response.ok jeste uspeh. To je u skladu sa razlikom koju pravi ovaj korak: HTTP 200 sa temperaturom i režimom upisuje cifre.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Err, jer je broj sa servera.</tekst>
+                <razlog>200 je uspeh. Ta pretpostavka zanemaruje ključnu razliku: HTTP 200 sa temperaturom i režimom upisuje cifre.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="3" nivo="Osnovno" minuta="5">
+        <korak broj="3" nivo="Osnovno" minuta="6">
           <naslov>Izvučen kabl</naslov>
           <tekst>Pripremljeni 500 jeste ventilator koji nije priključen. Modul sobe to proveri pre čitanja.</tekst>
-          <kljucna-ideja>Izvučen ventilator vraća HTTP 500. Odgovor stiže.</kljucna-ideja>
+          <kljucna-ideja>U ovom primeru izvučen ventilator vraća HTTP 500 i odgovor stiže. Drugi server sme 500 da upotrebi za drugi neuspeh.</kljucna-ideja>
           <fajl putanja="server/soba.js">
             <isecak naslov="Izvučen kabl" jezik="javascript"><![CDATA[  if (!kontekst.state.prikljucen) {
     return { status: 500, body: { greska: "ventilator nije prikljucen" } };
@@ -2310,22 +2322,22 @@ function citaj(kontekst) {
 module.exports = { citaj };
 ]]></ugradjena>
           </fajl>
-          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Izvučen ventilator vraća HTTP 500. Odgovor stiže. U ovom koraku: Pripremljeni 500 jeste ventilator koji nije priključen. Modul sobe to proveri pre čitanja. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
+          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: U ovom primeru izvučen ventilator vraća HTTP 500 i odgovor stiže. Drugi server sme 500 da upotrebi za drugi neuspeh. U ovom koraku: Pripremljeni 500 jeste ventilator koji nije priključen. Modul sobe to proveri pre čitanja. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
           <pitalica vrsta="kratka">
             <pitanje>Da li je odgovor stigao?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Nije. 500 znači tišinu.</tekst>
-                <razlog>Status postoji. Ta pretpostavka zanemaruje ključnu razliku: Izvučen ventilator vraća HTTP 500. Odgovor stiže.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Jeste. Status je 500.</tekst>
-                <razlog>Telo nema temperaturu za displej. To je u skladu sa razlikom koju pravi ovaj korak: Izvučen ventilator vraća HTTP 500. Odgovor stiže.</razlog>
+                <razlog>Telo nema temperaturu za displej. To je u skladu sa razlikom koju pravi ovaj korak: U ovom primeru izvučen ventilator vraća HTTP 500 i odgovor stiže. Drugi server sme 500 da upotrebi za drugi neuspeh.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Nije. 500 znači tišinu.</tekst>
+                <razlog>Status postoji. Ta pretpostavka zanemaruje ključnu razliku: U ovom primeru izvučen ventilator vraća HTTP 500 i odgovor stiže. Drugi server sme 500 da upotrebi za drugi neuspeh.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="4" nivo="Primena" minuta="4">
+        <korak broj="4" nivo="Primena" minuta="5">
           <naslov>Event loop: redosled izvršavanja</naslov>
           <tekst>Kod zakazuje posao, ali callback nije nužno sledeća izvršena linija.</tekst>
           <kljucna-ideja>Sinhroni kod ide prvo, zatim Promise reakcije (microtasks), pa timer task kada dođe na red.</kljucna-ideja>
@@ -2348,7 +2360,7 @@ module.exports = { citaj };
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="5" nivo="Osnovno" minuta="4">
+        <korak broj="5" nivo="Osnovno" minuta="5">
           <naslov>Err</naslov>
           <tekst>Završen neuspeh više ne ostavlja crte.</tekst>
           <kljucna-ideja>Završen status koji nije uspeh piše Err.</kljucna-ideja>
@@ -2359,18 +2371,18 @@ module.exports = { citaj };
           <pitalica vrsta="kratka">
             <pitanje>Šta soba prekidača pokaže na 500?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Poslednje cifre, kao da je uspeh.</tekst>
-                <razlog>Neuspeh ima svoju granu. Ta pretpostavka zanemaruje ključnu razliku: Završen status koji nije uspeh piše Err.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Err.</tekst>
                 <razlog>Nema broja u tom odgovoru. To je u skladu sa razlikom koju pravi ovaj korak: Završen status koji nije uspeh piše Err.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Poslednje cifre, kao da je uspeh.</tekst>
+                <razlog>Neuspeh ima svoju granu. Ta pretpostavka zanemaruje ključnu razliku: Završen status koji nije uspeh piše Err.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="6" nivo="Osnovno" minuta="4">
+        <korak broj="6" nivo="Osnovno" minuta="5">
           <naslov>Nema statusa</naslov>
           <tekst>Proces se ugasi. Zahtev nema HTTP status.</tekst>
           <kljucna-ideja>Isečak piše Err i za status koji nije uspeh i za izostanak odgovora. Nastavnik tu liniju može da izmeni.</kljucna-ideja>
@@ -2395,7 +2407,7 @@ module.exports = { citaj };
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="7" nivo="Primena" minuta="4">
+        <korak broj="7" nivo="Primena" minuta="5">
           <naslov>async/await ne blokira stranicu</naslov>
           <tekst>Dok se čeka mreža, browser može obraditi drugi klik.</tekst>
           <kljucna-ideja>await suspenduje nastavak async funkcije; ne blokira event loop.</kljucna-ideja>
@@ -2418,7 +2430,7 @@ module.exports = { citaj };
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="8" nivo="Osnovno" minuta="4">
+        <korak broj="8" nivo="Osnovno" minuta="5">
           <naslov>fetch</naslov>
           <tekst>Čitanje iz koda dolazi tek sada.</tekst>
           <kljucna-ideja>Isti zahtev sada polazi iz koda. Protokol je i dalje HTTP/1.1.</kljucna-ideja>
@@ -2429,18 +2441,18 @@ module.exports = { citaj };
           <pitalica vrsta="kratka">
             <pitanje>Da li je fetch prvi način da se soba vidi?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Da, adresa u browseru ne važi.</tekst>
-                <razlog>Adresa je bila na času 4. Ta pretpostavka zanemaruje ključnu razliku: Isti zahtev sada polazi iz koda. Protokol je i dalje HTTP/1.1.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Ne. Adresa je već pokazala isti odgovor.</tekst>
                 <razlog>fetch je poziv iz koda. To je u skladu sa razlikom koju pravi ovaj korak: Isti zahtev sada polazi iz koda. Protokol je i dalje HTTP/1.1.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Da, adresa u browseru ne važi.</tekst>
+                <razlog>Adresa je bila na času 4. Ta pretpostavka zanemaruje ključnu razliku: Isti zahtev sada polazi iz koda. Protokol je i dalje HTTP/1.1.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="9" nivo="Osnovno" minuta="4">
+        <korak broj="9" nivo="Osnovno" minuta="5">
           <naslov>Nije catch</naslov>
           <tekst>500 ne skače sam u catch.</tekst>
           <kljucna-ideja>500 ne vodi samo po sebi u catch. Odgovor postoji.</kljucna-ideja>
@@ -2453,18 +2465,18 @@ if (!response.ok) { /* Err */ }]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Gde se 500 vidi?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Samo u catch.</tekst>
-                <razlog>fetch se razreši odgovorom. Ta pretpostavka zanemaruje ključnu razliku: 500 ne vodi samo po sebi u catch. Odgovor postoji.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>U statusu odgovora.</tekst>
                 <razlog>Uspeh se čita iz statusa. To je u skladu sa razlikom koju pravi ovaj korak: 500 ne vodi samo po sebi u catch. Odgovor postoji.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Samo u catch.</tekst>
+                <razlog>fetch se razreši odgovorom. Ta pretpostavka zanemaruje ključnu razliku: 500 ne vodi samo po sebi u catch. Odgovor postoji.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="10" nivo="Osnovno" minuta="4">
+        <korak broj="10" nivo="Osnovno" minuta="5">
           <naslov>await</naslov>
           <tekst>Čekanje stoji unutar jedne funkcije.</tekst>
           <kljucna-ideja>await suspenduje nastavak te async funkcije, ne ceo browser.</kljucna-ideja>
@@ -2489,7 +2501,7 @@ if (!response.ok) { /* Err */ }]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="11" nivo="Primena" minuta="4">
+        <korak broj="11" nivo="Primena" minuta="5">
           <naslov>HTTP 500 nije mrežni izuzetak</naslov>
           <tekst>Status 500 je odgovor, čak i kad operacija nije uspela.</tekst>
           <kljucna-ideja>fetch ne odbacuje Promise samo zbog HTTP 4xx/5xx statusa.</kljucna-ideja>
@@ -2503,13 +2515,13 @@ if (!response.ok) { /* Err */ }]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Šta se dešava ako HTTP odgovor zaista stigne sa statusom 500?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Uvek ulazi u catch.</tekst>
-                <razlog>HTTP odgovor ne odbacuje fetch Promise samo zato što ima grešku statusa.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Ispisuje false, osim drugih grešaka.</tekst>
                 <razlog>response.ok je false za 500; catch je za odbacivanje Promise-a ili bačen izuzetak.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Uvek ulazi u catch.</tekst>
+                <razlog>HTTP odgovor ne odbacuje fetch Promise samo zato što ima grešku statusa.</razlog>
               </opcija>
               <opcija oznaka="C" drzi="ne">
                 <tekst>Ispisuje true.</tekst>
@@ -2518,7 +2530,7 @@ if (!response.ok) { /* Err */ }]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="12" nivo="Osnovno" minuta="4">
+        <korak broj="12" nivo="Osnovno" minuta="5">
           <naslov>Posle uspeha</naslov>
           <tekst>Uspeh upiše cifre. Sledeći neuspeh ih zameni.</tekst>
           <kljucna-ideja>Posle HTTP 200 displej čuva poslednje cifre dok browser ponovo ne pročita kutiju.</kljucna-ideja>
@@ -2530,18 +2542,18 @@ if (!response.ok) { /* Err */ }]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Šta ostane na displeju posle 200, dok nema novog čitanja?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Crte, jer je čitanje gotovo.</tekst>
-                <razlog>Cifre ostaju do sledećeg čitanja. Ta pretpostavka zanemaruje ključnu razliku: Posle HTTP 200 displej čuva poslednje cifre dok browser ponovo ne pročita kutiju.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Poslednje cifre.</tekst>
                 <razlog>Komanda ih ne briše. To je u skladu sa razlikom koju pravi ovaj korak: Posle HTTP 200 displej čuva poslednje cifre dok browser ponovo ne pročita kutiju.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Crte, jer je čitanje gotovo.</tekst>
+                <razlog>Cifre ostaju do sledećeg čitanja. Ta pretpostavka zanemaruje ključnu razliku: Posle HTTP 200 displej čuva poslednje cifre dok browser ponovo ne pročita kutiju.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="13" nivo="Osnovno" minuta="4">
+        <korak broj="13" nivo="Osnovno" minuta="5">
           <naslov>Drugi klik</naslov>
           <tekst>Prvi zahtev još čeka. Stigne drugi klik.</tekst>
           <kljucna-ideja>Drugi klik za vreme čekanja i dalje radi.</kljucna-ideja>
@@ -2626,10 +2638,12 @@ if (!response.ok) displej.textContent = "Err";]]></zapis>
     </nedelja>
     <nedelja broj="7" minuta="90">
       <naslov>API komande, validacija i idempotentnost</naslov>
-      <ishod>Željeno stanje, provera tela i smisao ponavljanja.</ishod>
-      <preduslov>Čekanje, podatak i greška. 200 nije 500, a 500 nije ugašen port.</preduslov>
+      <ishod>Student obrazlaže da ponovljena komanda ima isti nameravani efekat, dok pomoćni zapis sme da se ponovi.</ishod>
+      <podnaslov>Željeno stanje, provera tela i smisao ponavljanja.</podnaslov>
+      <dopunska-polja format="json"><![CDATA[{"diskusijaMinuta":20}]]></dopunska-polja>
+      <preduslov>Student razlikuje čekanje, HTTP 200, HTTP 500 ovog primera i izostanak odgovora.</preduslov>
       <lekcije>
-        <korak broj="1" nivo="Osnovno" minuta="5">
+        <korak broj="1" nivo="Osnovno" minuta="6">
           <naslov>Željeno stanje</naslov>
           <tekst>Komanda kaže u kom stanju ventilator treba da bude.</tekst>
           <kljucna-ideja>Komanda postavlja ventilator na uključeno ili isključeno.</kljucna-ideja>
@@ -2637,18 +2651,18 @@ if (!response.ok) displej.textContent = "Err";]]></zapis>
           <pitalica vrsta="kratka">
             <pitanje>Šta telo nosi?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Koliko je sada stepeni.</tekst>
-                <razlog>Temperatura nije u komandi. Ta pretpostavka zanemaruje ključnu razliku: Komanda postavlja ventilator na uključeno ili isključeno.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Boolean željenog stanja.</tekst>
                 <razlog>Jedno polje. To je u skladu sa razlikom koju pravi ovaj korak: Komanda postavlja ventilator na uključeno ili isključeno.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Koliko je sada stepeni.</tekst>
+                <razlog>Temperatura nije u komandi. Ta pretpostavka zanemaruje ključnu razliku: Komanda postavlja ventilator na uključeno ili isključeno.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="2" nivo="Osnovno" minuta="5">
+        <korak broj="2" nivo="Osnovno" minuta="6">
           <naslov>PUT</naslov>
           <tekst>Komanda je novi zahtev: metod PUT, putanja /api/ventilator, telo sa željenim stanjem. server.js iz pete nedelje tu putanju ne poznaje.</tekst>
           <kljucna-ideja>Komanda je PUT /api/ventilator.</kljucna-ideja>
@@ -2674,7 +2688,7 @@ if (!response.ok) displej.textContent = "Err";]]></zapis>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="3" nivo="Osnovno" minuta="4">
+        <korak broj="3" nivo="Osnovno" minuta="5">
           <naslov>Modul ventilatora</naslov>
           <tekst>Komanda ide u svoj modul, kao čitanje u soba.js. Modul upiše željeno stanje i vrati samo režim.</tekst>
           <kljucna-ideja>ventilator.js izvozi komanda(kontekst, telo). Uspeh vraća { ukljucen }, bez temperature.</kljucna-ideja>
@@ -2708,7 +2722,7 @@ module.exports = { komanda };
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="4" nivo="Osnovno" minuta="4">
+        <korak broj="4" nivo="Osnovno" minuta="5">
           <naslov>Telo stiže u delovima</naslov>
           <tekst>Za razliku od putanje, telo zahteva nije gotovo polje u req. Stiže kao tok, deo po deo, i završi se događajem end.</tekst>
           <kljucna-ideja>procitajTelo skuplja delove dok ne stigne end i vraća Promise sa celim tekstom. server.js se čita kad proces krene: posle izmene, ponovo node server/server.js.</kljucna-ideja>
@@ -2768,13 +2782,13 @@ server.listen(8787, () => {
           <pitalica vrsta="kratka">
             <pitanje>Zašto telo nije odmah u req?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Zato što GET nema telo.</tekst>
-                <razlog>Ovde je PUT, a telo i dalje stiže kasnije od zaglavlja.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Zato što stiže kao tok bajtova, u delovima.</tekst>
                 <razlog>To je TCP iz pete nedelje: obrada čeka end pre nego što ima ceo tekst.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Zato što GET nema telo.</tekst>
+                <razlog>Ovde je PUT, a telo i dalje stiže kasnije od zaglavlja.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -2858,13 +2872,13 @@ server.listen(8787, () => {
                 <tekst>404.</tekst>
                 <razlog>Putanja je sada poznata.</razlog>
               </opcija>
-              <opcija oznaka="B" drzi="da">
-                <tekst>405.</tekst>
-                <razlog>Putanja postoji, ali samo za PUT.</razlog>
-              </opcija>
-              <opcija oznaka="C" drzi="ne">
+              <opcija oznaka="B" drzi="ne">
                 <tekst>200 i trenutni režim.</tekst>
                 <razlog>Ruta za GET na toj putanji ne postoji. Režim se čita kroz /api/soba.</razlog>
+              </opcija>
+              <opcija oznaka="C" drzi="da">
+                <tekst>405.</tekst>
+                <razlog>Putanja postoji, ali samo za PUT.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -2966,13 +2980,13 @@ server.listen(8787, () => {
           <pitalica vrsta="kratka">
             <pitanje>Šta bi se desilo bez try/catch?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Server bi vratio 400 sam od sebe.</tekst>
-                <razlog>Node ne zna šta je ispravno telo. 400 je odluka obrade.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Proces bi pao, i sledeća čitanja ne bi imala odgovor.</tekst>
                 <razlog>Neuhvaćen izuzetak u async obradi obori Node proces. U terminalu ostane greška.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Server bi vratio 400 sam od sebe.</tekst>
+                <razlog>Node ne zna šta je ispravno telo. 400 je odluka obrade.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -2985,13 +2999,13 @@ server.listen(8787, () => {
           <pitalica vrsta="kratka">
             <pitanje>Šta server treba da uradi sa tekstom "da" ako ugovor traži boolean?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Pretvori ga u true bez provere.</tekst>
-                <razlog>Prećutna konverzija krši ugovor.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Odbije neispravan unos, na primer statusom 400.</tekst>
                 <razlog>Server je granica poverenja; string nije boolean.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Pretvori ga u true bez provere.</tekst>
+                <razlog>Prećutna konverzija krši ugovor.</razlog>
               </opcija>
               <opcija oznaka="C" drzi="ne">
                 <tekst>Ignoriše validaciju jer je forma ranije proverena.</tekst>
@@ -3064,13 +3078,13 @@ module.exports = { komanda };
           <pitalica vrsta="kratka">
             <pitanje>Koji je status?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>200, forma bi to ionako sprečila.</tekst>
-                <razlog>Forma ne sprečava drugačije telo. Ta pretpostavka zanemaruje ključnu razliku: Telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>400. Telo nije režim.</tekst>
                 <razlog>Režim u kutiji se ne menja. To je u skladu sa razlikom koju pravi ovaj korak: Telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>200, forma bi to ionako sprečila.</tekst>
+                <razlog>Forma ne sprečava drugačije telo. Ta pretpostavka zanemaruje ključnu razliku: Telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -3144,13 +3158,13 @@ module.exports = { komanda };
           <pitalica vrsta="kratka">
             <pitanje>Šta status kaže o ponavljanju?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Da smeju obe, jer je 200 uspeh.</tekst>
-                <razlog>Status ne kaže da li drugi put poništava. Ta pretpostavka zanemaruje ključnu razliku: Status 200 ne znači da ponavljanje ima isti efekat.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Ništa o smislu drugog slanja.</tekst>
                 <razlog>Smisao je u tome šta telo traži. To je u skladu sa razlikom koju pravi ovaj korak: Status 200 ne znači da ponavljanje ima isti efekat.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Da smeju obe, jer je 200 uspeh.</tekst>
+                <razlog>Status ne kaže da li drugi put poništava. Ta pretpostavka zanemaruje ključnu razliku: Status 200 ne znači da ponavljanje ima isti efekat.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -3158,7 +3172,7 @@ module.exports = { komanda };
         <korak broj="15" nivo="Osnovno" minuta="4">
           <naslov>Kabl napolju</naslov>
           <tekst>Komanda traži uključeno, ventilator nije priključen.</tekst>
-          <kljucna-ideja>Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500.</kljucna-ideja>
+          <kljucna-ideja>U ovom primeru komanda uključenja dok ventilator nije priključen dobija HTTP 500. To je izabrani slučaj simulatora, ne značenje statusa.</kljucna-ideja>
           <fajl putanja="server/ventilator.js">
             <isecak naslov="Kabl napolju" jezik="javascript"><![CDATA[  if (telo.ukljucen && !kontekst.state.prikljucen) {
     return { status: 500, body: { greska: "ventilator nije prikljucen" } };
@@ -3181,17 +3195,17 @@ function komanda(kontekst, telo) {
 module.exports = { komanda };
 ]]></ugradjena>
           </fajl>
-          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500. U ovom koraku: Komanda traži uključeno, ventilator nije priključen. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
+          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: U ovom primeru komanda uključenja dok ventilator nije priključen dobija HTTP 500. To je izabrani slučaj simulatora, ne značenje statusa. U ovom koraku: Komanda traži uključeno, ventilator nije priključen. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
           <pitalica vrsta="kratka">
             <pitanje>Šta lopatice urade?</pitanje>
             <opcije>
               <opcija oznaka="A" drzi="ne">
                 <tekst>Krenu, jer prekidač tako kaže.</tekst>
-                <razlog>Nema kabla. Režim se ne uključi. Ta pretpostavka zanemaruje ključnu razliku: Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500.</razlog>
+                <razlog>Nema kabla. Režim se ne uključi. Ta pretpostavka zanemaruje ključnu razliku: U ovom primeru komanda uključenja dok ventilator nije priključen dobija HTTP 500. To je izabrani slučaj simulatora, ne značenje statusa.</razlog>
               </opcija>
               <opcija oznaka="B" drzi="da">
                 <tekst>Ne vrte se. Prekidač sme da ostane na uključi.</tekst>
-                <razlog>Odgovor je 500. To je u skladu sa razlikom koju pravi ovaj korak: Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500.</razlog>
+                <razlog>Odgovor je 500. To je u skladu sa razlikom koju pravi ovaj korak: U ovom primeru komanda uključenja dok ventilator nije priključen dobija HTTP 500. To je izabrani slučaj simulatora, ne značenje statusa.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -3288,13 +3302,13 @@ server.listen(8787, () => {
           <pitalica vrsta="kratka">
             <pitanje>Šta veliko telo dobije?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>200 i odsečen JSON.</tekst>
-                <razlog>Neispravan ili prevelik unos se odbija. Ta pretpostavka zanemaruje ključnu razliku: Pomoćni kod odbija prevelik unos i neispravan JSON.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Odbijenicu, pre nego što postane režim.</tekst>
                 <razlog>Režim se ne pogađa iz otpada. To je u skladu sa razlikom koju pravi ovaj korak: Pomoćni kod odbija prevelik unos i neispravan JSON.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>200 i odsečen JSON.</tekst>
+                <razlog>Neispravan ili prevelik unos se odbija. Ta pretpostavka zanemaruje ključnu razliku: Pomoćni kod odbija prevelik unos i neispravan JSON.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -3360,10 +3374,12 @@ HTTP/1.1 400]]></zapis>
     </nedelja>
     <nedelja broj="8" minuta="90">
       <naslov>PostgreSQL, transakcije i Docker</naslov>
-      <ishod>Režim i istorija su jedna transakcija.</ishod>
-      <preduslov>Željeno stanje, provera tela i smisao ponavljanja.</preduslov>
+      <ishod>Student objašnjava zašto režim i istorija ulaze u jednu transakciju i šta se povlači kad drugi upit padne.</ishod>
+      <podnaslov>Režim i istorija su jedna transakcija.</podnaslov>
+      <dopunska-polja format="json"><![CDATA[{"diskusijaMinuta":20}]]></dopunska-polja>
+      <preduslov>Student obrazlaže da ponovljena komanda ima isti nameravani efekat, dok pomoćni zapis sme da se ponovi.</preduslov>
       <lekcije>
-        <korak broj="1" nivo="Osnovno" minuta="4">
+        <korak broj="1" nivo="Osnovno" minuta="6">
           <naslov>Parametar</naslov>
           <tekst>Vrednost ulazi kao parametar, ne lepljenjem teksta.</tekst>
           <kljucna-ideja>Upit je parametrizovan.</kljucna-ideja>
@@ -3406,18 +3422,18 @@ module.exports = { komanda };
           <pitalica vrsta="kratka">
             <pitanje>Zašto $1?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Da se tekst komande spoji u SQL.</tekst>
-                <razlog>Lepljenje teksta je drugi čas, kao opomena. Ta pretpostavka zanemaruje ključnu razliku: Upit je parametrizovan.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Da vrednost ostane podatak, ne deo upita.</tekst>
                 <razlog>Upit je parametrizovan. To je u skladu sa razlikom koju pravi ovaj korak: Upit je parametrizovan.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Da se tekst komande spoji u SQL.</tekst>
+                <razlog>Lepljenje teksta je drugi čas, kao opomena. Ta pretpostavka zanemaruje ključnu razliku: Upit je parametrizovan.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="2" nivo="Osnovno" minuta="4">
+        <korak broj="2" nivo="Osnovno" minuta="5">
           <naslov>Dva reda</naslov>
           <tekst>Režim i istorija su dva upisa.</tekst>
           <kljucna-ideja>Čitanje i izmena režima idu uz zapis komande.</kljucna-ideja>
@@ -3477,7 +3493,7 @@ module.exports = { komanda };
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="3" nivo="Osnovno" minuta="4">
+        <korak broj="3" nivo="Osnovno" minuta="5">
           <naslov>BEGIN</naslov>
           <tekst>Dva upita ulaze u jednu transakciju.</tekst>
           <kljucna-ideja>Povezani upis režima i istorije je jedna transakcija.</kljucna-ideja>
@@ -3527,18 +3543,18 @@ module.exports = { komanda };
           <pitalica vrsta="kratka">
             <pitanje>Šta BEGIN otvori?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Novi Node proces.</tekst>
-                <razlog>Proces već radi. Ta pretpostavka zanemaruje ključnu razliku: Povezani upis režima i istorije je jedna transakcija.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Transakciju koja još nije potvrđena.</tekst>
                 <razlog>COMMIT ili ROLLBACK je zatvaraju. To je u skladu sa razlikom koju pravi ovaj korak: Povezani upis režima i istorije je jedna transakcija.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Novi Node proces.</tekst>
+                <razlog>Proces već radi. Ta pretpostavka zanemaruje ključnu razliku: Povezani upis režima i istorije je jedna transakcija.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="4" nivo="Osnovno" minuta="4">
+        <korak broj="4" nivo="Osnovno" minuta="5">
           <naslov>COMMIT</naslov>
           <tekst>Oba upita su prošla.</tekst>
           <kljucna-ideja>Ili oba uspeju, ili se oba povuku.</kljucna-ideja>
@@ -3600,7 +3616,7 @@ module.exports = { komanda };
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="5" nivo="Primena" minuta="4">
+        <korak broj="5" nivo="Primena" minuta="5">
           <naslov>Zašto SQL parametri?</naslov>
           <tekst>SQL tekst i vrednost iz zahteva nisu ista stvar.</tekst>
           <kljucna-ideja>Parametrizovani upit sprečava da ulazni podatak promeni strukturu SQL naredbe.</kljucna-ideja>
@@ -3629,7 +3645,7 @@ module.exports = { komanda };
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="6" nivo="Osnovno" minuta="4">
+        <korak broj="6" nivo="Osnovno" minuta="5">
           <naslov>ROLLBACK</naslov>
           <tekst>Drugi upit u transakciji padne.</tekst>
           <kljucna-ideja>Jedna promena: drugi upit ne uspe, pa se prvi povuče.</kljucna-ideja>
@@ -3685,18 +3701,18 @@ module.exports = { komanda };
           <pitalica vrsta="kratka">
             <pitanje>Šta ostane od prvog upita?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Režim, istorija može kasnije.</tekst>
-                <razlog>Transakcija se povlači cela. Ta pretpostavka zanemaruje ključnu razliku: Jedna promena: drugi upit ne uspe, pa se prvi povuče.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Ni režim ni istorija te transakcije.</tekst>
                 <razlog>Restart ne spaja ono što nije bilo jedna transakcija. To je u skladu sa razlikom koju pravi ovaj korak: Jedna promena: drugi upit ne uspe, pa se prvi povuče.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Režim, istorija može kasnije.</tekst>
+                <razlog>Transakcija se povlači cela. Ta pretpostavka zanemaruje ključnu razliku: Jedna promena: drugi upit ne uspe, pa se prvi povuče.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="7" nivo="Osnovno" minuta="4">
+        <korak broj="7" nivo="Osnovno" minuta="5">
           <naslov>Restart procesa</naslov>
           <tekst>Node se ugasi i ponovo podigne. Baza ostane.</tekst>
           <kljucna-ideja>Restart samo Node procesa čuva režim upisan u jednoj transakciji.</kljucna-ideja>
@@ -3708,18 +3724,18 @@ module.exports = { komanda };
           <pitalica vrsta="kratka">
             <pitanje>Šta sledeće čitanje vidi?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Podrazumevano isključeno, proces je nov.</tekst>
-                <razlog>Uspešna transakcija je u bazi. Ta pretpostavka zanemaruje ključnu razliku: Restart samo Node procesa čuva režim upisan u jednoj transakciji.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Režim iz uspele transakcije.</tekst>
                 <razlog>Restart samo procesa ne briše bazu. To je u skladu sa razlikom koju pravi ovaj korak: Restart samo Node procesa čuva režim upisan u jednoj transakciji.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Podrazumevano isključeno, proces je nov.</tekst>
+                <razlog>Uspešna transakcija je u bazi. Ta pretpostavka zanemaruje ključnu razliku: Restart samo Node procesa čuva režim upisan u jednoj transakciji.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="8" nivo="Osnovno" minuta="4">
+        <korak broj="8" nivo="Osnovno" minuta="5">
           <naslov>Dva odvojena upita</naslov>
           <tekst>Neko uradi UPDATE, pa kasnije INSERT, bez BEGIN.</tekst>
           <kljucna-ideja>Restart ne spaja dva odvojena upita.</kljucna-ideja>
@@ -3744,7 +3760,7 @@ INSERT;]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="9" nivo="Osnovno" minuta="4">
+        <korak broj="9" nivo="Osnovno" minuta="5">
           <naslov>Kontejner</naslov>
           <tekst>Kontejner se obriše. Disk baze ostane.</tekst>
           <kljucna-ideja>Kontejner sam ne čini upise atomskim ni trajnim.</kljucna-ideja>
@@ -3755,18 +3771,18 @@ INSERT;]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Šta nestane?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>I režim, jer je kontejner držao podatak u sebi.</tekst>
-                <razlog>Trajnost je na disku, ne u imenu kontejnera. Ta pretpostavka zanemaruje ključnu razliku: Kontejner sam ne čini upise atomskim ni trajnim.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Proces baze. Podatak ostaje ako disk ostane.</tekst>
                 <razlog>Kontejner nije atomičnost upisa. To je u skladu sa razlikom koju pravi ovaj korak: Kontejner sam ne čini upise atomskim ni trajnim.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>I režim, jer je kontejner držao podatak u sebi.</tekst>
+                <razlog>Trajnost je na disku, ne u imenu kontejnera. Ta pretpostavka zanemaruje ključnu razliku: Kontejner sam ne čini upise atomskim ni trajnim.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="10" nivo="Primena" minuta="4">
+        <korak broj="10" nivo="Primena" minuta="5">
           <naslov>Transakcija i pad procesa</naslov>
           <tekst>Posle UPDATE, pre INSERT zapisa u istoriju, proces padne.</tekst>
           <kljucna-ideja>Transakcija štiti atomski upis: ili oba, ili nijedan.</kljucna-ideja>
@@ -3774,13 +3790,13 @@ INSERT;]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Ako do greške dođe pre COMMIT, šta važi?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>UPDATE mora ostati sačuvan.</tekst>
-                <razlog>Bez potvrđene transakcije nije garantovan trajni efekat.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Nepotvrđene izmene te transakcije se povlače.</tekst>
                 <razlog>PostgreSQL povlači nepotvrđenu transakciju pri prekidu konekcije.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>UPDATE mora ostati sačuvan.</tekst>
+                <razlog>Bez potvrđene transakcije nije garantovan trajni efekat.</razlog>
               </opcija>
               <opcija oznaka="C" drzi="ne">
                 <tekst>INSERT se izvršava naknadno automatski.</tekst>
@@ -3789,7 +3805,7 @@ INSERT;]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="11" nivo="Osnovno" minuta="4">
+        <korak broj="11" nivo="Osnovno" minuta="5">
           <naslov>Disk</naslov>
           <tekst>Obriše se i trajno skladište.</tekst>
           <kljucna-ideja>Demonstracija razlikuje restart procesa, uklanjanje kontejnera i uklanjanje trajnog skladišta.</kljucna-ideja>
@@ -3812,7 +3828,7 @@ INSERT;]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="12" nivo="Osnovno" minuta="4">
+        <korak broj="12" nivo="Osnovno" minuta="5">
           <naslov>Credential</naslov>
           <tekst>Browser traži sobu.</tekst>
           <kljucna-ideja>Browser ne dobija credential baze.</kljucna-ideja>
@@ -3824,18 +3840,18 @@ INSERT;]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Šta odgovor ne sme da nosi?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Temperaturu.</tekst>
-                <razlog>To jeste čitanje. Ta pretpostavka zanemaruje ključnu razliku: Browser ne dobija credential baze.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Credential baze.</tekst>
                 <razlog>Oni ostaju na kutiji. To je u skladu sa razlikom koju pravi ovaj korak: Browser ne dobija credential baze.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Temperaturu.</tekst>
+                <razlog>To jeste čitanje. Ta pretpostavka zanemaruje ključnu razliku: Browser ne dobija credential baze.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="13" nivo="Osnovno" minuta="4">
+        <korak broj="13" nivo="Osnovno" minuta="5">
           <naslov>Put</naslov>
           <tekst>Zahtev dođe, upit prođe, rezultat se vrati.</tekst>
           <kljucna-ideja>Ishod časa je taj put. Baza ne vidi telo koje nije režim.</kljucna-ideja>
@@ -3854,7 +3870,7 @@ INSERT;]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="14" nivo="Osnovno" minuta="3">
+        <korak broj="14" nivo="Osnovno" minuta="4">
           <naslov>Istorija nije sporedna</naslov>
           <tekst>Režim jeste upisan, red istorije nije.</tekst>
           <kljucna-ideja>Evidencija nije pouzdana dok režim i istorija nisu jedna transakcija.</kljucna-ideja>
@@ -3932,10 +3948,12 @@ COMMIT;]]></zapis>
     </nedelja>
     <nedelja broj="9" minuta="90">
       <naslov>Svežina podataka, periodično čitanje i push</naslov>
-      <ishod>Displej čuva poslednje čitanje. Takt ga ne pomera.</ishod>
-      <preduslov>Režim i istorija su jedna transakcija.</preduslov>
+      <ishod>Student razlikuje redosled dolaska odgovora od svežine očitavanja i kaže šta takt ne pomera.</ishod>
+      <podnaslov>Displej čuva poslednje čitanje. Takt ga ne pomera.</podnaslov>
+      <dopunska-polja format="json"><![CDATA[{"diskusijaMinuta":20}]]></dopunska-polja>
+      <preduslov>Student objašnjava zašto režim i istorija ulaze u jednu transakciju i šta se povlači kad drugi upit padne.</preduslov>
       <lekcije>
-        <korak broj="1" nivo="Osnovno" minuta="4">
+        <korak broj="1" nivo="Osnovno" minuta="6">
           <naslov>Miruje</naslov>
           <tekst>Takt u kutiji menja broj. Displej sobe prekidača stoji.</tekst>
           <kljucna-ideja>Displej stoji jer ga ne pomera ni takt ni odgovor komande.</kljucna-ideja>
@@ -3947,18 +3965,18 @@ COMMIT;]]></zapis>
           <pitalica vrsta="kratka">
             <pitanje>Zašto displej stoji?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Zato što je takt stao.</tekst>
-                <razlog>Takt i dalje radi u procesu. Ta pretpostavka zanemaruje ključnu razliku: Displej stoji jer ga ne pomera ni takt ni odgovor komande.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Zato što ga ni takt ni komanda ne pomeraju.</tekst>
                 <razlog>Treba novo čitanje. To je u skladu sa razlikom koju pravi ovaj korak: Displej stoji jer ga ne pomera ni takt ni odgovor komande.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Zato što je takt stao.</tekst>
+                <razlog>Takt i dalje radi u procesu. Ta pretpostavka zanemaruje ključnu razliku: Displej stoji jer ga ne pomera ni takt ni odgovor komande.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="2" nivo="Osnovno" minuta="4">
+        <korak broj="2" nivo="Osnovno" minuta="5">
           <naslov>Trenutak</naslov>
           <tekst>Očitavanje više nije samo broj.</tekst>
           <kljucna-ideja>Očitavanje nosi vrednost i trenutak.</kljucna-ideja>
@@ -3992,18 +4010,18 @@ module.exports = { citaj };
           <pitalica vrsta="kratka">
             <pitanje>Šta očitavanje nosi?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Samo temperaturu.</tekst>
-                <razlog>Starost se ne vidi iz samog broja. Ta pretpostavka zanemaruje ključnu razliku: Očitavanje nosi vrednost i trenutak.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Vrednost i trenutak.</tekst>
                 <razlog>Displej može da pokaže starost. To je u skladu sa razlikom koju pravi ovaj korak: Očitavanje nosi vrednost i trenutak.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Samo temperaturu.</tekst>
+                <razlog>Starost se ne vidi iz samog broja. Ta pretpostavka zanemaruje ključnu razliku: Očitavanje nosi vrednost i trenutak.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="3" nivo="Osnovno" minuta="4">
+        <korak broj="3" nivo="Osnovno" minuta="5">
           <naslov>Starost</naslov>
           <tekst>Pored cifara stoji trenutak.</tekst>
           <kljucna-ideja>Displej pokazuje starost. Broj nije sam od sebe sadašnjost.</kljucna-ideja>
@@ -4026,7 +4044,7 @@ module.exports = { citaj };
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="4" nivo="Osnovno" minuta="4">
+        <korak broj="4" nivo="Osnovno" minuta="5">
           <naslov>Odmah jedno</naslov>
           <tekst>Prekidač periodičnog čitanja se uključi.</tekst>
           <kljucna-ideja>Uključivanje odmah pošalje jedno čitanje, pa ga ponavlja.</kljucna-ideja>
@@ -4038,18 +4056,18 @@ setInterval(procitaj, 4000);]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Šta se desi u tom trenutku?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Čeka se pun interval, pa prvo čitanje.</tekst>
-                <razlog>Čas šalje jedno odmah. Ta pretpostavka zanemaruje ključnu razliku: Uključivanje odmah pošalje jedno čitanje, pa ga ponavlja.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Ode jedno čitanje odmah, pa se ponavlja.</tekst>
                 <razlog>Dugme Pročitaj i dalje šalje jedno. To je u skladu sa razlikom koju pravi ovaj korak: Uključivanje odmah pošalje jedno čitanje, pa ga ponavlja.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Čeka se pun interval, pa prvo čitanje.</tekst>
+                <razlog>Čas šalje jedno odmah. Ta pretpostavka zanemaruje ključnu razliku: Uključivanje odmah pošalje jedno čitanje, pa ga ponavlja.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="5" nivo="Primena" minuta="4">
+        <korak broj="5" nivo="Primena" minuta="5">
           <naslov>Novije merenje stiže ranije</naslov>
           <tekst>Odgovori dva GET zahteva stižu van redosleda slanja.</tekst>
           <kljucna-ideja>Vreme merenja i vreme prijema nisu ista informacija.</kljucna-ideja>
@@ -4057,13 +4075,13 @@ setInterval(procitaj, 4000);]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Koje očitavanje treba da ostane?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>A, jer je poslednje primljeno.</tekst>
-                <razlog>Redosled dolaska ne garantuje svežinu.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>B, jer ima noviju verziju.</tekst>
                 <razlog>Version 11 označava novije stanje u ovom modelu.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>A, jer je poslednje primljeno.</tekst>
+                <razlog>Redosled dolaska ne garantuje svežinu.</razlog>
               </opcija>
               <opcija oznaka="C" drzi="ne">
                 <tekst>Nasumično odabrano.</tekst>
@@ -4072,7 +4090,7 @@ setInterval(procitaj, 4000);]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="6" nivo="Osnovno" minuta="4">
+        <korak broj="6" nivo="Osnovno" minuta="5">
           <naslov>Neuspeo krug</naslov>
           <tekst>Jedan krug u nizu dobije 500.</tekst>
           <kljucna-ideja>Neuspeo krug piše Err istom granom kao Pročitaj.</kljucna-ideja>
@@ -4095,7 +4113,7 @@ setInterval(procitaj, 4000);]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="7" nivo="Osnovno" minuta="4">
+        <korak broj="7" nivo="Osnovno" minuta="5">
           <naslov>Stariji gubi</naslov>
           <tekst>Sporiji zahtev, meren ranije, stiže posle bržeg.</tekst>
           <kljucna-ideja>Sa proverom, noviji broj ostaje. Bez provere, stariji pregazi ekran.</kljucna-ideja>
@@ -4107,18 +4125,18 @@ setInterval(procitaj, 4000);]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Šta ostane na ekranu dok je provera uključena?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Stariji broj, jer je stigao poslednji.</tekst>
-                <razlog>Poslednji dolazak nije novije merenje. Ta pretpostavka zanemaruje ključnu razliku: Sa proverom, noviji broj ostaje. Bez provere, stariji pregazi ekran.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Noviji broj.</tekst>
                 <razlog>Stariji trenutak se odbaci. To je u skladu sa razlikom koju pravi ovaj korak: Sa proverom, noviji broj ostaje. Bez provere, stariji pregazi ekran.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Stariji broj, jer je stigao poslednji.</tekst>
+                <razlog>Poslednji dolazak nije novije merenje. Ta pretpostavka zanemaruje ključnu razliku: Sa proverom, noviji broj ostaje. Bez provere, stariji pregazi ekran.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="8" nivo="Osnovno" minuta="4">
+        <korak broj="8" nivo="Osnovno" minuta="5">
           <naslov>Komanda nije čitanje</naslov>
           <tekst>Stigao je 200 na PUT.</tekst>
           <kljucna-ideja>Odgovor komande ne osvežava temperaturu sobe prekidača.</kljucna-ideja>
@@ -4141,7 +4159,7 @@ setInterval(procitaj, 4000);]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="9" nivo="Osnovno" minuta="4">
+        <korak broj="9" nivo="Osnovno" minuta="5">
           <naslov>Push</naslov>
           <tekst>Soba mašina se pomeri iako Pročitaj nije pritisnut.</tekst>
           <kljucna-ideja>Push puni samo sobu mašina. Soba prekidača ga ne koristi.</kljucna-ideja>
@@ -4164,7 +4182,7 @@ setInterval(procitaj, 4000);]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="10" nivo="Primena" minuta="4">
+        <korak broj="10" nivo="Primena" minuta="5">
           <naslov>Interval i preklapanje</naslov>
           <tekst>Čitanje traje šest sekundi, a novi interval se pali svake četiri.</tekst>
           <kljucna-ideja>Naivni setInterval može pokrenuti preklopljena čitanja.</kljucna-ideja>
@@ -4192,7 +4210,7 @@ setInterval(procitaj, 4000);]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="11" nivo="Osnovno" minuta="4">
+        <korak broj="11" nivo="Osnovno" minuta="5">
           <naslov>Nema push</naslov>
           <tekst>Drugi način da soba prekidača sazna broj ovde se ne gradi.</tekst>
           <kljucna-ideja>Displej prekidača i dalje čita. Novi server se ne uvodi.</kljucna-ideja>
@@ -4204,18 +4222,18 @@ setInterval(procitaj, 4000);]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Šta čas od njih napravi?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Push na displej prekidača.</tekst>
-                <razlog>Ovaj čas to ne pravi. Ta pretpostavka zanemaruje ključnu razliku: Displej prekidača i dalje čita. Novi server se ne uvodi.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Ništa novo. Displej prekidača i dalje čita.</tekst>
                 <razlog>Čitanje ostaje ovde. To je u skladu sa razlikom koju pravi ovaj korak: Displej prekidača i dalje čita. Novi server se ne uvodi.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Push na displej prekidača.</tekst>
+                <razlog>Ovaj čas to ne pravi. Ta pretpostavka zanemaruje ključnu razliku: Displej prekidača i dalje čita. Novi server se ne uvodi.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="12" nivo="Osnovno" minuta="4">
+        <korak broj="12" nivo="Osnovno" minuta="5">
           <naslov>Pročitaj ostaje</naslov>
           <tekst>Periodično čitanje je uključeno.</tekst>
           <kljucna-ideja>Dugme Pročitaj ostaje.</kljucna-ideja>
@@ -4238,7 +4256,7 @@ setInterval(procitaj, 4000);]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="13" nivo="Osnovno" minuta="4">
+        <korak broj="13" nivo="Osnovno" minuta="5">
           <naslov>Bez provere</naslov>
           <tekst>Ista trka, provera isključena.</tekst>
           <kljucna-ideja>Jedna promena u editoru uključuje ili isključuje odbacivanje starijeg trenutka.</kljucna-ideja>
@@ -4250,18 +4268,18 @@ setInterval(procitaj, 4000);]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Šta stariji odgovor uradi?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>I dalje gubi, jer je server poslao oba.</tekst>
-                <razlog>Bez provere poslednji dolazak pobedi. Ta pretpostavka zanemaruje ključnu razliku: Jedna promena u editoru uključuje ili isključuje odbacivanje starijeg trenutka.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Pregazi noviji broj.</tekst>
                 <razlog>Zato provera postoji. To je u skladu sa razlikom koju pravi ovaj korak: Jedna promena u editoru uključuje ili isključuje odbacivanje starijeg trenutka.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>I dalje gubi, jer je server poslao oba.</tekst>
+                <razlog>Bez provere poslednji dolazak pobedi. Ta pretpostavka zanemaruje ključnu razliku: Jedna promena u editoru uključuje ili isključuje odbacivanje starijeg trenutka.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="14" nivo="Osnovno" minuta="3">
+        <korak broj="14" nivo="Osnovno" minuta="4">
           <naslov>Dva roka</naslov>
           <tekst>Ikonica stila je nova. Temperatura je stara.</tekst>
           <kljucna-ideja>Cache ikonice i cache temperature ne moraju isti rok.</kljucna-ideja>
@@ -4273,13 +4291,13 @@ setInterval(procitaj, 4000);]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Da li dele svežinu?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Da, stranica je jedan cache.</tekst>
-                <razlog>Resursi imaju svoje odgovore. Ta pretpostavka zanemaruje ključnu razliku: Cache ikonice i cache temperature ne moraju isti rok.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Ne moraju.</tekst>
                 <razlog>Cache ikonice i cache temperature nisu isti rok. To je u skladu sa razlikom koju pravi ovaj korak: Cache ikonice i cache temperature ne moraju isti rok.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Da, stranica je jedan cache.</tekst>
+                <razlog>Resursi imaju svoje odgovore. Ta pretpostavka zanemaruje ključnu razliku: Cache ikonice i cache temperature ne moraju isti rok.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -4343,13 +4361,15 @@ const id = setInterval(procitaj, 4000);]]></zapis>
     </nedelja>
     <nedelja broj="10" minuta="90">
       <naslov>Bezbednost, sesije i prava pristupa</naslov>
-      <ishod>Cookie nosi ključ. Kutija drži ulogu.</ishod>
-      <preduslov>Displej čuva poslednje čitanje. Takt ga ne pomera.</preduslov>
+      <ishod>Student razlikuje nastavni ključ sesije od nepredvidivog identifikatora i kaže gde se uloga proverava.</ishod>
+      <podnaslov>Cookie nosi ključ. Kutija drži ulogu.</podnaslov>
+      <dopunska-polja format="json"><![CDATA[{"diskusijaMinuta":20}]]></dopunska-polja>
+      <preduslov>Student razlikuje redosled dolaska odgovora od svežine očitavanja i kaže šta takt ne pomera.</preduslov>
       <lekcije>
-        <korak broj="1" nivo="Osnovno" minuta="4">
+        <korak broj="1" nivo="Osnovno" minuta="6">
           <naslov>Dva ključa</naslov>
-          <tekst>U kodu kutije stoje dva ključa. Svaki je opaque token.</tekst>
-          <kljucna-ideja>Dve sesije su pripremljene: posmatrač i operater.</kljucna-ideja>
+          <tekst>U kodu kutije stoje dva pripremljena ključa, po jedan za posmatrača i operatera. To su nastavne vrednosti, ne nepredvidivi identifikatori sesije. Browser nosi ključ, a ulogu drži kutija. Ključ je opaque token: browser ga nosi i ne tumači.</tekst>
+          <kljucna-ideja>Ključevi u primeru su pripremljene nastavne vrednosti. Browser ne nosi ime uloge.</kljucna-ideja>
           <fajl putanja="server/sesija.js">
             <isecak naslov="Dva ključa" jezik="javascript"><![CDATA[const KLJUC_POSMATRACA = "kljuc-posmatraca";
 const KLJUC_OPERATERA = "kljuc-operatera";]]></isecak>
@@ -4369,22 +4389,22 @@ function kljucZaUlogu(naziv) {
 module.exports = { odbijenaKomanda, kljucZaUlogu };
 ]]></ugradjena>
           </fajl>
-          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Dve sesije su pripremljene: posmatrač i operater. U ovom koraku: U kodu kutije stoje dva ključa. Svaki je opaque token. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
+          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Ključevi u primeru su pripremljene nastavne vrednosti. Browser ne nosi ime uloge. U ovom koraku: U kodu kutije stoje dva pripremljena ključa, po jedan za posmatrača i operatera. To su nastavne vrednosti, ne nepredvidivi identifikatori sesije. Browser nosi ključ, a ulogu drži kutija. Ključ je opaque token: browser ga nosi i ne tumači. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
           <pitalica vrsta="kratka">
             <pitanje>Šta ključ nije?</pitanje>
             <opcije>
               <opcija oznaka="A" drzi="ne">
-                <tekst>Nasumičan niz koji kutija poznaje.</tekst>
-                <razlog>To jeste. Ta pretpostavka zanemaruje ključnu razliku: Dve sesije su pripremljene: posmatrač i operater.</razlog>
+                <tekst>Pripremljena nastavna vrednost.</tekst>
+                <razlog>U ovom kodu to jeste: dve vrednosti su upisane unapred. Nepredvidiv identifikator sesije ovde nije pokazan. Ta pretpostavka zanemaruje ključnu razliku: Ključevi u primeru su pripremljene nastavne vrednosti. Browser ne nosi ime uloge.</razlog>
               </opcija>
               <opcija oznaka="B" drzi="da">
                 <tekst>Ime uloge upisano u browseru.</tekst>
-                <razlog>Uloga nije deo onoga što browser sme da kaže. To je u skladu sa razlikom koju pravi ovaj korak: Dve sesije su pripremljene: posmatrač i operater.</razlog>
+                <razlog>Uloga nije deo onoga što browser sme da kaže. To je u skladu sa razlikom koju pravi ovaj korak: Ključevi u primeru su pripremljene nastavne vrednosti. Browser ne nosi ime uloge.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="2" nivo="Osnovno" minuta="4">
+        <korak broj="2" nivo="Osnovno" minuta="5">
           <naslov>HttpOnly</naslov>
           <tekst>Izbor na panelu traži cookie.</tekst>
           <kljucna-ideja>Cookie je HttpOnly i nosi opaque token.</kljucna-ideja>
@@ -4392,18 +4412,18 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
           <pitalica vrsta="kratka">
             <pitanje>Šta stranica sme da pročita iz tog cookie-ja?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Ulogu, da sakrije dugme pouzdano.</tekst>
-                <razlog>HttpOnly se ne čita iz JS-a, a uloga ionako nije u njemu. Ta pretpostavka zanemaruje ključnu razliku: Cookie je HttpOnly i nosi opaque token.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Ništa iz JS-a. Ključ ostaje u cookie-ju.</tekst>
                 <razlog>Kutija po ključu nađe ulogu. To je u skladu sa razlikom koju pravi ovaj korak: Cookie je HttpOnly i nosi opaque token.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Ulogu, da sakrije dugme pouzdano.</tekst>
+                <razlog>HttpOnly se ne čita iz JS-a, a uloga ionako nije u njemu. Ta pretpostavka zanemaruje ključnu razliku: Cookie je HttpOnly i nosi opaque token.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="3" nivo="Osnovno" minuta="4">
+        <korak broj="3" nivo="Osnovno" minuta="5">
           <naslov>Mapa</naslov>
           <tekst>Isti cookie, druga reč u mapi.</tekst>
           <kljucna-ideja>Uloga ostaje u mapi na kutiji.</kljucna-ideja>
@@ -4447,7 +4467,7 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="4" nivo="Osnovno" minuta="4">
+        <korak broj="4" nivo="Osnovno" minuta="5">
           <naslov>Čitanje</naslov>
           <tekst>Neko traži GET /api/soba bez cookie-ja.</tekst>
           <kljucna-ideja>Čitanje ne traži sesiju.</kljucna-ideja>
@@ -4469,7 +4489,7 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="5" nivo="Primena" minuta="4">
+        <korak broj="5" nivo="Primena" minuta="5">
           <naslov>Sakriveno dugme nije autorizacija</naslov>
           <tekst>Posmatrač nema vidljivo dugme, ali može poslati HTTP zahtev.</tekst>
           <kljucna-ideja>Autorizacija mora biti proverena na serveru za svaki osetljiv zahtev.</kljucna-ideja>
@@ -4477,13 +4497,13 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
           <pitalica vrsta="kratka">
             <pitanje>Da li skriveno dugme sprečava PUT zahtev?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Da, browser ga briše iz Interneta.</tekst>
-                <razlog>DOM nije mrežni pristupni mehanizam.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Ne, server mora da odbije neovlašćen zahtev.</tekst>
                 <razlog>Server mora proveriti identitet i prava.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Da, browser ga briše iz Interneta.</tekst>
+                <razlog>DOM nije mrežni pristupni mehanizam.</razlog>
               </opcija>
               <opcija oznaka="C" drzi="ne">
                 <tekst>Da, ako postoji CSS display:none.</tekst>
@@ -4492,7 +4512,7 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="6" nivo="Osnovno" minuta="4">
+        <korak broj="6" nivo="Osnovno" minuta="5">
           <naslov>401</naslov>
           <tekst>Komanda ode bez cookie-ja.</tekst>
           <kljucna-ideja>Komanda bez cookie-ja dobija 401.</kljucna-ideja>
@@ -4539,18 +4559,18 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
           <pitalica vrsta="kratka">
             <pitanje>Koji je status?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>403, kao posmatrač.</tekst>
-                <razlog>Posmatrač ima ključ. Ta pretpostavka zanemaruje ključnu razliku: Komanda bez cookie-ja dobija 401.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>401.</tekst>
                 <razlog>Nema sesije. To je u skladu sa razlikom koju pravi ovaj korak: Komanda bez cookie-ja dobija 401.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>403, kao posmatrač.</tekst>
+                <razlog>Posmatrač ima ključ. Ta pretpostavka zanemaruje ključnu razliku: Komanda bez cookie-ja dobija 401.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="7" nivo="Osnovno" minuta="4">
+        <korak broj="7" nivo="Osnovno" minuta="5">
           <naslov>403</naslov>
           <tekst>Cookie nosi ključ sesije posmatrača.</tekst>
           <kljucna-ideja>Komanda posmatrača dobija 403. Režim se ne menja.</kljucna-ideja>
@@ -4610,7 +4630,7 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="8" nivo="Osnovno" minuta="4">
+        <korak broj="8" nivo="Osnovno" minuta="5">
           <naslov>400 posle uloge</naslov>
           <tekst>Operater pošalje tekst umesto boolean vrednosti.</tekst>
           <kljucna-ideja>Tek posle uloge kutija gleda telo: loš unos je 400.</kljucna-ideja>
@@ -4618,18 +4638,18 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
           <pitalica vrsta="kratka">
             <pitanje>Šta se gleda prvo?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Telo. 400 stiže i bez sesije.</tekst>
-                <razlog>Uloga se gleda pre tela. Ta pretpostavka zanemaruje ključnu razliku: Tek posle uloge kutija gleda telo: loš unos je 400.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Uloga, pa telo. Ovo je 400.</tekst>
                 <razlog>Loš unos nije 401. To je u skladu sa razlikom koju pravi ovaj korak: Tek posle uloge kutija gleda telo: loš unos je 400.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Telo. 400 stiže i bez sesije.</tekst>
+                <razlog>Uloga se gleda pre tela. Ta pretpostavka zanemaruje ključnu razliku: Tek posle uloge kutija gleda telo: loš unos je 400.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="9" nivo="Osnovno" minuta="4">
+        <korak broj="9" nivo="Osnovno" minuta="5">
           <naslov>500 posle uloge</naslov>
           <tekst>Operater traži uključeno, kabl je napolju.</tekst>
           <kljucna-ideja>Izvučen ventilator je 500 i posle provere uloge.</kljucna-ideja>
@@ -4637,18 +4657,18 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
           <pitalica vrsta="kratka">
             <pitanje>Koji je status?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>403, ventilator se štiti ulogom.</tekst>
-                <razlog>Uloga je prošla. Ta pretpostavka zanemaruje ključnu razliku: Izvučen ventilator je 500 i posle provere uloge.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>500.</tekst>
                 <razlog>Izvučen ventilator nije odbijena uloga. To je u skladu sa razlikom koju pravi ovaj korak: Izvučen ventilator je 500 i posle provere uloge.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>403, ventilator se štiti ulogom.</tekst>
+                <razlog>Uloga je prošla. Ta pretpostavka zanemaruje ključnu razliku: Izvučen ventilator je 500 i posle provere uloge.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="10" nivo="Primena" minuta="4">
+        <korak broj="10" nivo="Primena" minuta="5">
           <naslov>HttpOnly nije cela CSRF zaštita</naslov>
           <tekst>Cookie se može automatski poslati u zahtevu; JavaScript ne mora moći da ga čita.</tekst>
           <kljucna-ideja>HttpOnly štiti od čitanja cookie-ja JS-om, ali sam ne rešava CSRF.</kljucna-ideja>
@@ -4671,7 +4691,7 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="11" nivo="Osnovno" minuta="4">
+        <korak broj="11" nivo="Osnovno" minuta="5">
           <naslov>200 operater</naslov>
           <tekst>Operater pošalje { ukljucen: true }, kabl je u kutiji.</tekst>
           <kljucna-ideja>Operater dobija 200 i samo režim.</kljucna-ideja>
@@ -4679,18 +4699,18 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
           <pitalica vrsta="kratka">
             <pitanje>Šta telo odgovora nosi?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Temperaturu i režim.</tekst>
-                <razlog>Komanda ne vraća temperaturu. Ta pretpostavka zanemaruje ključnu razliku: Operater dobija 200 i samo režim.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Samo režim.</tekst>
                 <razlog>Uspeh je 200. To je u skladu sa razlikom koju pravi ovaj korak: Operater dobija 200 i samo režim.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Temperaturu i režim.</tekst>
+                <razlog>Komanda ne vraća temperaturu. Ta pretpostavka zanemaruje ključnu razliku: Operater dobija 200 i samo režim.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="12" nivo="Osnovno" minuta="4">
+        <korak broj="12" nivo="Osnovno" minuta="5">
           <naslov>Sakriveno dugme</naslov>
           <tekst>Dugme se skine sa ekrana. Zahtev i dalje ode.</tekst>
           <kljucna-ideja>Dugme može da se sakrije, a zahtev mimo ekrana i dalje stiže.</kljucna-ideja>
@@ -4713,7 +4733,7 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="13" nivo="Osnovno" minuta="4">
+        <korak broj="13" nivo="Osnovno" minuta="5">
           <naslov>CORS</naslov>
           <tekst>Drugi origin. Browser zabrani JS-u da pročita telo.</tekst>
           <kljucna-ideja>Čitanje koje browser zabrani ne dokazuje da server ćuti.</kljucna-ideja>
@@ -4732,7 +4752,7 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="14" nivo="Osnovno" minuta="3">
+        <korak broj="14" nivo="Osnovno" minuta="4">
           <naslov>Redosled</naslov>
           <tekst>Četiri odgovora na komandu imaju red.</tekst>
           <kljucna-ideja>Red je: nema cookie-ja 401, posmatrač 403, loše telo 400, izvučen ventilator 500, operater 200.</kljucna-ideja>
@@ -4740,13 +4760,13 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
           <pitalica vrsta="kratka">
             <pitanje>Kad stiže 400?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Pre provere cookie-ja.</tekst>
-                <razlog>Telo se gleda posle uloge. Ta pretpostavka zanemaruje ključnu razliku: Red je: nema cookie-ja 401, posmatrač 403, loše telo 400, izvučen ventilator 500, operater 200.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Posle 401 i 403, a pre 500 izvučenog kabla.</tekst>
                 <razlog>Uspeh je tek na kraju. To je u skladu sa razlikom koju pravi ovaj korak: Red je: nema cookie-ja 401, posmatrač 403, loše telo 400, izvučen ventilator 500, operater 200.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Pre provere cookie-ja.</tekst>
+                <razlog>Telo se gleda posle uloge. Ta pretpostavka zanemaruje ključnu razliku: Red je: nema cookie-ja 401, posmatrač 403, loše telo 400, izvučen ventilator 500, operater 200.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -4756,13 +4776,13 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
         <pojam id="sesija">
           <naziv>Sesija</naziv>
           <nagovestaj>ključ u cookie-ju, uloga na kutiji</nagovestaj>
-          <opis>Dva ključa stoje u kodu. Svaki je opaque token. HttpOnly cookie ne nosi ime uloge.</opis>
+          <opis>Dva ključa u kodu su pripremljene nastavne vrednosti, ne nepredvidivi identifikatori. HttpOnly cookie ne nosi ime uloge.</opis>
           <zapis jezik="text"><![CDATA[Set-Cookie: sesija=kljuc-posmatraca; HttpOnly]]></zapis>
         </pojam>
         <pojam id="statusi">
           <naziv>401 i 403</naziv>
           <nagovestaj>nema sesije, ili uloga ne sme</nagovestaj>
-          <opis>Komanda bez cookie-ja je 401. Posmatrač je 403. Loše telo je 400. Izvučen ventilator je 500.</opis>
+          <opis>Komanda bez cookie-ja je 401. Posmatrač je 403. Loše telo je 400. U ovom primeru izvučen ventilator je 500.</opis>
           <zapis jezik="text"><![CDATA[nema cookie → 401
 posmatrac → 403
 operater → 200]]></zapis>
@@ -4811,10 +4831,12 @@ operater → 200]]></zapis>
     </nedelja>
     <nedelja broj="11" minuta="90">
       <naslov>Ceo sistem, dijagnostika i LLM</naslov>
-      <ishod>Ekran „uključeno” nije dokaz upisa. Ćutanje nije ni dokaz ni opovrgavanje.</ishod>
-      <preduslov>Cookie nosi ključ. Kutija drži ulogu.</preduslov>
+      <ishod>Student obrazlaže da ekran „uključeno” nije dokaz upisa i da ćutanje ne potvrđuje ni ne opovrgava ishod.</ishod>
+      <podnaslov>Ekran „uključeno” nije dokaz upisa. Ćutanje nije ni dokaz ni opovrgavanje.</podnaslov>
+      <dopunska-polja format="json"><![CDATA[{"diskusijaMinuta":20}]]></dopunska-polja>
+      <preduslov>Student razlikuje nastavni ključ sesije od nepredvidivog identifikatora i kaže gde se uloga proverava.</preduslov>
       <lekcije>
-        <korak broj="1" nivo="Osnovno" minuta="4">
+        <korak broj="1" nivo="Osnovno" minuta="5">
           <naslov>Put</naslov>
           <tekst>Jedan zahtev prođe kroz već pripremljene delove.</tekst>
           <kljucna-ideja>Demonstracija je jedan zahtev kroz browser, Node i PostgreSQL.</kljucna-ideja>
@@ -4825,18 +4847,18 @@ operater → 200]]></zapis>
           <pitalica vrsta="kratka">
             <pitanje>Šta čas prati?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Novi deploy na javnu adresu.</tekst>
-                <razlog>Ceo deployment se ne izvodi uživo. Ta pretpostavka zanemaruje ključnu razliku: Demonstracija je jedan zahtev kroz browser, Node i PostgreSQL.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Jedan zahtev koji već ima gde da se vidi.</tekst>
                 <razlog>Network i log. To je u skladu sa razlikom koju pravi ovaj korak: Demonstracija je jedan zahtev kroz browser, Node i PostgreSQL.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Novi deploy na javnu adresu.</tekst>
+                <razlog>Ceo deployment se ne izvodi uživo. Ta pretpostavka zanemaruje ključnu razliku: Demonstracija je jedan zahtev kroz browser, Node i PostgreSQL.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="2" nivo="Osnovno" minuta="4">
+        <korak broj="2" nivo="Osnovno" minuta="5">
           <naslov>Ekran požuri</naslov>
           <tekst>Natpis kaže uključeno. Odgovor još nije stigao.</tekst>
           <kljucna-ideja>Kad ekran kaže uključeno a odgovor nije stigao, ne znamo ishod upisa.</kljucna-ideja>
@@ -4860,7 +4882,7 @@ odgovor: nema]]></isecak>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="3" nivo="Osnovno" minuta="4">
+        <korak broj="3" nivo="Osnovno" minuta="5">
           <naslov>Tri stanja</naslov>
           <tekst>Upis je ili nepoznat, ili prošao, ili nije.</tekst>
           <kljucna-ideja>Upis nije ni dokazan ni opovrgnut samim ekranom.</kljucna-ideja>
@@ -4872,18 +4894,18 @@ odgovor: nema]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>U koje stanje spada ćutanje?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Nije prošlo.</tekst>
-                <razlog>To bi bio zaključak bez odgovora. Ta pretpostavka zanemaruje ključnu razliku: Upis nije ni dokazan ni opovrgnut samim ekranom.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Nije stiglo. Ishod je nepoznat.</tekst>
                 <razlog>Ćutanje nije ni dokaz ni opovrgavanje. To je u skladu sa razlikom koju pravi ovaj korak: Upis nije ni dokazan ni opovrgnut samim ekranom.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Nije prošlo.</tekst>
+                <razlog>To bi bio zaključak bez odgovora. Ta pretpostavka zanemaruje ključnu razliku: Upis nije ni dokazan ni opovrgnut samim ekranom.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="4" nivo="Primena" minuta="4">
+        <korak broj="4" nivo="Primena" minuta="5">
           <naslov>Nepoznat ishod operacije</naslov>
           <tekst>Klijent pošalje komandu, server potvrdi transakciju, odgovor nestane.</tekst>
           <kljucna-ideja>Odsustvo odgovora ne dokazuje da zahtev nije izvršen.</kljucna-ideja>
@@ -4891,22 +4913,22 @@ odgovor: nema]]></isecak>
           <pitalica vrsta="kratka">
             <pitanje>Šta klijent pouzdano zna?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
+              <opcija oznaka="A" drzi="da">
+                <tekst>Da ishod nije potvrđen klijentu.</tekst>
+                <razlog>Treba ponovljeno čitanje, idempotentan zahtev ili pouzdan mehanizam identifikacije operacije.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
                 <tekst>Da ventilator nije uključen.</tekst>
                 <razlog>Timeout nije rollback.</razlog>
               </opcija>
-              <opcija oznaka="B" drzi="ne">
+              <opcija oznaka="C" drzi="ne">
                 <tekst>Da je operacija izvršena.</tekst>
                 <razlog>Klijent nije primio potvrdu i ne zna stvarni ishod.</razlog>
-              </opcija>
-              <opcija oznaka="C" drzi="da">
-                <tekst>Da ishod nije potvrđen klijentu.</tekst>
-                <razlog>Treba ponovljeno čitanje, idempotentan zahtev ili pouzdan mehanizam identifikacije operacije.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="5" nivo="Osnovno" minuta="4">
+        <korak broj="5" nivo="Osnovno" minuta="5">
           <naslov>Log</naslov>
           <tekst>Treba odluka da li komandu ponoviti.</tekst>
           <kljucna-ideja>Treba log i ponovno čitanje, pa odluka o ponavljanju.</kljucna-ideja>
@@ -4930,7 +4952,7 @@ GET /api/soba]]></u-fajl>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="6" nivo="Osnovno" minuta="4">
+        <korak broj="6" nivo="Osnovno" minuta="5">
           <naslov>Ponovi prebacivanje</naslov>
           <tekst>Komanda koja prebacuje režim možda jeste prošla, odgovor se izgubio.</tekst>
           <kljucna-ideja>Slepo ponavljanje komande koja prebacuje režim može da poništi upis.</kljucna-ideja>
@@ -4938,18 +4960,18 @@ GET /api/soba]]></u-fajl>
           <pitalica vrsta="kratka">
             <pitanje>Šta slepo ponavljanje može?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Samo da dovrši isto.</tekst>
-                <razlog>Drugi put poništi upis koji jeste prošao. Ta pretpostavka zanemaruje ključnu razliku: Slepo ponavljanje komande koja prebacuje režim može da poništi upis.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Da poništi upis koji jeste prošao.</tekst>
                 <razlog>Zato smisao komande ulazi u odluku. To je u skladu sa razlikom koju pravi ovaj korak: Slepo ponavljanje komande koja prebacuje režim može da poništi upis.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Samo da dovrši isto.</tekst>
+                <razlog>Drugi put poništi upis koji jeste prošao. Ta pretpostavka zanemaruje ključnu razliku: Slepo ponavljanje komande koja prebacuje režim može da poništi upis.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="7" nivo="Osnovno" minuta="4">
+        <korak broj="7" nivo="Osnovno" minuta="5">
           <naslov>Ponovi postavljanje</naslov>
           <tekst>Ista komanda kaže uključeno, dvaput.</tekst>
           <kljucna-ideja>Ponovljeno postavljanje na uključeno ostavlja isti željeni efekat.</kljucna-ideja>
@@ -4968,7 +4990,7 @@ GET /api/soba]]></u-fajl>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="8" nivo="Primena" minuta="4">
+        <korak broj="8" nivo="Primena" minuta="5">
           <naslov>LLM pravi suptilnu grešku</naslov>
           <tekst>AI predloži da nakon HTTP 500 prikažemo temperaturu iz response.json bez provere.</tekst>
           <kljucna-ideja>LLM generisan kod se proverava izvršavanjem, čitanjem ugovora i negativnim scenarijima.</kljucna-ideja>
@@ -4998,7 +5020,7 @@ GET /api/soba]]></u-fajl>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="9" nivo="Osnovno" minuta="4">
+        <korak broj="9" nivo="Osnovno" minuta="5">
           <naslov>Anotacija</naslov>
           <tekst>Objekat sobe dobije tip.</tekst>
           <kljucna-ideja>TypeScript je anotacija poznatog objekta sobe. Nema posebnog TS zadatka.</kljucna-ideja>
@@ -5006,18 +5028,18 @@ GET /api/soba]]></u-fajl>
           <pitalica vrsta="kratka">
             <pitanje>Šta tip proveri dok proces radi?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Ulogu operatera na zahtevu.</tekst>
-                <razlog>Tip nije provera uloge. Ta pretpostavka zanemaruje ključnu razliku: TypeScript je anotacija poznatog objekta sobe. Nema posebnog TS zadatka.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Ništa u toku zahteva. To je anotacija.</tekst>
                 <razlog>Statička provera nije runtime validacija. To je u skladu sa razlikom koju pravi ovaj korak: TypeScript je anotacija poznatog objekta sobe. Nema posebnog TS zadatka.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Ulogu operatera na zahtevu.</tekst>
+                <razlog>Tip nije provera uloge. Ta pretpostavka zanemaruje ključnu razliku: TypeScript je anotacija poznatog objekta sobe. Nema posebnog TS zadatka.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="10" nivo="Osnovno" minuta="4">
+        <korak broj="10" nivo="Osnovno" minuta="5">
           <naslov>Runtime</naslov>
           <tekst>Telo i dalje stiže kao JSON tekst.</tekst>
           <kljucna-ideja>Statička provera nije runtime validacija.</kljucna-ideja>
@@ -5025,18 +5047,18 @@ GET /api/soba]]></u-fajl>
           <pitalica vrsta="kratka">
             <pitanje>Šta i dalje odbija tekst „da”?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Anotacija Soba.</tekst>
-                <razlog>Anotacija ne radi u zahtevu. Ta pretpostavka zanemaruje ključnu razliku: Statička provera nije runtime validacija.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Provera na kutiji, u toku zahteva.</tekst>
                 <razlog>To ostaje 400. To je u skladu sa razlikom koju pravi ovaj korak: Statička provera nije runtime validacija.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Anotacija Soba.</tekst>
+                <razlog>Anotacija ne radi u zahtevu. Ta pretpostavka zanemaruje ključnu razliku: Statička provera nije runtime validacija.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="11" nivo="Osnovno" minuta="3">
+        <korak broj="11" nivo="Osnovno" minuta="4">
           <naslov>Adrese</naslov>
           <tekst>Na dijagramu stoje dve adrese.</tekst>
           <kljucna-ideja>Lokalna i javna adresa stoje na dijagramu. Ceo deployment se ne izvodi.</kljucna-ideja>
@@ -5059,7 +5081,7 @@ GET /api/soba]]></u-fajl>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="12" nivo="Primena" minuta="3">
+        <korak broj="12" nivo="Primena" minuta="4">
           <naslov>Tip nije validacija</naslov>
           <tekst>LLM ili compiler sugeriše da TypeScript tip garantuje sadržaj odgovora.</tekst>
           <kljucna-ideja>TypeScript provera se obavlja pre izvršavanja; mrežni podaci zahtevaju runtime validaciju.</kljucna-ideja>
@@ -5067,13 +5089,13 @@ GET /api/soba]]></u-fajl>
           <pitalica vrsta="kratka">
             <pitanje>Šta ako server pošalje {"temperatura":"nepoznato"}?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>as Soba konvertuje string u number.</tekst>
-                <razlog>Type assertion nije konverzija.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Kod može pasti pri pozivanju toFixed.</tekst>
                 <razlog>Vrednost i dalje ostaje string tokom izvršavanja.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>as Soba konvertuje string u number.</tekst>
+                <razlog>Type assertion nije konverzija.</razlog>
               </opcija>
               <opcija oznaka="C" drzi="ne">
                 <tekst>TypeScript blokira mrežni odgovor.</tekst>
@@ -5082,7 +5104,7 @@ GET /api/soba]]></u-fajl>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="13" nivo="Osnovno" minuta="3">
+        <korak broj="13" nivo="Osnovno" minuta="4">
           <naslov>Jedan neuspeh</naslov>
           <tekst>Dovoljno je da jedan zahtev namerno ne uspe.</tekst>
           <kljucna-ideja>Jedan namerni neuspeh je dovoljan.</kljucna-ideja>
@@ -5094,18 +5116,18 @@ GET /api/soba]]></u-fajl>
           <pitalica vrsta="kratka">
             <pitanje>Šta taj neuspeh pokaže?</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Da je ceo sistem oboren.</tekst>
-                <razlog>Jedan zahtev nije deploy. Ta pretpostavka zanemaruje ključnu razliku: Jedan namerni neuspeh je dovoljan.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Gde se vidi razlika između odgovora i ćutanja.</tekst>
                 <razlog>Network i log. To je u skladu sa razlikom koju pravi ovaj korak: Jedan namerni neuspeh je dovoljan.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Da je ceo sistem oboren.</tekst>
+                <razlog>Jedan zahtev nije deploy. Ta pretpostavka zanemaruje ključnu razliku: Jedan namerni neuspeh je dovoljan.</razlog>
               </opcija>
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="14" nivo="Osnovno" minuta="3">
+        <korak broj="14" nivo="Osnovno" minuta="4">
           <naslov>Izlaz</naslov>
           <tekst>Nema opcija i nema polja. Rečenica stoji na kraju časa.</tekst>
           <kljucna-ideja>Izlaz je rečenica, bez opcija, bez pečata i bez polja.</kljucna-ideja>
@@ -5130,7 +5152,7 @@ gde je stanje
             </opcije>
           </pitalica>
         </korak>
-        <korak broj="15" nivo="Osnovno" minuta="3">
+        <korak broj="15" nivo="Osnovno" minuta="4">
           <naslov>Jedna soba</naslov>
           <tekst>Tip i predlog asistenta ostanu rečenica, bez novog glasanja.</tekst>
           <kljucna-ideja>Nema druge pitalice. Panel i dalje ima jednu temperaturu i jedan ventilator.</kljucna-ideja>
@@ -5142,13 +5164,13 @@ gde je stanje
           <pitalica vrsta="kratka">
             <pitanje>Ako je glavna diskusija potrošila vreme, rezerva o tipu...</pitanje>
             <opcije>
-              <opcija oznaka="A" drzi="ne">
-                <tekst>Postane druga pitalica sa pečatom.</tekst>
-                <razlog>Nema drugog glasanja. Ta pretpostavka zanemaruje ključnu razliku: Nema druge pitalice. Panel i dalje ima jednu temperaturu i jedan ventilator.</razlog>
-              </opcija>
-              <opcija oznaka="B" drzi="da">
+              <opcija oznaka="A" drzi="da">
                 <tekst>Ostane rečenica u času.</tekst>
                 <razlog>Panel ima jednu temperaturu i jedan ventilator. To je u skladu sa razlikom koju pravi ovaj korak: Nema druge pitalice. Panel i dalje ima jednu temperaturu i jedan ventilator.</razlog>
+              </opcija>
+              <opcija oznaka="B" drzi="ne">
+                <tekst>Postane druga pitalica sa pečatom.</tekst>
+                <razlog>Nema drugog glasanja. Ta pretpostavka zanemaruje ključnu razliku: Nema druge pitalice. Panel i dalje ima jednu temperaturu i jedan ventilator.</razlog>
               </opcija>
             </opcije>
           </pitalica>

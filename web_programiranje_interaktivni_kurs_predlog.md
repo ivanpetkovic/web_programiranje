@@ -1,6 +1,8 @@
 # Web programiranje: Kontrolna soba
 
-Razrađen plan 10 časova predavanja po 90 minuta: ukupno 900 minuta, odnosno 15 sati. Usvojeni okvir: postepenost, osnove pre pitanja, Kontrolna soba kao povezujući primer, vanilla tehnologije. Vežbe i ocenjivanje nisu predmet ovog plana.
+Važeći obim je 11 časova po 90 minuta: 70 minuta koraka i 20 minuta glavne diskusije. Telo koje sajt čita je `site/kurs.json`. Tabela ispod je raniji plan od 10 časova i 35 minuta diskusije; zadržana je kao istorija rasporeda, ne kao satnica časa.
+
+Usvojeni okvir: postepenost, osnove pre pitanja, Kontrolna soba kao povezujući primer, vanilla tehnologije. Vežbe i ocenjivanje nisu predmet ovog plana.
 
 ## Cilj i predznanje
 
@@ -8,7 +10,7 @@ Studenti znaju OOP, algoritme i SQL; strukture podataka uče paralelno. JS speci
 
 Student treba da objasni tok korisničke akcije od browsera do servera i baze, razlikuje prikaz od merodavnog stanja, obrazloži obradu grešaka i ponovljenih zahteva i prepozna granice poverenja. Šire teme predstavljaju mapu oblasti: koji problem rešavaju i kada postaju relevantne.
 
-Predavanja koriste pripremljene demonstracije, pitalice i obrazloženja odgovora. Konkretno programiranje radi se na vežbama. Broj slajdova proizlazi iz nastavnih sekvenci, a ne određuje obim kursa.
+Predavanja koriste pripremljene demonstracije, pitalice, kucanje u editoru časa i obrazloženja odgovora. Broj slajdova proizlazi iz nastavnih sekvenci, a ne određuje obim kursa.
 
 ## Nastavni obrazac
 
