@@ -27,9 +27,8 @@ export function primeniPrimer(stanje, radne, dogadaj) {
 
   if (dogadaj.tip === "otvori" && sledece.putanje.includes(dogadaj.put)) {
     sledece.otvoreno = dogadaj.put;
-    sledece.verzija = "radna";
     forsiraj = true;
-  } else if (dogadaj.tip === "unos" && sledece.otvoreno) {
+  } else if (dogadaj.tip === "unos" && sledece.otvoreno && sledece.verzija === "radna") {
     const putanja = kljucRadne(sledece.id, sledece.otvoreno);
     upis = { putanja, tekst: dogadaj.tekst };
     mapa[putanja] = dogadaj.tekst;
@@ -38,6 +37,9 @@ export function primeniPrimer(stanje, radne, dogadaj) {
     sledece.verzija = "ugradjena";
     forsiraj = true;
   } else if (dogadaj.tip === "radna") {
+    if (!Object.keys(mapa).some((put) => put.startsWith(`primer/${sledece.id}/`))) {
+      for (const put of sledece.putanje) mapa[kljucRadne(sledece.id, put)] = sledece.verzije[put] || "";
+    }
     sledece.verzija = "radna";
     forsiraj = true;
   } else if (dogadaj.tip === "reset" && sledece.otvoreno) {
@@ -55,11 +57,17 @@ export function primeniPrimer(stanje, radne, dogadaj) {
 
   if (!sledece.putanje.includes(sledece.otvoreno)) sledece.otvoreno = pocetniFajl(sledece.putanje);
 
+  if (Object.keys(mapa).some((put) => put.startsWith(`primer/${sledece.id}/`))) {
+    for (const put of sledece.putanje) {
+      const kljuc = kljucRadne(sledece.id, put);
+      if (!Object.hasOwn(mapa, kljuc)) mapa[kljuc] = "";
+    }
+  }
   const putanja = sledece.otvoreno;
   const prazno = !putanja;
   let editor;
   if (prazno) editor = { putanja: "", tekst: "", samoCitaj: true, linije: [], prazno: true };
-  else if (dogadaj.tip === "unos") editor = { putanja, tekst: dogadaj.tekst, samoCitaj: false, linije: null, prazno: false };
+  else if (dogadaj.tip === "unos" && sledece.verzija === "radna") editor = { putanja, tekst: dogadaj.tekst, samoCitaj: false, linije: null, prazno: false };
   else {
     const izbor = tekstPrikaza({
       putanja: kljucRadne(sledece.id, putanja),
@@ -88,6 +96,7 @@ export function primeniPrimer(stanje, radne, dogadaj) {
     stanje: { ...sledece, kljuc: prazno || osvezi ? kljuc : stanje.kljuc },
     radne: mapa,
     upis,
+    upisRadnih: Object.keys(mapa).some((put) => mapa[put] !== radne[put]) ? mapa : null,
     osvezi: dogadaj.tip === "unos" || dogadaj.tip === "sacuvaj" ? false : osvezi,
     zivo: dogadaj.tip !== "sacuvaj" && !prazno,
     prikaz: { editor, fajlovi: sledece.putanje, klijent, server: {} },

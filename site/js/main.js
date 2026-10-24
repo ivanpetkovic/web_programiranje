@@ -3,7 +3,7 @@ import { dokument, lectures } from "./lectures.js";
 import { natpisNedelje, pomeriNedelju, polozajiKlizaca, procenat, ucitajKurs } from "./model.js";
 import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./pojmovnik.js";
 import { PORUKA, modulPoZahtevu, porukaKonzole, sklopiDokument, trajanjeLopatica, ubaciMostKonzole } from "./pregled.js";
-import { procitajRadne, serverTabVidljiv, upisiRadnu } from "./radna.js";
+import { procitajRadne, serverTabVidljiv, upisiRadne } from "./radna.js";
 import { adresaPregleda, izborFajla, prikaziIzlaz } from "./birac.js";
 import { nacrtajFiguru } from "./crtez.js";
 import { prikazKoraka } from "./figura.js";
@@ -1251,20 +1251,19 @@ function primeniDogadaj(dogadaj) {
     stanjePrimera = rezultat.stanje;
     sacuvaniPrimeri.set(stanjePrimera.id, stanjePrimera);
     let sacuvano = true;
-    if (rezultat.upis) {
-      const upis = upisiRadnu(localStorage, pre.radne, rezultat.upis.putanja, rezultat.upis.tekst);
+    if (rezultat.upisRadnih) {
+      const upis = upisiRadne(localStorage, rezultat.upisRadnih);
       sesija = { ...sesija, radne: upis.mapa };
       sacuvano = upis.sacuvano;
     }
     nacrtajPrikaz(rezultat, sacuvano, dogadaj);
     return;
   }
-  const pre = sesija;
   const rezultat = primeni(sesija, dogadaj, { koraci: kursKoraci(), indeks: indeksUKursu(), nedelja: cas });
   sesija = rezultat.sesija;
   let sacuvano = true;
-  if (rezultat.upis) {
-    const upis = upisiRadnu(localStorage, pre.radne, rezultat.upis.putanja, rezultat.upis.tekst);
+  if (rezultat.upisRadnih) {
+    const upis = upisiRadne(localStorage, rezultat.upisRadnih);
     sesija = { ...sesija, radne: upis.mapa };
     sacuvano = upis.sacuvano;
   }
@@ -1352,7 +1351,7 @@ async function izaberiPrimer(id) {
   stanjePrimera = {
     id,
     otvoreno: pre?.otvoreno && telo.fajlovi.includes(pre.otvoreno) ? pre.otvoreno : pocetniFajl(telo.fajlovi),
-    verzija: pre?.verzija || "radna",
+    verzija: pre?.verzija || "ugradjena",
     putanje: telo.fajlovi,
     verzije: telo.verzije || {},
     kljuc: "",

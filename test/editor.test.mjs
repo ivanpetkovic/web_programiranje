@@ -133,7 +133,7 @@ test("verzija koraka pobeđuje poslednji fajl sa diska", () => {
     radne: { "client/css/soba.css": "" },
     verzija: "radna",
   });
-  assert.equal(prazna.tekst, cssDisk);
+  assert.equal(prazna.tekst, "");
   assert.equal(main.includes("rezim"), false);
   assert.match(fs.readFileSync(new URL("../site/js/verzija.js", import.meta.url), "utf8"), /stabloDo\(/);
   assert.equal(main.includes("/api/stablo"), false);
@@ -144,7 +144,7 @@ test("verzija koraka pobeđuje poslednji fajl sa diska", () => {
   assert.equal(/body\.editor-pun #nav/.test(css), false);
 });
 
-test("dok fajl nije dirnut oba prikaza nose original", () => {
+test("Lekcija prikazuje original, a nedostajući radni fajl ostaje prazan", () => {
   const radne = {};
   for (const verzija of ["ugradjena", "radna"]) {
     const ekran = tekstPrikaza({
@@ -153,7 +153,7 @@ test("dok fajl nije dirnut oba prikaza nose original", () => {
       radne,
       verzija,
     });
-    assert.equal(ekran.tekst, "ceo fajl");
+    assert.equal(ekran.tekst, verzija === "ugradjena" ? "ceo fajl" : "");
   }
 });
 
@@ -182,7 +182,7 @@ test("nema dugmadi za upis fajla na disk", () => {
   assert.match(main, /querySelector\("#resetuj"\)\.addEventListener\("click", resetujRadnu\)/);
   assert.match(main, /querySelector\("#moj-kod"\)\.addEventListener\("click"/);
   assert.match(main, /querySelector\("#lekcija"\)\.addEventListener\("click"/);
-  assert.match(main, /upisiRadnu\(localStorage/);
+  assert.match(main, /upisiRadne\(localStorage/);
   assert.equal(main.includes("/api/fajl/povrati"), false);
   assert.match(main, /fetch\("\/api\/fajl"/);
   assert.match(css, /\.editor\s*\{[^}]*min-width:\s*0/);
@@ -215,7 +215,7 @@ test("klijentski bafer ne čuva fajl, serverski ne crta sobu", () => {
     radne: { "client/index.html": "client/\nserver/\n" },
     verzija: "radna",
   });
-  assert.equal(saDugmetom.tekst, "<p class=\"digit\">24</p>");
+  assert.equal(saDugmetom.tekst, "");
   const prazanFajl = tekstPrikaza({
     putanja: "client/index.html",
     original: "",
@@ -268,7 +268,7 @@ test("lekcija i moj kod biraju serverski tekst", () => {
   assert.equal(lekcija["client/index.html"], undefined);
   const moj = tekstoviServera(verzije, { "server/soba.js": "moj kod sobe" }, "radna");
   assert.equal(moj["server/soba.js"], "moj kod sobe");
-  assert.equal(moj["server/ventilator.js"], "snimak ventilatora");
+  assert.equal(moj["server/ventilator.js"], "");
   assert.equal(main.includes("new Function"), false);
   assert.match(fs.readFileSync(new URL("../site/js/verzija.js", import.meta.url), "utf8"), /tekstoviServera\(/);
   const server = fs.readFileSync(new URL("../server/server.js", import.meta.url), "utf8");
