@@ -90,7 +90,7 @@
     {
       "naslov": "Zašto Web postoji: zahtevi i protokoli",
       "podnaslov": "Web je usluga na Internetu. Stranica je dokument. server/ još nema fajlove.",
-      "ishod": "Web je usluga na Internetu. Stranica je dokument. server/ još nema fajlove.",
+      "ishod": "Student razlikuje uslugu Weba od mreže paketa i obrazlaže zašto zakasneli kadar i izgubljeni bajt nisu ista odluka.",
       "minuta": 90,
       "problem": "Ista reč „web” pokrije mrežu, stranicu iz 1991, Gmail i blockchain. Šta je stranica iz 1991. već bila?",
       "pretpostavka": "Web, Internet, aplikacija i blockchain su isto, samo noviji naziv.",
@@ -206,7 +206,7 @@
         {
           "naslov": "LO",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 7,
           "tipPrimer": "eksperiment",
           "tekst": "Zašto uopšte slati poruku ako veza može da pukne usred reči? 29. oktobra 1969. sa UCLA ka SRI stiže „LO”, pa sistem padne umesto „LOGIN”. To je mreža paketa. To nije Web.",
           "kljucnaIdeja": "Mreža paketa iz 1969. još nema stranicu u browseru.",
@@ -215,22 +215,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "To već jeste Web, jer je poruka stigla.",
-              "why": "Stigla su dva slova po mreži. Nema URL ni dokument u browseru. Ta pretpostavka zanemaruje ključnu razliku: Mreža paketa iz 1969. još nema stranicu u browseru.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Poruka iz 1969. nije Web.",
               "why": "LO je mreža paketa. Web je povezani dokument, mnogo kasnije. To je u skladu sa razlikom koju pravi ovaj korak: Mreža paketa iz 1969. još nema stranicu u browseru.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "To već jeste Web, jer je poruka stigla.",
+              "why": "Stigla su dva slova po mreži. Nema URL ni dokument u browseru. Ta pretpostavka zanemaruje ključnu razliku: Mreža paketa iz 1969. još nema stranicu u browseru.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Paket",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 7,
           "tipPrimer": "eksperiment",
           "tekst": "Zašto seći poruku, umesto da se rezerviše veza od kraja do kraja? Ako je veza rezervisana, prekid ubije celu poruku. Paket ide drugim putem i poruka se sklopi.",
           "kljucnaIdeja": "Prekinuta veza ne mora da ubije poruku.",
@@ -254,7 +254,7 @@
         {
           "naslov": "Paket ili rezervisana veza",
           "nivo": "Primena",
-          "minuta": 5,
+          "minuta": 7,
           "tipPrimer": "eksperiment",
           "tekst": "Dva udaljena računara prenose veliki fajl; veza može da otkaže.",
           "kljucnaIdeja": "Paketni prenos deli podatke; IP rutira pakete, TCP obezbeđuje pouzdan tok bajtova.",
@@ -269,15 +269,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Aplikacija preko TCP-a obavezno vidi P3 pre P2.",
-              "why": "TCP uređuje podatke pre nego što ih aplikacija čita; dolazak paketa nije redosled čitanja.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "TCP može sačekati P2 i isporučiti uređeni tok.",
               "why": "IP može isporučiti pakete drugim redom; TCP pomoću rednih brojeva omogućava uredan tok.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Aplikacija preko TCP-a obavezno vidi P3 pre P2.",
+              "why": "TCP uređuje podatke pre nego što ih aplikacija čita; dolazak paketa nije redosled čitanja.",
+              "ok": false
             },
             {
               "key": "C",
@@ -290,7 +290,7 @@
         {
           "naslov": "TCP i UDP",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "eksperiment",
           "tekst": "Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? UDP ne garantuje isporuku ni redosled. Aplikacija odlučuje da li zakasneli kadar još vredi. Dokument preko TCP-a traži bajtove. Streaming sam po sebi ne bira UDP.",
           "kljucnaIdeja": "UDP ne garantuje isporuku. Odluku o zakasnelom kadru donosi aplikacija.",
@@ -331,7 +331,7 @@
         {
           "naslov": "Hipertekst",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "eksperiment",
           "tekst": "Zašto pratiti ideju, umesto broja stranice? Bush 1945. opisuje Memex. Nelson 1965. kuje reč hipertekst. Veza je adresa drugog teksta, ne ukras na margini.",
           "kljucnaIdeja": "Veza vodi na drugi tekst, ne na sledeći broj stranice.",
@@ -372,7 +372,7 @@
         {
           "naslov": "Predlog",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "eksperiment",
           "tekst": "Zašto je laboratoriji fizike uopšte trebalo ovo? Berners-Lee u CERN-u, marta 1989, predlaže povezane dokumente. Šef dopisuje „vague but exciting”. Web je jedna usluga na Internetu, ne sam Internet.",
           "kljucnaIdeja": "Web je usluga. Internet je mreža ispod nje.",
@@ -381,22 +381,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Web jeste cela mreža.",
-              "why": "Mreža već radi pre predloga iz 1989. Ta pretpostavka zanemaruje ključnu razliku: Web je usluga. Internet je mreža ispod nje.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Web je jedna usluga na Internetu.",
               "why": "Predlog rešava dokumente laboratorije, ne kablove. To je u skladu sa razlikom koju pravi ovaj korak: Web je usluga. Internet je mreža ispod nje.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Web jeste cela mreža.",
+              "why": "Mreža već radi pre predloga iz 1989. Ta pretpostavka zanemaruje ključnu razliku: Web je usluga. Internet je mreža ispod nje.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "HTTP kao dogovor",
           "nivo": "Primena",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "eksperiment",
           "tekst": "Mreža može preneti bajtove, ali ne razume šta znači „daj dokument”.",
           "kljucnaIdeja": "HTTP definiše zahtev, odgovor, metode, zaglavlja i status.",
@@ -436,7 +436,7 @@
         {
           "naslov": "HTML",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "eksperiment",
           "tekst": "Zašto oznake koje čovek može da otkuca, a ne binarni raspored strane? 1991. izlazi prva javna stranica. Rane oznake nose strukturu: naslov, veza, spisak. Ne nose boju.",
           "kljucnaIdeja": "Rana oznaka kaže šta je deo teksta, ne kako je ofarban.",
@@ -460,7 +460,7 @@
         {
           "naslov": "Rat browsera",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "eksperiment",
           "tekst": "Šta se desi stranici kad svaki browser izmisli svoju oznaku? Netscape i Internet Explorer ratuju. Jedan ima blink, drugi marquee. Stranica piše „best viewed in” i puca u drugom browseru. Standard načas izgubi, pa opet postane potreban.",
           "kljucnaIdeja": "Privatna oznaka radi samo tamo gde je izmišljena.",
@@ -469,22 +469,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Zato što W3C zabrani oba browsera.",
-              "why": "Puca oznaka koju drugi browser ne poznaje. Ta pretpostavka zanemaruje ključnu razliku: Privatna oznaka radi samo tamo gde je izmišljena.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Stranica puca jer browseri izmišljaju svoje oznake.",
               "why": "blink i marquee nisu isti jezik. Stranica traži jedan od njih. To je u skladu sa razlikom koju pravi ovaj korak: Privatna oznaka radi samo tamo gde je izmišljena.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Zato što W3C zabrani oba browsera.",
+              "why": "Puca oznaka koju drugi browser ne poznaje. Ta pretpostavka zanemaruje ključnu razliku: Privatna oznaka radi samo tamo gde je izmišljena.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Od URL-a do prikaza",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "eksperiment",
           "tekst": "Student unosi URL. Koje stvari moraju da se dese pre prikaza?",
           "kljucnaIdeja": "DNS, uspostavljanje veze, zaštita HTTPS-a, HTTP i HTML imaju različite uloge.",
@@ -499,15 +499,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Da vrati sadržaj HTML-a.",
-              "why": "HTML tipično stiže preko HTTP-a, ne iz DNS odgovora.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Da pomogne da se ime domena razreši u adresu.",
               "why": "DNS omogućava razrešavanje imena; browser zatim komunicira sa serverom.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Da vrati sadržaj HTML-a.",
+              "why": "HTML tipično stiže preko HTTP-a, ne iz DNS odgovora.",
+              "ok": false
             },
             {
               "key": "C",
@@ -520,7 +520,7 @@
         {
           "naslov": "Ajax",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "eksperiment",
           "tekst": "Zašto mapa ne učita novi dokument kad je povučeš? Garrett februara 2005. imenuje obrazac. Gmail i Google Maps ostave dokument na mestu, a zahtev promeni deo. Veb aplikacija nije prezentacioni sajt.",
           "kljucnaIdeja": "Dokument ostaje. Zahtev menja deo, ne celu stranu.",
@@ -544,7 +544,7 @@
         {
           "naslov": "Dokument",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "eksperiment",
           "tekst": "Šta od ove nedelje sledeća stranica još nema? Imaće dokument. Još nema jezik u stranici, zahtev koji menja deo, ni server. server/ je i dalje prazan.",
           "kljucnaIdeja": "Sledeća nedelja piše dokument. Ostalo čeka svoje časove.",
@@ -583,24 +583,25 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Server, jezik i Ajax odjednom.",
-              "why": "To su kasniji časovi. server/ je prazan. Ta pretpostavka zanemaruje ključnu razliku: Sledeća nedelja piše dokument. Ostalo čeka svoje časove.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Sledeća nedelja piše dokument.",
               "why": "Jezik, delimičan zahtev i server još nisu na stranici. To je u skladu sa razlikom koju pravi ovaj korak: Sledeća nedelja piše dokument. Ostalo čeka svoje časove.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Server, jezik i Ajax odjednom.",
+              "why": "To su kasniji časovi. server/ je prazan. Ta pretpostavka zanemaruje ključnu razliku: Sledeća nedelja piše dokument. Ostalo čeka svoje časove.",
+              "ok": false
             }
           ]
         }
-      ]
+      ],
+      "diskusijaMinuta": 20
     },
     {
       "naslov": "Browser: HTML, CSS i prikaz",
       "podnaslov": "Dokument, prikaz i merenje nisu ista stvar.",
-      "ishod": "Dokument, prikaz i merenje nisu ista stvar.",
+      "ishod": "Student razlikuje izvorni fajl, živi DOM i merenje, i sastavlja prikaz koji se čita i na uskom ekranu.",
       "minuta": 90,
       "problem": "U alatima browsera „24 °C” postane „10 °C”. Šta je promenjeno?",
       "pretpostavka": "Ekran jeste stanje kutije.",
@@ -681,7 +682,7 @@
         {
           "naslov": "Stranica",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Stranica počinje praznim dokumentom, ne panelom.",
           "kljucnaIdeja": "Element html i atribut lang otvaraju dokument.",
@@ -709,7 +710,7 @@
         {
           "naslov": "Glava",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Charset i naslov dokumenta stoje u glavi, pre sadržaja.",
           "kljucnaIdeja": "Element head nosi charset i title. Još nema onoga što se vidi u sobi.",
@@ -737,7 +738,7 @@
         {
           "naslov": "Naslov",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Naslov je deo dokumenta, ne merenje.",
           "kljucnaIdeja": "Element h1 je naslov, ne pasus.",
@@ -750,22 +751,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Zaboravlja naslov.",
-              "why": "Naslov je u fajlu. Ta pretpostavka zanemaruje ključnu razliku: Element h1 je naslov, ne pasus.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Ponovo učita naslov iz fajla.",
               "why": "Dokument se čita iznova. To je u skladu sa razlikom koju pravi ovaj korak: Element h1 je naslov, ne pasus.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Zaboravlja naslov.",
+              "why": "Naslov je u fajlu. Ta pretpostavka zanemaruje ključnu razliku: Element h1 je naslov, ne pasus.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Širina kutije",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "pitalica-kod",
           "tekst": "CSS širina podrazumevano nije nužno ukupna širina elementa.",
           "kljucnaIdeja": "Content-box dodaje padding i border na deklarisanu width.",
@@ -811,7 +812,7 @@
         {
           "naslov": "Broj",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "U pasusu stoji broj, kao običan tekst.",
           "kljucnaIdeja": "Element p i atribut class drže 24.",
@@ -839,7 +840,7 @@
         {
           "naslov": "Dugme",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Dugme je element dokumenta. Još ništa ne šalje.",
           "kljucnaIdeja": "Element button i atribut type jesu u dokumentu. Komanda dolazi tek kad postoji server.",
@@ -852,22 +853,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Šalje komandu ventilatoru.",
-              "why": "Ventilatora i servera još nema. Ta pretpostavka zanemaruje ključnu razliku: Element button i atribut type jesu u dokumentu. Komanda dolazi tek kad postoji server.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Ne menja dokument.",
               "why": "Dugme još nema ponašanje. To je u skladu sa razlikom koju pravi ovaj korak: Element button i atribut type jesu u dokumentu. Komanda dolazi tek kad postoji server.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Šalje komandu ventilatoru.",
+              "why": "Ventilatora i servera još nema. Ta pretpostavka zanemaruje ključnu razliku: Element button i atribut type jesu u dokumentu. Komanda dolazi tek kad postoji server.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Veza",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Dokument kaže browseru gde je stil.",
           "kljucnaIdeja": "Element link i atribut href učitavaju stil. Broj i dalje stoji u HTML-u.",
@@ -880,22 +881,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Šalje komandu ventilatoru.",
-              "why": "Ovo je veza ka stilu, ne komanda. Ta pretpostavka zanemaruje ključnu razliku: Element link i atribut href učitavaju stil. Broj i dalje stoji u HTML-u.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Traži da browser učita stil.",
               "why": "href pokazuje na css fajl. To je u skladu sa razlikom koju pravi ovaj korak: Element link i atribut href učitavaju stil. Broj i dalje stoji u HTML-u.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Šalje komandu ventilatoru.",
+              "why": "Ovo je veza ka stilu, ne komanda. Ta pretpostavka zanemaruje ključnu razliku: Element link i atribut href učitavaju stil. Broj i dalje stoji u HTML-u.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Specifičnost selektora",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "pitalica-kod",
           "tekst": "Dva CSS pravila se primenjuju na isti element.",
           "kljucnaIdeja": "Cascade poredi poreklo/važnost, specifičnost, redosled i druge faktore.",
@@ -931,7 +932,7 @@
         {
           "naslov": "Selektor",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Klasa bira broj, ne ceo dokument.",
           "kljucnaIdeja": "Klasni selektor .digit bira broj. Dokument i dalje kaže 24.",
@@ -944,22 +945,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Svaki element na stranici.",
-              "why": "Tačka bira klasu, ne sve elemente. Ta pretpostavka zanemaruje ključnu razliku: Klasni selektor .digit bira broj. Dokument i dalje kaže 24.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Element sa klasom digit.",
               "why": "Selektor .digit gleda atribut class. To je u skladu sa razlikom koju pravi ovaj korak: Klasni selektor .digit bira broj. Dokument i dalje kaže 24.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Svaki element na stranici.",
+              "why": "Tačka bira klasu, ne sve elemente. Ta pretpostavka zanemaruje ključnu razliku: Klasni selektor .digit bira broj. Dokument i dalje kaže 24.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Okvir",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Kutija dobija ivicu.",
           "kljucnaIdeja": "border je ivica kutije. Broj u fajlu i dalje je 24.",
@@ -987,7 +988,7 @@
         {
           "naslov": "Osvežavanje",
           "nivo": "Osnovno",
-          "minuta": 3,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "U alatima je neko prekucao 24 u 10.",
           "kljucnaIdeja": "Osvežavanje vraća dokument. 10 je bio samo lokalni prikaz.",
@@ -1015,7 +1016,7 @@
         {
           "naslov": "Raspored pri uskom ekranu",
           "nivo": "Primena",
-          "minuta": 3,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Panel treba da radi na desktopu i telefonu bez posebnog HTML-a.",
           "kljucnaIdeja": "CSS Grid može prilagoditi broj kolona raspoloživoj širini.",
@@ -1029,15 +1030,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Nastavlja da crta dve kolone uz horizontalni overflow u svim slučajevima.",
-              "why": "Pravilo auto-fit dozvoljava prelom rasporeda.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Može preći na jednu kolonu.",
               "why": "Broj kolona se prilagođava dostupnom prostoru.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Nastavlja da crta dve kolone uz horizontalni overflow u svim slučajevima.",
+              "why": "Pravilo auto-fit dozvoljava prelom rasporeda.",
+              "ok": false
             },
             {
               "key": "C",
@@ -1050,7 +1051,7 @@
         {
           "naslov": "Alati",
           "nivo": "Osnovno",
-          "minuta": 3,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Izmena u alatima vidi se odmah na ekranu.",
           "kljucnaIdeja": "Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju.",
@@ -1069,22 +1070,22 @@
             },
             {
               "key": "B",
-              "text": "Živi DOM, ne izvorni fajl.",
-              "why": "Fajl i dalje kaže 24. To je u skladu sa razlikom koju pravi ovaj korak: Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju.",
-              "ok": true
-            },
-            {
-              "key": "C",
               "text": "I merenje i dokument.",
               "why": "Dokument se nije sačuvao. Ta pretpostavka zanemaruje ključnu razliku: Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju.",
               "ok": false
+            },
+            {
+              "key": "C",
+              "text": "Živi DOM, ne izvorni fajl.",
+              "why": "Fajl i dalje kaže 24. To je u skladu sa razlikom koju pravi ovaj korak: Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju.",
+              "ok": true
             }
           ]
         },
         {
           "naslov": "Dva zahteva",
           "nivo": "Osnovno",
-          "minuta": 3,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Stranica traži dokument, pa stil.",
           "kljucnaIdeja": "Network pokazuje dokument i stil. Čitanje sobe još ne postoji.",
@@ -1112,7 +1113,7 @@
         {
           "naslov": "Semantika",
           "nivo": "Osnovno",
-          "minuta": 3,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Naslov nije podebljan pasus.",
           "kljucnaIdeja": "Semantički HTML ostaje i kad se stil promeni.",
@@ -1125,24 +1126,25 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Zato što server tako čita temperaturu.",
-              "why": "Server se na ovom času ne pokreće. Ta pretpostavka zanemaruje ključnu razliku: Semantički HTML ostaje i kad se stil promeni.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Zato što dokument kaže šta je naslov.",
               "why": "h1 imenuje naslov. To je u skladu sa razlikom koju pravi ovaj korak: Semantički HTML ostaje i kad se stil promeni.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Zato što server tako čita temperaturu.",
+              "why": "Server se na ovom času ne pokreće. Ta pretpostavka zanemaruje ključnu razliku: Semantički HTML ostaje i kad se stil promeni.",
+              "ok": false
             }
           ]
         }
-      ]
+      ],
+      "diskusijaMinuta": 20
     },
     {
       "naslov": "JavaScript: vrednosti, objekti i prototipovi",
       "podnaslov": "Objekat drži temperaturu. Ekran je još ne crta.",
-      "ishod": "Objekat drži temperaturu. Ekran je još ne crta.",
+      "ishod": "Student razlikuje broj od teksta pod === i kaže da reduce u primeru vrati zbir, a prosek nastaje deljenjem.",
       "minuta": 90,
       "problem": "Objekat je u const, a druga promenljiva pokazuje na njega. Šta sme?",
       "pretpostavka": "const zamrzava objekat, ili drugo ime pravi kopiju.",
@@ -1217,7 +1219,7 @@
         {
           "naslov": "Objekat",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 7,
           "tipPrimer": "aplikacija",
           "tekst": "Stanje stane u jedan objekat, pre bilo kog ekrana.",
           "kljucnaIdeja": "Objekat drži temperaturu i željeno stanje prekidača.",
@@ -1230,22 +1232,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "U natpisu na dugmetu.",
-              "why": "Ekran je još ne čita objekat. Ta pretpostavka zanemaruje ključnu razliku: Objekat drži temperaturu i željeno stanje prekidača.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "U polju objekta.",
               "why": "Objekat drži broj. To je u skladu sa razlikom koju pravi ovaj korak: Objekat drži temperaturu i željeno stanje prekidača.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "U natpisu na dugmetu.",
+              "why": "Ekran je još ne čita objekat. Ta pretpostavka zanemaruje ključnu razliku: Objekat drži temperaturu i željeno stanje prekidača.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "const",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 7,
           "tipPrimer": "aplikacija",
           "tekst": "Ime je vezano. Polje nije.",
           "kljucnaIdeja": "const ne zamrzava objekat.",
@@ -1273,7 +1275,7 @@
         {
           "naslov": "Primitivna vrednost i referenca",
           "nivo": "Primena",
-          "minuta": 5,
+          "minuta": 7,
           "tipPrimer": "pitalica-kod",
           "tekst": "Ista naredba dodele ne znači istu vrstu kopiranja.",
           "kljucnaIdeja": "Primitivne vrednosti se kopiraju kao vrednosti; objekti dele referencu na isti objekat.",
@@ -1292,15 +1294,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "25 25",
-              "why": "Promena b ne menja a.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "24 25",
               "why": "a ostaje 24, ali y i x upućuju na isti objekat pa je x.t 25.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "25 25",
+              "why": "Promena b ne menja a.",
+              "ok": false
             },
             {
               "key": "C",
@@ -1313,7 +1315,7 @@
         {
           "naslov": "Drugo ime",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "aplikacija",
           "tekst": "Dva imena mogu pokazivati na isti objekat.",
           "kljucnaIdeja": "Izmena kroz jedno ime vidi se kroz drugo.",
@@ -1341,7 +1343,7 @@
         {
           "naslov": "Delta",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "aplikacija",
           "tekst": "Jedna funkcija diže broj za fiksnu deltu.",
           "kljucnaIdeja": "Sledeći korak uveća temperaturu za deltu i ne gleda prekidač.",
@@ -1369,7 +1371,7 @@
         {
           "naslov": "Konzola",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "aplikacija",
           "tekst": "Broj se prati ispisom, ne na displeju.",
           "kljucnaIdeja": "Vrednosti se prate u konzoli. DOM se ne vezuje.",
@@ -1382,22 +1384,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Prati konzolu.",
-              "why": "Crtanja još nema. Ta pretpostavka zanemaruje ključnu razliku: Vrednosti se prate u konzoli. DOM se ne vezuje.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Ostaje. Konzola je drugi izlaz.",
               "why": "Displej čeka čas 3. To je u skladu sa razlikom koju pravi ovaj korak: Vrednosti se prate u konzoli. DOM se ne vezuje.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Prati konzolu.",
+              "why": "Crtanja još nema. Ta pretpostavka zanemaruje ključnu razliku: Vrednosti se prate u konzoli. DOM se ne vezuje.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Prototipski lanac",
           "nivo": "Primena",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "pitalica-kod",
           "tekst": "JavaScript objekat može naslediti ponašanje bez kopiranja svih polja.",
           "kljucnaIdeja": "Object.create postavlja prototip; sopstveno svojstvo zasenjuje nasleđeno.",
@@ -1422,22 +1424,22 @@
             },
             {
               "key": "B",
-              "text": "off",
-              "why": "Pretraga svojstva prelazi na prototip baza gde je status \"off\".",
-              "ok": true
-            },
-            {
-              "key": "C",
               "text": "undefined",
               "why": "Svojstvo postoji na prototipu.",
               "ok": false
+            },
+            {
+              "key": "C",
+              "text": "off",
+              "why": "Pretraga svojstva prelazi na prototip baza gde je status \"off\".",
+              "ok": true
             }
           ]
         },
         {
           "naslov": "filter",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Niz tačaka bira one iznad praga.",
           "kljucnaIdeja": "filter radi jednu stvar: bira tačke.",
@@ -1465,7 +1467,7 @@
         {
           "naslov": "map",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Od tačke ostane visina.",
           "kljucnaIdeja": "map vadi visinu. Petlja ostaje za crtanje, kasnije.",
@@ -1478,22 +1480,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Iste tačke, samo sakrije niske.",
-              "why": "To radi filter. Ta pretpostavka zanemaruje ključnu razliku: map vadi visinu. Petlja ostaje za crtanje, kasnije.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Svaku tačku pretvori u broj.",
               "why": "Izlaz je niz visina. To je u skladu sa razlikom koju pravi ovaj korak: map vadi visinu. Petlja ostaje za crtanje, kasnije.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Iste tačke, samo sakrije niske.",
+              "why": "To radi filter. Ta pretpostavka zanemaruje ključnu razliku: map vadi visinu. Petlja ostaje za crtanje, kasnije.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Metode, this i klase",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "pitalica-kod",
           "tekst": "Kada se funkcija izdvoji iz objekta, gubi se način poziva koji vezuje this.",
           "kljucnaIdeja": "this zavisi od oblika poziva; bind čuva izabrani prijemni objekat.",
@@ -1529,7 +1531,7 @@
         {
           "naslov": "reduce",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Visine se saberu u jedan broj.",
           "kljucnaIdeja": "reduce u ovom pozivu vrati zbir. Prosek nastaje tek deljenjem. Ispis još ne crta displej.",
@@ -1552,12 +1554,13 @@
               "why": "Poziv reduce sabira visine. Deljenje koje daje prosek radi funkcija prosek, posle toga. To je u skladu sa razlikom koju pravi ovaj korak: reduce u ovom pozivu vrati zbir. Prosek nastaje tek deljenjem. Ispis još ne crta displej.",
               "ok": true
             }
-          ]
+          ],
+          "probaj": "Ispiši vrednost koju vrati reduce, pa vrednost koju vrati prosek."
         },
         {
           "naslov": "Tip",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Broj i tekst istog zapisa nisu ista vrednost.",
           "kljucnaIdeja": "Rezervna provera je strogo poređenje broja i teksta temperature.",
@@ -1570,24 +1573,26 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Tačno, oba su 24.",
-              "why": "Strogo poređenje ne pretvara tip. Ta pretpostavka zanemaruje ključnu razliku: Rezervna provera je strogo poređenje broja i teksta temperature.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Netačno. Broj nije tekst.",
               "why": "24 i \"24\" nisu isti tip. === ne pretvara jedno u drugo, pa poređenje ne drži. To je u skladu sa razlikom koju pravi ovaj korak: Rezervna provera je strogo poređenje broja i teksta temperature.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Tačno, oba su 24.",
+              "why": "Strogo poređenje ne pretvara tip. Ta pretpostavka zanemaruje ključnu razliku: Rezervna provera je strogo poređenje broja i teksta temperature.",
+              "ok": false
             }
-          ]
+          ],
+          "probaj": "U konzoli uporedi 24 === \"24\" i 24 == \"24\"."
         }
-      ]
+      ],
+      "diskusijaMinuta": 20
     },
     {
       "naslov": "DOM, događaji i prikaz stanja",
       "podnaslov": "Klik menja stanje. Poseban kod crta prikaz.",
-      "ishod": "Klik menja stanje. Poseban kod crta prikaz.",
+      "ishod": "Student pokazuje da klik menja stanje, da poseban kod crta prikaz i da closure čuva leksičko okruženje.",
       "minuta": 90,
       "problem": "Menjanje objekta menja tekst na stranici…",
       "pretpostavka": "Objekat ili const sami osvežavaju DOM.",
@@ -1656,7 +1661,7 @@
         {
           "naslov": "Put klika",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 7,
           "tipPrimer": "aplikacija",
           "tekst": "Klik nije još crtež.",
           "kljucnaIdeja": "Ishod časa je taj put, ne jedan poziv koji radi sve.",
@@ -1684,7 +1689,7 @@
         {
           "naslov": "Funkcija",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 7,
           "tipPrimer": "aplikacija",
           "tekst": "Listener dobija funkciju, ne njen rezultat.",
           "kljucnaIdeja": "Listener sa funkcijom čeka klik.",
@@ -1712,7 +1717,7 @@
         {
           "naslov": "Poziv odmah",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 7,
           "tipPrimer": "aplikacija",
           "tekst": "Zagrade na registraciji znače poziv sada.",
           "kljucnaIdeja": "Listener sa pozivom dobija povratnu vrednost i klik nema šta da zove.",
@@ -1725,22 +1730,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Istu funkciju.",
-              "why": "U listener je ušao rezultat, ne funkcija. Ta pretpostavka zanemaruje ključnu razliku: Listener sa pozivom dobija povratnu vrednost i klik nema šta da zove.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Ništa, ako je rezultat undefined.",
               "why": "Poziv se desio odmah. To je u skladu sa razlikom koju pravi ovaj korak: Listener sa pozivom dobija povratnu vrednost i klik nema šta da zove.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Istu funkciju.",
+              "why": "U listener je ušao rezultat, ne funkcija. Ta pretpostavka zanemaruje ključnu razliku: Listener sa pozivom dobija povratnu vrednost i klik nema šta da zove.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Event bubbling",
           "nivo": "Primena",
-          "minuta": 5,
+          "minuta": 7,
           "tipPrimer": "pitalica-kod",
           "tekst": "Klik na dugme je i događaj u roditeljskom elementu.",
           "kljucnaIdeja": "Događaji prolaze kroz faze capture, target i bubble.",
@@ -1765,22 +1770,22 @@
             },
             {
               "key": "B",
-              "text": "inner pa outer",
-              "why": "Događaj kreće sa cilja i zatim se propagira ka roditelju.",
-              "ok": true
-            },
-            {
-              "key": "C",
               "text": "Samo inner",
               "why": "Roditelj takođe prima događaj ako propagacija nije zaustavljena.",
               "ok": false
+            },
+            {
+              "key": "C",
+              "text": "inner pa outer",
+              "why": "Događaj kreće sa cilja i zatim se propagira ka roditelju.",
+              "ok": true
             }
           ]
         },
         {
           "naslov": "Stanje",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "aplikacija",
           "tekst": "Handler menja objekat.",
           "kljucnaIdeja": "Sledeći korak menja temperaturu u objektu.",
@@ -1808,7 +1813,7 @@
         {
           "naslov": "Bez crtanja",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "aplikacija",
           "tekst": "Na ovom koraku panel ne zove crtaj.",
           "kljucnaIdeja": "Izostanak crtanja ostavlja novi broj u stanju i star na ekranu.",
@@ -1821,22 +1826,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Novi broj, jer se objekat promenio.",
-              "why": "Niko nije upisao tekst. Ta pretpostavka zanemaruje ključnu razliku: Izostanak crtanja ostavlja novi broj u stanju i star na ekranu.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Stari broj.",
               "why": "Stanje i prikaz su razdvojeni. To je u skladu sa razlikom koju pravi ovaj korak: Izostanak crtanja ostavlja novi broj u stanju i star na ekranu.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Novi broj, jer se objekat promenio.",
+              "why": "Niko nije upisao tekst. Ta pretpostavka zanemaruje ključnu razliku: Izostanak crtanja ostavlja novi broj u stanju i star na ekranu.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "crtaj",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "aplikacija",
           "tekst": "Klasa upisuje tekst u element.",
           "kljucnaIdeja": "Displej.crtaj upisuje broj. Ista klasa kasnije dobija i sobu mašina.",
@@ -1849,22 +1854,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Sam objekat sobe.",
-              "why": "Objekat nema element. Ta pretpostavka zanemaruje ključnu razliku: Displej.crtaj upisuje broj. Ista klasa kasnije dobija i sobu mašina.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Displej.crtaj.",
               "why": "this je instanca na kojoj je metod pozvan. To je u skladu sa razlikom koju pravi ovaj korak: Displej.crtaj upisuje broj. Ista klasa kasnije dobija i sobu mašina.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Sam objekat sobe.",
+              "why": "Objekat nema element. Ta pretpostavka zanemaruje ključnu razliku: Displej.crtaj upisuje broj. Ista klasa kasnije dobija i sobu mašina.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Class je sintaksa iznad prototipa",
           "nivo": "Primena",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "pitalica-kod",
           "tekst": "Dve instance dele isti metod, ali ne i sopstvena polja.",
           "kljucnaIdeja": "Metode deklarisane u class telu se nalaze na prototipu.",
@@ -1883,15 +1888,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "true",
-              "why": "Metoda se deli preko Displej.prototype.",
-              "ok": true
-            },
-            {
-              "key": "B",
               "text": "false",
               "why": "Nisu napravljene dve funkcije za dve instance.",
               "ok": false
+            },
+            {
+              "key": "B",
+              "text": "true",
+              "why": "Metoda se deli preko Displej.prototype.",
+              "ok": true
             },
             {
               "key": "C",
@@ -1904,7 +1909,7 @@
         {
           "naslov": "Prekidač",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "aplikacija",
           "tekst": "Klasa pomera natpis, ne temperaturu.",
           "kljucnaIdeja": "Prekidac.crtaj pomera natpis. Oba su ES6 klase.",
@@ -1917,22 +1922,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Broj temperature.",
-              "why": "To radi Displej. Ta pretpostavka zanemaruje ključnu razliku: Prekidac.crtaj pomera natpis. Oba su ES6 klase.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Natpis željenog stanja.",
               "why": "Željeno stanje stoji u objektu, natpis na dugmetu. To je u skladu sa razlikom koju pravi ovaj korak: Prekidac.crtaj pomera natpis. Oba su ES6 klase.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Broj temperature.",
+              "why": "To radi Displej. Ta pretpostavka zanemaruje ključnu razliku: Prekidac.crtaj pomera natpis. Oba su ES6 klase.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Forma",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "aplikacija",
           "tekst": "Forma na panelu ne sme da osveži dokument.",
           "kljucnaIdeja": "Forma na panelu ne osvežava dokument.",
@@ -1960,7 +1965,7 @@
         {
           "naslov": "Closure",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "aplikacija",
           "tekst": "Spoljašnja funkcija vrati unutrašnju i pamti prag.",
           "kljucnaIdeja": "Closure je funkcija zajedno sa pristupom leksičkom okruženju u kome je nastala.",
@@ -1985,12 +1990,13 @@
             }
           ]
         }
-      ]
+      ],
+      "diskusijaMinuta": 20
     },
     {
       "naslov": "Od mrežnog prenosa do HTTP-a i Node.js-a",
       "podnaslov": "Jedan zahtev i jedan odgovor. Kutija drži temperaturu.",
-      "ishod": "Jedan zahtev i jedan odgovor. Kutija drži temperaturu.",
+      "ishod": "Student prati jedan HTTP zahtev od browsera do Node procesa i kaže šta zahtev, a šta odgovor nosi.",
       "minuta": 90,
       "problem": "Handler u Node-u pozove document i ugasi dugme. Šta se desi?",
       "pretpostavka": "Server vidi isti dokument, ili 404 i ugašen port jesu isto.",
@@ -2052,7 +2058,7 @@
         {
           "naslov": "Cela poruka",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Soba prekidača pošalje jednu celu poruku i čeka da stigne cela.",
           "kljucnaIdeja": "Naivan prenos pretpostavlja celu poruku, redom.",
@@ -2066,22 +2072,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Da delovi smeju da zamene red.",
-              "why": "To pretpostavka još ne priznaje. Ta pretpostavka zanemaruje ključnu razliku: Naivan prenos pretpostavlja celu poruku, redom.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Da poruka stigne cela i redom.",
               "why": "Naivan prenos. To je u skladu sa razlikom koju pravi ovaj korak: Naivan prenos pretpostavlja celu poruku, redom.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Da delovi smeju da zamene red.",
+              "why": "To pretpostavka još ne priznaje. Ta pretpostavka zanemaruje ključnu razliku: Naivan prenos pretpostavlja celu poruku, redom.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Pad pretpostavke",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Poruka se izgubi, ili dve polovine zamene red.",
           "kljucnaIdeja": "Pretpostavka padne pre nego što se bilo koji protokol imenuje.",
@@ -2095,22 +2101,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "HTTP status.",
-              "why": "HTTP još nije imenovan. Ta pretpostavka zanemaruje ključnu razliku: Pretpostavka padne pre nego što se bilo koji protokol imenuje.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Pretpostavka da cela poruka stigne redom.",
               "why": "Zato treba delovi i redni brojevi. To je u skladu sa razlikom koju pravi ovaj korak: Pretpostavka padne pre nego što se bilo koji protokol imenuje.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "HTTP status.",
+              "why": "HTTP još nije imenovan. Ta pretpostavka zanemaruje ključnu razliku: Pretpostavka padne pre nego što se bilo koji protokol imenuje.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Potvrda",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Popravka još nema ime: delovi, redni brojevi, potvrda prijema.",
           "kljucnaIdeja": "Delovi, redni brojevi i potvrda prijema popravljaju naivan prenos.",
@@ -2153,15 +2159,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Da će ventilator biti uključen.",
-              "why": "Tok bajtova nema taj smisao. Ta pretpostavka zanemaruje ključnu razliku: TCP je pouzdan tok bajtova. Još ne znači „uključi ventilator”.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Da bajtovi stignu pouzdano i redom.",
               "why": "Segmentacija TCP-a nije IP fragmentacija. To je u skladu sa razlikom koju pravi ovaj korak: TCP je pouzdan tok bajtova. Još ne znači „uključi ventilator”.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Da će ventilator biti uključen.",
+              "why": "Tok bajtova nema taj smisao. Ta pretpostavka zanemaruje ključnu razliku: TCP je pouzdan tok bajtova. Još ne znači „uključi ventilator”.",
+              "ok": false
             }
           ]
         },
@@ -2181,15 +2187,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Još jedan redni broj.",
-              "why": "Red već drži TCP. Ta pretpostavka zanemaruje ključnu razliku: HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Smisao: šta se traži i koji je status odgovora.",
               "why": "Metod, putanja, zaglavlja, telo, status. To je u skladu sa razlikom koju pravi ovaj korak: HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Još jedan redni broj.",
+              "why": "Red već drži TCP. Ta pretpostavka zanemaruje ključnu razliku: HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1.",
+              "ok": false
             }
           ]
         },
@@ -2239,15 +2245,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Otvori browser.",
-              "why": "Browser je druga strana. Ta pretpostavka zanemaruje ključnu razliku: http.createServer dolazi pre slušanja porta.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Napravi server koji za svaki zahtev zove obradu.",
               "why": "Još ne sluša port. To je u skladu sa razlikom koju pravi ovaj korak: http.createServer dolazi pre slušanja porta.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Otvori browser.",
+              "why": "Browser je druga strana. Ta pretpostavka zanemaruje ključnu razliku: http.createServer dolazi pre slušanja porta.",
+              "ok": false
             }
           ]
         },
@@ -2324,22 +2330,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Grešku, jer ta putanja ne postoji.",
-              "why": "Za server ona postoji: obrada ne čita req.url, pa svima odgovori isto.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Isti tekst „soba” kao za /api/soba.",
               "why": "Ruta još ne postoji. Server ne razlikuje traženo od netraženog.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Grešku, jer ta putanja ne postoji.",
+              "why": "Za server ona postoji: obrada ne čita req.url, pa svima odgovori isto.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "JSON telo",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Odgovor postaje JSON tekst sa temperaturom i režimom. Proces koji već radi i dalje vraća „soba” dok se ne pokrene ponovo.",
           "kljucnaIdeja": "res.end šalje tekst ili bajtove. Objekat prvo postane tekst kroz JSON.stringify. Izmena server.js važi tek posle ponovnog pokretanja procesa.",
@@ -2353,22 +2359,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Novi JSON, jer je fajl sačuvan.",
-              "why": "Proces je pročitao server.js kad je krenuo. Sačuvan fajl ne menja proces koji već radi.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Stari tekst „soba”.",
               "why": "Tek Ctrl+C i ponovo node server/server.js učita novu obradu.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Novi JSON, jer je fajl sačuvan.",
+              "why": "Proces je pročitao server.js kad je krenuo. Sačuvan fajl ne menja proces koji već radi.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Status i zaglavlje",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Pre tela odgovor nosi status i zaglavlja. Zaglavlje content-type kaže da je telo JSON.",
           "kljucnaIdeja": "writeHead šalje status i zaglavlja, end šalje telo. Bez writeHead Node pošalje 200 i nijedno zaglavlje o vrsti tela.",
@@ -2397,7 +2403,7 @@
         {
           "naslov": "Jedan odgovor",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Pisanje statusa, zaglavlja i JSON tela ode u jednu funkciju. Obrada samo kaže koji status i koje telo.",
           "kljucnaIdeja": "posalji(res, status, body) piše svaki JSON odgovor istim putem: 200, 404 i 405 se razlikuju samo po argumentima.",
@@ -2411,22 +2417,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Da bi svaki odgovor bio 200.",
-              "why": "Upravo suprotno: status se menja od odgovora do odgovora.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Da isti kod napiše i uspeh i grešku.",
               "why": "Sledeći koraci šalju 404 i 405 kroz istu funkciju.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Da bi svaki odgovor bio 200.",
+              "why": "Upravo suprotno: status se menja od odgovora do odgovora.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Putanja i metod čine rutu",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "eksperiment",
           "tekst": "Ista putanja nije isto što i ista operacija.",
           "kljucnaIdeja": "HTTP metod utiče na značenje zahteva; server odlučuje koju kombinaciju podržava.",
@@ -2441,28 +2447,28 @@
           "opcije": [
             {
               "key": "A",
+              "text": "Nijedan: implementacija i ugovor odlučuju šta je dozvoljeno.",
+              "why": "API ugovor definiše podržane rute i način izmene.",
+              "ok": true
+            },
+            {
+              "key": "B",
               "text": "GET",
               "why": "GET je bezbedna metoda koja ne bi trebalo da menja stanje po zahtevu klijenta.",
               "ok": false
             },
             {
-              "key": "B",
+              "key": "C",
               "text": "PUT",
               "why": "PUT obično postavlja reprezentaciju resursa, ali to ne znači da je svaki PUT endpoint podržan.",
               "ok": false
-            },
-            {
-              "key": "C",
-              "text": "Nijedan: implementacija i ugovor odlučuju šta je dozvoljeno.",
-              "why": "API ugovor definiše podržane rute i način izmene.",
-              "ok": true
             }
           ]
         },
         {
           "naslov": "Ruta",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Obrada pročita putanju iz req.url. Samo /api/soba vraća temperaturu i režim. Sve ostalo dobije 404 sa kratkim telom.",
           "kljucnaIdeja": "Endpoint je putanja koju obrada prepoznaje. Za nepoznatu putanju server ipak odgovori: 404 je status, ne ugašen port.",
@@ -2497,7 +2503,7 @@
         {
           "naslov": "Metod",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Ista putanja, drugi metod. PUT /api/soba nije čitanje.",
           "kljucnaIdeja": "Ruta je putanja i metod zajedno. Poznata putanja sa nepodržanim metodom dobija 405, ne 404.",
@@ -2511,15 +2517,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "404.",
-              "why": "Putanja postoji. 404 bi reklo da nje nema.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "405.",
               "why": "Putanja postoji, metod ne. Status to razlikuje.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "404.",
+              "why": "Putanja postoji. 404 bi reklo da nje nema.",
+              "ok": false
             },
             {
               "key": "C",
@@ -2532,7 +2538,7 @@
         {
           "naslov": "Modul sobe",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Šta soba vraća ide u poseban fajl. Modul ne zna za HTTP: vraća samo status i telo.",
           "kljucnaIdeja": "soba.js izvozi citaj, a citaj vraća { status, body }. server.js je taj koji piše HTTP odgovor.",
@@ -2561,7 +2567,7 @@
         {
           "naslov": "Stanje na serveru",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "server.js učita modul i drži stanje sobe u procesu. Ruta /api/soba sada pita modul.",
           "kljucnaIdeja": "Temperatura živi u procesu servera, u objektu state. require(\"./soba\") se izvrši jednom, kad proces krene.",
@@ -2590,7 +2596,7 @@
         {
           "naslov": "Konkurentni zahtevi",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "eksperiment",
           "tekst": "Dva klijenta istovremeno traže podatke.",
           "kljucnaIdeja": "Node event loop omogućava obradu događaja; blokirajući kod i dalje može zaustaviti odziv.",
@@ -2626,7 +2632,7 @@
         {
           "naslov": "Bez Err",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Displej iz prošle nedelje nema granu koja piše Err.",
           "kljucnaIdeja": "Neuspeh na času 4 ostavlja crte. Dugme Pročitaj šalje jedno čitanje. Sledeći korak na klijentu više nije izvor temperature.",
@@ -2635,24 +2641,25 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Upiše Err.",
-              "why": "Tu grane još nema. Ta pretpostavka zanemaruje ključnu razliku: Neuspeh na času 4 ostavlja crte. Dugme Pročitaj šalje jedno čitanje. Sledeći korak na klijentu više nije izvor temperature.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Ostavi crte.",
               "why": "Nema broja za neuspeh i nema reči Err. To je u skladu sa razlikom koju pravi ovaj korak: Neuspeh na času 4 ostavlja crte. Dugme Pročitaj šalje jedno čitanje. Sledeći korak na klijentu više nije izvor temperature.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Upiše Err.",
+              "why": "Tu grane još nema. Ta pretpostavka zanemaruje ključnu razliku: Neuspeh na času 4 ostavlja crte. Dugme Pročitaj šalje jedno čitanje. Sledeći korak na klijentu više nije izvor temperature.",
+              "ok": false
             }
           ]
         }
-      ]
+      ],
+      "diskusijaMinuta": 20
     },
     {
       "naslov": "Asinhronost, event loop i neuspeh",
       "podnaslov": "Čekanje, podatak i greška. 200 nije 500, a 500 nije ugašen port.",
-      "ishod": "Čekanje, podatak i greška. 200 nije 500, a 500 nije ugašen port.",
+      "ishod": "Student razlikuje čekanje, HTTP 200, HTTP 500 ovog primera i izostanak odgovora.",
       "minuta": 90,
       "problem": "fetch je dobio HTTP 500. Da li je to catch?",
       "pretpostavka": "Svaki neuspeh je catch, ili 500 znači da odgovora nema.",
@@ -2714,7 +2721,7 @@
         {
           "naslov": "Tri stanja",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 7,
           "tipPrimer": "aplikacija",
           "tekst": "Ekran čeka, ima podatak, ili ima grešku.",
           "kljucnaIdeja": "Dugme učitava temperaturu. Ekran je u jednom od ta tri stanja.",
@@ -2742,7 +2749,7 @@
         {
           "naslov": "200",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 7,
           "tipPrimer": "aplikacija",
           "tekst": "Uspeh nosi temperaturu i režim.",
           "kljucnaIdeja": "HTTP 200 sa temperaturom i režimom upisuje cifre.",
@@ -2755,22 +2762,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Err, jer je broj sa servera.",
-              "why": "200 je uspeh. Ta pretpostavka zanemaruje ključnu razliku: HTTP 200 sa temperaturom i režimom upisuje cifre.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Cifre iz tela.",
               "why": "response.ok jeste uspeh. To je u skladu sa razlikom koju pravi ovaj korak: HTTP 200 sa temperaturom i režimom upisuje cifre.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Err, jer je broj sa servera.",
+              "why": "200 je uspeh. Ta pretpostavka zanemaruje ključnu razliku: HTTP 200 sa temperaturom i režimom upisuje cifre.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Izvučen kabl",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "aplikacija",
           "tekst": "Pripremljeni 500 jeste ventilator koji nije priključen. Modul sobe to proveri pre čitanja.",
           "kljucnaIdeja": "U ovom primeru izvučen ventilator vraća HTTP 500 i odgovor stiže. Drugi server sme 500 da upotrebi za drugi neuspeh.",
@@ -2784,22 +2791,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Nije. 500 znači tišinu.",
-              "why": "Status postoji. Ta pretpostavka zanemaruje ključnu razliku: U ovom primeru izvučen ventilator vraća HTTP 500 i odgovor stiže. Drugi server sme 500 da upotrebi za drugi neuspeh.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Jeste. Status je 500.",
               "why": "Telo nema temperaturu za displej. To je u skladu sa razlikom koju pravi ovaj korak: U ovom primeru izvučen ventilator vraća HTTP 500 i odgovor stiže. Drugi server sme 500 da upotrebi za drugi neuspeh.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Nije. 500 znači tišinu.",
+              "why": "Status postoji. Ta pretpostavka zanemaruje ključnu razliku: U ovom primeru izvučen ventilator vraća HTTP 500 i odgovor stiže. Drugi server sme 500 da upotrebi za drugi neuspeh.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Event loop: redosled izvršavanja",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "pitalica-kod",
           "tekst": "Kod zakazuje posao, ali callback nije nužno sledeća izvršena linija.",
           "kljucnaIdeja": "Sinhroni kod ide prvo, zatim Promise reakcije (microtasks), pa timer task kada dođe na red.",
@@ -2839,7 +2846,7 @@
         {
           "naslov": "Err",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Završen neuspeh više ne ostavlja crte.",
           "kljucnaIdeja": "Završen status koji nije uspeh piše Err.",
@@ -2852,22 +2859,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Poslednje cifre, kao da je uspeh.",
-              "why": "Neuspeh ima svoju granu. Ta pretpostavka zanemaruje ključnu razliku: Završen status koji nije uspeh piše Err.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Err.",
               "why": "Nema broja u tom odgovoru. To je u skladu sa razlikom koju pravi ovaj korak: Završen status koji nije uspeh piše Err.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Poslednje cifre, kao da je uspeh.",
+              "why": "Neuspeh ima svoju granu. Ta pretpostavka zanemaruje ključnu razliku: Završen status koji nije uspeh piše Err.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Nema statusa",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Proces se ugasi. Zahtev nema HTTP status.",
           "kljucnaIdeja": "Isečak piše Err i za status koji nije uspeh i za izostanak odgovora. Nastavnik tu liniju može da izmeni.",
@@ -2895,7 +2902,7 @@
         {
           "naslov": "async/await ne blokira stranicu",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "pitalica-kod",
           "tekst": "Dok se čeka mreža, browser može obraditi drugi klik.",
           "kljucnaIdeja": "await suspenduje nastavak async funkcije; ne blokira event loop.",
@@ -2931,7 +2938,7 @@
         {
           "naslov": "fetch",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Čitanje iz koda dolazi tek sada.",
           "kljucnaIdeja": "Isti zahtev sada polazi iz koda. Protokol je i dalje HTTP/1.1.",
@@ -2944,22 +2951,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Da, adresa u browseru ne važi.",
-              "why": "Adresa je bila na času 4. Ta pretpostavka zanemaruje ključnu razliku: Isti zahtev sada polazi iz koda. Protokol je i dalje HTTP/1.1.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Ne. Adresa je već pokazala isti odgovor.",
               "why": "fetch je poziv iz koda. To je u skladu sa razlikom koju pravi ovaj korak: Isti zahtev sada polazi iz koda. Protokol je i dalje HTTP/1.1.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Da, adresa u browseru ne važi.",
+              "why": "Adresa je bila na času 4. Ta pretpostavka zanemaruje ključnu razliku: Isti zahtev sada polazi iz koda. Protokol je i dalje HTTP/1.1.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Nije catch",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "500 ne skače sam u catch.",
           "kljucnaIdeja": "500 ne vodi samo po sebi u catch. Odgovor postoji.",
@@ -2972,22 +2979,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Samo u catch.",
-              "why": "fetch se razreši odgovorom. Ta pretpostavka zanemaruje ključnu razliku: 500 ne vodi samo po sebi u catch. Odgovor postoji.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "U statusu odgovora.",
               "why": "Uspeh se čita iz statusa. To je u skladu sa razlikom koju pravi ovaj korak: 500 ne vodi samo po sebi u catch. Odgovor postoji.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Samo u catch.",
+              "why": "fetch se razreši odgovorom. Ta pretpostavka zanemaruje ključnu razliku: 500 ne vodi samo po sebi u catch. Odgovor postoji.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "await",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Čekanje stoji unutar jedne funkcije.",
           "kljucnaIdeja": "await suspenduje nastavak te async funkcije, ne ceo browser.",
@@ -3015,7 +3022,7 @@
         {
           "naslov": "HTTP 500 nije mrežni izuzetak",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Status 500 je odgovor, čak i kad operacija nije uspela.",
           "kljucnaIdeja": "fetch ne odbacuje Promise samo zbog HTTP 4xx/5xx statusa.",
@@ -3029,15 +3036,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Uvek ulazi u catch.",
-              "why": "HTTP odgovor ne odbacuje fetch Promise samo zato što ima grešku statusa.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Ispisuje false, osim drugih grešaka.",
               "why": "response.ok je false za 500; catch je za odbacivanje Promise-a ili bačen izuzetak.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Uvek ulazi u catch.",
+              "why": "HTTP odgovor ne odbacuje fetch Promise samo zato što ima grešku statusa.",
+              "ok": false
             },
             {
               "key": "C",
@@ -3050,7 +3057,7 @@
         {
           "naslov": "Posle uspeha",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Uspeh upiše cifre. Sledeći neuspeh ih zameni.",
           "kljucnaIdeja": "Posle HTTP 200 displej čuva poslednje cifre dok browser ponovo ne pročita kutiju.",
@@ -3063,22 +3070,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Crte, jer je čitanje gotovo.",
-              "why": "Cifre ostaju do sledećeg čitanja. Ta pretpostavka zanemaruje ključnu razliku: Posle HTTP 200 displej čuva poslednje cifre dok browser ponovo ne pročita kutiju.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Poslednje cifre.",
               "why": "Komanda ih ne briše. To je u skladu sa razlikom koju pravi ovaj korak: Posle HTTP 200 displej čuva poslednje cifre dok browser ponovo ne pročita kutiju.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Crte, jer je čitanje gotovo.",
+              "why": "Cifre ostaju do sledećeg čitanja. Ta pretpostavka zanemaruje ključnu razliku: Posle HTTP 200 displej čuva poslednje cifre dok browser ponovo ne pročita kutiju.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Drugi klik",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Prvi zahtev još čeka. Stigne drugi klik.",
           "kljucnaIdeja": "Drugi klik za vreme čekanja i dalje radi.",
@@ -3103,12 +3110,13 @@
             }
           ]
         }
-      ]
+      ],
+      "diskusijaMinuta": 20
     },
     {
       "naslov": "API komande, validacija i idempotentnost",
       "podnaslov": "Željeno stanje, provera tela i smisao ponavljanja.",
-      "ishod": "Željeno stanje, provera tela i smisao ponavljanja.",
+      "ishod": "Student obrazlaže da ponovljena komanda ima isti nameravani efekat, dok pomoćni zapis sme da se ponovi.",
       "minuta": 90,
       "problem": "Koju komandu smemo da pošaljemo dvaput?",
       "pretpostavka": "Prebacivanje je bezbednije jer vraća nazad, ili forma garantuje telo.",
@@ -3170,7 +3178,7 @@
         {
           "naslov": "Željeno stanje",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "aplikacija",
           "tekst": "Komanda kaže u kom stanju ventilator treba da bude.",
           "kljucnaIdeja": "Komanda postavlja ventilator na uključeno ili isključeno.",
@@ -3184,22 +3192,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Koliko je sada stepeni.",
-              "why": "Temperatura nije u komandi. Ta pretpostavka zanemaruje ključnu razliku: Komanda postavlja ventilator na uključeno ili isključeno.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Boolean željenog stanja.",
               "why": "Jedno polje. To je u skladu sa razlikom koju pravi ovaj korak: Komanda postavlja ventilator na uključeno ili isključeno.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Koliko je sada stepeni.",
+              "why": "Temperatura nije u komandi. Ta pretpostavka zanemaruje ključnu razliku: Komanda postavlja ventilator na uključeno ili isključeno.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "PUT",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 6,
           "tipPrimer": "aplikacija",
           "tekst": "Komanda je novi zahtev: metod PUT, putanja /api/ventilator, telo sa željenim stanjem. server.js iz pete nedelje tu putanju ne poznaje.",
           "kljucnaIdeja": "Komanda je PUT /api/ventilator.",
@@ -3233,7 +3241,7 @@
         {
           "naslov": "Modul ventilatora",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Komanda ide u svoj modul, kao čitanje u soba.js. Modul upiše željeno stanje i vrati samo režim.",
           "kljucnaIdeja": "ventilator.js izvozi komanda(kontekst, telo). Uspeh vraća { ukljucen }, bez temperature.",
@@ -3262,7 +3270,7 @@
         {
           "naslov": "Telo stiže u delovima",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Za razliku od putanje, telo zahteva nije gotovo polje u req. Stiže kao tok, deo po deo, i završi se događajem end.",
           "kljucnaIdeja": "procitajTelo skuplja delove dok ne stigne end i vraća Promise sa celim tekstom. server.js se čita kad proces krene: posle izmene, ponovo node server/server.js.",
@@ -3276,15 +3284,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Zato što GET nema telo.",
-              "why": "Ovde je PUT, a telo i dalje stiže kasnije od zaglavlja.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Zato što stiže kao tok bajtova, u delovima.",
               "why": "To je TCP iz pete nedelje: obrada čeka end pre nego što ima ceo tekst.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Zato što GET nema telo.",
+              "why": "Ovde je PUT, a telo i dalje stiže kasnije od zaglavlja.",
+              "ok": false
             }
           ]
         },
@@ -3311,15 +3319,15 @@
             },
             {
               "key": "B",
-              "text": "405.",
-              "why": "Putanja postoji, ali samo za PUT.",
-              "ok": true
-            },
-            {
-              "key": "C",
               "text": "200 i trenutni režim.",
               "why": "Ruta za GET na toj putanji ne postoji. Režim se čita kroz /api/soba.",
               "ok": false
+            },
+            {
+              "key": "C",
+              "text": "405.",
+              "why": "Putanja postoji, ali samo za PUT.",
+              "ok": true
             }
           ]
         },
@@ -3368,15 +3376,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Server bi vratio 400 sam od sebe.",
-              "why": "Node ne zna šta je ispravno telo. 400 je odluka obrade.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Proces bi pao, i sledeća čitanja ne bi imala odgovor.",
               "why": "Neuhvaćen izuzetak u async obradi obori Node proces. U terminalu ostane greška.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Server bi vratio 400 sam od sebe.",
+              "why": "Node ne zna šta je ispravno telo. 400 je odluka obrade.",
+              "ok": false
             }
           ]
         },
@@ -3398,15 +3406,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Pretvori ga u true bez provere.",
-              "why": "Prećutna konverzija krši ugovor.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Odbije neispravan unos, na primer statusom 400.",
               "why": "Server je granica poverenja; string nije boolean.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Pretvori ga u true bez provere.",
+              "why": "Prećutna konverzija krši ugovor.",
+              "ok": false
             },
             {
               "key": "C",
@@ -3462,15 +3470,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "200, forma bi to ionako sprečila.",
-              "why": "Forma ne sprečava drugačije telo. Ta pretpostavka zanemaruje ključnu razliku: Telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "400. Telo nije režim.",
               "why": "Režim u kutiji se ne menja. To je u skladu sa razlikom koju pravi ovaj korak: Telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "200, forma bi to ionako sprečila.",
+              "why": "Forma ne sprečava drugačije telo. Ta pretpostavka zanemaruje ključnu razliku: Telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400.",
+              "ok": false
             }
           ]
         },
@@ -3585,15 +3593,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Da smeju obe, jer je 200 uspeh.",
-              "why": "Status ne kaže da li drugi put poništava. Ta pretpostavka zanemaruje ključnu razliku: Status 200 ne znači da ponavljanje ima isti efekat.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Ništa o smislu drugog slanja.",
               "why": "Smisao je u tome šta telo traži. To je u skladu sa razlikom koju pravi ovaj korak: Status 200 ne znači da ponavljanje ima isti efekat.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Da smeju obe, jer je 200 uspeh.",
+              "why": "Status ne kaže da li drugi put poništava. Ta pretpostavka zanemaruje ključnu razliku: Status 200 ne znači da ponavljanje ima isti efekat.",
+              "ok": false
             }
           ]
         },
@@ -3643,24 +3651,25 @@
           "opcije": [
             {
               "key": "A",
-              "text": "200 i odsečen JSON.",
-              "why": "Neispravan ili prevelik unos se odbija. Ta pretpostavka zanemaruje ključnu razliku: Pomoćni kod odbija prevelik unos i neispravan JSON.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Odbijenicu, pre nego što postane režim.",
               "why": "Režim se ne pogađa iz otpada. To je u skladu sa razlikom koju pravi ovaj korak: Pomoćni kod odbija prevelik unos i neispravan JSON.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "200 i odsečen JSON.",
+              "why": "Neispravan ili prevelik unos se odbija. Ta pretpostavka zanemaruje ključnu razliku: Pomoćni kod odbija prevelik unos i neispravan JSON.",
+              "ok": false
             }
           ]
         }
-      ]
+      ],
+      "diskusijaMinuta": 20
     },
     {
       "naslov": "PostgreSQL, transakcije i Docker",
       "podnaslov": "Režim i istorija su jedna transakcija.",
-      "ishod": "Režim i istorija su jedna transakcija.",
+      "ishod": "Student objašnjava zašto režim i istorija ulaze u jednu transakciju i šta se povlači kad drugi upit padne.",
       "minuta": 90,
       "problem": "Režim je upisan, istorija nije. Da li je evidencija cela?",
       "pretpostavka": "Bitno stanje je sačuvano pa je istorija sporedna, ili kontejner sam čuva oba upisa.",
@@ -3715,7 +3724,7 @@
         {
           "naslov": "Parametar",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 6,
           "tipPrimer": "aplikacija",
           "tekst": "Vrednost ulazi kao parametar, ne lepljenjem teksta.",
           "kljucnaIdeja": "Upit je parametrizovan.",
@@ -3729,22 +3738,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Da se tekst komande spoji u SQL.",
-              "why": "Lepljenje teksta je drugi čas, kao opomena. Ta pretpostavka zanemaruje ključnu razliku: Upit je parametrizovan.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Da vrednost ostane podatak, ne deo upita.",
               "why": "Upit je parametrizovan. To je u skladu sa razlikom koju pravi ovaj korak: Upit je parametrizovan.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Da se tekst komande spoji u SQL.",
+              "why": "Lepljenje teksta je drugi čas, kao opomena. Ta pretpostavka zanemaruje ključnu razliku: Upit je parametrizovan.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Dva reda",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Režim i istorija su dva upisa.",
           "kljucnaIdeja": "Čitanje i izmena režima idu uz zapis komande.",
@@ -3773,7 +3782,7 @@
         {
           "naslov": "BEGIN",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Dva upita ulaze u jednu transakciju.",
           "kljucnaIdeja": "Povezani upis režima i istorije je jedna transakcija.",
@@ -3787,22 +3796,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Novi Node proces.",
-              "why": "Proces već radi. Ta pretpostavka zanemaruje ključnu razliku: Povezani upis režima i istorije je jedna transakcija.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Transakciju koja još nije potvrđena.",
               "why": "COMMIT ili ROLLBACK je zatvaraju. To je u skladu sa razlikom koju pravi ovaj korak: Povezani upis režima i istorije je jedna transakcija.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Novi Node proces.",
+              "why": "Proces već radi. Ta pretpostavka zanemaruje ključnu razliku: Povezani upis režima i istorije je jedna transakcija.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "COMMIT",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Oba upita su prošla.",
           "kljucnaIdeja": "Ili oba uspeju, ili se oba povuku.",
@@ -3831,7 +3840,7 @@
         {
           "naslov": "Zašto SQL parametri?",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "SQL tekst i vrednost iz zahteva nisu ista stvar.",
           "kljucnaIdeja": "Parametrizovani upit sprečava da ulazni podatak promeni strukturu SQL naredbe.",
@@ -3866,7 +3875,7 @@
         {
           "naslov": "ROLLBACK",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Drugi upit u transakciji padne.",
           "kljucnaIdeja": "Jedna promena: drugi upit ne uspe, pa se prvi povuče.",
@@ -3880,22 +3889,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Režim, istorija može kasnije.",
-              "why": "Transakcija se povlači cela. Ta pretpostavka zanemaruje ključnu razliku: Jedna promena: drugi upit ne uspe, pa se prvi povuče.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Ni režim ni istorija te transakcije.",
               "why": "Restart ne spaja ono što nije bilo jedna transakcija. To je u skladu sa razlikom koju pravi ovaj korak: Jedna promena: drugi upit ne uspe, pa se prvi povuče.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Režim, istorija može kasnije.",
+              "why": "Transakcija se povlači cela. Ta pretpostavka zanemaruje ključnu razliku: Jedna promena: drugi upit ne uspe, pa se prvi povuče.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Restart procesa",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Node se ugasi i ponovo podigne. Baza ostane.",
           "kljucnaIdeja": "Restart samo Node procesa čuva režim upisan u jednoj transakciji.",
@@ -3908,22 +3917,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Podrazumevano isključeno, proces je nov.",
-              "why": "Uspešna transakcija je u bazi. Ta pretpostavka zanemaruje ključnu razliku: Restart samo Node procesa čuva režim upisan u jednoj transakciji.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Režim iz uspele transakcije.",
               "why": "Restart samo procesa ne briše bazu. To je u skladu sa razlikom koju pravi ovaj korak: Restart samo Node procesa čuva režim upisan u jednoj transakciji.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Podrazumevano isključeno, proces je nov.",
+              "why": "Uspešna transakcija je u bazi. Ta pretpostavka zanemaruje ključnu razliku: Restart samo Node procesa čuva režim upisan u jednoj transakciji.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Dva odvojena upita",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Neko uradi UPDATE, pa kasnije INSERT, bez BEGIN.",
           "kljucnaIdeja": "Restart ne spaja dva odvojena upita.",
@@ -3951,7 +3960,7 @@
         {
           "naslov": "Kontejner",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Kontejner se obriše. Disk baze ostane.",
           "kljucnaIdeja": "Kontejner sam ne čini upise atomskim ni trajnim.",
@@ -3964,22 +3973,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "I režim, jer je kontejner držao podatak u sebi.",
-              "why": "Trajnost je na disku, ne u imenu kontejnera. Ta pretpostavka zanemaruje ključnu razliku: Kontejner sam ne čini upise atomskim ni trajnim.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Proces baze. Podatak ostaje ako disk ostane.",
               "why": "Kontejner nije atomičnost upisa. To je u skladu sa razlikom koju pravi ovaj korak: Kontejner sam ne čini upise atomskim ni trajnim.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "I režim, jer je kontejner držao podatak u sebi.",
+              "why": "Trajnost je na disku, ne u imenu kontejnera. Ta pretpostavka zanemaruje ključnu razliku: Kontejner sam ne čini upise atomskim ni trajnim.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Transakcija i pad procesa",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "eksperiment",
           "tekst": "Posle UPDATE, pre INSERT zapisa u istoriju, proces padne.",
           "kljucnaIdeja": "Transakcija štiti atomski upis: ili oba, ili nijedan.",
@@ -3994,15 +4003,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "UPDATE mora ostati sačuvan.",
-              "why": "Bez potvrđene transakcije nije garantovan trajni efekat.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Nepotvrđene izmene te transakcije se povlače.",
               "why": "PostgreSQL povlači nepotvrđenu transakciju pri prekidu konekcije.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "UPDATE mora ostati sačuvan.",
+              "why": "Bez potvrđene transakcije nije garantovan trajni efekat.",
+              "ok": false
             },
             {
               "key": "C",
@@ -4015,7 +4024,7 @@
         {
           "naslov": "Disk",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Obriše se i trajno skladište.",
           "kljucnaIdeja": "Demonstracija razlikuje restart procesa, uklanjanje kontejnera i uklanjanje trajnog skladišta.",
@@ -4043,7 +4052,7 @@
         {
           "naslov": "Credential",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Browser traži sobu.",
           "kljucnaIdeja": "Browser ne dobija credential baze.",
@@ -4056,22 +4065,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Temperaturu.",
-              "why": "To jeste čitanje. Ta pretpostavka zanemaruje ključnu razliku: Browser ne dobija credential baze.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Credential baze.",
               "why": "Oni ostaju na kutiji. To je u skladu sa razlikom koju pravi ovaj korak: Browser ne dobija credential baze.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Temperaturu.",
+              "why": "To jeste čitanje. Ta pretpostavka zanemaruje ključnu razliku: Browser ne dobija credential baze.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Put",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Zahtev dođe, upit prođe, rezultat se vrati.",
           "kljucnaIdeja": "Ishod časa je taj put. Baza ne vidi telo koje nije režim.",
@@ -4100,7 +4109,7 @@
         {
           "naslov": "Istorija nije sporedna",
           "nivo": "Osnovno",
-          "minuta": 3,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Režim jeste upisan, red istorije nije.",
           "kljucnaIdeja": "Evidencija nije pouzdana dok režim i istorija nisu jedna transakcija.",
@@ -4125,12 +4134,13 @@
             }
           ]
         }
-      ]
+      ],
+      "diskusijaMinuta": 20
     },
     {
       "naslov": "Svežina podataka, periodično čitanje i push",
       "podnaslov": "Displej čuva poslednje čitanje. Takt ga ne pomera.",
-      "ishod": "Displej čuva poslednje čitanje. Takt ga ne pomera.",
+      "ishod": "Student razlikuje redosled dolaska odgovora od svežine očitavanja i kaže šta takt ne pomera.",
       "minuta": 90,
       "problem": "Displej kaže 24 °C, a očitavanje je staro deset minuta. Šta taj broj znači?",
       "pretpostavka": "Broj na ekranu jeste sadašnja temperatura, ili stariji odgovor sme da pregazi noviji.",
@@ -4192,7 +4202,7 @@
         {
           "naslov": "Miruje",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 6,
           "tipPrimer": "aplikacija",
           "tekst": "Takt u kutiji menja broj. Displej sobe prekidača stoji.",
           "kljucnaIdeja": "Displej stoji jer ga ne pomera ni takt ni odgovor komande.",
@@ -4205,22 +4215,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Zato što je takt stao.",
-              "why": "Takt i dalje radi u procesu. Ta pretpostavka zanemaruje ključnu razliku: Displej stoji jer ga ne pomera ni takt ni odgovor komande.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Zato što ga ni takt ni komanda ne pomeraju.",
               "why": "Treba novo čitanje. To je u skladu sa razlikom koju pravi ovaj korak: Displej stoji jer ga ne pomera ni takt ni odgovor komande.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Zato što je takt stao.",
+              "why": "Takt i dalje radi u procesu. Ta pretpostavka zanemaruje ključnu razliku: Displej stoji jer ga ne pomera ni takt ni odgovor komande.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Trenutak",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Očitavanje više nije samo broj.",
           "kljucnaIdeja": "Očitavanje nosi vrednost i trenutak.",
@@ -4234,22 +4244,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Samo temperaturu.",
-              "why": "Starost se ne vidi iz samog broja. Ta pretpostavka zanemaruje ključnu razliku: Očitavanje nosi vrednost i trenutak.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Vrednost i trenutak.",
               "why": "Displej može da pokaže starost. To je u skladu sa razlikom koju pravi ovaj korak: Očitavanje nosi vrednost i trenutak.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Samo temperaturu.",
+              "why": "Starost se ne vidi iz samog broja. Ta pretpostavka zanemaruje ključnu razliku: Očitavanje nosi vrednost i trenutak.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Starost",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Pored cifara stoji trenutak.",
           "kljucnaIdeja": "Displej pokazuje starost. Broj nije sam od sebe sadašnjost.",
@@ -4277,7 +4287,7 @@
         {
           "naslov": "Odmah jedno",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Prekidač periodičnog čitanja se uključi.",
           "kljucnaIdeja": "Uključivanje odmah pošalje jedno čitanje, pa ga ponavlja.",
@@ -4290,22 +4300,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Čeka se pun interval, pa prvo čitanje.",
-              "why": "Čas šalje jedno odmah. Ta pretpostavka zanemaruje ključnu razliku: Uključivanje odmah pošalje jedno čitanje, pa ga ponavlja.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Ode jedno čitanje odmah, pa se ponavlja.",
               "why": "Dugme Pročitaj i dalje šalje jedno. To je u skladu sa razlikom koju pravi ovaj korak: Uključivanje odmah pošalje jedno čitanje, pa ga ponavlja.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Čeka se pun interval, pa prvo čitanje.",
+              "why": "Čas šalje jedno odmah. Ta pretpostavka zanemaruje ključnu razliku: Uključivanje odmah pošalje jedno čitanje, pa ga ponavlja.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Novije merenje stiže ranije",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "pitalica-kod",
           "tekst": "Odgovori dva GET zahteva stižu van redosleda slanja.",
           "kljucnaIdeja": "Vreme merenja i vreme prijema nisu ista informacija.",
@@ -4324,15 +4334,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "A, jer je poslednje primljeno.",
-              "why": "Redosled dolaska ne garantuje svežinu.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "B, jer ima noviju verziju.",
               "why": "Version 11 označava novije stanje u ovom modelu.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "A, jer je poslednje primljeno.",
+              "why": "Redosled dolaska ne garantuje svežinu.",
+              "ok": false
             },
             {
               "key": "C",
@@ -4345,7 +4355,7 @@
         {
           "naslov": "Neuspeo krug",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Jedan krug u nizu dobije 500.",
           "kljucnaIdeja": "Neuspeo krug piše Err istom granom kao Pročitaj.",
@@ -4373,7 +4383,7 @@
         {
           "naslov": "Stariji gubi",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Sporiji zahtev, meren ranije, stiže posle bržeg.",
           "kljucnaIdeja": "Sa proverom, noviji broj ostaje. Bez provere, stariji pregazi ekran.",
@@ -4386,22 +4396,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Stariji broj, jer je stigao poslednji.",
-              "why": "Poslednji dolazak nije novije merenje. Ta pretpostavka zanemaruje ključnu razliku: Sa proverom, noviji broj ostaje. Bez provere, stariji pregazi ekran.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Noviji broj.",
               "why": "Stariji trenutak se odbaci. To je u skladu sa razlikom koju pravi ovaj korak: Sa proverom, noviji broj ostaje. Bez provere, stariji pregazi ekran.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Stariji broj, jer je stigao poslednji.",
+              "why": "Poslednji dolazak nije novije merenje. Ta pretpostavka zanemaruje ključnu razliku: Sa proverom, noviji broj ostaje. Bez provere, stariji pregazi ekran.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Komanda nije čitanje",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Stigao je 200 na PUT.",
           "kljucnaIdeja": "Odgovor komande ne osvežava temperaturu sobe prekidača.",
@@ -4429,7 +4439,7 @@
         {
           "naslov": "Push",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Soba mašina se pomeri iako Pročitaj nije pritisnut.",
           "kljucnaIdeja": "Push puni samo sobu mašina. Soba prekidača ga ne koristi.",
@@ -4457,7 +4467,7 @@
         {
           "naslov": "Interval i preklapanje",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Čitanje traje šest sekundi, a novi interval se pali svake četiri.",
           "kljucnaIdeja": "Naivni setInterval može pokrenuti preklopljena čitanja.",
@@ -4492,7 +4502,7 @@
         {
           "naslov": "Nema push",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Drugi način da soba prekidača sazna broj ovde se ne gradi.",
           "kljucnaIdeja": "Displej prekidača i dalje čita. Novi server se ne uvodi.",
@@ -4505,22 +4515,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Push na displej prekidača.",
-              "why": "Ovaj čas to ne pravi. Ta pretpostavka zanemaruje ključnu razliku: Displej prekidača i dalje čita. Novi server se ne uvodi.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Ništa novo. Displej prekidača i dalje čita.",
               "why": "Čitanje ostaje ovde. To je u skladu sa razlikom koju pravi ovaj korak: Displej prekidača i dalje čita. Novi server se ne uvodi.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Push na displej prekidača.",
+              "why": "Ovaj čas to ne pravi. Ta pretpostavka zanemaruje ključnu razliku: Displej prekidača i dalje čita. Novi server se ne uvodi.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Pročitaj ostaje",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Periodično čitanje je uključeno.",
           "kljucnaIdeja": "Dugme Pročitaj ostaje.",
@@ -4548,7 +4558,7 @@
         {
           "naslov": "Bez provere",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Ista trka, provera isključena.",
           "kljucnaIdeja": "Jedna promena u editoru uključuje ili isključuje odbacivanje starijeg trenutka.",
@@ -4561,22 +4571,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "I dalje gubi, jer je server poslao oba.",
-              "why": "Bez provere poslednji dolazak pobedi. Ta pretpostavka zanemaruje ključnu razliku: Jedna promena u editoru uključuje ili isključuje odbacivanje starijeg trenutka.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Pregazi noviji broj.",
               "why": "Zato provera postoji. To je u skladu sa razlikom koju pravi ovaj korak: Jedna promena u editoru uključuje ili isključuje odbacivanje starijeg trenutka.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "I dalje gubi, jer je server poslao oba.",
+              "why": "Bez provere poslednji dolazak pobedi. Ta pretpostavka zanemaruje ključnu razliku: Jedna promena u editoru uključuje ili isključuje odbacivanje starijeg trenutka.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Dva roka",
           "nivo": "Osnovno",
-          "minuta": 3,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Ikonica stila je nova. Temperatura je stara.",
           "kljucnaIdeja": "Cache ikonice i cache temperature ne moraju isti rok.",
@@ -4589,24 +4599,25 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Da, stranica je jedan cache.",
-              "why": "Resursi imaju svoje odgovore. Ta pretpostavka zanemaruje ključnu razliku: Cache ikonice i cache temperature ne moraju isti rok.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Ne moraju.",
               "why": "Cache ikonice i cache temperature nisu isti rok. To je u skladu sa razlikom koju pravi ovaj korak: Cache ikonice i cache temperature ne moraju isti rok.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Da, stranica je jedan cache.",
+              "why": "Resursi imaju svoje odgovore. Ta pretpostavka zanemaruje ključnu razliku: Cache ikonice i cache temperature ne moraju isti rok.",
+              "ok": false
             }
           ]
         }
-      ]
+      ],
+      "diskusijaMinuta": 20
     },
     {
       "naslov": "Bezbednost, sesije i prava pristupa",
       "podnaslov": "Cookie nosi ključ. Kutija drži ulogu.",
-      "ishod": "Cookie nosi ključ. Kutija drži ulogu.",
+      "ishod": "Student razlikuje nastavni ključ sesije od nepredvidivog identifikatora i kaže gde se uloga proverava.",
       "minuta": 90,
       "problem": "Posmatrač nema dugme „Uključi”. Da li je server zaštićen?",
       "pretpostavka": "Ko ne vidi dugme, ne može da pošalje komandu, ili CORS dokazuje korisnika.",
@@ -4668,7 +4679,7 @@
         {
           "naslov": "Dva ključa",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 6,
           "tipPrimer": "aplikacija",
           "tekst": "U kodu kutije stoje dva pripremljena ključa, po jedan za posmatrača i operatera. To su nastavne vrednosti, ne nepredvidivi identifikatori sesije. Browser nosi ključ, a ulogu drži kutija. Ključ je opaque token: browser ga nosi i ne tumači.",
           "kljucnaIdeja": "Ključevi u primeru su pripremljene nastavne vrednosti. Browser ne nosi ime uloge.",
@@ -4697,7 +4708,7 @@
         {
           "naslov": "HttpOnly",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Izbor na panelu traži cookie.",
           "kljucnaIdeja": "Cookie je HttpOnly i nosi opaque token.",
@@ -4711,22 +4722,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Ulogu, da sakrije dugme pouzdano.",
-              "why": "HttpOnly se ne čita iz JS-a, a uloga ionako nije u njemu. Ta pretpostavka zanemaruje ključnu razliku: Cookie je HttpOnly i nosi opaque token.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Ništa iz JS-a. Ključ ostaje u cookie-ju.",
               "why": "Kutija po ključu nađe ulogu. To je u skladu sa razlikom koju pravi ovaj korak: Cookie je HttpOnly i nosi opaque token.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Ulogu, da sakrije dugme pouzdano.",
+              "why": "HttpOnly se ne čita iz JS-a, a uloga ionako nije u njemu. Ta pretpostavka zanemaruje ključnu razliku: Cookie je HttpOnly i nosi opaque token.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Mapa",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Isti cookie, druga reč u mapi.",
           "kljucnaIdeja": "Uloga ostaje u mapi na kutiji.",
@@ -4755,7 +4766,7 @@
         {
           "naslov": "Čitanje",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Neko traži GET /api/soba bez cookie-ja.",
           "kljucnaIdeja": "Čitanje ne traži sesiju.",
@@ -4783,7 +4794,7 @@
         {
           "naslov": "Sakriveno dugme nije autorizacija",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Posmatrač nema vidljivo dugme, ali može poslati HTTP zahtev.",
           "kljucnaIdeja": "Autorizacija mora biti proverena na serveru za svaki osetljiv zahtev.",
@@ -4798,15 +4809,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Da, browser ga briše iz Interneta.",
-              "why": "DOM nije mrežni pristupni mehanizam.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Ne, server mora da odbije neovlašćen zahtev.",
               "why": "Server mora proveriti identitet i prava.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Da, browser ga briše iz Interneta.",
+              "why": "DOM nije mrežni pristupni mehanizam.",
+              "ok": false
             },
             {
               "key": "C",
@@ -4819,7 +4830,7 @@
         {
           "naslov": "401",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Komanda ode bez cookie-ja.",
           "kljucnaIdeja": "Komanda bez cookie-ja dobija 401.",
@@ -4833,22 +4844,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "403, kao posmatrač.",
-              "why": "Posmatrač ima ključ. Ta pretpostavka zanemaruje ključnu razliku: Komanda bez cookie-ja dobija 401.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "401.",
               "why": "Nema sesije. To je u skladu sa razlikom koju pravi ovaj korak: Komanda bez cookie-ja dobija 401.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "403, kao posmatrač.",
+              "why": "Posmatrač ima ključ. Ta pretpostavka zanemaruje ključnu razliku: Komanda bez cookie-ja dobija 401.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "403",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Cookie nosi ključ sesije posmatrača.",
           "kljucnaIdeja": "Komanda posmatrača dobija 403. Režim se ne menja.",
@@ -4877,7 +4888,7 @@
         {
           "naslov": "400 posle uloge",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Operater pošalje tekst umesto boolean vrednosti.",
           "kljucnaIdeja": "Tek posle uloge kutija gleda telo: loš unos je 400.",
@@ -4891,22 +4902,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Telo. 400 stiže i bez sesije.",
-              "why": "Uloga se gleda pre tela. Ta pretpostavka zanemaruje ključnu razliku: Tek posle uloge kutija gleda telo: loš unos je 400.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Uloga, pa telo. Ovo je 400.",
               "why": "Loš unos nije 401. To je u skladu sa razlikom koju pravi ovaj korak: Tek posle uloge kutija gleda telo: loš unos je 400.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Telo. 400 stiže i bez sesije.",
+              "why": "Uloga se gleda pre tela. Ta pretpostavka zanemaruje ključnu razliku: Tek posle uloge kutija gleda telo: loš unos je 400.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "500 posle uloge",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Operater traži uključeno, kabl je napolju.",
           "kljucnaIdeja": "Izvučen ventilator je 500 i posle provere uloge.",
@@ -4920,22 +4931,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "403, ventilator se štiti ulogom.",
-              "why": "Uloga je prošla. Ta pretpostavka zanemaruje ključnu razliku: Izvučen ventilator je 500 i posle provere uloge.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "500.",
               "why": "Izvučen ventilator nije odbijena uloga. To je u skladu sa razlikom koju pravi ovaj korak: Izvučen ventilator je 500 i posle provere uloge.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "403, ventilator se štiti ulogom.",
+              "why": "Uloga je prošla. Ta pretpostavka zanemaruje ključnu razliku: Izvučen ventilator je 500 i posle provere uloge.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "HttpOnly nije cela CSRF zaštita",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "eksperiment",
           "tekst": "Cookie se može automatski poslati u zahtevu; JavaScript ne mora moći da ga čita.",
           "kljucnaIdeja": "HttpOnly štiti od čitanja cookie-ja JS-om, ali sam ne rešava CSRF.",
@@ -4971,7 +4982,7 @@
         {
           "naslov": "200 operater",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Operater pošalje { ukljucen: true }, kabl je u kutiji.",
           "kljucnaIdeja": "Operater dobija 200 i samo režim.",
@@ -4985,22 +4996,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Temperaturu i režim.",
-              "why": "Komanda ne vraća temperaturu. Ta pretpostavka zanemaruje ključnu razliku: Operater dobija 200 i samo režim.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Samo režim.",
               "why": "Uspeh je 200. To je u skladu sa razlikom koju pravi ovaj korak: Operater dobija 200 i samo režim.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Temperaturu i režim.",
+              "why": "Komanda ne vraća temperaturu. Ta pretpostavka zanemaruje ključnu razliku: Operater dobija 200 i samo režim.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Sakriveno dugme",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Dugme se skine sa ekrana. Zahtev i dalje ode.",
           "kljucnaIdeja": "Dugme može da se sakrije, a zahtev mimo ekrana i dalje stiže.",
@@ -5028,7 +5039,7 @@
         {
           "naslov": "CORS",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Drugi origin. Browser zabrani JS-u da pročita telo.",
           "kljucnaIdeja": "Čitanje koje browser zabrani ne dokazuje da server ćuti.",
@@ -5057,7 +5068,7 @@
         {
           "naslov": "Redosled",
           "nivo": "Osnovno",
-          "minuta": 3,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Četiri odgovora na komandu imaju red.",
           "kljucnaIdeja": "Red je: nema cookie-ja 401, posmatrač 403, loše telo 400, izvučen ventilator 500, operater 200.",
@@ -5071,24 +5082,25 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Pre provere cookie-ja.",
-              "why": "Telo se gleda posle uloge. Ta pretpostavka zanemaruje ključnu razliku: Red je: nema cookie-ja 401, posmatrač 403, loše telo 400, izvučen ventilator 500, operater 200.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Posle 401 i 403, a pre 500 izvučenog kabla.",
               "why": "Uspeh je tek na kraju. To je u skladu sa razlikom koju pravi ovaj korak: Red je: nema cookie-ja 401, posmatrač 403, loše telo 400, izvučen ventilator 500, operater 200.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Pre provere cookie-ja.",
+              "why": "Telo se gleda posle uloge. Ta pretpostavka zanemaruje ključnu razliku: Red je: nema cookie-ja 401, posmatrač 403, loše telo 400, izvučen ventilator 500, operater 200.",
+              "ok": false
             }
           ]
         }
-      ]
+      ],
+      "diskusijaMinuta": 20
     },
     {
       "naslov": "Ceo sistem, dijagnostika i LLM",
       "podnaslov": "Ekran „uključeno” nije dokaz upisa. Ćutanje nije ni dokaz ni opovrgavanje.",
-      "ishod": "Ekran „uključeno” nije dokaz upisa. Ćutanje nije ni dokaz ni opovrgavanje.",
+      "ishod": "Student obrazlaže da ekran „uključeno” nije dokaz upisa i da ćutanje ne potvrđuje ni ne opovrgava ishod.",
       "minuta": 90,
       "problem": "Ekran kaže „uključeno”, odgovor nije stigao. Šta znamo?",
       "pretpostavka": "Ćutanje znači da upis nije prošao, ili ekran znači da jeste.",
@@ -5134,7 +5146,7 @@
         {
           "naslov": "Put",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Jedan zahtev prođe kroz već pripremljene delove.",
           "kljucnaIdeja": "Demonstracija je jedan zahtev kroz browser, Node i PostgreSQL.",
@@ -5147,22 +5159,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Novi deploy na javnu adresu.",
-              "why": "Ceo deployment se ne izvodi uživo. Ta pretpostavka zanemaruje ključnu razliku: Demonstracija je jedan zahtev kroz browser, Node i PostgreSQL.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Jedan zahtev koji već ima gde da se vidi.",
               "why": "Network i log. To je u skladu sa razlikom koju pravi ovaj korak: Demonstracija je jedan zahtev kroz browser, Node i PostgreSQL.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Novi deploy na javnu adresu.",
+              "why": "Ceo deployment se ne izvodi uživo. Ta pretpostavka zanemaruje ključnu razliku: Demonstracija je jedan zahtev kroz browser, Node i PostgreSQL.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Ekran požuri",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Natpis kaže uključeno. Odgovor još nije stigao.",
           "kljucnaIdeja": "Kad ekran kaže uključeno a odgovor nije stigao, ne znamo ishod upisa.",
@@ -5190,7 +5202,7 @@
         {
           "naslov": "Tri stanja",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Upis je ili nepoznat, ili prošao, ili nije.",
           "kljucnaIdeja": "Upis nije ni dokazan ni opovrgnut samim ekranom.",
@@ -5203,22 +5215,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Nije prošlo.",
-              "why": "To bi bio zaključak bez odgovora. Ta pretpostavka zanemaruje ključnu razliku: Upis nije ni dokazan ni opovrgnut samim ekranom.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Nije stiglo. Ishod je nepoznat.",
               "why": "Ćutanje nije ni dokaz ni opovrgavanje. To je u skladu sa razlikom koju pravi ovaj korak: Upis nije ni dokazan ni opovrgnut samim ekranom.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Nije prošlo.",
+              "why": "To bi bio zaključak bez odgovora. Ta pretpostavka zanemaruje ključnu razliku: Upis nije ni dokazan ni opovrgnut samim ekranom.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Nepoznat ishod operacije",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "pitalica-kod",
           "tekst": "Klijent pošalje komandu, server potvrdi transakciju, odgovor nestane.",
           "kljucnaIdeja": "Odsustvo odgovora ne dokazuje da zahtev nije izvršen.",
@@ -5237,28 +5249,28 @@
           "opcije": [
             {
               "key": "A",
+              "text": "Da ishod nije potvrđen klijentu.",
+              "why": "Treba ponovljeno čitanje, idempotentan zahtev ili pouzdan mehanizam identifikacije operacije.",
+              "ok": true
+            },
+            {
+              "key": "B",
               "text": "Da ventilator nije uključen.",
               "why": "Timeout nije rollback.",
               "ok": false
             },
             {
-              "key": "B",
+              "key": "C",
               "text": "Da je operacija izvršena.",
               "why": "Klijent nije primio potvrdu i ne zna stvarni ishod.",
               "ok": false
-            },
-            {
-              "key": "C",
-              "text": "Da ishod nije potvrđen klijentu.",
-              "why": "Treba ponovljeno čitanje, idempotentan zahtev ili pouzdan mehanizam identifikacije operacije.",
-              "ok": true
             }
           ]
         },
         {
           "naslov": "Log",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Treba odluka da li komandu ponoviti.",
           "kljucnaIdeja": "Treba log i ponovno čitanje, pa odluka o ponavljanju.",
@@ -5286,7 +5298,7 @@
         {
           "naslov": "Ponovi prebacivanje",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Komanda koja prebacuje režim možda jeste prošla, odgovor se izgubio.",
           "kljucnaIdeja": "Slepo ponavljanje komande koja prebacuje režim može da poništi upis.",
@@ -5300,22 +5312,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Samo da dovrši isto.",
-              "why": "Drugi put poništi upis koji jeste prošao. Ta pretpostavka zanemaruje ključnu razliku: Slepo ponavljanje komande koja prebacuje režim može da poništi upis.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Da poništi upis koji jeste prošao.",
               "why": "Zato smisao komande ulazi u odluku. To je u skladu sa razlikom koju pravi ovaj korak: Slepo ponavljanje komande koja prebacuje režim može da poništi upis.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Samo da dovrši isto.",
+              "why": "Drugi put poništi upis koji jeste prošao. Ta pretpostavka zanemaruje ključnu razliku: Slepo ponavljanje komande koja prebacuje režim može da poništi upis.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Ponovi postavljanje",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Ista komanda kaže uključeno, dvaput.",
           "kljucnaIdeja": "Ponovljeno postavljanje na uključeno ostavlja isti željeni efekat.",
@@ -5344,7 +5356,7 @@
         {
           "naslov": "LLM pravi suptilnu grešku",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "AI predloži da nakon HTTP 500 prikažemo temperaturu iz response.json bez provere.",
           "kljucnaIdeja": "LLM generisan kod se proverava izvršavanjem, čitanjem ugovora i negativnim scenarijima.",
@@ -5379,7 +5391,7 @@
         {
           "naslov": "Anotacija",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Objekat sobe dobije tip.",
           "kljucnaIdeja": "TypeScript je anotacija poznatog objekta sobe. Nema posebnog TS zadatka.",
@@ -5393,22 +5405,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Ulogu operatera na zahtevu.",
-              "why": "Tip nije provera uloge. Ta pretpostavka zanemaruje ključnu razliku: TypeScript je anotacija poznatog objekta sobe. Nema posebnog TS zadatka.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Ništa u toku zahteva. To je anotacija.",
               "why": "Statička provera nije runtime validacija. To je u skladu sa razlikom koju pravi ovaj korak: TypeScript je anotacija poznatog objekta sobe. Nema posebnog TS zadatka.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Ulogu operatera na zahtevu.",
+              "why": "Tip nije provera uloge. Ta pretpostavka zanemaruje ključnu razliku: TypeScript je anotacija poznatog objekta sobe. Nema posebnog TS zadatka.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Runtime",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Telo i dalje stiže kao JSON tekst.",
           "kljucnaIdeja": "Statička provera nije runtime validacija.",
@@ -5422,22 +5434,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Anotacija Soba.",
-              "why": "Anotacija ne radi u zahtevu. Ta pretpostavka zanemaruje ključnu razliku: Statička provera nije runtime validacija.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Provera na kutiji, u toku zahteva.",
               "why": "To ostaje 400. To je u skladu sa razlikom koju pravi ovaj korak: Statička provera nije runtime validacija.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Anotacija Soba.",
+              "why": "Anotacija ne radi u zahtevu. Ta pretpostavka zanemaruje ključnu razliku: Statička provera nije runtime validacija.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Adrese",
           "nivo": "Osnovno",
-          "minuta": 3,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Na dijagramu stoje dve adrese.",
           "kljucnaIdeja": "Lokalna i javna adresa stoje na dijagramu. Ceo deployment se ne izvodi.",
@@ -5465,7 +5477,7 @@
         {
           "naslov": "Tip nije validacija",
           "nivo": "Primena",
-          "minuta": 3,
+          "minuta": 4,
           "tipPrimer": "eksperiment",
           "tekst": "LLM ili compiler sugeriše da TypeScript tip garantuje sadržaj odgovora.",
           "kljucnaIdeja": "TypeScript provera se obavlja pre izvršavanja; mrežni podaci zahtevaju runtime validaciju.",
@@ -5480,15 +5492,15 @@
           "opcije": [
             {
               "key": "A",
-              "text": "as Soba konvertuje string u number.",
-              "why": "Type assertion nije konverzija.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Kod može pasti pri pozivanju toFixed.",
               "why": "Vrednost i dalje ostaje string tokom izvršavanja.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "as Soba konvertuje string u number.",
+              "why": "Type assertion nije konverzija.",
+              "ok": false
             },
             {
               "key": "C",
@@ -5501,7 +5513,7 @@
         {
           "naslov": "Jedan neuspeh",
           "nivo": "Osnovno",
-          "minuta": 3,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Dovoljno je da jedan zahtev namerno ne uspe.",
           "kljucnaIdeja": "Jedan namerni neuspeh je dovoljan.",
@@ -5514,22 +5526,22 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Da je ceo sistem oboren.",
-              "why": "Jedan zahtev nije deploy. Ta pretpostavka zanemaruje ključnu razliku: Jedan namerni neuspeh je dovoljan.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Gde se vidi razlika između odgovora i ćutanja.",
               "why": "Network i log. To je u skladu sa razlikom koju pravi ovaj korak: Jedan namerni neuspeh je dovoljan.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Da je ceo sistem oboren.",
+              "why": "Jedan zahtev nije deploy. Ta pretpostavka zanemaruje ključnu razliku: Jedan namerni neuspeh je dovoljan.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Izlaz",
           "nivo": "Osnovno",
-          "minuta": 3,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Nema opcija i nema polja. Rečenica stoji na kraju časa.",
           "kljucnaIdeja": "Izlaz je rečenica, bez opcija, bez pečata i bez polja.",
@@ -5557,7 +5569,7 @@
         {
           "naslov": "Jedna soba",
           "nivo": "Osnovno",
-          "minuta": 3,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Tip i predlog asistenta ostanu rečenica, bez novog glasanja.",
           "kljucnaIdeja": "Nema druge pitalice. Panel i dalje ima jednu temperaturu i jedan ventilator.",
@@ -5570,19 +5582,20 @@
           "opcije": [
             {
               "key": "A",
-              "text": "Postane druga pitalica sa pečatom.",
-              "why": "Nema drugog glasanja. Ta pretpostavka zanemaruje ključnu razliku: Nema druge pitalice. Panel i dalje ima jednu temperaturu i jedan ventilator.",
-              "ok": false
-            },
-            {
-              "key": "B",
               "text": "Ostane rečenica u času.",
               "why": "Panel ima jednu temperaturu i jedan ventilator. To je u skladu sa razlikom koju pravi ovaj korak: Nema druge pitalice. Panel i dalje ima jednu temperaturu i jedan ventilator.",
               "ok": true
+            },
+            {
+              "key": "B",
+              "text": "Postane druga pitalica sa pečatom.",
+              "why": "Nema drugog glasanja. Ta pretpostavka zanemaruje ključnu razliku: Nema druge pitalice. Panel i dalje ima jednu temperaturu i jedan ventilator.",
+              "ok": false
             }
           ]
         }
-      ]
+      ],
+      "diskusijaMinuta": 20
     }
   ]
 }
