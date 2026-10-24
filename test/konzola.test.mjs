@@ -233,6 +233,7 @@ test("konzola ispod pregleda hvata ispis i greške", { timeout: 45000 }, async (
     const dugme = [...document.querySelectorAll("#birac-meni button")].find((b) => b.textContent.endsWith(" Objekat"));
     if (!dugme) throw new Error("nema koraka");
     dugme.click();
+    document.querySelector("#moj-kod").click();
   })()`);
 
   const kraj = Date.now() + 5000;

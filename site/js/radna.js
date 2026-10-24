@@ -24,14 +24,18 @@ export function procitajRadne(skladiste) {
   }
 }
 
-export function upisiRadnu(skladiste, mapa, putanja, tekst) {
-  const sledeca = { ...mapa, [putanja]: tekst };
+export function upisiRadne(skladiste, mapa) {
+  const sledeca = { ...mapa };
   try {
     skladiste.setItem(RADNA_KLJUC, JSON.stringify(sledeca));
     return { mapa: sledeca, sacuvano: true };
   } catch {
     return { mapa: sledeca, sacuvano: false };
   }
+}
+
+export function upisiRadnu(skladiste, mapa, putanja, tekst) {
+  return upisiRadne(skladiste, { ...mapa, [putanja]: tekst });
 }
 
 export function imaRadnu(mapa, putanja) {
@@ -52,8 +56,7 @@ export function tekstPrikaza({ putanja, original, radne, verzija, binarni }) {
   if (verzija === "radna") {
     const sacuvano = imaRadnu(radne, putanja) ? radne[putanja] : "";
     const radni = bezSkiceFoldera(putanja, sacuvano);
-    const tekst = radni.trim() ? radni : ugradjen;
-    return { tekst, razlika: false, samoCitaj: false };
+    return { tekst: radni, razlika: false, samoCitaj: false };
   }
   return { tekst: ugradjen, razlika: true, samoCitaj: true };
 }

@@ -66,10 +66,6 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
     await cekajHttp(`http://127.0.0.1:${portSajta}/`);
     strana = await otvoriStranu(portChrome);
     await strana.idi(`http://127.0.0.1:${portSajta}/#cas-2`);
-    await strana.vrednost(
-      `localStorage.setItem("radnaVerzija", ${JSON.stringify(JSON.stringify({ "client/index.html": "client/\nserver/\n" }))})`,
-    );
-    await strana.idi(`http://127.0.0.1:${portSajta}/?skica=1#cas-2`);
     const kurs = JSON.parse(readFileSync(path.join(koren, "site/kurs.json"), "utf8"));
     const prva = kurs.nedelje[1].steps;
     const htmlKoraka = prva.find((korak) => korak.naslov === "Stranica").delic.trim();
@@ -151,6 +147,8 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
     await strana.vrednost(`document.querySelector('#tab-editor').click()`);
     await strana.vrednost(klikNaKorak("Naslov"));
     await sačekaj((s) => s.pregled.naslov === "Soba prekidača" && s.putanja === "client/index.html");
+    assert.equal(await strana.vrednost(`document.querySelector("#lekcija").getAttribute("aria-pressed")`), "true");
+    assert.equal(await strana.vrednost(`localStorage.getItem("radnaVerzija")`), null);
     await strana.vrednost(`(() => {
       document.querySelector("#moj-kod").click();
       const cm = document.querySelector(".cm-content");

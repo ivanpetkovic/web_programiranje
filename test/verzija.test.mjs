@@ -1,101 +1,119 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { praznaSesija, primeni } from "../site/js/verzija.js";
+import { procitajRadne, upisiRadne } from "../site/js/radna.js";
 
 const koraci = [
   { putanja: "client/index.html", original: "a\n", ugradjen: true, delic: "a\n" },
   { putanja: "server/soba.js", original: "takt\n", ugradjen: true, delic: "takt\n" },
   { putanja: "client/index.html", original: "a\nb\n", ugradjen: true, delic: "b\n" },
+  { putanja: "client/css/soba.css", original: ".digit { color: red; }\n", ugradjen: true, delic: "color: red;" },
 ];
+const kontekst = (indeks, nedelja = 5) => ({ koraci, indeks, nedelja });
+const otvori = (sesija, indeks, putanja = koraci[indeks].putanja) =>
+  primeni(sesija, { tip: "fokus", putanja, kljuc: `korak:${indeks}` }, kontekst(indeks));
 
-function kontekst(indeks, nedelja) {
-  return { koraci, indeks, nedelja };
-}
-
-test("korak bira radnu verziju, prazan nacrt ostaje ugrađeni tekst", () => {
-  const rezultat = primeni(praznaSesija(), { tip: "fokus", putanja: "client/index.html", kljuc: "1:0" }, kontekst(0, 1));
-  assert.equal(rezultat.sesija.verzija, "radna");
+test("editor počinje u Lekciji; navigacija ne stvara Moj kod", () => {
+  let rezultat = otvori(praznaSesija(), 0);
+  assert.equal(rezultat.sesija.verzija, "ugradjena");
+  assert.equal(rezultat.prikaz.editor.samoCitaj, true);
   assert.equal(rezultat.prikaz.editor.tekst, "a\n");
-  assert.equal(rezultat.prikaz.editor.samoCitaj, false);
-  assert.equal(rezultat.prikaz.editor.linije, null);
-  assert.equal(rezultat.upis, null);
+  assert.equal(rezultat.upisRadnih, null);
+  rezultat = otvori(rezultat.sesija, 2);
+  rezultat = primeni(rezultat.sesija, { tip: "strana", strana: "server" }, kontekst(2));
+  assert.equal(rezultat.sesija.verzija, "ugradjena");
+  assert.equal(rezultat.prikaz.editor.tekst, "takt\n");
+  assert.deepEqual(rezultat.sesija.radne, {});
 });
 
-test("sačuvana radna verzija ostaje na sledećem koraku istog fajla", () => {
-  const saNacrtom = praznaSesija({ "client/index.html": "ukucano\n" });
-  const rezultat = primeni(saNacrtom, { tip: "fokus", putanja: "client/index.html", kljuc: "1:2" }, kontekst(2, 1));
-  assert.equal(rezultat.prikaz.editor.tekst, "ukucano\n");
-  assert.equal(rezultat.prikaz.klijent["client/index.html"], "ukucano\n");
+test("prvi Moj kod kopira celo stanje izabranog koraka i traži čuvanje", () => {
+  const lekcija = otvori(praznaSesija(), 2);
+  const moj = primeni(lekcija.sesija, { tip: "radna" }, kontekst(2));
+  assert.equal(moj.prikaz.editor.samoCitaj, false);
+  assert.deepEqual(moj.upisRadnih, { "client/index.html": "a\nb\n", "server/soba.js": "takt\n" });
+  assert.equal(moj.prikaz.editor.tekst, "a\nb\n");
+  assert.equal(moj.prikaz.klijent["client/index.html"], "a\nb\n");
+  assert.equal(moj.prikaz.server["server/soba.js"], "takt\n");
+  assert.equal(lekcija.sesija.verzija, "ugradjena");
+  assert.deepEqual(lekcija.sesija.radne, {});
 });
 
-test("ugrađena verzija je samo za čitanje i nosi razliku prema prethodnom snimku", () => {
-  const otvoreno = primeni(praznaSesija(), { tip: "fokus", putanja: "client/index.html", kljuc: "1:2" }, kontekst(2, 1));
-  const ugradjena = primeni(otvoreno.sesija, { tip: "ugradjena" }, kontekst(2, 1));
-  assert.equal(ugradjena.sesija.verzija, "ugradjena");
-  assert.equal(ugradjena.prikaz.editor.samoCitaj, true);
-  assert.equal(ugradjena.prikaz.editor.tekst, "a\nb\n");
-  assert.equal(ugradjena.sesija.radne["client/index.html"], undefined);
-  assert.deepEqual(
-    ugradjena.prikaz.editor.linije.map((linija) => linija.tip),
-    ["isto", "dodato"],
-  );
+test("kasniji korak menja Lekciju, a Moj kod zadržava početni snimak", () => {
+  const lekcija = otvori(praznaSesija(), 0);
+  const moj = primeni(lekcija.sesija, { tip: "radna" }, kontekst(0));
+  const kasnije = otvori(moj.sesija, 2);
+  assert.equal(kasnije.sesija.verzija, "radna");
+  assert.equal(kasnije.prikaz.editor.tekst, "a\n");
+  assert.equal(kasnije.sesija.radne["server/soba.js"], "");
+  const prikazLekcije = primeni(kasnije.sesija, { tip: "ugradjena" }, kontekst(2));
+  assert.equal(prikazLekcije.prikaz.editor.tekst, "a\nb\n");
+  const ponovo = primeni(prikazLekcije.sesija, { tip: "radna" }, kontekst(2));
+  assert.equal(ponovo.prikaz.editor.tekst, "a\n");
 });
 
-test("učitaj bira ugrađenu verziju i ne traži upis", () => {
-  const otvoreno = primeni(
-    praznaSesija({ "client/index.html": "ukucano\n" }),
-    { tip: "fokus", putanja: "client/index.html", kljuc: "1:0" },
-    kontekst(0, 1),
-  );
-  const ucitano = primeni(otvoreno.sesija, { tip: "ucitaj" }, kontekst(0, 1));
-  assert.equal(ucitano.sesija.verzija, "ugradjena");
-  assert.equal(ucitano.upis, null);
-  assert.equal(ucitano.sesija.radne["client/index.html"], "ukucano\n");
-  assert.equal(ucitano.prikaz.editor.tekst, "a\n");
+test("novi fajl se dodaje prazan čak i tokom pregleda Lekcije", () => {
+  const moj = primeni(otvori(praznaSesija(), 2).sesija, { tip: "radna" }, kontekst(2));
+  const lekcija = primeni(moj.sesija, { tip: "ugradjena" }, kontekst(2));
+  const novi = otvori(lekcija.sesija, 3);
+  assert.equal(novi.sesija.verzija, "ugradjena");
+  assert.equal(novi.prikaz.editor.tekst, koraci[3].original);
+  assert.equal(novi.upisRadnih["client/css/soba.css"], "");
+  const nazad = primeni(novi.sesija, { tip: "radna" }, kontekst(3));
+  assert.equal(nazad.prikaz.editor.tekst, "");
+  assert.equal(nazad.prikaz.klijent["client/css/soba.css"], "");
+  assert.equal(nazad.prikaz.klijent["client/index.html"], "a\nb\n");
 });
 
-test("sačuvaj na ugrađenoj verziji ne menja nacrt, sačuvaj na radnoj traži upis", () => {
-  const otvoreno = primeni(praznaSesija(), { tip: "fokus", putanja: "client/index.html", kljuc: "1:0" }, kontekst(0, 1));
-  const lekcija = primeni(otvoreno.sesija, { tip: "ugradjena" }, kontekst(0, 1));
-  const odbijeno = primeni(lekcija.sesija, { tip: "sacuvaj", tekst: "novo" }, kontekst(0, 1));
-  assert.equal(odbijeno.upis, null);
-  assert.equal(odbijeno.sesija.radne["client/index.html"], undefined);
-  const upis = primeni(otvoreno.sesija, { tip: "sacuvaj", tekst: "novo" }, kontekst(0, 1));
-  assert.deepEqual(upis.upis, { putanja: "client/index.html", tekst: "novo" });
-  assert.equal(upis.zivo, false);
+test("izmenjen i namerno obrisan fajl opstaju pri promeni fajla i ponovnom učitavanju", () => {
+  let stanje = primeni(otvori(praznaSesija(), 2).sesija, { tip: "radna" }, kontekst(2));
+  stanje = primeni(stanje.sesija, { tip: "unos", tekst: "moj HTML" }, kontekst(2));
+  stanje = primeni(stanje.sesija, { tip: "otvori", put: "index.html" }, kontekst(2));
+  assert.equal(stanje.prikaz.editor.tekst, "moj HTML");
+  stanje = primeni(stanje.sesija, { tip: "unos", tekst: "" }, kontekst(2));
+  assert.equal(stanje.prikaz.klijent["client/index.html"], "");
+  const skladiste = { tekst: "", getItem() { return this.tekst; }, setItem(_kljuc, tekst) { this.tekst = tekst; } };
+  assert.equal(upisiRadne(skladiste, stanje.upisRadnih).sacuvano, true);
+  const ponovo = otvori(praznaSesija(procitajRadne(skladiste)), 2);
+  assert.equal(ponovo.sesija.verzija, "ugradjena");
+  assert.equal(ponovo.prikaz.editor.tekst, "a\nb\n");
+  const moj = primeni(ponovo.sesija, { tip: "radna" }, kontekst(2));
+  assert.equal(moj.prikaz.editor.tekst, "");
+  assert.equal(moj.prikaz.server["server/soba.js"], "takt\n");
 });
 
-test("reset menja samo otvoreni fajl i vraća radnu verziju", () => {
-  const sesija = praznaSesija({ "client/index.html": "ukucano\n", "server/soba.js": "moj takt\n" });
-  const naServeru = primeni(sesija, { tip: "fokus", putanja: "server/soba.js", kljuc: "5:1" }, kontekst(1, 5));
-  const reset = primeni(naServeru.sesija, { tip: "reset" }, kontekst(1, 5));
+test("promena strane i fajla zadržava izabranu verziju", () => {
+  let rezultat = otvori(praznaSesija(), 2);
+  for (const verzija of ["ugradjena", "radna"]) {
+    rezultat = primeni(rezultat.sesija, { tip: verzija }, kontekst(2));
+    rezultat = primeni(rezultat.sesija, { tip: "strana", strana: "server" }, kontekst(2));
+    assert.equal(rezultat.sesija.verzija, verzija);
+    rezultat = primeni(rezultat.sesija, { tip: "strana", strana: "client" }, kontekst(2));
+    rezultat = primeni(rezultat.sesija, { tip: "otvori", put: "index.html" }, kontekst(2));
+    assert.equal(rezultat.sesija.verzija, verzija);
+  }
+});
+
+test("Lekcija odbija unos; reset menja samo odabrani radni fajl", () => {
+  const lekcija = otvori(praznaSesija(), 2);
+  const unos = primeni(lekcija.sesija, { tip: "unos", tekst: "ne sme" }, kontekst(2));
+  assert.equal(unos.upisRadnih, null);
+  assert.equal(unos.prikaz.editor.samoCitaj, true);
+  const sesija = praznaSesija({ "client/index.html": "moj HTML", "server/soba.js": "moj server" });
+  const reset = primeni(otvori(sesija, 2).sesija, { tip: "reset" }, kontekst(2));
+  assert.equal(reset.prikaz.editor.tekst, "a\nb\n");
+  assert.equal(reset.sesija.radne["server/soba.js"], "moj server");
   assert.equal(reset.sesija.verzija, "radna");
-  assert.equal(reset.upis.tekst, "takt\n");
-  assert.equal(reset.sesija.radne["server/soba.js"], "takt\n");
-  assert.equal(reset.sesija.radne["client/index.html"], "ukucano\n");
-  assert.equal(reset.prikaz.server["server/soba.js"], "takt\n");
-  assert.equal(reset.prikaz.klijent["client/index.html"], "ukucano\n");
 });
 
-test("isti prekidač bira tekst serverskih fajlova", () => {
-  const sesija = praznaSesija({ "server/soba.js": "moj takt\n" });
-  const radna = primeni(sesija, { tip: "fokus", putanja: "client/index.html", kljuc: "5:1" }, kontekst(1, 5));
-  assert.equal(radna.prikaz.server["server/soba.js"], "moj takt\n");
-  const ugradjena = primeni(radna.sesija, { tip: "ugradjena" }, kontekst(1, 5));
-  assert.equal(ugradjena.prikaz.server["server/soba.js"], "takt\n");
-});
-
-test("fajl servera pre pete nedelje ne otvara karticu Server", () => {
-  const rezultat = primeni(praznaSesija(), { tip: "fokus", putanja: "server/soba.js", kljuc: "1:1" }, kontekst(1, 1));
+test("server ostaje nedostupan pre pete nedelje", () => {
+  const rezultat = primeni(praznaSesija(), { tip: "fokus", putanja: "server/soba.js", kljuc: "pre" }, kontekst(1, 1));
   assert.equal(rezultat.sesija.strana, "client");
   assert.equal(rezultat.sesija.verzija, "ugradjena");
 });
 
-test("promena strane bira radnu verziju", () => {
-  const otvoreno = primeni(praznaSesija(), { tip: "fokus", putanja: "client/index.html", kljuc: "5:1" }, kontekst(1, 5));
-  const ugradjena = primeni(otvoreno.sesija, { tip: "ugradjena" }, kontekst(1, 5));
-  const server = primeni(ugradjena.sesija, { tip: "strana", strana: "server" }, kontekst(1, 5));
-  assert.equal(server.sesija.strana, "server");
-  assert.equal(server.sesija.verzija, "radna");
-  assert.equal(server.osvezi, true);
+test("sačuvan drugi primer ne sprečava prvi snimak Kontrolne sobe", () => {
+  const lekcija = otvori(praznaSesija({ "primer/2_fje/index.html": "moj primer" }), 2);
+  const moj = primeni(lekcija.sesija, { tip: "radna" }, kontekst(2));
+  assert.equal(moj.sesija.radne["client/index.html"], "a\nb\n");
+  assert.equal(moj.sesija.radne["primer/2_fje/index.html"], "moj primer");
 });

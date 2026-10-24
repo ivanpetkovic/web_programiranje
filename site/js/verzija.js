@@ -46,7 +46,6 @@ function fokus(sesija, dogadaj, nedelja) {
   sledeca.kljucFokusa = kljuc;
   sledeca.strana = side;
   sledeca.otvoreno[side] = put;
-  sledeca.verzija = "radna";
   sledeca.otvoreniKljuc = "";
   return sledeca;
 }
@@ -58,6 +57,11 @@ function uskladi(sesija, kontekst) {
     sledeca.kljucFokusa = "";
   }
   const stablo = stabloDo(kontekst.koraci, kontekst.indeks);
+  if (Object.keys(sledeca.radne).some((putanja) => /^(client|server)\//.test(putanja))) {
+    for (const putanja of stablo.putanje) {
+      if (!Object.hasOwn(sledeca.radne, putanja)) sledeca.radne[putanja] = "";
+    }
+  }
   const fajlovi = fajloviStrane(stablo, sledeca.strana);
   if (!fajlovi.length) return { sesija: sledeca, fajlovi, stablo };
   if (!fajlovi.includes(sledeca.otvoreno[sledeca.strana])) {
@@ -75,7 +79,7 @@ function prikazEditora(sesija, kontekst, stablo, dogadaj) {
   if (!putanja) {
     return { putanja: "", tekst: "", samoCitaj: true, linije: [], prazno: true };
   }
-  if (dogadaj.tip === "unos") {
+  if (dogadaj.tip === "unos" && sesija.verzija === "radna") {
     return { putanja, tekst: dogadaj.tekst, samoCitaj: false, linije: null, prazno: false };
   }
   const original = stablo.verzije[putanja] || "";
@@ -116,15 +120,13 @@ export function primeni(sesija, dogadaj, kontekst) {
     sledeca = fokus(sesija, dogadaj, kontekst.nedelja);
   } else if (dogadaj.tip === "strana" && dogadaj.strana !== sesija.strana) {
     sledeca.strana = dogadaj.strana;
-    sledeca.verzija = "radna";
     sledeca.otvoreniKljuc = "";
     forsiraj = true;
   } else if (dogadaj.tip === "otvori") {
-    sledeca.verzija = "radna";
     sledeca.otvoreniKljuc = "";
     sledeca.otvoreno[sledeca.strana] = dogadaj.put;
     forsiraj = true;
-  } else if (dogadaj.tip === "unos") {
+  } else if (dogadaj.tip === "unos" && sesija.verzija === "radna") {
     const putanja = puna(sesija);
     if (putanja) {
       upis = { putanja, tekst: dogadaj.tekst };
@@ -136,6 +138,9 @@ export function primeni(sesija, dogadaj, kontekst) {
     sledeca.otvoreniKljuc = "";
     forsiraj = true;
   } else if (dogadaj.tip === "radna") {
+    if (!Object.keys(sledeca.radne).some((putanja) => /^(client|server)\//.test(putanja))) {
+      sledeca.radne = { ...sledeca.radne, ...stabloDo(kontekst.koraci, kontekst.indeks).verzije };
+    }
     sledeca.verzija = "radna";
     sledeca.otvoreniKljuc = "";
     forsiraj = true;
@@ -169,6 +174,8 @@ export function primeni(sesija, dogadaj, kontekst) {
   return {
     sesija: izlaz,
     upis,
+    upisRadnih: Object.keys(izlaz.radne).some((putanja) => izlaz.radne[putanja] !== sesija.radne[putanja])
+      ? izlaz.radne : null,
     osvezi: dogadaj.tip === "unos" || dogadaj.tip === "sacuvaj" ? false : osvezi,
     zivo: dogadaj.tip !== "sacuvaj" && !editor.prazno,
     prikaz: {
