@@ -131,8 +131,13 @@ test("nedelja stranice drži isečke dokumenta, bez ugrađenog originala", () =>
   assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 55);
   for (const nedelja of dokument.nedelje) {
     for (const korak of nedelja.steps) {
-      assert.equal("original" in korak, false);
-      if (korak.delic) assert.equal(mapirajKorak(korak).original, korak.delic);
+      if ("original" in korak) {
+        assert.match(korak.putanja, /^server\/[a-z]+\.js$/, korak.naslov);
+        assert.equal(mapirajKorak(korak).original, korak.original);
+        assert.equal(mapirajKorak(korak).ugradjen, true);
+      } else if (korak.delic) {
+        assert.equal(mapirajKorak(korak).original, korak.delic);
+      }
     }
   }
 });

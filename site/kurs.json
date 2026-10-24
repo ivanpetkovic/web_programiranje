@@ -2056,10 +2056,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Soba prekidača pošalje jednu celu poruku i čeka da stigne cela.",
           "kljucnaIdeja": "Naivan prenos pretpostavlja celu poruku, redom.",
-          "putanja": "server/server.js",
-          "isecakNaslov": "Cela poruka",
-          "isecak": "pošalji(celaPoruka)",
-          "delic": "pošalji(celaPoruka);",
+          "samostalniPrimer": {
+            "jezik": "text",
+            "izolovan": true,
+            "tekst": "pošalji(celaPoruka)"
+          },
           "analiza": "Zašto: Naivan prenos pretpostavlja celu poruku, redom. U ovom koraku: Soba prekidača pošalje jednu celu poruku i čeka da stigne cela. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta ovaj prenos pretpostavlja?",
           "opcije": [
@@ -2084,10 +2085,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Poruka se izgubi, ili dve polovine zamene red.",
           "kljucnaIdeja": "Pretpostavka padne pre nego što se bilo koji protokol imenuje.",
-          "putanja": "server/server.js",
-          "isecakNaslov": "Pad pretpostavke",
-          "isecak": "polovina B stiže pre polovine A",
-          "delic": "// poruka nije stigla cela",
+          "samostalniPrimer": {
+            "jezik": "text",
+            "izolovan": true,
+            "tekst": "pošalji(polovinaA)\npošalji(polovinaB)\n// polovina B stiže pre polovine A, ili polovina A ne stigne"
+          },
           "analiza": "Zašto: Pretpostavka padne pre nego što se bilo koji protokol imenuje. U ovom koraku: Poruka se izgubi, ili dve polovine zamene red. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta je time palo?",
           "opcije": [
@@ -2112,10 +2114,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Popravka još nema ime: delovi, redni brojevi, potvrda prijema.",
           "kljucnaIdeja": "Delovi, redni brojevi i potvrda prijema popravljaju naivan prenos.",
-          "putanja": "server/server.js",
-          "isecakNaslov": "Potvrda",
-          "isecak": "deo, redniBroj, potvrda",
-          "delic": "potvrdi(redniBroj);",
+          "samostalniPrimer": {
+            "jezik": "text",
+            "izolovan": true,
+            "tekst": "deo 1 → potvrda 1\ndeo 2 → potvrda 2\n// nema potvrde za deo 2: pošalji ga ponovo"
+          },
           "analiza": "Zašto: Delovi, redni brojevi i potvrda prijema popravljaju naivan prenos. U ovom koraku: Popravka još nema ime: delovi, redni brojevi, potvrda prijema. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta potvrda kaže pošiljaocu?",
           "opcije": [
@@ -2140,10 +2143,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Tek sada se imenuje pouzdan tok bajtova.",
           "kljucnaIdeja": "TCP je pouzdan tok bajtova. Još ne znači „uključi ventilator”.",
-          "putanja": "server/server.js",
-          "isecakNaslov": "TCP",
-          "isecak": "TCP",
-          "delic": "// TCP: pouzdan tok bajtova",
+          "samostalniPrimer": {
+            "jezik": "text",
+            "izolovan": true,
+            "tekst": "TCP: pouzdan tok bajtova\n// redom, bez rupa, ali bez smisla „uključi ventilator”"
+          },
           "analiza": "Zašto: TCP je pouzdan tok bajtova. Još ne znači „uključi ventilator”. U ovom koraku: Tek sada se imenuje pouzdan tok bajtova. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta TCP garantuje ovde?",
           "opcije": [
@@ -2157,6 +2161,264 @@
               "key": "B",
               "text": "Da bajtovi stignu pouzdano i redom.",
               "why": "Segmentacija TCP-a nije IP fragmentacija. To je u skladu sa razlikom koju pravi ovaj korak: TCP je pouzdan tok bajtova. Još ne znači „uključi ventilator”.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "HTTP",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Na tok se stavi metod, putanja, zaglavlja, telo i status.",
+          "kljucnaIdeja": "HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1.",
+          "putanja": "server/server.js",
+          "isecakNaslov": "HTTP",
+          "isecak": "GET /api/soba HTTP/1.1",
+          "delic": "GET /api/soba HTTP/1.1",
+          "analiza": "Zašto: HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1. U ovom koraku: Na tok se stavi metod, putanja, zaglavlja, telo i status. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Šta HTTP doda na TCP?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Još jedan redni broj.",
+              "why": "Red već drži TCP. Ta pretpostavka zanemaruje ključnu razliku: HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Smisao: šta se traži i koji je status odgovora.",
+              "why": "Metod, putanja, zaglavlja, telo, status. To je u skladu sa razlikom koju pravi ovaj korak: HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Obrada",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Pre servera stoji funkcija koja dobija zahtev i piše odgovor. Za sada odgovara istim tekstom, šta god da je traženo.",
+          "kljucnaIdeja": "Obrada dobija dva objekta: req je zahtev koji je stigao, res je odgovor koji obrada piše. res.end završava odgovor.",
+          "putanja": "server/server.js",
+          "isecakNaslov": "Obrada",
+          "isecak": "function obrada(req, res) {\n  res.end(\"soba\");\n}",
+          "delic": "function obrada(req, res) {\n  res.end(\"soba\");\n}",
+          "original": "function obrada(req, res) {\n  res.end(\"soba\");\n}\n",
+          "analiza": "Zašto: Obrada dobija dva objekta: req je zahtev koji je stigao, res je odgovor koji obrada piše. res.end završava odgovor. U ovom koraku: Pre servera stoji funkcija koja dobija zahtev i piše odgovor. Za sada odgovara istim tekstom, šta god da je traženo. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Šta su req i res?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Dva fajla koje obrada otvara.",
+              "why": "To su objekti jednog zahteva, ne fajlovi.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Zahtev koji je stigao i odgovor koji obrada piše.",
+              "why": "Iz req se čitaju metod i putanja, u res se piše status i telo.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "createServer",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Običan Node, nema framework. http je ugrađeni modul, vezan sa require(\"http\").",
+          "kljucnaIdeja": "http.createServer dolazi pre slušanja porta.",
+          "putanja": "server/server.js",
+          "isecakNaslov": "createServer",
+          "isecak": "const http = require(\"http\");\nconst server = http.createServer(obrada);",
+          "delic": "const http = require(\"http\");\nconst server = http.createServer(obrada);",
+          "original": "const http = require(\"http\");\n\nfunction obrada(req, res) {\n  res.end(\"soba\");\n}\n\nconst server = http.createServer(obrada);\n",
+          "analiza": "Zašto: http.createServer dolazi pre slušanja porta. U ovom koraku: Običan Node, nema framework. http je ugrađeni modul, vezan sa require(\"http\"). Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Šta createServer uradi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Otvori browser.",
+              "why": "Browser je druga strana. Ta pretpostavka zanemaruje ključnu razliku: http.createServer dolazi pre slušanja porta.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Napravi server koji za svaki zahtev zove obradu.",
+              "why": "Još ne sluša port. To je u skladu sa razlikom koju pravi ovaj korak: http.createServer dolazi pre slušanja porta.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "listen",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Server kaže na kom portu čeka. Kad port proradi, proces upiše jedan red u svoj log.",
+          "kljucnaIdeja": "listen otvara port. console.log na serveru piše u terminal procesa, ne u browser.",
+          "putanja": "server/server.js",
+          "isecakNaslov": "listen",
+          "isecak": "server.listen(8787, () => {\n  console.log(\"server sluša port 8787\");\n});",
+          "delic": "server.listen(8787, () => {\n  console.log(\"server sluša port 8787\");\n});",
+          "original": "const http = require(\"http\");\n\nfunction obrada(req, res) {\n  res.end(\"soba\");\n}\n\nconst server = http.createServer(obrada);\nserver.listen(8787, () => {\n  console.log(\"server sluša port 8787\");\n});\n",
+          "analiza": "Zašto: listen otvara port. console.log na serveru piše u terminal procesa, ne u browser. U ovom koraku: Server kaže na kom portu čeka. Kad port proradi, proces upiše jedan red u svoj log. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Da li je adresa već u browseru?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da, listen otvori i stranicu.",
+              "why": "listen samo čeka vezu. Ta pretpostavka zanemaruje ključnu razliku: listen otvara port. Zahtev još nije poslat.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne. Port je otvoren, stranicu još niko nije tražio.",
+              "why": "Adresa dolazi sledeća. To je u skladu sa razlikom koju pravi ovaj korak: listen otvara port. Zahtev još nije poslat.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Komanda",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Proces se podiže iz terminala. U tom terminalu se pojavi red iz console.log.",
+          "kljucnaIdeja": "Komanda je node server/server.js. Log servera se čita u terminalu. Posle svake izmene server.js proces se zaustavi (Ctrl+C) i pokrene ponovo.",
+          "putanja": "server/server.js",
+          "isecakNaslov": "Komanda",
+          "isecak": "node server/server.js",
+          "delic": "node server/server.js",
+          "analiza": "Zašto: Komanda je node server/server.js. Browser je i dalje poseban korak. U ovom koraku: Proces se podiže iz terminala. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Gde se vidi „server sluša port 8787”?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "U konzoli browsera.",
+              "why": "Browser vidi samo odgovore. console.log servera ide u njegov terminal.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "U terminalu u kom radi node.",
+              "why": "To je log procesa. Tu će se videti i greška ako proces padne.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Adresa",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Adresa se otvori u browseru, kao stranica, ne iz koda: http://127.0.0.1:8787/api/soba. Zatim i http://127.0.0.1:8787/bilo-sta.",
+          "kljucnaIdeja": "Obrada još ne gleda putanju. Svaka adresa na tom portu dobija isti odgovor, kao da sve putanje postoje.",
+          "putanja": "server/server.js",
+          "isecakNaslov": "Adresa",
+          "isecak": "GET /api/soba HTTP/1.1\nGET /bilo-sta HTTP/1.1",
+          "delic": "GET /api/soba HTTP/1.1\nGET /bilo-sta HTTP/1.1",
+          "analiza": "Zašto: Obrada još ne gleda putanju. Svaka adresa na tom portu dobija isti odgovor, kao da sve putanje postoje. U ovom koraku: Adresa se otvori u browseru, kao stranica, ne iz koda: http://127.0.0.1:8787/api/soba. Zatim i http://127.0.0.1:8787/bilo-sta. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Šta browser pokaže za /bilo-sta?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Grešku, jer ta putanja ne postoji.",
+              "why": "Za server ona postoji: obrada ne čita req.url, pa svima odgovori isto.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Isti tekst „soba” kao za /api/soba.",
+              "why": "Ruta još ne postoji. Server ne razlikuje traženo od netraženog.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "JSON telo",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Odgovor postaje JSON tekst sa temperaturom i režimom. Proces koji već radi i dalje vraća „soba” dok se ne pokrene ponovo.",
+          "kljucnaIdeja": "res.end šalje tekst ili bajtove. Objekat prvo postane tekst kroz JSON.stringify. Izmena server.js važi tek posle ponovnog pokretanja procesa.",
+          "putanja": "server/server.js",
+          "isecakNaslov": "JSON telo",
+          "isecak": "  res.end(JSON.stringify({ temperatura: 24, ukljucen: false }));",
+          "delic": "  res.end(JSON.stringify({ temperatura: 24, ukljucen: false }));",
+          "original": "const http = require(\"http\");\n\nfunction obrada(req, res) {\n  res.end(JSON.stringify({ temperatura: 24, ukljucen: false }));\n}\n\nconst server = http.createServer(obrada);\nserver.listen(8787, () => {\n  console.log(\"server sluša port 8787\");\n});\n",
+          "analiza": "Zašto: res.end šalje tekst ili bajtove. Objekat prvo postane tekst kroz JSON.stringify. Izmena server.js važi tek posle ponovnog pokretanja procesa. U ovom koraku: Odgovor postaje JSON tekst sa temperaturom i režimom. Proces koji već radi i dalje vraća „soba” dok se ne pokrene ponovo. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Fajl je sačuvan, proces nije ponovo pokrenut. Šta browser dobija?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Novi JSON, jer je fajl sačuvan.",
+              "why": "Proces je pročitao server.js kad je krenuo. Sačuvan fajl ne menja proces koji već radi.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Stari tekst „soba”.",
+              "why": "Tek Ctrl+C i ponovo node server/server.js učita novu obradu.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Status i zaglavlje",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Pre tela odgovor nosi status i zaglavlja. Zaglavlje content-type kaže da je telo JSON.",
+          "kljucnaIdeja": "writeHead šalje status i zaglavlja, end šalje telo. Bez writeHead Node pošalje 200 i nijedno zaglavlje o vrsti tela.",
+          "putanja": "server/server.js",
+          "isecakNaslov": "Status i zaglavlje",
+          "isecak": "  res.writeHead(200, { \"content-type\": \"application/json; charset=utf-8\" });",
+          "delic": "  res.writeHead(200, { \"content-type\": \"application/json; charset=utf-8\" });",
+          "original": "const http = require(\"http\");\n\nfunction obrada(req, res) {\n  res.writeHead(200, { \"content-type\": \"application/json; charset=utf-8\" });\n  res.end(JSON.stringify({ temperatura: 24, ukljucen: false }));\n}\n\nconst server = http.createServer(obrada);\nserver.listen(8787, () => {\n  console.log(\"server sluša port 8787\");\n});\n",
+          "analiza": "Zašto: writeHead šalje status i zaglavlja, end šalje telo. Bez writeHead Node pošalje 200 i nijedno zaglavlje o vrsti tela. U ovom koraku: Pre tela odgovor nosi status i zaglavlja. Zaglavlje content-type kaže da je telo JSON. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Po čemu klijent zna da je telo JSON?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Po tome što tekst počinje vitičastom zagradom.",
+              "why": "Tekst može da liči na JSON i da ne bude. Vrstu tela kaže zaglavlje.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Po zaglavlju content-type.",
+              "why": "application/json je dogovor između servera i klijenta.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Jedan odgovor",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Pisanje statusa, zaglavlja i JSON tela ode u jednu funkciju. Obrada samo kaže koji status i koje telo.",
+          "kljucnaIdeja": "posalji(res, status, body) piše svaki JSON odgovor istim putem: 200, 404 i 405 se razlikuju samo po argumentima.",
+          "putanja": "server/server.js",
+          "isecakNaslov": "Jedan odgovor",
+          "isecak": "function posalji(res, status, body) {\n  res.writeHead(status, { \"content-type\": \"application/json; charset=utf-8\" });\n  res.end(JSON.stringify(body));\n}",
+          "delic": "function posalji(res, status, body) {\n  res.writeHead(status, { \"content-type\": \"application/json; charset=utf-8\" });\n  res.end(JSON.stringify(body));\n}\n\n  posalji(res, 200, { temperatura: 24, ukljucen: false });",
+          "original": "const http = require(\"http\");\n\nfunction posalji(res, status, body) {\n  res.writeHead(status, { \"content-type\": \"application/json; charset=utf-8\" });\n  res.end(JSON.stringify(body));\n}\n\nfunction obrada(req, res) {\n  posalji(res, 200, { temperatura: 24, ukljucen: false });\n}\n\nconst server = http.createServer(obrada);\nserver.listen(8787, () => {\n  console.log(\"server sluša port 8787\");\n});\n",
+          "analiza": "Zašto: posalji(res, status, body) piše svaki JSON odgovor istim putem: 200, 404 i 405 se razlikuju samo po argumentima. U ovom koraku: Pisanje statusa, zaglavlja i JSON tela ode u jednu funkciju. Obrada samo kaže koji status i koje telo. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Zašto je status argument funkcije?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da bi svaki odgovor bio 200.",
+              "why": "Upravo suprotno: status se menja od odgovora do odgovora.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Da isti kod napiše i uspeh i grešku.",
+              "why": "Sledeći koraci šalju 404 i 405 kroz istu funkciju.",
               "ok": true
             }
           ]
@@ -2198,113 +2460,129 @@
           ]
         },
         {
-          "naslov": "HTTP",
+          "naslov": "Ruta",
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "aplikacija",
-          "tekst": "Na tok se stavi metod, putanja, zaglavlja, telo i status.",
-          "kljucnaIdeja": "HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1.",
+          "tekst": "Obrada pročita putanju iz req.url. Samo /api/soba vraća temperaturu i režim. Sve ostalo dobije 404 sa kratkim telom.",
+          "kljucnaIdeja": "Endpoint je putanja koju obrada prepoznaje. Za nepoznatu putanju server ipak odgovori: 404 je status, ne ugašen port.",
           "putanja": "server/server.js",
-          "isecakNaslov": "HTTP",
-          "isecak": "GET /api/soba HTTP/1.1",
-          "delic": "GET /api/soba HTTP/1.1",
-          "analiza": "Zašto: HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1. U ovom koraku: Na tok se stavi metod, putanja, zaglavlja, telo i status. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Šta HTTP doda na TCP?",
+          "isecakNaslov": "Ruta",
+          "isecak": "  const putanja = req.url.split(\"?\")[0];\n  if (putanja !== \"/api/soba\") {\n    posalji(res, 404, { greska: \"nema putanje\" });\n    return;\n  }",
+          "delic": "  const putanja = req.url.split(\"?\")[0];\n  if (putanja !== \"/api/soba\") {\n    posalji(res, 404, { greska: \"nema putanje\" });\n    return;\n  }",
+          "original": "const http = require(\"http\");\n\nfunction posalji(res, status, body) {\n  res.writeHead(status, { \"content-type\": \"application/json; charset=utf-8\" });\n  res.end(JSON.stringify(body));\n}\n\nfunction obrada(req, res) {\n  const putanja = req.url.split(\"?\")[0];\n  if (putanja !== \"/api/soba\") {\n    posalji(res, 404, { greska: \"nema putanje\" });\n    return;\n  }\n  posalji(res, 200, { temperatura: 24, ukljucen: false });\n}\n\nconst server = http.createServer(obrada);\nserver.listen(8787, () => {\n  console.log(\"server sluša port 8787\");\n});\n",
+          "analiza": "Zašto: Endpoint je putanja koju obrada prepoznaje. Za nepoznatu putanju server ipak odgovori: 404 je status, ne ugašen port. U ovom koraku: Obrada pročita putanju iz req.url. Samo /api/soba vraća temperaturu i režim. Sve ostalo dobije 404 sa kratkim telom. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Šta sada dobije /bilo-sta?",
           "opcije": [
             {
               "key": "A",
-              "text": "Još jedan redni broj.",
-              "why": "Red već drži TCP. Ta pretpostavka zanemaruje ključnu razliku: HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1.",
+              "text": "Isti JSON, da panel ne pukne.",
+              "why": "Nepoznata putanja nije soba. Isti JSON bi lagao.",
               "ok": false
             },
             {
               "key": "B",
-              "text": "Smisao: šta se traži i koji je status odgovora.",
-              "why": "Metod, putanja, zaglavlja, telo, status. To je u skladu sa razlikom koju pravi ovaj korak: HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1.",
+              "text": "404 i telo { greska: \"nema putanje\" }.",
+              "why": "Odgovor stiže, ali kaže da toga nema. return sprečava da obrada nastavi do 200.",
+              "ok": true
+            },
+            {
+              "key": "C",
+              "text": "Ništa, veza se prekine.",
+              "why": "Proces radi i odgovara. Prekid bi bio da porta nema.",
+              "ok": false
+            }
+          ]
+        },
+        {
+          "naslov": "Metod",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Ista putanja, drugi metod. PUT /api/soba nije čitanje.",
+          "kljucnaIdeja": "Ruta je putanja i metod zajedno. Poznata putanja sa nepodržanim metodom dobija 405, ne 404.",
+          "putanja": "server/server.js",
+          "isecakNaslov": "Metod",
+          "isecak": "  if (req.method !== \"GET\") {\n    posalji(res, 405, { greska: \"metod nije dozvoljen\" });\n    return;\n  }",
+          "delic": "  if (req.method !== \"GET\") {\n    posalji(res, 405, { greska: \"metod nije dozvoljen\" });\n    return;\n  }",
+          "original": "const http = require(\"http\");\n\nfunction posalji(res, status, body) {\n  res.writeHead(status, { \"content-type\": \"application/json; charset=utf-8\" });\n  res.end(JSON.stringify(body));\n}\n\nfunction obrada(req, res) {\n  const putanja = req.url.split(\"?\")[0];\n  if (putanja !== \"/api/soba\") {\n    posalji(res, 404, { greska: \"nema putanje\" });\n    return;\n  }\n  if (req.method !== \"GET\") {\n    posalji(res, 405, { greska: \"metod nije dozvoljen\" });\n    return;\n  }\n  posalji(res, 200, { temperatura: 24, ukljucen: false });\n}\n\nconst server = http.createServer(obrada);\nserver.listen(8787, () => {\n  console.log(\"server sluša port 8787\");\n});\n",
+          "analiza": "Zašto: Ruta je putanja i metod zajedno. Poznata putanja sa nepodržanim metodom dobija 405, ne 404. U ovom koraku: Ista putanja, drugi metod. PUT /api/soba nije čitanje. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Šta dobije PUT /api/soba?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "404.",
+              "why": "Putanja postoji. 404 bi reklo da nje nema.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "405.",
+              "why": "Putanja postoji, metod ne. Status to razlikuje.",
+              "ok": true
+            },
+            {
+              "key": "C",
+              "text": "200, jer je putanja tačna.",
+              "why": "Metod je deo rute. PUT ovde nije podržan.",
+              "ok": false
+            }
+          ]
+        },
+        {
+          "naslov": "Modul sobe",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Šta soba vraća ide u poseban fajl. Modul ne zna za HTTP: vraća samo status i telo.",
+          "kljucnaIdeja": "soba.js izvozi citaj, a citaj vraća { status, body }. server.js je taj koji piše HTTP odgovor.",
+          "putanja": "server/soba.js",
+          "isecakNaslov": "Modul sobe",
+          "isecak": "function ocitavanje(stanje) {\n  return {\n    temperatura: stanje.temperatura,\n    ukljucen: stanje.ukljucen,\n  };\n}\n\nfunction citaj(kontekst) {\n  return { status: 200, body: ocitavanje(kontekst.state) };\n}\n\nmodule.exports = { citaj };",
+          "delic": "function ocitavanje(stanje) {\n  return {\n    temperatura: stanje.temperatura,\n    ukljucen: stanje.ukljucen,\n  };\n}\n\nfunction citaj(kontekst) {\n  return { status: 200, body: ocitavanje(kontekst.state) };\n}\n\nmodule.exports = { citaj };",
+          "original": "function ocitavanje(stanje) {\n  return {\n    temperatura: stanje.temperatura,\n    ukljucen: stanje.ukljucen,\n  };\n}\n\nfunction citaj(kontekst) {\n  return { status: 200, body: ocitavanje(kontekst.state) };\n}\n\nmodule.exports = { citaj };\n",
+          "analiza": "Zašto: soba.js izvozi citaj, a citaj vraća { status, body }. server.js je taj koji piše HTTP odgovor. U ovom koraku: Šta soba vraća ide u poseban fajl. Modul ne zna za HTTP: vraća samo status i telo. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Šta citaj vrati?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Gotov HTTP odgovor sa zaglavljima.",
+              "why": "Zaglavlja i dalje piše server.js kroz posalji.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Objekat { status, body }.",
+              "why": "Server pročita ta dva polja i pošalje ih.",
               "ok": true
             }
           ]
         },
         {
-          "naslov": "createServer",
+          "naslov": "Stanje na serveru",
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "aplikacija",
-          "tekst": "Običan Node, nema framework. http je ugrađeni modul, vezan sa require(\"http\").",
-          "kljucnaIdeja": "http.createServer dolazi pre slušanja porta.",
+          "tekst": "server.js učita modul i drži stanje sobe u procesu. Ruta /api/soba sada pita modul.",
+          "kljucnaIdeja": "Temperatura živi u procesu servera, u objektu state. require(\"./soba\") se izvrši jednom, kad proces krene.",
           "putanja": "server/server.js",
-          "isecakNaslov": "createServer",
-          "isecak": "const http = require(\"http\");\nconst server = http.createServer(obrada);",
-          "delic": "const http = require(\"http\");\nconst server = http.createServer(obrada);",
-          "analiza": "Zašto: http.createServer dolazi pre slušanja porta. U ovom koraku: Običan Node, nema framework. http je ugrađeni modul, vezan sa require(\"http\"). Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Šta createServer uradi?",
+          "isecakNaslov": "Stanje na serveru",
+          "isecak": "const soba = require(\"./soba\");\n\nconst state = { temperatura: 24, ukljucen: false, prikljucen: true };\n\n  const rezultat = soba.citaj({ state });\n  posalji(res, rezultat.status, rezultat.body);",
+          "delic": "const soba = require(\"./soba\");\n\nconst state = { temperatura: 24, ukljucen: false, prikljucen: true };\n\n  const rezultat = soba.citaj({ state });\n  posalji(res, rezultat.status, rezultat.body);",
+          "original": "const http = require(\"http\");\nconst soba = require(\"./soba\");\n\nconst state = { temperatura: 24, ukljucen: false, prikljucen: true };\n\nfunction posalji(res, status, body) {\n  res.writeHead(status, { \"content-type\": \"application/json; charset=utf-8\" });\n  res.end(JSON.stringify(body));\n}\n\nfunction obrada(req, res) {\n  const putanja = req.url.split(\"?\")[0];\n  if (putanja !== \"/api/soba\") {\n    posalji(res, 404, { greska: \"nema putanje\" });\n    return;\n  }\n  if (req.method !== \"GET\") {\n    posalji(res, 405, { greska: \"metod nije dozvoljen\" });\n    return;\n  }\n  const rezultat = soba.citaj({ state });\n  posalji(res, rezultat.status, rezultat.body);\n}\n\nconst server = http.createServer(obrada);\nserver.listen(8787, () => {\n  console.log(\"server sluša port 8787\");\n});\n",
+          "analiza": "Zašto: Temperatura živi u procesu servera, u objektu state. require(\"./soba\") se izvrši jednom, kad proces krene. U ovom koraku: server.js učita modul i drži stanje sobe u procesu. Ruta /api/soba sada pita modul. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Gde je sada temperatura?",
           "opcije": [
             {
               "key": "A",
-              "text": "Otvori browser.",
-              "why": "Browser je druga strana. Ta pretpostavka zanemaruje ključnu razliku: http.createServer dolazi pre slušanja porta.",
+              "text": "U stranici, u elementu displeja.",
+              "why": "Displej samo prikazuje. Vrednost drži server.",
               "ok": false
             },
             {
               "key": "B",
-              "text": "Napravi server koji za svaki zahtev zove obradu.",
-              "why": "Još ne sluša port. To je u skladu sa razlikom koju pravi ovaj korak: http.createServer dolazi pre slušanja porta.",
-              "ok": true
-            }
-          ]
-        },
-        {
-          "naslov": "listen",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Server kaže na kom portu čeka.",
-          "kljucnaIdeja": "listen otvara port. Zahtev još nije poslat.",
-          "putanja": "server/server.js",
-          "isecakNaslov": "listen",
-          "isecak": "server.listen(8787);",
-          "delic": "server.listen(8787);",
-          "analiza": "Zašto: listen otvara port. Zahtev još nije poslat. U ovom koraku: Server kaže na kom portu čeka. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Da li je adresa već u browseru?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Da, listen otvori i stranicu.",
-              "why": "listen samo čeka vezu. Ta pretpostavka zanemaruje ključnu razliku: listen otvara port. Zahtev još nije poslat.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Ne. Port je otvoren, stranicu još niko nije tražio.",
-              "why": "Adresa dolazi sledeća. To je u skladu sa razlikom koju pravi ovaj korak: listen otvara port. Zahtev još nije poslat.",
-              "ok": true
-            }
-          ]
-        },
-        {
-          "naslov": "Komanda",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Proces se podiže iz terminala.",
-          "kljucnaIdeja": "Komanda je node server/server.js. Browser je i dalje poseban korak.",
-          "putanja": "server/server.js",
-          "isecakNaslov": "Komanda",
-          "isecak": "node server/server.js",
-          "delic": "node server/server.js",
-          "analiza": "Zašto: Komanda je node server/server.js. Browser je i dalje poseban korak. U ovom koraku: Proces se podiže iz terminala. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Šta ova komanda pokrene?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Samo CSS sobe.",
-              "why": "To nije Node. Ta pretpostavka zanemaruje ključnu razliku: Komanda je node server/server.js. Browser je i dalje poseban korak.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Node proces koji sluša port.",
-              "why": "Isti fajl koji ima createServer i listen. To je u skladu sa razlikom koju pravi ovaj korak: Komanda je node server/server.js. Browser je i dalje poseban korak.",
+              "text": "U procesu servera, u state.",
+              "why": "Svaki klijent koji pita /api/soba dobije istu vrednost.",
               "ok": true
             }
           ]
@@ -2346,73 +2624,13 @@
           ]
         },
         {
-          "naslov": "Adresa",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Ista adresa se otvori u browseru, kao stranica, ne iz koda.",
-          "kljucnaIdeja": "Čitanje sobe se prvo otvara direktno u browseru. U telu je JSON tekst.",
-          "putanja": "server/soba.js",
-          "isecakNaslov": "Adresa",
-          "isecak": "http://127.0.0.1:8787/api/soba",
-          "delic": "GET /api/soba HTTP/1.1",
-          "analiza": "Zašto: Čitanje sobe se prvo otvara direktno u browseru. U telu je JSON tekst. U ovom koraku: Ista adresa se otvori u browseru, kao stranica, ne iz koda. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Kako čas prvi put vidi čitanje?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Pozivom iz koda stranice.",
-              "why": "Poziv iz koda dolazi kasnije. Ta pretpostavka zanemaruje ključnu razliku: Čitanje sobe se prvo otvara direktno u browseru. U telu je JSON tekst.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Tako što se adresa otvori u browseru.",
-              "why": "Odgovor se vidi i u logu procesa. To je u skladu sa razlikom koju pravi ovaj korak: Čitanje sobe se prvo otvara direktno u browseru. U telu je JSON tekst.",
-              "ok": true
-            }
-          ]
-        },
-        {
-          "naslov": "Ruta",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Poznata putanja vraća temperaturu i režim.",
-          "kljucnaIdeja": "Poznata putanja vraća temperaturu i režim. Ostale vraćaju 404.",
-          "putanja": "server/soba.js",
-          "isecakNaslov": "Ruta",
-          "isecak": "if (putanja === \"/api/soba\") return 200;",
-          "delic": "if (putanja !== \"/api/soba\") return 404;",
-          "analiza": "Zašto: Poznata putanja vraća temperaturu i režim. Ostale vraćaju 404. U ovom koraku: Poznata putanja vraća temperaturu i režim. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Šta nepoznata putanja vrati?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Isti JSON, da panel ne pukne.",
-              "why": "Nepoznata putanja nije soba. Ta pretpostavka zanemaruje ključnu razliku: Poznata putanja vraća temperaturu i režim. Ostale vraćaju 404.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "404.",
-              "why": "Status postoji. To nije ugašen port. To je u skladu sa razlikom koju pravi ovaj korak: Poznata putanja vraća temperaturu i režim. Ostale vraćaju 404.",
-              "ok": true
-            }
-          ]
-        },
-        {
           "naslov": "Bez Err",
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "aplikacija",
-          "tekst": "Isečak ovog časa nema granu koja piše Err.",
+          "tekst": "Displej iz prošle nedelje nema granu koja piše Err.",
           "kljucnaIdeja": "Neuspeh na času 4 ostavlja crte. Dugme Pročitaj šalje jedno čitanje. Sledeći korak na klijentu više nije izvor temperature.",
-          "putanja": "server/soba.js",
-          "isecakNaslov": "Bez Err",
-          "isecak": "if (response.ok) displej.textContent = telo.temperatura;",
-          "delic": "if (response.ok) displej.textContent = String(telo.temperatura);",
-          "analiza": "Zašto: Neuspeh na času 4 ostavlja crte. Dugme Pročitaj šalje jedno čitanje. Sledeći korak na klijentu više nije izvor temperature. U ovom koraku: Isečak ovog časa nema granu koja piše Err. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "analiza": "Zašto: Neuspeh na času 4 ostavlja crte. Dugme Pročitaj šalje jedno čitanje. Sledeći korak na klijentu više nije izvor temperature. U ovom koraku: Displej iz prošle nedelje nema granu koja piše Err. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta neuspeh uradi displeju?",
           "opcije": [
             {
@@ -2554,13 +2772,14 @@
           "nivo": "Osnovno",
           "minuta": 5,
           "tipPrimer": "aplikacija",
-          "tekst": "Pripremljeni 500 jeste ventilator koji nije priključen.",
+          "tekst": "Pripremljeni 500 jeste ventilator koji nije priključen. Modul sobe to proveri pre čitanja.",
           "kljucnaIdeja": "Izvučen ventilator vraća HTTP 500. Odgovor stiže.",
-          "putanja": "server/ventilator.js",
+          "putanja": "server/soba.js",
           "isecakNaslov": "Izvučen kabl",
-          "isecak": "if (!prikljucen) return 500;",
-          "delic": "return { status: 500 };",
-          "analiza": "Zašto: Izvučen ventilator vraća HTTP 500. Odgovor stiže. U ovom koraku: Pripremljeni 500 jeste ventilator koji nije priključen. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "isecak": "  if (!kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }",
+          "delic": "  if (!kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }",
+          "original": "function ocitavanje(stanje) {\n  return {\n    temperatura: stanje.temperatura,\n    ukljucen: stanje.ukljucen,\n  };\n}\n\nfunction citaj(kontekst) {\n  if (!kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }\n  return { status: 200, body: ocitavanje(kontekst.state) };\n}\n\nmodule.exports = { citaj };\n",
+          "analiza": "Zašto: Izvučen ventilator vraća HTTP 500. Odgovor stiže. U ovom koraku: Pripremljeni 500 jeste ventilator koji nije priključen. Modul sobe to proveri pre čitanja. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Da li je odgovor stigao?",
           "opcije": [
             {
@@ -2955,10 +3174,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Komanda kaže u kom stanju ventilator treba da bude.",
           "kljucnaIdeja": "Komanda postavlja ventilator na uključeno ili isključeno.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "Željeno stanje",
-          "isecak": "{ \"ukljucen\": true }",
-          "delic": "ukljucen: true",
+          "samostalniPrimer": {
+            "jezik": "json",
+            "izolovan": true,
+            "tekst": "{ \"ukljucen\": true }"
+          },
           "analiza": "Zašto: Komanda postavlja ventilator na uključeno ili isključeno. U ovom koraku: Komanda kaže u kom stanju ventilator treba da bude. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta telo nosi?",
           "opcije": [
@@ -2981,41 +3201,234 @@
           "nivo": "Osnovno",
           "minuta": 5,
           "tipPrimer": "aplikacija",
-          "tekst": "Metod i putanja su deo zahteva.",
+          "tekst": "Komanda je novi zahtev: metod PUT, putanja /api/ventilator, telo sa željenim stanjem. server.js iz pete nedelje tu putanju ne poznaje.",
           "kljucnaIdeja": "Komanda je PUT /api/ventilator.",
-          "putanja": "server/ventilator.js",
+          "putanja": "server/server.js",
           "isecakNaslov": "PUT",
-          "isecak": "PUT /api/ventilator",
-          "delic": "PUT /api/ventilator",
+          "isecak": "PUT /api/ventilator HTTP/1.1",
+          "delic": "PUT /api/ventilator HTTP/1.1",
           "analiza": "Zašto: Komanda je PUT /api/ventilator. U ovom koraku: Metod i putanja su deo zahteva. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Koji je zahtev?",
+          "pitalica": "Šta server iz pete nedelje vrati na PUT /api/ventilator?",
           "opcije": [
             {
               "key": "A",
-              "text": "GET /api/soba",
-              "why": "To je čitanje. Ta pretpostavka zanemaruje ključnu razliku: Komanda je PUT /api/ventilator.",
+              "text": "200 i uključi ventilator.",
+              "why": "Obrada nema tu rutu. Ništa se ne menja.",
               "ok": false
             },
             {
               "key": "B",
-              "text": "PUT /api/ventilator",
-              "why": "Telo nosi željeno stanje. To je u skladu sa razlikom koju pravi ovaj korak: Komanda je PUT /api/ventilator.",
+              "text": "404.",
+              "why": "Bez endpointa nema komande: putanja nije /api/soba, pa ide grana 404.",
               "ok": true
+            },
+            {
+              "key": "C",
+              "text": "405.",
+              "why": "405 je za poznatu putanju. /api/ventilator još nije poznata.",
+              "ok": false
+            }
+          ]
+        },
+        {
+          "naslov": "Modul ventilatora",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Komanda ide u svoj modul, kao čitanje u soba.js. Modul upiše željeno stanje i vrati samo režim.",
+          "kljucnaIdeja": "ventilator.js izvozi komanda(kontekst, telo). Uspeh vraća { ukljucen }, bez temperature.",
+          "putanja": "server/ventilator.js",
+          "isecakNaslov": "Modul ventilatora",
+          "isecak": "function komanda(kontekst, telo) {\n  kontekst.state.ukljucen = telo.ukljucen;\n  return { status: 200, body: { ukljucen: kontekst.state.ukljucen } };\n}\n\nmodule.exports = { komanda };",
+          "delic": "function komanda(kontekst, telo) {\n  kontekst.state.ukljucen = telo.ukljucen;\n  return { status: 200, body: { ukljucen: kontekst.state.ukljucen } };\n}\n\nmodule.exports = { komanda };",
+          "original": "function komanda(kontekst, telo) {\n  kontekst.state.ukljucen = telo.ukljucen;\n  return { status: 200, body: { ukljucen: kontekst.state.ukljucen } };\n}\n\nmodule.exports = { komanda };\n",
+          "analiza": "Zašto: ventilator.js izvozi komanda(kontekst, telo). Uspeh vraća { ukljucen }, bez temperature. U ovom koraku: Komanda ide u svoj modul, kao čitanje u soba.js. Modul upiše željeno stanje i vrati samo režim. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Šta nije u telu odgovora?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Režim.",
+              "why": "Režim jeste odgovor.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Temperatura.",
+              "why": "Temperaturu donosi samo čitanje sobe.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Telo stiže u delovima",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Za razliku od putanje, telo zahteva nije gotovo polje u req. Stiže kao tok, deo po deo, i završi se događajem end.",
+          "kljucnaIdeja": "procitajTelo skuplja delove dok ne stigne end i vraća Promise sa celim tekstom. server.js se čita kad proces krene: posle izmene, ponovo node server/server.js.",
+          "putanja": "server/server.js",
+          "isecakNaslov": "Telo stiže u delovima",
+          "isecak": "function procitajTelo(req) {\n  return new Promise((resolve, reject) => {\n    let tekst = \"\";\n    req.on(\"data\", (deo) => {\n      tekst += deo;\n    });\n    req.on(\"end\", () => resolve(tekst));\n    req.on(\"error\", reject);\n  });\n}",
+          "delic": "function procitajTelo(req) {\n  return new Promise((resolve, reject) => {\n    let tekst = \"\";\n    req.on(\"data\", (deo) => {\n      tekst += deo;\n    });\n    req.on(\"end\", () => resolve(tekst));\n    req.on(\"error\", reject);\n  });\n}",
+          "original": "const http = require(\"http\");\nconst soba = require(\"./soba\");\n\nconst state = { temperatura: 24, ukljucen: false, prikljucen: true };\n\nfunction posalji(res, status, body) {\n  res.writeHead(status, { \"content-type\": \"application/json; charset=utf-8\" });\n  res.end(JSON.stringify(body));\n}\n\nfunction procitajTelo(req) {\n  return new Promise((resolve, reject) => {\n    let tekst = \"\";\n    req.on(\"data\", (deo) => {\n      tekst += deo;\n    });\n    req.on(\"end\", () => resolve(tekst));\n    req.on(\"error\", reject);\n  });\n}\n\nfunction obrada(req, res) {\n  const putanja = req.url.split(\"?\")[0];\n  if (putanja !== \"/api/soba\") {\n    posalji(res, 404, { greska: \"nema putanje\" });\n    return;\n  }\n  if (req.method !== \"GET\") {\n    posalji(res, 405, { greska: \"metod nije dozvoljen\" });\n    return;\n  }\n  const rezultat = soba.citaj({ state });\n  posalji(res, rezultat.status, rezultat.body);\n}\n\nconst server = http.createServer(obrada);\nserver.listen(8787, () => {\n  console.log(\"server sluša port 8787\");\n});\n",
+          "analiza": "Zašto: procitajTelo skuplja delove dok ne stigne end i vraća Promise sa celim tekstom. server.js se čita kad proces krene: posle izmene, ponovo node server/server.js. U ovom koraku: Za razliku od putanje, telo zahteva nije gotovo polje u req. Stiže kao tok, deo po deo, i završi se događajem end. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Zašto telo nije odmah u req?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Zato što GET nema telo.",
+              "why": "Ovde je PUT, a telo i dalje stiže kasnije od zaglavlja.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Zato što stiže kao tok bajtova, u delovima.",
+              "why": "To je TCP iz pete nedelje: obrada čeka end pre nego što ima ceo tekst.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Ruta komande",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Obrada dobije granu za /api/ventilator. Samo PUT prolazi, telo se pročita i pretvori iz JSON teksta u objekat, pa ide modulu.",
+          "kljucnaIdeja": "Endpoint komande je PUT /api/ventilator. Obrada postaje async jer čeka telo. Drugi metod na toj putanji dobija 405.",
+          "putanja": "server/server.js",
+          "isecakNaslov": "Ruta komande",
+          "isecak": "const ventilator = require(\"./ventilator\");\n\nasync function obrada(req, res) {\n  const putanja = req.url.split(\"?\")[0];\n  if (putanja === \"/api/ventilator\") {\n    if (req.method !== \"PUT\") {\n      posalji(res, 405, { greska: \"metod nije dozvoljen\" });\n      return;\n    }\n    const telo = JSON.parse(await procitajTelo(req));\n    const rezultat = ventilator.komanda({ state }, telo);\n    posalji(res, rezultat.status, rezultat.body);\n    return;\n  }",
+          "delic": "const ventilator = require(\"./ventilator\");\n\nasync function obrada(req, res) {\n  const putanja = req.url.split(\"?\")[0];\n  if (putanja === \"/api/ventilator\") {\n    if (req.method !== \"PUT\") {\n      posalji(res, 405, { greska: \"metod nije dozvoljen\" });\n      return;\n    }\n    const telo = JSON.parse(await procitajTelo(req));\n    const rezultat = ventilator.komanda({ state }, telo);\n    posalji(res, rezultat.status, rezultat.body);\n    return;\n  }",
+          "original": "const http = require(\"http\");\nconst soba = require(\"./soba\");\nconst ventilator = require(\"./ventilator\");\n\nconst state = { temperatura: 24, ukljucen: false, prikljucen: true };\n\nfunction posalji(res, status, body) {\n  res.writeHead(status, { \"content-type\": \"application/json; charset=utf-8\" });\n  res.end(JSON.stringify(body));\n}\n\nfunction procitajTelo(req) {\n  return new Promise((resolve, reject) => {\n    let tekst = \"\";\n    req.on(\"data\", (deo) => {\n      tekst += deo;\n    });\n    req.on(\"end\", () => resolve(tekst));\n    req.on(\"error\", reject);\n  });\n}\n\nasync function obrada(req, res) {\n  const putanja = req.url.split(\"?\")[0];\n  if (putanja === \"/api/ventilator\") {\n    if (req.method !== \"PUT\") {\n      posalji(res, 405, { greska: \"metod nije dozvoljen\" });\n      return;\n    }\n    const telo = JSON.parse(await procitajTelo(req));\n    const rezultat = ventilator.komanda({ state }, telo);\n    posalji(res, rezultat.status, rezultat.body);\n    return;\n  }\n  if (putanja !== \"/api/soba\") {\n    posalji(res, 404, { greska: \"nema putanje\" });\n    return;\n  }\n  if (req.method !== \"GET\") {\n    posalji(res, 405, { greska: \"metod nije dozvoljen\" });\n    return;\n  }\n  const rezultat = soba.citaj({ state });\n  posalji(res, rezultat.status, rezultat.body);\n}\n\nconst server = http.createServer(obrada);\nserver.listen(8787, () => {\n  console.log(\"server sluša port 8787\");\n});\n",
+          "analiza": "Zašto: Endpoint komande je PUT /api/ventilator. Obrada postaje async jer čeka telo. Drugi metod na toj putanji dobija 405. U ovom koraku: Obrada dobije granu za /api/ventilator. Samo PUT prolazi, telo se pročita i pretvori iz JSON teksta u objekat, pa ide modulu. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Šta sada dobije GET /api/ventilator?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "404.",
+              "why": "Putanja je sada poznata.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "405.",
+              "why": "Putanja postoji, ali samo za PUT.",
+              "ok": true
+            },
+            {
+              "key": "C",
+              "text": "200 i trenutni režim.",
+              "why": "Ruta za GET na toj putanji ne postoji. Režim se čita kroz /api/soba.",
+              "ok": false
+            }
+          ]
+        },
+        {
+          "naslov": "Displej miruje",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Stigao je 200 na komandu.",
+          "kljucnaIdeja": "Komanda ne menja displej sobe prekidača.",
+          "putanja": "client/js/prekidac.js",
+          "isecakNaslov": "Displej miruje",
+          "isecak": "odgovor: { ukljucen: true }",
+          "delic": "// cifre ostaju",
+          "analiza": "Zašto: Komanda ne menja displej sobe prekidača. U ovom koraku: Stigao je 200 na komandu. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Šta displej temperature uradi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Upisuje novu temperaturu iz odgovora.",
+              "why": "U odgovoru je nema. Ta pretpostavka zanemaruje ključnu razliku: Komanda ne menja displej sobe prekidača.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ostaje na poslednjem čitanju.",
+              "why": "Komanda ne crta cifre. To je u skladu sa razlikom koju pravi ovaj korak: Komanda ne menja displej sobe prekidača.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Telo koje nije JSON",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Neko pošalje telo da, bez navodnika i zagrada. JSON.parse baci izuzetak.",
+          "kljucnaIdeja": "Neispravan JSON dobija 400. Bez try/catch izuzetak iz async obrade obori ceo proces, pa ni sledeći zahtevi nemaju odgovor.",
+          "putanja": "server/server.js",
+          "isecakNaslov": "Telo koje nije JSON",
+          "isecak": "    let telo;\n    try {\n      telo = JSON.parse(await procitajTelo(req));\n    } catch {\n      posalji(res, 400, { greska: \"neispravno telo\" });\n      return;\n    }",
+          "delic": "    let telo;\n    try {\n      telo = JSON.parse(await procitajTelo(req));\n    } catch {\n      posalji(res, 400, { greska: \"neispravno telo\" });\n      return;\n    }",
+          "original": "const http = require(\"http\");\nconst soba = require(\"./soba\");\nconst ventilator = require(\"./ventilator\");\n\nconst state = { temperatura: 24, ukljucen: false, prikljucen: true };\n\nfunction posalji(res, status, body) {\n  res.writeHead(status, { \"content-type\": \"application/json; charset=utf-8\" });\n  res.end(JSON.stringify(body));\n}\n\nfunction procitajTelo(req) {\n  return new Promise((resolve, reject) => {\n    let tekst = \"\";\n    req.on(\"data\", (deo) => {\n      tekst += deo;\n    });\n    req.on(\"end\", () => resolve(tekst));\n    req.on(\"error\", reject);\n  });\n}\n\nasync function obrada(req, res) {\n  const putanja = req.url.split(\"?\")[0];\n  if (putanja === \"/api/ventilator\") {\n    if (req.method !== \"PUT\") {\n      posalji(res, 405, { greska: \"metod nije dozvoljen\" });\n      return;\n    }\n    let telo;\n    try {\n      telo = JSON.parse(await procitajTelo(req));\n    } catch {\n      posalji(res, 400, { greska: \"neispravno telo\" });\n      return;\n    }\n    const rezultat = ventilator.komanda({ state }, telo);\n    posalji(res, rezultat.status, rezultat.body);\n    return;\n  }\n  if (putanja !== \"/api/soba\") {\n    posalji(res, 404, { greska: \"nema putanje\" });\n    return;\n  }\n  if (req.method !== \"GET\") {\n    posalji(res, 405, { greska: \"metod nije dozvoljen\" });\n    return;\n  }\n  const rezultat = soba.citaj({ state });\n  posalji(res, rezultat.status, rezultat.body);\n}\n\nconst server = http.createServer(obrada);\nserver.listen(8787, () => {\n  console.log(\"server sluša port 8787\");\n});\n",
+          "analiza": "Zašto: Neispravan JSON dobija 400. Bez try/catch izuzetak iz async obrade obori ceo proces, pa ni sledeći zahtevi nemaju odgovor. U ovom koraku: Neko pošalje telo da, bez navodnika i zagrada. JSON.parse baci izuzetak. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Šta bi se desilo bez try/catch?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Server bi vratio 400 sam od sebe.",
+              "why": "Node ne zna šta je ispravno telo. 400 je odluka obrade.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Proces bi pao, i sledeća čitanja ne bi imala odgovor.",
+              "why": "Neuhvaćen izuzetak u async obradi obori Node proces. U terminalu ostane greška.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Ne veruj HTML formi",
+          "nivo": "Primena",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Napadač može poslati zahtev bez korišćenja našeg UI-a.",
+          "kljucnaIdeja": "Validacija podataka na serveru ne može se zameniti client-side proverom.",
+          "samostalniPrimer": {
+            "jezik": "javascript",
+            "izolovan": true,
+            "tekst": "fetch(\"/api/ventilator\", { method:\"PUT\",\n headers:{\"Content-Type\":\"application/json\"},\n body:JSON.stringify({ ukljucen:\"da\" })\n});"
+          },
+          "analiza": "Porediti sintaksno valjan JSON i semantički validno telo. Dodati granice veličine tela.",
+          "formatPitalice": "kod-izlaz",
+          "pitalica": "Šta server treba da uradi sa tekstom \"da\" ako ugovor traži boolean?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Pretvori ga u true bez provere.",
+              "why": "Prećutna konverzija krši ugovor.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Odbije neispravan unos, na primer statusom 400.",
+              "why": "Server je granica poverenja; string nije boolean.",
+              "ok": true
+            },
+            {
+              "key": "C",
+              "text": "Ignoriše validaciju jer je forma ranije proverena.",
+              "why": "Bilo koji HTTP klijent može zaobići browser formu.",
+              "ok": false
             }
           ]
         },
         {
           "naslov": "Jedno polje",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
-          "tekst": "Telo sme da ima samo ukljucen, i to boolean.",
-          "kljucnaIdeja": "Server prima tačno jedno polje ukljucen.",
+          "tekst": "JSON je ispravan, ali to još nije režim. Telo sme da ima samo ukljucen, i to boolean.",
+          "kljucnaIdeja": "teloJeRezim proverava oblik: objekat, tačno jedno polje ukljucen, tipa boolean.",
           "putanja": "server/ventilator.js",
           "isecakNaslov": "Jedno polje",
-          "isecak": "Object.keys(telo)",
-          "delic": "typeof telo.ukljucen === \"boolean\"",
-          "analiza": "Zašto: Server prima tačno jedno polje ukljucen. U ovom koraku: Telo sme da ima samo ukljucen, i to boolean. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "isecak": "function teloJeRezim(telo) {\n  if (!telo || typeof telo !== \"object\" || Array.isArray(telo)) return false;\n  const kljucevi = Object.keys(telo);\n  return typeof telo.ukljucen === \"boolean\" && kljucevi.every((kljuc) => kljuc === \"ukljucen\");\n}",
+          "delic": "function teloJeRezim(telo) {\n  if (!telo || typeof telo !== \"object\" || Array.isArray(telo)) return false;\n  const kljucevi = Object.keys(telo);\n  return typeof telo.ukljucen === \"boolean\" && kljucevi.every((kljuc) => kljuc === \"ukljucen\");\n}",
+          "original": "function teloJeRezim(telo) {\n  if (!telo || typeof telo !== \"object\" || Array.isArray(telo)) return false;\n  const kljucevi = Object.keys(telo);\n  return typeof telo.ukljucen === \"boolean\" && kljucevi.every((kljuc) => kljuc === \"ukljucen\");\n}\n\nfunction komanda(kontekst, telo) {\n  kontekst.state.ukljucen = telo.ukljucen;\n  return { status: 200, body: { ukljucen: kontekst.state.ukljucen } };\n}\n\nmodule.exports = { komanda };\n",
+          "analiza": "Zašto: teloJeRezim proverava oblik: objekat, tačno jedno polje ukljucen, tipa boolean. U ovom koraku: JSON je ispravan, ali to još nije režim. Telo sme da ima samo ukljucen, i to boolean. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta prolazi?",
           "opcije": [
             {
@@ -3033,29 +3446,88 @@
           ]
         },
         {
-          "naslov": "Samo režim",
+          "naslov": "400",
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "aplikacija",
-          "tekst": "Uspeh ne vraća sobu.",
-          "kljucnaIdeja": "Uspešan odgovor nosi samo režim.",
+          "tekst": "Neko pošalje tekst umesto boolean vrednosti.",
+          "kljucnaIdeja": "Telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400.",
           "putanja": "server/ventilator.js",
-          "isecakNaslov": "Samo režim",
-          "isecak": "HTTP/1.1 200 OK\n{\"ukljucen\":true}",
-          "delic": "{ \"ukljucen\": true }",
-          "analiza": "Zašto: Uspešan odgovor nosi samo režim. U ovom koraku: Uspeh ne vraća sobu. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Šta nije u telu?",
+          "isecakNaslov": "400",
+          "isecak": "  if (!teloJeRezim(telo)) return { status: 400, body: { greska: \"telo nije boolean rezim\" } };",
+          "delic": "  if (!teloJeRezim(telo)) return { status: 400, body: { greska: \"telo nije boolean rezim\" } };",
+          "original": "function teloJeRezim(telo) {\n  if (!telo || typeof telo !== \"object\" || Array.isArray(telo)) return false;\n  const kljucevi = Object.keys(telo);\n  return typeof telo.ukljucen === \"boolean\" && kljucevi.every((kljuc) => kljuc === \"ukljucen\");\n}\n\nfunction komanda(kontekst, telo) {\n  if (!teloJeRezim(telo)) return { status: 400, body: { greska: \"telo nije boolean rezim\" } };\n  kontekst.state.ukljucen = telo.ukljucen;\n  return { status: 200, body: { ukljucen: kontekst.state.ukljucen } };\n}\n\nmodule.exports = { komanda };\n",
+          "analiza": "Zašto: Telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400. U ovom koraku: Neko pošalje tekst umesto boolean vrednosti. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Koji je status?",
           "opcije": [
             {
               "key": "A",
-              "text": "Režim.",
-              "why": "Režim jeste odgovor. Ta pretpostavka zanemaruje ključnu razliku: Uspešan odgovor nosi samo režim.",
+              "text": "200, forma bi to ionako sprečila.",
+              "why": "Forma ne sprečava drugačije telo. Ta pretpostavka zanemaruje ključnu razliku: Telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400.",
               "ok": false
             },
             {
               "key": "B",
-              "text": "Temperatura.",
-              "why": "Displej temperature menja samo čitanje. To je u skladu sa razlikom koju pravi ovaj korak: Uspešan odgovor nosi samo režim.",
+              "text": "400. Telo nije režim.",
+              "why": "Režim u kutiji se ne menja. To je u skladu sa razlikom koju pravi ovaj korak: Telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Dvaput uključeno",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Ista komanda ode dvaput.",
+          "kljucnaIdeja": "Dva slanja „uključeno” ostavljaju isti željeni efekat.",
+          "samostalniPrimer": {
+            "jezik": "text",
+            "izolovan": true,
+            "tekst": "PUT /api/ventilator  { \"ukljucen\": true }\nPUT /api/ventilator  { \"ukljucen\": true }"
+          },
+          "analiza": "Zašto: Dva slanja „uključeno” ostavljaju isti željeni efekat. U ovom koraku: Ista komanda ode dvaput. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Šta ostane?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Isključeno, jer je drugi put poništio.",
+              "why": "Ovo nije prebacivanje. Ta pretpostavka zanemaruje ključnu razliku: Dva slanja „uključeno” ostavljaju isti željeni efekat.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Uključeno.",
+              "why": "Postavljanje na isto stanje ostaje. To je u skladu sa razlikom koju pravi ovaj korak: Dva slanja „uključeno” ostavljaju isti željeni efekat.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Prebacivanje",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Druga komanda samo okrene trenutni režim.",
+          "kljucnaIdeja": "Dva slanja prebacivanja menjaju ishod.",
+          "samostalniPrimer": {
+            "jezik": "javascript",
+            "izolovan": true,
+            "tekst": "ukljucen = !ukljucen;\nukljucen = !ukljucen;"
+          },
+          "analiza": "Zašto: Dva slanja prebacivanja menjaju ishod. U ovom koraku: Druga komanda samo okrene trenutni režim. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Šta drugi put uradi?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Ostavi isti efekat.",
+              "why": "Drugi put poništi prvi. Ta pretpostavka zanemaruje ključnu razliku: Dva slanja prebacivanja menjaju ishod.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Vrati prethodno stanje.",
+              "why": "Zato prebacivanje nije bezbedno za ponavljanje. To je u skladu sa razlikom koju pravi ovaj korak: Dva slanja prebacivanja menjaju ishod.",
               "ok": true
             }
           ]
@@ -3097,163 +3569,17 @@
           ]
         },
         {
-          "naslov": "Displej miruje",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Stigao je 200 na komandu.",
-          "kljucnaIdeja": "Komanda ne menja displej sobe prekidača.",
-          "putanja": "client/js/prekidac.js",
-          "isecakNaslov": "Displej miruje",
-          "isecak": "odgovor: { ukljucen: true }",
-          "delic": "// cifre ostaju",
-          "analiza": "Zašto: Komanda ne menja displej sobe prekidača. U ovom koraku: Stigao je 200 na komandu. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Šta displej temperature uradi?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Upisuje novu temperaturu iz odgovora.",
-              "why": "U odgovoru je nema. Ta pretpostavka zanemaruje ključnu razliku: Komanda ne menja displej sobe prekidača.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Ostaje na poslednjem čitanju.",
-              "why": "Komanda ne crta cifre. To je u skladu sa razlikom koju pravi ovaj korak: Komanda ne menja displej sobe prekidača.",
-              "ok": true
-            }
-          ]
-        },
-        {
-          "naslov": "400",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Neko pošalje tekst umesto boolean vrednosti.",
-          "kljucnaIdeja": "Telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "400",
-          "isecak": "{ \"ukljucen\": \"da\" }",
-          "delic": "return { status: 400 };",
-          "analiza": "Zašto: Telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400. U ovom koraku: Neko pošalje tekst umesto boolean vrednosti. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Koji je status?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "200, forma bi to ionako sprečila.",
-              "why": "Forma ne sprečava drugačije telo. Ta pretpostavka zanemaruje ključnu razliku: Telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "400. Telo nije režim.",
-              "why": "Režim u kutiji se ne menja. To je u skladu sa razlikom koju pravi ovaj korak: Telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400.",
-              "ok": true
-            }
-          ]
-        },
-        {
-          "naslov": "Dvaput uključeno",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Ista komanda ode dvaput.",
-          "kljucnaIdeja": "Dva slanja „uključeno” ostavljaju isti željeni efekat.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "Dvaput uključeno",
-          "isecak": "PUT { \"ukljucen\": true }\nPUT { \"ukljucen\": true }",
-          "delic": "ukljucen = true;",
-          "analiza": "Zašto: Dva slanja „uključeno” ostavljaju isti željeni efekat. U ovom koraku: Ista komanda ode dvaput. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Šta ostane?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Isključeno, jer je drugi put poništio.",
-              "why": "Ovo nije prebacivanje. Ta pretpostavka zanemaruje ključnu razliku: Dva slanja „uključeno” ostavljaju isti željeni efekat.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Uključeno.",
-              "why": "Postavljanje na isto stanje ostaje. To je u skladu sa razlikom koju pravi ovaj korak: Dva slanja „uključeno” ostavljaju isti željeni efekat.",
-              "ok": true
-            }
-          ]
-        },
-        {
-          "naslov": "Prebacivanje",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Druga komanda samo okrene trenutni režim.",
-          "kljucnaIdeja": "Dva slanja prebacivanja menjaju ishod.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "Prebacivanje",
-          "isecak": "ukljucen = !ukljucen",
-          "delic": "ukljucen = !ukljucen;",
-          "analiza": "Zašto: Dva slanja prebacivanja menjaju ishod. U ovom koraku: Druga komanda samo okrene trenutni režim. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
-          "pitalica": "Šta drugi put uradi?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Ostavi isti efekat.",
-              "why": "Drugi put poništi prvi. Ta pretpostavka zanemaruje ključnu razliku: Dva slanja prebacivanja menjaju ishod.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Vrati prethodno stanje.",
-              "why": "Zato prebacivanje nije bezbedno za ponavljanje. To je u skladu sa razlikom koju pravi ovaj korak: Dva slanja prebacivanja menjaju ishod.",
-              "ok": true
-            }
-          ]
-        },
-        {
-          "naslov": "Ne veruj HTML formi",
-          "nivo": "Primena",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Napadač može poslati zahtev bez korišćenja našeg UI-a.",
-          "kljucnaIdeja": "Validacija podataka na serveru ne može se zameniti client-side proverom.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "Ne veruj HTML formi",
-          "isecak": "fetch(\"/api/ventilator\", { method:\"PUT\",\n headers:{\"Content-Type\":\"application/json\"},\n body:JSON.stringify({ ukljucen:\"da\" })\n});",
-          "delic": "fetch(\"/api/ventilator\", { method:\"PUT\",\n headers:{\"Content-Type\":\"application/json\"},\n body:JSON.stringify({ ukljucen:\"da\" })\n});",
-          "analiza": "Porediti sintaksno valjan JSON i semantički validno telo. Dodati granice veličine tela.",
-          "formatPitalice": "kod-izlaz",
-          "pitalica": "Šta server treba da uradi sa tekstom \"da\" ako ugovor traži boolean?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Pretvori ga u true bez provere.",
-              "why": "Prećutna konverzija krši ugovor.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Odbije neispravan unos, na primer statusom 400.",
-              "why": "Server je granica poverenja; string nije boolean.",
-              "ok": true
-            },
-            {
-              "key": "C",
-              "text": "Ignoriše validaciju jer je forma ranije proverena.",
-              "why": "Bilo koji HTTP klijent može zaobići browser formu.",
-              "ok": false
-            }
-          ]
-        },
-        {
           "naslov": "200 nije smisao",
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Obe komande mogu da vrate 200.",
           "kljucnaIdeja": "Status 200 ne znači da ponavljanje ima isti efekat.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "200 nije smisao",
-          "isecak": "200 i 200",
-          "delic": "// 200 nije smisao ponavljanja",
+          "samostalniPrimer": {
+            "jezik": "text",
+            "izolovan": true,
+            "tekst": "HTTP/1.1 200 OK  { \"ukljucen\": true }\nHTTP/1.1 200 OK  { \"ukljucen\": true }"
+          },
           "analiza": "Zašto: Status 200 ne znači da ponavljanje ima isti efekat. U ovom koraku: Obe komande mogu da vrate 200. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta status kaže o ponavljanju?",
           "opcije": [
@@ -3280,8 +3606,9 @@
           "kljucnaIdeja": "Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500.",
           "putanja": "server/ventilator.js",
           "isecakNaslov": "Kabl napolju",
-          "isecak": "return 500",
-          "delic": "if (telo.ukljucen && !prikljucen) return 500;",
+          "isecak": "  if (telo.ukljucen && !kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }",
+          "delic": "  if (telo.ukljucen && !kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }",
+          "original": "function teloJeRezim(telo) {\n  if (!telo || typeof telo !== \"object\" || Array.isArray(telo)) return false;\n  const kljucevi = Object.keys(telo);\n  return typeof telo.ukljucen === \"boolean\" && kljucevi.every((kljuc) => kljuc === \"ukljucen\");\n}\n\nfunction komanda(kontekst, telo) {\n  if (!teloJeRezim(telo)) return { status: 400, body: { greska: \"telo nije boolean rezim\" } };\n  if (telo.ukljucen && !kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }\n  kontekst.state.ukljucen = telo.ukljucen;\n  return { status: 200, body: { ukljucen: kontekst.state.ukljucen } };\n}\n\nmodule.exports = { komanda };\n",
           "analiza": "Zašto: Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500. U ovom koraku: Komanda traži uključeno, ventilator nije priključen. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta lopatice urade?",
           "opcije": [
@@ -3304,13 +3631,14 @@
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "aplikacija",
-          "tekst": "Pomoćni kod za telo ima granicu veličine.",
-          "kljucnaIdeja": "Pomoćni kod odbija prevelik unos i neispravan JSON.",
-          "putanja": "server/ventilator.js",
+          "tekst": "Telo se skuplja u memoriji procesa. Neko pošalje megabajte umesto jednog polja.",
+          "kljucnaIdeja": "procitajTelo prestane da skuplja posle granice i odbije Promise. Ista grana catch vraća 400, pre nego što otpad postane režim.",
+          "putanja": "server/server.js",
           "isecakNaslov": "Granica",
-          "isecak": "if (telo.length > granica) odbij",
-          "delic": "if (preveliko) return 400;",
-          "analiza": "Zašto: Pomoćni kod odbija prevelik unos i neispravan JSON. U ovom koraku: Pomoćni kod za telo ima granicu veličine. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "isecak": "const GRANICA_TELA = 1024;\n\nfunction procitajTelo(req) {\n  return new Promise((resolve, reject) => {\n    let tekst = \"\";\n    let preveliko = false;\n    req.on(\"data\", (deo) => {\n      if (preveliko) return;\n      tekst += deo;\n      if (tekst.length > GRANICA_TELA) {\n        preveliko = true;\n        reject(new Error(\"telo je preveliko\"));\n      }\n    });\n    req.on(\"end\", () => resolve(tekst));\n    req.on(\"error\", reject);\n  });\n}",
+          "delic": "const GRANICA_TELA = 1024;\n\nfunction procitajTelo(req) {\n  return new Promise((resolve, reject) => {\n    let tekst = \"\";\n    let preveliko = false;\n    req.on(\"data\", (deo) => {\n      if (preveliko) return;\n      tekst += deo;\n      if (tekst.length > GRANICA_TELA) {\n        preveliko = true;\n        reject(new Error(\"telo je preveliko\"));\n      }\n    });\n    req.on(\"end\", () => resolve(tekst));\n    req.on(\"error\", reject);\n  });\n}",
+          "original": "const http = require(\"http\");\nconst soba = require(\"./soba\");\nconst ventilator = require(\"./ventilator\");\n\nconst state = { temperatura: 24, ukljucen: false, prikljucen: true };\nconst GRANICA_TELA = 1024;\n\nfunction posalji(res, status, body) {\n  res.writeHead(status, { \"content-type\": \"application/json; charset=utf-8\" });\n  res.end(JSON.stringify(body));\n}\n\nfunction procitajTelo(req) {\n  return new Promise((resolve, reject) => {\n    let tekst = \"\";\n    let preveliko = false;\n    req.on(\"data\", (deo) => {\n      if (preveliko) return;\n      tekst += deo;\n      if (tekst.length > GRANICA_TELA) {\n        preveliko = true;\n        reject(new Error(\"telo je preveliko\"));\n      }\n    });\n    req.on(\"end\", () => resolve(tekst));\n    req.on(\"error\", reject);\n  });\n}\n\nasync function obrada(req, res) {\n  const putanja = req.url.split(\"?\")[0];\n  if (putanja === \"/api/ventilator\") {\n    if (req.method !== \"PUT\") {\n      posalji(res, 405, { greska: \"metod nije dozvoljen\" });\n      return;\n    }\n    let telo;\n    try {\n      telo = JSON.parse(await procitajTelo(req));\n    } catch {\n      posalji(res, 400, { greska: \"neispravno telo\" });\n      return;\n    }\n    const rezultat = ventilator.komanda({ state }, telo);\n    posalji(res, rezultat.status, rezultat.body);\n    return;\n  }\n  if (putanja !== \"/api/soba\") {\n    posalji(res, 404, { greska: \"nema putanje\" });\n    return;\n  }\n  if (req.method !== \"GET\") {\n    posalji(res, 405, { greska: \"metod nije dozvoljen\" });\n    return;\n  }\n  const rezultat = soba.citaj({ state });\n  posalji(res, rezultat.status, rezultat.body);\n}\n\nconst server = http.createServer(obrada);\nserver.listen(8787, () => {\n  console.log(\"server sluša port 8787\");\n});\n",
+          "analiza": "Zašto: procitajTelo prestane da skuplja posle granice i odbije Promise. Ista grana catch vraća 400, pre nego što otpad postane režim. U ovom koraku: Telo se skuplja u memoriji procesa. Neko pošalje megabajte umesto jednog polja. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta veliko telo dobije?",
           "opcije": [
             {
@@ -3393,8 +3721,9 @@
           "kljucnaIdeja": "Upit je parametrizovan.",
           "putanja": "server/ventilator.js",
           "isecakNaslov": "Parametar",
-          "isecak": "UPDATE ventilator SET ukljucen = $1",
-          "delic": "UPDATE ventilator SET ukljucen = $1 WHERE id = 1",
+          "isecak": "    await veza.query(\"UPDATE ventilator SET ukljucen = $1 WHERE id = 1\", [ukljucen]);",
+          "delic": "    await veza.query(\"UPDATE ventilator SET ukljucen = $1 WHERE id = 1\", [ukljucen]);",
+          "original": "function teloJeRezim(telo) {\n  if (!telo || typeof telo !== \"object\" || Array.isArray(telo)) return false;\n  const kljucevi = Object.keys(telo);\n  return typeof telo.ukljucen === \"boolean\" && kljucevi.every((kljuc) => kljuc === \"ukljucen\");\n}\n\nasync function upisiCelinu(baza, ukljucen) {\n  const veza = await baza.connect();\n  try {\n    await veza.query(\"UPDATE ventilator SET ukljucen = $1 WHERE id = 1\", [ukljucen]);\n    return null;\n  } finally {\n    veza.release();\n  }\n}\n\nasync function komanda(kontekst, telo) {\n  if (!teloJeRezim(telo)) return { status: 400, body: { greska: \"telo nije boolean rezim\" } };\n  if (telo.ukljucen && !kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }\n  if (kontekst.state.baza) {\n    if (!kontekst.db) return { status: 503, body: { greska: \"baza nije pokrenuta\" } };\n    const greskaUpisa = await upisiCelinu(kontekst.db, telo.ukljucen);\n    if (greskaUpisa) return greskaUpisa;\n  }\n  kontekst.state.ukljucen = telo.ukljucen;\n  return { status: 200, body: { ukljucen: kontekst.state.ukljucen } };\n}\n\nmodule.exports = { komanda };\n",
           "analiza": "Zašto: Upit je parametrizovan. U ovom koraku: Vrednost ulazi kao parametar, ne lepljenjem teksta. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Zašto $1?",
           "opcije": [
@@ -3419,10 +3748,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Režim i istorija su dva upisa.",
           "kljucnaIdeja": "Čitanje i izmena režima idu uz zapis komande.",
-          "putanja": "server/baza.js",
+          "putanja": "server/ventilator.js",
           "isecakNaslov": "Dva reda",
-          "isecak": "UPDATE ...\nINSERT INTO istorija ...",
-          "delic": "INSERT INTO istorija (komanda) VALUES ($1)",
+          "isecak": "    await veza.query(\"INSERT INTO istorija (komanda) VALUES ($1)\", [nazivKomande(ukljucen)]);",
+          "delic": "    await veza.query(\"INSERT INTO istorija (komanda) VALUES ($1)\", [nazivKomande(ukljucen)]);",
+          "original": "function teloJeRezim(telo) {\n  if (!telo || typeof telo !== \"object\" || Array.isArray(telo)) return false;\n  const kljucevi = Object.keys(telo);\n  return typeof telo.ukljucen === \"boolean\" && kljucevi.every((kljuc) => kljuc === \"ukljucen\");\n}\n\nfunction nazivKomande(ukljucen) {\n  if (ukljucen) return \"ukljuci\";\n  return \"iskljuci\";\n}\n\nasync function upisiCelinu(baza, ukljucen) {\n  const veza = await baza.connect();\n  try {\n    await veza.query(\"UPDATE ventilator SET ukljucen = $1 WHERE id = 1\", [ukljucen]);\n    await veza.query(\"INSERT INTO istorija (komanda) VALUES ($1)\", [nazivKomande(ukljucen)]);\n    return null;\n  } finally {\n    veza.release();\n  }\n}\n\nasync function komanda(kontekst, telo) {\n  if (!teloJeRezim(telo)) return { status: 400, body: { greska: \"telo nije boolean rezim\" } };\n  if (telo.ukljucen && !kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }\n  if (kontekst.state.baza) {\n    if (!kontekst.db) return { status: 503, body: { greska: \"baza nije pokrenuta\" } };\n    const greskaUpisa = await upisiCelinu(kontekst.db, telo.ukljucen);\n    if (greskaUpisa) return greskaUpisa;\n  }\n  kontekst.state.ukljucen = telo.ukljucen;\n  return { status: 200, body: { ukljucen: kontekst.state.ukljucen } };\n}\n\nmodule.exports = { komanda };\n",
           "analiza": "Zašto: Čitanje i izmena režima idu uz zapis komande. U ovom koraku: Režim i istorija su dva upisa. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta evidencija traži?",
           "opcije": [
@@ -3449,8 +3779,9 @@
           "kljucnaIdeja": "Povezani upis režima i istorije je jedna transakcija.",
           "putanja": "server/ventilator.js",
           "isecakNaslov": "BEGIN",
-          "isecak": "BEGIN",
-          "delic": "BEGIN;",
+          "isecak": "    await veza.query(\"BEGIN\");",
+          "delic": "    await veza.query(\"BEGIN\");",
+          "original": "function teloJeRezim(telo) {\n  if (!telo || typeof telo !== \"object\" || Array.isArray(telo)) return false;\n  const kljucevi = Object.keys(telo);\n  return typeof telo.ukljucen === \"boolean\" && kljucevi.every((kljuc) => kljuc === \"ukljucen\");\n}\n\nfunction nazivKomande(ukljucen) {\n  if (ukljucen) return \"ukljuci\";\n  return \"iskljuci\";\n}\n\nasync function upisiCelinu(baza, ukljucen) {\n  const veza = await baza.connect();\n  try {\n    await veza.query(\"BEGIN\");\n    await veza.query(\"UPDATE ventilator SET ukljucen = $1 WHERE id = 1\", [ukljucen]);\n    await veza.query(\"INSERT INTO istorija (komanda) VALUES ($1)\", [nazivKomande(ukljucen)]);\n    return null;\n  } finally {\n    veza.release();\n  }\n}\n\nasync function komanda(kontekst, telo) {\n  if (!teloJeRezim(telo)) return { status: 400, body: { greska: \"telo nije boolean rezim\" } };\n  if (telo.ukljucen && !kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }\n  if (kontekst.state.baza) {\n    if (!kontekst.db) return { status: 503, body: { greska: \"baza nije pokrenuta\" } };\n    const greskaUpisa = await upisiCelinu(kontekst.db, telo.ukljucen);\n    if (greskaUpisa) return greskaUpisa;\n  }\n  kontekst.state.ukljucen = telo.ukljucen;\n  return { status: 200, body: { ukljucen: kontekst.state.ukljucen } };\n}\n\nmodule.exports = { komanda };\n",
           "analiza": "Zašto: Povezani upis režima i istorije je jedna transakcija. U ovom koraku: Dva upita ulaze u jednu transakciju. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta BEGIN otvori?",
           "opcije": [
@@ -3477,8 +3808,9 @@
           "kljucnaIdeja": "Ili oba uspeju, ili se oba povuku.",
           "putanja": "server/ventilator.js",
           "isecakNaslov": "COMMIT",
-          "isecak": "COMMIT",
-          "delic": "COMMIT;",
+          "isecak": "    await veza.query(\"COMMIT\");",
+          "delic": "    await veza.query(\"COMMIT\");",
+          "original": "function teloJeRezim(telo) {\n  if (!telo || typeof telo !== \"object\" || Array.isArray(telo)) return false;\n  const kljucevi = Object.keys(telo);\n  return typeof telo.ukljucen === \"boolean\" && kljucevi.every((kljuc) => kljuc === \"ukljucen\");\n}\n\nfunction nazivKomande(ukljucen) {\n  if (ukljucen) return \"ukljuci\";\n  return \"iskljuci\";\n}\n\nasync function upisiCelinu(baza, ukljucen) {\n  const veza = await baza.connect();\n  try {\n    await veza.query(\"BEGIN\");\n    await veza.query(\"UPDATE ventilator SET ukljucen = $1 WHERE id = 1\", [ukljucen]);\n    await veza.query(\"INSERT INTO istorija (komanda) VALUES ($1)\", [nazivKomande(ukljucen)]);\n    await veza.query(\"COMMIT\");\n    return null;\n  } finally {\n    veza.release();\n  }\n}\n\nasync function komanda(kontekst, telo) {\n  if (!teloJeRezim(telo)) return { status: 400, body: { greska: \"telo nije boolean rezim\" } };\n  if (telo.ukljucen && !kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }\n  if (kontekst.state.baza) {\n    if (!kontekst.db) return { status: 503, body: { greska: \"baza nije pokrenuta\" } };\n    const greskaUpisa = await upisiCelinu(kontekst.db, telo.ukljucen);\n    if (greskaUpisa) return greskaUpisa;\n  }\n  kontekst.state.ukljucen = telo.ukljucen;\n  return { status: 200, body: { ukljucen: kontekst.state.ukljucen } };\n}\n\nmodule.exports = { komanda };\n",
           "analiza": "Zašto: Ili oba uspeju, ili se oba povuku. U ovom koraku: Oba upita su prošla. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta posle COMMIT-a važi?",
           "opcije": [
@@ -3540,8 +3872,9 @@
           "kljucnaIdeja": "Jedna promena: drugi upit ne uspe, pa se prvi povuče.",
           "putanja": "server/ventilator.js",
           "isecakNaslov": "ROLLBACK",
-          "isecak": "ROLLBACK",
-          "delic": "ROLLBACK;",
+          "isecak": "  } catch {\n    await veza.query(\"ROLLBACK\");\n    return { status: 500, body: { greska: \"celina nije upisana\" } };",
+          "delic": "  } catch {\n    await veza.query(\"ROLLBACK\");\n    return { status: 500, body: { greska: \"celina nije upisana\" } };",
+          "original": "function teloJeRezim(telo) {\n  if (!telo || typeof telo !== \"object\" || Array.isArray(telo)) return false;\n  const kljucevi = Object.keys(telo);\n  return typeof telo.ukljucen === \"boolean\" && kljucevi.every((kljuc) => kljuc === \"ukljucen\");\n}\n\nfunction nazivKomande(ukljucen) {\n  if (ukljucen) return \"ukljuci\";\n  return \"iskljuci\";\n}\n\nasync function upisiCelinu(baza, ukljucen) {\n  const veza = await baza.connect();\n  try {\n    await veza.query(\"BEGIN\");\n    await veza.query(\"UPDATE ventilator SET ukljucen = $1 WHERE id = 1\", [ukljucen]);\n    await veza.query(\"INSERT INTO istorija (komanda) VALUES ($1)\", [nazivKomande(ukljucen)]);\n    await veza.query(\"COMMIT\");\n    return null;\n  } catch {\n    await veza.query(\"ROLLBACK\");\n    return { status: 500, body: { greska: \"celina nije upisana\" } };\n  } finally {\n    veza.release();\n  }\n}\n\nasync function komanda(kontekst, telo) {\n  if (!teloJeRezim(telo)) return { status: 400, body: { greska: \"telo nije boolean rezim\" } };\n  if (telo.ukljucen && !kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }\n  if (kontekst.state.baza) {\n    if (!kontekst.db) return { status: 503, body: { greska: \"baza nije pokrenuta\" } };\n    const greskaUpisa = await upisiCelinu(kontekst.db, telo.ukljucen);\n    if (greskaUpisa) return greskaUpisa;\n  }\n  kontekst.state.ukljucen = telo.ukljucen;\n  return { status: 200, body: { ukljucen: kontekst.state.ukljucen } };\n}\n\nmodule.exports = { komanda };\n",
           "analiza": "Zašto: Jedna promena: drugi upit ne uspe, pa se prvi povuče. U ovom koraku: Drugi upit u transakciji padne. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta ostane od prvog upita?",
           "opcije": [
@@ -3742,10 +4075,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Zahtev dođe, upit prođe, rezultat se vrati.",
           "kljucnaIdeja": "Ishod časa je taj put. Baza ne vidi telo koje nije režim.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "Put",
-          "isecak": "zahtev → upit → rezultat → odgovor",
-          "delic": "if (!teloJeRezim(telo)) return 400;",
+          "samostalniPrimer": {
+            "jezik": "text",
+            "izolovan": true,
+            "tekst": "zahtev → teloJeRezim(telo) → upit → rezultat → odgovor"
+          },
           "analiza": "Zašto: Ishod časa je taj put. Baza ne vidi telo koje nije režim. U ovom koraku: Zahtev dođe, upit prođe, rezultat se vrati. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Gde je provera tela u tom putu?",
           "opcije": [
@@ -3892,8 +4226,9 @@
           "kljucnaIdeja": "Očitavanje nosi vrednost i trenutak.",
           "putanja": "server/soba.js",
           "isecakNaslov": "Trenutak",
-          "isecak": "{ temperatura: 24, trenutak }",
-          "delic": "trenutak",
+          "isecak": "function svezeOcitavanje(stanje) {\n  return { ...ocitavanje(stanje), trenutak: new Date().toISOString() };\n}",
+          "delic": "function svezeOcitavanje(stanje) {\n  return { ...ocitavanje(stanje), trenutak: new Date().toISOString() };\n}",
+          "original": "function ocitavanje(stanje) {\n  return {\n    temperatura: stanje.temperatura,\n    ukljucen: stanje.ukljucen,\n  };\n}\n\nfunction svezeOcitavanje(stanje) {\n  return { ...ocitavanje(stanje), trenutak: new Date().toISOString() };\n}\n\nfunction citaj(kontekst) {\n  if (!kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }\n  const body = kontekst.svezina ? svezeOcitavanje(kontekst.state) : ocitavanje(kontekst.state);\n  return { status: 200, body };\n}\n\nmodule.exports = { citaj };\n",
           "analiza": "Zašto: Očitavanje nosi vrednost i trenutak. U ovom koraku: Očitavanje više nije samo broj. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta očitavanje nosi?",
           "opcije": [
@@ -4339,8 +4674,9 @@
           "kljucnaIdeja": "Dve sesije su pripremljene: posmatrač i operater.",
           "putanja": "server/sesija.js",
           "isecakNaslov": "Dva ključa",
-          "isecak": "kljuc-posmatraca\nkljuc-operatera",
-          "delic": "const KLJUC_POSMATRACA = \"kljuc-posmatraca\";",
+          "isecak": "const KLJUC_POSMATRACA = \"kljuc-posmatraca\";\nconst KLJUC_OPERATERA = \"kljuc-operatera\";",
+          "delic": "const KLJUC_POSMATRACA = \"kljuc-posmatraca\";\nconst KLJUC_OPERATERA = \"kljuc-operatera\";",
+          "original": "const KLJUC_POSMATRACA = \"kljuc-posmatraca\";\nconst KLJUC_OPERATERA = \"kljuc-operatera\";\n\nfunction odbijenaKomanda() {\n  return null;\n}\n\nfunction kljucZaUlogu(naziv) {\n  if (naziv === \"operater\") return KLJUC_OPERATERA;\n  if (naziv === \"posmatrac\") return KLJUC_POSMATRACA;\n  return \"\";\n}\n\nmodule.exports = { odbijenaKomanda, kljucZaUlogu };\n",
           "analiza": "Zašto: Dve sesije su pripremljene: posmatrač i operater. U ovom koraku: U kodu kutije stoje dva ključa. Svaki je opaque token. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta ključ nije?",
           "opcije": [
@@ -4365,10 +4701,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Izbor na panelu traži cookie.",
           "kljucnaIdeja": "Cookie je HttpOnly i nosi opaque token.",
-          "putanja": "server/sesija.js",
-          "isecakNaslov": "HttpOnly",
-          "isecak": "Set-Cookie: sesija=...; HttpOnly",
-          "delic": "Set-Cookie: sesija=kljuc; HttpOnly",
+          "samostalniPrimer": {
+            "jezik": "text",
+            "izolovan": true,
+            "tekst": "Set-Cookie: sesija=kljuc-operatera; HttpOnly; Path=/; SameSite=Lax"
+          },
           "analiza": "Zašto: Cookie je HttpOnly i nosi opaque token. U ovom koraku: Izbor na panelu traži cookie. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta stranica sme da pročita iz tog cookie-ja?",
           "opcije": [
@@ -4395,8 +4732,9 @@
           "kljucnaIdeja": "Uloga ostaje u mapi na kutiji.",
           "putanja": "server/sesija.js",
           "isecakNaslov": "Mapa",
-          "isecak": "mapa.set(kljuc, uloga)",
-          "delic": "ULOGA_PO_KLJUCU.get(kljuc)",
+          "isecak": "const ULOGA_PO_KLJUCU = new Map([\n  [KLJUC_POSMATRACA, \"posmatrac\"],\n  [KLJUC_OPERATERA, \"operater\"],\n]);",
+          "delic": "const ULOGA_PO_KLJUCU = new Map([\n  [KLJUC_POSMATRACA, \"posmatrac\"],\n  [KLJUC_OPERATERA, \"operater\"],\n]);",
+          "original": "const KLJUC_POSMATRACA = \"kljuc-posmatraca\";\nconst KLJUC_OPERATERA = \"kljuc-operatera\";\nconst ULOGA_PO_KLJUCU = new Map([\n  [KLJUC_POSMATRACA, \"posmatrac\"],\n  [KLJUC_OPERATERA, \"operater\"],\n]);\n\nfunction odbijenaKomanda() {\n  return null;\n}\n\nfunction kljucZaUlogu(naziv) {\n  if (naziv === \"operater\") return KLJUC_OPERATERA;\n  if (naziv === \"posmatrac\") return KLJUC_POSMATRACA;\n  return \"\";\n}\n\nmodule.exports = { odbijenaKomanda, kljucZaUlogu };\n",
           "analiza": "Zašto: Uloga ostaje u mapi na kutiji. U ovom koraku: Isti cookie, druga reč u mapi. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Kome kutija veruje?",
           "opcije": [
@@ -4449,10 +4787,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Posmatrač nema vidljivo dugme, ali može poslati HTTP zahtev.",
           "kljucnaIdeja": "Autorizacija mora biti proverena na serveru za svaki osetljiv zahtev.",
-          "putanja": "server/sesija.js",
-          "isecakNaslov": "Sakriveno dugme nije autorizacija",
-          "isecak": "button.hidden = true;\n// drugi HTTP klijent ipak pošalje PUT /api/ventilator",
-          "delic": "button.hidden = true;\n// drugi HTTP klijent ipak pošalje PUT /api/ventilator",
+          "samostalniPrimer": {
+            "jezik": "javascript",
+            "izolovan": true,
+            "tekst": "button.hidden = true;\n// drugi HTTP klijent ipak pošalje PUT /api/ventilator"
+          },
           "analiza": "Odvojiti autentifikaciju (ko je korisnik) od autorizacije (šta sme). Prikazati 401 naspram 403.",
           "formatPitalice": "kod-izlaz",
           "pitalica": "Da li skriveno dugme sprečava PUT zahtev?",
@@ -4486,8 +4825,9 @@
           "kljucnaIdeja": "Komanda bez cookie-ja dobija 401.",
           "putanja": "server/sesija.js",
           "isecakNaslov": "401",
-          "isecak": "nema cookie",
-          "delic": "return { status: 401 };",
+          "isecak": "  const kljuc = kljucIzKolacica(zahtev);\n  if (!kljuc || !ULOGA_PO_KLJUCU.has(kljuc)) {\n    return { status: 401, body: { greska: \"nema sesije\" } };\n  }",
+          "delic": "  const kljuc = kljucIzKolacica(zahtev);\n  if (!kljuc || !ULOGA_PO_KLJUCU.has(kljuc)) {\n    return { status: 401, body: { greska: \"nema sesije\" } };\n  }",
+          "original": "const KLJUC_POSMATRACA = \"kljuc-posmatraca\";\nconst KLJUC_OPERATERA = \"kljuc-operatera\";\nconst ULOGA_PO_KLJUCU = new Map([\n  [KLJUC_POSMATRACA, \"posmatrac\"],\n  [KLJUC_OPERATERA, \"operater\"],\n]);\n\nfunction kljucIzKolacica(zahtev) {\n  const zaglavlje = zahtev.headers.cookie || \"\";\n  const kolacic = zaglavlje\n    .split(\";\")\n    .map((deo) => deo.trim())\n    .find((deo) => deo.startsWith(\"sesija=\"));\n  if (!kolacic) return \"\";\n  return decodeURIComponent(kolacic.slice(\"sesija=\".length));\n}\n\nfunction odbijenaKomanda(zahtev) {\n  const kljuc = kljucIzKolacica(zahtev);\n  if (!kljuc || !ULOGA_PO_KLJUCU.has(kljuc)) {\n    return { status: 401, body: { greska: \"nema sesije\" } };\n  }\n  return null;\n}\n\nfunction kljucZaUlogu(naziv) {\n  if (naziv === \"operater\") return KLJUC_OPERATERA;\n  if (naziv === \"posmatrac\") return KLJUC_POSMATRACA;\n  return \"\";\n}\n\nmodule.exports = { odbijenaKomanda, kljucZaUlogu };\n",
           "analiza": "Zašto: Komanda bez cookie-ja dobija 401. U ovom koraku: Komanda ode bez cookie-ja. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Koji je status?",
           "opcije": [
@@ -4514,8 +4854,9 @@
           "kljucnaIdeja": "Komanda posmatrača dobija 403. Režim se ne menja.",
           "putanja": "server/sesija.js",
           "isecakNaslov": "403",
-          "isecak": "uloga === \"posmatrac\"",
-          "delic": "return { status: 403 };",
+          "isecak": "  if (ULOGA_PO_KLJUCU.get(kljuc) !== \"operater\") {\n    return { status: 403, body: { greska: \"posmatrac\" } };\n  }",
+          "delic": "  if (ULOGA_PO_KLJUCU.get(kljuc) !== \"operater\") {\n    return { status: 403, body: { greska: \"posmatrac\" } };\n  }",
+          "original": "const KLJUC_POSMATRACA = \"kljuc-posmatraca\";\nconst KLJUC_OPERATERA = \"kljuc-operatera\";\nconst ULOGA_PO_KLJUCU = new Map([\n  [KLJUC_POSMATRACA, \"posmatrac\"],\n  [KLJUC_OPERATERA, \"operater\"],\n]);\n\nfunction kljucIzKolacica(zahtev) {\n  const zaglavlje = zahtev.headers.cookie || \"\";\n  const kolacic = zaglavlje\n    .split(\";\")\n    .map((deo) => deo.trim())\n    .find((deo) => deo.startsWith(\"sesija=\"));\n  if (!kolacic) return \"\";\n  return decodeURIComponent(kolacic.slice(\"sesija=\".length));\n}\n\nfunction odbijenaKomanda(zahtev) {\n  const kljuc = kljucIzKolacica(zahtev);\n  if (!kljuc || !ULOGA_PO_KLJUCU.has(kljuc)) {\n    return { status: 401, body: { greska: \"nema sesije\" } };\n  }\n  if (ULOGA_PO_KLJUCU.get(kljuc) !== \"operater\") {\n    return { status: 403, body: { greska: \"posmatrac\" } };\n  }\n  return null;\n}\n\nfunction kljucZaUlogu(naziv) {\n  if (naziv === \"operater\") return KLJUC_OPERATERA;\n  if (naziv === \"posmatrac\") return KLJUC_POSMATRACA;\n  return \"\";\n}\n\nmodule.exports = { odbijenaKomanda, kljucZaUlogu };\n",
           "analiza": "Zašto: Komanda posmatrača dobija 403. Režim se ne menja. U ovom koraku: Kolačić je ključ posmatrača. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Koji je status?",
           "opcije": [
@@ -4540,10 +4881,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Operater pošalje tekst umesto boolean vrednosti.",
           "kljucnaIdeja": "Tek posle uloge kutija gleda telo: loš unos je 400.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "400 posle uloge",
-          "isecak": "{ \"ukljucen\": \"da\" }",
-          "delic": "if (!teloJeRezim(telo)) return 400;",
+          "samostalniPrimer": {
+            "jezik": "text",
+            "izolovan": true,
+            "tekst": "cookie operatera ✓\nPUT /api/ventilator  { \"ukljucen\": \"da\" }  → 400"
+          },
           "analiza": "Zašto: Tek posle uloge kutija gleda telo: loš unos je 400. U ovom koraku: Operater pošalje tekst umesto boolean vrednosti. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta se gleda prvo?",
           "opcije": [
@@ -4568,10 +4910,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Operater traži uključeno, kabl je napolju.",
           "kljucnaIdeja": "Izvučen ventilator je 500 i posle provere uloge.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "500 posle uloge",
-          "isecak": "prikljucen === false",
-          "delic": "return { status: 500 };",
+          "samostalniPrimer": {
+            "jezik": "text",
+            "izolovan": true,
+            "tekst": "cookie operatera ✓  prikljucen === false\nPUT /api/ventilator  { \"ukljucen\": true }  → 500"
+          },
           "analiza": "Zašto: Izvučen ventilator je 500 i posle provere uloge. U ovom koraku: Operater traži uključeno, kabl je napolju. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Koji je status?",
           "opcije": [
@@ -4632,10 +4975,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Operater pošalje { ukljucen: true }, kabl je u kutiji.",
           "kljucnaIdeja": "Operater dobija 200 i samo režim.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "200 operater",
-          "isecak": "HTTP/1.1 200",
-          "delic": "{ \"ukljucen\": true }",
+          "samostalniPrimer": {
+            "jezik": "text",
+            "izolovan": true,
+            "tekst": "HTTP/1.1 200 OK\n{ \"ukljucen\": true }"
+          },
           "analiza": "Zašto: Operater dobija 200 i samo režim. U ovom koraku: Operater pošalje { ukljucen: true }, kabl je u kutiji. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta telo odgovora nosi?",
           "opcije": [
@@ -4688,10 +5032,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Drugi origin. Browser zabrani JS-u da pročita telo.",
           "kljucnaIdeja": "Čitanje koje browser zabrani ne dokazuje da server ćuti.",
-          "putanja": "server/sesija.js",
-          "isecakNaslov": "CORS",
-          "isecak": "Access-Control",
-          "delic": "// CORS nije uloga",
+          "samostalniPrimer": {
+            "jezik": "text",
+            "izolovan": true,
+            "tekst": "Access-Control-Allow-Origin\n// CORS nije uloga"
+          },
           "analiza": "Zašto: Čitanje koje browser zabrani ne dokazuje da server ćuti. U ovom koraku: Drugi origin. Browser zabrani JS-u da pročita telo. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta je time dokazano?",
           "opcije": [
@@ -4716,10 +5061,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Četiri odgovora na komandu imaju red.",
           "kljucnaIdeja": "Red je: nema cookie-ja 401, posmatrač 403, loše telo 400, izvučen ventilator 500, operater 200.",
-          "putanja": "server/sesija.js",
-          "isecakNaslov": "Redosled",
-          "isecak": "401, 403, 400, 500, 200",
-          "delic": "401 → 403 → 400 → 500 → 200",
+          "samostalniPrimer": {
+            "jezik": "text",
+            "izolovan": true,
+            "tekst": "401 → 403 → 400 → 500 → 200"
+          },
           "analiza": "Zašto: Red je: nema cookie-ja 401, posmatrač 403, loše telo 400, izvučen ventilator 500, operater 200. U ovom koraku: Četiri odgovora na komandu imaju red. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Kad stiže 400?",
           "opcije": [
@@ -4944,10 +5290,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Komanda koja prebacuje režim možda jeste prošla, odgovor se izgubio.",
           "kljucnaIdeja": "Slepo ponavljanje komande koja prebacuje režim može da poništi upis.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "Ponovi prebacivanje",
-          "isecak": "ukljucen = !ukljucen",
-          "delic": "ukljucen = !ukljucen;",
+          "samostalniPrimer": {
+            "jezik": "javascript",
+            "izolovan": true,
+            "tekst": "ukljucen = !ukljucen;"
+          },
           "analiza": "Zašto: Slepo ponavljanje komande koja prebacuje režim može da poništi upis. U ovom koraku: Komanda koja prebacuje režim možda jeste prošla, odgovor se izgubio. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta slepo ponavljanje može?",
           "opcije": [
@@ -4972,10 +5319,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Ista komanda kaže uključeno, dvaput.",
           "kljucnaIdeja": "Ponovljeno postavljanje na uključeno ostavlja isti željeni efekat.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "Ponovi postavljanje",
-          "isecak": "{ \"ukljucen\": true }",
-          "delic": "{ \"ukljucen\": true }",
+          "samostalniPrimer": {
+            "jezik": "json",
+            "izolovan": true,
+            "tekst": "{ \"ukljucen\": true }"
+          },
           "analiza": "Zašto: Ponovljeno postavljanje na uključeno ostavlja isti željeni efekat. U ovom koraku: Ista komanda kaže uključeno, dvaput. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta drugi put ostavi, ako je prvi prošao?",
           "opcije": [
@@ -5035,10 +5383,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Objekat sobe dobije tip.",
           "kljucnaIdeja": "TypeScript je anotacija poznatog objekta sobe. Nema posebnog TS zadatka.",
-          "putanja": "server/soba.js",
-          "isecakNaslov": "Anotacija",
-          "isecak": "type Soba = { temperatura: number; ukljucen: boolean };",
-          "delic": "type Soba = { temperatura: number; ukljucen: boolean };",
+          "samostalniPrimer": {
+            "jezik": "typescript",
+            "izolovan": true,
+            "tekst": "type Soba = { temperatura: number; ukljucen: boolean };"
+          },
           "analiza": "Zašto: TypeScript je anotacija poznatog objekta sobe. Nema posebnog TS zadatka. U ovom koraku: Objekat sobe dobije tip. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta tip proveri dok proces radi?",
           "opcije": [
@@ -5063,10 +5412,11 @@
           "tipPrimer": "aplikacija",
           "tekst": "Telo i dalje stiže kao JSON tekst.",
           "kljucnaIdeja": "Statička provera nije runtime validacija.",
-          "putanja": "server/ventilator.js",
-          "isecakNaslov": "Runtime",
-          "isecak": "teloJeRezim(telo)",
-          "delic": "if (!teloJeRezim(telo)) return 400;",
+          "samostalniPrimer": {
+            "jezik": "javascript",
+            "izolovan": true,
+            "tekst": "if (!teloJeRezim(telo)) return { status: 400, body: { greska: \"telo nije boolean rezim\" } };"
+          },
           "analiza": "Zašto: Statička provera nije runtime validacija. U ovom koraku: Telo i dalje stiže kao JSON tekst. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta i dalje odbija tekst „da”?",
           "opcije": [

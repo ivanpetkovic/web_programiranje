@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 import { lectures } from "../site/js/lectures.js";
+import { ulaziUFajl } from "../site/js/prilog.js";
 import { fajloviStrane, prethodnaVerzija, stabloDo } from "../site/js/stablo.js";
 
 const koraci = lectures.flatMap((cas) => cas.steps);
@@ -107,7 +108,7 @@ test("kraj nedelje događaja ima klijentske fajlove kursa, svaki u verziji do to
 
 test("server stablo kreće od prvog serverskog koraka", () => {
   assert.equal(fajloviStrane(stabloDo(koraci, indeks("Semantika")), "server").length, 0);
-  const prvi = koraci.findIndex((korak) => korak.putanja && korak.putanja.startsWith("server/"));
+  const prvi = koraci.findIndex((korak) => korak.putanja && korak.putanja.startsWith("server/") && ulaziUFajl(korak.delic));
   const stablo = stabloDo(koraci, prvi);
   assert.deepEqual(fajloviStrane(stablo, "server"), ["server.js"]);
   const kraj = stabloDo(koraci, koraci.length - 1);

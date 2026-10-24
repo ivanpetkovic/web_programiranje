@@ -1,12 +1,20 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { existsSync, mkdtempSync } from "node:fs";
+import { copyFileSync, existsSync, mkdtempSync } from "node:fs";
 import net from "node:net";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const koren = fileURLToPath(new URL("..", import.meta.url));
+
+// Pregled od 5. nedelje upisuje soba.js, ventilator.js i sesija.js iz lekcije u server/.
+function vratiModule() {
+  for (const ime of ["soba.js", "ventilator.js", "sesija.js"]) {
+    copyFileSync(path.join(koren, "server", "prepared", ime), path.join(koren, "server", ime));
+  }
+}
+process.on("exit", vratiModule);
 
 function chromeBin() {
   const kandidati = [
