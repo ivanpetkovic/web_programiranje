@@ -292,8 +292,8 @@
           "nivo": "Osnovno",
           "minuta": 5,
           "tipPrimer": "eksperiment",
-          "tekst": "Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? TCP je pouzdan tok bajtova: dokument traži svaki bajt. UDP sme da odbaci datagram, pa glas, slika ili igra ne čekaju zakasneli kadar.",
-          "kljucnaIdeja": "Dokument čeka bajt. Zakasneli kadar sme da se odbaci.",
+          "tekst": "Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? UDP ne garantuje isporuku ni redosled. Aplikacija odlučuje da li zakasneli kadar još vredi. Dokument preko TCP-a traži bajtove. Streaming sam po sebi ne bira UDP.",
+          "kljucnaIdeja": "UDP ne garantuje isporuku. Odluku o zakasnelom kadru donosi aplikacija.",
           "figura": {
             "vrsta": "put",
             "cvorovi": [
@@ -311,19 +311,19 @@
               }
             ]
           },
-          "analiza": "Zašto: Dokument čeka bajt. Zakasneli kadar sme da se odbaci. U ovom koraku: Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? TCP je pouzdan tok bajtova: dokument traži svaki bajt. UDP sme da odbaci datagram, pa glas, slika ili igra ne čekaju zakasneli kadar. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "analiza": "Zašto: UDP ne garantuje isporuku. Odluku o zakasnelom kadru donosi aplikacija. U ovom koraku: Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? UDP ne garantuje isporuku ni redosled. Aplikacija odlučuje da li zakasneli kadar još vredi. Dokument preko TCP-a traži bajtove. Streaming sam po sebi ne bira UDP. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta radimo sa zakasnelim kadrom?",
           "opcije": [
             {
               "key": "A",
               "text": "Čekamo ga, kao što dokument čeka bajt.",
-              "why": "Kadar koji zakasni više ne pripada slici koja je prošla. Ta pretpostavka zanemaruje ključnu razliku: Dokument čeka bajt. Zakasneli kadar sme da se odbaci.",
+              "why": "Dokument preko TCP-a traži bajtove. Zakasneli kadar medija nije isti slučaj: aplikacija sme da ga preskoči. Ta pretpostavka zanemaruje ključnu razliku: UDP ne garantuje isporuku. Odluku o zakasnelom kadru donosi aplikacija.",
               "ok": false
             },
             {
               "key": "B",
               "text": "Kadar sme da se odbaci, a dokument ne sme da izgubi bajt.",
-              "why": "TCP omogućava pouzdan uređen tok bajtova (dok je konekcija uspešna). UDP sme da odbaci glas ili sliku. To je u skladu sa razlikom koju pravi ovaj korak: Dokument čeka bajt. Zakasneli kadar sme da se odbaci.",
+              "why": "TCP drži uređen tok bajtova dok veza traje. To ne dokazuje upisanu transakciju, niti da streaming ide preko UDP-a. Aplikacija bira šta radi sa kadrom koji zakasni. To je u skladu sa razlikom koju pravi ovaj korak: UDP ne garantuje isporuku. Odluku o zakasnelom kadru donosi aplikacija.",
               "ok": true
             }
           ]
@@ -659,7 +659,7 @@
           "id": "prikaz",
           "name": "Prikaz",
           "hint": "ono što ovaj browser crta",
-          "body": "Prikaz je slika dokumenta u jednom browseru. Izmena u alatima ostaje u toj slici.",
+          "body": "Prikaz je ono što ovaj browser crta. Izmena elementa u alatima menja živi DOM tog dokumenta, a ne izvorni fajl ni merenje.",
           "code": "<p>24</p>\n<!-- alati pokažu 10, dokument i dalje kaže 24 -->"
         },
         {
@@ -1053,30 +1053,30 @@
           "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Izmena u alatima vidi se odmah na ekranu.",
-          "kljucnaIdeja": "Alati menjaju sliku u ovom browseru. Dokument ostaje.",
+          "kljucnaIdeja": "Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju.",
           "putanja": "client/index.html",
           "isecakNaslov": "Alati",
           "isecak": "element.textContent = \"10\"",
           "delic": "<!-- prikaz može da kaže 10; fajl i dalje kaže 24 -->",
-          "analiza": "Zašto: Alati menjaju sliku u ovom browseru. Dokument ostaje. U ovom koraku: Izmena u alatima vidi se odmah na ekranu. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "analiza": "Zašto: Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju. U ovom koraku: Izmena u alatima vidi se odmah na ekranu. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta je time promenjeno?",
           "opcije": [
             {
               "key": "A",
               "text": "Merenje.",
-              "why": "Merenje nismo dirali. Ta pretpostavka zanemaruje ključnu razliku: Alati menjaju sliku u ovom browseru. Dokument ostaje.",
+              "why": "Merenje nismo dirali. Ta pretpostavka zanemaruje ključnu razliku: Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju.",
               "ok": false
             },
             {
               "key": "B",
-              "text": "Lokalni prikaz, ne dokument.",
-              "why": "Fajl i dalje kaže 24. To je u skladu sa razlikom koju pravi ovaj korak: Alati menjaju sliku u ovom browseru. Dokument ostaje.",
+              "text": "Živi DOM, ne izvorni fajl.",
+              "why": "Fajl i dalje kaže 24. To je u skladu sa razlikom koju pravi ovaj korak: Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju.",
               "ok": true
             },
             {
               "key": "C",
               "text": "I merenje i dokument.",
-              "why": "Dokument se nije sačuvao. Ta pretpostavka zanemaruje ključnu razliku: Alati menjaju sliku u ovom browseru. Dokument ostaje.",
+              "why": "Dokument se nije sačuvao. Ta pretpostavka zanemaruje ključnu razliku: Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju.",
               "ok": false
             }
           ]
@@ -1532,24 +1532,24 @@
           "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Visine se saberu u jedan broj.",
-          "kljucnaIdeja": "Konzola ispiše visine i prosek. Taj niz još ne crta displej.",
+          "kljucnaIdeja": "reduce u ovom pozivu vrati zbir. Prosek nastaje tek deljenjem. Ispis još ne crta displej.",
           "putanja": "client/js/niz.js",
           "isecakNaslov": "reduce",
           "isecak": "function prosek(visine) {\n  const zbir = visine.reduce((s, v) => s + v, 0);\n  return visine.length ? zbir / visine.length : 0;\n}",
           "delic": "const zbir = visine.reduce((s, v) => s + v, 0);",
-          "analiza": "Zašto: Konzola ispiše visine i prosek. Taj niz još ne crta displej. U ovom koraku: Visine se saberu u jedan broj. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "analiza": "Zašto: reduce u ovom pozivu vrati zbir. Prosek nastaje tek deljenjem. Ispis još ne crta displej. U ovom koraku: Visine se saberu u jedan broj. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta reduce vrati?",
           "opcije": [
             {
               "key": "A",
               "text": "Niz, kao map.",
-              "why": "reduce skuplja u jednu vrednost. Ta pretpostavka zanemaruje ključnu razliku: Konzola ispiše visine i prosek. Taj niz još ne crta displej.",
+              "why": "reduce skuplja u jednu vrednost, ovde zbir, ne niz. Ta pretpostavka zanemaruje ključnu razliku: reduce u ovom pozivu vrati zbir. Prosek nastaje tek deljenjem. Ispis još ne crta displej.",
               "ok": false
             },
             {
               "key": "B",
-              "text": "Jednu vrednost, ovde prosek.",
-              "why": "Zbir pa deljenje. To je u skladu sa razlikom koju pravi ovaj korak: Konzola ispiše visine i prosek. Taj niz još ne crta displej.",
+              "text": "Jednu vrednost, ovde zbir.",
+              "why": "Poziv reduce sabira visine. Deljenje koje daje prosek radi funkcija prosek, posle toga. To je u skladu sa razlikom koju pravi ovaj korak: reduce u ovom pozivu vrati zbir. Prosek nastaje tek deljenjem. Ispis još ne crta displej.",
               "ok": true
             }
           ]
@@ -1577,7 +1577,7 @@
             {
               "key": "B",
               "text": "Netačno. Broj nije tekst.",
-              "why": "Jedna promena: kopija polja u novi objekat više ne prati izmenu. To je u skladu sa razlikom koju pravi ovaj korak: Rezervna provera je strogo poređenje broja i teksta temperature.",
+              "why": "24 i \"24\" nisu isti tip. === ne pretvara jedno u drugo, pa poređenje ne drži. To je u skladu sa razlikom koju pravi ovaj korak: Rezervna provera je strogo poređenje broja i teksta temperature.",
               "ok": true
             }
           ]
@@ -1963,24 +1963,24 @@
           "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Spoljašnja funkcija vrati unutrašnju i pamti prag.",
-          "kljucnaIdeja": "Closure je sinhrona funkcija koja vrati funkciju i pamti prag.",
+          "kljucnaIdeja": "Closure je funkcija zajedno sa pristupom leksičkom okruženju u kome je nastala.",
           "putanja": "client/js/niz.js",
           "isecakNaslov": "Closure",
           "isecak": "function granica(prag) {\n  return (t) => t >= prag;\n}",
           "delic": "function granica(prag) {\n  return (t) => t >= prag;\n}",
-          "analiza": "Zašto: Closure je sinhrona funkcija koja vrati funkciju i pamti prag. U ovom koraku: Spoljašnja funkcija vrati unutrašnju i pamti prag. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "analiza": "Zašto: Closure je funkcija zajedno sa pristupom leksičkom okruženju u kome je nastala. U ovom koraku: Spoljašnja funkcija vrati unutrašnju i pamti prag. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta unutrašnja funkcija i dalje vidi?",
           "opcije": [
             {
               "key": "A",
               "text": "Samo argumente svog kasnijeg poziva.",
-              "why": "Vidi i prag iz spolja. Ta pretpostavka zanemaruje ključnu razliku: Closure je sinhrona funkcija koja vrati funkciju i pamti prag.",
+              "why": "Vidi i prag iz spolja. Ta pretpostavka zanemaruje ključnu razliku: Closure je funkcija zajedno sa pristupom leksičkom okruženju u kome je nastala.",
               "ok": false
             },
             {
               "key": "B",
               "text": "Prag koji je granica dobila.",
-              "why": "To je sinhroni closure. To je u skladu sa razlikom koju pravi ovaj korak: Closure je sinhrona funkcija koja vrati funkciju i pamti prag.",
+              "why": "Vidi prag koji je granica dobila. Primer jeste sinhron, ali callback nastao u istoj funkciji vidi ista vezivanja. To je u skladu sa razlikom koju pravi ovaj korak: Closure je funkcija zajedno sa pristupom leksičkom okruženju u kome je nastala.",
               "ok": true
             }
           ]
@@ -2773,25 +2773,25 @@
           "minuta": 5,
           "tipPrimer": "aplikacija",
           "tekst": "Pripremljeni 500 jeste ventilator koji nije priključen. Modul sobe to proveri pre čitanja.",
-          "kljucnaIdeja": "Izvučen ventilator vraća HTTP 500. Odgovor stiže.",
+          "kljucnaIdeja": "U ovom primeru izvučen ventilator vraća HTTP 500 i odgovor stiže. Drugi server sme 500 da upotrebi za drugi neuspeh.",
           "putanja": "server/soba.js",
           "isecakNaslov": "Izvučen kabl",
           "isecak": "  if (!kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }",
           "delic": "  if (!kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }",
           "original": "function ocitavanje(stanje) {\n  return {\n    temperatura: stanje.temperatura,\n    ukljucen: stanje.ukljucen,\n  };\n}\n\nfunction citaj(kontekst) {\n  if (!kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }\n  return { status: 200, body: ocitavanje(kontekst.state) };\n}\n\nmodule.exports = { citaj };\n",
-          "analiza": "Zašto: Izvučen ventilator vraća HTTP 500. Odgovor stiže. U ovom koraku: Pripremljeni 500 jeste ventilator koji nije priključen. Modul sobe to proveri pre čitanja. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "analiza": "Zašto: U ovom primeru izvučen ventilator vraća HTTP 500 i odgovor stiže. Drugi server sme 500 da upotrebi za drugi neuspeh. U ovom koraku: Pripremljeni 500 jeste ventilator koji nije priključen. Modul sobe to proveri pre čitanja. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Da li je odgovor stigao?",
           "opcije": [
             {
               "key": "A",
               "text": "Nije. 500 znači tišinu.",
-              "why": "Status postoji. Ta pretpostavka zanemaruje ključnu razliku: Izvučen ventilator vraća HTTP 500. Odgovor stiže.",
+              "why": "Status postoji. Ta pretpostavka zanemaruje ključnu razliku: U ovom primeru izvučen ventilator vraća HTTP 500 i odgovor stiže. Drugi server sme 500 da upotrebi za drugi neuspeh.",
               "ok": false
             },
             {
               "key": "B",
               "text": "Jeste. Status je 500.",
-              "why": "Telo nema temperaturu za displej. To je u skladu sa razlikom koju pravi ovaj korak: Izvučen ventilator vraća HTTP 500. Odgovor stiže.",
+              "why": "Telo nema temperaturu za displej. To je u skladu sa razlikom koju pravi ovaj korak: U ovom primeru izvučen ventilator vraća HTTP 500 i odgovor stiže. Drugi server sme 500 da upotrebi za drugi neuspeh.",
               "ok": true
             }
           ]
@@ -3603,25 +3603,25 @@
           "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Komanda traži uključeno, ventilator nije priključen.",
-          "kljucnaIdeja": "Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500.",
+          "kljucnaIdeja": "U ovom primeru komanda uključenja dok ventilator nije priključen dobija HTTP 500. To je izabrani slučaj simulatora, ne značenje statusa.",
           "putanja": "server/ventilator.js",
           "isecakNaslov": "Kabl napolju",
           "isecak": "  if (telo.ukljucen && !kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }",
           "delic": "  if (telo.ukljucen && !kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }",
           "original": "function teloJeRezim(telo) {\n  if (!telo || typeof telo !== \"object\" || Array.isArray(telo)) return false;\n  const kljucevi = Object.keys(telo);\n  return typeof telo.ukljucen === \"boolean\" && kljucevi.every((kljuc) => kljuc === \"ukljucen\");\n}\n\nfunction komanda(kontekst, telo) {\n  if (!teloJeRezim(telo)) return { status: 400, body: { greska: \"telo nije boolean rezim\" } };\n  if (telo.ukljucen && !kontekst.state.prikljucen) {\n    return { status: 500, body: { greska: \"ventilator nije prikljucen\" } };\n  }\n  kontekst.state.ukljucen = telo.ukljucen;\n  return { status: 200, body: { ukljucen: kontekst.state.ukljucen } };\n}\n\nmodule.exports = { komanda };\n",
-          "analiza": "Zašto: Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500. U ovom koraku: Komanda traži uključeno, ventilator nije priključen. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "analiza": "Zašto: U ovom primeru komanda uključenja dok ventilator nije priključen dobija HTTP 500. To je izabrani slučaj simulatora, ne značenje statusa. U ovom koraku: Komanda traži uključeno, ventilator nije priključen. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta lopatice urade?",
           "opcije": [
             {
               "key": "A",
               "text": "Krenu, jer prekidač tako kaže.",
-              "why": "Nema kabla. Režim se ne uključi. Ta pretpostavka zanemaruje ključnu razliku: Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500.",
+              "why": "Nema kabla. Režim se ne uključi. Ta pretpostavka zanemaruje ključnu razliku: U ovom primeru komanda uključenja dok ventilator nije priključen dobija HTTP 500. To je izabrani slučaj simulatora, ne značenje statusa.",
               "ok": false
             },
             {
               "key": "B",
               "text": "Ne vrte se. Prekidač sme da ostane na uključi.",
-              "why": "Odgovor je 500. To je u skladu sa razlikom koju pravi ovaj korak: Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500.",
+              "why": "Odgovor je 500. To je u skladu sa razlikom koju pravi ovaj korak: U ovom primeru komanda uključenja dok ventilator nije priključen dobija HTTP 500. To je izabrani slučaj simulatora, ne značenje statusa.",
               "ok": true
             }
           ]
@@ -4653,14 +4653,14 @@
           "id": "sesija",
           "name": "Sesija",
           "hint": "ključ u cookie-ju, uloga na kutiji",
-          "body": "Dva ključa stoje u kodu. Svaki je opaque token. HttpOnly cookie ne nosi ime uloge.",
+          "body": "Dva ključa u kodu su pripremljene nastavne vrednosti, ne nepredvidivi identifikatori. HttpOnly cookie ne nosi ime uloge.",
           "code": "Set-Cookie: sesija=kljuc-posmatraca; HttpOnly"
         },
         {
           "id": "statusi",
           "name": "401 i 403",
           "hint": "nema sesije, ili uloga ne sme",
-          "body": "Komanda bez cookie-ja je 401. Posmatrač je 403. Loše telo je 400. Izvučen ventilator je 500.",
+          "body": "Komanda bez cookie-ja je 401. Posmatrač je 403. Loše telo je 400. U ovom primeru izvučen ventilator je 500.",
           "code": "nema cookie → 401\nposmatrac → 403\noperater → 200"
         }
       ],
@@ -4670,26 +4670,26 @@
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "aplikacija",
-          "tekst": "U kodu kutije stoje dva ključa. Svaki je opaque token.",
-          "kljucnaIdeja": "Dve sesije su pripremljene: posmatrač i operater.",
+          "tekst": "U kodu kutije stoje dva pripremljena ključa, po jedan za posmatrača i operatera. To su nastavne vrednosti, ne nepredvidivi identifikatori sesije. Browser nosi ključ, a ulogu drži kutija. Ključ je opaque token: browser ga nosi i ne tumači.",
+          "kljucnaIdeja": "Ključevi u primeru su pripremljene nastavne vrednosti. Browser ne nosi ime uloge.",
           "putanja": "server/sesija.js",
           "isecakNaslov": "Dva ključa",
           "isecak": "const KLJUC_POSMATRACA = \"kljuc-posmatraca\";\nconst KLJUC_OPERATERA = \"kljuc-operatera\";",
           "delic": "const KLJUC_POSMATRACA = \"kljuc-posmatraca\";\nconst KLJUC_OPERATERA = \"kljuc-operatera\";",
           "original": "const KLJUC_POSMATRACA = \"kljuc-posmatraca\";\nconst KLJUC_OPERATERA = \"kljuc-operatera\";\n\nfunction odbijenaKomanda() {\n  return null;\n}\n\nfunction kljucZaUlogu(naziv) {\n  if (naziv === \"operater\") return KLJUC_OPERATERA;\n  if (naziv === \"posmatrac\") return KLJUC_POSMATRACA;\n  return \"\";\n}\n\nmodule.exports = { odbijenaKomanda, kljucZaUlogu };\n",
-          "analiza": "Zašto: Dve sesije su pripremljene: posmatrač i operater. U ovom koraku: U kodu kutije stoje dva ključa. Svaki je opaque token. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "analiza": "Zašto: Ključevi u primeru su pripremljene nastavne vrednosti. Browser ne nosi ime uloge. U ovom koraku: U kodu kutije stoje dva pripremljena ključa, po jedan za posmatrača i operatera. To su nastavne vrednosti, ne nepredvidivi identifikatori sesije. Browser nosi ključ, a ulogu drži kutija. Ključ je opaque token: browser ga nosi i ne tumači. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
           "pitalica": "Šta ključ nije?",
           "opcije": [
             {
               "key": "A",
-              "text": "Nasumičan niz koji kutija poznaje.",
-              "why": "To jeste. Ta pretpostavka zanemaruje ključnu razliku: Dve sesije su pripremljene: posmatrač i operater.",
+              "text": "Pripremljena nastavna vrednost.",
+              "why": "U ovom kodu to jeste: dve vrednosti su upisane unapred. Nepredvidiv identifikator sesije ovde nije pokazan. Ta pretpostavka zanemaruje ključnu razliku: Ključevi u primeru su pripremljene nastavne vrednosti. Browser ne nosi ime uloge.",
               "ok": false
             },
             {
               "key": "B",
               "text": "Ime uloge upisano u browseru.",
-              "why": "Uloga nije deo onoga što browser sme da kaže. To je u skladu sa razlikom koju pravi ovaj korak: Dve sesije su pripremljene: posmatrač i operater.",
+              "why": "Uloga nije deo onoga što browser sme da kaže. To je u skladu sa razlikom koju pravi ovaj korak: Ključevi u primeru su pripremljene nastavne vrednosti. Browser ne nosi ime uloge.",
               "ok": true
             }
           ]

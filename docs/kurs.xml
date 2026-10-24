@@ -106,24 +106,24 @@
         </korak>
         <korak broj="4" nivo="Osnovno" minuta="5">
           <naslov>TCP i UDP</naslov>
-          <tekst>Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? TCP je pouzdan tok bajtova: dokument traži svaki bajt. UDP sme da odbaci datagram, pa glas, slika ili igra ne čekaju zakasneli kadar.</tekst>
-          <kljucna-ideja>Dokument čeka bajt. Zakasneli kadar sme da se odbaci.</kljucna-ideja>
+          <tekst>Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? UDP ne garantuje isporuku ni redosled. Aplikacija odlučuje da li zakasneli kadar još vredi. Dokument preko TCP-a traži bajtove. Streaming sam po sebi ne bira UDP.</tekst>
+          <kljucna-ideja>UDP ne garantuje isporuku. Odluku o zakasnelom kadru donosi aplikacija.</kljucna-ideja>
           <crtez vrsta="put">
             <cvor id="bajt">Bajt</cvor>
             <cvor id="tcp">TCP</cvor>
             <cvor id="udp">UDP</cvor>
           </crtez>
-          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"eksperiment","analiza":"Zašto: Dokument čeka bajt. Zakasneli kadar sme da se odbaci. U ovom koraku: Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? TCP je pouzdan tok bajtova: dokument traži svaki bajt. UDP sme da odbaci datagram, pa glas, slika ili igra ne čekaju zakasneli kadar. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
+          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"eksperiment","analiza":"Zašto: UDP ne garantuje isporuku. Odluku o zakasnelom kadru donosi aplikacija. U ovom koraku: Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? UDP ne garantuje isporuku ni redosled. Aplikacija odlučuje da li zakasneli kadar još vredi. Dokument preko TCP-a traži bajtove. Streaming sam po sebi ne bira UDP. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
           <pitalica vrsta="kratka">
             <pitanje>Šta radimo sa zakasnelim kadrom?</pitanje>
             <opcije>
               <opcija oznaka="A" drzi="ne">
                 <tekst>Čekamo ga, kao što dokument čeka bajt.</tekst>
-                <razlog>Kadar koji zakasni više ne pripada slici koja je prošla. Ta pretpostavka zanemaruje ključnu razliku: Dokument čeka bajt. Zakasneli kadar sme da se odbaci.</razlog>
+                <razlog>Dokument preko TCP-a traži bajtove. Zakasneli kadar medija nije isti slučaj: aplikacija sme da ga preskoči. Ta pretpostavka zanemaruje ključnu razliku: UDP ne garantuje isporuku. Odluku o zakasnelom kadru donosi aplikacija.</razlog>
               </opcija>
               <opcija oznaka="B" drzi="da">
                 <tekst>Kadar sme da se odbaci, a dokument ne sme da izgubi bajt.</tekst>
-                <razlog>TCP omogućava pouzdan uređen tok bajtova (dok je konekcija uspešna). UDP sme da odbaci glas ili sliku. To je u skladu sa razlikom koju pravi ovaj korak: Dokument čeka bajt. Zakasneli kadar sme da se odbaci.</razlog>
+                <razlog>TCP drži uređen tok bajtova dok veza traje. To ne dokazuje upisanu transakciju, niti da streaming ide preko UDP-a. Aplikacija bira šta radi sa kadrom koji zakasni. To je u skladu sa razlikom koju pravi ovaj korak: UDP ne garantuje isporuku. Odluku o zakasnelom kadru donosi aplikacija.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -691,26 +691,26 @@ zahtev menja deo]]></zapis>
         <korak broj="13" nivo="Osnovno" minuta="3">
           <naslov>Alati</naslov>
           <tekst>Izmena u alatima vidi se odmah na ekranu.</tekst>
-          <kljucna-ideja>Alati menjaju sliku u ovom browseru. Dokument ostaje.</kljucna-ideja>
+          <kljucna-ideja>Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju.</kljucna-ideja>
           <fajl putanja="client/index.html">
             <isecak naslov="Alati" jezik="html"><![CDATA[element.textContent = "10"]]></isecak>
             <u-fajl jezik="html"><![CDATA[<!-- prikaz može da kaže 10; fajl i dalje kaže 24 -->]]></u-fajl>
           </fajl>
-          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Alati menjaju sliku u ovom browseru. Dokument ostaje. U ovom koraku: Izmena u alatima vidi se odmah na ekranu. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
+          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju. U ovom koraku: Izmena u alatima vidi se odmah na ekranu. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
           <pitalica vrsta="kratka">
             <pitanje>Šta je time promenjeno?</pitanje>
             <opcije>
               <opcija oznaka="A" drzi="ne">
                 <tekst>Merenje.</tekst>
-                <razlog>Merenje nismo dirali. Ta pretpostavka zanemaruje ključnu razliku: Alati menjaju sliku u ovom browseru. Dokument ostaje.</razlog>
+                <razlog>Merenje nismo dirali. Ta pretpostavka zanemaruje ključnu razliku: Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju.</razlog>
               </opcija>
               <opcija oznaka="B" drzi="da">
-                <tekst>Lokalni prikaz, ne dokument.</tekst>
-                <razlog>Fajl i dalje kaže 24. To je u skladu sa razlikom koju pravi ovaj korak: Alati menjaju sliku u ovom browseru. Dokument ostaje.</razlog>
+                <tekst>Živi DOM, ne izvorni fajl.</tekst>
+                <razlog>Fajl i dalje kaže 24. To je u skladu sa razlikom koju pravi ovaj korak: Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju.</razlog>
               </opcija>
               <opcija oznaka="C" drzi="ne">
                 <tekst>I merenje i dokument.</tekst>
-                <razlog>Dokument se nije sačuvao. Ta pretpostavka zanemaruje ključnu razliku: Alati menjaju sliku u ovom browseru. Dokument ostaje.</razlog>
+                <razlog>Dokument se nije sačuvao. Ta pretpostavka zanemaruje ključnu razliku: Alati menjaju živi DOM u ovom browseru. Izvorni fajl i merenje ostaju.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -766,7 +766,7 @@ GET /css/soba.css]]></isecak>
         <pojam id="prikaz">
           <naziv>Prikaz</naziv>
           <nagovestaj>ono što ovaj browser crta</nagovestaj>
-          <opis>Prikaz je slika dokumenta u jednom browseru. Izmena u alatima ostaje u toj slici.</opis>
+          <opis>Prikaz je ono što ovaj browser crta. Izmena elementa u alatima menja živi DOM tog dokumenta, a ne izvorni fajl ni merenje.</opis>
           <zapis jezik="html"><![CDATA[<p>24</p>
 <!-- alati pokažu 10, dokument i dalje kaže 24 -->]]></zapis>
         </pojam>
@@ -1091,7 +1091,7 @@ function korak(soba) {
         <korak broj="11" nivo="Osnovno" minuta="4">
           <naslov>reduce</naslov>
           <tekst>Visine se saberu u jedan broj.</tekst>
-          <kljucna-ideja>Konzola ispiše visine i prosek. Taj niz još ne crta displej.</kljucna-ideja>
+          <kljucna-ideja>reduce u ovom pozivu vrati zbir. Prosek nastaje tek deljenjem. Ispis još ne crta displej.</kljucna-ideja>
           <fajl putanja="client/js/niz.js">
             <isecak naslov="reduce" jezik="javascript"><![CDATA[function prosek(visine) {
   const zbir = visine.reduce((s, v) => s + v, 0);
@@ -1099,17 +1099,17 @@ function korak(soba) {
 }]]></isecak>
             <u-fajl jezik="javascript"><![CDATA[const zbir = visine.reduce((s, v) => s + v, 0);]]></u-fajl>
           </fajl>
-          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Konzola ispiše visine i prosek. Taj niz još ne crta displej. U ovom koraku: Visine se saberu u jedan broj. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
+          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: reduce u ovom pozivu vrati zbir. Prosek nastaje tek deljenjem. Ispis još ne crta displej. U ovom koraku: Visine se saberu u jedan broj. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
           <pitalica vrsta="kratka">
             <pitanje>Šta reduce vrati?</pitanje>
             <opcije>
               <opcija oznaka="A" drzi="ne">
                 <tekst>Niz, kao map.</tekst>
-                <razlog>reduce skuplja u jednu vrednost. Ta pretpostavka zanemaruje ključnu razliku: Konzola ispiše visine i prosek. Taj niz još ne crta displej.</razlog>
+                <razlog>reduce skuplja u jednu vrednost, ovde zbir, ne niz. Ta pretpostavka zanemaruje ključnu razliku: reduce u ovom pozivu vrati zbir. Prosek nastaje tek deljenjem. Ispis još ne crta displej.</razlog>
               </opcija>
               <opcija oznaka="B" drzi="da">
-                <tekst>Jednu vrednost, ovde prosek.</tekst>
-                <razlog>Zbir pa deljenje. To je u skladu sa razlikom koju pravi ovaj korak: Konzola ispiše visine i prosek. Taj niz još ne crta displej.</razlog>
+                <tekst>Jednu vrednost, ovde zbir.</tekst>
+                <razlog>Poziv reduce sabira visine. Deljenje koje daje prosek radi funkcija prosek, posle toga. To je u skladu sa razlikom koju pravi ovaj korak: reduce u ovom pozivu vrati zbir. Prosek nastaje tek deljenjem. Ispis još ne crta displej.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -1132,7 +1132,7 @@ function korak(soba) {
               </opcija>
               <opcija oznaka="B" drzi="da">
                 <tekst>Netačno. Broj nije tekst.</tekst>
-                <razlog>Jedna promena: kopija polja u novi objekat više ne prati izmenu. To je u skladu sa razlikom koju pravi ovaj korak: Rezervna provera je strogo poređenje broja i teksta temperature.</razlog>
+                <razlog>24 i "24" nisu isti tip. === ne pretvara jedno u drugo, pa poređenje ne drži. To je u skladu sa razlikom koju pravi ovaj korak: Rezervna provera je strogo poređenje broja i teksta temperature.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -1457,23 +1457,23 @@ if (forma) forma.addEventListener("submit", (e) => e.preventDefault());]]></isec
         <korak broj="11" nivo="Osnovno" minuta="5">
           <naslov>Closure</naslov>
           <tekst>Spoljašnja funkcija vrati unutrašnju i pamti prag.</tekst>
-          <kljucna-ideja>Closure je sinhrona funkcija koja vrati funkciju i pamti prag.</kljucna-ideja>
+          <kljucna-ideja>Closure je funkcija zajedno sa pristupom leksičkom okruženju u kome je nastala.</kljucna-ideja>
           <fajl putanja="client/js/niz.js">
             <isecak naslov="Closure" jezik="javascript"><![CDATA[function granica(prag) {
   return (t) => t >= prag;
 }]]></isecak>
           </fajl>
-          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Closure je sinhrona funkcija koja vrati funkciju i pamti prag. U ovom koraku: Spoljašnja funkcija vrati unutrašnju i pamti prag. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
+          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Closure je funkcija zajedno sa pristupom leksičkom okruženju u kome je nastala. U ovom koraku: Spoljašnja funkcija vrati unutrašnju i pamti prag. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
           <pitalica vrsta="kratka">
             <pitanje>Šta unutrašnja funkcija i dalje vidi?</pitanje>
             <opcije>
               <opcija oznaka="A" drzi="ne">
                 <tekst>Samo argumente svog kasnijeg poziva.</tekst>
-                <razlog>Vidi i prag iz spolja. Ta pretpostavka zanemaruje ključnu razliku: Closure je sinhrona funkcija koja vrati funkciju i pamti prag.</razlog>
+                <razlog>Vidi i prag iz spolja. Ta pretpostavka zanemaruje ključnu razliku: Closure je funkcija zajedno sa pristupom leksičkom okruženju u kome je nastala.</razlog>
               </opcija>
               <opcija oznaka="B" drzi="da">
                 <tekst>Prag koji je granica dobila.</tekst>
-                <razlog>To je sinhroni closure. To je u skladu sa razlikom koju pravi ovaj korak: Closure je sinhrona funkcija koja vrati funkciju i pamti prag.</razlog>
+                <razlog>Vidi prag koji je granica dobila. Primer jeste sinhron, ali callback nastao u istoj funkciji vidi ista vezivanja. To je u skladu sa razlikom koju pravi ovaj korak: Closure je funkcija zajedno sa pristupom leksičkom okruženju u kome je nastala.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -2288,7 +2288,7 @@ const soba = JSON.parse(tekst);]]></zapis>
         <korak broj="3" nivo="Osnovno" minuta="5">
           <naslov>Izvučen kabl</naslov>
           <tekst>Pripremljeni 500 jeste ventilator koji nije priključen. Modul sobe to proveri pre čitanja.</tekst>
-          <kljucna-ideja>Izvučen ventilator vraća HTTP 500. Odgovor stiže.</kljucna-ideja>
+          <kljucna-ideja>U ovom primeru izvučen ventilator vraća HTTP 500 i odgovor stiže. Drugi server sme 500 da upotrebi za drugi neuspeh.</kljucna-ideja>
           <fajl putanja="server/soba.js">
             <isecak naslov="Izvučen kabl" jezik="javascript"><![CDATA[  if (!kontekst.state.prikljucen) {
     return { status: 500, body: { greska: "ventilator nije prikljucen" } };
@@ -2310,17 +2310,17 @@ function citaj(kontekst) {
 module.exports = { citaj };
 ]]></ugradjena>
           </fajl>
-          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Izvučen ventilator vraća HTTP 500. Odgovor stiže. U ovom koraku: Pripremljeni 500 jeste ventilator koji nije priključen. Modul sobe to proveri pre čitanja. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
+          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: U ovom primeru izvučen ventilator vraća HTTP 500 i odgovor stiže. Drugi server sme 500 da upotrebi za drugi neuspeh. U ovom koraku: Pripremljeni 500 jeste ventilator koji nije priključen. Modul sobe to proveri pre čitanja. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
           <pitalica vrsta="kratka">
             <pitanje>Da li je odgovor stigao?</pitanje>
             <opcije>
               <opcija oznaka="A" drzi="ne">
                 <tekst>Nije. 500 znači tišinu.</tekst>
-                <razlog>Status postoji. Ta pretpostavka zanemaruje ključnu razliku: Izvučen ventilator vraća HTTP 500. Odgovor stiže.</razlog>
+                <razlog>Status postoji. Ta pretpostavka zanemaruje ključnu razliku: U ovom primeru izvučen ventilator vraća HTTP 500 i odgovor stiže. Drugi server sme 500 da upotrebi za drugi neuspeh.</razlog>
               </opcija>
               <opcija oznaka="B" drzi="da">
                 <tekst>Jeste. Status je 500.</tekst>
-                <razlog>Telo nema temperaturu za displej. To je u skladu sa razlikom koju pravi ovaj korak: Izvučen ventilator vraća HTTP 500. Odgovor stiže.</razlog>
+                <razlog>Telo nema temperaturu za displej. To je u skladu sa razlikom koju pravi ovaj korak: U ovom primeru izvučen ventilator vraća HTTP 500 i odgovor stiže. Drugi server sme 500 da upotrebi za drugi neuspeh.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -3158,7 +3158,7 @@ module.exports = { komanda };
         <korak broj="15" nivo="Osnovno" minuta="4">
           <naslov>Kabl napolju</naslov>
           <tekst>Komanda traži uključeno, ventilator nije priključen.</tekst>
-          <kljucna-ideja>Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500.</kljucna-ideja>
+          <kljucna-ideja>U ovom primeru komanda uključenja dok ventilator nije priključen dobija HTTP 500. To je izabrani slučaj simulatora, ne značenje statusa.</kljucna-ideja>
           <fajl putanja="server/ventilator.js">
             <isecak naslov="Kabl napolju" jezik="javascript"><![CDATA[  if (telo.ukljucen && !kontekst.state.prikljucen) {
     return { status: 500, body: { greska: "ventilator nije prikljucen" } };
@@ -3181,17 +3181,17 @@ function komanda(kontekst, telo) {
 module.exports = { komanda };
 ]]></ugradjena>
           </fajl>
-          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500. U ovom koraku: Komanda traži uključeno, ventilator nije priključen. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
+          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: U ovom primeru komanda uključenja dok ventilator nije priključen dobija HTTP 500. To je izabrani slučaj simulatora, ne značenje statusa. U ovom koraku: Komanda traži uključeno, ventilator nije priključen. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
           <pitalica vrsta="kratka">
             <pitanje>Šta lopatice urade?</pitanje>
             <opcije>
               <opcija oznaka="A" drzi="ne">
                 <tekst>Krenu, jer prekidač tako kaže.</tekst>
-                <razlog>Nema kabla. Režim se ne uključi. Ta pretpostavka zanemaruje ključnu razliku: Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500.</razlog>
+                <razlog>Nema kabla. Režim se ne uključi. Ta pretpostavka zanemaruje ključnu razliku: U ovom primeru komanda uključenja dok ventilator nije priključen dobija HTTP 500. To je izabrani slučaj simulatora, ne značenje statusa.</razlog>
               </opcija>
               <opcija oznaka="B" drzi="da">
                 <tekst>Ne vrte se. Prekidač sme da ostane na uključi.</tekst>
-                <razlog>Odgovor je 500. To je u skladu sa razlikom koju pravi ovaj korak: Komanda koja traži uključenje dok ventilator nije priključen dobija HTTP 500.</razlog>
+                <razlog>Odgovor je 500. To je u skladu sa razlikom koju pravi ovaj korak: U ovom primeru komanda uključenja dok ventilator nije priključen dobija HTTP 500. To je izabrani slučaj simulatora, ne značenje statusa.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -4348,8 +4348,8 @@ const id = setInterval(procitaj, 4000);]]></zapis>
       <lekcije>
         <korak broj="1" nivo="Osnovno" minuta="4">
           <naslov>Dva ključa</naslov>
-          <tekst>U kodu kutije stoje dva ključa. Svaki je opaque token.</tekst>
-          <kljucna-ideja>Dve sesije su pripremljene: posmatrač i operater.</kljucna-ideja>
+          <tekst>U kodu kutije stoje dva pripremljena ključa, po jedan za posmatrača i operatera. To su nastavne vrednosti, ne nepredvidivi identifikatori sesije. Browser nosi ključ, a ulogu drži kutija. Ključ je opaque token: browser ga nosi i ne tumači.</tekst>
+          <kljucna-ideja>Ključevi u primeru su pripremljene nastavne vrednosti. Browser ne nosi ime uloge.</kljucna-ideja>
           <fajl putanja="server/sesija.js">
             <isecak naslov="Dva ključa" jezik="javascript"><![CDATA[const KLJUC_POSMATRACA = "kljuc-posmatraca";
 const KLJUC_OPERATERA = "kljuc-operatera";]]></isecak>
@@ -4369,17 +4369,17 @@ function kljucZaUlogu(naziv) {
 module.exports = { odbijenaKomanda, kljucZaUlogu };
 ]]></ugradjena>
           </fajl>
-          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Dve sesije su pripremljene: posmatrač i operater. U ovom koraku: U kodu kutije stoje dva ključa. Svaki je opaque token. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
+          <dopunska-polja format="json"><![CDATA[{"tipPrimer":"aplikacija","analiza":"Zašto: Ključevi u primeru su pripremljene nastavne vrednosti. Browser ne nosi ime uloge. U ovom koraku: U kodu kutije stoje dva pripremljena ključa, po jedan za posmatrača i operatera. To su nastavne vrednosti, ne nepredvidivi identifikatori sesije. Browser nosi ključ, a ulogu drži kutija. Ključ je opaque token: browser ga nosi i ne tumači. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije."}]]></dopunska-polja>
           <pitalica vrsta="kratka">
             <pitanje>Šta ključ nije?</pitanje>
             <opcije>
               <opcija oznaka="A" drzi="ne">
-                <tekst>Nasumičan niz koji kutija poznaje.</tekst>
-                <razlog>To jeste. Ta pretpostavka zanemaruje ključnu razliku: Dve sesije su pripremljene: posmatrač i operater.</razlog>
+                <tekst>Pripremljena nastavna vrednost.</tekst>
+                <razlog>U ovom kodu to jeste: dve vrednosti su upisane unapred. Nepredvidiv identifikator sesije ovde nije pokazan. Ta pretpostavka zanemaruje ključnu razliku: Ključevi u primeru su pripremljene nastavne vrednosti. Browser ne nosi ime uloge.</razlog>
               </opcija>
               <opcija oznaka="B" drzi="da">
                 <tekst>Ime uloge upisano u browseru.</tekst>
-                <razlog>Uloga nije deo onoga što browser sme da kaže. To je u skladu sa razlikom koju pravi ovaj korak: Dve sesije su pripremljene: posmatrač i operater.</razlog>
+                <razlog>Uloga nije deo onoga što browser sme da kaže. To je u skladu sa razlikom koju pravi ovaj korak: Ključevi u primeru su pripremljene nastavne vrednosti. Browser ne nosi ime uloge.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -4756,13 +4756,13 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
         <pojam id="sesija">
           <naziv>Sesija</naziv>
           <nagovestaj>ključ u cookie-ju, uloga na kutiji</nagovestaj>
-          <opis>Dva ključa stoje u kodu. Svaki je opaque token. HttpOnly cookie ne nosi ime uloge.</opis>
+          <opis>Dva ključa u kodu su pripremljene nastavne vrednosti, ne nepredvidivi identifikatori. HttpOnly cookie ne nosi ime uloge.</opis>
           <zapis jezik="text"><![CDATA[Set-Cookie: sesija=kljuc-posmatraca; HttpOnly]]></zapis>
         </pojam>
         <pojam id="statusi">
           <naziv>401 i 403</naziv>
           <nagovestaj>nema sesije, ili uloga ne sme</nagovestaj>
-          <opis>Komanda bez cookie-ja je 401. Posmatrač je 403. Loše telo je 400. Izvučen ventilator je 500.</opis>
+          <opis>Komanda bez cookie-ja je 401. Posmatrač je 403. Loše telo je 400. U ovom primeru izvučen ventilator je 500.</opis>
           <zapis jezik="text"><![CDATA[nema cookie → 401
 posmatrac → 403
 operater → 200]]></zapis>
