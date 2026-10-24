@@ -1,10 +1,11 @@
 import assert from "node:assert/strict";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import test from "node:test";
-import { cekajHttp, otvoriStranu, pauza, pokreni, slobodanPort, ugasi } from "./chrome.mjs";
+import path from "node:path";
+import { cekajHttp, otvoriStranu, pauza, pokreni, slobodanPort, snimci, ugasi } from "./chrome.mjs";
 
-const DNEVNIK = "/opt/cursor/artifacts/pregled-browser.log";
-mkdirSync("/opt/cursor/artifacts", { recursive: true });
+const DNEVNIK = path.join(snimci, "pregled-browser.log");
+mkdirSync(snimci, { recursive: true });
 const zapisi = [];
 
 function belezi(red) {
@@ -61,7 +62,7 @@ async function saAlatom(strana) {
   }
   async function snimi(ime) {
     const slika = await strana.posalji("Page.captureScreenshot", { format: "png" });
-    writeFileSync(`/opt/cursor/artifacts/${ime}.png`, Buffer.from(slika.data, "base64"));
+    writeFileSync(path.join(snimci, `${ime}.png`), Buffer.from(slika.data, "base64"));
   }
   return { ekran, sačekaj, snimi };
 }

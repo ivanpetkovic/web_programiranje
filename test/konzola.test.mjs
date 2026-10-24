@@ -1,14 +1,14 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import net from "node:net";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import { chromeBin, snimci } from "./chrome.mjs";
 
 const koren = fileURLToPath(new URL("..", import.meta.url));
-const snimci = "/opt/cursor/artifacts";
 
 const STRANICA = `<!DOCTYPE html>
 <html lang="sr">
@@ -32,17 +32,6 @@ document.querySelector("#javljanje").addEventListener("click", () => {
   throw new Error("iz koraka");
 });
 `;
-
-function chromeBin() {
-  const kandidati = [
-    process.env.CHROME_PATH,
-    "/usr/local/bin/google-chrome",
-    "/usr/bin/google-chrome",
-    "/usr/bin/chromium",
-    "/usr/bin/chromium-browser",
-  ];
-  return kandidati.find((put) => put && existsSync(put)) || "";
-}
 
 function slobodanPort() {
   return new Promise((resolve, reject) => {
