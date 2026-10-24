@@ -8,6 +8,9 @@ import { fileURLToPath } from "node:url";
 
 export const koren = fileURLToPath(new URL("..", import.meta.url));
 
+export const snimci = process.env.ARTIFACTS_DIR
+  || (existsSync("/opt/cursor") ? "/opt/cursor/artifacts" : path.join(os.tmpdir(), "kontrolna-soba-artifacts"));
+
 // Pregled od 5. nedelje upisuje soba.js, ventilator.js i sesija.js iz lekcije u server/.
 function vratiModule() {
   for (const ime of ["soba.js", "ventilator.js", "sesija.js"]) {
@@ -16,13 +19,16 @@ function vratiModule() {
 }
 process.on("exit", vratiModule);
 
-function chromeBin() {
+export function chromeBin() {
   const kandidati = [
     process.env.CHROME_PATH,
     "/usr/local/bin/google-chrome",
     "/usr/bin/google-chrome",
     "/usr/bin/chromium",
     "/usr/bin/chromium-browser",
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "/Applications/Chromium.app/Contents/MacOS/Chromium",
+    "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser",
   ];
   return kandidati.find((put) => put && existsSync(put)) || "";
 }
