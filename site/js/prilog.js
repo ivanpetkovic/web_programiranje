@@ -1,4 +1,4 @@
-import { spojeniPrikaz } from "./razlika.js";
+import { linijeTeksta, razlikaLinija, spojeniPrikaz } from "./razlika.js";
 
 const SHELL = /^(?:node|npm|npx|docker|podman|curl|wget|git)\b/;
 const HTTP_RED = /^(?:GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)\s+\S+(?:\s+HTTP\/\d(?:\.\d)?)?$|^HTTP\/\d/i;
@@ -55,6 +55,12 @@ export function dodatakPrikaza(korak) {
   return String(korak.isecak ?? "");
 }
 
+function linijeFajla(korak, ranije) {
+  if (!korak.ugradjen || !ulaziUFajl(korak.delic)) return spojeniPrikaz(ranije, dodatakPrikaza(korak));
+  if (!String(ranije ?? "").trim()) return linijeTeksta(korak.original).map((tekst) => ({ tekst, tip: "isto" }));
+  return razlikaLinija(ranije, korak.original).filter((linija) => linija.tip !== "obrisano");
+}
+
 export function prikazPriloga(korak, ranije) {
   const komanda = komandaKoraka(korak);
   const http = httpKoraka(korak);
@@ -63,7 +69,7 @@ export function prikazPriloga(korak, ranije) {
     fajl: {
       ime: imeFajla(korak.putanja),
       putanja: korak.putanja,
-      linije: spojeniPrikaz(ranije, dodatakPrikaza(korak)),
+      linije: linijeFajla(korak, ranije),
     },
     komanda,
     http,
