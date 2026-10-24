@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import vm from "node:vm";
 import test from "node:test";
 import { lectures } from "../site/js/lectures.js";
-import { jeKomentarLinije, jeShell, prikazPriloga, ulaziUFajl } from "../site/js/prilog.js";
-import { stabloDo } from "../site/js/stablo.js";
+import { jeKomentarLinije, jeShell, prikazPriloga } from "../site/js/prilog.js";
+import { stabloDo, vecUFajlu } from "../site/js/stablo.js";
 
 const koraci = lectures.flatMap((cas) => cas.steps);
 
@@ -24,11 +24,9 @@ function indeks(naslov) {
 }
 
 function ranijeDo(indeksKoraka, putanja) {
-  return koraci
-    .slice(0, indeksKoraka)
-    .filter((korak) => korak.putanja === putanja && ulaziUFajl(korak.delic))
-    .map((korak) => korak.delic)
-    .join("\n\n");
+  const cas = lectures.find((c) => c.steps.includes(koraci[indeksKoraka]));
+  const pocetak = koraci.indexOf(cas.steps[0]);
+  return vecUFajlu(koraci, pocetak, indeksKoraka, putanja);
 }
 
 test("pad pretpostavke dodaje komentar, a celaPoruka je uvedena", () => {

@@ -13,8 +13,9 @@ import { PODRAZUMEVANI_PRIMER, pocetniFajl, primeniPrimer } from "./primer.js";
 import { praznaSesija, primeni } from "./verzija.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
-import { jeKomentarLinije, prikazPriloga, ulaziUFajl } from "./prilog.js";
+import { jeKomentarLinije, prikazPriloga } from "./prilog.js";
 import { proveriJs } from "./provera-izvora.js";
+import { vecUFajlu } from "./stablo.js";
 
 const nav = document.querySelector("#nav");
 const navPreklop = document.querySelector("#nav-preklop");
@@ -268,11 +269,12 @@ function crtajNav() {
 }
 
 function vecUkucano(item, doIndeksa, putanja) {
-  return item.steps
-    .slice(0, doIndeksa)
-    .filter((korak) => korak.putanja === putanja && ulaziUFajl(korak.delic))
-    .map((korak) => korak.delic)
-    .join("\n\n");
+  let pocetak = 0;
+  for (const cas of lectures) {
+    if (cas === item) break;
+    pocetak += cas.steps.length;
+  }
+  return vecUFajlu(kursKoraci(), pocetak, pocetak + doIndeksa, putanja);
 }
 
 function prikaziDeo() {
