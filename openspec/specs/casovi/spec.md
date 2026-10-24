@@ -109,11 +109,21 @@ The week titled Od naivnog prenosa do HTTP-a, pa Node MUST introduce a naive who
 - **WHEN** the teacher is still on the transfer steps
 - **THEN** `node server/server.js` has not been introduced yet
 ### Requirement: Čas 5 pali Node pre fetch-a
-After the HTTP steps, the lecture MUST start a plain Node server with `http.createServer`, `listen`, the command `node server/server.js`, the same address in the browser, and then the route. The createServer step MUST bind the name `http` with `require("http")` before `http.createServer`. The room read MUST be opened by that address before any fetch call.
+After the HTTP steps, the lecture MUST start a plain Node server with a handler, `http.createServer`, `listen`, the command `node server/server.js`, the same address in the browser, and then the route. The createServer step MUST bind the name `http` with `require("http")` before `http.createServer`. The room read MUST be opened by that address before any fetch call. The transfer steps before HTTP MUST be standalone examples and MUST NOT add lines to `server/server.js`.
+
+Each server step MUST carry the whole file it leaves behind, so the assembled `server/server.js` runs with `node` after every step. Before the route, every path MUST get the same answer. The lecture MUST then add, one step at a time and each with its own short question: a JSON body, `writeHead` with status and `content-type`, one helper that writes a JSON response, the route on the path from `req.url` with 404 for an unknown path, 405 for a known path with a method other than GET, and the module `server/soba.js` whose `citaj` returns `{ status, body }` and which `server.js` requires.
 
 #### Scenario: Server starts before fetch
 - **WHEN** the teacher follows the server steps
 - **THEN** `node server/server.js` is shown and the room read is opened by address before any fetch call
+
+#### Scenario: Assembled week 5 server answers
+- **WHEN** the files assembled at the end of week 5 run with `node server/server.js`
+- **THEN** `GET /api/soba` returns 200 with the temperature and the mode as JSON, an unknown path returns 404, and `PUT /api/soba` returns 405
+
+#### Scenario: No route yet
+- **WHEN** the files assembled at the address step run
+- **THEN** an unknown path gets the same body as `/api/soba`
 ### Requirement: Čas 5 crta kutiju tek posle servera
 The shell MUST draw the machine room and its fan beside the iframe only after that server is running. That room is not a file from the editor. From this lecture the server MUST own the temperature, and the room module on disk MUST be the text of the active Moj kod / Lekcija switch. The week 5 fragment MUST NOT contain the Err branch, so a failed read leaves the document's own display unchanged by an Err branch.
 
@@ -125,7 +135,7 @@ The shell MUST draw the machine room and its fan beside the iframe only after th
 - **WHEN** a read fails during week 5 and the loaded document has no Err branch
 - **THEN** the iframe does not show Err from the shell
 ### Requirement: Čas 6 razlikuje odgovor od izostanka
-The week titled Čekanje i neuspeh MUST contrast HTTP 200 with HTTP 500. The prepared 500 MUST be the unplugged fan: a response arrives, the status is 500, and the switch display shows Err. HTTP 200 MUST write the digits. The lecture MUST open a front fragment that already writes Err both for a non-success status and for an absent response, and the teacher MUST be able to change that line. Once await exists, the box interval MUST start. Until then the box temperature MUST stay still.
+The week titled Čekanje i neuspeh MUST contrast HTTP 200 with HTTP 500. The prepared 500 MUST be the unplugged fan: a response arrives, the status is 500, and the switch display shows Err. That step MUST add the unplugged check to `citaj` in `server/soba.js`. HTTP 200 MUST write the digits. The lecture MUST open a front fragment that already writes Err both for a non-success status and for an absent response, and the teacher MUST be able to change that line. Once await exists, the box interval MUST start. Until then the box temperature MUST stay still.
 
 #### Scenario: 500 is a response
 - **WHEN** the fan is unplugged and the browser reads the room
@@ -136,6 +146,12 @@ The week titled Čekanje i neuspeh MUST contrast HTTP 200 with HTTP 500. The pre
 - **THEN** the network record has no HTTP status and the 500 case remains a different failure
 ### Requirement: Čas 7 šalje željeno stanje
 The week titled Komande i ponavljanje MUST send a command that sets the fan to a desired boolean state. The server MUST validate the body, change the mode in memory, and return only the mode. A body that is text instead of a boolean MUST get HTTP 400 and MUST NOT return a mode. Setting the same desired state twice MUST keep that state. Toggling twice MUST undo it. A command MUST NOT change the temperature display.
+
+The lecture MUST first ask what the week 5 server answers to `PUT /api/ventilator` (404, no endpoint). It MUST then add the module `server/ventilator.js` whose `komanda(kontekst, telo)` returns `{ status, body }`, reading the body chunk by chunk in `server.js`, the route `PUT /api/ventilator` with 405 for another method, 400 when `JSON.parse` fails, the shape check with 400, 500 when the fan is unplugged, and a body size limit answered with 400. Set and toggle repetition MUST stay standalone examples. Every step that changes `server.js` or `ventilator.js` MUST carry the whole file, and the files assembled at the end of week 7 MUST run with `node server/server.js`.
+
+#### Scenario: Assembled week 7 server takes a command
+- **WHEN** the files assembled at the end of week 7 run and receive `PUT /api/ventilator` with `{ "ukljucen": true }`
+- **THEN** the response is 200 with `{ "ukljucen": true }`, the next `GET /api/soba` shows the mode on, a body that is not JSON or is too large gets 400, and `GET /api/ventilator` gets 405
 
 #### Scenario: Repeat set-on
 - **WHEN** the teacher sends the desired state on twice

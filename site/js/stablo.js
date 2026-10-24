@@ -215,3 +215,15 @@ export function prethodnaVerzija(koraci, indeks, putanja) {
   const ranije = stabloDo(koraci, indeks - 1).verzije[putanja];
   return ranije === undefined ? null : ranije;
 }
+
+export function vecUFajlu(koraci, pocetak, indeks, putanja) {
+  if (koraci[indeks]?.ugradjen) return prethodnaVerzija(koraci, indeks, putanja) ?? "";
+  const delovi = [];
+  for (let i = pocetak; i < indeks; i += 1) {
+    const korak = koraci[i];
+    if (korak.putanja !== putanja || !ulaziUFajl(korak.delic)) continue;
+    if (korak.ugradjen) delovi.splice(0, delovi.length, String(korak.original ?? "").trimEnd());
+    else delovi.push(korak.delic);
+  }
+  return delovi.join("\n\n");
+}

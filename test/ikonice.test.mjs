@@ -62,7 +62,7 @@ test("pitanje, stablo, olovka i panel", () => {
   assert.match(main, /ikonica\("folder"\)/);
   assert.match(main, /ikonica\("file-text"\)/);
   assert.equal(main.includes("ikonaVerzije"), false);
-  assert.match(html, /<div class="putanja-red">\s*<span id="putanja">[^<]*<\/span>\s*<\/div>/);
+  assert.match(html, /<div class="putanja-red">\s*<span id="putanja">[^<]*<\/span>\s*<p id="editor-napomena" hidden><\/p>\s*<\/div>/);
   assert.match(html, /data-ikona="monitor">Klijent/);
   assert.match(html, /data-ikona="server">Server/);
   assert.match(html, /id="ucitaj" data-ikona="folder">Učitaj/);

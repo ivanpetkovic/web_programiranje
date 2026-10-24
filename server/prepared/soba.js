@@ -9,7 +9,7 @@ function svezeOcitavanje(stanje) {
   return { ...ocitavanje(stanje), trenutak: new Date().toISOString() };
 }
 
-async function citaj(kontekst) {
+function citaj(kontekst) {
   if (!kontekst.state.prikljucen) {
     return { status: 500, body: { greska: "ventilator nije prikljucen" } };
   }
