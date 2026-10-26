@@ -60,6 +60,25 @@ test("čas istorije nema Node, čas stranice ima client/index.html", () => {
   assert.match(stranica.options.find((opcija) => opcija.ok).why, /Osvežavanje vraća dokument/);
 });
 
+test("čas 5 kaže da HTTP ne pamti, a TCP i QUIC pamte vezu", () => {
+  const cas = lectures[4];
+  const http = cas.steps.findIndex((korak) => korak.naslov === "HTTP");
+  const bez = cas.steps.findIndex((korak) => korak.naslov === "Bez sećanja");
+  const veza = cas.steps.findIndex((korak) => korak.naslov === "Veza ispod");
+  const obrada = cas.steps.findIndex((korak) => korak.naslov === "Obrada");
+  assert.ok(http < bez && bez < veza && veza < obrada);
+  const stateless = cas.steps[bez];
+  const sloj = cas.steps[veza];
+  assert.equal(stateless.putanja, undefined);
+  assert.equal(sloj.putanja, undefined);
+  assert.match(stateless.objasnjenje, /ne pamti prethodni zahtev/);
+  assert.match(stateless.opcije.find((opcija) => opcija.ok).text, /Svaki zahtev nosi svoj smisao/);
+  assert.match(sloj.primer, /QUIC/);
+  assert.match(sloj.primer, /TCP/);
+  assert.match(sloj.opcije.find((opcija) => opcija.ok).text, /Veza pamti šta je stiglo/);
+  assert.match(cas.terms.find((pojam) => pojam.id === "stateless").body, /QUIC/);
+});
+
 test("čas 5 otvara adresu pre fetch-a i nema Err", () => {
   const cas = lectures[4];
   const saNode = cas.steps.findIndex((korak) => tekst(korak).includes("node server/server.js"));

@@ -48,7 +48,7 @@ test("prikazani serverski isečci 5. i 7. nedelje prolaze, a prenos nije u fajlu
       if (tekst.trim()) assert.equal(proveriJs(tekst), "", `${n}/${korak.naslov}`);
     }
   }
-  for (const naslov of ["Cela poruka", "Pad pretpostavke", "Potvrda", "TCP"]) {
+  for (const naslov of ["Cela poruka", "Pad pretpostavke", "Potvrda", "TCP", "Bez sećanja", "Veza ispod"]) {
     assert.equal(lectures[4].steps.find((korak) => korak.naslov === naslov).putanja, undefined, naslov);
   }
 });

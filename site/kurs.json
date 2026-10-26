@@ -2037,8 +2037,15 @@
           "id": "http",
           "name": "HTTP zahtev",
           "hint": "metod, putanja, status",
-          "body": "HTTP daje smisao toku bajtova: metod, putanja, zaglavlja, telo, status. Ovde je to HTTP/1.1.",
+          "body": "HTTP daje smisao toku bajtova: metod, putanja, zaglavlja, telo, status. Ovde je to HTTP/1.1. Stateless: zahtev stoji sam, HTTP ne pamti prethodni zahtev.",
           "code": "GET /api/soba HTTP/1.1\n\nHTTP/1.1 200 OK"
+        },
+        {
+          "id": "stateless",
+          "name": "stateless",
+          "hint": "zahtev stoji sam",
+          "body": "HTTP ne pamti prethodni zahtev. Smisao je u zahtevu koji je stigao. TCP i QUIC ispod pamte vezu: redne brojeve, potvrde i tok. Veza sme da ostane otvorena, a HTTP i dalje ne pamti razgovor.",
+          "code": "GET /api/soba HTTP/1.1\n\nGET /api/soba HTTP/1.1"
         },
         {
           "id": "json",
@@ -2189,6 +2196,64 @@
               "key": "B",
               "text": "Smisao: šta se traži i koji je status odgovora.",
               "why": "Metod, putanja, zaglavlja, telo, status. To je u skladu sa razlikom koju pravi ovaj korak: HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Bez sećanja",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Zašto drugi GET /api/soba ne nosi prvi? HTTP je dogovor o jednom zahtevu i jednom odgovoru. Smisao je u zahtevu koji je stigao: metod, putanja, zaglavlja, telo. Server ne drži transkript razgovora, pa na sledeći zahtev sme da odgovori i drugi proces. Broj temperature u memoriji procesa nije to sećanje. Protokol i dalje ne zna da je isti browser pitao maločas.",
+          "kljucnaIdeja": "Stateless znači da zahtev stoji sam. HTTP ne pamti prethodni zahtev.",
+          "samostalniPrimer": {
+            "jezik": "text",
+            "izolovan": true,
+            "tekst": "GET /api/soba HTTP/1.1\n\nGET /api/soba HTTP/1.1\n// drugi zahtev ne kaže „nastavak prvog”"
+          },
+          "analiza": "Zašto: Stateless znači da zahtev stoji sam. HTTP ne pamti prethodni zahtev. U ovom koraku: Zašto drugi GET /api/soba ne nosi prvi? HTTP je dogovor o jednom zahtevu i jednom odgovoru. Smisao je u zahtevu koji je stigao: metod, putanja, zaglavlja, telo. Server ne drži transkript razgovora, pa na sledeći zahtev sme da odgovori i drugi proces. Broj temperature u memoriji procesa nije to sećanje. Protokol i dalje ne zna da je isti browser pitao maločas. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Šta drugi zahtev zna o prvom?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Zna ga, jer veza još traje.",
+              "why": "Otvorena veza nije sećanje HTTP-a. Ta pretpostavka zanemaruje ključnu razliku: Stateless znači da zahtev stoji sam. HTTP ne pamti prethodni zahtev.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne zna ga. Svaki zahtev nosi svoj smisao.",
+              "why": "Metod, putanja, zaglavlja i telo su u tom zahtevu. To je u skladu sa razlikom koju pravi ovaj korak: Stateless znači da zahtev stoji sam. HTTP ne pamti prethodni zahtev.",
+              "ok": true
+            }
+          ]
+        },
+        {
+          "naslov": "Veza ispod",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Zašto TCP i QUIC ipak pamte? Njihov posao je tok preko mreže koja gubi i meša pakete. TCP pamti redne brojeve, šta je potvrđeno i gde je tok stao. QUIC pamti identitet veze, brojeve paketa i tokove. Bez tog sećanja nema „pošalji ponovo bajt koji nije stigao”. HTTP ide preko te veze. Veza sme da ostane otvorena i da ponese oba GET-a. Ona pamti bajtove. HTTP i dalje ne pamti koji je zahtev bio pre.",
+          "kljucnaIdeja": "TCP i QUIC su stateful jer popravljaju prenos. HTTP ostaje stateless: veza pamti bajtove, ne prethodni zahtev.",
+          "samostalniPrimer": {
+            "jezik": "text",
+            "izolovan": true,
+            "tekst": "TCP: redni brojevi, potvrde, gde je tok stao\nQUIC: identitet veze, brojevi paketa, tokovi\nGET /api/soba HTTP/1.1\nGET /api/soba HTTP/1.1\n// ista veza sme da ponese oba zahteva"
+          },
+          "analiza": "Zašto: TCP i QUIC su stateful jer popravljaju prenos. HTTP ostaje stateless: veza pamti bajtove, ne prethodni zahtev. U ovom koraku: Zašto TCP i QUIC ipak pamte? Njihov posao je tok preko mreže koja gubi i meša pakete. TCP pamti redne brojeve, šta je potvrđeno i gde je tok stao. QUIC pamti identitet veze, brojeve paketa i tokove. Bez tog sećanja nema „pošalji ponovo bajt koji nije stigao”. HTTP ide preko te veze. Veza sme da ostane otvorena i da ponese oba GET-a. Ona pamti bajtove. HTTP i dalje ne pamti koji je zahtev bio pre. Proveriti posledicu na konkretnom primeru ili promenom jednog reda koda; ne zaključivati samo iz teksta opcije.",
+          "pitalica": "Šta sloj ispod pamti, a HTTP ne?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Oba pamte isti razgovor, jer dele vezu.",
+              "why": "Veza pamti gde je tok. Ne pamti smisao prošlog GET-a. Ta pretpostavka zanemaruje ključnu razliku: TCP i QUIC su stateful jer popravljaju prenos. HTTP ostaje stateless: veza pamti bajtove, ne prethodni zahtev.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Veza pamti šta je stiglo, da pošalje ponovo. HTTP ne pamti prethodni zahtev.",
+              "why": "Redni brojevi i potvrde postoje da prenos ima tok. Smisao zahteva je u samom zahtevu. To je u skladu sa razlikom koju pravi ovaj korak: TCP i QUIC su stateful jer popravljaju prenos. HTTP ostaje stateless: veza pamti bajtove, ne prethodni zahtev.",
               "ok": true
             }
           ]
