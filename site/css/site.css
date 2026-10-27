@@ -875,6 +875,57 @@ body.nav-skriven .nav-preklop { justify-self: start; }
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 }
 .definicija { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 0.7rem 0.85rem; }
+.kljucna strong, #cas > h2, .diskusija > h2, .pitanje-blok > .meta, .knjiga article > strong {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+.kljucna-dopuna { margin: 0.45rem 0 0; }
+.olovka, .odgovor-skloni, .odgovor-dodaj, .odgovor-tacan {
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  font: inherit;
+  font-weight: 700;
+  line-height: 1;
+}
+.olovka { margin-left: auto; }
+.olovka[aria-pressed="true"], .odgovor-tacan[aria-pressed="true"] {
+  background: var(--amber);
+  color: var(--on-amber);
+  border-color: var(--amber);
+}
+.odgovor-red { display: flex; gap: 0.4rem; align-items: flex-start; }
+.odgovor-red > .option { width: auto; flex: 1; min-width: 0; }
+.odgovor-polja { display: grid; gap: 0.35rem; flex: 1; min-width: 0; }
+.inline-polje {
+  width: 100%;
+  min-height: 4.5rem;
+  font: inherit;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+}
+.inline-kod { min-height: 8rem; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.knjiga {
+  margin: 0.8rem 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+}
+.knjiga h3 { display: flex; align-items: center; gap: 0.45rem; margin: 0 0 0.7rem; font-size: 1rem; }
+.knjiga article + article { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--line); }
+.knjiga p { margin: 0.35rem 0 0; }
+.knjiga pre { margin: 0.45rem 0 0; white-space: pre-wrap; }
+#status-uredjivanja { margin: 0.15rem 0 0; }
 #pomoc-dijalog { border: 1px solid var(--line); border-radius: 16px; background: var(--paper); color: var(--ink); max-width: 32rem; }
 #pomoc-dijalog::backdrop { background: rgba(0, 0, 0, 0.35); }
 @media (max-width: 860px) {

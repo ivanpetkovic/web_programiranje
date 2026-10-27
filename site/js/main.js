@@ -16,6 +16,8 @@ import { ikonica, ucitajIkonice } from "./ikonice.js";
 import { jeKomentarLinije, prikazPriloga } from "./prilog.js";
 import { proveriJs } from "./provera-izvora.js";
 import { vecUFajlu } from "./stablo.js";
+import { dodajOpciju, oznaciOdgovor, ukloniOpciju } from "./studio.js";
+import { editMod, izvorUgradjenog, objasnjenjaKoraka, smisaoKljucne } from "./uredjivanje.js";
 
 const nav = document.querySelector("#nav");
 const navPreklop = document.querySelector("#nav-preklop");
@@ -70,6 +72,10 @@ const korakPoCasu = new Map();
 const rezervaPoCasu = new Map();
 const diskusije = new Map();
 const objasnjenjePoKoraku = new Map();
+const uEditModu = editMod(location.search);
+const otvorenaPolja = new Set();
+let fokusUredjivanja = "";
+let cuvanjeKursa = 0;
 let pollId = 0;
 let poslednjiTrenutak = null;
 let upisRedni = 0;
@@ -661,6 +667,266 @@ function nacrtajBirac(item, i) {
   return birac;
 }
 
+function urediOtvoreno(id) {
+  return uEditModu && otvorenaPolja.has(id);
+}
+
+function olovka(id, natpis) {
+  if (!uEditModu) return null;
+  const dugme = document.createElement("button");
+  dugme.type = "button";
+  dugme.className = "olovka";
+  dugme.title = natpis;
+  dugme.setAttribute("aria-label", natpis);
+  dugme.setAttribute("aria-pressed", String(otvorenaPolja.has(id)));
+  const znak = ikonica("pencil");
+  if (znak) dugme.append(znak);
+  dugme.addEventListener("click", () => {
+    if (otvorenaPolja.has(id)) otvorenaPolja.delete(id);
+    else {
+      otvorenaPolja.add(id);
+      fokusUredjivanja = id;
+    }
+    renderLecture();
+  });
+  return dugme;
+}
+
+function poljeTeksta(id, vrednost, onInput, redovi) {
+  const polje = document.createElement("textarea");
+  polje.className = "inline-polje";
+  polje.dataset.ured = id;
+  polje.rows = redovi;
+  polje.value = vrednost || "";
+  polje.addEventListener("input", () => onInput(polje.value));
+  return polje;
+}
+
+function izvorKoraka() {
+  const prikazNedelje = lecture();
+  const i = Math.min(indeksKoraka(), prikazNedelje.steps.length - 1);
+  return {
+    i,
+    prikaz: prikazNedelje.steps[i],
+    sirovi: dokument.nedelje[cas - 1].steps[i],
+    nedelja: dokument.nedelje[cas - 1],
+    prikazNedelje,
+  };
+}
+
+let cuvanjeToken = 0;
+
+function zakaziCuvanje() {
+  const status = document.querySelector("#status-uredjivanja");
+  if (status) status.textContent = "Čuvam…";
+  const token = ++cuvanjeToken;
+  clearTimeout(cuvanjeKursa);
+  cuvanjeKursa = setTimeout(() => {
+    cuvanjeKursa = 0;
+    void upisiKurs(token);
+  }, 400);
+}
+
+async function upisiKurs(token) {
+  const status = document.querySelector("#status-uredjivanja");
+  try {
+    const odgovor = await fetch("/api/kurs", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(dokument),
+    });
+    if (token !== cuvanjeToken) return;
+    if (status) status.textContent = odgovor.ok ? "Sačuvano u kurs.json." : "Nije upisano. Kurs na disku je ostao.";
+  } catch {
+    if (token === cuvanjeToken && status) status.textContent = "Nije upisano. Kurs na disku je ostao.";
+  }
+}
+
+window.addEventListener("pagehide", () => {
+  if (!uEditModu || !cuvanjeKursa) return;
+  clearTimeout(cuvanjeKursa);
+  cuvanjeKursa = 0;
+  fetch("/api/kurs", {
+    method: "PUT",
+    keepalive: true,
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(dokument),
+  });
+});
+
+function upisiKorak(polje, vrednost) {
+  const { prikaz, sirovi } = izvorKoraka();
+  if (polje === "samostalniPrimer") {
+    if (!sirovi.samostalniPrimer || typeof sirovi.samostalniPrimer !== "object") {
+      sirovi.samostalniPrimer = { jezik: "text", izolovan: true, tekst: "" };
+    }
+    sirovi.samostalniPrimer.tekst = vrednost;
+    prikaz.samostalniPrimer = sirovi.samostalniPrimer;
+  } else if (polje === "dijagram") {
+    if (!sirovi.dijagram || typeof sirovi.dijagram !== "object") sirovi.dijagram = { format: "text", tekst: "" };
+    sirovi.dijagram.tekst = vrednost;
+    prikaz.dijagram = sirovi.dijagram;
+  } else {
+    sirovi[polje] = vrednost;
+    prikaz[polje] = vrednost;
+    if (polje === "tekst") prikaz.primer = vrednost;
+    if (polje === "isecak") prikaz.kod = vrednost;
+    if (polje === "delic" && !("original" in sirovi)) prikaz.original = vrednost;
+    if (polje === "kljucnaIdeja") prikaz.objasnjenje = vrednost;
+  }
+  zakaziCuvanje();
+}
+
+function upisiPojam(id, telo) {
+  for (const nedelja of dokument.nedelje) {
+    const pojam = (nedelja.pojmoviCasa || []).find((stavka) => stavka.id === id);
+    if (pojam) {
+      pojam.body = telo;
+      zakaziCuvanje();
+      return;
+    }
+  }
+  const dopuna = (dokument.dopunaGlosara || []).find((stavka) => stavka.id === id);
+  if (!dopuna) return;
+  dopuna.body = telo;
+  zakaziCuvanje();
+}
+
+function osigurajOpcije(korak) {
+  if (Array.isArray(korak.opcije)) return korak.opcije;
+  const { sirovi, prikaz } = izvorKoraka();
+  const prazno = [];
+  sirovi.opcije = prazno;
+  prikaz.opcije = prazno;
+  return prazno;
+}
+
+function skloniOdgovor(opcije, indeks) {
+  if (opcije.length <= 1) return;
+  ukloniOpciju(opcije, indeks);
+  zakaziCuvanje();
+  renderLecture();
+}
+
+function dodajOdgovor(opcije, editorId) {
+  dodajOpciju(opcije);
+  otvorenaPolja.add(editorId);
+  fokusUredjivanja = `${editorId}:${opcije.length - 1}`;
+  zakaziCuvanje();
+  renderLecture();
+}
+
+function dugmeZnak(klasa, znak, natpis, radnja) {
+  const dugme = document.createElement("button");
+  dugme.type = "button";
+  dugme.className = klasa;
+  dugme.textContent = znak;
+  dugme.setAttribute("aria-label", natpis);
+  if (radnja) dugme.addEventListener("click", (event) => {
+    event.stopPropagation();
+    radnja();
+  });
+  return dugme;
+}
+
+function redOdgovora(opcije, indeks, otvoren, nacrtajPrikaz, prefiks) {
+  const opcija = opcije[indeks];
+  const red = document.createElement("div");
+  red.className = "odgovor-red";
+  if (otvoren) {
+    const polja = document.createElement("div");
+    polja.className = "odgovor-polja";
+    const tacan = dugmeZnak("odgovor-tacan", opcija.key || "?", `Odgovor ${opcija.key || indeks + 1} je tačan`, () => {
+      oznaciOdgovor(opcije, indeks);
+      zakaziCuvanje();
+      renderLecture();
+    });
+    tacan.setAttribute("aria-pressed", String(opcija.ok === true));
+    const tekst = poljeTeksta(`${prefiks}:${indeks}`, opcija.text, (vrednost) => {
+      opcija.text = vrednost;
+      zakaziCuvanje();
+    }, 2);
+    tekst.setAttribute("aria-label", `Odgovor ${opcija.key || indeks + 1}`);
+    const zasto = poljeTeksta(`zasto:${indeks}`, opcija.why, (vrednost) => {
+      opcija.why = vrednost;
+      zakaziCuvanje();
+    }, 2);
+    zasto.placeholder = "Zašto";
+    zasto.setAttribute("aria-label", `Zašto odgovor ${opcija.key || indeks + 1}`);
+    polja.append(tekst, zasto);
+    red.append(tacan, polja);
+  } else {
+    red.append(nacrtajPrikaz(opcija));
+  }
+  if (uEditModu) {
+    const skloni = dugmeZnak("odgovor-skloni", "−", `Ukloni odgovor ${opcija.key || indeks + 1}`, () => skloniOdgovor(opcije, indeks));
+    skloni.disabled = opcije.length <= 1;
+    red.append(skloni);
+  }
+  return red;
+}
+
+function ugradiOlovku(blok, id, natpis, polje, tekst) {
+  if (!uEditModu || !blok) return blok;
+  const glava = blok.querySelector("header") || blok;
+  const dugme = olovka(id, natpis);
+  if (dugme) glava.append(dugme);
+  if (urediOtvoreno(id)) {
+    const pre = blok.querySelector("pre");
+    const poljeEl = poljeTeksta(id, tekst, (vrednost) => upisiKorak(polje, vrednost), 8);
+    poljeEl.classList.add("inline-kod");
+    if (pre) pre.replaceWith(poljeEl);
+    else blok.append(poljeEl);
+  }
+  return blok;
+}
+
+function nacrtajKnjigu(pojmovi) {
+  if (!pojmovi.length) return null;
+  const sekcija = document.createElement("section");
+  sekcija.className = "knjiga";
+  sekcija.setAttribute("aria-label", "Objašnjenje");
+  const naslovKnjige = document.createElement("h3");
+  saIkonom(naslovKnjige, "book-open", "Objašnjenje");
+  sekcija.append(naslovKnjige);
+  for (const pojam of pojmovi) {
+    const clan = document.createElement("article");
+    const ime = document.createElement("strong");
+    ime.textContent = pojam.ime;
+    const olovkaPojma = olovka(`pojam:${pojam.id}`, `Uredi objašnjenje ${pojam.ime}`);
+    if (olovkaPojma) ime.append(olovkaPojma);
+    clan.append(ime);
+    if (pojam.hint) {
+      const hint = document.createElement("p");
+      hint.className = "meta";
+      hint.textContent = pojam.hint;
+      clan.append(hint);
+    }
+    if (urediOtvoreno(`pojam:${pojam.id}`)) {
+      clan.append(poljeTeksta(`pojam:${pojam.id}`, pojam.telo, (vrednost) => upisiPojam(pojam.id, vrednost), 5));
+    } else {
+      const telo = document.createElement("p");
+      telo.textContent = pojam.telo;
+      clan.append(telo);
+    }
+    if (pojam.kod) {
+      const pre = document.createElement("pre");
+      pre.textContent = pojam.kod;
+      clan.append(pre);
+    }
+    sekcija.append(clan);
+  }
+  return sekcija;
+}
+
+function fokusirajUredjivanje() {
+  if (!fokusUredjivanja) return;
+  const id = fokusUredjivanja;
+  fokusUredjivanja = "";
+  const polje = document.querySelector(`[data-ured="${CSS.escape(id)}"]`);
+  if (polje) polje.focus();
+}
+
 function renderLecture() {
   const provera = ucitajKurs(dokument);
   const greska = document.querySelector("#greska-kursa");
@@ -727,13 +993,31 @@ function renderLecture() {
   metaKoraka.append(nivo, minuta, sacuvajKorak);
   const naslovKoraka = document.createElement("h2");
   naslovKoraka.append(fragmentTeksta(korak.naslov));
+  const olovkaLekcije = olovka("lekcija", "Uredi lekciju");
+  if (olovkaLekcije) naslovKoraka.append(olovkaLekcije);
   const dijagrami = [];
-  const proza = cvoroviProze(korak.tekst, dijagrami);
+  const proza = urediOtvoreno("lekcija")
+    ? [poljeTeksta("lekcija", korak.tekst, (vrednost) => upisiKorak("tekst", vrednost), 6)]
+    : cvoroviProze(korak.tekst, dijagrami);
   const kljucna = document.createElement("aside");
   kljucna.className = "kljucna";
   const kljucnaNaslov = document.createElement("strong");
   saIkonom(kljucnaNaslov, "lightbulb", "Ključna ideja");
-  kljucna.append(kljucnaNaslov, ...cvoroviProze(korak.kljucnaIdeja, dijagrami));
+  const olovkaKljucne = olovka("kljucna", "Uredi ključnu ideju");
+  if (olovkaKljucne) kljucnaNaslov.append(olovkaKljucne);
+  const smisao = smisaoKljucne(korak);
+  if (urediOtvoreno("kljucna")) {
+    kljucna.append(kljucnaNaslov, poljeTeksta("kljucna", korak.kljucnaIdeja, (vrednost) => upisiKorak("kljucnaIdeja", vrednost), 3));
+  } else {
+    kljucna.append(kljucnaNaslov, ...cvoroviProze(korak.kljucnaIdeja || smisao.recenica, dijagrami));
+    if (smisao.dopuna) {
+      const dopuna = document.createElement("p");
+      dopuna.className = "kljucna-dopuna";
+      dopuna.append(fragmentTeksta(smisao.dopuna));
+      kljucna.append(dopuna);
+    }
+  }
+  const knjiga = nacrtajKnjigu(objasnjenjaKoraka(dokument, cas - 1, korak));
   const prikaz = prikazKoraka(korak);
   const figura = prikaz.mermaid ? document.createElement("div") : null;
   if (figura) {
@@ -766,8 +1050,14 @@ function renderLecture() {
   const pitanjeNad = document.createElement("p");
   pitanjeNad.className = "meta";
   saIkonom(pitanjeNad, "question", "Pitanje");
+  const olovkaPitalice = olovka("pitalica", "Uredi pitalicu");
+  if (olovkaPitalice) pitanjeNad.append(olovkaPitalice);
   const pitanje = document.createElement("h3");
-  pitanje.append(fragmentTeksta(korak.pitalica));
+  if (urediOtvoreno("pitalica")) {
+    pitanje.append(poljeTeksta("pitalica", korak.pitalica, (vrednost) => upisiKorak("pitalica", vrednost), 3));
+  } else {
+    pitanje.append(fragmentTeksta(korak.pitalica));
+  }
   const uputa = document.createElement("p");
   uputa.className = "meta";
   uputa.textContent = "Izaberi tačan odgovor.";
@@ -775,28 +1065,33 @@ function renderLecture() {
   kratke.className = "opcije-mreza";
   kratke.dataset.kviz = "korak";
   const izabran = izborKoraka.get(`${cas}:${i}`) || "";
-  for (const opt of korak.opcije) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "option";
-    button.dataset.key = opt.key;
-    const znakOdgovora = ikonaOdgovora(otvoreno, izabran, opt);
-    if (znakOdgovora) button.append(znakOdgovora);
-    button.append(document.createTextNode(`${opt.key}. ${opt.text}`));
-    if (opt.key === izabran) button.classList.add("izabrano");
-    if (otvoreno && opt.ok) button.classList.add("holds");
-    if (otvoreno) {
-      const why = document.createElement("p");
-      why.className = "why";
-      why.textContent = opt.why;
-      button.append(why);
-    }
-    button.addEventListener("click", () => {
-      izborKoraka.set(`${cas}:${i}`, opt.key);
-      renderLecture();
-    });
-    kratke.append(button);
-  }
+  const opcijeKoraka = osigurajOpcije(korak);
+  const pitalicaOtvorena = urediOtvoreno("pitalica");
+  opcijeKoraka.forEach((opt, indeks) => {
+    kratke.append(redOdgovora(opcijeKoraka, indeks, pitalicaOtvorena, (opcija) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "option";
+      button.dataset.key = opcija.key;
+      const znakOdgovora = ikonaOdgovora(otvoreno, izabran, opcija);
+      if (znakOdgovora) button.append(znakOdgovora);
+      button.append(document.createTextNode(`${opcija.key}. ${opcija.text}`));
+      if (opcija.key === izabran) button.classList.add("izabrano");
+      if (otvoreno && opcija.ok) button.classList.add("holds");
+      if (otvoreno) {
+        const why = document.createElement("p");
+        why.className = "why";
+        why.textContent = opcija.why;
+        button.append(why);
+      }
+      button.addEventListener("click", () => {
+        izborKoraka.set(`${cas}:${i}`, opcija.key);
+        renderLecture();
+      });
+      return button;
+    }, "pitalica"));
+  });
+  if (uEditModu) kratke.append(dugmeZnak("odgovor-dodaj", "+", "Dodaj odgovor", () => dodajOdgovor(opcijeKoraka, "pitalica")));
   pitanjeBlok.append(pitanjeNad, pitanje, uputa, kratke);
   const radnjePitanja = document.createElement("div");
   radnjePitanja.className = "radnje-pitanja";
@@ -812,7 +1107,17 @@ function renderLecture() {
   const izlaz = izlazPodaci ? document.createElement("p") : null;
   if (izlaz) {
     izlaz.className = "log izlaz";
-    izlaz.textContent = izlazPodaci.tekst;
+    if (urediOtvoreno("izlaz")) {
+      izlaz.append(poljeTeksta("izlaz", item.izlaz, (vrednost) => {
+        dokument.nedelje[cas - 1].izlaz = vrednost;
+        item.izlaz = vrednost;
+        zakaziCuvanje();
+      }, 2));
+    } else {
+      izlaz.textContent = izlazPodaci.tekst;
+    }
+    const olovkaIzlaza = olovka("izlaz", "Uredi izlaz");
+    if (olovkaIzlaza) izlaz.append(olovkaIzlaza);
   }
   const ponovi = document.createElement("button");
   ponovi.type = "button";
@@ -840,20 +1145,37 @@ function renderLecture() {
     analiza.textContent = korak.analiza;
   }
   casEl.append(metaKoraka, naslovKoraka, ...proza, kljucna);
+  if (knjiga) casEl.append(knjiga);
   for (const [omot, izvor] of dijagrami) void nacrtajMermaid(omot, izvor);
   if (figura) casEl.append(figura);
   else if (imaFajl) {
-    if (isecak) casEl.append(isecak);
-    if (httpBlok) casEl.append(httpBlok);
-    if (komandaBlok) casEl.append(komandaBlok);
+    if (isecak) {
+      const izvor = izvorUgradjenog(korak, "fajl");
+      casEl.append(ugradiOlovku(isecak, "kod:fajl", "Uredi ugrađeni kod", izvor.polje, izvor.tekst));
+    }
+    if (httpBlok) {
+      const izvor = izvorUgradjenog(korak, "http");
+      casEl.append(ugradiOlovku(httpBlok, "kod:http", "Uredi ugrađeni kod", izvor.polje, izvor.tekst));
+    }
+    if (komandaBlok) {
+      const izvor = izvorUgradjenog(korak, "komanda");
+      casEl.append(ugradiOlovku(komandaBlok, "kod:komanda", "Uredi ugrađeni kod", izvor.polje, izvor.tekst));
+    }
     casEl.append(put, vec);
   }
-  if (izolovan) casEl.append(izolovan);
-  if (dijagram) casEl.append(dijagram);
+  if (izolovan) {
+    const izvor = izvorUgradjenog(korak, "eksperiment");
+    casEl.append(ugradiOlovku(izolovan, "kod:eksperiment", "Uredi ugrađeni kod", izvor.polje, izvor.tekst));
+  }
+  if (dijagram) {
+    const izvor = izvorUgradjenog(korak, "dijagram");
+    casEl.append(ugradiOlovku(dijagram, "kod:dijagram", "Uredi ugrađeni kod", izvor.polje, izvor.tekst));
+  }
   casEl.append(pitanjeBlok, radnjePitanja);
   if (analiza) casEl.append(analiza);
   if (izlaz) casEl.append(izlaz);
   diskusijaMesto.replaceChildren(nacrtajDiskusiju(item));
+  fokusirajUredjivanje();
   prikaziDeo();
   paintNav();
   fitPanel();
@@ -873,36 +1195,58 @@ function nacrtajDiskusiju(item) {
   const blok = document.createElement("section");
   blok.className = "diskusija";
   blok.setAttribute("aria-label", "Duga pitalica");
+  const rezerva = rezervaPoCasu.get(cas) === true && Boolean(item.rezerva);
+  const siroveOpcije = rezerva ? item.rezerva.options : item.options;
   const naslov = document.createElement("h2");
   naslov.textContent = model.naslov;
+  const olovkaDiskusije = olovka("diskusija", "Uredi diskusiju");
+  if (olovkaDiskusije) naslov.append(olovkaDiskusije);
   const fazaEl = document.createElement("p");
   fazaEl.className = "log";
   fazaEl.textContent = `Faza: ${model.faza}`;
   const problem = document.createElement("p");
-  problem.textContent = model.problem;
+  if (urediOtvoreno("diskusija")) {
+    problem.append(poljeTeksta("diskusija", model.problem, (vrednost) => {
+      if (rezerva) item.rezerva.problem = vrednost;
+      else {
+        dokument.nedelje[cas - 1].problem = vrednost;
+        item.problem = vrednost;
+      }
+      zakaziCuvanje();
+    }, 4));
+  } else {
+    problem.textContent = model.problem;
+  }
   const options = document.createElement("div");
   options.className = "options";
   options.dataset.kviz = "diskusija";
-  for (const opt of model.opcije) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "option";
-    button.dataset.key = opt.key;
-    const znakOdgovora = ikonica(opt.znak);
-    if (znakOdgovora) button.append(znakOdgovora);
-    button.append(document.createTextNode(`${opt.key}. ${opt.text}`));
-    if (opt.podvuceno) button.classList.add("podvuceno");
-    if (opt.whyVidljiv) {
-      button.classList.toggle("holds", opt.holds);
-      const why = document.createElement("p");
-      why.className = "why";
-      why.textContent = opt.why;
-      button.append(why);
-    }
-    button.addEventListener("click", () => {
-      if (opt.mozeIzbor) zapamtiDiskusiju({ tip: "izbor", kljuc: opt.key });
-    });
-    options.append(button);
+  const diskusijaOtvorena = urediOtvoreno("diskusija");
+  (siroveOpcije || []).forEach((sirova, indeks) => {
+    const opt = model.opcije[indeks] || sirova;
+    options.append(redOdgovora(siroveOpcije, indeks, diskusijaOtvorena, () => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "option";
+      button.dataset.key = opt.key;
+      const znakOdgovora = ikonica(opt.znak);
+      if (znakOdgovora) button.append(znakOdgovora);
+      button.append(document.createTextNode(`${opt.key}. ${opt.text}`));
+      if (opt.podvuceno) button.classList.add("podvuceno");
+      if (opt.whyVidljiv) {
+        button.classList.toggle("holds", opt.holds);
+        const why = document.createElement("p");
+        why.className = "why";
+        why.textContent = opt.why;
+        button.append(why);
+      }
+      button.addEventListener("click", () => {
+        if (opt.mozeIzbor) zapamtiDiskusiju({ tip: "izbor", kljuc: opt.key });
+      });
+      return button;
+    }, "diskusija"));
+  });
+  if (uEditModu && Array.isArray(siroveOpcije)) {
+    options.append(dugmeZnak("odgovor-dodaj", "+", "Dodaj odgovor", () => dodajOdgovor(siroveOpcije, "diskusija")));
   }
   const tisina = document.createElement("p");
   tisina.className = "log";
@@ -967,7 +1311,6 @@ function fitPanel() {
   osveziDugmePrimera();
   primeniDogadaj({ tip: "fokus", putanja: izborFajla(trenutniKorak()), kljuc: `${cas}:${indeksKoraka()}` });
   if (cas < 9) zaustaviPeriodicno();
-  applyLive();
   if (cas >= 5 && !dovod) connectDovod();
   uskladiKutiju();
 }
@@ -1790,6 +2133,11 @@ if (izHesha >= 1 && izHesha <= dokument.trajanjeNedelja) {
 } else if (pocetno.nedelja >= 1 && pocetno.nedelja <= dokument.trajanjeNedelja) {
   cas = pocetno.nedelja;
   korakPoCasu.set(cas, pocetno.korak || 0);
+}
+if (uEditModu) {
+  document.body.classList.add("edit-mod");
+  const status = document.querySelector("#status-uredjivanja");
+  if (status) status.hidden = false;
 }
 Promise.all([
   fetch("/pojmovnik")
