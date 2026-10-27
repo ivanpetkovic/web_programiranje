@@ -17,7 +17,6 @@
   <body>
     <a class="skip" href="#cas">Preskoči na čas</a>
     <header class="top">
-      <button type="button" id="mobil-meni" class="mobil-meni" aria-controls="nav" aria-expanded="false" aria-label="Nedelje i koraci" data-ikona="menu"></button>
       <a class="ustanova" href="#cas-1">
         <img id="grb" alt="Elektronski fakultet u Nišu" width="48" height="48" />
         <span>
@@ -52,13 +51,35 @@
       <span id="oznaka" class="oznaka"></span>
     </header>
     <div class="okvir">
-      <div class="nav-omot">
+      <div class="nav-omot" id="mobil-gradivo-panel" aria-label="Gradivo i nedelje">
+        <div class="mobil-gradivo-zaglavlje" id="mobil-gradivo-zaglavlje">
+          <div class="mobil-gradivo-hvat" aria-hidden="true"></div>
+          <p class="mobil-gradivo-povuci meta">Povucite nadole za zatvaranje</p>
+          <div class="mobil-nedelja-zaglavlje">
+            <span class="mobil-nedelja-ivica mobil-nedelja-ivica-levo" aria-hidden="true"></span>
+            <div class="mobil-nedelja-tekst">
+              <p id="mobil-nedelja-broj" class="meta"></p>
+              <h2 id="mobil-nedelja-naslov"></h2>
+              <p id="mobil-nedelja-podnaslov" class="meta"></p>
+            </div>
+            <span class="mobil-nedelja-ivica mobil-nedelja-ivica-desno" aria-hidden="true"></span>
+          </div>
+        </div>
         <button type="button" id="nav-preklop" class="nav-preklop" aria-controls="nav" aria-expanded="true" aria-label="Sakrij navigaciju" data-ikona="panel-left"></button>
         <nav id="nav" class="nav" aria-label="Nedelje"></nav>
       </div>
       <main class="stranica">
         <p id="greska-kursa" class="err" hidden></p>
         <div class="cas-glava">
+          <div id="mobil-nedelja-traka" class="mobil-nedelja-traka" hidden>
+            <span class="mobil-nedelja-ivica mobil-nedelja-ivica-levo" aria-hidden="true"></span>
+            <button type="button" id="mobil-nedelja-otvori" class="mobil-nedelja-tekst">
+              <span id="mobil-traka-broj" class="meta"></span>
+              <strong id="mobil-traka-naslov"></strong>
+              <small id="mobil-traka-podnaslov" class="meta"></small>
+            </button>
+            <span class="mobil-nedelja-ivica mobil-nedelja-ivica-desno" aria-hidden="true"></span>
+          </div>
           <h1 id="naslov-casa"></h1>
           <div id="definicija" class="definicija" hidden></div>
           <div id="birac-mesto"></div>
@@ -175,11 +196,31 @@
         <button type="submit">Zatvori</button>
       </form>
     </dialog>
-    <button type="button" id="mobil-napredak" class="mobil-napredak" hidden aria-controls="kartica" aria-expanded="false">
-      <span id="mobil-napredak-proc" class="mobil-napredak-proc" aria-hidden="true"></span>
-      <span class="mobil-napredak-tekst">Napredak</span>
-    </button>
-    <button type="button" id="mobil-zavesa" class="mobil-zavesa" hidden aria-label="Zatvori spisak nedelja" tabindex="-1"></button>
+    <footer class="mobil-footer" id="mobil-footer" hidden>
+      <button type="button" id="mobil-ft-profil" class="mobil-ft" data-ikona="user-round" aria-controls="mobil-profil" aria-expanded="false"><span>Profil</span></button>
+      <button type="button" id="mobil-ft-gradivo" class="mobil-ft" data-ikona="book-open" aria-controls="mobil-gradivo-panel" aria-expanded="false"><span>Gradivo</span></button>
+      <button type="button" id="mobil-ft-diskusija" class="mobil-ft" data-ikona="messages-square" data-deo="diskusija"><span>Diskusija</span></button>
+      <button type="button" id="mobil-ft-editor" class="mobil-ft" data-ikona="monitor" data-deo="editor"><span>Editor</span></button>
+      <button type="button" id="mobil-ft-pretraga" class="mobil-ft" data-ikona="search" aria-controls="mobil-pretraga" aria-expanded="false"><span>Pretraga</span></button>
+    </footer>
+    <div id="mobil-profil" class="mobil-sheet mobil-profil" hidden>
+      <div class="mobil-sheet-hvat" aria-hidden="true"></div>
+      <p class="mobil-sheet-povuci meta">Povucite nadole za zatvaranje</p>
+      <h2>Profil</h2>
+      <p class="mobil-profil-red"><span class="oznaka" id="mobil-profil-oznaka"></span> <span id="mobil-profil-ime" class="meta"></span></p>
+      <button type="button" id="mobil-profil-napredak" class="mobil-profil-dugme">Napredak kursa</button>
+      <button type="button" id="mobil-profil-tema" class="mobil-profil-dugme" data-ikona="palette">Tema</button>
+      <button type="button" id="mobil-profil-pomoc" class="mobil-profil-dugme" data-ikona="help-circle">Pomoć</button>
+      <button type="button" id="mobil-profil-sacuvaj" class="mobil-profil-dugme" data-ikona="bookmark">Sačuvaj korak</button>
+    </div>
+    <div id="mobil-pretraga" class="mobil-sheet mobil-pretraga" hidden>
+      <div class="mobil-sheet-hvat" aria-hidden="true"></div>
+      <p class="mobil-sheet-povuci meta">Povucite nadole za zatvaranje</p>
+      <h2>Pretraga</h2>
+      <p class="meta mobil-pretraga-uvod">Pojmovi, pitanja i primeri koda iz celog kursa.</p>
+      <div id="mobil-pretraga-mesto" class="mobil-pretraga-mesto"></div>
+    </div>
+    <button type="button" id="mobil-zavesa" class="mobil-zavesa" hidden aria-label="Zatvori panel" tabindex="-1"></button>
     <button type="button" id="mobil-kartica-zavesa" class="mobil-kartica-zavesa" hidden aria-label="Zatvori karticu napretka" tabindex="-1"></button>
     <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
     <style id="stil-pregleda"></style>

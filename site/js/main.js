@@ -30,11 +30,21 @@ import { vecUFajlu } from "./stablo.js";
 
 const nav = document.querySelector("#nav");
 const navPreklop = document.querySelector("#nav-preklop");
-const mobilMeni = document.querySelector("#mobil-meni");
 const mobilZavesa = document.querySelector("#mobil-zavesa");
-const mobilNapredak = document.querySelector("#mobil-napredak");
-const mobilNapredakProc = document.querySelector("#mobil-napredak-proc");
 const mobilKarticaZavesa = document.querySelector("#mobil-kartica-zavesa");
+const mobilFooter = document.querySelector("#mobil-footer");
+const mobilFtProfil = document.querySelector("#mobil-ft-profil");
+const mobilFtGradivo = document.querySelector("#mobil-ft-gradivo");
+const mobilFtDiskusija = document.querySelector("#mobil-ft-diskusija");
+const mobilFtEditor = document.querySelector("#mobil-ft-editor");
+const mobilFtPretraga = document.querySelector("#mobil-ft-pretraga");
+const mobilProfil = document.querySelector("#mobil-profil");
+const mobilPretraga = document.querySelector("#mobil-pretraga");
+const mobilPretragaMesto = document.querySelector("#mobil-pretraga-mesto");
+const mobilNedeljaTraka = document.querySelector("#mobil-nedelja-traka");
+const mobilGradivoZaglavlje = document.querySelector("#mobil-gradivo-zaglavlje");
+const searchForm = document.querySelector("#search-form");
+const searchFormRoditelj = searchForm?.parentElement;
 const koraciPanel = document.querySelector("#sekcija-koraci");
 const karticaEl = document.querySelector("#kartica");
 const casEl = document.querySelector("#cas");
@@ -85,8 +95,13 @@ let cas = 1;
 let deo = "koraci";
 let navOtvoren = true;
 let karticaOtvorena = false;
+let profilOtvoren = false;
+let pretragaOtvorena = false;
 let dodirKoraka = null;
+let dodirNedelje = null;
+let dodirSheet = null;
 let animKoraka = 0;
+let animNedelje = 0;
 let udeoEditora = 72;
 const korakPoCasu = new Map();
 const rezervaPoCasu = new Map();
@@ -310,6 +325,7 @@ function prikaziDeo() {
   }
   document.body.classList.toggle("editor-pun", deo === "editor");
   prikaziMobilKarticu();
+  prikaziMobilFooter();
 }
 
 function usko() {
@@ -338,11 +354,110 @@ function prikaziMobilKarticu() {
     mobilKarticaZavesa.setAttribute("aria-hidden", String(!otvorena));
     mobilKarticaZavesa.tabIndex = otvorena ? 0 : -1;
   }
-  if (mobilNapredak) {
-    const vidljivo = mobil && deo !== "editor";
-    mobilNapredak.hidden = !vidljivo;
-    mobilNapredak.setAttribute("aria-expanded", String(karticaOtvorena));
+}
+
+function zatvoriMobilProfil() {
+  if (!profilOtvoren) return;
+  profilOtvoren = false;
+  prikaziMobilProfil();
+}
+
+function zatvoriMobilPretragu() {
+  if (!pretragaOtvorena) return;
+  pretragaOtvorena = false;
+  prikaziMobilPretragu();
+}
+
+function zatvoriMobilSheetove() {
+  zatvoriMobilNav();
+  zatvoriMobilProfil();
+  zatvoriMobilPretragu();
+}
+
+function prikaziMobilProfil() {
+  const mobil = usko();
+  if (!mobil) profilOtvoren = false;
+  document.body.classList.toggle("mobil-profil-otvoren", mobil && profilOtvoren);
+  if (mobilProfil) mobilProfil.hidden = !(mobil && profilOtvoren);
+  if (mobilFtProfil) mobilFtProfil.setAttribute("aria-expanded", String(profilOtvoren));
+  osveziMobilZavesu();
+}
+
+function prikaziMobilPretragu() {
+  const mobil = usko();
+  if (!mobil) pretragaOtvorena = false;
+  document.body.classList.toggle("mobil-pretraga-otvoren", mobil && pretragaOtvorena);
+  if (mobilPretraga) mobilPretraga.hidden = !(mobil && pretragaOtvorena);
+  if (mobilFtPretraga) mobilFtPretraga.setAttribute("aria-expanded", String(pretragaOtvorena));
+  if (searchForm && searchFormRoditelj && mobilPretragaMesto) {
+    if (mobil && pretragaOtvorena) {
+      mobilPretragaMesto.append(searchForm);
+      window.setTimeout(() => q?.focus(), 60);
+    } else if (searchForm.parentElement === mobilPretragaMesto) {
+      searchFormRoditelj.append(searchForm);
+    }
   }
+  osveziMobilZavesu();
+}
+
+function osveziMobilZavesu() {
+  const mobil = usko();
+  const otvoren = mobil && (navOtvoren || profilOtvoren || pretragaOtvorena);
+  if (mobilZavesa) {
+    mobilZavesa.hidden = !otvoren;
+    mobilZavesa.setAttribute("aria-hidden", String(!otvoren));
+    mobilZavesa.tabIndex = otvoren ? 0 : -1;
+  }
+}
+
+function prikaziMobilFooter() {
+  const mobil = usko();
+  if (mobilFooter) mobilFooter.hidden = !mobil;
+  if (!mobil) return;
+  for (const [dugme, ime] of [
+    [mobilFtDiskusija, "diskusija"],
+    [mobilFtEditor, "editor"],
+  ]) {
+    if (!dugme) continue;
+    const aktivan = deo === ime;
+    dugme.setAttribute("aria-current", aktivan ? "page" : "false");
+    dugme.classList.toggle("mobil-ft-aktivan", aktivan);
+  }
+  const gradivoAktivan = deo === "koraci";
+  if (mobilFtGradivo) {
+    mobilFtGradivo.setAttribute("aria-current", gradivoAktivan ? "page" : "false");
+    mobilFtGradivo.classList.toggle("mobil-ft-aktivan", gradivoAktivan && !navOtvoren);
+    mobilFtGradivo.setAttribute("aria-expanded", String(navOtvoren));
+  }
+  if (mobilNedeljaTraka) mobilNedeljaTraka.hidden = deo !== "koraci";
+}
+
+function osveziMobilNedelju(item) {
+  const broj = `Nedelja ${item.n} od ${dokument.trajanjeNedelja}`;
+  const naslov = item.title;
+  const pod = item.podnaslov || "";
+  for (const [idBroj, idNaslov, idPod] of [
+    ["#mobil-nedelja-broj", "#mobil-nedelja-naslov", "#mobil-nedelja-podnaslov"],
+    ["#mobil-traka-broj", "#mobil-traka-naslov", "#mobil-traka-podnaslov"],
+  ]) {
+    const elBroj = document.querySelector(idBroj);
+    const elNaslov = document.querySelector(idNaslov);
+    const elPod = document.querySelector(idPod);
+    if (elBroj) elBroj.textContent = broj;
+    if (elNaslov) elNaslov.textContent = naslov;
+    if (elPod) elPod.textContent = pod;
+  }
+  document.body.classList.toggle("mobil-nedelja-prva", cas <= 1);
+  document.body.classList.toggle("mobil-nedelja-poslednja", cas >= dokument.trajanjeNedelja);
+}
+
+function pomeriNedeljuPrstom(dx) {
+  if (!usko()) return false;
+  const sledeca = pomeriNedelju(cas, dx < 0 ? 1 : -1, dokument.trajanjeNedelja);
+  if (sledeca === cas) return false;
+  animNedelje = dx < 0 ? 1 : -1;
+  otvoriNedelju(sledeca);
+  return true;
 }
 
 function pomeriKorakPrstom(dx) {
@@ -370,27 +485,22 @@ function prikaziNav() {
   if (mobil) {
     document.body.classList.remove("nav-skriven");
     document.body.classList.toggle("mobil-nav-otvoren", navOtvoren);
-    if (mobilZavesa) {
-      mobilZavesa.hidden = !navOtvoren;
-      mobilZavesa.setAttribute("aria-hidden", String(!navOtvoren));
-      mobilZavesa.tabIndex = navOtvoren ? 0 : -1;
-    }
-    if (mobilMeni) {
-      mobilMeni.setAttribute("aria-expanded", String(navOtvoren));
-      mobilMeni.hidden = false;
-    }
+    if (mobilFtGradivo) mobilFtGradivo.setAttribute("aria-expanded", String(navOtvoren));
+    osveziMobilZavesu();
   } else {
     document.body.classList.remove("mobil-nav-otvoren");
     document.body.classList.toggle("nav-skriven", !navOtvoren);
+    zatvoriMobilProfil();
+    zatvoriMobilPretragu();
     if (mobilZavesa) {
       mobilZavesa.hidden = true;
       mobilZavesa.setAttribute("aria-hidden", "true");
       mobilZavesa.tabIndex = -1;
     }
-    if (mobilMeni) mobilMeni.hidden = true;
   }
   navPreklop.setAttribute("aria-expanded", String(navOtvoren));
   navPreklop.setAttribute("aria-label", navOtvoren ? "Sakrij navigaciju" : "Prikaži navigaciju");
+  prikaziMobilFooter();
 }
 
 function primeniUdeo() {
@@ -910,10 +1020,14 @@ function renderLecture() {
   const udeo = procenat(cas, dokument.trajanjeNedelja);
   document.querySelector("#kartica-procenat").textContent = `${udeo}%`;
   document.querySelector("#kartica-popuna").style.width = `${udeo}%`;
-  if (mobilNapredakProc) mobilNapredakProc.textContent = `${udeo}%`;
   saIkonom(document.querySelector("#kartica-koraci"), "book-open", `${item.steps.length} koraka u ovoj nedelji`);
   saIkonom(document.querySelector("#kartica-minuta"), "clock", `Proc. vreme: ~${item.minuta} min`);
   naslovCasa.textContent = `Nedelja ${item.n} — ${item.title}`;
+  osveziMobilNedelju(item);
+  const profilOznaka = document.querySelector("#mobil-profil-oznaka");
+  const profilIme = document.querySelector("#mobil-profil-ime");
+  if (profilOznaka) profilOznaka.textContent = dokument.oznaka;
+  if (profilIme) profilIme.textContent = dokument.ustanovaBok || dokument.ustanova || "";
   postaviDefiniciju(aktivnaDefinicija);
   casEl.replaceChildren();
   const birac = nacrtajBirac(item, i);
@@ -1199,6 +1313,15 @@ function renderLecture() {
     animKoraka = 0;
     window.setTimeout(() => {
       casEl.classList.remove(sm < 0 ? "mobil-korak-unazad" : "mobil-korak-napred");
+    }, 260);
+  }
+  if (animNedelje && usko() && mobilNedeljaTraka) {
+    mobilNedeljaTraka.classList.remove("mobil-nedelja-unazad", "mobil-nedelja-napred");
+    mobilNedeljaTraka.classList.add(animNedelje < 0 ? "mobil-nedelja-unazad" : "mobil-nedelja-napred");
+    const sm = animNedelje;
+    animNedelje = 0;
+    window.setTimeout(() => {
+      mobilNedeljaTraka.classList.remove(sm < 0 ? "mobil-nedelja-unazad" : "mobil-nedelja-napred");
     }, 260);
   }
   document.querySelector("#prethodna-nedelja").disabled = cas <= 1;
@@ -2130,23 +2253,70 @@ navPreklop.addEventListener("click", () => {
   navOtvoren = !navOtvoren;
   prikaziNav();
 });
-mobilMeni?.addEventListener("click", () => {
+function otvoriMobilGradivo() {
   zatvoriMobilKarticu();
+  zatvoriMobilProfil();
+  zatvoriMobilPretragu();
+  deo = "koraci";
+  prikaziDeo();
   navOtvoren = true;
   prikaziNav();
+}
+
+mobilFtGradivo?.addEventListener("click", () => {
+  if (navOtvoren && deo === "koraci") {
+    zatvoriMobilNav();
+    return;
+  }
+  otvoriMobilGradivo();
 });
-mobilNapredak?.addEventListener("click", () => {
+document.querySelector("#mobil-nedelja-otvori")?.addEventListener("click", otvoriMobilGradivo);
+mobilFtProfil?.addEventListener("click", () => {
   zatvoriMobilNav();
-  karticaOtvorena = !karticaOtvorena;
+  zatvoriMobilPretragu();
+  zatvoriMobilKarticu();
+  profilOtvoren = !profilOtvoren;
+  prikaziMobilProfil();
+});
+mobilFtPretraga?.addEventListener("click", () => {
+  zatvoriMobilNav();
+  zatvoriMobilProfil();
+  zatvoriMobilKarticu();
+  pretragaOtvorena = !pretragaOtvorena;
+  prikaziMobilPretragu();
+});
+for (const dugme of [mobilFtDiskusija, mobilFtEditor]) {
+  dugme?.addEventListener("click", () => {
+    zatvoriMobilSheetove();
+    zatvoriMobilKarticu();
+    deo = dugme.dataset.deo;
+    prikaziDeo();
+  });
+}
+document.querySelector("#mobil-profil-napredak")?.addEventListener("click", () => {
+  profilOtvoren = false;
+  prikaziMobilProfil();
+  karticaOtvorena = true;
   prikaziMobilKarticu();
+});
+document.querySelector("#mobil-profil-tema")?.addEventListener("click", () => {
+  document.querySelector("#tema")?.click();
+});
+document.querySelector("#mobil-profil-pomoc")?.addEventListener("click", () => {
+  document.querySelector("#pomoc")?.click();
+});
+document.querySelector("#mobil-profil-sacuvaj")?.addEventListener("click", () => {
+  document.querySelector("#sacuvaj-zaglavlje")?.click();
 });
 mobilKarticaZavesa?.addEventListener("click", zatvoriMobilKarticu);
 karticaEl?.querySelector(".mobil-kartica-hvat")?.addEventListener("click", zatvoriMobilKarticu);
-mobilZavesa?.addEventListener("click", zatvoriMobilNav);
+mobilZavesa?.addEventListener("click", zatvoriMobilSheetove);
 if (usko()) navOtvoren = false;
 let bioMobil = usko();
 prikaziNav();
 prikaziMobilKarticu();
+prikaziMobilProfil();
+prikaziMobilPretragu();
 window.addEventListener("resize", () => {
   const sadaMobil = usko();
   if (sadaMobil !== bioMobil) {
@@ -2156,6 +2326,8 @@ window.addEventListener("resize", () => {
   }
   prikaziNav();
   prikaziMobilKarticu();
+  prikaziMobilProfil();
+  prikaziMobilPretragu();
 });
 
 const navOmot = document.querySelector(".nav-omot");
@@ -2224,6 +2396,68 @@ koraciPanel?.addEventListener(
 koraciPanel?.addEventListener("touchcancel", () => {
   dodirKoraka = null;
 });
+
+function vezniSwipeNedelje(element) {
+  element?.addEventListener(
+    "touchstart",
+    (dogadjaj) => {
+      if (!usko()) return;
+      if (dogadjaj.target.closest("button, a, input, textarea, .korak-red, .nedelja-red")) return;
+      const dodir = dogadjaj.touches[0] || dogadjaj.changedTouches[0];
+      if (!dodir) return;
+      dodirNedelje = { x: dodir.clientX, y: dodir.clientY, u: element };
+    },
+    { passive: true },
+  );
+  element?.addEventListener(
+    "touchend",
+    (dogadjaj) => {
+      if (!dodirNedelje || dodirNedelje.u !== element) return;
+      const dodir = dogadjaj.changedTouches[0];
+      const dx = dodir.clientX - dodirNedelje.x;
+      const dy = dodir.clientY - dodirNedelje.y;
+      dodirNedelje = null;
+      if (Math.abs(dx) < 56 || Math.abs(dx) < Math.abs(dy) * 1.1) return;
+      pomeriNedeljuPrstom(dx);
+    },
+    { passive: true },
+  );
+  element?.addEventListener("touchcancel", () => {
+    if (dodirNedelje?.u === element) dodirNedelje = null;
+  });
+}
+vezniSwipeNedelje(mobilNedeljaTraka);
+vezniSwipeNedelje(mobilGradivoZaglavlje);
+
+function vezniPovuciNadole(element, zatvori) {
+  element?.addEventListener(
+    "touchstart",
+    (dogadjaj) => {
+      if (!usko()) return;
+      const dodir = dogadjaj.touches[0] || dogadjaj.changedTouches[0];
+      if (!dodir) return;
+      dodirSheet = { y: dodir.clientY, zatvori };
+    },
+    { passive: true },
+  );
+  element?.addEventListener(
+    "touchend",
+    (dogadjaj) => {
+      if (!dodirSheet || dodirSheet.zatvori !== zatvori) return;
+      const dodir = dogadjaj.changedTouches[0];
+      const dy = dodir.clientY - dodirSheet.y;
+      dodirSheet = null;
+      if (dy > 72) zatvori();
+    },
+    { passive: true },
+  );
+  element?.addEventListener("touchcancel", () => {
+    if (dodirSheet?.zatvori === zatvori) dodirSheet = null;
+  });
+}
+vezniPovuciNadole(mobilGradivoZaglavlje, zatvoriMobilNav);
+vezniPovuciNadole(mobilProfil?.querySelector(".mobil-sheet-hvat"), zatvoriMobilProfil);
+vezniPovuciNadole(mobilPretraga?.querySelector(".mobil-sheet-hvat"), zatvoriMobilPretragu);
 
 const pocetno = procitajMesto();
 const izHesha = Number((location.hash.match(/cas-(\d+)/) || [])[1]);

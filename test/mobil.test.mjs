@@ -11,49 +11,40 @@ const html = fs.readFileSync(new URL("../site/index.html", import.meta.url), "ut
 
 const TEME = ["ugalj", "mornar", "pesak", "terakota"];
 
-test("mobilna školjka: meni, zavesa, donji tabovi i bez regresije desktop rasporeda", () => {
-  assert.match(html, /id="mobil-meni"/);
-  assert.match(html, /id="mobil-zavesa"/);
-  assert.match(html, /id="mobil-napredak"/);
-  assert.match(html, /id="mobil-kartica-zavesa"/);
-  assert.match(main, /function pomeriKorakPrstom/);
-  assert.match(main, /mobil-kartica-otvoren/);
-  assert.match(css, /\.mobil-napredak\s*\{[\s\S]*position:\s*fixed/);
-  assert.match(css, /body\.mobil-kartica-otvoren #kartica/);
-  assert.match(html, /name="viewport" content="width=device-width/);
-  assert.match(main, /function zatvoriMobilNav/);
-  assert.match(main, /mobil-nav-otvoren/);
-  assert.match(main, /mobilZavesa/);
-  assert.match(css, /@media\s*\(\s*max-width:\s*860px\s*\)[\s\S]*\.cas-tabovi\s*\{[\s\S]*position:\s*fixed/);
-  assert.match(css, /@media\s*\(\s*max-width:\s*860px\s*\)[\s\S]*safe-area-inset-bottom/);
-  assert.match(css, /@media\s*\(\s*min-width:\s*861px\s*\)[\s\S]*\.mobil-meni/);
+test("mobilna školjka: footer, sheet gradiva, naslov nedelje i desktop", () => {
+  assert.match(html, /id="mobil-footer"/);
+  assert.match(html, /id="mobil-ft-gradivo"/);
+  assert.match(html, /id="mobil-ft-pretraga"/);
+  assert.match(html, /id="mobil-nedelja-naslov"/);
+  assert.match(html, /id="mobil-nedelja-traka"/);
+  assert.equal(html.includes('id="mobil-meni"'), false);
+  assert.match(main, /function pomeriNedeljuPrstom/);
+  assert.match(main, /mobil-profil-otvoren/);
+  assert.match(css, /\.mobil-footer\s*\{[\s\S]*position:\s*fixed/);
+  assert.match(css, /@media\s*\(\s*max-width:\s*860px\s*\)[\s\S]*translateY\(105%\)/);
+  assert.match(css, /\.mobil-nedelja-ivica/);
   assert.match(css, /\.okvir\s*\{[^}]*grid-template-columns:\s*17rem minmax\(0,\s*1fr\)\s+16rem/);
-  assert.match(css, /body\.nav-skriven #nav\s*\{\s*display:\s*none/);
-  assert.match(css, /@media\s*\(\s*max-width:\s*860px\s*\)[\s\S]*body\.mobil #nav\s*\{\s*display:\s*block/);
 });
 
 function raspored() {
   const okvir = document.querySelector(".okvir");
   const stil = getComputedStyle(okvir);
-  const tabovi = document.querySelector(".cas-tabovi");
-  const tabStil = tabovi ? getComputedStyle(tabovi) : null;
-  const meni = document.querySelector("#mobil-meni");
-  const zavesa = document.querySelector("#mobil-zavesa");
+  const footer = document.querySelector("#mobil-footer");
   const navOmot = document.querySelector(".nav-omot");
   return {
     kolone: stil.gridTemplateColumns,
     flex: stil.display === "flex",
-    tabFiksiran: tabStil?.position === "fixed",
-    meniVidljiv: meni && !meni.hidden && getComputedStyle(meni).display !== "none",
-    zavesaSakrivena: zavesa?.hidden,
+    footerVidljiv: footer && !footer.hidden && getComputedStyle(footer).display !== "none",
     navTransform: navOmot ? getComputedStyle(navOmot).transform : "",
     mobilNav: document.body.classList.contains("mobil-nav-otvoren"),
-    deo: document.querySelector('.cas-tabovi button[aria-selected="true"]')?.textContent?.trim() || "",
-    hash: location.hash,
+    naslovNedelje: document.querySelector("#mobil-nedelja-naslov")?.textContent || "",
+    trakaNaslov: document.querySelector("#mobil-traka-naslov")?.textContent || "",
+    deo: document.querySelector("#sekcija-koraci")?.hidden ? "ne-koraci" : "koraci",
+    meniVidljiv: false,
   };
 }
 
-test("desktop 1440: tri kolone i bez mobilnog menija", { timeout: 30000 }, async (t) => {
+test("desktop 1440: tri kolone i bez mobilnog footera", { timeout: 30000 }, async (t) => {
   const portSajta = await slobodanPort();
   const portChrome = await slobodanPort();
   const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
@@ -75,11 +66,10 @@ test("desktop 1440: tri kolone i bez mobilnog menija", { timeout: 30000 }, async
   const desktop = await strana.vrednost(`(${raspored.toString()})()`);
   const kolone = desktop.kolone.split(/\s+/).filter(Boolean);
   assert.equal(kolone.length, 3, `desktop ima tri kolone: ${desktop.kolone}`);
-  assert.equal(desktop.tabFiksiran, false, "tabovi nisu fiksirani na desktopu");
-  assert.equal(desktop.meniVidljiv, false, "mobil-meni je sakriven na desktopu");
+  assert.equal(desktop.footerVidljiv, false, "footer je sakriven na desktopu");
 });
 
-test("mobil 390×844: drawer, tabovi i sve četiri teme", { timeout: 60000 }, async (t) => {
+test("mobil 390×844: footer, gradivo sheet, swipe nedelje i pretraga", { timeout: 60000 }, async (t) => {
   mkdirSync(snimci, { recursive: true });
   const portSajta = await slobodanPort();
   const portChrome = await slobodanPort();
@@ -99,84 +89,69 @@ test("mobil 390×844: drawer, tabovi i sve četiri teme", { timeout: 60000 }, as
       mobile: true,
     });
     await strana.idi(`http://127.0.0.1:${portSajta}/#cas-1`);
-    await pauza(200);
+    await pauza(250);
 
     const pocetno = await strana.vrednost(`(${raspored.toString()})()`);
-    assert.ok(pocetno.flex, "okvir je fleks kolona na mobilnom");
-    assert.ok(pocetno.tabFiksiran, "tabovi su fiksirani pri dnu");
-    assert.ok(pocetno.meniVidljiv, "mobil-meni je vidljiv");
-    assert.ok(pocetno.zavesaSakrivena, "zavesa je zatvorena na početku");
-    assert.notEqual(pocetno.navTransform, "none", "nav je van ekrana dok je zatvoren");
+    assert.ok(pocetno.footerVidljiv, "footer je vidljiv");
+    assert.ok(pocetno.trakaNaslov.length > 2, "traka ima naslov nedelje");
+    assert.equal(pocetno.trakaNaslov, pocetno.naslovNedelje, "isti naslov u traci i panelu");
 
-    await strana.vrednost(`document.querySelector("#mobil-meni").click()`);
+    await strana.vrednost(`document.querySelector("#mobil-ft-gradivo").click()`);
     await pauza(120);
-    const otvoren = await strana.vrednost(`(${raspored.toString()})()`);
-    assert.ok(otvoren.mobilNav, "drawer je otvoren");
-    assert.equal(otvoren.zavesaSakrivena, false, "zavesa je vidljiva");
+    const gradivo = await strana.vrednost(`(${raspored.toString()})()`);
+    assert.ok(gradivo.mobilNav, "gradivo otvara sheet");
+    assert.ok(gradivo.naslovNedelje.length > 2, "sheet prikazuje naslov nedelje");
 
-    await strana.vrednost(`document.querySelector("#mobil-zavesa").click()`);
-    await pauza(80);
-    const zatvoren = await strana.vrednost(`(${raspored.toString()})()`);
-    assert.equal(zatvoren.mobilNav, false, "drawer se zatvara preko zavese");
-
-    await strana.vrednost(`document.querySelector("#mobil-meni").click()`);
-    await strana.vrednost(`[...document.querySelectorAll("#nav .korak-red")][0].click()`);
-    await pauza(150);
-    const posleKoraka = await strana.vrednost(`(${raspored.toString()})()`);
-    assert.equal(posleKoraka.mobilNav, false, "izbor koraka zatvara drawer");
-
-    await strana.vrednost(`document.querySelector("#tab-editor").click()`);
-    await pauza(80);
-    const editor = await strana.vrednost(`(${raspored.toString()})()`);
-    assert.equal(editor.deo, "Editor", "donji tab menja deo");
-
-    await strana.vrednost(`document.querySelector("#tab-koraci").click()`);
-    await pauza(60);
-    await strana.vrednost(`document.querySelector("#mobil-napredak").click()`);
-    await pauza(100);
-    const kartica = await strana.vrednost(`(() => ({
-      otvorena: document.body.classList.contains("mobil-kartica-otvoren"),
-      proc: document.querySelector("#kartica-procenat")?.textContent || "",
-      chip: document.querySelector("#mobil-napredak-proc")?.textContent || "",
-    }))()`);
-    assert.ok(kartica.otvorena, "sheet napretka se otvara");
-    assert.ok(kartica.proc.includes("%"), "kartica ima procenat");
-    assert.equal(kartica.chip, kartica.proc, "čip i kartica dele procenat");
-    const slikaKartica = await strana.posalji("Page.captureScreenshot", { format: "png" });
-    writeFileSync(path.join(snimci, "mobil-kartica-sheet.png"), Buffer.from(slikaKartica.data, "base64"));
-    await strana.vrednost(`document.querySelector("#mobil-kartica-zavesa").click()`);
-
-    const preSwipe = await strana.vrednost(`document.querySelector(".birac .korak")?.textContent || ""`);
     await strana.vrednost(`(() => {
-      const el = document.querySelector("#sekcija-koraci");
+      const el = document.querySelector("#mobil-gradivo-zaglavlje");
       const dodir = (x, y) => new Touch({ identifier: 1, target: el, clientX: x, clientY: y });
-      el.dispatchEvent(new TouchEvent("touchstart", { bubbles: true, touches: [dodir(280, 420)], changedTouches: [dodir(280, 420)] }));
-      el.dispatchEvent(new TouchEvent("touchend", { bubbles: true, touches: [], changedTouches: [dodir(80, 420)] }));
+      el.dispatchEvent(new TouchEvent("touchstart", { bubbles: true, touches: [dodir(280, 200)], changedTouches: [dodir(280, 200)] }));
+      el.dispatchEvent(new TouchEvent("touchend", { bubbles: true, touches: [], changedTouches: [dodir(280, 290)] }));
+    })()`);
+    await pauza(80);
+    const povuceno = await strana.vrednost(`document.body.classList.contains("mobil-nav-otvoren")`);
+    assert.equal(povuceno, false, "povlačenje nadole zatvara gradivo");
+
+    await strana.vrednost(`document.querySelector("#mobil-ft-gradivo").click()`);
+    const preNedelja = await strana.vrednost(`location.hash`);
+    await strana.vrednost(`(() => {
+      const el = document.querySelector("#mobil-nedelja-traka");
+      const dodir = (x, y) => new Touch({ identifier: 1, target: el, clientX: x, clientY: y });
+      el.dispatchEvent(new TouchEvent("touchstart", { bubbles: true, touches: [dodir(280, 180)], changedTouches: [dodir(280, 180)] }));
+      el.dispatchEvent(new TouchEvent("touchend", { bubbles: true, touches: [], changedTouches: [dodir(80, 180)] }));
     })()`);
     await pauza(200);
-    const posleSwipe = await strana.vrednost(`document.querySelector(".birac .korak")?.textContent || ""`);
-    assert.notEqual(posleSwipe, preSwipe, "swipe ulevo prelazi na sledeći korak");
+    const posleNedelja = await strana.vrednost(`location.hash`);
+    assert.notEqual(posleNedelja, preNedelja, "swipe menja nedelju");
+
+    await strana.vrednost(`document.querySelector("#mobil-zavesa").click()`);
+    await pauza(60);
+    await strana.vrednost(`document.querySelector("#mobil-ft-pretraga").click()`);
+    await pauza(100);
+    const pretraga = await strana.vrednost(`(() => ({
+      otvorena: document.body.classList.contains("mobil-pretraga-otvoren"),
+      forma: Boolean(document.querySelector("#mobil-pretraga-mesto #search-form")),
+    }))()`);
+    assert.ok(pretraga.otvorena, "pretraga sheet je otvoren");
+    assert.ok(pretraga.forma, "forma pretrage je u sheetu");
+
+    await strana.vrednost(`document.querySelector("#mobil-zavesa").click()`);
+    await strana.vrednost(`document.querySelector("#mobil-ft-profil").click()`);
+    await pauza(80);
+    const profil = await strana.vrednost(`document.body.classList.contains("mobil-profil-otvoren")`);
+    assert.equal(profil, true, "profil sheet");
 
     for (const tema of TEME) {
       await strana.vrednost(`(() => {
         document.documentElement.dataset.tema = ${JSON.stringify(tema)};
         localStorage.setItem("tema", ${JSON.stringify(tema)});
-        window.dispatchEvent(new Event("storage"));
       })()`);
-      await pauza(60);
+      await pauza(50);
       const slika = await strana.posalji("Page.captureScreenshot", { format: "png" });
-      writeFileSync(path.join(snimci, `mobil-${tema}.png`), Buffer.from(slika.data, "base64"));
-      const kontrast = await strana.vrednost(`(() => {
-        const stil = getComputedStyle(document.documentElement);
-        const bg = stil.getPropertyValue("--bg").trim();
-        const ink = stil.getPropertyValue("--ink").trim();
-        return { tema: document.documentElement.dataset.tema, bg, ink };
-      })()`);
-      assert.equal(kontrast.tema, tema);
-      assert.match(kontrast.bg, /^#/);
-      assert.match(kontrast.ink, /^#/);
+      writeFileSync(path.join(snimci, `mobil-footer-${tema}.png`), Buffer.from(slika.data, "base64"));
     }
-
+    const demo = await strana.posalji("Page.captureScreenshot", { format: "png" });
+    writeFileSync(path.join(snimci, "mobil-footer-gradivo.png"), Buffer.from(demo.data, "base64"));
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz?.().slice(-500) || ""}`;
     throw greska;
