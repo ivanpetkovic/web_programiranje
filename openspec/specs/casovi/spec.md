@@ -108,6 +108,17 @@ The week titled Od naivnog prenosa do HTTP-a, pa Node MUST introduce a naive who
 #### Scenario: Names come first
 - **WHEN** the teacher is still on the transfer steps
 - **THEN** `node server/server.js` has not been introduced yet
+### Requirement: Čas 5 razlikuje stateless HTTP od stateful veze
+After HTTP is named and before any Node process, the lecture MUST say what stateless means: a request stands alone and HTTP does not remember the previous request. It MUST then say why TCP and QUIC are stateful: they remember the connection so a byte that did not arrive can be sent again. HTTP on that connection MUST still not remember the previous request. Those two steps MUST be standalone examples and MUST NOT add lines to `server/server.js`.
+
+#### Scenario: Stateless comes before Node
+- **WHEN** the teacher opens Bez sećanja
+- **THEN** `node server/server.js` has not been introduced yet, and the marked answer says the second request does not know the first
+
+#### Scenario: The connection remembers bytes
+- **WHEN** the teacher opens Veza ispod
+- **THEN** the step names TCP and QUIC, and the marked answer says the connection remembers what arrived so it can be sent again, while HTTP does not remember the previous request
+
 ### Requirement: Čas 5 pali Node pre fetch-a
 After the HTTP steps, the lecture MUST start a plain Node server with a handler, `http.createServer`, `listen`, the command `node server/server.js`, the same address in the browser, and then the route. The createServer step MUST bind the name `http` with `require("http")` before `http.createServer`. The room read MUST be opened by that address before any fetch call. The transfer steps before HTTP MUST be standalone examples and MUST NOT add lines to `server/server.js`.
 

@@ -248,7 +248,7 @@ test("nedelja 5 drži require u editoru i ne upisuje server.js", { timeout: 4000
     belezi(`nedelja 5 listen: ${listen.napomena}`);
     await snimi("nedelja-5-listen");
     await strana.vrednost(`(() => {
-      const dugme = [...document.querySelectorAll("#nav .korak-red")].find((b) => b.textContent === "17 Modul sobe");
+      const dugme = [...document.querySelectorAll("#nav .korak-red")].find((b) => b.textContent === "19 Modul sobe");
       if (!dugme) throw new Error("nema koraka Modul sobe");
       dugme.click();
     })()`);

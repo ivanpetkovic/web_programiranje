@@ -225,7 +225,7 @@ test("5. nedelja uvodi rutu redom: adresa, telo, status, 404, 405, modul", () =>
   const redosled = ["Komanda", "Adresa", "JSON telo", "Status i zaglavlje", "Jedan odgovor", "Ruta", "Metod", "Modul sobe", "Stanje na serveru"]
     .map((naslov) => indeks(5, naslov));
   assert.deepEqual([...redosled].sort((a, b) => a - b), redosled);
-  for (const naslov of ["Cela poruka", "Pad pretpostavke", "Potvrda", "TCP"]) {
+  for (const naslov of ["Cela poruka", "Pad pretpostavke", "Potvrda", "TCP", "Bez sećanja", "Veza ispod"]) {
     const korak = koraci[indeks(5, naslov)];
     assert.equal(korak.putanja, undefined, naslov);
     assert.ok(korak.samostalniPrimer?.tekst, naslov);
