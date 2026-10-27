@@ -34,10 +34,8 @@ const mobilZavesa = document.querySelector("#mobil-zavesa");
 const mobilKarticaZavesa = document.querySelector("#mobil-kartica-zavesa");
 const mobilFooter = document.querySelector("#mobil-footer");
 const mobilFtProfil = document.querySelector("#mobil-ft-profil");
-const mobilFtGradivo = document.querySelector("#mobil-ft-gradivo");
-const mobilFtDiskusija = document.querySelector("#mobil-ft-diskusija");
-const mobilFtEditor = document.querySelector("#mobil-ft-editor");
 const mobilFtPretraga = document.querySelector("#mobil-ft-pretraga");
+const mobilNedeljaOtvori = document.querySelector("#mobil-nedelja-otvori");
 const mobilProfil = document.querySelector("#mobil-profil");
 const mobilPretraga = document.querySelector("#mobil-pretraga");
 const mobilPretragaMesto = document.querySelector("#mobil-pretraga-mesto");
@@ -413,23 +411,9 @@ function osveziMobilZavesu() {
 function prikaziMobilFooter() {
   const mobil = usko();
   if (mobilFooter) mobilFooter.hidden = !mobil;
-  if (!mobil) return;
-  for (const [dugme, ime] of [
-    [mobilFtDiskusija, "diskusija"],
-    [mobilFtEditor, "editor"],
-  ]) {
-    if (!dugme) continue;
-    const aktivan = deo === ime;
-    dugme.setAttribute("aria-current", aktivan ? "page" : "false");
-    dugme.classList.toggle("mobil-ft-aktivan", aktivan);
-  }
-  const gradivoAktivan = deo === "koraci";
-  if (mobilFtGradivo) {
-    mobilFtGradivo.setAttribute("aria-current", gradivoAktivan ? "page" : "false");
-    mobilFtGradivo.classList.toggle("mobil-ft-aktivan", gradivoAktivan && !navOtvoren);
-    mobilFtGradivo.setAttribute("aria-expanded", String(navOtvoren));
-  }
-  if (mobilNedeljaTraka) mobilNedeljaTraka.hidden = deo !== "koraci";
+  if (mobilNedeljaTraka) mobilNedeljaTraka.hidden = !mobil;
+  if (mobilNedeljaOtvori) mobilNedeljaOtvori.setAttribute("aria-expanded", String(mobil && navOtvoren));
+  document.body.classList.toggle("mobil-segment-vidljiv", mobil);
 }
 
 function osveziMobilNedelju(item) {
@@ -485,7 +469,7 @@ function prikaziNav() {
   if (mobil) {
     document.body.classList.remove("nav-skriven");
     document.body.classList.toggle("mobil-nav-otvoren", navOtvoren);
-    if (mobilFtGradivo) mobilFtGradivo.setAttribute("aria-expanded", String(navOtvoren));
+    if (mobilNedeljaOtvori) mobilNedeljaOtvori.setAttribute("aria-expanded", String(navOtvoren));
     osveziMobilZavesu();
   } else {
     document.body.classList.remove("mobil-nav-otvoren");
@@ -2245,6 +2229,10 @@ window.addEventListener("hashchange", () => {
 for (const ime of ["koraci", "diskusija", "editor"]) {
   document.querySelector(`#tab-${ime}`).addEventListener("click", () => {
     deo = ime;
+    if (usko()) {
+      zatvoriMobilSheetove();
+      zatvoriMobilKarticu();
+    }
     prikaziDeo();
   });
 }
@@ -2263,14 +2251,13 @@ function otvoriMobilGradivo() {
   prikaziNav();
 }
 
-mobilFtGradivo?.addEventListener("click", () => {
-  if (navOtvoren && deo === "koraci") {
+mobilNedeljaOtvori?.addEventListener("click", () => {
+  if (navOtvoren) {
     zatvoriMobilNav();
     return;
   }
   otvoriMobilGradivo();
 });
-document.querySelector("#mobil-nedelja-otvori")?.addEventListener("click", otvoriMobilGradivo);
 mobilFtProfil?.addEventListener("click", () => {
   zatvoriMobilNav();
   zatvoriMobilPretragu();
@@ -2285,14 +2272,6 @@ mobilFtPretraga?.addEventListener("click", () => {
   pretragaOtvorena = !pretragaOtvorena;
   prikaziMobilPretragu();
 });
-for (const dugme of [mobilFtDiskusija, mobilFtEditor]) {
-  dugme?.addEventListener("click", () => {
-    zatvoriMobilSheetove();
-    zatvoriMobilKarticu();
-    deo = dugme.dataset.deo;
-    prikaziDeo();
-  });
-}
 document.querySelector("#mobil-profil-napredak")?.addEventListener("click", () => {
   profilOtvoren = false;
   prikaziMobilProfil();
