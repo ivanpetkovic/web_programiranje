@@ -158,6 +158,7 @@
         </section>
       </main>
       <aside id="kartica" class="kartica" aria-label="Napredak">
+        <div class="mobil-kartica-hvat" aria-hidden="true"></div>
         <p id="kartica-natpis"></p>
         <div class="procenat-red"><span id="kartica-procenat"></span></div>
         <div class="procenat-traka" aria-hidden="true"><span id="kartica-popuna"></span></div>
@@ -174,7 +175,12 @@
         <button type="submit">Zatvori</button>
       </form>
     </dialog>
+    <button type="button" id="mobil-napredak" class="mobil-napredak" hidden aria-controls="kartica" aria-expanded="false">
+      <span id="mobil-napredak-proc" class="mobil-napredak-proc" aria-hidden="true"></span>
+      <span class="mobil-napredak-tekst">Napredak</span>
+    </button>
     <button type="button" id="mobil-zavesa" class="mobil-zavesa" hidden aria-label="Zatvori spisak nedelja" tabindex="-1"></button>
+    <button type="button" id="mobil-kartica-zavesa" class="mobil-kartica-zavesa" hidden aria-label="Zatvori karticu napretka" tabindex="-1"></button>
     <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
     <style id="stil-pregleda"></style>
     <script type="importmap">

@@ -14,6 +14,12 @@ const TEME = ["ugalj", "mornar", "pesak", "terakota"];
 test("mobilna školjka: meni, zavesa, donji tabovi i bez regresije desktop rasporeda", () => {
   assert.match(html, /id="mobil-meni"/);
   assert.match(html, /id="mobil-zavesa"/);
+  assert.match(html, /id="mobil-napredak"/);
+  assert.match(html, /id="mobil-kartica-zavesa"/);
+  assert.match(main, /function pomeriKorakPrstom/);
+  assert.match(main, /mobil-kartica-otvoren/);
+  assert.match(css, /\.mobil-napredak\s*\{[\s\S]*position:\s*fixed/);
+  assert.match(css, /body\.mobil-kartica-otvoren #kartica/);
   assert.match(html, /name="viewport" content="width=device-width/);
   assert.match(main, /function zatvoriMobilNav/);
   assert.match(main, /mobil-nav-otvoren/);
@@ -123,6 +129,33 @@ test("mobil 390×844: drawer, tabovi i sve četiri teme", { timeout: 60000 }, as
     await pauza(80);
     const editor = await strana.vrednost(`(${raspored.toString()})()`);
     assert.equal(editor.deo, "Editor", "donji tab menja deo");
+
+    await strana.vrednost(`document.querySelector("#tab-koraci").click()`);
+    await pauza(60);
+    await strana.vrednost(`document.querySelector("#mobil-napredak").click()`);
+    await pauza(100);
+    const kartica = await strana.vrednost(`(() => ({
+      otvorena: document.body.classList.contains("mobil-kartica-otvoren"),
+      proc: document.querySelector("#kartica-procenat")?.textContent || "",
+      chip: document.querySelector("#mobil-napredak-proc")?.textContent || "",
+    }))()`);
+    assert.ok(kartica.otvorena, "sheet napretka se otvara");
+    assert.ok(kartica.proc.includes("%"), "kartica ima procenat");
+    assert.equal(kartica.chip, kartica.proc, "čip i kartica dele procenat");
+    const slikaKartica = await strana.posalji("Page.captureScreenshot", { format: "png" });
+    writeFileSync(path.join(snimci, "mobil-kartica-sheet.png"), Buffer.from(slikaKartica.data, "base64"));
+    await strana.vrednost(`document.querySelector("#mobil-kartica-zavesa").click()`);
+
+    const preSwipe = await strana.vrednost(`document.querySelector(".birac .korak")?.textContent || ""`);
+    await strana.vrednost(`(() => {
+      const el = document.querySelector("#sekcija-koraci");
+      const dodir = (x, y) => new Touch({ identifier: 1, target: el, clientX: x, clientY: y });
+      el.dispatchEvent(new TouchEvent("touchstart", { bubbles: true, touches: [dodir(280, 420)], changedTouches: [dodir(280, 420)] }));
+      el.dispatchEvent(new TouchEvent("touchend", { bubbles: true, touches: [], changedTouches: [dodir(80, 420)] }));
+    })()`);
+    await pauza(200);
+    const posleSwipe = await strana.vrednost(`document.querySelector(".birac .korak")?.textContent || ""`);
+    assert.notEqual(posleSwipe, preSwipe, "swipe ulevo prelazi na sledeći korak");
 
     for (const tema of TEME) {
       await strana.vrednost(`(() => {

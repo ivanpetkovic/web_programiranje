@@ -445,6 +445,13 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
     animation: none;
     opacity: 1;
   }
+  #cas.mobil-korak-napred,
+  #cas.mobil-korak-unazad {
+    animation: none;
+  }
+  .okvir > #kartica {
+    transition: none;
+  }
 }
 .top { flex-wrap: wrap; }
 .ustanova {
@@ -977,7 +984,10 @@ body.rezim-uredjivanja .uredi-opcija-ukloni {
 body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.1rem; line-height: 1; }
 
 .mobil-meni,
-.mobil-zavesa { display: none; }
+.mobil-zavesa,
+.mobil-napredak,
+.mobil-kartica-zavesa,
+.mobil-kartica-hvat { display: none; }
 
 @media (max-width: 860px) {
   .podela { grid-template-columns: 1fr; }
@@ -996,7 +1006,87 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     padding: 0.65rem 0.75rem calc(5.25rem + env(safe-area-inset-bottom, 0px));
   }
   .okvir > .stranica { order: 1; min-width: 0; }
-  .okvir > #kartica { order: 2; }
+  .okvir > #kartica {
+    order: 0;
+    position: fixed;
+    z-index: 11;
+    left: 0.65rem;
+    right: 0.65rem;
+    bottom: calc(4.65rem + env(safe-area-inset-bottom, 0px));
+    max-height: min(68vh, 26rem);
+    overflow: auto;
+    margin: 0;
+    border-radius: 18px;
+    box-shadow: 0 18px 48px color-mix(in srgb, var(--ink) 22%, transparent);
+    transform: translateY(calc(100% + 5rem));
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.22s ease;
+  }
+  body.mobil-kartica-otvoren #kartica {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  body.mobil-kartica-otvoren #mobil-kartica-zavesa {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: color-mix(in srgb, var(--bg) 40%, #000);
+    cursor: pointer;
+  }
+  .mobil-kartica-hvat {
+    display: block;
+    width: 2.6rem;
+    height: 0.28rem;
+    margin: 0 auto 0.55rem;
+    border-radius: 999px;
+    background: var(--line);
+  }
+  .mobil-napredak {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    position: fixed;
+    z-index: 6;
+    right: 0.7rem;
+    bottom: calc(4.55rem + env(safe-area-inset-bottom, 0px));
+    padding: 0.42rem 0.72rem 0.42rem 0.55rem;
+    border-radius: 999px;
+    border-color: var(--amber);
+    background: color-mix(in srgb, var(--paper) 94%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-weight: 650;
+    font-size: 0.86rem;
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--ink) 12%, transparent);
+  }
+  .mobil-napredak-proc {
+    display: grid;
+    place-items: center;
+    min-width: 2.35rem;
+    padding: 0.15rem 0.35rem;
+    border-radius: 999px;
+    background: var(--amber);
+    color: var(--on-amber);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  body.mobil-kartica-otvoren .mobil-napredak { opacity: 0.55; }
+  #cas.mobil-korak-napred { animation: mobil-korak-napred 0.26s ease; }
+  #cas.mobil-korak-unazad { animation: mobil-korak-unazad 0.26s ease; }
+  @keyframes mobil-korak-napred {
+    from { opacity: 0.55; transform: translateX(1.1rem); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes mobil-korak-unazad {
+    from { opacity: 0.55; transform: translateX(-1.1rem); }
+    to { opacity: 1; transform: translateX(0); }
+  }
   .okvir > .nav-omot {
     order: 0;
     position: fixed;
@@ -1200,5 +1290,8 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
 
 @media (min-width: 861px) {
   .mobil-meni,
-  .mobil-zavesa { display: none !important; }
+  .mobil-zavesa,
+  .mobil-napredak,
+  .mobil-kartica-zavesa,
+  .mobil-kartica-hvat { display: none !important; }
 }
