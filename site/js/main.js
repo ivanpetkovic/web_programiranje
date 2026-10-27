@@ -30,6 +30,8 @@ import { vecUFajlu } from "./stablo.js";
 
 const nav = document.querySelector("#nav");
 const navPreklop = document.querySelector("#nav-preklop");
+const mobilMeni = document.querySelector("#mobil-meni");
+const mobilZavesa = document.querySelector("#mobil-zavesa");
 const casEl = document.querySelector("#cas");
 const biracMesto = document.querySelector("#birac-mesto");
 const naslovCasa = document.querySelector("#naslov-casa");
@@ -184,6 +186,7 @@ function otvoriNedelju(n, korak) {
   if (korak !== undefined) korakPoCasu.set(n, korak);
   if (n !== cas) deo = "koraci";
   cas = n;
+  if (korak !== undefined && usko()) zatvoriMobilNav();
   if (location.hash !== `#cas-${n}`) location.hash = `cas-${n}`;
   else renderLecture();
 }
@@ -300,14 +303,43 @@ function prikaziDeo() {
   document.body.classList.toggle("editor-pun", deo === "editor");
 }
 
-function prikaziNav() {
-  document.body.classList.toggle("nav-skriven", !navOtvoren);
-  navPreklop.setAttribute("aria-expanded", String(navOtvoren));
-  navPreklop.setAttribute("aria-label", navOtvoren ? "Sakrij navigaciju" : "Prikaži navigaciju");
-}
-
 function usko() {
   return window.matchMedia("(max-width: 860px)").matches;
+}
+
+function zatvoriMobilNav() {
+  if (!navOtvoren) return;
+  navOtvoren = false;
+  prikaziNav();
+}
+
+function prikaziNav() {
+  const mobil = usko();
+  document.body.classList.toggle("mobil", mobil);
+  if (mobil) {
+    document.body.classList.remove("nav-skriven");
+    document.body.classList.toggle("mobil-nav-otvoren", navOtvoren);
+    if (mobilZavesa) {
+      mobilZavesa.hidden = !navOtvoren;
+      mobilZavesa.setAttribute("aria-hidden", String(!navOtvoren));
+      mobilZavesa.tabIndex = navOtvoren ? 0 : -1;
+    }
+    if (mobilMeni) {
+      mobilMeni.setAttribute("aria-expanded", String(navOtvoren));
+      mobilMeni.hidden = false;
+    }
+  } else {
+    document.body.classList.remove("mobil-nav-otvoren");
+    document.body.classList.toggle("nav-skriven", !navOtvoren);
+    if (mobilZavesa) {
+      mobilZavesa.hidden = true;
+      mobilZavesa.setAttribute("aria-hidden", "true");
+      mobilZavesa.tabIndex = -1;
+    }
+    if (mobilMeni) mobilMeni.hidden = true;
+  }
+  navPreklop.setAttribute("aria-expanded", String(navOtvoren));
+  navPreklop.setAttribute("aria-label", navOtvoren ? "Sakrij navigaciju" : "Prikaži navigaciju");
 }
 
 function primeniUdeo() {
@@ -2036,7 +2068,23 @@ navPreklop.addEventListener("click", () => {
   navOtvoren = !navOtvoren;
   prikaziNav();
 });
+mobilMeni?.addEventListener("click", () => {
+  navOtvoren = true;
+  prikaziNav();
+});
+mobilZavesa?.addEventListener("click", zatvoriMobilNav);
+if (usko()) navOtvoren = false;
+let bioMobil = usko();
 prikaziNav();
+window.addEventListener("resize", () => {
+  const sadaMobil = usko();
+  if (sadaMobil !== bioMobil) {
+    if (sadaMobil) navOtvoren = false;
+    else if (!navOtvoren) navOtvoren = true;
+    bioMobil = sadaMobil;
+  }
+  prikaziNav();
+});
 
 const navOmot = document.querySelector(".nav-omot");
 let vrhNavaZakazan = false;
