@@ -13,6 +13,49 @@ export function kljucPolja(cas, korak, deo) {
   return `${cas}:${korak}:${deo}`;
 }
 
+export function primeniSnapshot(dokument, json) {
+  const novo = JSON.parse(json);
+  for (const k of Object.keys(dokument)) {
+    if (!(k in novo)) delete dokument[k];
+  }
+  Object.assign(dokument, novo);
+}
+
+export function napraviIstoriju(dokument, { max = 48 } = {}) {
+  let sada = JSON.stringify(dokument);
+  const unazad = [];
+  const napred = [];
+
+  return {
+    mozeUnazad: () => unazad.length > 0,
+    mozeNapred: () => napred.length > 0,
+    zabeleziPre() {
+      unazad.push(sada);
+      if (unazad.length > max) unazad.shift();
+      napred.length = 0;
+    },
+    osveziReferencu() {
+      sada = JSON.stringify(dokument);
+    },
+    korakUnazad(cilj) {
+      if (!unazad.length) return false;
+      napred.push(JSON.stringify(cilj));
+      const pre = unazad.pop();
+      primeniSnapshot(cilj, pre);
+      sada = pre;
+      return true;
+    },
+    korakNapred(cilj) {
+      if (!napred.length) return false;
+      unazad.push(JSON.stringify(cilj));
+      const sledece = napred.pop();
+      primeniSnapshot(cilj, sledece);
+      sada = sledece;
+      return true;
+    },
+  };
+}
+
 export function dugmeUredi(natpis, onClick) {
   const dugme = document.createElement("button");
   dugme.type = "button";
@@ -44,13 +87,45 @@ export function poljeKratko(vrednost, onInput) {
   return polje;
 }
 
-export function dugmeGotovo(onClick) {
+function dugmeRadnje(natpis, klasa, onClick) {
   const dugme = document.createElement("button");
   dugme.type = "button";
-  dugme.className = "uredi-gotovo";
-  dugme.textContent = "Gotovo";
+  dugme.className = klasa;
+  dugme.textContent = natpis;
   dugme.addEventListener("click", onClick);
   return dugme;
+}
+
+export function napraviEditorTeksta(pocetna, poljeOpcije, { opis }) {
+  let nacrt = pocetna ?? "";
+  const pocetni = pocetna ?? "";
+  const telo = poljeTeksta(pocetna, poljeOpcije, (vrednost) => {
+    nacrt = vrednost;
+  });
+  return {
+    telo,
+    opis,
+    promenjeno: () => nacrt !== pocetni,
+    primeni(primeniVrednost) {
+      primeniVrednost(nacrt);
+    },
+  };
+}
+
+export function napraviEditorKratkog(pocetna, { opis }, primeniVrednost) {
+  let nacrt = pocetna ?? "";
+  const pocetni = pocetna ?? "";
+  const telo = poljeKratko(pocetna, (vrednost) => {
+    nacrt = vrednost;
+  });
+  return {
+    telo,
+    opis,
+    promenjeno: () => nacrt !== pocetni,
+    primeni() {
+      primeniVrednost(nacrt);
+    },
+  };
 }
 
 export function omotUredjivog(ctx, id, prikaz, napraviEditor) {
@@ -63,13 +138,20 @@ export function omotUredjivog(ctx, id, prikaz, napraviEditor) {
   if (ctx.jeOtvoreno(id)) {
     const editor = document.createElement("div");
     editor.className = "uredjivi-editor";
-    editor.append(napraviEditor());
-    editor.append(
-      dugmeGotovo(() => {
+    const info = napraviEditor();
+    editor.append(info.telo ?? info);
+    const radnje = document.createElement("div");
+    radnje.className = "uredi-radnje";
+    radnje.append(
+      dugmeRadnje("Otkaži", "uredi-otkazi", () => {
         ctx.zatvori(id);
         ctx.osvezi?.();
+      }),
+      dugmeRadnje("Potvrdi", "uredi-potvrdi primarno", () => {
+        void ctx.potvrdiIzmenu?.(info, id);
       })
     );
+    editor.append(radnje);
     omot.append(editor);
     return omot;
   }
@@ -91,7 +173,7 @@ export function postaviIsecakKoraka(korak, tekst) {
   }
 }
 
-export function napraviUredjivacOpcija(opcije, { onPromena, onStruktura }) {
+export function napraviUredjivacOpcija(opcije, { onStruktura } = {}) {
   const omot = document.createElement("div");
   omot.className = "uredi-opcije";
 
@@ -107,7 +189,6 @@ export function napraviUredjivacOpcija(opcije, { onPromena, onStruktura }) {
       oznaka.textContent = opcija.key || String.fromCharCode(65 + indeks);
       const tekst = poljeKratko(opcija.text, (sadrzaj) => {
         opcija.text = sadrzaj;
-        onPromena();
       });
       tekst.className = "uredi-opcija-tekst";
       const razlog = poljeTeksta(
@@ -115,7 +196,6 @@ export function napraviUredjivacOpcija(opcije, { onPromena, onStruktura }) {
         { redovi: 2, placeholder: "Obrazloženje odgovora" },
         (sadrzaj) => {
           opcija.why = sadrzaj;
-          onPromena();
         }
       );
       razlog.className = "uredi-opcija-why";
@@ -128,8 +208,6 @@ export function napraviUredjivacOpcija(opcije, { onPromena, onStruktura }) {
       radio.addEventListener("change", () => {
         if (!radio.checked) return;
         oznaciOdgovor(opcije, indeks);
-        onPromena();
-        onStruktura();
         osvezi();
       });
       tacan.append(radio, document.createTextNode(" Tačan"));
@@ -141,7 +219,7 @@ export function napraviUredjivacOpcija(opcije, { onPromena, onStruktura }) {
       ukloni.disabled = opcije.length <= 2;
       ukloni.addEventListener("click", () => {
         ukloniOpciju(opcije, indeks);
-        onStruktura();
+        onStruktura?.();
         osvezi();
       });
       red.append(oznaka, tekst, razlog, tacan, ukloni);
@@ -153,7 +231,7 @@ export function napraviUredjivacOpcija(opcije, { onPromena, onStruktura }) {
     dodaj.textContent = "+ Dodaj odgovor";
     dodaj.addEventListener("click", () => {
       dodajOpciju(opcije);
-      onStruktura();
+      onStruktura?.();
       osvezi();
     });
     omot.append(lista, dodaj);
@@ -163,14 +241,30 @@ export function napraviUredjivacOpcija(opcije, { onPromena, onStruktura }) {
   return omot;
 }
 
-export function napraviStanjeUredjivanja() {
+export function napraviEditorOpcija(pocetne, { opis = "odgovore" } = {}) {
+  const nacrt = structuredClone(pocetne);
+  const pocetni = JSON.stringify(pocetne);
+  const telo = napraviUredjivacOpcija(nacrt, {});
+  return {
+    telo,
+    opis,
+    promenjeno: () => JSON.stringify(nacrt) !== pocetni,
+    primeni(cilj) {
+      cilj.splice(0, cilj.length, ...structuredClone(nacrt));
+    },
+  };
+}
+
+export function napraviStanjeUredjivanja(dokument) {
   const polja = new Set();
+  const istorija = napraviIstoriju(dokument);
   return {
     aktivan: jeRezimUredjivanja(),
     prljavo: false,
     poruka: "",
     sacuvava: false,
     polja,
+    istorija,
     jeOtvoreno(id) {
       return polja.has(id);
     },
