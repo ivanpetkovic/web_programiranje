@@ -1,5 +1,16 @@
 import { napraviPogled, postaviPogled } from "./cm-editor.js";
-import { dokument, lectures } from "./lectures.js";
+import { dokument, lectures, osveziLekcije, sirovaNedelja, siroviKorak } from "./lectures.js";
+import {
+  jeRezimUredjivanja,
+  kljucPolja,
+  napraviEditorKratkog,
+  napraviEditorOpcija,
+  napraviEditorTeksta,
+  napraviStanjeUredjivanja,
+  omotUredjivog,
+  postaviIsecakKoraka,
+  sacuvajKursNaServeru,
+} from "./uredi-sadrzaj.js";
 import { natpisNedelje, pomeriNedelju, polozajiKlizaca, procenat, ucitajKurs } from "./model.js";
 import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./pojmovnik.js";
 import { PORUKA, modulPoZahtevu, porukaKonzole, sklopiDokument, trajanjeLopatica, ubaciMostKonzole } from "./pregled.js";
@@ -57,6 +68,7 @@ const otvoreniPojmovi = new Set();
 const otvoreneNedelje = new Set();
 const izborKoraka = new Map();
 const MESTO_KLJUC = "web-programiranje:korak";
+const urediSadrzaj = napraviStanjeUredjivanja(dokument);
 let pojmovi = [];
 let aktivnaDefinicija = null;
 let typeaheadIndeks = -1;
@@ -485,17 +497,131 @@ function odaberiPredlog(stavka) {
   otvoriNedelju(stavka.nedelja, stavka.korak);
 }
 
-function nacrtajTekstBloka(tekst, naslovTekst) {
+function nacrtajTekstBloka(tekst, naslovTekst, ikona = "file-text") {
   const blok = document.createElement("section");
-  blok.className = "isecak";
+  blok.className = ikona === "book-open" ? "isecak isecak-knjiga" : "isecak";
   const glava = document.createElement("header");
   const naslov = document.createElement("span");
-  saIkonom(naslov, "file-text", naslovTekst);
+  saIkonom(naslov, ikona, naslovTekst);
   glava.append(naslov);
   const pre = document.createElement("pre");
   pre.textContent = tekst;
   blok.append(glava, pre);
   return blok;
+}
+
+function osveziTrakuUredjivanja() {
+  let trakaUredjivanja = document.querySelector("#traka-uredjivanja");
+  if (!urediSadrzaj.aktivan) {
+    trakaUredjivanja?.remove();
+    document.body.classList.remove("rezim-uredjivanja");
+    return;
+  }
+  document.body.classList.add("rezim-uredjivanja");
+  if (!trakaUredjivanja) {
+    trakaUredjivanja = document.createElement("div");
+    trakaUredjivanja.id = "traka-uredjivanja";
+    trakaUredjivanja.className = "traka-uredjivanja";
+    trakaUredjivanja.setAttribute("role", "status");
+    document.querySelector(".top").after(trakaUredjivanja);
+  }
+  trakaUredjivanja.replaceChildren();
+  const natpis = document.createElement("p");
+  natpis.textContent =
+    "Režim uređivanja — posle Potvrdi izmena se upisuje u kurs.json. Opozovi / Ponovi takođe čuvaju fajl.";
+  const unazad = document.createElement("button");
+  unazad.type = "button";
+  unazad.textContent = "Opozovi";
+  unazad.disabled = urediSadrzaj.sacuvava || !urediSadrzaj.istorija.mozeUnazad();
+  unazad.addEventListener("click", () => {
+    void korakIstorije(true);
+  });
+  const napred = document.createElement("button");
+  napred.type = "button";
+  napred.textContent = "Ponovi";
+  napred.disabled = urediSadrzaj.sacuvava || !urediSadrzaj.istorija.mozeNapred();
+  napred.addEventListener("click", () => {
+    void korakIstorije(false);
+  });
+  const sacuvaj = document.createElement("button");
+  sacuvaj.type = "button";
+  sacuvaj.className = "primarno";
+  sacuvaj.textContent = urediSadrzaj.sacuvava ? "Čuvam…" : "Sačuvaj kurs";
+  sacuvaj.disabled = urediSadrzaj.sacuvava || !urediSadrzaj.prljavo;
+  sacuvaj.hidden = true;
+  sacuvaj.addEventListener("click", () => {
+    void sacuvajKurs();
+  });
+  const stanje = document.createElement("span");
+  stanje.className = urediSadrzaj.prljavo ? "stanje prljavo" : "stanje";
+  stanje.textContent = urediSadrzaj.poruka || "kurs.json";
+  trakaUredjivanja.append(natpis, unazad, napred, sacuvaj, stanje);
+}
+
+async function upisiKursNaServer(poruka) {
+  dokument.trajanjeNedelja = dokument.nedelje.length;
+  await sacuvajKursNaServeru(dokument);
+  urediSadrzaj.istorija.osveziReferencu();
+  urediSadrzaj.prljavo = false;
+  urediSadrzaj.poruka = poruka;
+}
+
+async function korakIstorije(unazad) {
+  if (!urediSadrzaj.aktivan || urediSadrzaj.sacuvava) return;
+  const pomereno = unazad
+    ? urediSadrzaj.istorija.korakUnazad(dokument)
+    : urediSadrzaj.istorija.korakNapred(dokument);
+  if (!pomereno) return;
+  urediSadrzaj.sacuvava = true;
+  osveziTrakuUredjivanja();
+  try {
+    osveziLekcije();
+    await upisiKursNaServer(unazad ? "Opozvano i sačuvano u kurs.json." : "Ponovo primenjeno u kurs.json.");
+  } catch (greska) {
+    urediSadrzaj.poruka = greska.message || "Greška pri čuvanju.";
+  } finally {
+    urediSadrzaj.sacuvava = false;
+    renderLecture();
+  }
+}
+
+async function potvrdiIzmenuSadrzaja(info, id) {
+  if (!urediSadrzaj.aktivan || urediSadrzaj.sacuvava) return;
+  if (!info.promenjeno?.()) {
+    urediSadrzaj.zatvori(id);
+    renderLecture();
+    return;
+  }
+  const opis = info.opis || id;
+  if (!window.confirm(`Potvrditi izmenu (${opis}) i upisati u kurs.json?`)) return;
+  urediSadrzaj.istorija.zabeleziPre();
+  info.primeni?.();
+  urediSadrzaj.sacuvava = true;
+  osveziTrakuUredjivanja();
+  try {
+    osveziLekcije();
+    await upisiKursNaServer("Izmena je upisana u kurs.json.");
+  } catch (greska) {
+    urediSadrzaj.poruka = greska.message || "Greška pri čuvanju.";
+  } finally {
+    urediSadrzaj.sacuvava = false;
+    urediSadrzaj.zatvori(id);
+    renderLecture();
+  }
+}
+
+async function sacuvajKurs() {
+  if (!urediSadrzaj.aktivan || urediSadrzaj.sacuvava) return;
+  urediSadrzaj.sacuvava = true;
+  osveziTrakuUredjivanja();
+  try {
+    await upisiKursNaServer("Sačuvano.");
+  } catch (greska) {
+    urediSadrzaj.poruka = greska.message || "Greška pri čuvanju.";
+  } finally {
+    urediSadrzaj.sacuvava = false;
+    osveziTrakuUredjivanja();
+  }
 }
 
 function nacrtajFajl(fajl) {
@@ -675,6 +801,7 @@ function renderLecture() {
   const item = lecture();
   const i = Math.min(indeksKoraka(), item.steps.length - 1);
   const korak = item.steps[i];
+  const sirovi = siroviKorak(cas, i);
   const otvoreno = objasnjenjePoKoraku.get(`${cas}:${i}`) === true;
   document.title = dokument.naslov;
   document.querySelector("#naslov-kursa").textContent = dokument.naslov;
@@ -725,15 +852,59 @@ function renderLecture() {
   saIkonom(sacuvajKorak, "bookmark", "Sačuvaj korak");
   sacuvajKorak.addEventListener("click", sacuvajTrenutniKorak);
   metaKoraka.append(nivo, minuta, sacuvajKorak);
-  const naslovKoraka = document.createElement("h2");
-  naslovKoraka.append(fragmentTeksta(korak.naslov));
+  const naslovPrikaz = document.createElement("h2");
+  naslovPrikaz.append(fragmentTeksta(korak.naslov));
+  const naslovKoraka = omotUredjivog(urediSadrzaj, kljucPolja(cas, i, "naslov"), naslovPrikaz, () =>
+    napraviEditorKratkog(korak.naslov, { opis: "naslov koraka" }, (vrednost) => {
+      if (sirovi) sirovi.naslov = vrednost;
+    })
+  );
   const dijagrami = [];
   const proza = cvoroviProze(korak.tekst, dijagrami);
+  const lekcijaPrikaz = document.createElement("div");
+  lekcijaPrikaz.className = "lekcija-tekst";
+  lekcijaPrikaz.append(...proza);
+  const lekcijaBlok = omotUredjivog(urediSadrzaj, kljucPolja(cas, i, "tekst"), lekcijaPrikaz, () => {
+    const editor = napraviEditorTeksta(
+      korak.tekst,
+      { redovi: 8, placeholder: "Tekst lekcije — šta nastavnik priča na ovom koraku." },
+      { opis: "tekst lekcije" }
+    );
+    return {
+      ...editor,
+      primeni() {
+        editor.primeni((vrednost) => {
+          if (sirovi) sirovi.tekst = vrednost;
+        });
+      },
+    };
+  });
   const kljucna = document.createElement("aside");
   kljucna.className = "kljucna";
   const kljucnaNaslov = document.createElement("strong");
   saIkonom(kljucnaNaslov, "lightbulb", "Ključna ideja");
-  kljucna.append(kljucnaNaslov, ...cvoroviProze(korak.kljucnaIdeja, dijagrami));
+  const kljucnaPrikaz = document.createElement("div");
+  const kljucnaTekst =
+    korak.kljucnaIdeja ||
+    (urediSadrzaj.aktivan ? "Upišite jednu jasnu misao koju student pamti posle ovog koraka." : "");
+  if (!korak.kljucnaIdeja && urediSadrzaj.aktivan) kljucnaPrikaz.className = "kljucna-prazno";
+  kljucnaPrikaz.append(...cvoroviProze(kljucnaTekst, dijagrami));
+  const kljucnaSadrzaj = omotUredjivog(urediSadrzaj, kljucPolja(cas, i, "kljucnaIdeja"), kljucnaPrikaz, () => {
+    const editor = napraviEditorTeksta(
+      sirovi?.kljucnaIdeja ?? "",
+      { redovi: 3, placeholder: "Jedna kratka ključna ideja." },
+      { opis: "ključnu ideju" }
+    );
+    return {
+      ...editor,
+      primeni() {
+        editor.primeni((vrednost) => {
+          if (sirovi) sirovi.kljucnaIdeja = vrednost;
+        });
+      },
+    };
+  });
+  kljucna.append(kljucnaNaslov, kljucnaSadrzaj);
   const prikaz = prikazKoraka(korak);
   const figura = prikaz.mermaid ? document.createElement("div") : null;
   if (figura) {
@@ -744,8 +915,44 @@ function renderLecture() {
   const ranije = imaFajl ? vecUkucano(item, i, prikaz.putanja) : "";
   const prilog = imaFajl ? prikazPriloga(korak, ranije) : { fajl: null, komanda: "", http: "" };
   const imaRedove = prilog.fajl && prilog.fajl.linije.some((linija) => linija.tekst !== "");
-  const isecak = imaRedove ? nacrtajFajl(prilog.fajl) : null;
-  const httpBlok = prilog.http ? nacrtajTekstBloka(prilog.http, "HTTP") : null;
+  let isecak = imaRedove ? nacrtajFajl(prilog.fajl) : null;
+  if (isecak && sirovi) {
+    const prikazIsecaka = isecak;
+    isecak = omotUredjivog(urediSadrzaj, kljucPolja(cas, i, "isecak"), prikazIsecaka, () => {
+      const editor = napraviEditorTeksta(
+        sirovi.isecak ?? "",
+        { redovi: 14, kod: true, placeholder: "Isečak koda ili sadržaj fajla za ovaj korak." },
+        { opis: "isečak koda" }
+      );
+      return {
+        ...editor,
+        primeni() {
+          editor.primeni((vrednost) => {
+            postaviIsecakKoraka(sirovi, vrednost);
+          });
+        },
+      };
+    });
+  }
+  let httpBlok = prilog.http ? nacrtajTekstBloka(prilog.http, "HTTP", "book-open") : null;
+  if (httpBlok && sirovi) {
+    const prikazHttp = httpBlok;
+    httpBlok = omotUredjivog(urediSadrzaj, kljucPolja(cas, i, "http"), prikazHttp, () => {
+      const editor = napraviEditorTeksta(
+        prilog.http,
+        { redovi: 6, kod: true, placeholder: "HTTP zahtev ili odgovor za objašnjenje." },
+        { opis: "HTTP objašnjenje" }
+      );
+      return {
+        ...editor,
+        primeni() {
+          editor.primeni((vrednost) => {
+            postaviIsecakKoraka(sirovi, vrednost);
+          });
+        },
+      };
+    });
+  }
   const komandaBlok = prilog.komanda ? nacrtajTekstBloka(prilog.komanda, "Komanda") : null;
   const put = imaFajl ? document.createElement("p") : null;
   const vec = imaFajl ? document.createElement("pre") : null;
@@ -761,8 +968,8 @@ function renderLecture() {
     vec.hidden = !ranije || Boolean(isecak);
     vec.textContent = ranije && !isecak ? `Već u fajlu:\n${ranije}` : "";
   }
-  const pitanjeBlok = document.createElement("section");
-  pitanjeBlok.className = "pitanje-blok";
+  const pitanjeUnutra = document.createElement("section");
+  pitanjeUnutra.className = "pitanje-blok";
   const pitanjeNad = document.createElement("p");
   pitanjeNad.className = "meta";
   saIkonom(pitanjeNad, "question", "Pitanje");
@@ -770,34 +977,53 @@ function renderLecture() {
   pitanje.append(fragmentTeksta(korak.pitalica));
   const uputa = document.createElement("p");
   uputa.className = "meta";
-  uputa.textContent = "Izaberi tačan odgovor.";
+  uputa.textContent = urediSadrzaj.aktivan ? "Uređivanje: izmenite pitanje i odgovore ispod." : "Izaberi tačan odgovor.";
   const kratke = document.createElement("div");
   kratke.className = "opcije-mreza";
   kratke.dataset.kviz = "korak";
   const izabran = izborKoraka.get(`${cas}:${i}`) || "";
   for (const opt of korak.opcije) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "option";
-    button.dataset.key = opt.key;
-    const znakOdgovora = ikonaOdgovora(otvoreno, izabran, opt);
-    if (znakOdgovora) button.append(znakOdgovora);
-    button.append(document.createTextNode(`${opt.key}. ${opt.text}`));
-    if (opt.key === izabran) button.classList.add("izabrano");
-    if (otvoreno && opt.ok) button.classList.add("holds");
-    if (otvoreno) {
-      const why = document.createElement("p");
-      why.className = "why";
-      why.textContent = opt.why;
-      button.append(why);
-    }
-    button.addEventListener("click", () => {
-      izborKoraka.set(`${cas}:${i}`, opt.key);
-      renderLecture();
-    });
-    kratke.append(button);
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "option";
+      button.dataset.key = opt.key;
+      const znakOdgovora = ikonaOdgovora(otvoreno, izabran, opt);
+      if (znakOdgovora) button.append(znakOdgovora);
+      button.append(document.createTextNode(`${opt.key}. ${opt.text}`));
+      if (opt.key === izabran) button.classList.add("izabrano");
+      if (otvoreno && opt.ok) button.classList.add("holds");
+      if (otvoreno) {
+        const why = document.createElement("p");
+        why.className = "why";
+        why.textContent = opt.why;
+        button.append(why);
+      }
+      button.addEventListener("click", () => {
+        izborKoraka.set(`${cas}:${i}`, opt.key);
+        renderLecture();
+      });
+      kratke.append(button);
   }
-  pitanjeBlok.append(pitanjeNad, pitanje, uputa, kratke);
+  pitanjeUnutra.append(pitanjeNad, pitanje, uputa, kratke);
+  const pitanjeBlok = omotUredjivog(urediSadrzaj, kljucPolja(cas, i, "pitalica"), pitanjeUnutra, () => {
+    const wrap = document.createElement("div");
+    wrap.className = "uredjivi-editor-pitalica";
+    if (!sirovi) return { telo: wrap, opis: "pitalicu", promenjeno: () => false, primeni() {} };
+    const pitanjeEditor = napraviEditorKratkog(korak.pitalica, { opis: "tekst pitanja" }, (vrednost) => {
+      sirovi.pitalica = vrednost;
+    });
+    const opcijeEditor = napraviEditorOpcija(sirovi.opcije, { opis: "odgovore pitalice" });
+    wrap.append(pitanjeEditor.telo, opcijeEditor.telo);
+    return {
+      telo: wrap,
+      opis: "pitalicu",
+      promenjeno: () => pitanjeEditor.promenjeno() || opcijeEditor.promenjeno(),
+      primeni() {
+        pitanjeEditor.primeni();
+        opcijeEditor.primeni(sirovi.opcije);
+      },
+    };
+  });
   const radnjePitanja = document.createElement("div");
   radnjePitanja.className = "radnje-pitanja";
   const otvori = document.createElement("button");
@@ -834,12 +1060,35 @@ function renderLecture() {
   const dijagram = !figura && korak.dijagram?.tekst
     ? nacrtajTekstBloka(korak.dijagram.tekst, "Dijagram")
     : null;
-  const analiza = otvoreno && korak.analiza ? document.createElement("p") : null;
-  if (analiza) {
-    analiza.className = "why analiza";
-    analiza.textContent = korak.analiza;
+  let analizaBlok = null;
+  if (urediSadrzaj.aktivan && sirovi) {
+    const prikazAnalize = korak.analiza
+      ? nacrtajTekstBloka(korak.analiza, "Detaljnije objašnjenje", "book-open")
+      : (() => {
+          const prazno = document.createElement("p");
+          prazno.className = "meta";
+          prazno.textContent = "Nema dodatnog obrazloženja — dodajte ga za složenije teme (npr. HTTP).";
+          return prazno;
+        })();
+    analizaBlok = omotUredjivog(urediSadrzaj, kljucPolja(cas, i, "analiza"), prikazAnalize, () => {
+      const editor = napraviEditorTeksta(
+        sirovi.analiza ?? "",
+        { redovi: 5, placeholder: "Detaljnije objašnjenje za nastavnika i obrazloženje." },
+        { opis: "detaljnije objašnjenje" }
+      );
+      return {
+        ...editor,
+        primeni() {
+          editor.primeni((vrednost) => {
+            sirovi.analiza = vrednost;
+          });
+        },
+      };
+    });
+  } else if (otvoreno && korak.analiza) {
+    analizaBlok = nacrtajTekstBloka(korak.analiza, "Detaljnije objašnjenje", "book-open");
   }
-  casEl.append(metaKoraka, naslovKoraka, ...proza, kljucna);
+  casEl.append(metaKoraka, naslovKoraka, lekcijaBlok, kljucna);
   for (const [omot, izvor] of dijagrami) void nacrtajMermaid(omot, izvor);
   if (figura) casEl.append(figura);
   else if (imaFajl) {
@@ -851,9 +1100,10 @@ function renderLecture() {
   if (izolovan) casEl.append(izolovan);
   if (dijagram) casEl.append(dijagram);
   casEl.append(pitanjeBlok, radnjePitanja);
-  if (analiza) casEl.append(analiza);
+  if (analizaBlok) casEl.append(analizaBlok);
   if (izlaz) casEl.append(izlaz);
   diskusijaMesto.replaceChildren(nacrtajDiskusiju(item));
+  osveziTrakuUredjivanja();
   prikaziDeo();
   paintNav();
   fitPanel();
@@ -870,6 +1120,9 @@ function zapamtiDiskusiju(dogadaj) {
 
 function nacrtajDiskusiju(item) {
   const model = prikazDiskusije(diskusije.get(kljucDiskusije()), item, rezervaPoCasu.get(cas) === true);
+  const nedelja = sirovaNedelja(cas);
+  const rezerva = rezervaPoCasu.get(cas) === true;
+  const izvorOpcija = rezerva && nedelja?.rezerva ? nedelja.rezerva : nedelja;
   const blok = document.createElement("section");
   blok.className = "diskusija";
   blok.setAttribute("aria-label", "Duga pitalica");
@@ -878,8 +1131,31 @@ function nacrtajDiskusiju(item) {
   const fazaEl = document.createElement("p");
   fazaEl.className = "log";
   fazaEl.textContent = `Faza: ${model.faza}`;
-  const problem = document.createElement("p");
-  problem.textContent = model.problem;
+  const problemPrikaz = document.createElement("p");
+  problemPrikaz.textContent = model.problem;
+  const problem = omotUredjivog(
+    urediSadrzaj,
+    kljucPolja(cas, -1, rezerva ? "rezerva-problem" : "diskusija-problem"),
+    problemPrikaz,
+    () => {
+      if (!izvorOpcija) {
+        return { telo: document.createElement("div"), opis: "problem diskusije", promenjeno: () => false, primeni() {} };
+      }
+      const editor = napraviEditorTeksta(
+        izvorOpcija.problem ?? "",
+        { redovi: 4, placeholder: "Problem za diskusiju nedelje." },
+        { opis: "problem diskusije" }
+      );
+      return {
+        ...editor,
+        primeni() {
+          editor.primeni((vrednost) => {
+            izvorOpcija.problem = vrednost;
+          });
+        },
+      };
+    }
+  );
   const options = document.createElement("div");
   options.className = "options";
   options.dataset.kviz = "diskusija";
@@ -904,6 +1180,23 @@ function nacrtajDiskusiju(item) {
     });
     options.append(button);
   }
+  const opcijeOmot = omotUredjivog(
+    urediSadrzaj,
+    kljucPolja(cas, -1, rezerva ? "rezerva-opcije" : "diskusija-opcije"),
+    options,
+    () => {
+      if (!izvorOpcija?.options) {
+        return { telo: document.createElement("div"), opis: "odgovore diskusije", promenjeno: () => false, primeni() {} };
+      }
+      const editor = napraviEditorOpcija(izvorOpcija.options, { opis: "odgovore diskusije" });
+      return {
+        ...editor,
+        primeni() {
+          editor.primeni(izvorOpcija.options);
+        },
+      };
+    }
+  );
   const tisina = document.createElement("p");
   tisina.className = "log";
   tisina.hidden = !model.tisina;
@@ -948,7 +1241,7 @@ function nacrtajDiskusiju(item) {
     });
     radnje.append(otvoriRezervu);
   }
-  blok.append(naslov, fazaEl, problem, options, tisina, tabla, zakljucak, radnje);
+  blok.append(naslov, fazaEl, problem, opcijeOmot, tisina, tabla, zakljucak, radnje);
   return blok;
 }
 
@@ -1791,14 +2084,47 @@ if (izHesha >= 1 && izHesha <= dokument.trajanjeNedelja) {
   cas = pocetno.nedelja;
   korakPoCasu.set(cas, pocetno.korak || 0);
 }
+async function pripremiUredjivanje() {
+  if (!jeRezimUredjivanja()) return;
+  try {
+    const odgovor = await fetch("/kurs.json", { cache: "no-store" });
+    if (!odgovor.ok) return;
+    const sveze = await odgovor.json();
+    Object.assign(dokument, sveze);
+    osveziLekcije();
+  } catch {
+    /* ostaje ugrađeni kurs */
+  }
+}
+
 Promise.all([
   fetch("/pojmovnik")
     .then((odgovor) => odgovor.text())
     .catch(() => ""),
   ucitajIkonice(),
+  pripremiUredjivanje(),
 ]).then(([tekst]) => {
   if (tekst) pojmovi = pojmoviIzTeksta(tekst);
+  urediSadrzaj.osvezi = () => renderLecture();
+  urediSadrzaj.potvrdiIzmenu = potvrdiIzmenuSadrzaja;
+  if (urediSadrzaj.aktivan) urediSadrzaj.istorija.osveziReferencu();
   renderLecture();
 });
+
+if (urediSadrzaj.aktivan) {
+  window.addEventListener("keydown", (dogadjaj) => {
+    if (!dogadjaj.ctrlKey && !dogadjaj.metaKey) return;
+    const kljuc = dogadjaj.key.toLowerCase();
+    if (kljuc === "z" && !dogadjaj.shiftKey) {
+      dogadjaj.preventDefault();
+      void korakIstorije(true);
+      return;
+    }
+    if (kljuc === "y" || (kljuc === "z" && dogadjaj.shiftKey)) {
+      dogadjaj.preventDefault();
+      void korakIstorije(false);
+    }
+  });
+}
 if (!location.hash) location.hash = `cas-${cas}`;
 else window.dispatchEvent(new Event("hashchange"));
