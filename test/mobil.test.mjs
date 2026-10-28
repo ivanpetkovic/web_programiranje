@@ -88,6 +88,9 @@ test("mobil: segment, traka→sheet, swipe, footer alati", { timeout: 60000 }, a
   assert.ok(pocetno.sazet.includes("Nedelja"));
   assert.equal(pocetno.zaglavljeOtvoreno, false);
 
+  const skupljeno = await strana.posalji("Page.captureScreenshot", { format: "png" });
+  writeFileSync(path.join(snimci, "mobil-zaglavlje-skupljeno.png"), Buffer.from(skupljeno.data, "base64"));
+
   await strana.vrednost(`document.querySelector("#mobil-zaglavlje-preklop").click()`);
   await pauza(60);
   assert.ok(await strana.vrednost(`document.body.classList.contains("mobil-zaglavlje-otvoreno")`));
