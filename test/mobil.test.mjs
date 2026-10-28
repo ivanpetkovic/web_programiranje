@@ -16,12 +16,15 @@ test("mobil: segment G/D/E iznad sadržaja, footer Profil+Pretraga", () => {
   assert.match(html, /id="mobil-ft-pretraga"/);
   assert.equal(html.includes('id="mobil-ft-gradivo"'), false);
   assert.equal(html.includes('id="mobil-ft-diskusija"'), false);
+  const headerKraj = html.indexOf("</header>");
   const traka = html.indexOf('id="mobil-nedelja-traka"');
   const tabovi = html.indexOf('class="cas-tabovi"');
   const birac = html.indexOf('id="birac-mesto"');
-  assert.ok(traka > 0 && traka < tabovi && tabovi < birac);
+  assert.ok(traka > 0 && traka < headerKraj && tabovi > headerKraj && tabovi < birac);
+  assert.match(html, /id="mobil-zaglavlje-preklop"/);
   assert.match(css, /@media\s*\(\s*max-width:\s*860px\s*\)[\s\S]*\.cas-tabovi\s*\{[\s\S]*flex:\s*1/);
   assert.match(css, /grid-template-columns:\s*1fr 1fr/);
+  assert.match(css, /body\.mobil-zaglavlje-otvoreno[\s\S]*\.mobil-zaglavlje-prosireno/);
 });
 
 function raspored() {
@@ -37,6 +40,8 @@ function raspored() {
     mobilNav: document.body.classList.contains("mobil-nav-otvoren"),
     naslovNedelje: document.querySelector("#mobil-nedelja-naslov")?.textContent || "",
     trakaNaslov: document.querySelector("#mobil-traka-naslov")?.textContent || "",
+    sazet: document.querySelector("#mobil-sazet-tekst")?.textContent || "",
+    zaglavljeOtvoreno: document.body.classList.contains("mobil-zaglavlje-otvoreno"),
   };
 }
 
@@ -80,6 +85,12 @@ test("mobil: segment, traka→sheet, swipe, footer alati", { timeout: 60000 }, a
   assert.equal(pocetno.tabDisplay, "flex");
   assert.equal(pocetno.tabFiksiranDno, false, "tabovi nisu na dnu ekrana");
   assert.ok(pocetno.trakaNaslov.length > 2);
+  assert.ok(pocetno.sazet.includes("Nedelja"));
+  assert.equal(pocetno.zaglavljeOtvoreno, false);
+
+  await strana.vrednost(`document.querySelector("#mobil-zaglavlje-preklop").click()`);
+  await pauza(60);
+  assert.ok(await strana.vrednost(`document.body.classList.contains("mobil-zaglavlje-otvoreno")`));
 
   await strana.vrednost(`document.querySelector("#mobil-nedelja-otvori").click()`);
   await pauza(100);
@@ -91,7 +102,8 @@ test("mobil: segment, traka→sheet, swipe, footer alati", { timeout: 60000 }, a
   const editor = await strana.vrednost(`document.querySelector("#tab-editor").getAttribute("aria-selected")`);
   assert.equal(editor, "true");
 
-  await strana.vrednost(`document.querySelector("#mobil-nedelja-otvori").click()`);
+  await strana.vrednost(`document.querySelector("#mobil-zaglavlje-preklop").click()`);
+  await pauza(40);
   const pre = await strana.vrednost(`location.hash`);
   await strana.vrednost(`(() => {
     const el = document.querySelector("#mobil-nedelja-traka");
@@ -108,6 +120,10 @@ test("mobil: segment, traka→sheet, swipe, footer alati", { timeout: 60000 }, a
 
   const slika = await strana.posalji("Page.captureScreenshot", { format: "png" });
   writeFileSync(path.join(snimci, "mobil-segment-footer.png"), Buffer.from(slika.data, "base64"));
+  await strana.vrednost(`document.querySelector("#mobil-zaglavlje-preklop").click()`);
+  await pauza(60);
+  const slikaZag = await strana.posalji("Page.captureScreenshot", { format: "png" });
+  writeFileSync(path.join(snimci, "mobil-zaglavlje-prosireno.png"), Buffer.from(slikaZag.data, "base64"));
   for (const tema of TEME) {
     await strana.vrednost(`(() => { document.documentElement.dataset.tema = ${JSON.stringify(tema)}; })()`);
     await pauza(40);

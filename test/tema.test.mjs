@@ -140,8 +140,9 @@ test("gradivo, jedna kolona i birač", () => {
   const tabovi = html.indexOf('class="cas-tabovi"');
   const mesto = html.indexOf('id="birac-mesto"');
   const sekcija = html.indexOf('id="sekcija-koraci"');
+  const headerKraj = html.indexOf("</header>");
   const traka = html.indexOf('id="mobil-nedelja-traka"');
-  assert.ok(traka > 0 && traka < tabovi && tabovi < mesto && mesto < sekcija);
+  assert.ok(traka > 0 && traka < headerKraj && tabovi > headerKraj && tabovi < mesto && mesto < sekcija);
   assert.equal(html.match(/id="birac-mesto"/g).length, 1);
   assert.match(main, /querySelector\("#birac-mesto"\)/);
   assert.match(main, /biracMesto\.replaceChildren\(birac\)/);

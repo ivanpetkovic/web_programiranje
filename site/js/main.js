@@ -36,6 +36,8 @@ const mobilFooter = document.querySelector("#mobil-footer");
 const mobilFtProfil = document.querySelector("#mobil-ft-profil");
 const mobilFtPretraga = document.querySelector("#mobil-ft-pretraga");
 const mobilNedeljaOtvori = document.querySelector("#mobil-nedelja-otvori");
+const mobilZaglavljePreklop = document.querySelector("#mobil-zaglavlje-preklop");
+const mobilZaglavljeProsireno = document.querySelector("#mobil-zaglavlje-prosireno");
 const mobilProfil = document.querySelector("#mobil-profil");
 const mobilPretraga = document.querySelector("#mobil-pretraga");
 const mobilPretragaMesto = document.querySelector("#mobil-pretraga-mesto");
@@ -408,11 +410,18 @@ function osveziMobilZavesu() {
   }
 }
 
+function zatvoriMobilZaglavlje() {
+  document.body.classList.remove("mobil-zaglavlje-otvoreno");
+  if (mobilZaglavljePreklop) mobilZaglavljePreklop.setAttribute("aria-expanded", "false");
+  if (mobilZaglavljeProsireno) mobilZaglavljeProsireno.hidden = true;
+}
+
 function prikaziMobilFooter() {
   const mobil = usko();
   if (mobilFooter) mobilFooter.hidden = !mobil;
   if (mobilNedeljaTraka) mobilNedeljaTraka.hidden = !mobil;
   if (mobilNedeljaOtvori) mobilNedeljaOtvori.setAttribute("aria-expanded", String(mobil && navOtvoren));
+  if (!mobil) zatvoriMobilZaglavlje();
   document.body.classList.toggle("mobil-segment-vidljiv", mobil);
 }
 
@@ -431,6 +440,8 @@ function osveziMobilNedelju(item) {
     if (elNaslov) elNaslov.textContent = naslov;
     if (elPod) elPod.textContent = pod;
   }
+  const sazet = document.querySelector("#mobil-sazet-tekst");
+  if (sazet) sazet.textContent = `${broj} · ${naslov}`;
   document.body.classList.toggle("mobil-nedelja-prva", cas <= 1);
   document.body.classList.toggle("mobil-nedelja-poslednja", cas >= dokument.trajanjeNedelja);
 }
@@ -2245,13 +2256,22 @@ function otvoriMobilGradivo() {
   zatvoriMobilKarticu();
   zatvoriMobilProfil();
   zatvoriMobilPretragu();
+  zatvoriMobilZaglavlje();
   deo = "koraci";
   prikaziDeo();
   navOtvoren = true;
   prikaziNav();
 }
 
-mobilNedeljaOtvori?.addEventListener("click", () => {
+mobilZaglavljePreklop?.addEventListener("click", () => {
+  const otvoreno = !document.body.classList.contains("mobil-zaglavlje-otvoreno");
+  document.body.classList.toggle("mobil-zaglavlje-otvoreno", otvoreno);
+  mobilZaglavljePreklop.setAttribute("aria-expanded", String(otvoreno));
+  if (mobilZaglavljeProsireno) mobilZaglavljeProsireno.hidden = !otvoreno;
+});
+
+mobilNedeljaOtvori?.addEventListener("click", (dogadjaj) => {
+  dogadjaj.stopPropagation();
   if (navOtvoren) {
     zatvoriMobilNav();
     return;

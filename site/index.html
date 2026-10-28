@@ -25,6 +25,24 @@
         </span>
       </a>
       <p id="naslov-kursa" class="brand"></p>
+      <div id="mobil-nedelja-traka" class="mobil-nedelja-traka" hidden>
+        <button type="button" id="mobil-zaglavlje-preklop" class="mobil-zaglavlje-sazetak" aria-expanded="false" aria-controls="mobil-zaglavlje-prosireno">
+          <span id="mobil-sazet-tekst" class="mobil-sazet-tekst meta"></span>
+          <span class="ikona-slot mobil-zaglavlje-strelica" data-ikona="chevron-down" aria-hidden="true"></span>
+        </button>
+        <div id="mobil-zaglavlje-prosireno" class="mobil-zaglavlje-prosireno" hidden>
+          <span class="mobil-nedelja-ivica mobil-nedelja-ivica-levo" aria-hidden="true"></span>
+          <div class="mobil-nedelja-tekst">
+            <p id="mobil-traka-broj" class="meta"></p>
+            <strong id="mobil-traka-naslov"></strong>
+            <p id="mobil-traka-podnaslov" class="meta"></p>
+            <button type="button" id="mobil-nedelja-otvori" class="mobil-traka-spisak-dugme" aria-controls="mobil-gradivo-panel" aria-expanded="false">
+              Spisak koraka
+            </button>
+          </div>
+          <span class="mobil-nedelja-ivica mobil-nedelja-ivica-desno" aria-hidden="true"></span>
+        </div>
+      </div>
       <form id="search-form" class="trazi" role="search">
         <label class="sr" for="q">Nađi pojam</label>
         <span class="ikona-slot" data-ikona="search"></span>
@@ -71,16 +89,6 @@
       <main class="stranica">
         <p id="greska-kursa" class="err" hidden></p>
         <div class="cas-glava">
-          <div id="mobil-nedelja-traka" class="mobil-nedelja-traka" hidden>
-            <span class="mobil-nedelja-ivica mobil-nedelja-ivica-levo" aria-hidden="true"></span>
-            <button type="button" id="mobil-nedelja-otvori" class="mobil-nedelja-tekst" aria-controls="mobil-gradivo-panel" aria-expanded="false">
-              <span id="mobil-traka-broj" class="meta"></span>
-              <strong id="mobil-traka-naslov"></strong>
-              <small id="mobil-traka-podnaslov" class="meta"></small>
-              <small class="mobil-traka-spisak meta">Spisak koraka</small>
-            </button>
-            <span class="mobil-nedelja-ivica mobil-nedelja-ivica-desno" aria-hidden="true"></span>
-          </div>
           <div class="cas-tabovi" role="tablist" aria-label="Delovi časa">
             <button type="button" id="tab-koraci" role="tab" aria-selected="true" aria-controls="sekcija-koraci">Gradivo</button>
             <button type="button" id="tab-diskusija" role="tab" aria-selected="false" aria-controls="sekcija-diskusija" tabindex="-1">Diskusija</button>
