@@ -476,16 +476,18 @@ function osveziMobilNedelju(item) {
   document.body.classList.toggle("mobil-nedelja-poslednja", cas >= dokument.trajanjeNedelja);
 }
 
+function dvocifren(broj) {
+  return String(broj).padStart(2, "0");
+}
+
 function osveziMobilNavTraka(item, i) {
   if (!mobilNavTraka || !usko()) return;
-  const glavaNed = document.querySelector("#mobil-ned-glava");
+  const brojNed = document.querySelector("#mobil-ned-broj");
   const metaNed = document.querySelector("#mobil-ned-meta");
   const glavaKor = document.querySelector("#mobil-kor-glava");
-  const metaKor = document.querySelector("#mobil-kor-meta");
-  if (glavaNed) glavaNed.textContent = `Nedelja ${item.n}`;
+  if (brojNed) brojNed.textContent = dvocifren(item.n);
   if (metaNed) metaNed.textContent = `od ${dokument.trajanjeNedelja}`;
-  if (glavaKor) glavaKor.textContent = `Korak ${i + 1}`;
-  if (metaKor) metaKor.textContent = `od ${item.steps.length}`;
+  if (glavaKor) glavaKor.textContent = `${i + 1} / ${item.steps.length}`;
   const nedNazad = document.querySelector("#mobil-ned-nazad");
   const nedNapred = document.querySelector("#mobil-ned-napred");
   if (nedNazad) nedNazad.disabled = cas <= 1;

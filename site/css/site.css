@@ -1139,10 +1139,36 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     gap: 0.05rem;
     min-width: 0;
   }
-  .mobil-pad-red strong {
+  .mobil-pad-nedelja-linija {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.28rem;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    min-width: 0;
+  }
+  .mobil-pad-oznaka {
     font-size: 0.92rem;
+    font-weight: 650;
     color: var(--naslov);
     line-height: 1.15;
+  }
+  .mobil-pad-dvocifren {
+    font-size: 0.92rem;
+    font-weight: 750;
+    color: var(--naslov);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.15;
+  }
+  .mobil-pad-korak-broj {
+    font-size: 0.92rem;
+    font-weight: 750;
+    color: var(--naslov);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.15;
+  }
+  .mobil-pad-red-korak {
+    align-content: center;
   }
   .mobil-pad-red .meta {
     margin: 0;
