@@ -1093,13 +1093,15 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   }
   .mobil-nav-traka {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 0.35rem;
     margin-bottom: 0.15rem;
     touch-action: pan-y;
+    position: relative;
   }
   .mobil-izbor-grupa {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: stretch;
     gap: 0.28rem;
     min-width: 0;
@@ -1154,6 +1156,11 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     min-width: 0;
     max-height: min(52vh, 22rem);
   }
+  .mobil-izbor-nedelja .mobil-pad-meni-siroko {
+    width: calc(200% + 0.35rem);
+    max-width: min(calc(100vw - 1.5rem), 26rem);
+    z-index: 9;
+  }
   .mobil-pad-stavka {
     display: grid;
     gap: 0.12rem;
@@ -1161,17 +1168,21 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     text-align: left;
   }
   .mobil-pad-stavka-red {
-    display: grid;
-    gap: 0.08rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    min-width: 0;
   }
-  .mobil-pad-stavka-red strong {
-    font-size: 0.78rem;
-    color: var(--muted);
-    font-weight: 650;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
+  .mobil-pad-stavka-broj {
+    flex: none;
+    min-width: 1.15rem;
+    font-weight: 750;
+    color: var(--naslov);
+    font-variant-numeric: tabular-nums;
   }
   .mobil-pad-stavka-naslov {
+    flex: 1;
+    min-width: 0;
     color: var(--naslov);
     font-weight: 650;
     line-height: 1.25;
@@ -1306,10 +1317,34 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     border-radius: 18px 18px 0 0;
     box-shadow: 0 -10px 36px color-mix(in srgb, var(--ink) 16%, transparent);
   }
-  body.mobil-profil-otvoren #mobil-profil,
+  body.mobil-profil-otvoren #mobil-podesavanja,
   body.mobil-pretraga-otvoren #mobil-pretraga { display: grid; }
-  .mobil-profil h2,
+  .mobil-podesavanja h2,
   .mobil-pretraga h2 { margin: 0; font-size: 1.05rem; color: var(--naslov); }
+  .mobil-podesavanja-naslov {
+    margin: 0.65rem 0 0.35rem;
+    font-size: 0.82rem;
+    font-weight: 650;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .mobil-tema-mesto .tema-spisak-u-listi {
+    position: static;
+    display: grid;
+    min-width: 0;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--paper);
+    border: 1px solid var(--line);
+  }
+  .mobil-tema-mesto .tema-spisak-u-listi::before { display: none; }
   .mobil-profil-red { display: flex; align-items: center; gap: 0.55rem; margin: 0; }
   .mobil-profil-dugme {
     display: inline-flex;
@@ -1343,10 +1378,8 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
 
   .top {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    grid-template-areas:
-      "logo naslov"
-      "alati alati";
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "logo naslov pomoc";
     gap: 0.55rem 0.45rem;
     align-items: center;
     padding: calc(0.55rem + env(safe-area-inset-top, 0px)) 0.75rem 0.65rem;
@@ -1365,57 +1398,31 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   }
   .ustanova span { display: none; }
   .ustanova img { width: 40px; height: 40px; }
+  .top > #prethodna-nedelja,
+  .top > #sledeca-nedelja,
+  .top > #sacuvaj-zaglavlje,
+  .top > .tema-meni,
+  .top > #oznaka {
+    display: none;
+  }
+  .top > #pomoc {
+    grid-area: pomoc;
+    justify-self: end;
+    align-self: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border-radius: 12px;
+  }
   #naslov-kursa.brand {
     grid-area: naslov;
     margin: 0;
     font-size: 0.98rem;
     line-height: 1.25;
     justify-self: start;
+    align-self: center;
     min-width: 0;
   }
-  .trazi {
-    grid-area: trazi;
-    min-width: 0;
-    flex: none;
-  }
-  .trazi kbd { display: none; }
-  .trazi input { padding-right: 0.75rem; font-size: 1rem; }
-  .nedelja-klizac {
-    grid-area: nedelja;
-    min-width: 0;
-    width: 100%;
-    padding: 0.35rem 0.55rem;
-    border-radius: 12px;
-    background: var(--paper);
-    border: 1px solid var(--line);
-  }
-  #natpis-nedelje { margin: 0; font-weight: 600; color: var(--ink); }
-  .top > #prethodna-nedelja,
-  .top > #sledeca-nedelja,
-  .top > #sacuvaj-zaglavlje,
-  .top > #pomoc,
-  .top > .tema-meni,
-  .top > #oznaka {
-    grid-area: alati;
-  }
-  .top > #prethodna-nedelja,
-  .top > #sledeca-nedelja {
-    width: 2.5rem;
-    height: 2.5rem;
-    padding: 0;
-    border-radius: 999px;
-  }
-  .top > #sacuvaj-zaglavlje,
-  .top > #pomoc {
-    width: 2.5rem;
-    height: 2.5rem;
-    padding: 0;
-    border-radius: 12px;
-  }
-  .tema-meni { margin-left: auto; }
-  #tema .tema-natpis { display: none; }
-  #tema { padding: 0.38rem 0.55rem; }
-  #oznaka { display: none; }
 
   .stranica {
     padding: 0.65rem 0.55rem 0.35rem;
@@ -1423,7 +1430,7 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   }
   .cas-glava {
     position: sticky;
-    top: calc(4.35rem + env(safe-area-inset-top, 0px));
+    top: calc(3.65rem + env(safe-area-inset-top, 0px));
     z-index: 6;
     padding-bottom: 0.15rem;
     background: linear-gradient(to bottom, var(--bg) 70%, color-mix(in srgb, var(--bg) 0%, transparent));

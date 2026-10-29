@@ -73,7 +73,7 @@
         <div class="cas-glava">
           <div id="mobil-nav-traka" class="mobil-nav-traka" hidden>
             <div class="mobil-izbor-grupa mobil-izbor-nedelja">
-              <button type="button" id="mobil-ned-prva" class="mobil-skok" aria-label="Prva nedelja">«</button>
+              <button type="button" id="mobil-ned-nazad" class="mobil-skok" aria-label="Prethodna nedelja" data-ikona="chevron-left"></button>
               <div class="mobil-pad-omot birac-akcije">
                 <button type="button" id="mobil-ned-pad" class="mobil-pad" aria-haspopup="listbox" aria-expanded="false" aria-controls="mobil-ned-meni">
                   <span class="mobil-pad-red">
@@ -82,8 +82,9 @@
                   </span>
                   <span class="ikona-slot" data-ikona="chevron-down" aria-hidden="true"></span>
                 </button>
-                <ul id="mobil-ned-meni" class="birac-meni mobil-pad-meni" role="listbox" hidden></ul>
+                <ul id="mobil-ned-meni" class="birac-meni mobil-pad-meni mobil-pad-meni-siroko" role="listbox" hidden></ul>
               </div>
+              <button type="button" id="mobil-ned-napred" class="mobil-skok" aria-label="Sledeća nedelja" data-ikona="chevron-right"></button>
             </div>
             <div class="mobil-izbor-grupa mobil-izbor-korak">
               <button type="button" id="mobil-kor-nazad" class="mobil-skok" aria-label="Prethodni korak" data-ikona="chevron-left"></button>
@@ -98,7 +99,6 @@
                 <ul id="mobil-kor-meni" class="birac-meni mobil-pad-meni" role="listbox" hidden></ul>
               </div>
               <button type="button" id="mobil-kor-napred" class="mobil-skok" aria-label="Sledeći korak" data-ikona="chevron-right"></button>
-              <button type="button" id="mobil-kor-poslednji" class="mobil-skok" aria-label="Poslednji korak">»</button>
             </div>
           </div>
           <div class="cas-tabovi" role="tablist" aria-label="Delovi časa">
@@ -218,18 +218,18 @@
       </form>
     </dialog>
     <footer class="mobil-footer" id="mobil-footer" hidden>
-      <button type="button" id="mobil-ft-profil" class="mobil-ft" data-ikona="user-round" aria-controls="mobil-profil" aria-expanded="false"><span>Profil</span></button>
       <button type="button" id="mobil-ft-pretraga" class="mobil-ft" data-ikona="search" aria-controls="mobil-pretraga" aria-expanded="false"><span>Pretraga</span></button>
+      <button type="button" id="mobil-ft-podesavanja" class="mobil-ft" data-ikona="menu" aria-controls="mobil-podesavanja" aria-expanded="false"><span>Podešavanja</span></button>
     </footer>
-    <div id="mobil-profil" class="mobil-sheet mobil-profil" hidden>
+    <div id="mobil-podesavanja" class="mobil-sheet mobil-podesavanja" hidden>
       <div class="mobil-sheet-hvat" aria-hidden="true"></div>
       <p class="mobil-sheet-povuci meta">Povucite nadole za zatvaranje</p>
-      <h2>Profil</h2>
+      <h2>Podešavanja</h2>
       <p class="mobil-profil-red"><span class="oznaka" id="mobil-profil-oznaka"></span> <span id="mobil-profil-ime" class="meta"></span></p>
       <button type="button" id="mobil-profil-napredak" class="mobil-profil-dugme">Napredak kursa</button>
-      <button type="button" id="mobil-profil-tema" class="mobil-profil-dugme" data-ikona="palette">Tema</button>
-      <button type="button" id="mobil-profil-pomoc" class="mobil-profil-dugme" data-ikona="help-circle">Pomoć</button>
       <button type="button" id="mobil-profil-sacuvaj" class="mobil-profil-dugme" data-ikona="bookmark">Sačuvaj korak</button>
+      <h3 class="mobil-podesavanja-naslov">Tema</h3>
+      <div id="mobil-tema-mesto" class="mobil-tema-mesto"></div>
     </div>
     <div id="mobil-pretraga" class="mobil-sheet mobil-pretraga" hidden>
       <div class="mobil-sheet-hvat" aria-hidden="true"></div>

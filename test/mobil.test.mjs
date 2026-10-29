@@ -10,16 +10,18 @@ const html = fs.readFileSync(new URL("../site/index.html", import.meta.url), "ut
 
 const TEME = ["ugalj", "mornar", "pesak", "terakota"];
 
-test("mobil: pad nedelje/koraka pre tabova, footer Profil+Pretraga", () => {
+test("mobil: pad nedelje/koraka pre tabova, footer Pretraga+Podešavanja", () => {
   assert.match(html, /id="mobil-footer"/);
   assert.match(html, /id="mobil-ft-pretraga"/);
-  assert.equal(html.includes('id="mobil-ft-gradivo"'), false);
+  assert.match(html, /id="mobil-ft-podesavanja"/);
+  assert.equal(html.includes('id="mobil-ft-profil"'), false);
   const navTraka = html.indexOf('id="mobil-nav-traka"');
   const tabovi = html.indexOf('class="cas-tabovi"');
   const birac = html.indexOf('id="birac-mesto"');
   assert.ok(navTraka > 0 && navTraka < tabovi && tabovi < birac);
   assert.match(html, /id="mobil-ned-pad"/);
-  assert.match(html, /id="mobil-kor-pad"/);
+  assert.match(html, /id="mobil-ned-napred"/);
+  assert.match(css, /mobil-pad-meni-siroko/);
   assert.match(css, /@media\s*\(\s*max-width:\s*860px\s*\)[\s\S]*\.mobil-nav-traka\s*\{[\s\S]*grid-template-columns:/);
   assert.match(css, /#birac-mesto \.birac \{ display: none;/);
 });
@@ -74,8 +76,7 @@ test("mobil: meni nedelja sa naslovima, koraci, swipe", { timeout: 60000 }, asyn
   strana = await otvoriStranu(portChrome);
   await strana.posalji("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
   await strana.idi(`http://127.0.0.1:${portSajta}/#cas-2`);
-  await pauza(250);
-
+  await pauza(400);
   const pocetno = await strana.vrednost(`(${raspored.toString()})()`);
   assert.equal(pocetno.footerStavke, 2);
   assert.equal(pocetno.tabDisplay, "flex");
@@ -91,11 +92,14 @@ test("mobil: meni nedelja sa naslovima, koraci, swipe", { timeout: 60000 }, asyn
   const meni = await strana.vrednost(`(() => {
     const otvoren = !document.querySelector("#mobil-ned-meni").hidden;
     const naslovi = [...document.querySelectorAll("#mobil-ned-meni .mobil-pad-stavka-naslov")].map((el) => el.textContent.trim()).filter(Boolean);
-    return { otvoren, naslovi };
+    const brojevi = [...document.querySelectorAll("#mobil-ned-meni .mobil-pad-stavka-broj")].map((el) => el.textContent.trim());
+    return { otvoren, naslovi, brojevi };
   })()`);
   assert.ok(meni.otvoren);
   assert.ok(meni.naslovi.length >= 5);
+  assert.ok(meni.brojevi.includes("2"));
   assert.ok(meni.naslovi.some((t) => t.includes("HTML")));
+  assert.equal(meni.naslovi.some((t) => t.startsWith("Nedelja")), false);
 
   const meniSlika = await strana.posalji("Page.captureScreenshot", { format: "png" });
   writeFileSync(path.join(snimci, "mobil-nedelja-meni.png"), Buffer.from(meniSlika.data, "base64"));
@@ -103,6 +107,9 @@ test("mobil: meni nedelja sa naslovima, koraci, swipe", { timeout: 60000 }, asyn
   await strana.vrednost(`document.querySelector("#mobil-kor-napred").click()`);
   await pauza(100);
   assert.match(await strana.vrednost(`document.querySelector("#mobil-kor-glava").textContent`), /Korak 2/);
+
+  await strana.vrednost(`document.querySelector("#mobil-ft-pretraga").click()`);
+  await pauza(60);
 
   const pre = await strana.vrednost(`location.hash`);
   await strana.vrednost(`(() => {
@@ -114,9 +121,10 @@ test("mobil: meni nedelja sa naslovima, koraci, swipe", { timeout: 60000 }, asyn
   await pauza(180);
   assert.notEqual(await strana.vrednost(`location.hash`), pre);
 
-  await strana.vrednost(`document.querySelector("#mobil-ft-pretraga").click()`);
+  await strana.vrednost(`document.querySelector("#mobil-ft-podesavanja").click()`);
   await pauza(80);
-  assert.ok(await strana.vrednost(`document.body.classList.contains("mobil-pretraga-otvoren")`));
+  assert.ok(await strana.vrednost(`document.body.classList.contains("mobil-profil-otvoren")`));
+  assert.ok(await strana.vrednost(`!!document.querySelector("#mobil-tema-mesto .tema-spisak-u-listi")`));
 
   for (const tema of TEME) {
     await strana.vrednost(`(() => { document.documentElement.dataset.tema = ${JSON.stringify(tema)}; })()`);
