@@ -20,9 +20,11 @@ test("mobil: pad nedelje/koraka pre tabova, footer Pretraga+Podešavanja", () =>
   const birac = html.indexOf('id="birac-mesto"');
   assert.ok(navTraka > 0 && navTraka < tabovi && tabovi < birac);
   assert.match(html, /id="mobil-ned-pad"/);
-  assert.match(html, /id="mobil-ned-napred"/);
-  assert.match(css, /mobil-pad-meni-siroko/);
-  assert.match(css, /@media\s*\(\s*max-width:\s*860px\s*\)[\s\S]*\.mobil-nav-traka\s*\{[\s\S]*grid-template-columns:/);
+  assert.match(html, /id="mobil-ned-sheet"/);
+  assert.match(html, /id="mobil-kor-sredina"/);
+  assert.match(html, /class="mobil-korak-lizac"/);
+  assert.match(css, /mobil-izbor-lista/);
+  assert.match(css, /@media\s*\(\s*max-width:\s*860px\s*\)[\s\S]*\.mobil-nav-traka\s*\{[\s\S]*display:\s*flex/);
   assert.match(css, /#birac-mesto \.birac \{ display: none;/);
 });
 
@@ -37,9 +39,9 @@ function raspored() {
     footerStavke: document.querySelectorAll("#mobil-footer .mobil-ft").length,
     tabDisplay: tabStil?.display || "",
     navTrakaVidljiva: navTraka && !navTraka.hidden && getComputedStyle(navTraka).display !== "none",
-    nedBroj: document.querySelector("#mobil-ned-broj")?.textContent || "",
+    nedOznaka: document.querySelector("#mobil-ned-oznaka")?.textContent || "",
     korGlava: document.querySelector("#mobil-kor-glava")?.textContent || "",
-    stavkeNedelje: document.querySelectorAll("#mobil-ned-meni .mobil-pad-stavka-naslov").length,
+    stavkeNedelje: document.querySelectorAll("#mobil-ned-lista .mobil-izbor-naslov").length,
   };
 }
 
@@ -81,18 +83,18 @@ test("mobil: meni nedelja sa naslovima, koraci, swipe", { timeout: 60000 }, asyn
   assert.equal(pocetno.footerStavke, 2);
   assert.equal(pocetno.tabDisplay, "flex");
   assert.ok(pocetno.navTrakaVidljiva);
-  assert.equal(pocetno.nedBroj, "02");
+  assert.equal(pocetno.nedOznaka, "Tema 2");
   assert.match(pocetno.korGlava, /^\d+ \/ \d+$/);
 
   const traka = await strana.posalji("Page.captureScreenshot", { format: "png" });
   writeFileSync(path.join(snimci, "mobil-izbor-traka.png"), Buffer.from(traka.data, "base64"));
 
   await strana.vrednost(`document.querySelector("#mobil-ned-pad").click()`);
-  await pauza(80);
+  await pauza(120);
   const meni = await strana.vrednost(`(() => {
-    const otvoren = !document.querySelector("#mobil-ned-meni").hidden;
-    const naslovi = [...document.querySelectorAll("#mobil-ned-meni .mobil-pad-stavka-naslov")].map((el) => el.textContent.trim()).filter(Boolean);
-    const brojevi = [...document.querySelectorAll("#mobil-ned-meni .mobil-pad-stavka-broj")].map((el) => el.textContent.trim());
+    const otvoren = document.body.classList.contains("mobil-ned-sheet-otvoren");
+    const naslovi = [...document.querySelectorAll("#mobil-ned-lista .mobil-izbor-naslov")].map((el) => el.textContent.trim()).filter(Boolean);
+    const brojevi = [...document.querySelectorAll("#mobil-ned-lista .mobil-izbor-krug")].map((el) => el.textContent.trim());
     return { otvoren, naslovi, brojevi };
   })()`);
   assert.ok(meni.otvoren);

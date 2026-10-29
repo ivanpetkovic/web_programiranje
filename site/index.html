@@ -72,35 +72,16 @@
         <p id="greska-kursa" class="err" hidden></p>
         <div class="cas-glava">
           <div id="mobil-nav-traka" class="mobil-nav-traka" hidden>
-            <div class="mobil-izbor-grupa mobil-izbor-nedelja">
-              <button type="button" id="mobil-ned-nazad" class="mobil-skok" aria-label="Prethodna nedelja" data-ikona="chevron-left"></button>
-              <div class="mobil-pad-omot birac-akcije">
-                <button type="button" id="mobil-ned-pad" class="mobil-pad" aria-haspopup="listbox" aria-expanded="false" aria-controls="mobil-ned-meni">
-                  <span class="mobil-pad-red mobil-pad-red-nedelja">
-                    <span class="mobil-pad-nedelja-linija">
-                      <span class="mobil-pad-oznaka">Nedelja</span>
-                      <span id="mobil-ned-broj" class="mobil-pad-dvocifren">01</span>
-                    </span>
-                    <span id="mobil-ned-meta" class="meta">od 11</span>
-                  </span>
-                  <span class="ikona-slot" data-ikona="chevron-down" aria-hidden="true"></span>
-                </button>
-                <ul id="mobil-ned-meni" class="birac-meni mobil-pad-meni mobil-pad-meni-siroko" role="listbox" hidden></ul>
-              </div>
-              <button type="button" id="mobil-ned-napred" class="mobil-skok" aria-label="Sledeća nedelja" data-ikona="chevron-right"></button>
-            </div>
-            <div class="mobil-izbor-grupa mobil-izbor-korak">
-              <button type="button" id="mobil-kor-nazad" class="mobil-skok" aria-label="Prethodni korak" data-ikona="chevron-left"></button>
-              <div class="mobil-pad-omot birac-akcije">
-                <button type="button" id="mobil-kor-pad" class="mobil-pad" aria-haspopup="listbox" aria-expanded="false" aria-controls="mobil-kor-meni">
-                  <span class="mobil-pad-red mobil-pad-red-korak">
-                    <strong id="mobil-kor-glava" class="mobil-pad-korak-broj">1 / 1</strong>
-                  </span>
-                  <span class="ikona-slot" data-ikona="chevron-down" aria-hidden="true"></span>
-                </button>
-                <ul id="mobil-kor-meni" class="birac-meni mobil-pad-meni" role="listbox" hidden></ul>
-              </div>
-              <button type="button" id="mobil-kor-napred" class="mobil-skok" aria-label="Sledeći korak" data-ikona="chevron-right"></button>
+            <button type="button" id="mobil-ned-pad" class="mobil-tema-dugme" aria-haspopup="dialog" aria-expanded="false" aria-controls="mobil-ned-sheet">
+              <span id="mobil-ned-oznaka">Tema 1</span>
+              <span class="ikona-slot" data-ikona="chevron-down" aria-hidden="true"></span>
+            </button>
+            <div class="mobil-korak-lizac" role="group" aria-label="Koraci ove teme">
+              <button type="button" id="mobil-kor-nazad" class="mobil-skok mobil-korak-ivica" aria-label="Prethodni korak" data-ikona="chevron-left"></button>
+              <button type="button" id="mobil-kor-sredina" class="mobil-korak-sredina" aria-haspopup="dialog" aria-expanded="false" aria-controls="mobil-kor-sheet" aria-label="Izaberi korak">
+                <strong id="mobil-kor-glava" class="mobil-korak-broj">1 / 1</strong>
+              </button>
+              <button type="button" id="mobil-kor-napred" class="mobil-skok mobil-korak-ivica" aria-label="Sledeći korak" data-ikona="chevron-right"></button>
             </div>
           </div>
           <div class="cas-tabovi" role="tablist" aria-label="Delovi časa">
@@ -232,6 +213,24 @@
       <button type="button" id="mobil-profil-sacuvaj" class="mobil-profil-dugme" data-ikona="bookmark">Sačuvaj korak</button>
       <h3 class="mobil-podesavanja-naslov">Tema</h3>
       <div id="mobil-tema-mesto" class="mobil-tema-mesto"></div>
+    </div>
+    <div id="mobil-ned-sheet" class="mobil-sheet mobil-izbor-sheet mobil-ned-sheet" hidden role="dialog" aria-labelledby="mobil-ned-sheet-naslov" aria-modal="true">
+      <div class="mobil-sheet-hvat" aria-hidden="true"></div>
+      <header class="mobil-izbor-sheet-h">
+        <h2 id="mobil-ned-sheet-naslov">Izaberi temu</h2>
+        <p id="mobil-ned-sheet-meta" class="meta mobil-izbor-sheet-meta">0 tema</p>
+        <button type="button" id="mobil-ned-zatvori" class="mobil-izbor-zatvori" aria-label="Zatvori"><span aria-hidden="true">×</span></button>
+      </header>
+      <ul id="mobil-ned-lista" class="mobil-izbor-lista" role="listbox" aria-labelledby="mobil-ned-sheet-naslov"></ul>
+    </div>
+    <div id="mobil-kor-sheet" class="mobil-sheet mobil-izbor-sheet mobil-kor-sheet" hidden role="dialog" aria-labelledby="mobil-kor-sheet-naslov" aria-modal="true">
+      <div class="mobil-sheet-hvat" aria-hidden="true"></div>
+      <header class="mobil-izbor-sheet-h">
+        <h2 id="mobil-kor-sheet-naslov">Koraci ove teme</h2>
+        <p id="mobil-kor-sheet-meta" class="meta mobil-izbor-sheet-meta">0 koraka</p>
+        <button type="button" id="mobil-kor-zatvori" class="mobil-izbor-zatvori" aria-label="Zatvori"><span aria-hidden="true">×</span></button>
+      </header>
+      <ul id="mobil-kor-lista" class="mobil-izbor-lista" role="listbox" aria-labelledby="mobil-kor-sheet-naslov"></ul>
     </div>
     <div id="mobil-pretraga" class="mobil-sheet mobil-pretraga" hidden>
       <div class="mobil-sheet-hvat" aria-hidden="true"></div>
