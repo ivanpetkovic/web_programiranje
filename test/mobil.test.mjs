@@ -37,7 +37,7 @@ function raspored() {
     footerStavke: document.querySelectorAll("#mobil-footer .mobil-ft").length,
     tabDisplay: tabStil?.display || "",
     navTrakaVidljiva: navTraka && !navTraka.hidden && getComputedStyle(navTraka).display !== "none",
-    nedGlava: document.querySelector("#mobil-ned-glava")?.textContent || "",
+    nedBroj: document.querySelector("#mobil-ned-broj")?.textContent || "",
     korGlava: document.querySelector("#mobil-kor-glava")?.textContent || "",
     stavkeNedelje: document.querySelectorAll("#mobil-ned-meni .mobil-pad-stavka-naslov").length,
   };
@@ -81,8 +81,8 @@ test("mobil: meni nedelja sa naslovima, koraci, swipe", { timeout: 60000 }, asyn
   assert.equal(pocetno.footerStavke, 2);
   assert.equal(pocetno.tabDisplay, "flex");
   assert.ok(pocetno.navTrakaVidljiva);
-  assert.match(pocetno.nedGlava, /Nedelja 2/);
-  assert.match(pocetno.korGlava, /Korak/);
+  assert.equal(pocetno.nedBroj, "02");
+  assert.match(pocetno.korGlava, /^\d+ \/ \d+$/);
 
   const traka = await strana.posalji("Page.captureScreenshot", { format: "png" });
   writeFileSync(path.join(snimci, "mobil-izbor-traka.png"), Buffer.from(traka.data, "base64"));
@@ -106,7 +106,7 @@ test("mobil: meni nedelja sa naslovima, koraci, swipe", { timeout: 60000 }, asyn
 
   await strana.vrednost(`document.querySelector("#mobil-kor-napred").click()`);
   await pauza(100);
-  assert.match(await strana.vrednost(`document.querySelector("#mobil-kor-glava").textContent`), /Korak 2/);
+  assert.match(await strana.vrednost(`document.querySelector("#mobil-kor-glava").textContent`), /2 \/ /);
 
   await strana.vrednost(`document.querySelector("#mobil-ft-pretraga").click()`);
   await pauza(60);
