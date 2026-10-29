@@ -509,7 +509,7 @@ function osveziMobilGlavaSkrol() {
   if (mobilNavPrekidac) {
     const redVidljiv = !skupljeno || mobilNavPrisilno;
     mobilNavPrekidac.setAttribute("aria-expanded", String(redVidljiv));
-    mobilNavPrekidac.setAttribute("aria-pressed", String(mobilNavPrisilno || skupljeno));
+    mobilNavPrekidac.setAttribute("aria-pressed", String(redVidljiv));
   }
 }
 

@@ -1570,10 +1570,6 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     color: var(--amber);
     background: var(--amber-dim);
   }
-  body.mobil-glava-skupljena:not(.mobil-nav-prisilno) .mobil-nav-prekidac {
-    color: var(--amber);
-    background: var(--amber-dim);
-  }
   #naslov-kursa.brand {
     grid-area: naslov;
     margin: 0;
