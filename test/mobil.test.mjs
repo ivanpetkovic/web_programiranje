@@ -25,7 +25,7 @@ test("mobil: pad nedelje/koraka pre tabova, footer Pretraga+Podešavanja", () =>
   assert.match(html, /class="mobil-korak-lizac"/);
   assert.match(css, /mobil-izbor-lista/);
   assert.match(css, /@media\s*\(\s*max-width:\s*860px\s*\)[\s\S]*\.mobil-nav-traka\s*\{[\s\S]*display:\s*flex/);
-  assert.match(css, /#birac-mesto \.birac \{ display: none;/);
+  assert.match(css, /#birac-mesto :where\(\.birac\) \{ display: none;/);
 });
 
 function raspored() {

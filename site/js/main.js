@@ -545,10 +545,7 @@ function osveziMobilNavTraka(item, i) {
       const { sacuvano, ukupno } = popunaKoraka(mesto.sacuvani, lekcija.n, lekcija.steps.length);
       const traka = document.createElement("span");
       traka.className = "mobil-izbor-napredak";
-      traka.setAttribute("role", "progressbar");
-      traka.setAttribute("aria-valuemin", "0");
-      traka.setAttribute("aria-valuemax", String(ukupno || 1));
-      traka.setAttribute("aria-valuenow", String(sacuvano));
+      traka.setAttribute("aria-hidden", "true");
       const punjenje = document.createElement("span");
       punjenje.style.width = ukupno ? `${(100 * sacuvano) / ukupno}%` : "0%";
       traka.append(punjenje);
