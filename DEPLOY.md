@@ -1,8 +1,31 @@
 # Javni preview (bez baze)
 
-Trajna adresa: **Render** (besplatan *Web Service*, `plan: free` u [`render.yaml`](render.yaml)).
+## GitHub Pages (staticki sajt na GitHub-u)
 
-## Render (preporučeno)
+**GitHub ne hostuje Node proces** — Pages služi samo statičke fajlove. Workflow [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) gradi `_site` skriptom [`scripts/prepare-github-pages.mjs`](scripts/prepare-github-pages.mjs) i objavljuje ga posle push-a na **`main`**.
+
+Javna adresa (posle uključenog Pages-a u repo podešavanjima):
+
+**https://ivanpetkovic.github.io/web_programiranje/**
+
+Šta radi na Pages-u: čitanje časova (ugrađeni `kurs.json`), teme, pojmovnik (`GLOSSARY.md` kao `/pojmovnik`), ikonice.
+
+Šta **ne** radi bez Node servera: `/api/*` (editor koji piše na disk, pregled sa Node modulima, primeri sa servera, sesija, baza). Za punu kontrolnu sobu koristi `npm start` ili Render ispod.
+
+Ručna provera build-a:
+
+```bash
+node scripts/prepare-github-pages.mjs
+# lokalno otvori _site/ preko statičkog servera (putanje su prefiks /web_programiranje/)
+```
+
+U **Settings → Pages** izaberi izvor **GitHub Actions** ako dashboard to traži.
+
+---
+
+Trajna adresa sa Node API-jem: **Render** (besplatan *Web Service*, `plan: free` u [`render.yaml`](render.yaml)).
+
+## Render (Node + API, bez baze)
 
 1. Uloguj se na [Render](https://dashboard.render.com/).
 2. **New → Blueprint** → poveži repozitorijum `ivanpetkovic/web_programiranje`.
