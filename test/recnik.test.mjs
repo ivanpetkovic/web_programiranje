@@ -1,13 +1,13 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
-import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "../site/js/pojmovnik.js";
+import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "../site/js/recnik.js";
 import { dokument } from "../site/js/lectures.js";
 
 const markdown = fs.readFileSync(new URL("../GLOSSARY.md", import.meta.url), "utf8");
 const pojmovi = pojmoviIzTeksta(markdown);
 
-test("Kontrolna soba i Čitanje nose definiciju iz pojmovnika", () => {
+test("Kontrolna soba i Čitanje nose definiciju iz rečnika", () => {
   const soba = pojmovi.find((pojam) => pojam.ime === "Kontrolna soba");
   const citanje = pojmovi.find((pojam) => pojam.ime === "Čitanje");
   assert.equal(soba.definicija, "Povezujući primer kursa. Čine je soba prekidača i, od uvođenja servera, soba mašina.");

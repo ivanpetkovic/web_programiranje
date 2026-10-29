@@ -19,7 +19,7 @@ function zahtev(method, put) {
   });
 }
 
-test("pojmovnik je sirov spisak, a soba i dalje vraća očitavanje", async () => {
+test("rečnik je sirov spisak, a soba i dalje vraća očitavanje", async () => {
   const proc = spawn(process.execPath, ["server/server.js"], {
     cwd: KORENI,
     env: { ...process.env, PORT: String(PORT), DATABASE_URL: "postgres://kutija:kutija@127.0.0.1:5432/kontrolna" },
@@ -47,7 +47,7 @@ test("pojmovnik je sirov spisak, a soba i dalje vraća očitavanje", async () =>
       });
       proveri();
     });
-    const spisak = await zahtev("GET", "/pojmovnik");
+    const spisak = await zahtev("GET", "/recnik");
     assert.equal(spisak.status, 200);
     assert.match(spisak.body, /\*\*Kontrolna soba\*\*/);
     const soba = await zahtev("GET", "/api/soba");

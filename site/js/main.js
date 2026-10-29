@@ -12,7 +12,7 @@ import {
   sacuvajKursNaServeru,
 } from "./uredi-sadrzaj.js";
 import { natpisNedelje, pomeriNedelju, polozajiKlizaca, procenat, ucitajKurs } from "./model.js";
-import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./pojmovnik.js";
+import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./recnik.js";
 import { PORUKA, modulPoZahtevu, porukaKonzole, sklopiDokument, trajanjeLopatica, ubaciMostKonzole } from "./pregled.js";
 import { procitajRadne, serverTabVidljiv, upisiRadnu } from "./radna.js";
 import { adresaPregleda, izborFajla, popunaKoraka, prikaziIzlaz } from "./birac.js";
@@ -2721,7 +2721,7 @@ async function pripremiUredjivanje() {
 }
 
 Promise.all([
-  fetch("/pojmovnik")
+  fetch("/recnik")
     .then((odgovor) => odgovor.text())
     .catch(() => ""),
   ucitajIkonice(),
