@@ -100,7 +100,7 @@ site/          sajt časa; kurs je site/kurs.json
 client/        panel koji browser učitava
 server/        Node proces, modul http, bez Express-a
 test/          provere kursa, editora i ugovora API-ja
-GLOSSARY.md    pojmovnik
+GLOSSARY.md    rečnik
 ```
 
 `primeri/` drži samostalne primere. Svaki podfolder je jedan primer; `primer.json` daje natpis u selektoru. Kontrolna soba nije folder: to je stablo časa iz `client/` i `server/`, i ono je podrazumevani primer.
