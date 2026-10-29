@@ -7,24 +7,54 @@ import { cekajHttp, otvoriStranu, pauza, pokreni, slobodanPort, snimci, ugasi } 
 
 const css = fs.readFileSync(new URL("../site/css/site.css", import.meta.url), "utf8");
 const html = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
+const main = fs.readFileSync(new URL("../site/js/main.js", import.meta.url), "utf8");
 
 const TEME = ["ugalj", "mornar", "pesak", "terakota"];
 
-test("mobil: pad nedelje/koraka pre tabova, footer Pretraga+Podešavanja", () => {
+test("mobil: pad nedelje/koraka pre tabova, footer Tema+Pretraga+Podešavanja", () => {
   assert.match(html, /id="mobil-footer"/);
+  assert.match(html, /id="mobil-ft-tema"/);
   assert.match(html, /id="mobil-ft-pretraga"/);
   assert.match(html, /id="mobil-ft-podesavanja"/);
   assert.equal(html.includes('id="mobil-ft-profil"'), false);
+  const navRed = html.indexOf('id="mobil-nav-red"');
   const navTraka = html.indexOf('id="mobil-nav-traka"');
   const tabovi = html.indexOf('class="cas-tabovi"');
   const birac = html.indexOf('id="birac-mesto"');
-  assert.ok(navTraka > 0 && navTraka < tabovi && tabovi < birac);
+  assert.ok(navRed > 0 && navTraka > navRed && navTraka < tabovi && tabovi < birac);
   assert.match(html, /id="mobil-ned-pad"/);
-  assert.match(html, /id="mobil-ned-napred"/);
-  assert.match(css, /mobil-pad-meni-siroko/);
-  assert.match(css, /@media\s*\(\s*max-width:\s*860px\s*\)[\s\S]*\.mobil-nav-traka\s*\{[\s\S]*grid-template-columns:/);
-  assert.match(css, /#birac-mesto \.birac \{ display: none;/);
+  assert.match(html, /id="mobil-ned-naslov"/);
+  assert.match(html, /data-ikona="calendar-days"/);
+  assert.match(html, /id="mobil-nav-prekidac"/);
+  assert.match(html, /id="mobil-ned-sheet"/);
+  assert.match(html, /id="mobil-kor-sredina"/);
+  assert.match(html, /class="mobil-korak-lizac"/);
+  assert.match(css, /mobil-izbor-lista/);
+  assert.match(css, /mobil-glava-skupljena/);
+  assert.match(css, /#birac-mesto :where\(\.birac\) \{ display: none;/);
 });
+
+test("mobil: ikona liste selektovana samo dok je red teme/koraka vidljiv", () => {
+  assert.match(css, /\.mobil-nav-prekidac\[aria-pressed="true"\][\s\S]*background:\s*var\(--amber-dim\)/);
+  assert.equal(css.includes("mobil-glava-skupljena:not(.mobil-nav-prisilno) .mobil-nav-prekidac"), false);
+  assert.match(main, /setAttribute\("aria-pressed", String\(redVidljiv\)\)/);
+});
+
+function stilPrekidacaGradiva() {
+  const dugme = document.querySelector("#mobil-nav-prekidac");
+  const pomoc = document.querySelector("#pomoc");
+  const stil = dugme ? getComputedStyle(dugme) : null;
+  const pomocStil = pomoc ? getComputedStyle(pomoc) : null;
+  const red = document.querySelector("#mobil-nav-red");
+  const redStil = red ? getComputedStyle(red) : null;
+  return {
+    pritisnuto: dugme?.getAttribute("aria-pressed") === "true",
+    pozadina: stil?.backgroundColor || "",
+    pomocPozadina: pomocStil?.backgroundColor || "",
+    redOpacity: Number(redStil?.opacity || 1),
+    skupljeno: document.body.classList.contains("mobil-glava-skupljena"),
+  };
+}
 
 function raspored() {
   const tabovi = document.querySelector(".cas-tabovi");
@@ -37,9 +67,10 @@ function raspored() {
     footerStavke: document.querySelectorAll("#mobil-footer .mobil-ft").length,
     tabDisplay: tabStil?.display || "",
     navTrakaVidljiva: navTraka && !navTraka.hidden && getComputedStyle(navTraka).display !== "none",
+    nedNaslov: document.querySelector("#mobil-ned-naslov")?.textContent || "",
     nedBroj: document.querySelector("#mobil-ned-broj")?.textContent || "",
     korGlava: document.querySelector("#mobil-kor-glava")?.textContent || "",
-    stavkeNedelje: document.querySelectorAll("#mobil-ned-meni .mobil-pad-stavka-naslov").length,
+    stavkeNedelje: document.querySelectorAll("#mobil-ned-lista .mobil-izbor-naslov").length,
   };
 }
 
@@ -78,21 +109,22 @@ test("mobil: meni nedelja sa naslovima, koraci, swipe", { timeout: 60000 }, asyn
   await strana.idi(`http://127.0.0.1:${portSajta}/#cas-2`);
   await pauza(400);
   const pocetno = await strana.vrednost(`(${raspored.toString()})()`);
-  assert.equal(pocetno.footerStavke, 2);
+  assert.equal(pocetno.footerStavke, 3);
   assert.equal(pocetno.tabDisplay, "flex");
   assert.ok(pocetno.navTrakaVidljiva);
-  assert.equal(pocetno.nedBroj, "02");
+  assert.equal(pocetno.nedBroj, "2.");
+  assert.ok(pocetno.nedNaslov.length > 3);
   assert.match(pocetno.korGlava, /^\d+ \/ \d+$/);
 
   const traka = await strana.posalji("Page.captureScreenshot", { format: "png" });
   writeFileSync(path.join(snimci, "mobil-izbor-traka.png"), Buffer.from(traka.data, "base64"));
 
   await strana.vrednost(`document.querySelector("#mobil-ned-pad").click()`);
-  await pauza(80);
+  await pauza(120);
   const meni = await strana.vrednost(`(() => {
-    const otvoren = !document.querySelector("#mobil-ned-meni").hidden;
-    const naslovi = [...document.querySelectorAll("#mobil-ned-meni .mobil-pad-stavka-naslov")].map((el) => el.textContent.trim()).filter(Boolean);
-    const brojevi = [...document.querySelectorAll("#mobil-ned-meni .mobil-pad-stavka-broj")].map((el) => el.textContent.trim());
+    const otvoren = document.body.classList.contains("mobil-ned-sheet-otvoren");
+    const naslovi = [...document.querySelectorAll("#mobil-ned-lista .mobil-izbor-naslov")].map((el) => el.textContent.trim()).filter(Boolean);
+    const brojevi = [...document.querySelectorAll("#mobil-ned-lista .mobil-izbor-krug")].map((el) => el.textContent.trim());
     return { otvoren, naslovi, brojevi };
   })()`);
   assert.ok(meni.otvoren);
@@ -132,4 +164,42 @@ test("mobil: meni nedelja sa naslovima, koraci, swipe", { timeout: 60000 }, asyn
     const t = await strana.posalji("Page.captureScreenshot", { format: "png" });
     writeFileSync(path.join(snimci, `mobil-izbor-${tema}.png`), Buffer.from(t.data, "base64"));
   }
+});
+
+test("mobil: ikona gradiva selektovana kad je red vidljiv", { timeout: 60000 }, async (t) => {
+  const portSajta = await slobodanPort();
+  const portChrome = await slobodanPort();
+  const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
+  let strana;
+  t.after(() => {
+    strana?.zatvori();
+    ugasi(server);
+  });
+  await cekajHttp(`http://127.0.0.1:${portSajta}/`);
+  strana = await otvoriStranu(portChrome);
+  await strana.posalji("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
+  await strana.idi(`http://127.0.0.1:${portSajta}/#cas-2`);
+  await pauza(400);
+  await strana.vrednost(`window.scrollTo(0, 0)`);
+  await pauza(120);
+
+  const vrh = await strana.vrednost(`(${stilPrekidacaGradiva.toString()})()`);
+  assert.equal(vrh.pritisnuto, true);
+  assert.ok(vrh.redOpacity > 0.5);
+  assert.notEqual(vrh.pozadina, vrh.pomocPozadina);
+
+  await strana.vrednost(`window.scrollTo(0, 320)`);
+  await pauza(160);
+  const skrol = await strana.vrednost(`(${stilPrekidacaGradiva.toString()})()`);
+  assert.equal(skrol.skupljeno, true);
+  assert.equal(skrol.pritisnuto, false);
+  assert.ok(skrol.redOpacity < 0.5);
+  assert.equal(skrol.pozadina, skrol.pomocPozadina);
+
+  await strana.vrednost(`document.querySelector("#mobil-nav-prekidac").click()`);
+  await pauza(160);
+  const otvoren = await strana.vrednost(`(${stilPrekidacaGradiva.toString()})()`);
+  assert.equal(otvoren.pritisnuto, true);
+  assert.ok(otvoren.redOpacity > 0.5);
+  assert.notEqual(otvoren.pozadina, otvoren.pomocPozadina);
 });
