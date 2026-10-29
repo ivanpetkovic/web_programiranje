@@ -74,9 +74,12 @@ export function dodatakPrikaza(korak) {
 }
 
 function linijeFajla(korak, ranije) {
-  if (!korak.ugradjen || !ulaziUFajl(korak.delic)) return spojeniPrikaz(ranije, dodatakPrikaza(korak));
-  if (!String(ranije ?? "").trim()) return linijeTeksta(korak.original).map((tekst) => ({ tekst, tip: "isto" }));
-  return razlikaLinija(ranije, korak.original).filter((linija) => linija.tip !== "obrisano");
+  if (korak.ugradjen && typeof korak.original === "string") {
+    if (!String(ranije ?? "").trim()) return linijeTeksta(korak.original).map((tekst) => ({ tekst, tip: "isto" }));
+    return razlikaLinija(ranije, korak.original).filter((linija) => linija.tip !== "obrisano");
+  }
+  if (!ulaziUFajl(korak.delic)) return spojeniPrikaz(ranije, "");
+  return spojeniPrikaz(ranije, dodatakPrikaza(korak));
 }
 
 export function prikazPriloga(korak, ranije) {

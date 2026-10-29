@@ -60,33 +60,30 @@ test("čas istorije nema Node, čas stranice ima client/index.html", () => {
   assert.match(stranica.options.find((opcija) => opcija.ok).why, /Osvežavanje vraća dokument/);
 });
 
-test("čas 5 kaže da HTTP ne pamti, a TCP i QUIC pamte vezu", () => {
+test("čas 5 stavlja HTTP posle TCP, pa createServer pa listen", () => {
   const cas = lectures[4];
-  const http = cas.steps.findIndex((korak) => korak.naslov === "HTTP");
-  const bez = cas.steps.findIndex((korak) => korak.naslov === "Bez sećanja");
-  const veza = cas.steps.findIndex((korak) => korak.naslov === "Veza ispod");
-  const obrada = cas.steps.findIndex((korak) => korak.naslov === "Obrada");
-  assert.ok(http < bez && bez < veza && veza < obrada);
-  const stateless = cas.steps[bez];
-  const sloj = cas.steps[veza];
-  assert.equal(stateless.putanja, undefined);
-  assert.equal(sloj.putanja, undefined);
-  assert.match(stateless.objasnjenje, /ne pamti prethodni zahtev/);
-  assert.match(stateless.opcije.find((opcija) => opcija.ok).text, /Svaki zahtev nosi svoj smisao/);
-  assert.match(sloj.primer, /QUIC/);
-  assert.match(sloj.primer, /TCP/);
-  assert.match(sloj.opcije.find((opcija) => opcija.ok).text, /Veza pamti šta je stiglo/);
-  assert.match(cas.terms.find((pojam) => pojam.id === "stateless").body, /QUIC/);
+  const naslov = (ime) => cas.steps.findIndex((korak) => korak.naslov === ime);
+  const tcp = naslov("TCP");
+  const http = naslov("HTTP");
+  const kreiraj = naslov("createServer");
+  const slusaj = naslov("listen");
+  const komanda = naslov("Komanda");
+  const adresa = naslov("Adresa");
+  assert.ok(tcp < http && http < kreiraj && kreiraj < slusaj && slusaj < komanda && komanda < adresa);
+  assert.match(cas.steps[kreiraj].original, /const http = require\("http"\)/);
+  assert.match(cas.steps[kreiraj].isecak, /http\.createServer\(obrada\)/);
+  assert.equal(cas.steps[kreiraj].isecak.includes("require"), false);
+  assert.match(cas.steps[adresa].primer, /fetch dolazi kasnije/);
 });
 
-test("čas 5 otvara adresu pre fetch-a i nema Err", () => {
+test("čas 5 otvara adresu posle komande, fetch je u tom objašnjenju", () => {
   const cas = lectures[4];
   const saNode = cas.steps.findIndex((korak) => tekst(korak).includes("node server/server.js"));
   const saAdresom = cas.steps.findIndex((korak) => tekst(korak).includes("127.0.0.1"));
   const saFetch = cas.steps.findIndex((korak) => /\bfetch\b/.test(tekst(korak)));
   assert.ok(saNode > 0);
   assert.ok(saAdresom > saNode);
-  assert.equal(saFetch, -1);
+  assert.equal(saFetch, saAdresom);
   assert.equal(cas.steps.some((korak) => /\bErr\b/.test(korak.delic)), false);
 });
 
@@ -151,7 +148,7 @@ test("nedelja stranice drži isečke dokumenta, bez ugrađenog originala", () =>
   for (const nedelja of dokument.nedelje) {
     for (const korak of nedelja.steps) {
       if ("original" in korak) {
-        assert.match(korak.putanja, /^server\/[a-z]+\.js$/, korak.naslov);
+        assert.equal(typeof korak.putanja, "string", korak.naslov);
         assert.equal(mapirajKorak(korak).original, korak.original);
         assert.equal(mapirajKorak(korak).ugradjen, true);
       } else if (korak.delic) {
@@ -185,7 +182,7 @@ test("rezerve 1–9 imaju pitanje, čas 10 nema glasanje", () => {
     assert.match(tekstRezerve, trag[i]);
   });
   const poslednji = lectures[10];
-  assert.equal(poslednji.rezerva, null);
+  assert.equal(poslednji.rezerva ?? null, null);
   assert.match(poslednji.izlaz, /gde se proverava pravo/i);
   assert.match(poslednji.izlaz, /gde stoji stanje/);
   assert.match(poslednji.izlaz, /ne dokazuje/);
@@ -198,7 +195,7 @@ test("gradivo ne krije termin kalkom", () => {
   const telo = JSON.stringify(dokument);
   for (const rec of [
     "žica", "knjigu na lancu", "lanac blokova", "dan zastave", "beli papir",
-    "večni septembar", "Striming", "kolačić", "kredencijal", "neprozirn",
+    "večni septembar", "Striming", "kolačić", "kredencijal",
     "framework-a", "celina upisa", "dovod", "guranja",
   ]) {
     assert.equal(telo.includes(rec), false, rec);

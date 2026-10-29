@@ -125,7 +125,7 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
 
     await strana.vrednost(klikNaFajl("index.html"));
     const html = await sačekaj(
-      (s) => s.putanja === "client/index.html" && s.tekst.includes("<!DOCTYPE html>"),
+      (s) => s.putanja === "client/index.html" && s.tekst.includes("<title>Soba</title>"),
     );
     assert.equal(html.tekst.includes("letter-spacing"), false);
 
@@ -185,7 +185,8 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
     strana = await otvoriStranu(portChrome);
     await strana.idi(`http://127.0.0.1:${portSajta}/#cas-3`);
     const kurs = JSON.parse(readFileSync(path.join(koren, "site/kurs.json"), "utf8"));
-    const filter = kurs.nedelje[2].steps.find((korak) => korak.naslov === "filter").delic.trim();
+    const filterKorak = kurs.nedelje[2].steps.find((korak) => korak.naslov === "filter");
+    const filter = (filterKorak.original || filterKorak.delic).trim();
 
     async function ekran() {
       return strana.vrednost(`(${stanjeEditora.toString()})()`);
@@ -220,7 +221,7 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
 
     await strana.vrednost(klikNaFajl("index.html"));
     const drugiFajl = await sačekaj(
-      (s) => s.putanja === "client/index.html" && s.tekst.includes("<title>Soba</title>"),
+      (s) => s.putanja === "client/index.html" && s.tekst.includes("naslov je h1"),
     );
     assert.equal(drugiFajl.otvoren, "index.html");
     assert.equal(drugiFajl.tekst.includes(filter), false);
@@ -230,8 +231,9 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
       (s) => s.putanja === "client/js/korak.js" && s.tekst.includes('24 === "24"'),
     );
     assert.equal(posleDrugogKoraka.otvoren, "js/korak.js");
-    assert.equal(posleDrugogKoraka.tekst.startsWith("let delta = 1;"), true);
-    assert.equal(posleDrugogKoraka.tekst.includes("<title>Soba</title>"), false);
+    assert.equal(posleDrugogKoraka.tekst.includes('24 === "24"'), true);
+    assert.equal(posleDrugogKoraka.tekst.startsWith("let delta = 1;"), false);
+    assert.equal(posleDrugogKoraka.tekst.includes("naslov je h1"), false);
     assert.equal(posleDrugogKoraka.tekst.includes(filter), false);
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
