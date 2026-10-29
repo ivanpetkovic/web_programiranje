@@ -3806,7 +3806,9 @@
             }
           ],
           "analizaPitalice": "http.createServer kreira serverski objekat i registruje funkciju obrade, ali ne otvara automatski browser. Node-ov HTTP server prima req/res objekte, različite od browser DOM API-ja.",
-          "proveraPitalice": "predvidi-pa-proveri"
+          "proveraPitalice": "predvidi-pa-proveri",
+          "original": "const http = require(\"http\");\nconst server = http.createServer(obrada);\n",
+          "originalJezik": "javascript"
         },
         {
           "naslov": "listen",

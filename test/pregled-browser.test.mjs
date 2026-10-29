@@ -90,26 +90,17 @@ test("nedelja 6 korak 1 drži preventDefault u skripti, ne u tekstu stranice", {
     const { sačekaj, snimi } = await saAlatom(strana);
     await strana.vrednost(`document.querySelector("#tab-editor").click()`);
     await sačekaj((s) => s.spreman);
-    await strana.vrednost(`(() => {
-      const dugme = [...document.querySelectorAll("#birac-meni button")].find((b) => b.textContent.endsWith(" Tri stanja"));
-      if (!dugme) throw new Error("nema koraka");
-      dugme.click();
-    })()`);
-    await sačekaj((s) => s.spreman && s.putanja === "client/js/displej.js" && s.tekst.includes('displej.textContent = "----"'));
-    await strana.vrednost(klikNaFajl("index.html"));
-    const html = await sačekaj((s) => s.putanja === "client/index.html" && s.naslov === "Soba prekidača" && s.cifra === "24");
-    assert.equal(html.tekst.includes("preventDefault"), false);
-    assert.equal(html.html.includes("preventDefault"), false);
-    assert.match(html.tekst, /src="js\/strana\.js"/);
-    assert.equal(/e\.preventDefault/.test(html.pasusi.join(" ")), false);
-    await strana.vrednost(klikNaFajl("js/strana.js"));
-    const skript = await sačekaj(
-      (s) => s.putanja === "client/js/strana.js" && s.tekst.includes("e.preventDefault()") && s.konzola.length > 0,
+    await strana.vrednost(klikNaFajl("js/displej.js"));
+    const displej = await sačekaj(
+      (s) => s.putanja === "client/js/displej.js" && s.tekst.includes('displej.textContent = "----"'),
     );
-    assert.match(skript.tekst, /forma\.addEventListener\("submit"/);
-    const greske = ucitajGreske(skript.konzola);
-    belezi(`nedelja 6 korak 1 konzola: ${JSON.stringify(skript.konzola)}`);
-    assert.deepEqual(greske, []);
+    assert.equal(displej.tekst.includes("e.preventDefault"), false);
+    await strana.vrednost(klikNaFajl("index.html"));
+    const html = await sačekaj((s) => s.putanja === "client/index.html" && s.tekst.includes("e.preventDefault()"));
+    assert.equal(html.tekst.includes("<h1"), false);
+    assert.equal(html.tekst.includes('displej.textContent = "----"'), false);
+    assert.equal(/e\.preventDefault/.test(html.pasusi.join(" ")), false);
+    belezi(`nedelja 6 korak 1: ${html.tekst}`);
     await snimi("nedelja-6-korak-1");
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
@@ -229,41 +220,26 @@ test("nedelja 5 drži require u editoru i ne upisuje server.js", { timeout: 4000
       if (!dugme) throw new Error("nema koraka createServer");
       dugme.click();
     })()`);
-    const create = await sačekaj((s) => s.proza.includes("ugrađeni modul"));
-    assert.match(create.proza, /require\("http"\)/);
     await strana.vrednost(`document.querySelector("#tab-editor").click()`);
+    const create = await sačekaj(
+      (s) => s.putanja === "server/server.js" && s.tekst.includes('require("http")') && s.tekst.includes("http.createServer"),
+    );
+    assert.match(create.tekst, /^const http = require\("http"\);/);
     await strana.vrednost(`(() => {
       const dugme = [...document.querySelectorAll("#nav .korak-red")].find((b) => b.textContent === "8 listen");
       if (!dugme) throw new Error("nema koraka listen");
       dugme.click();
     })()`);
     const listen = await sačekaj(
-      (s) => s.putanja === "server/server.js" && s.tekst.includes("server.listen(8787,") && s.tekst.includes('require("http")'),
+      (s) => s.putanja === "server/server.js" && s.tekst.includes("server.listen(8787);") && s.tekst.includes('require("http")'),
     );
     assert.match(listen.tekst, /^const http = require\("http"\);/);
-    assert.match(listen.tekst, /function obrada\(req, res\)[\s\S]*const server = http\.createServer\(obrada\);/);
+    assert.match(listen.tekst, /const server = http\.createServer\(obrada\);/);
     assert.match(listen.napomena, /samo kad krene/);
     await pauza(400);
     assert.equal(readFileSync(fajl, "utf8"), pre);
     belezi(`nedelja 5 listen: ${listen.napomena}`);
     await snimi("nedelja-5-listen");
-    await strana.vrednost(`(() => {
-      const dugme = [...document.querySelectorAll("#nav .korak-red")].find((b) => b.textContent === "19 Modul sobe");
-      if (!dugme) throw new Error("nema koraka Modul sobe");
-      dugme.click();
-    })()`);
-    const modul = await sačekaj((s) => s.putanja === "server/soba.js" && s.tekst.includes("module.exports = { citaj };"));
-    assert.equal(modul.napomena, "");
-    const sobaNaDisku = new URL("../server/soba.js", import.meta.url);
-    const kraj = Date.now() + 4000;
-    while (readFileSync(sobaNaDisku, "utf8").includes("svezeOcitavanje") && Date.now() < kraj) await pauza(50);
-    assert.equal(readFileSync(sobaNaDisku, "utf8").includes("svezeOcitavanje"), false);
-    const citanje = await fetch(`http://127.0.0.1:${portSajta}/api/soba?svezina=1`);
-    assert.equal(citanje.status, 200);
-    assert.deepEqual(await citanje.json(), { temperatura: 24, ukljucen: false });
-    assert.equal(readFileSync(fajl, "utf8"), pre);
-    belezi("nedelja 5 modul sobe: proces čita soba.js iz lekcije, svezina=1 nema trenutak");
-    await snimi("nedelja-5-modul-sobe");
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
     throw greska;

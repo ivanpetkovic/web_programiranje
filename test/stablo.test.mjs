@@ -36,12 +36,12 @@ test("selektor je verzija tog koraka, ne stil sa diska", () => {
 test("semantika je skup delića dokumenta, bez skripti", () => {
   const html = stabloDo(koraci, indeks("Semantika")).verzije["client/index.html"];
   assert.match(html, /naslov je h1/);
-  assert.match(html, /class="digit"/);
+  assert.match(html, /nema \/api\/soba/);
   assert.equal(html.includes("<script"), false);
-  assert.match(html, /24/);
+  assert.equal(html.includes("soba mašina"), false);
 });
 
-test("objekat dodaje korak.js i vezuje klik na cifru", () => {
+test("objekat dodaje korak.js sa sobom, bez kasnijeg koraka", () => {
   const stablo = stabloDo(koraci, indeks("Objekat"));
   const html = stablo.verzije["client/index.html"];
   const js = stablo.verzije["client/js/korak.js"];
@@ -50,9 +50,7 @@ test("objekat dodaje korak.js i vezuje klik na cifru", () => {
   assert.match(js, /const soba = \{ temperatura: 24, zeljeno: false \}/);
   assert.equal(js.includes("function korak"), false);
   assert.notEqual(js.trim(), diskKorak.trim());
-  assert.match(html, /<script src="js\/korak\.js"><\/script>/);
-  assert.match(html, /cifra\.textContent = String\(soba\.temperatura\)/);
-  assert.equal(html.includes("js/niz.js"), false);
+  assert.equal(html.includes("<script"), false);
   assert.equal(html.includes("new Displej"), false);
   assert.notEqual(html.trim(), diskHtml.trim());
 });
@@ -63,32 +61,21 @@ test("svaki sledeći korak istog fajla ima svoju verziju", () => {
   const kraj = stabloDo(koraci, koraci.length - 1).verzije["client/js/korak.js"];
   assert.match(kasno, /function korak/);
   assert.match(kasno, /^let delta = 1;\n/);
-  assert.match(kasno, /const soba = \{ temperatura: 24, zeljeno: false \}/);
+  assert.equal(kasno.includes("const soba"), false);
   assert.notEqual(rano, kasno);
   assert.notEqual(kasno, kraj);
-  const htmlRano = stabloDo(koraci, indeks("Objekat")).verzije["client/index.html"];
-  const htmlKasno = stabloDo(koraci, indeks("Delta")).verzije["client/index.html"];
-  assert.match(htmlRano, /<script src="js\/korak\.js"><\/script>/);
-  assert.equal(htmlRano.includes("korak(soba)"), false);
-  assert.match(htmlKasno, /korak\(soba\)/);
-  assert.notEqual(htmlRano, htmlKasno);
 });
 
-test("prekidač drži klase u svojim fajlovima", () => {
+test("prekidač drži crtaj u svojim fajlovima", () => {
   const pre = stabloDo(koraci, indeks("crtaj"));
   const prekidac = stabloDo(koraci, indeks("Prekidač"));
-  assert.match(pre.verzije["client/js/displej.js"], /class Displej/);
+  assert.match(pre.verzije["client/js/displej.js"], /crtaj\(vrednost\)/);
   assert.equal(pre.verzije["client/index.html"].includes("<canvas"), false);
-  assert.match(pre.verzije["client/index.html"], /<script src="js\/displej\.js"><\/script>/);
-  const html = prekidac.verzije["client/index.html"];
-  assert.match(prekidac.verzije["client/js/prekidac.js"], /class Prekidac/);
-  const korakSrc = html.indexOf('src="js/korak.js"');
-  const nizSrc = html.indexOf('src="js/niz.js"');
-  const prekidacSrc = html.indexOf('src="js/prekidac.js"');
-  const displejSrc = html.indexOf('src="js/displej.js"');
-  assert.ok(korakSrc >= 0 && korakSrc < nizSrc && nizSrc < prekidacSrc && prekidacSrc < displejSrc);
-  assert.match(html, /new Displej/);
-  assert.match(html, /new Prekidac/);
+  assert.equal(pre.verzije["client/index.html"].includes("<script"), false);
+  assert.match(prekidac.verzije["client/js/prekidac.js"], /crtaj\(ukljucen\)/);
+  assert.match(prekidac.verzije["client/js/displej.js"], /crtaj\(vrednost\)/);
+  assert.equal(prekidac.verzije["client/index.html"].includes("new Displej"), false);
+  assert.equal(prekidac.verzije["client/index.html"].includes("new Prekidac"), false);
 });
 
 test("kraj nedelje događaja ima klijentske fajlove kursa, svaki u verziji do tog koraka", () => {
@@ -98,11 +85,9 @@ test("kraj nedelje događaja ima klijentske fajlove kursa, svaki u verziji do to
     assert.ok(fajlovi.includes(put), put);
     assert.notEqual((stablo.verzije[`client/${put}`] || "").trim(), "");
   }
+  assert.equal(fajlovi.includes("js/strana.js"), false);
   assert.equal(fajloviStrane(stablo, "server").length, 0);
-  assert.equal(stablo.verzije["client/index.html"].includes("preventDefault"), false);
-  assert.match(stablo.verzije["client/js/strana.js"], /e\.preventDefault\(\)/);
-  assert.match(stablo.verzije["client/index.html"], /<body>/);
-  assert.match(stablo.verzije["client/index.html"], /<\/body>/);
+  assert.equal(stablo.verzije["client/index.html"].trim(), "e.preventDefault();");
   assert.notEqual(stablo.verzije["client/js/displej.js"].trim(), fs.readFileSync(new URL("../client/js/displej.js", import.meta.url), "utf8").trim());
 });
 

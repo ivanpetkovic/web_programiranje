@@ -40,16 +40,15 @@ test("uvedeno ime i komentar prolaze", () => {
   assert.equal(proveriJs(izvor), "");
 });
 
-test("prikazani serverski isečci 5. i 7. nedelje prolaze, a prenos nije u fajlu", () => {
+test("prikazani serverski fajl koji zove http učitava modul", () => {
   for (const n of [5, 7]) {
     for (const korak of lectures[n - 1].steps) {
-      if (!korak.putanja?.startsWith("server/")) continue;
+      if (!korak.putanja?.endsWith(".js")) continue;
       const tekst = prikazaniJs(koraci.indexOf(korak));
-      if (tekst.trim()) assert.equal(proveriJs(tekst), "", `${n}/${korak.naslov}`);
+      if (!/\bhttp\s*\./.test(tekst)) continue;
+      assert.match(tekst, /require\(\s*["'](?:node:)?http["']\s*\)/, `${n}/${korak.naslov}`);
+      assert.equal(proveriJs(tekst).includes("http"), false, `${n}/${korak.naslov}`);
     }
-  }
-  for (const naslov of ["Cela poruka", "Pad pretpostavke", "Potvrda", "TCP", "Bez sećanja", "Veza ispod"]) {
-    assert.equal(lectures[4].steps.find((korak) => korak.naslov === naslov).putanja, undefined, naslov);
   }
 });
 

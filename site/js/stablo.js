@@ -172,7 +172,7 @@ function izgradi(koraci) {
   const redosled = [];
   const snimci = [];
   for (const korak of koraci) {
-    if (korak && korak.putanja && ulaziUFajl(korak.delic)) {
+    if (korak && korak.putanja && (ulaziUFajl(korak.delic) || ceoTekst(korak) !== null)) {
       let cilj = korak.putanja;
       let zaSpajanje = korak;
       if (cilj === "client/index.html" && jeSkript(korak.delic) && ceoTekst(korak) === null) {
@@ -221,9 +221,13 @@ export function vecUFajlu(koraci, pocetak, indeks, putanja) {
   const delovi = [];
   for (let i = pocetak; i < indeks; i += 1) {
     const korak = koraci[i];
-    if (korak.putanja !== putanja || !ulaziUFajl(korak.delic)) continue;
-    if (korak.ugradjen) delovi.splice(0, delovi.length, String(korak.original ?? "").trimEnd());
-    else delovi.push(korak.delic);
+    if (korak.putanja !== putanja) continue;
+    if (korak.ugradjen) {
+      delovi.splice(0, delovi.length, String(korak.original ?? "").trimEnd());
+      continue;
+    }
+    if (!ulaziUFajl(korak.delic)) continue;
+    delovi.push(korak.delic);
   }
   return delovi.join("\n\n");
 }
