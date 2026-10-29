@@ -39,6 +39,7 @@
       <button type="button" id="prethodna-nedelja" aria-label="Prethodna nedelja" data-ikona="chevron-left"></button>
       <button type="button" id="sledeca-nedelja" aria-label="Sledeća nedelja" data-ikona="chevron-right"></button>
       <button type="button" id="sacuvaj-zaglavlje" aria-label="Sačuvaj korak" data-ikona="bookmark"></button>
+      <button type="button" id="mobil-nav-prekidac" class="mobil-nav-prekidac" aria-label="Prikaži izbor teme i koraka" aria-expanded="true" aria-controls="mobil-nav-red" data-ikona="book-open" hidden></button>
       <button type="button" id="pomoc" aria-label="Pomoć" data-ikona="help-circle"></button>
       <div class="tema-meni">
         <button type="button" id="tema" aria-haspopup="listbox" aria-expanded="false" aria-controls="tema-spisak">
@@ -71,9 +72,14 @@
       <main class="stranica">
         <p id="greska-kursa" class="err" hidden></p>
         <div class="cas-glava">
+          <div id="mobil-nav-red" class="mobil-nav-red" hidden>
           <div id="mobil-nav-traka" class="mobil-nav-traka" hidden>
             <button type="button" id="mobil-ned-pad" class="mobil-tema-dugme" aria-haspopup="dialog" aria-expanded="false" aria-controls="mobil-ned-sheet">
-              <span id="mobil-ned-oznaka">Tema 1</span>
+              <span class="ikona-slot" data-ikona="calendar-days" aria-hidden="true"></span>
+              <span class="mobil-tema-tekst">
+                <span id="mobil-ned-broj" class="mobil-tema-redni">1.</span>
+                <span id="mobil-ned-naslov" class="mobil-tema-naslov">Tema</span>
+              </span>
               <span class="ikona-slot" data-ikona="chevron-down" aria-hidden="true"></span>
             </button>
             <div class="mobil-korak-lizac" role="group" aria-label="Koraci ove teme">
@@ -83,6 +89,7 @@
               </button>
               <button type="button" id="mobil-kor-napred" class="mobil-skok mobil-korak-ivica" aria-label="Sledeći korak" data-ikona="chevron-right"></button>
             </div>
+          </div>
           </div>
           <div class="cas-tabovi" role="tablist" aria-label="Delovi časa">
             <button type="button" id="tab-koraci" role="tab" aria-selected="true" aria-controls="sekcija-koraci">Gradivo</button>
@@ -201,8 +208,9 @@
       </form>
     </dialog>
     <footer class="mobil-footer" id="mobil-footer" hidden>
-      <button type="button" id="mobil-ft-pretraga" class="mobil-ft" data-ikona="search" aria-controls="mobil-pretraga" aria-expanded="false"><span>Pretraga</span></button>
-      <button type="button" id="mobil-ft-podesavanja" class="mobil-ft" data-ikona="menu" aria-controls="mobil-podesavanja" aria-expanded="false"><span>Podešavanja</span></button>
+      <button type="button" id="mobil-ft-tema" class="mobil-ft" aria-controls="mobil-ned-sheet" aria-expanded="false" aria-haspopup="dialog"><span>Tema</span></button>
+      <button type="button" id="mobil-ft-pretraga" class="mobil-ft" aria-controls="mobil-pretraga" aria-expanded="false"><span>Pretraga</span></button>
+      <button type="button" id="mobil-ft-podesavanja" class="mobil-ft" aria-controls="mobil-podesavanja" aria-expanded="false"><span>Podešavanja</span></button>
     </footer>
     <div id="mobil-podesavanja" class="mobil-sheet mobil-podesavanja" hidden>
       <div class="mobil-sheet-hvat" aria-hidden="true"></div>

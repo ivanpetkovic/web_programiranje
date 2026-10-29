@@ -35,7 +35,10 @@ const mobilKarticaZavesa = document.querySelector("#mobil-kartica-zavesa");
 const mobilFooter = document.querySelector("#mobil-footer");
 const mobilFtPodesavanja = document.querySelector("#mobil-ft-podesavanja");
 const mobilFtPretraga = document.querySelector("#mobil-ft-pretraga");
+const mobilFtTema = document.querySelector("#mobil-ft-tema");
 const mobilNavTraka = document.querySelector("#mobil-nav-traka");
+const mobilNavRed = document.querySelector("#mobil-nav-red");
+const mobilNavPrekidac = document.querySelector("#mobil-nav-prekidac");
 const mobilNedPad = document.querySelector("#mobil-ned-pad");
 const mobilNedSheet = document.querySelector("#mobil-ned-sheet");
 const mobilNedLista = document.querySelector("#mobil-ned-lista");
@@ -103,6 +106,8 @@ let profilOtvoren = false;
 let pretragaOtvorena = false;
 let nedSheetOtvoren = false;
 let korSheetOtvoren = false;
+let mobilNavPrisilno = false;
+const MOBIL_SKROL_PRAG = 28;
 let dodirKoraka = null;
 let dodirNedelje = null;
 let dodirSheet = null;
@@ -160,6 +165,9 @@ function popuniStalneIkonice() {
   saIkonom(document.querySelector("#tab-koraci"), "file-text", "Gradivo");
   saIkonom(document.querySelector("#tab-diskusija"), "messages-square", "Diskusija");
   saIkonom(document.querySelector("#tab-editor"), "code-xml", "Editor");
+  if (mobilFtTema) saIkonom(mobilFtTema, "calendar-days", "Tema");
+  if (mobilFtPretraga) saIkonom(mobilFtPretraga, "search", "Pretraga");
+  if (mobilFtPodesavanja) saIkonom(mobilFtPodesavanja, "menu", "Podešavanja");
   natpisTeme();
 }
 
@@ -425,6 +433,7 @@ function zatvoriMobilIzborSheetove() {
   if (!nedSheetOtvoren && !korSheetOtvoren) return;
   nedSheetOtvoren = false;
   korSheetOtvoren = false;
+  if (mobilFtTema) mobilFtTema.setAttribute("aria-expanded", "false");
   prikaziMobilIzborSheetove();
 }
 
@@ -449,6 +458,7 @@ function otvoriMobilNedSheet() {
   zatvoriMobilNav();
   korSheetOtvoren = false;
   nedSheetOtvoren = true;
+  if (mobilFtTema) mobilFtTema.setAttribute("aria-expanded", "true");
   prikaziMobilIzborSheetove();
 }
 
@@ -479,8 +489,28 @@ function prikaziMobilFooter() {
   const mobil = usko();
   if (mobilFooter) mobilFooter.hidden = !mobil;
   if (mobilNavTraka) mobilNavTraka.hidden = !mobil;
-  if (!mobil) zatvoriMobilPadMenije();
+  if (mobilNavRed) mobilNavRed.hidden = !mobil;
+  if (mobilNavPrekidac) mobilNavPrekidac.hidden = !mobil;
+  if (!mobil) {
+    mobilNavPrisilno = false;
+    zatvoriMobilPadMenije();
+    document.body.classList.remove("mobil-glava-skupljena", "mobil-nav-prisilno");
+  } else osveziMobilGlavaSkrol();
   document.body.classList.toggle("mobil-segment-vidljiv", mobil);
+}
+
+function osveziMobilGlavaSkrol() {
+  if (!usko()) return;
+  const skrol = window.scrollY || document.documentElement.scrollTop || 0;
+  if (skrol <= MOBIL_SKROL_PRAG) mobilNavPrisilno = false;
+  const skupljeno = skrol > MOBIL_SKROL_PRAG && !mobilNavPrisilno;
+  document.body.classList.toggle("mobil-glava-skupljena", skupljeno);
+  document.body.classList.toggle("mobil-nav-prisilno", mobilNavPrisilno);
+  if (mobilNavPrekidac) {
+    const redVidljiv = !skupljeno || mobilNavPrisilno;
+    mobilNavPrekidac.setAttribute("aria-expanded", String(redVidljiv));
+    mobilNavPrekidac.setAttribute("aria-pressed", String(mobilNavPrisilno || skupljeno));
+  }
 }
 
 function osveziMobilNedelju(item) {
@@ -506,12 +536,14 @@ function dvocifren(broj) {
 function osveziMobilNavTraka(item, i) {
   if (!mobilNavTraka || !usko()) return;
   const mesto = procitajMesto();
-  const oznakaNed = document.querySelector("#mobil-ned-oznaka");
+  const brojNed = document.querySelector("#mobil-ned-broj");
+  const naslovNed = document.querySelector("#mobil-ned-naslov");
   const glavaKor = document.querySelector("#mobil-kor-glava");
   const metaNedSheet = document.querySelector("#mobil-ned-sheet-meta");
   const metaKorSheet = document.querySelector("#mobil-kor-sheet-meta");
   const naslovKorSheet = document.querySelector("#mobil-kor-sheet-naslov");
-  if (oznakaNed) oznakaNed.textContent = `Tema ${item.n}`;
+  if (brojNed) brojNed.textContent = `${item.n}.`;
+  if (naslovNed) naslovNed.textContent = item.title;
   if (glavaKor) glavaKor.textContent = `${i + 1} / ${item.steps.length}`;
   if (metaNedSheet) metaNedSheet.textContent = `${dokument.trajanjeNedelja} tema`;
   if (metaKorSheet) metaKorSheet.textContent = `${item.steps.length} koraka`;
@@ -2470,6 +2502,7 @@ mobilFtPodesavanja?.addEventListener("click", () => {
   zatvoriMobilNav();
   zatvoriMobilPretragu();
   zatvoriMobilKarticu();
+  zatvoriMobilIzborSheetove();
   profilOtvoren = !profilOtvoren;
   prikaziMobilProfil();
 });
@@ -2477,8 +2510,22 @@ mobilFtPretraga?.addEventListener("click", () => {
   zatvoriMobilNav();
   zatvoriMobilProfil();
   zatvoriMobilKarticu();
+  zatvoriMobilIzborSheetove();
   pretragaOtvorena = !pretragaOtvorena;
   prikaziMobilPretragu();
+});
+mobilFtTema?.addEventListener("click", () => {
+  zatvoriMobilNav();
+  zatvoriMobilProfil();
+  zatvoriMobilPretragu();
+  zatvoriMobilKarticu();
+  prebaciMobilNedSheet();
+});
+mobilNavPrekidac?.addEventListener("click", () => {
+  if (!usko()) return;
+  const skrol = (window.scrollY || document.documentElement.scrollTop || 0) > MOBIL_SKROL_PRAG;
+  mobilNavPrisilno = skrol ? !mobilNavPrisilno : false;
+  osveziMobilGlavaSkrol();
 });
 document.querySelector("#mobil-profil-napredak")?.addEventListener("click", () => {
   profilOtvoren = false;
@@ -2525,6 +2572,13 @@ function zakaziVrhNava() {
   requestAnimationFrame(postaviVrhNava);
 }
 window.addEventListener("scroll", zakaziVrhNava, { passive: true });
+window.addEventListener(
+  "scroll",
+  () => {
+    osveziMobilGlavaSkrol();
+  },
+  { passive: true },
+);
 window.addEventListener("resize", zakaziVrhNava);
 new ResizeObserver(zakaziVrhNava).observe(document.querySelector(".top"));
 

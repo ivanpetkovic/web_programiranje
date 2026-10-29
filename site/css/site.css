@@ -992,6 +992,8 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
 .mobil-kartica-zavesa,
 .mobil-kartica-hvat,
 .mobil-nav-traka,
+.mobil-nav-red,
+.mobil-nav-prekidac,
 .mobil-gradivo-zaglavlje,
 .mobil-sheet,
 .mobil-gradivo-povuci,
@@ -1057,7 +1059,7 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   }
   .mobil-footer {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     position: fixed;
     z-index: 12;
     left: 0;
@@ -1091,7 +1093,23 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     color: var(--amber);
     background: var(--amber-dim);
   }
-  .mobil-nav-traka {
+  .mobil-nav-red {
+    overflow: hidden;
+    max-height: 4.5rem;
+    transition:
+      max-height 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+      opacity 0.24s ease,
+      transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  body.mobil-glava-skupljena:not(.mobil-nav-prisilno) .mobil-nav-red {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-0.45rem);
+    pointer-events: none;
+  }
+  .mobil-nav-red:not([hidden]) { display: block; }
+  .mobil-nav-prekidac:not([hidden]) { display: grid; }
+  .mobil-nav-traka:not([hidden]) {
     display: flex;
     align-items: stretch;
     justify-content: space-between;
@@ -1104,19 +1122,40 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
+    flex: 1;
+    min-width: 0;
     min-height: 2.85rem;
-    padding: 0.45rem 0.85rem;
+    max-width: calc(100% - 12rem);
+    padding: 0.45rem 0.65rem;
     border: 1px solid var(--line);
     border-radius: 999px;
     background: var(--paper);
     color: var(--naslov);
     font: inherit;
     font-weight: 750;
-    font-size: 0.92rem;
+    font-size: 0.88rem;
     line-height: 1.15;
-    white-space: nowrap;
   }
-  .mobil-tema-dugme .ikona-slot { display: grid; color: var(--muted); }
+  .mobil-tema-tekst {
+    display: flex;
+    align-items: baseline;
+    gap: 0.22rem;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .mobil-tema-redni {
+    flex: none;
+    font-weight: 750;
+    font-variant-numeric: tabular-nums;
+  }
+  .mobil-tema-naslov {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 650;
+  }
+  .mobil-tema-dugme .ikona-slot { display: grid; color: var(--muted); flex: none; }
   .mobil-tema-dugme .ikona { width: 1rem; height: 1rem; }
   .mobil-korak-lizac {
     display: grid;
@@ -1481,9 +1520,9 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
 
   .top {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    grid-template-areas: "logo naslov pomoc";
-    gap: 0.55rem 0.45rem;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    grid-template-areas: "logo naslov navlista pomoc";
+    gap: 0.55rem 0.35rem;
     align-items: center;
     padding: calc(0.55rem + env(safe-area-inset-top, 0px)) 0.75rem 0.65rem;
     position: sticky;
@@ -1517,6 +1556,24 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     padding: 0;
     border-radius: 12px;
   }
+  .mobil-nav-prekidac {
+    grid-area: navlista;
+    display: grid;
+    place-items: center;
+    justify-self: end;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border-radius: 12px;
+  }
+  .mobil-nav-prekidac[aria-pressed="true"] {
+    color: var(--amber);
+    background: var(--amber-dim);
+  }
+  body.mobil-glava-skupljena:not(.mobil-nav-prisilno) .mobil-nav-prekidac {
+    color: var(--amber);
+    background: var(--amber-dim);
+  }
   #naslov-kursa.brand {
     grid-area: naslov;
     margin: 0;
@@ -1537,6 +1594,9 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     z-index: 6;
     padding-bottom: 0.15rem;
     background: linear-gradient(to bottom, var(--bg) 70%, color-mix(in srgb, var(--bg) 0%, transparent));
+  }
+  body.mobil-glava-skupljena .cas-tabovi {
+    margin-top: 0;
   }
   .cas-tabovi {
     display: flex;
@@ -1606,6 +1666,8 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   .mobil-kartica-zavesa,
   .mobil-kartica-hvat,
   .mobil-nav-traka,
+  .mobil-nav-red,
+  .mobil-nav-prekidac,
   .mobil-gradivo-zaglavlje,
   .mobil-sheet,
   .mobil-gradivo-povuci,

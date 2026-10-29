@@ -10,21 +10,26 @@ const html = fs.readFileSync(new URL("../site/index.html", import.meta.url), "ut
 
 const TEME = ["ugalj", "mornar", "pesak", "terakota"];
 
-test("mobil: pad nedelje/koraka pre tabova, footer Pretraga+Podešavanja", () => {
+test("mobil: pad nedelje/koraka pre tabova, footer Tema+Pretraga+Podešavanja", () => {
   assert.match(html, /id="mobil-footer"/);
+  assert.match(html, /id="mobil-ft-tema"/);
   assert.match(html, /id="mobil-ft-pretraga"/);
   assert.match(html, /id="mobil-ft-podesavanja"/);
   assert.equal(html.includes('id="mobil-ft-profil"'), false);
+  const navRed = html.indexOf('id="mobil-nav-red"');
   const navTraka = html.indexOf('id="mobil-nav-traka"');
   const tabovi = html.indexOf('class="cas-tabovi"');
   const birac = html.indexOf('id="birac-mesto"');
-  assert.ok(navTraka > 0 && navTraka < tabovi && tabovi < birac);
+  assert.ok(navRed > 0 && navTraka > navRed && navTraka < tabovi && tabovi < birac);
   assert.match(html, /id="mobil-ned-pad"/);
+  assert.match(html, /id="mobil-ned-naslov"/);
+  assert.match(html, /data-ikona="calendar-days"/);
+  assert.match(html, /id="mobil-nav-prekidac"/);
   assert.match(html, /id="mobil-ned-sheet"/);
   assert.match(html, /id="mobil-kor-sredina"/);
   assert.match(html, /class="mobil-korak-lizac"/);
   assert.match(css, /mobil-izbor-lista/);
-  assert.match(css, /@media\s*\(\s*max-width:\s*860px\s*\)[\s\S]*\.mobil-nav-traka\s*\{[\s\S]*display:\s*flex/);
+  assert.match(css, /mobil-glava-skupljena/);
   assert.match(css, /#birac-mesto :where\(\.birac\) \{ display: none;/);
 });
 
@@ -39,7 +44,8 @@ function raspored() {
     footerStavke: document.querySelectorAll("#mobil-footer .mobil-ft").length,
     tabDisplay: tabStil?.display || "",
     navTrakaVidljiva: navTraka && !navTraka.hidden && getComputedStyle(navTraka).display !== "none",
-    nedOznaka: document.querySelector("#mobil-ned-oznaka")?.textContent || "",
+    nedNaslov: document.querySelector("#mobil-ned-naslov")?.textContent || "",
+    nedBroj: document.querySelector("#mobil-ned-broj")?.textContent || "",
     korGlava: document.querySelector("#mobil-kor-glava")?.textContent || "",
     stavkeNedelje: document.querySelectorAll("#mobil-ned-lista .mobil-izbor-naslov").length,
   };
@@ -80,10 +86,11 @@ test("mobil: meni nedelja sa naslovima, koraci, swipe", { timeout: 60000 }, asyn
   await strana.idi(`http://127.0.0.1:${portSajta}/#cas-2`);
   await pauza(400);
   const pocetno = await strana.vrednost(`(${raspored.toString()})()`);
-  assert.equal(pocetno.footerStavke, 2);
+  assert.equal(pocetno.footerStavke, 3);
   assert.equal(pocetno.tabDisplay, "flex");
   assert.ok(pocetno.navTrakaVidljiva);
-  assert.equal(pocetno.nedOznaka, "Tema 2");
+  assert.equal(pocetno.nedBroj, "2.");
+  assert.ok(pocetno.nedNaslov.length > 3);
   assert.match(pocetno.korGlava, /^\d+ \/ \d+$/);
 
   const traka = await strana.posalji("Page.captureScreenshot", { format: "png" });
