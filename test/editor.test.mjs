@@ -429,7 +429,7 @@ test("editor ne krije navigaciju, a panel ima preklop", () => {
   assert.match(main, /classList\.toggle\("nav-skriven", !navOtvoren\)/);
   assert.match(main, /Sakrij navigaciju/);
   assert.match(main, /Prikaži navigaciju/);
-  const prikaz = main.slice(main.indexOf("function prikaziDeo"), main.indexOf("function prikaziNav"));
+  const prikaz = main.match(/function prikaziDeo\(\) \{[\s\S]*?\n\}/)?.[0] || "";
   assert.match(prikaz, /editor-pun/);
   assert.equal(prikaz.includes("navOtvoren"), false);
   assert.equal(prikaz.includes("nav-skriven"), false);
