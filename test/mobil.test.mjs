@@ -253,12 +253,15 @@ test("mobil: tabovi ne skaču kad se skrol vrati na vrh", { timeout: 60000 }, as
       const d2 = log[i].tab - log[i - 1].tab;
       if (Math.abs(d1) >= 0.5 && Math.abs(d2) >= 0.5 && Math.sign(d1) !== Math.sign(d2)) obrti++;
     }
-    const poslednji = log.at(-1) || { y: null, c: null };
-    return { kadrova: log.length, prebacivanja, obrti, y: poslednji.y, skupljeno: poslednji.c };
+    const poslednji = log.at(-1) || { y: null, c: null, tab: null };
+    const vrhovi = log.map((f) => f.tab);
+    const tabRaspon = vrhovi.length ? Math.max(...vrhovi) - Math.min(...vrhovi) : 0;
+    return { kadrova: log.length, prebacivanja, obrti, tabRaspon, y: poslednji.y, skupljeno: poslednji.c };
   })()`);
   assert.ok(izvestaj.kadrova > 100, JSON.stringify(izvestaj));
   assert.ok(izvestaj.y < 2, JSON.stringify(izvestaj));
   assert.equal(izvestaj.skupljeno, false, JSON.stringify(izvestaj));
   assert.ok(izvestaj.prebacivanja <= 2, JSON.stringify(izvestaj));
   assert.ok(izvestaj.obrti <= 1, JSON.stringify(izvestaj));
+  assert.ok(izvestaj.tabRaspon < 8, JSON.stringify(izvestaj));
 });

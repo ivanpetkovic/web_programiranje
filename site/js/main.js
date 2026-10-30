@@ -2574,8 +2574,17 @@ window.addEventListener("resize", () => {
 
 const navOmot = document.querySelector(".nav-omot");
 let vrhNavaZakazan = false;
+let visinaVrha = -1;
 function postaviVrhNava() {
   vrhNavaZakazan = false;
+  const vrh = document.querySelector(".top");
+  if (vrh) {
+    const visina = vrh.getBoundingClientRect().height;
+    if (Math.abs(visina - visinaVrha) >= 0.5) {
+      visinaVrha = visina;
+      document.documentElement.style.setProperty("--visina-vrha", `${visina}px`);
+    }
+  }
   navOmot.style.setProperty("--nav-vrh", `${Math.max(0, navOmot.getBoundingClientRect().top)}px`);
 }
 function zakaziVrhNava() {
