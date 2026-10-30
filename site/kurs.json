@@ -355,19 +355,19 @@
           "nivo": "Osnovno",
           "minuta": 5,
           "tipPrimer": "eksperiment",
-          "tekst": "Zašto seći poruku, umesto da se rezerviše veza od kraja do kraja? Ako je veza rezervisana, prekid ubije celu poruku. Paket ide drugim putem i poruka se sklopi. Kod komutacije paketa više učesnika deli mrežne veze bez trajnog rezervisanja jednog kanala. Ali gubitak paketa ne rešava se automatski samim paketizovanjem: za oporavak su potrebni protokoli i odgovarajuće ponašanje krajnjih sistema.",
-          "kljucnaIdeja": "Prekinuta veza ne mora da ubije poruku.",
+          "tekst": "Zašto seći poruku, umesto da se rezerviše veza od kraja do kraja? Ako je veza rezervisana, prekid uništi celu poruku. Paket ide drugim putem i poruka se sklopi. Kod komutacije paketa više učesnika deli mrežne veze bez trajnog rezervisanja jednog kanala. Ali gubitak paketa ne rešava se automatski samim paketizovanjem: za oporavak su potrebni protokoli i odgovarajuće ponašanje krajnjih sistema.",
+          "kljucnaIdeja": "Prekinuta veza ne mora da uništi poruku.",
           "pitalica": "Šta prekinuta veza uradi poruci od paketa?",
           "opcije": [
             {
               "key": "A",
-              "text": "Ubije je, jer put je jedan.",
+              "text": "Uništi je, jer put je jedan.",
               "why": "Paket ne traži jednu rezervisanu vezu. Kod komutacije paketa više učesnika deli mrežne veze bez trajnog rezervisanja jednog kanala.",
               "ok": false
             },
             {
               "key": "B",
-              "text": "Prekinuta veza ne mora da ubije poruku.",
+              "text": "Prekinuta veza ne mora da uništi poruku.",
               "why": "Drugi paket može drugim putem. Poruka se sklopi na kraju. Kod komutacije paketa više učesnika deli mrežne veze bez trajnog rezervisanja jednog kanala. Ali gubitak paketa ne rešava se automatski samim paketizovanjem: za oporavak su potrebni protokoli i odgovarajuće ponašanje krajnjih sistema.",
               "ok": true
             }

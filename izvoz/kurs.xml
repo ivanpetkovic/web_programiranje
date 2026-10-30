@@ -62,18 +62,18 @@
         </korak>
         <korak broj="2" nivo="Osnovno" minuta="5">
           <naslov>Paket</naslov>
-          <tekst>Zašto seći poruku, umesto da se rezerviše veza od kraja do kraja? Ako je veza rezervisana, prekid ubije celu poruku. Paket ide drugim putem i poruka se sklopi.</tekst>
-          <kljucna-ideja>Prekinuta veza ne mora da ubije poruku.</kljucna-ideja>
+          <tekst>Zašto seći poruku, umesto da se rezerviše veza od kraja do kraja? Ako je veza rezervisana, prekid uništi celu poruku. Paket ide drugim putem i poruka se sklopi.</tekst>
+          <kljucna-ideja>Prekinuta veza ne mora da uništi poruku.</kljucna-ideja>
           <pitalica vrsta="kratka">
             <pitanje>Šta prekinuta veza uradi poruci od paketa?</pitanje>
             <opcije>
               <opcija oznaka="A" drzi="ne">
-                <tekst>Ubije je, jer put je jedan.</tekst>
-                <razlog>Paket ne traži jednu rezervisanu vezu. Ta pretpostavka zanemaruje ključnu razliku: Prekinuta veza ne mora da ubije poruku.</razlog>
+                <tekst>Uništi je, jer put je jedan.</tekst>
+                <razlog>Paket ne traži jednu rezervisanu vezu. Ta pretpostavka zanemaruje ključnu razliku: Prekinuta veza ne mora da uništi poruku.</razlog>
               </opcija>
               <opcija oznaka="B" drzi="da">
-                <tekst>Prekinuta veza ne mora da ubije poruku.</tekst>
-                <razlog>Drugi paket može drugim putem. Poruka se sklopi na kraju. To je u skladu sa razlikom koju pravi ovaj korak: Prekinuta veza ne mora da ubije poruku.</razlog>
+                <tekst>Prekinuta veza ne mora da uništi poruku.</tekst>
+                <razlog>Drugi paket može drugim putem. Poruka se sklopi na kraju. To je u skladu sa razlikom koju pravi ovaj korak: Prekinuta veza ne mora da uništi poruku.</razlog>
               </opcija>
             </opcije>
           </pitalica>
