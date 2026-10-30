@@ -107,7 +107,10 @@ let pretragaOtvorena = false;
 let nedSheetOtvoren = false;
 let korSheetOtvoren = false;
 let mobilNavPrisilno = false;
-const MOBIL_SKROL_PRAG = 28;
+let mobilGlavaSkupljena = false;
+/** Skrol pragovi sa histerezom da tab traka ne „skače” oko granice. */
+const MOBIL_SKROL_SKUPI = 40;
+const MOBIL_SKROL_RASIRI = 8;
 let dodirKoraka = null;
 let dodirTeme = null;
 let dodirSheet = null;
@@ -493,6 +496,7 @@ function prikaziMobilFooter() {
   if (mobilNavPrekidac) mobilNavPrekidac.hidden = !mobil;
   if (!mobil) {
     mobilNavPrisilno = false;
+    mobilGlavaSkupljena = false;
     zatvoriMobilPadMenije();
     document.body.classList.remove("mobil-glava-skupljena", "mobil-nav-prisilno");
   } else osveziMobilGlavaSkrol();
@@ -502,8 +506,28 @@ function prikaziMobilFooter() {
 function osveziMobilGlavaSkrol() {
   if (!usko()) return;
   const skrol = window.scrollY || document.documentElement.scrollTop || 0;
-  if (skrol <= MOBIL_SKROL_PRAG) mobilNavPrisilno = false;
-  const skupljeno = skrol > MOBIL_SKROL_PRAG && !mobilNavPrisilno;
+  if (skrol <= MOBIL_SKROL_RASIRI) mobilNavPrisilno = false;
+  const prethodno = mobilGlavaSkupljena;
+  let skupljeno = mobilGlavaSkupljena;
+  if (mobilNavPrisilno) {
+    skupljeno = false;
+  } else if (skupljeno) {
+    if (skrol <= MOBIL_SKROL_RASIRI) skupljeno = false;
+  } else if (skrol >= MOBIL_SKROL_SKUPI) {
+    skupljeno = true;
+  }
+  if (prethodno && !skupljeno && skrol > 0 && skrol <= MOBIL_SKROL_SKUPI) {
+    window.scrollTo(0, 0);
+    mobilGlavaSkupljena = false;
+    document.body.classList.remove("mobil-glava-skupljena");
+    document.body.classList.toggle("mobil-nav-prisilno", mobilNavPrisilno);
+    if (mobilNavPrekidac) {
+      mobilNavPrekidac.setAttribute("aria-expanded", "true");
+      mobilNavPrekidac.setAttribute("aria-pressed", "true");
+    }
+    return;
+  }
+  mobilGlavaSkupljena = skupljeno;
   document.body.classList.toggle("mobil-glava-skupljena", skupljeno);
   document.body.classList.toggle("mobil-nav-prisilno", mobilNavPrisilno);
   if (mobilNavPrekidac) {
@@ -2523,7 +2547,7 @@ mobilFtTema?.addEventListener("click", () => {
 });
 mobilNavPrekidac?.addEventListener("click", () => {
   if (!usko()) return;
-  const skrol = (window.scrollY || document.documentElement.scrollTop || 0) > MOBIL_SKROL_PRAG;
+  const skrol = mobilGlavaSkupljena || (window.scrollY || document.documentElement.scrollTop || 0) >= MOBIL_SKROL_SKUPI;
   mobilNavPrisilno = skrol ? !mobilNavPrisilno : false;
   osveziMobilGlavaSkrol();
 });

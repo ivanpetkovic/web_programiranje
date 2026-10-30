@@ -31,6 +31,8 @@ test("mobil: pad teme/koraka pre tabova, footer Tema+Pretraga+Podešavanja", () 
   assert.match(html, /class="mobil-korak-lizac"/);
   assert.match(css, /mobil-izbor-lista/);
   assert.match(css, /mobil-glava-skupljena/);
+  assert.match(css, /@media \(max-width: 860px\)[\s\S]*\.cas-glava[\s\S]*position:\s*sticky/);
+  assert.match(css, /overflow-anchor:\s*none/);
   assert.match(css, /#birac-mesto :where\(\.birac\) \{ display: none;/);
 });
 
@@ -202,4 +204,45 @@ test("mobil: ikona gradiva selektovana kad je red vidljiv", { timeout: 60000 }, 
   assert.equal(otvoren.pritisnuto, true);
   assert.ok(otvoren.redOpacity > 0.5);
   assert.notEqual(otvoren.pozadina, otvoren.pomocPozadina);
+});
+
+test("mobil: tab traka ne skače pri skrolu do vrha", { timeout: 60000 }, async (t) => {
+  const portSajta = await slobodanPort();
+  const portChrome = await slobodanPort();
+  const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
+  let strana;
+  t.after(() => {
+    strana?.zatvori();
+    ugasi(server);
+  });
+  await cekajHttp(`http://127.0.0.1:${portSajta}/`);
+  strana = await otvoriStranu(portChrome);
+  await strana.posalji("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
+  await strana.idi(`http://127.0.0.1:${portSajta}/#cas-2`);
+  await pauza(400);
+
+  const merenja = await strana.vrednost(`(async () => {
+    const tab = document.querySelector(".cas-tabovi");
+    const uzmi = () => Math.round(tab?.getBoundingClientRect().top ?? 0);
+    window.scrollTo(0, 420);
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+    const posleDole = uzmi();
+    const koraci = [120, 70, 50, 42, 30, 18, 6, 0];
+    const y = [];
+    for (const s of koraci) {
+      window.scrollTo(0, s);
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      await new Promise((r) => setTimeout(r, 40));
+      y.push({ s, t: uzmi(), skupljeno: document.body.classList.contains("mobil-glava-skupljena") });
+    }
+    return { posleDole, y };
+  })()`);
+  await pauza(80);
+
+  assert.ok(merenja.posleDole >= 55 && merenja.posleDole <= 72, `tab traka van vrha posle skrola: ${merenja.posleDole}`);
+  const uSkupljenom = merenja.y.filter((m) => m.skupljeno && m.s >= 20);
+  const razmak = Math.max(...uSkupljenom.map((m) => m.t)) - Math.min(...uSkupljenom.map((m) => m.t));
+  assert.ok(razmak <= 4, `tab traka skače dok je skupljena: ${JSON.stringify(uSkupljenom)}`);
+  assert.equal(merenja.y.at(-1)?.skupljeno, false);
+  assert.ok(merenja.y.at(-1).t >= 130 && merenja.y.at(-1).t <= 165, `tab traka na vrhu: ${JSON.stringify(merenja.y.at(-1))}`);
 });

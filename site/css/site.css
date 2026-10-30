@@ -1096,15 +1096,11 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   .mobil-nav-red {
     overflow: hidden;
     max-height: 4.5rem;
-    transition:
-      max-height 0.3s cubic-bezier(0.32, 0.72, 0, 1),
-      opacity 0.24s ease,
-      transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    transition: opacity 0.18s ease;
   }
   body.mobil-glava-skupljena:not(.mobil-nav-prisilno) .mobil-nav-red {
     max-height: 0;
     opacity: 0;
-    transform: translateY(-0.45rem);
     pointer-events: none;
   }
   .mobil-nav-red:not([hidden]) { display: block; }
@@ -1590,6 +1586,7 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     z-index: 6;
     padding-bottom: 0.15rem;
     background: linear-gradient(to bottom, var(--bg) 70%, color-mix(in srgb, var(--bg) 0%, transparent));
+    overflow-anchor: none;
   }
   body.mobil-glava-skupljena .cas-tabovi {
     margin-top: 0;
