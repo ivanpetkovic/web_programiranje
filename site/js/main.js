@@ -168,7 +168,7 @@ function popuniStalneIkonice() {
   if (mobilFtTema) saIkonom(mobilFtTema, "calendar-days", "Tema");
   if (mobilFtPretraga) saIkonom(mobilFtPretraga, "search", "Pretraga");
   if (mobilFtPodesavanja) saIkonom(mobilFtPodesavanja, "menu", "Podešavanja");
-  natpisTeme();
+  natpisPregledneTeme();
 }
 
 function lecture() {
@@ -2333,7 +2333,7 @@ document.querySelector("#pomoc").addEventListener("click", () => {
 });
 
 const TEME = [
-  ["mornar", "Mornar", "Plava, sveža i smirena"],
+  ["mornar", "Plava", "Plava, sveža i smirena"],
   ["ugalj", "Ugalj", "Tamna i fokusirana"],
   ["pesak", "Pesak", "Svetla i neutralna"],
   ["terakota", "Terakota", "Topla i prirodna"],
@@ -2363,11 +2363,11 @@ function temaSada() {
   return window.matchMedia("(prefers-color-scheme: light)").matches ? "pesak" : "ugalj";
 }
 
-function natpisTeme() {
+function natpisPregledneTeme() {
   const sad = temaSada();
   const natpis = TEME.find(([id]) => id === sad)[1];
   temaNatpis.textContent = natpis;
-  temaDugme.setAttribute("aria-label", `Tema: ${natpis}`);
+  temaDugme.setAttribute("aria-label", `Pregledna tema: ${natpis}`);
   for (const dugme of temaSpisak.querySelectorAll("button")) {
     const trenutna = dugme.dataset.tema === sad;
     dugme.setAttribute("aria-current", trenutna ? "true" : "false");
@@ -2385,7 +2385,7 @@ function zakucajTemu(id) {
   try {
     localStorage.setItem("tema", id);
   } catch (e) {}
-  natpisTeme();
+  natpisPregledneTeme();
   osveziMermaid();
   if (!usko()) {
     temaSpisak.hidden = true;
@@ -2422,7 +2422,7 @@ for (const [id, natpis, opis] of TEME) {
   temaSpisak.append(stavka);
 }
 
-natpisTeme();
+natpisPregledneTeme();
 postaviSpisakTeme();
 
 temaDugme.addEventListener("click", () => {
@@ -2441,7 +2441,7 @@ window.addEventListener("keydown", (event) => {
   temaSpisak.hidden = true;
   temaDugme.setAttribute("aria-expanded", "false");
 });
-natpisTeme();
+natpisPregledneTeme();
 
 window.addEventListener("hashchange", () => {
   const n = Number((location.hash.match(/cas-(\d+)/) || [])[1]);

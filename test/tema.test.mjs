@@ -202,7 +202,7 @@ test("boje razlike prate token palete", () => {
 });
 
 test("spisak tema zakuca paletu i ne pomera čas", () => {
-  for (const natpis of ["Mornar", "Ugalj", "Pesak", "Terakota"]) {
+  for (const natpis of ["Plava", "Ugalj", "Pesak", "Terakota"]) {
     assert.match(main, new RegExp(natpis));
   }
   assert.match(main, /return window\.matchMedia\("\(prefers-color-scheme: light\)"\)\.matches \? "pesak" : "ugalj"/);
