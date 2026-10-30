@@ -174,7 +174,22 @@ Zašto jedan plan adresa za mnogo mreža? 1. januara 1983. mreže prelaze na TCP
 
 ~5 min · crtež, bez fajla
 
-Zašto pratiti ideju, umesto broja stranice? Bush 1945. opisuje Memex. Nelson 1965. kuje reč hipertekst. Veza je adresa drugog teksta, ne ukras na margini.
+### Hipertekst: od linearnog čitanja do mreže povezanih informacija
+
+Knjigu obično čitamo redom, od jedne stranice ka sledećoj. Ali šta ako želimo da pratimo ideje i njihove međusobne veze, umesto unapred određenog redosleda stranica?
+
+Vanevar Buš (Vannevar Bush) još 1945. godine opisuje **Memex**, zamišljeni uređaj koji omogućava povezivanje i pronalaženje informacija putem asocijacija. Ted Nelson 1965. uvodi pojam **hipertekst**, označavajući tekst čiji su delovi međusobno povezani i koji se može istraživati nelinearno.
+
+**Hipertekst** omogućava čitaocu da sam bira put kroz informacije. Umesto da prati strogo određen redosled, može da prelazi između povezanih dokumenata i tema.
+
+Osnovni mehanizam je **hiperlink (veza)**, element na koji korisnik može da klikne kako bi otvorio drugi dokument ili određeni deo istog dokumenta.
+
+Na vebu se to ostvaruje kombinacijom dve tehnologije:
+
+- **URL** određuje adresu resursa na koji veza upućuje.
+- **HTML** pomoću elementa `<a>` definiše vezu i omogućava korisniku da je prati.
+
+Tako nastaje **World Wide Web**, mreža međusobno povezanih dokumenata u kojoj korisnik sam odlučuje kojim putem će istraživati informacije.
 
 > **Ključna ideja.** Veza vodi na drugi tekst, ne na sledeći broj stranice.
 
