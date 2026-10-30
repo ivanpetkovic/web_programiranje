@@ -203,3 +203,118 @@ test("mobil: ikona gradiva selektovana kad je red vidljiv", { timeout: 60000 }, 
   assert.ok(otvoren.redOpacity > 0.5);
   assert.notEqual(otvoren.pozadina, otvoren.pomocPozadina);
 });
+
+function povuciNadole(selektor, dy) {
+  const el = document.querySelector(selektor);
+  if (!el) return { greska: `nema ${selektor}` };
+  const okvir = el.getBoundingClientRect();
+  const x = Math.round(okvir.left + Math.min(Math.max(okvir.width / 2, 8), 140));
+  const y0 = Math.round(okvir.top + Math.min(Math.max(okvir.height / 2, 8), 28));
+  const dodir = (y) => new Touch({ identifier: 7, target: el, clientX: x, clientY: y });
+  const salji = (tip, y) => {
+    const kraj = tip === "touchend";
+    el.dispatchEvent(new TouchEvent(tip, {
+      bubbles: true,
+      cancelable: true,
+      touches: kraj ? [] : [dodir(y)],
+      changedTouches: [dodir(y)],
+    }));
+  };
+  salji("touchstart", y0);
+  salji("touchmove", y0 + dy / 2);
+  salji("touchmove", y0 + dy);
+  salji("touchend", y0 + dy);
+  const lista = document.querySelector("#mobil-kor-lista");
+  return {
+    ned: document.body.classList.contains("mobil-ned-sheet-otvoren"),
+    kor: document.body.classList.contains("mobil-kor-sheet-otvoren"),
+    naslovTeme: document.querySelector("#mobil-ned-naslov")?.textContent || "",
+    korGlava: document.querySelector("#mobil-kor-glava")?.textContent || "",
+    listaScroll: lista ? Math.round(lista.scrollTop) : -1,
+    listaPrekoracenje: lista ? Math.round(lista.scrollHeight - lista.clientHeight) : -1,
+  };
+}
+
+test("mobil: povlačenje nadole zatvara izbor teme i koraka", { timeout: 60000 }, async (t) => {
+  mkdirSync(snimci, { recursive: true });
+  const portSajta = await slobodanPort();
+  const portChrome = await slobodanPort();
+  const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
+  let strana;
+  t.after(() => {
+    strana?.zatvori();
+    ugasi(server);
+  });
+  await cekajHttp(`http://127.0.0.1:${portSajta}/`);
+  strana = await otvoriStranu(portChrome);
+  await strana.posalji("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
+  await strana.idi(`http://127.0.0.1:${portSajta}/#cas-7`);
+  await pauza(400);
+
+  const povuci = (selektor, dy) => strana.vrednost(`(${povuciNadole.toString()})(${JSON.stringify(selektor)}, ${dy})`);
+
+  await strana.vrednost(`document.querySelector("#mobil-ned-pad").click()`);
+  await pauza(80);
+  assert.equal(await strana.vrednost(`document.body.classList.contains("mobil-ned-sheet-otvoren")`), true);
+  const temaSlika = await strana.posalji("Page.captureScreenshot", { format: "png" });
+  writeFileSync(path.join(snimci, "mobil-tema-pre-povlacenja.png"), Buffer.from(temaSlika.data, "base64"));
+
+  const zatvorenaTema = await povuci("#mobil-ned-sheet-naslov", 140);
+  assert.equal(zatvorenaTema.ned, false, JSON.stringify(zatvorenaTema));
+  assert.equal(zatvorenaTema.kor, false);
+
+  await strana.vrednost(`document.querySelector("#mobil-ft-tema").click()`);
+  await pauza(80);
+  const temaNaListi = await povuci("#mobil-ned-lista .mobil-izbor-stavka", 150);
+  assert.equal(temaNaListi.ned, false, JSON.stringify(temaNaListi));
+  assert.equal(temaNaListi.naslovTeme, zatvorenaTema.naslovTeme);
+
+  await strana.vrednost(`document.querySelector("#mobil-kor-sredina").click()`);
+  await pauza(80);
+  assert.equal(await strana.vrednost(`document.body.classList.contains("mobil-kor-sheet-otvoren")`), true);
+  const korakSlika = await strana.posalji("Page.captureScreenshot", { format: "png" });
+  writeFileSync(path.join(snimci, "mobil-korak-pre-povlacenja.png"), Buffer.from(korakSlika.data, "base64"));
+
+  const kratko = await povuci("#mobil-kor-sheet-naslov", 28);
+  assert.equal(kratko.kor, true, JSON.stringify(kratko));
+  assert.equal(kratko.korGlava, "1 / 13");
+
+  const odskrolovano = await strana.vrednost(`(() => {
+    const lista = document.querySelector("#mobil-kor-lista");
+    lista.scrollTop = lista.scrollHeight;
+    return { scroll: Math.round(lista.scrollTop), prekoracenje: Math.round(lista.scrollHeight - lista.clientHeight) };
+  })()`);
+  assert.ok(odskrolovano.prekoracenje > 40, JSON.stringify(odskrolovano));
+  assert.ok(odskrolovano.scroll > 40, JSON.stringify(odskrolovano));
+
+  const naListi = await povuci("#mobil-kor-lista .mobil-izbor-stavka", 160);
+  assert.equal(naListi.kor, true, JSON.stringify(naListi));
+  assert.equal(naListi.korGlava, "1 / 13");
+
+  const saZaglavlja = await povuci("#mobil-kor-sheet-naslov", 140);
+  assert.equal(saZaglavlja.kor, false, JSON.stringify(saZaglavlja));
+  assert.equal(saZaglavlja.korGlava, "1 / 13");
+
+  await strana.vrednost(`document.querySelector("#mobil-kor-sredina").click()`);
+  await pauza(80);
+  await strana.vrednost(`document.querySelector("#mobil-kor-lista").scrollTop = 0`);
+  const saVrha = await povuci("#mobil-kor-lista .mobil-izbor-stavka", 150);
+  assert.equal(saVrha.kor, false, JSON.stringify(saVrha));
+  assert.equal(saVrha.korGlava, "1 / 13");
+
+  const zatvoreno = await strana.posalji("Page.captureScreenshot", { format: "png" });
+  writeFileSync(path.join(snimci, "mobil-korak-posle-povlacenja.png"), Buffer.from(zatvoreno.data, "base64"));
+
+  await strana.vrednost(`document.querySelector("#mobil-kor-sredina").click()`);
+  await pauza(60);
+  await strana.vrednost(`document.querySelector("#mobil-kor-zatvori").click()`);
+  await pauza(40);
+  assert.equal(await strana.vrednost(`document.body.classList.contains("mobil-kor-sheet-otvoren")`), false);
+
+  await strana.vrednost(`document.querySelector("#mobil-kor-sredina").click()`);
+  await pauza(60);
+  await strana.vrednost(`document.querySelectorAll("#mobil-kor-lista .mobil-izbor-stavka")[2].click()`);
+  await pauza(80);
+  assert.equal(await strana.vrednost(`document.querySelector("#mobil-kor-glava").textContent`), "3 / 13");
+  assert.equal(await strana.vrednost(`document.body.classList.contains("mobil-kor-sheet-otvoren")`), false);
+});

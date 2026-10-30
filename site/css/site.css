@@ -1333,13 +1333,24 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     box-shadow: 0 -10px 36px color-mix(in srgb, var(--ink) 16%, transparent);
   }
   body.mobil-profil-otvoren #mobil-podesavanja,
-  body.mobil-pretraga-otvoren #mobil-pretraga,
+  body.mobil-pretraga-otvoren #mobil-pretraga { display: grid; }
   body.mobil-ned-sheet-otvoren #mobil-ned-sheet,
-  body.mobil-kor-sheet-otvoren #mobil-kor-sheet { display: grid; }
+  body.mobil-kor-sheet-otvoren #mobil-kor-sheet {
+    display: flex;
+    flex-direction: column;
+  }
   .mobil-izbor-sheet {
     z-index: 15;
     max-height: min(78vh, 32rem);
     padding-top: 0.35rem;
+    overflow: hidden;
+    overscroll-behavior: none;
+    transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .mobil-izbor-sheet > .mobil-sheet-hvat,
+  .mobil-izbor-sheet > .mobil-izbor-sheet-h {
+    flex: 0 0 auto;
+    touch-action: none;
   }
   .mobil-izbor-sheet-h {
     display: grid;
@@ -1380,8 +1391,10 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     list-style: none;
     margin: 0;
     padding: 0.35rem 0 0.15rem;
+    flex: 1 1 auto;
+    min-height: 0;
     overflow: auto;
-    overscroll-behavior: contain;
+    overscroll-behavior: none;
   }
   .mobil-izbor-stavka {
     display: grid;
