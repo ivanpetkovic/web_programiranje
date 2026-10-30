@@ -125,7 +125,7 @@ Displej sobe prekidača. Pre prvog uspelog čitanja pokazuje crte. Uspešno čit
 _Avoid_: Displej sobe mašina, prekidač.
 
 **Sesija**:
-Pripremljeni par ključa i uloge. Ključ je opaque token: browser ga drži, kutija drži ulogu.
+Pripremljeni par ključa i uloge. Ključ je neprozirni token: browser ga drži, kutija drži ulogu.
 _Avoid_: Nalog, prijava, lozinka, neprozirni ključ.
 
 **Transakcija**:

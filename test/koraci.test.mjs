@@ -202,7 +202,7 @@ test("gradivo ne krije termin kalkom", () => {
   }
   assert.match(telo, /veza od kraja do kraja/);
   assert.match(telo, /blockchain/);
-  assert.match(telo, /opaque token/);
+  assert.match(telo, /neprozirni token/);
   assert.match(telo, /credential baze/);
 });
 
