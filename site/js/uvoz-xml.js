@@ -1,10 +1,13 @@
 export function procitajXml(tekst) {
-  let stablo;
   try {
-    stablo = koren(tekst);
+    return procitajDokument(tekst);
   } catch {
     return { ok: false, greska: "Neispravan XML.", kurs: null, napomena: "", nedostajeUgradjena: 0 };
   }
+}
+
+function procitajDokument(tekst) {
+  const stablo = koren(tekst);
   if (!stablo || stablo.ime !== "kurs" || !dete(stablo, "nedelje")) {
     return { ok: false, greska: "Dokument nema spisak nedelja.", kurs: null, napomena: "", nedostajeUgradjena: 0 };
   }
@@ -26,6 +29,7 @@ export function procitajXml(tekst) {
     preduslovPrve: tekstElementa(dete(deca(dete(stablo, "nedelje"), "nedelja")[0], "preduslov")),
     nedelje,
   };
+  Object.assign(kurs, dopunskaPolja(stablo));
   return { ok: true, greska: "", napomena, kurs, nedostajeUgradjena: brojBezUgradjene(kurs) };
 }
 
@@ -48,6 +52,7 @@ function procitajNedelju(el) {
   nedelja.izlaz = tekstIzlaza(diskusija);
   nedelja.pojmoviCasa = procitajPojmove(dete(el, "pojmovi"));
   nedelja.steps = deca(dete(el, "lekcije"), "korak").map(procitajKorak);
+  Object.assign(nedelja, dopunskaPolja(el));
   return nedelja;
 }
 
@@ -61,12 +66,19 @@ function procitajKorak(el) {
   if ("minuta" in el.attrs) polja.minuta = brojAko(el.attrs.minuta, 0);
   const crtez = dete(el, "crtez");
   const fajl = dete(el, "fajl");
+  const primer = dete(el, "primer");
   if (crtez) polja.figura = procitajCrtez(crtez);
   else if (fajl) procitajFajl(fajl, polja);
+  else if (primer) procitajPrimer(primer, polja);
   const kratka = pitalicaVrste(el, "kratka") || dete(el, "pitalica");
   polja.pitalica = tekstElementa(dete(kratka, "pitanje"));
   polja.opcije = procitajOpcije(dete(kratka, "opcije"));
-  return sloziKorak(polja);
+  return { ...sloziKorak(polja), ...dopunskaPolja(el) };
+}
+
+function procitajPrimer(primer, polja) {
+  if ("naslov" in primer.attrs) polja.isecakNaslov = primer.attrs.naslov;
+  polja.isecak = sirovo(primer);
 }
 
 function procitajFajl(fajl, polja) {
@@ -122,6 +134,7 @@ function procitajPojmove(el) {
     hint: tekstElementa(dete(pojam, "nagovestaj")),
     body: tekstElementa(dete(pojam, "opis")),
     code: sirovo(dete(pojam, "zapis")),
+    ...dopunskaPolja(pojam),
   }));
 }
 
@@ -157,6 +170,15 @@ function sloziKorak(polja) {
   korak.opcije = polja.opcije;
   if (polja.figura) korak.figura = polja.figura;
   return korak;
+}
+
+function dopunskaPolja(el) {
+  const zapis = dete(el, "dopunska-polja");
+  if (!zapis) return {};
+  const polja = JSON.parse(sirovo(zapis));
+  if (!polja || typeof polja !== "object" || Array.isArray(polja)) throw new Error("dopunska polja");
+  if (["__proto__", "prototype", "constructor"].some((ime) => Object.hasOwn(polja, ime))) throw new Error("dopunska polja");
+  return polja;
 }
 
 function brojBezUgradjene(kurs) {

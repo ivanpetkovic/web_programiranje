@@ -1,6 +1,6 @@
 # Veb programiranje — lekcije i diskusija
 
-Ovaj izvoz je stariji tok. Revidirani kurs je u `docs/kurs.xml` i `site/kurs.json`.
+Ovaj izvoz je stariji tok. Revidirani kurs je u `site/kurs.json`.
 
 Elektronski fakultet, Univerzitet u Nišu. Oznaka MP.
 
