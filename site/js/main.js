@@ -168,7 +168,7 @@ function popuniStalneIkonice() {
   if (mobilFtTema) saIkonom(mobilFtTema, "calendar-days", "Tema");
   if (mobilFtPretraga) saIkonom(mobilFtPretraga, "search", "Pretraga");
   if (mobilFtPodesavanja) saIkonom(mobilFtPodesavanja, "menu", "Podešavanja");
-  natpisPregledneTeme();
+  natpisPalete();
 }
 
 function lecture() {
@@ -2363,11 +2363,11 @@ function temaSada() {
   return window.matchMedia("(prefers-color-scheme: light)").matches ? "pesak" : "ugalj";
 }
 
-function natpisPregledneTeme() {
+function natpisPalete() {
   const sad = temaSada();
   const natpis = TEME.find(([id]) => id === sad)[1];
   temaNatpis.textContent = natpis;
-  temaDugme.setAttribute("aria-label", `Pregledna tema: ${natpis}`);
+  temaDugme.setAttribute("aria-label", `Paleta: ${natpis}`);
   for (const dugme of temaSpisak.querySelectorAll("button")) {
     const trenutna = dugme.dataset.tema === sad;
     dugme.setAttribute("aria-current", trenutna ? "true" : "false");
@@ -2385,7 +2385,7 @@ function zakucajTemu(id) {
   try {
     localStorage.setItem("tema", id);
   } catch (e) {}
-  natpisPregledneTeme();
+  natpisPalete();
   osveziMermaid();
   if (!usko()) {
     temaSpisak.hidden = true;
@@ -2422,7 +2422,7 @@ for (const [id, natpis, opis] of TEME) {
   temaSpisak.append(stavka);
 }
 
-natpisPregledneTeme();
+natpisPalete();
 postaviSpisakTeme();
 
 temaDugme.addEventListener("click", () => {
@@ -2441,7 +2441,7 @@ window.addEventListener("keydown", (event) => {
   temaSpisak.hidden = true;
   temaDugme.setAttribute("aria-expanded", "false");
 });
-natpisPregledneTeme();
+natpisPalete();
 
 window.addEventListener("hashchange", () => {
   const n = Number((location.hash.match(/cas-(\d+)/) || [])[1]);

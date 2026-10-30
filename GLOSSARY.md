@@ -30,11 +30,15 @@ Jedna aplikacija kojoj se predavanja vraćaju da bi demonstrirala nove koncepte 
 
 **Pregledna tema**:
 Oblast koja se na predavanju predstavlja kroz problem koji rešava, osnovnu ideju i kratak primer ili pitalicu, bez detaljne razrade. Nije celina kursa.
-_Avoid_: Tema
+_Avoid_: Tema, Paleta
 
 **Sajt časa**:
 Interaktivni tok predavanja koji zamenjuje slajdove i ugrađuje povezujući primer.
-_Avoid_: Prezentacija, slajdovi.
+_Avoid_: Prezentacija, slajdovi
+
+**Paleta**:
+Jedan izgled sajta časa. Četiri su Plava, Ugalj, Pesak i Terakota.
+_Avoid_: Tema, Pregledna tema.
 
 **Editor časa**:
 Mesto na sajtu časa gde se menja jedan isečak povezujućeg primera koji već radi.
