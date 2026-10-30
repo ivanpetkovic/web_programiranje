@@ -172,8 +172,11 @@ Dokument koji predlaže sistem. Bitcoinov je iz oktobra 2008.
 _Avoid_: Beli papir.
 
 **cookie**:
-HttpOnly zapis koji browser nosi kutiji. Ne nosi ime uloge.
-_Avoid_: Kolačić.
+Podatak koji browser šalje kutiji uz odgovarajuće HTTP zahteve. Na času je HttpOnly i nosi ključ sesije, ne ime uloge. Engleski: HTTP cookie (Set-Cookie).
+_Avoid_: Kolačić, transparentni kolačić.
+
+**HttpOnly**:
+Atribut u Set-Cookie: JavaScript ne sme da pročita vrednost cookie-ja preko document.cookie. Browser cookie ipak može poslati uz zahtev; to nije ista stvar kao CSRF zaštita. Engleski: HttpOnly (Set-Cookie attribute).
 
 **cache**:
 Sačuvan odgovor sa svojim rokom. Ikonica i temperatura ne dele rok.
@@ -188,8 +191,12 @@ Poruka kutije ka browseru, bez novog čitanja. Ide u sobu mašina.
 _Avoid_: Dovod, guranje.
 
 **opaque token**:
-Ključ sesije koji browser nosi, a ne čita. Kutija po njemu nađe ulogu.
-_Avoid_: Neprozirni ključ.
+Ključ sesije koji stranica ne tumači: browser ga samo nosi, kutija u mapi nađe ulogu. Suprotno je od cookie-ja čiju vrednost JS čita. Engleski: opaque token.
+_Avoid_: Neprozirni ključ, transparentni kolačić, prozirni kolačić.
+
+**neprozirni token**:
+Isto što i opaque token: u cookie-ju stoji ključ bez uloge u njemu; ulogu drži server. Engleski: opaque token.
+_Avoid_: Transparentni kolačić.
 
 **klijent**:
 Deo koji browser učita. Na času je tab Klijent.
