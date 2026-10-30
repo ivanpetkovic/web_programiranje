@@ -103,7 +103,7 @@
         <korak broj="4" nivo="Osnovno" minuta="5">
           <naslov>TCP i UDP</naslov>
           <tekst>Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? TCP je pouzdan tok bajtova: dokument traži svaki bajt. UDP sme da odbaci datagram, pa glas, slika ili igra ne čekaju zakasneli kadar.</tekst>
-          <kljucna-ideja>Dokument čeka bajt. Zakasneli kadar sme da se odbaci.</kljucna-ideja>
+          <kljucna-ideja>TCP slaže bajtove redom i ne preskače izgubljeni. UDP sme da odbaci zakasneli kadar.</kljucna-ideja>
           <crtez vrsta="put">
             <cvor id="bajt">Bajt</cvor>
             <cvor id="tcp">TCP</cvor>
@@ -114,11 +114,11 @@
             <opcije>
               <opcija oznaka="A" drzi="ne">
                 <tekst>Čekamo ga, kao što dokument čeka bajt.</tekst>
-                <razlog>Kadar koji zakasni više ne pripada slici koja je prošla. Ta pretpostavka zanemaruje ključnu razliku: Dokument čeka bajt. Zakasneli kadar sme da se odbaci.</razlog>
+                <razlog>Kadar koji zakasni više ne pripada slici koja je prošla. Ta pretpostavka zanemaruje ključnu razliku: TCP slaže bajtove redom i ne preskače izgubljeni. UDP sme da odbaci zakasneli kadar.</razlog>
               </opcija>
               <opcija oznaka="B" drzi="da">
                 <tekst>Kadar sme da se odbaci, a dokument ne sme da izgubi bajt.</tekst>
-                <razlog>TCP omogućava pouzdan uređen tok bajtova (dok je konekcija uspešna). UDP sme da odbaci glas ili sliku. To je u skladu sa razlikom koju pravi ovaj korak: Dokument čeka bajt. Zakasneli kadar sme da se odbaci.</razlog>
+                <razlog>TCP omogućava pouzdan uređen tok bajtova (dok je konekcija uspešna). UDP sme da odbaci glas ili sliku. To je u skladu sa razlikom koju pravi ovaj korak: TCP slaže bajtove redom i ne preskače izgubljeni. UDP sme da odbaci zakasneli kadar.</razlog>
               </opcija>
             </opcije>
           </pitalica>
