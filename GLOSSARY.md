@@ -134,9 +134,14 @@ _Avoid_: Celina, celina upisa.
 
 ## Termini gradiva
 
+Definicija svakog termina u ovom odeljku navodi i engleski izraz (`Engleski: …`). Ako je naslov već uobičajeni engleski naziv u struci, isti se ponavlja u definiciji.
+
 **veza od kraja do kraja**:
-Rezervisana veza kojom cela poruka ide jednim putem. Paket je ne traži.
+Rezervisana veza kojom cela poruka ide jednim putem. Paketna mreža ne traži takav kanal. Engleski: end-to-end connection; kod rezervisanja celog puta i circuit-switched connection.
 _Avoid_: Žica.
+
+**komutacije paketa**:
+Način rada mreže u kome se podaci seku u pakete koji putuju nezavisno, bez trajno rezervisanog kanala od pošiljaoca do primaoca. Engleski: packet switching.
 
 **flag day**:
 Dan kad sve mreže prelaze na isti protokol. Za Internet je to 1. januar 1983.
