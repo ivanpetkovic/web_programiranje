@@ -4165,7 +4165,7 @@ Rečenica na poslednjem koraku. Nema opcija, pečata ni polja.
 
 ~8 min · `server/sesija.js`
 
-U kodu kutije stoje dva ključa. Svaki je neprozirni token.
+U kodu kutije stoje dva ključa. Svaki je opaque token.
 
 > **Ključna ideja.** Dve sesije su pripremljene: posmatrač i operater.
 
@@ -4197,7 +4197,7 @@ const KLJUC_POSMATRACA = "kljuc-posmatraca";
 
 Izbor na panelu traži cookie.
 
-> **Ključna ideja.** Cookie je HttpOnly i nosi neprozirni token.
+> **Ključna ideja.** Cookie je HttpOnly i nosi opaque token.
 
 **Isečak.** HttpOnly
 
@@ -4506,7 +4506,7 @@ Access-Control
 
 **Sesija.** ključ u cookie-ju, uloga na kutiji
 
-Dva ključa stoje u kodu. Svaki je neprozirni token. HttpOnly cookie ne nosi ime uloge.
+Dva ključa stoje u kodu. Svaki je opaque token. HttpOnly cookie ne nosi ime uloge.
 
 `Set-Cookie: sesija=kljuc-posmatraca; HttpOnly`
 

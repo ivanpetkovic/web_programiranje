@@ -80,8 +80,9 @@ test("termini gradiva izbegavaju kalk i javljaju se u kursu", () => {
   assert.match(trazi("cookie").izbegava, /transparentni kolačić/);
   assert.match(trazi("HttpOnly").definicija, /Engleski.*HttpOnly/i);
   assert.match(trazi("opaque token").izbegava, /transparentni kolačić/);
-  assert.equal(lekcijePojma(dokument, "neprozirni token").prvi.korak, 0);
-  assert.equal(lekcijePojma(dokument, "neprozirni token").pogoci.length >= 2, true);
+  assert.match(trazi("opaque token").definicija, /neprozirni token/);
+  assert.equal(lekcijePojma(dokument, "opaque token").prvi.korak, 0);
+  assert.equal(lekcijePojma(dokument, "opaque token").pogoci.length >= 2, true);
   assert.equal(lekcijePojma(dokument, "HttpOnly").prvi !== null, true);
   assert.match(trazi("cache").izbegava, /Keš/);
   assert.match(trazi("push").izbegava, /Dovod/);

@@ -4220,7 +4220,7 @@ const id = setInterval(procitaj, 4000);]]></zapis>
       <lekcije>
         <korak broj="1" nivo="Osnovno" minuta="4">
           <naslov>Dva ključa</naslov>
-          <tekst>U kodu kutije stoje dva ključa. Svaki je neprozirni token.</tekst>
+          <tekst>U kodu kutije stoje dva ključa. Svaki je opaque token.</tekst>
           <kljucna-ideja>Dve sesije su pripremljene: posmatrač i operater.</kljucna-ideja>
           <fajl putanja="server/sesija.js">
             <isecak naslov="Dva ključa" jezik="javascript"><![CDATA[const KLJUC_POSMATRACA = "kljuc-posmatraca";
@@ -4258,17 +4258,17 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
         <korak broj="2" nivo="Osnovno" minuta="4">
           <naslov>HttpOnly</naslov>
           <tekst>Izbor na panelu traži cookie.</tekst>
-          <kljucna-ideja>Cookie je HttpOnly i nosi neprozirni token.</kljucna-ideja>
+          <kljucna-ideja>Cookie je HttpOnly i nosi opaque token.</kljucna-ideja>
           <pitalica vrsta="kratka">
             <pitanje>Šta stranica sme da pročita iz tog cookie-ja?</pitanje>
             <opcije>
               <opcija oznaka="A" drzi="ne">
                 <tekst>Ulogu, da sakrije dugme pouzdano.</tekst>
-                <razlog>HttpOnly se ne čita iz JS-a, a uloga ionako nije u njemu. Ta pretpostavka zanemaruje ključnu razliku: Cookie je HttpOnly i nosi neprozirni token.</razlog>
+                <razlog>HttpOnly se ne čita iz JS-a, a uloga ionako nije u njemu. Ta pretpostavka zanemaruje ključnu razliku: Cookie je HttpOnly i nosi opaque token.</razlog>
               </opcija>
               <opcija oznaka="B" drzi="da">
                 <tekst>Ništa iz JS-a. Ključ ostaje u cookie-ju.</tekst>
-                <razlog>Kutija po ključu nađe ulogu. To je u skladu sa razlikom koju pravi ovaj korak: Cookie je HttpOnly i nosi neprozirni token.</razlog>
+                <razlog>Kutija po ključu nađe ulogu. To je u skladu sa razlikom koju pravi ovaj korak: Cookie je HttpOnly i nosi opaque token.</razlog>
               </opcija>
             </opcije>
           </pitalica>
@@ -4614,7 +4614,7 @@ module.exports = { odbijenaKomanda, kljucZaUlogu };
         <pojam id="sesija">
           <naziv>Sesija</naziv>
           <nagovestaj>ključ u cookie-ju, uloga na kutiji</nagovestaj>
-          <opis>Dva ključa stoje u kodu. Svaki je neprozirni token. HttpOnly cookie ne nosi ime uloge.</opis>
+          <opis>Dva ključa stoje u kodu. Svaki je opaque token. HttpOnly cookie ne nosi ime uloge.</opis>
           <zapis jezik="text"><![CDATA[Set-Cookie: sesija=kljuc-posmatraca; HttpOnly]]></zapis>
         </pojam>
         <pojam id="statusi">

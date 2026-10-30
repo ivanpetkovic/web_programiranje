@@ -125,7 +125,7 @@ Displej sobe prekidača. Pre prvog uspelog čitanja pokazuje crte. Uspešno čit
 _Avoid_: Displej sobe mašina, prekidač.
 
 **Sesija**:
-Pripremljeni par ključa i uloge. Ključ je neprozirni token: browser ga drži, kutija drži ulogu.
+Pripremljeni par ključa i uloge. Ključ je opaque token: browser ga drži, kutija drži ulogu.
 _Avoid_: Nalog, prijava, lozinka, neprozirni ključ.
 
 **Transakcija**:
@@ -191,12 +191,8 @@ Poruka kutije ka browseru, bez novog čitanja. Ide u sobu mašina.
 _Avoid_: Dovod, guranje.
 
 **opaque token**:
-Ključ sesije koji stranica ne tumači: browser ga samo nosi, kutija u mapi nađe ulogu. Suprotno je od cookie-ja čiju vrednost JS čita. Engleski: opaque token.
+Ključ sesije koji stranica ne tumači: browser ga samo nosi, kutija u mapi nađe ulogu. Suprotno je od cookie-ja čiju vrednost JS čita. Po srpski: neprozirni token. Engleski: opaque token.
 _Avoid_: Neprozirni ključ, transparentni kolačić, prozirni kolačić.
-
-**neprozirni token**:
-Isto što i opaque token: u cookie-ju stoji ključ bez uloge u njemu; ulogu drži server. Engleski: opaque token.
-_Avoid_: Transparentni kolačić.
 
 **klijent**:
 Deo koji browser učita. Na času je tab Klijent.
