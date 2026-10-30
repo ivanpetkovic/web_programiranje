@@ -6,8 +6,8 @@ import { procitajXml } from "../site/js/uvoz-xml.js";
 import { procitajTekst } from "../site/js/studio.js";
 
 const json = fs.readFileSync(new URL("../site/kurs.json", import.meta.url), "utf8");
-const xml = fs.readFileSync(new URL("../docs/kurs.xml", import.meta.url), "utf8");
 const kurs = procitajTekst(json).kurs;
+const xml = ispisiXml(kurs);
 
 function ekran(dokument) {
   return {
@@ -46,6 +46,12 @@ function ekran(dokument) {
     })),
   };
 }
+
+test("kurs stoji samo u kurs.json", () => {
+  assert.equal(fs.existsSync(new URL("../docs/kurs.xml", import.meta.url)), false);
+  assert.equal(fs.existsSync(new URL("../site/kurs.xml", import.meta.url)), false);
+  assert.equal(fs.existsSync(new URL("../site/kurs.json", import.meta.url)), true);
+});
 
 test("semantički XML otvara isti čas koji sajt crta iz kurs.json", () => {
   const procitan = procitajXml(xml);
