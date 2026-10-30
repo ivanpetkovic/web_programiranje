@@ -2,11 +2,11 @@
 
 ## Purpose
 
-Deset nedelja vodi nastavnika od praznog `client/index.html` do iste kontrolne sobe, tako da svaki korak doda jedan delić koji se prekuca u VS Code.
+Deset tema vodi nastavnika od praznog `client/index.html` do iste kontrolne sobe, tako da svaki korak doda jedan delić koji se prekuca u VS Code.
 
 ## ADDED Requirements
 
-### Requirement: Nedelja ima naslov i korake
+### Requirement: Tema ima naslov i korake
 The course MUST contain exactly ten lectures, in order, each with a title. Each lecture MUST contain 10 to 20 steps. A step MUST be one function or one fragment, not the whole lecture. The lecture duration from the plan MUST remain a teaching budget and MUST NOT be a timer in the site.
 
 #### Scenario: Titles are visible

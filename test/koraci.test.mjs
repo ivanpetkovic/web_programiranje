@@ -95,12 +95,12 @@ test("preduslov časa 1 je priča pre stranice, a časa 2 je ishod istorije", ()
   assert.match(lectures[0].outcome, /server\/ još nema fajlove/);
 });
 
-test("nedelja istorije drži korake bez fajla", () => {
+test("tema istorije drži korake bez fajla", () => {
   const redosled = [
     "LO", "Paket", "Paket ili rezervisana veza", "TCP i UDP", "Hipertekst", "Predlog",
     "HTTP kao dogovor", "HTML", "Rat browsera", "Od URL-a do prikaza", "Ajax", "Dokument",
   ];
-  const sirovi = dokument.nedelje[0].steps;
+  const sirovi = dokument.teme[0].steps;
   assert.deepEqual(sirovi.map((korak) => korak.naslov), redosled);
   assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 55);
   const tacan = (naslov) => sirovi.find((korak) => korak.naslov === naslov).opcije.find((opcija) => opcija.ok).text;
@@ -120,13 +120,13 @@ test("nedelja istorije drži korake bez fajla", () => {
   );
 });
 
-test("nedelja stranice drži isečke dokumenta, bez ugrađenog originala", () => {
+test("tema stranice drži isečke dokumenta, bez ugrađenog originala", () => {
   const redosled = [
     "Stranica", "Glava", "Naslov", "Širina kutije", "Broj", "Dugme", "Veza",
     "Specifičnost selektora", "Selektor", "Okvir", "Osvežavanje", "Raspored pri uskom ekranu",
     "Alati", "Dva zahteva", "Semantika",
   ];
-  const sirovi = dokument.nedelje[1].steps;
+  const sirovi = dokument.teme[1].steps;
   assert.deepEqual(sirovi.map((korak) => korak.naslov), redosled);
   const broj = sirovi.find((korak) => korak.naslov === "Broj");
   assert.match(broj.isecak, /<p class="digit">24<\/p>/);
@@ -139,14 +139,14 @@ test("nedelja stranice drži isečke dokumenta, bez ugrađenog originala", () =>
   assert.equal(selektor.isecak, "letter-spacing: 0.08em;");
   assert.match(selektor.kljucnaIdeja, /selektor/i);
   assert.equal(okvir.isecak, "border: 1px solid #3a342c;");
-  assert.match(dokument.nedelje[1].pojmoviCasa.find((pojam) => pojam.id === "css").body, /calc/);
+  assert.match(dokument.teme[1].pojmoviCasa.find((pojam) => pojam.id === "css").body, /calc/);
   assert.match(sirovi.find((korak) => korak.naslov === "Osvežavanje").isecak, /osvežavanje vraća dokument/);
   const semantika = sirovi.find((korak) => korak.naslov === "Semantika");
   assert.match(semantika.isecak, /naslov je h1/);
   assert.equal(semantika.isecak.includes("soba mašina"), false);
   assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 55);
-  for (const nedelja of dokument.nedelje) {
-    for (const korak of nedelja.steps) {
+  for (const tema of dokument.teme) {
+    for (const korak of tema.steps) {
       if ("original" in korak) {
         assert.equal(typeof korak.putanja, "string", korak.naslov);
         assert.equal(mapirajKorak(korak).original, korak.original);
@@ -208,8 +208,8 @@ test("gradivo ne krije termin kalkom", () => {
 
 test("nema preglednog spiska ni naslova Osvrt", () => {
   for (const cas of lectures) assert.equal(cas.overview, undefined);
-  for (const nedelja of dokument.nedelje) assert.equal("overview" in nedelja, false);
-  const naslovi = dokument.nedelje.flatMap((nedelja) => nedelja.steps.map((korak) => korak.naslov));
+  for (const tema of dokument.teme) assert.equal("overview" in tema, false);
+  const naslovi = dokument.teme.flatMap((tema) => tema.steps.map((korak) => korak.naslov));
   assert.equal(naslovi.includes("Osvrt"), false);
   assert.match(dokument.dopunaGlosara.find((pojam) => pojam.id === "push").body, /SSE/);
   assert.match(dokument.dopunaGlosara.find((pojam) => pojam.id === "push").body, /WebSocket/);

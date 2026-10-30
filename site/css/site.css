@@ -452,7 +452,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
   .okvir > #kartica {
     transition: none;
   }
-  .mobil-nedelja-ivica {
+  .mobil-tema-ivica {
     animation: none;
     opacity: 0.55;
   }
@@ -515,7 +515,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 .typeahead button { width: 100%; text-align: left; background: transparent; border: 0; }
 .typeahead button[aria-selected="true"], .typeahead button:hover { background: var(--amber-dim); }
 .typeahead small { display: block; color: var(--muted); }
-.nedelja-klizac { display: grid; gap: 0.2rem; min-width: 9rem; }
+.tema-klizac { display: grid; gap: 0.2rem; min-width: 9rem; }
 .klizac { display: flex; gap: 0.28rem; align-items: center; }
 .klizac button {
   width: 0.55rem;
@@ -573,20 +573,20 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 .kurs-zaglavlje { margin-bottom: 0.8rem; display: flex; gap: 0.45rem; align-items: flex-start; }
 .kurs-zaglavlje > span { min-width: 0; }
 .kurs-zaglavlje strong { display: block; }
-.nedelja-red, .korak-red {
+.tema-red, .korak-red {
   width: 100%;
   text-align: left;
   background: transparent;
   border: 0;
   border-radius: 10px;
 }
-.nedelja-red { display: flex; align-items: center; gap: 0.45rem; }
-.nedelja-red > span { flex: 1; }
-.nedelja-red .ikona, .dir .ikona { color: var(--amber); }
+.tema-red { display: flex; align-items: center; gap: 0.45rem; }
+.tema-red > span { flex: 1; }
+.tema-red .ikona, .dir .ikona { color: var(--amber); }
 .dir, .tree button { display: inline-flex; align-items: center; gap: 0.3rem; }
-.nedelja-red small { display: block; color: var(--muted); font-size: 0.82rem; }
-.nedelja-red[aria-current="page"], .korak-red[aria-current="page"] { background: var(--amber-dim); }
-.nedelja-koraci { list-style: none; margin: 0.15rem 0 0.4rem; padding: 0 0 0 0.4rem; }
+.tema-red small { display: block; color: var(--muted); font-size: 0.82rem; }
+.tema-red[aria-current="page"], .korak-red[aria-current="page"] { background: var(--amber-dim); }
+.tema-koraci { list-style: none; margin: 0.15rem 0 0.4rem; padding: 0 0 0 0.4rem; }
 .kvacica { color: var(--amber); margin-right: 0.35rem; }
 .kartica {
   background: var(--paper);
@@ -1202,10 +1202,10 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     line-height: 1.15;
   }
   .mobil-skok:disabled { opacity: 0.35; }
-  .mobil-nav-traka.mobil-nedelja-napred { animation: mobil-korak-napred 0.26s ease; }
-  .mobil-nav-traka.mobil-nedelja-unazad { animation: mobil-korak-unazad 0.26s ease; }
+  .mobil-nav-traka.mobil-tema-napred { animation: mobil-korak-napred 0.26s ease; }
+  .mobil-nav-traka.mobil-tema-unazad { animation: mobil-korak-unazad 0.26s ease; }
   #birac-mesto :where(.birac) { display: none; }
-  .mobil-nedelja-tekst {
+  .mobil-tema-zaglavlje-tekst {
     display: grid;
     gap: 0.1rem;
     width: 100%;
@@ -1216,12 +1216,12 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     color: inherit;
     font: inherit;
   }
-  .mobil-nedelja-tekst strong {
+  .mobil-tema-zaglavlje-tekst strong {
     color: var(--naslov);
     font-size: 1rem;
     line-height: 1.25;
   }
-  .mobil-nedelja-ivica {
+  .mobil-tema-ivica {
     width: 0.45rem;
     align-self: stretch;
     border-radius: 999px;
@@ -1229,11 +1229,11 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     opacity: 0.85;
     animation: mobil-ivica-puls 2.4s ease-in-out infinite;
   }
-  .mobil-nedelja-ivica-desno {
+  .mobil-tema-ivica-desno {
     background: linear-gradient(to left, transparent, color-mix(in srgb, var(--amber) 55%, transparent));
   }
-  body.mobil-nedelja-prva .mobil-nedelja-ivica-levo,
-  body.mobil-nedelja-poslednja .mobil-nedelja-ivica-desno {
+  body.mobil-tema-prva .mobil-tema-ivica-levo,
+  body.mobil-tema-poslednja .mobil-tema-ivica-desno {
     opacity: 0.15;
     animation: none;
   }
@@ -1241,8 +1241,8 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     0%, 100% { opacity: 0.35; }
     50% { opacity: 1; }
   }
-  .mobil-nav-traka.mobil-nedelja-napred { animation: mobil-korak-napred 0.26s ease; }
-  .mobil-nav-traka.mobil-nedelja-unazad { animation: mobil-korak-unazad 0.26s ease; }
+  .mobil-nav-traka.mobil-tema-napred { animation: mobil-korak-napred 0.26s ease; }
+  .mobil-nav-traka.mobil-tema-unazad { animation: mobil-korak-unazad 0.26s ease; }
   #naslov-casa { display: none; }
   #cas.mobil-korak-napred { animation: mobil-korak-napred 0.26s ease; }
   #cas.mobil-korak-unazad { animation: mobil-korak-unazad 0.26s ease; }
@@ -1301,14 +1301,14 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     text-align: center;
     font-size: 0.78rem;
   }
-  .mobil-nedelja-zaglavlje {
+  .mobil-tema-zaglavlje {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     gap: 0.45rem;
     align-items: center;
   }
-  .mobil-nedelja-zaglavlje .mobil-nedelja-tekst { min-width: 0; }
-  .mobil-nedelja-zaglavlje h2 {
+  .mobil-tema-zaglavlje .mobil-tema-zaglavlje-tekst { min-width: 0; }
+  .mobil-tema-zaglavlje h2 {
     margin: 0.1rem 0 0;
     font-size: 1.05rem;
     color: var(--naslov);
@@ -1533,15 +1533,15 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     -webkit-backdrop-filter: blur(8px);
   }
   .trazi,
-  .nedelja-klizac { display: none; }
+  .tema-klizac { display: none; }
   .ustanova {
     grid-area: logo;
     min-width: 0;
   }
   .ustanova span { display: none; }
   .ustanova img { width: 40px; height: 40px; }
-  .top > #prethodna-nedelja,
-  .top > #sledeca-nedelja,
+  .top > #prethodna-tema,
+  .top > #sledeca-tema,
   .top > #sacuvaj-zaglavlje,
   .top > .tema-meni,
   .top > #oznaka {

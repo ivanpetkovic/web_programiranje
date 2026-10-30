@@ -7,14 +7,14 @@ import { stabloDo } from "../site/js/stablo.js";
 
 const koraci = lectures.flatMap((cas) => cas.steps);
 
-function krajNedelje(n) {
+function krajTeme(n) {
   return lectures.slice(0, n).reduce((zbir, cas) => zbir + cas.steps.length, 0) - 1;
 }
 
-function indeks(nedelja, naslov) {
-  const pocetak = krajNedelje(nedelja - 1) + 1;
-  const i = lectures[nedelja - 1].steps.findIndex((korak) => korak.naslov === naslov);
-  assert.ok(i >= 0, `${nedelja}/${naslov}`);
+function indeks(tema, naslov) {
+  const pocetak = krajTeme(tema - 1) + 1;
+  const i = lectures[tema - 1].steps.findIndex((korak) => korak.naslov === naslov);
+  assert.ok(i >= 0, `${tema}/${naslov}`);
   return pocetak + i;
 }
 
@@ -41,7 +41,7 @@ test("svaki sklopljeni serverski fajl koji zove http ima require", () => {
   }
 });
 
-test("izvučen kabl u 6. nedelji: ventilator vraća 500", () => {
+test("izvučen kabl u 6. temi: ventilator vraća 500", () => {
   const i = indeks(6, "Izvučen kabl");
   assert.equal(koraci[i].putanja, "server/ventilator.js");
   const tekst = stabloDo(koraci, i).verzije["server/ventilator.js"];
@@ -56,7 +56,7 @@ test("kurs se završava snimcima iz predavanja, ne pripremljenim modulima", () =
   assert.match(kraj["server/sesija.js"], /401 → 403 → 400 → 500 → 200/);
 });
 
-test("5. nedelja uvodi server redom: TCP, HTTP, createServer, listen, komanda, adresa", () => {
+test("5. tema uvodi server redom: TCP, HTTP, createServer, listen, komanda, adresa", () => {
   const redosled = ["TCP", "HTTP", "createServer", "listen", "Komanda", "Adresa", "Ruta"].map((naslov) => indeks(5, naslov));
   assert.deepEqual([...redosled].sort((a, b) => a - b), redosled);
   const samostalni = ["Putanja i metod čine rutu", "Konkurentni zahtevi"];

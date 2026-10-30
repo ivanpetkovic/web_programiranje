@@ -14,7 +14,7 @@ test("edit=true uključuje režim uređivanja", () => {
 });
 
 test("istorija opoziva i ponavlja izmenu dokumenta", () => {
-  const dokument = { naslov: "A", nedelje: [{ naslov: "N1", steps: [{ naslov: "k1" }] }] };
+  const dokument = { naslov: "A", teme: [{ naslov: "N1", steps: [{ naslov: "k1" }] }] };
   const istorija = napraviIstoriju(dokument);
   istorija.zabeleziPre();
   dokument.naslov = "B";
@@ -26,10 +26,10 @@ test("istorija opoziva i ponavlja izmenu dokumenta", () => {
 });
 
 test("primeniSnapshot zamenjuje ceo kurs", () => {
-  const dokument = { naslov: "Staro", nedelje: [] };
-  primeniSnapshot(dokument, JSON.stringify({ naslov: "Novo", nedelje: [{ steps: [] }] }));
+  const dokument = { naslov: "Staro", teme: [] };
+  primeniSnapshot(dokument, JSON.stringify({ naslov: "Novo", teme: [{ steps: [] }] }));
   assert.equal(dokument.naslov, "Novo");
-  assert.equal(dokument.nedelje.length, 1);
+  assert.equal(dokument.teme.length, 1);
 });
 
 test("postaviIsecakKoraka usklađuje delic i original", () => {

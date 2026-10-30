@@ -67,7 +67,7 @@ async function saAlatom(strana) {
   return { ekran, sačekaj, snimi };
 }
 
-test("nedelja 6 korak 1 drži preventDefault u skripti, ne u tekstu stranice", { timeout: 40000 }, async (t) => {
+test("tema 6 korak 1 drži preventDefault u skripti, ne u tekstu stranice", { timeout: 40000 }, async (t) => {
   const portSajta = await slobodanPort();
   const portChrome = await slobodanPort();
   const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
@@ -100,8 +100,8 @@ test("nedelja 6 korak 1 drži preventDefault u skripti, ne u tekstu stranice", {
     assert.equal(html.tekst.includes("<h1"), false);
     assert.equal(html.tekst.includes('displej.textContent = "----"'), false);
     assert.equal(/e\.preventDefault/.test(html.pasusi.join(" ")), false);
-    belezi(`nedelja 6 korak 1: ${html.tekst}`);
-    await snimi("nedelja-6-korak-1");
+    belezi(`tema 6 korak 1: ${html.tekst}`);
+    await snimi("tema-6-korak-1");
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
     throw greska;
@@ -192,7 +192,7 @@ test("pregled pokreće primere, uključujući ES modul", { timeout: 50000 }, asy
   }
 });
 
-test("nedelja 5 drži require u editoru i ne upisuje server.js", { timeout: 40000 }, async (t) => {
+test("tema 5 drži require u editoru i ne upisuje server.js", { timeout: 40000 }, async (t) => {
   const portSajta = await slobodanPort();
   const portChrome = await slobodanPort();
   const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
@@ -238,8 +238,8 @@ test("nedelja 5 drži require u editoru i ne upisuje server.js", { timeout: 4000
     assert.match(listen.napomena, /samo kad krene/);
     await pauza(400);
     assert.equal(readFileSync(fajl, "utf8"), pre);
-    belezi(`nedelja 5 listen: ${listen.napomena}`);
-    await snimi("nedelja-5-listen");
+    belezi(`tema 5 listen: ${listen.napomena}`);
+    await snimi("tema-5-listen");
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
     throw greska;

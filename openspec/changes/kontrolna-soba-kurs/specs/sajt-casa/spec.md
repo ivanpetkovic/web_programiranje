@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Sajt časa je statičan tok u kome nastavnik vodi nedelju pored panela, otvara fajlove iz `client/` i `server/`, i vidi kako sačuvana izmena menja panel ili sledeći zahtev.
+Sajt časa je statičan tok u kome nastavnik vodi temu pored panela, otvara fajlove iz `client/` i `server/`, i vidi kako sačuvana izmena menja panel ili sledeći zahtev.
 
 ## ADDED Requirements
 

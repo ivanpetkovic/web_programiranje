@@ -11,7 +11,7 @@ export const koren = fileURLToPath(new URL("..", import.meta.url));
 export const snimci = process.env.ARTIFACTS_DIR
   || (existsSync("/opt/cursor") ? "/opt/cursor/artifacts" : path.join(os.tmpdir(), "kontrolna-soba-artifacts"));
 
-// Pregled od 5. nedelje upisuje soba.js, ventilator.js i sesija.js iz lekcije u server/.
+// Pregled od 5. teme upisuje soba.js, ventilator.js i sesija.js iz lekcije u server/.
 function vratiModule() {
   for (const ime of ["soba.js", "ventilator.js", "sesija.js"]) {
     copyFileSync(path.join(koren, "server", "prepared", ime), path.join(koren, "server", ime));

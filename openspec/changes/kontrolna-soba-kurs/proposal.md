@@ -2,14 +2,14 @@
 
 ## Why
 
-Četiri specifikacije u `.scratch/` opisuju isti kurs, a sajt časa i panel ne prate poslednji dogovor: nastavnik prekucava kod u VS Code, nedelja ide korak po korak, HTML je fajl, a ventilator stoji uz server. OpenSpec treba da postane mesto gde se ti dogovori čuvaju, da sledeća izmena sajta ima jedan izvor.
+Četiri specifikacije u `.scratch/` opisuju isti kurs, a sajt časa i panel ne prate poslednji dogovor: nastavnik prekucava kod u VS Code, tema ide korak po korak, HTML je fajl, a ventilator stoji uz server. OpenSpec treba da postane mesto gde se ti dogovori čuvaju, da sledeća izmena sajta ima jedan izvor.
 
 ## What Changes
 
 - Uvesti sposobnost panela kontrolne sobe: jedan panel, ugovor HTTP-a, dve sobe, ventilator samo u sobi mašina, otkucaj, sesija, Postgres i Docker.
-- Uvesti sposobnost sajta časa: statičan sajt, stablo Front/Back, čuvanje i vraćanje rada, živi front i panel koji prati nedelju.
-- Uvesti sposobnost časova: deset nedelja sa naslovom i 10 do 20 koraka. Korak ima sitni primer, kratku pitalicu, objašnjenje i delić glavne aplikacije. Prvi koraci pokazuju `client/` i `server/`, `client/index.html` i pokretanje `node server/server.js` pre `fetch`-a.
-- Uvesti sposobnost pitalica: kratka provera po koraku i jedna duga diskusija po nedelji, sa neoznačenim odgovorima dok se ne izabere.
+- Uvesti sposobnost sajta časa: statičan sajt, stablo Front/Back, čuvanje i vraćanje rada, živi front i panel koji prati temu.
+- Uvesti sposobnost časova: deset tema sa naslovom i 10 do 20 koraka. Korak ima sitni primer, kratku pitalicu, objašnjenje i delić glavne aplikacije. Prvi koraci pokazuju `client/` i `server/`, `client/index.html` i pokretanje `node server/server.js` pre `fetch`-a.
+- Uvesti sposobnost pitalica: kratka provera po koraku i jedna duga diskusija po temi, sa neoznačenim odgovorima dok se ne izabere.
 - Uskladiti postojeći sajt i panel sa tim dogovorom. Danas sajt ima jednu pitalicu po času, lokalni ventilator u sobi prekidača i nema korake ni HTML fajl koji se prekucava.
 
 ## Capabilities
@@ -18,8 +18,8 @@
 
 - `kontrolna-soba`: ponašanje jednog panela, prikaza, komandi, otkucaja i trajnog stanja.
 - `sajt-casa`: sajt na kome se čas vodi, sa editorom, stablom fajlova i panelom.
-- `casovi`: redosled deset nedelja i koraka koji grade konačni kod.
-- `pitalice`: kratke provere koraka i jedna projektorska diskusija po nedelji.
+- `casovi`: redosled deset tema i koraka koji grade konačni kod.
+- `pitalice`: kratke provere koraka i jedna projektorska diskusija po temi.
 
 ### Modified Capabilities
 

@@ -5,7 +5,7 @@
   "naslov": "Veb programiranje",
   "oznaka": "MP",
   "grb": "/img/elfak_logo.png",
-  "trajanjeNedelja": 11,
+  "trajanjeTema": 11,
   "verzija": "4.1",
   "revizija": "4.1-provera-izvrsavanja",
   "statusIzvrsavanja": "izvrsavanje-delimicno-provereno",
@@ -17,7 +17,7 @@
   },
   "nastavniObrazac": {
     "napomenaKoraka": "Svaki korak polazi od problema ili predviđanja, zatim prikazuje potrebnu osnovu, mali izvršivi primer ili dijagram i pitalicu. Pitalice sa kodom mogu raditi nezavisno od Kontrolne sobe; njihovo pokretanje ne menja fajlove aplikacije. Obrazloženja pokrivaju uzrok, posledicu i pogrešne pretpostavke. Odgovor nastavnik otkriva posle glasanja.",
-    "pedagoskaNapomena": "Kratke pitalice traju 30–90 sekundi; glavna diskusija je duža. Pitanja ne smeju biti prosta reprodukcija prethodne rečenice. LLM kod je predmet verifikacije, ne izvor autoriteta. Nema Reacta; testiranje se pokazuje kroz male provere, bez posebne nedelje.",
+    "pedagoskaNapomena": "Kratke pitalice traju 30–90 sekundi; glavna diskusija je duža. Pitanja ne smeju biti prosta reprodukcija prethodne rečenice. LLM kod je predmet verifikacije, ne izvor autoriteta. Nema Reacta; testiranje se pokazuje kroz male provere, bez posebne teme.",
     "tipoviPrimer": [
       {
         "id": "aplikacija",
@@ -74,7 +74,7 @@
         "minuta": 7,
         "opis": "Rezerva, zatvorena do ovog trenutka, ili još ista ideja. Rezerva kreće opet od izbora."
       },
-      "napomena": "Jedna diskusija pripada celoj nedelji. Sajt ne pamti glas. Nastavnik jedini pomera fazu. Ako grupa ostane bez zaključka, sledeća nedelja sme da krene istom pitalicom."
+      "napomena": "Jedna diskusija pripada celoj temi. Sajt ne pamti glas. Nastavnik jedini pomera fazu. Ako grupa ostane bez zaključka, sledeća tema sme da krene istom pitalicom."
     },
     "izlazOblik": "Rečenica na poslednjem koraku. Nema opcija, pečata ni polja za upis.",
     "samostalnoUcenje": "Svaka tema sadrži dodatne samostalne primere. Student može odgovoriti na sve pitalice i videti detaljnu analizu bez prisustva nastavnika; na predavanju nastavnik bira podskup. Izvršivi kod radi u izolovanom editoru; pojedini primeri zahtevaju DOM ili server okruženje i treba ih označiti pre pokretanja.",
@@ -197,7 +197,7 @@
       "uKursu": "LLM predlog je hipoteza, ne dokaz."
     }
   ],
-  "nedelje": [
+  "teme": [
     {
       "naslov": "Zašto Web postoji: zahtevi i protokoli",
       "podnaslov": "Web je usluga na Internetu. Stranica je dokument. server/ još nema fajlove.",
@@ -666,8 +666,8 @@
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "eksperiment",
-          "tekst": "Šta od ove nedelje sledeća stranica još nema? Imaće dokument. Još nema jezik u stranici, zahtev koji menja deo, ni server. server/ je i dalje prazan. Početna Kontrolna soba sadrži samo dokument sa brojem 24. To nije živo očitavanje: kada se promeni temperatura na serveru, statički tekst ostaje isti. Iz ove razlike proizlazi potreba za stanjem i komunikacijom u narednim temama.",
-          "kljucnaIdeja": "Sledeća nedelja piše dokument. Ostalo čeka svoje časove.",
+          "tekst": "Šta od ove teme sledeća stranica još nema? Imaće dokument. Još nema jezik u stranici, zahtev koji menja deo, ni server. server/ je i dalje prazan. Početna Kontrolna soba sadrži samo dokument sa brojem 24. To nije živo očitavanje: kada se promeni temperatura na serveru, statički tekst ostaje isti. Iz ove razlike proizlazi potreba za stanjem i komunikacijom u narednim temama.",
+          "kljucnaIdeja": "Sledeća tema piše dokument. Ostalo čeka svoje časove.",
           "figura": {
             "vrsta": "linija",
             "pokret": "redom",
@@ -698,7 +698,7 @@
               }
             ]
           },
-          "pitalica": "Šta sledeća nedelja piše?",
+          "pitalica": "Šta sledeća tema piše?",
           "opcije": [
             {
               "key": "A",
@@ -708,7 +708,7 @@
             },
             {
               "key": "B",
-              "text": "Sledeća nedelja piše dokument.",
+              "text": "Sledeća tema piše dokument.",
               "why": "Jezik, delimičan zahtev i server još nisu na stranici. Početna Kontrolna soba sadrži samo dokument sa brojem 24. To nije živo očitavanje: kada se promeni temperatura na serveru, statički tekst ostaje isti. Iz ove razlike proizlazi potreba za stanjem i komunikacijom u narednim temama.",
               "ok": true
             }
@@ -721,7 +721,7 @@
         "detaljnoGradivo": [
           "Internet nije sinonim za Web. Internet obezbeđuje povezivanje mreža i prenos podataka, dok Web koristi URL-ove, HTTP i hipertekstualne dokumente kao način pristupa resursima. Kada korisnik upiše adresu, browser rastavlja URL, nalazi odredište, otvara odgovarajuću vezu i šalje zahtev. Ne pretpostavljaj da se svaki od tih koraka završava uspešno.",
           "Paketski prenos rešava problem deljenja mreže između mnogih korisnika, ali otvara pitanja kašnjenja, gubitka i redosleda. TCP obezbeđuje uređeni pouzdani tok bajtova dok veza radi, a UDP ne nudi iste garancije. Ni jedan transport sam po sebi ne zna šta znači uključi ventilator. HTTP na nivou aplikacije uvodi metode, putanje, zaglavlja i statuse.",
-          "Počni od statičkog dokumenta Kontrolne sobe. U njemu temperatura 24 nije merenje nego tekst. Naredne nedelje će pokazati kako dokument postaje prikaz promenljivog stanja, a server izvor podataka. Razlika između poslednje prikazane vrednosti, stvarnog stanja i statusa komunikacije provlači se kroz ceo kurs.",
+          "Počni od statičkog dokumenta Kontrolne sobe. U njemu temperatura 24 nije merenje nego tekst. Naredne teme će pokazati kako dokument postaje prikaz promenljivog stanja, a server izvor podataka. Razlika između poslednje prikazane vrednosti, stvarnog stanja i statusa komunikacije provlači se kroz ceo kurs.",
           "Prati konkretan zahtev ka Kontrolnoj sobi: browser preuzima URL, pronalazi host, uspostavlja odgovarajuću komunikaciju, šalje HTTP zahtev, dobija status i telo i gradi prikaz. URL fragment nakon znaka # ne šalje se serveru. DNS ne preuzima dokument; TLS ga ne parsira; HTTP ne crta piksele. Svaki sloj ima drugačiju odgovornost. Kada korisnik prijavi 'stranica ne radi', prvo utvrdi da li postoji DNS problem, neuspešno povezivanje, HTTP odgovor sa greškom ili ispravan odgovor koji se pogrešno prikazuje.",
           "Razlikuj pouzdanost prenosa od pouzdanosti operacije. TCP može isporučiti zahtev serveru, a server ga može odbiti kao neautorizovan. Server može komandu izvršiti i upisati bazu, a odgovor se može izgubiti. Iz činjenice da je jedna komponenta uspela ne sledi uspeh cele aplikacije. Ova tri nivoa uspeha, transport, obrada zahteva i domenski efekat, stalno ćemo proveravati tokom kursa.",
           "Istorijski deo treba čitati uzrocima, ne datumima: deljenje udaljenih računara motivisalo je mrežni prenos; problem povezivanja dokumenata motivisao je Web; potreba za promenom samo dela stranice motivisala je asinhrone zahteve. Nije svaka nova generacija proizvoda novi protokol. Pitanje za samostalnu proveru je: koju novu mogućnost dobija korisnik, a koji stari sloj ostaje isti?"

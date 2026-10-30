@@ -2,7 +2,7 @@ import { nacrtajFiguru } from "./crtez.js";
 import { blokoviTeksta, imaMermaid, nacrtajMermaid } from "./mermaid.js";
 import {
   dodajKorak,
-  dodajNedelju,
+  dodajTemu,
   dodajOpciju,
   dodajOznaku,
   dodajCvor,
@@ -13,16 +13,16 @@ import {
   postaviVrstuFigure,
   postaviVrstuKoraka,
   prazanKurs,
-  preduslovNedelje,
+  preduslovTeme,
   premestiKorak,
-  premestiNedelju,
+  premestiTemu,
   premestiOpciju,
   premestiPojam,
   procitajTekst,
   spremiTekst,
   ukloniCvor,
   ukloniKorak,
-  ukloniNedelju,
+  ukloniTemu,
   ukloniOpciju,
   ukloniOznaku,
   ukloniPojam,
@@ -123,12 +123,12 @@ function broj(tekst) {
   return Number.isFinite(n) ? n : 0;
 }
 
-function brojNedelja(n) {
+function brojTema(n) {
   const ostatak = n % 10;
   const deset = n % 100;
-  if (ostatak === 1 && deset !== 11) return `${n} nedelja`;
-  if (ostatak >= 2 && ostatak <= 4 && (deset < 12 || deset > 14)) return `${n} nedelje`;
-  return `${n} nedelja`;
+  if (ostatak === 1 && deset !== 11) return `${n} tema`;
+  if (ostatak >= 2 && ostatak <= 4 && (deset < 12 || deset > 14)) return `${n} teme`;
+  return `${n} tema`;
 }
 
 function oznaciPrljavo() {
@@ -148,7 +148,7 @@ function osveziZaglavlje() {
   document.querySelector("#ime-kursa").textContent = kurs.naslov || "Studio";
   document.title = `Studio · ${kurs.naslov || "kurs"}`;
   const stanje = document.querySelector("#stanje");
-  stanje.textContent = `${brojNedelja(kurs.nedelje.length)} · ${prljavo ? "nesačuvano" : "kurs.json"}`;
+  stanje.textContent = `${brojTema(kurs.teme.length)} · ${prljavo ? "nesačuvano" : "kurs.json"}`;
   stanje.className = prljavo ? "stanje prljavo" : "stanje";
 }
 
@@ -172,40 +172,40 @@ function nacrtajSpisak() {
       null
     ),
   ];
-  kurs.nedelje.forEach((nedelja, indeks) => {
-    const otvorena = izbor.vrsta !== "kurs" && izbor.nedelja === indeks;
-    const dugmeNedelje = el("button", {
+  kurs.teme.forEach((tema, indeks) => {
+    const otvorena = izbor.vrsta !== "kurs" && izbor.tema === indeks;
+    const dugmeTeme = el("button", {
       type: "button",
       class: "stavka",
-      "data-uloga": "nedelja",
+      "data-uloga": "tema",
       "data-indeks": String(indeks),
     });
-    if (izbor.vrsta === "nedelja" && izbor.nedelja === indeks) dugmeNedelje.setAttribute("aria-current", "true");
-    dugmeNedelje.append(
+    if (izbor.vrsta === "tema" && izbor.tema === indeks) dugmeTeme.setAttribute("aria-current", "true");
+    dugmeTeme.append(
       el("span", { class: "broj", text: String(indeks + 1) }),
       el("span", { class: "ime" }, [
-        el("span", { class: "ime-tekst", text: nedelja.naslov || "Bez naslova" }),
-        el("small", { text: `${nedelja.steps.length} koraka` }),
+        el("span", { class: "ime-tekst", text: tema.naslov || "Bez naslova" }),
+        el("small", { text: `${tema.steps.length} koraka` }),
       ])
     );
-    dugmeNedelje.addEventListener("click", () => izaberi({ vrsta: "nedelja", nedelja: indeks }));
+    dugmeTeme.addEventListener("click", () => izaberi({ vrsta: "tema", tema: indeks }));
     const akcije = el("div", { class: "akcije" }, [
-      dugme("↑", () => premesti("nedelja", indeks, -1), {
-        "aria-label": "Pomeri nedelju gore",
+      dugme("↑", () => premesti("tema", indeks, -1), {
+        "aria-label": "Pomeri temu gore",
         disabled: indeks === 0 ? "" : null,
       }),
-      dugme("↓", () => premesti("nedelja", indeks, 1), {
-        "aria-label": "Pomeri nedelju dole",
-        disabled: indeks === kurs.nedelje.length - 1 ? "" : null,
+      dugme("↓", () => premesti("tema", indeks, 1), {
+        "aria-label": "Pomeri temu dole",
+        disabled: indeks === kurs.teme.length - 1 ? "" : null,
       }),
-      dugmeBrisanja(`nedelja:${indeks}`, "Obriši nedelju", () => {
-        primeni(ukloniNedelju(kurs, indeks), izborPosleBrisanjaNedelje(indeks));
+      dugmeBrisanja(`tema:${indeks}`, "Obriši temu", () => {
+        primeni(ukloniTemu(kurs, indeks), izborPosleBrisanjaTeme(indeks));
       }),
     ]);
-    deca.push(redListe(dugmeNedelje, akcije));
+    deca.push(redListe(dugmeTeme, akcije));
     if (!otvorena) return;
     const koraci = el("div", { class: "koraci" });
-    nedelja.steps.forEach((korak, korakIndeks) => {
+    tema.steps.forEach((korak, korakIndeks) => {
       const dugmeKoraka = el("button", {
         type: "button",
         class: "stavka",
@@ -217,7 +217,7 @@ function nacrtajSpisak() {
         el("span", { class: "broj", text: String(korakIndeks + 1) }),
         el("span", { class: "ime-tekst", text: korak.naslov || "Bez naslova" })
       );
-      dugmeKoraka.addEventListener("click", () => izaberi({ vrsta: "korak", nedelja: indeks, korak: korakIndeks }));
+      dugmeKoraka.addEventListener("click", () => izaberi({ vrsta: "korak", tema: indeks, korak: korakIndeks }));
       const akcijeKoraka = el("div", { class: "akcije" }, [
         dugme("↑", () => premesti("korak", korakIndeks, -1), {
           "aria-label": "Pomeri korak gore",
@@ -225,9 +225,9 @@ function nacrtajSpisak() {
         }),
         dugme("↓", () => premesti("korak", korakIndeks, 1), {
           "aria-label": "Pomeri korak dole",
-          disabled: korakIndeks === nedelja.steps.length - 1 ? "" : null,
+          disabled: korakIndeks === tema.steps.length - 1 ? "" : null,
         }),
-        nedelja.steps.length > 1
+        tema.steps.length > 1
           ? dugmeBrisanja(`korak:${indeks}:${korakIndeks}`, "Obriši korak", () => {
               primeni(ukloniKorak(kurs, indeks, korakIndeks), izborPosleBrisanjaKoraka(indeks, korakIndeks));
             })
@@ -238,7 +238,7 @@ function nacrtajSpisak() {
     koraci.append(dugme("Dodaj korak", () => dodajKorakNa(indeks), { class: "dodaj" }));
     deca.push(koraci);
   });
-  deca.push(dugme("Dodaj nedelju", () => dodajNedeljuNaKraj(), { class: "dodaj" }));
+  deca.push(dugme("Dodaj temu", () => dodajTemuNaKraj(), { class: "dodaj" }));
   spisak.replaceChildren(...deca);
   spisak.scrollTop = skrol;
   const tekuci = spisak.querySelector("[aria-current='true']");
@@ -274,8 +274,8 @@ function nacrtajRad() {
   const skrol = rad.scrollTop;
   rad.dataset.izbor = kljucIzbora();
   if (izbor.vrsta === "kurs") rad.replaceChildren(panelKursa());
-  else if (izbor.vrsta === "nedelja") rad.replaceChildren(panelNedelje(izbor.nedelja));
-  else rad.replaceChildren(panelKoraka(izbor.nedelja, izbor.korak));
+  else if (izbor.vrsta === "tema") rad.replaceChildren(panelTeme(izbor.tema));
+  else rad.replaceChildren(panelKoraka(izbor.tema, izbor.korak));
   if (fokus) {
     const cilj = rad.querySelector(fokus);
     fokus = null;
@@ -286,7 +286,7 @@ function nacrtajRad() {
 }
 
 function kljucIzbora() {
-  return `${izbor.vrsta}:${izbor.nedelja ?? ""}:${izbor.korak ?? ""}`;
+  return `${izbor.vrsta}:${izbor.tema ?? ""}:${izbor.korak ?? ""}`;
 }
 
 function panelKursa() {
@@ -298,7 +298,7 @@ function panelKursa() {
     }),
     el("p", {
       class: "uvod",
-      text: "Naslov i ustanova su zaglavlje časa. Ishod nedelje je podnaslov u spisku. Na Gradivu korak ide redom: tekst, ključna ideja, isečak ili crtež, pa kratka pitalica. Razlog i oznaka drži ostaju zatvoreni do Obrazloženja. Delić iz u-fajl ulazi u fajl, a prethodni delići stoje kao Već u fajlu. Ugrađena verzija je Lekcija u editoru. Diskusija nedelje je tab Diskusija, izlaz je rečenica na poslednjem koraku, a pojmovi se uređuju ovde.",
+      text: "Naslov i ustanova su zaglavlje časa. Ishod teme je podnaslov u spisku. Na Gradivu korak ide redom: tekst, ključna ideja, isečak ili crtež, pa kratka pitalica. Razlog i oznaka drži ostaju zatvoreni do Obrazloženja. Delić iz u-fajl ulazi u fajl, a prethodni delići stoje kao Već u fajlu. Ugrađena verzija je Lekcija u editoru. Diskusija teme je tab Diskusija, izlaz je rečenica na poslednjem koraku, a pojmovi se uređuju ovde.",
     }),
     el("div", { class: "mreza" }, [
       polje("Naslov", kurs.naslov, (vrednost) => {
@@ -313,64 +313,64 @@ function panelKursa() {
       polje("Bok ustanove", kurs.ustanovaBok, (vrednost) => { kurs.ustanovaBok = vrednost; }),
       polje("Grb", kurs.grb, (vrednost) => { kurs.grb = vrednost; }),
     ]),
-    polje("Preduslov prve nedelje", kurs.preduslovPrve, (vrednost) => { kurs.preduslovPrve = vrednost; }, { visered: true, redovi: 3 }),
+    polje("Preduslov prve teme", kurs.preduslovPrve, (vrednost) => { kurs.preduslovPrve = vrednost; }, { visered: true, redovi: 3 }),
   ]);
 }
 
-function panelNedelje(indeks) {
-  const nedelja = kurs.nedelje[indeks];
-  const zbir = nedelja.steps.reduce((zbirMinuta, korak) => zbirMinuta + (Number(korak.minuta) || 0), 0);
+function panelTeme(indeks) {
+  const tema = kurs.teme[indeks];
+  const zbir = tema.steps.reduce((zbirMinuta, korak) => zbirMinuta + (Number(korak.minuta) || 0), 0);
   return el("div", { class: "panel" }, [
     el("header", { class: "rad-h" }, [
-      el("p", { class: "meta", text: `Nedelja ${indeks + 1} od ${kurs.nedelje.length}` }),
-      el("h1", { id: "naslov-prikaz", text: nedelja.naslov || "Bez naslova" }),
-      el("p", { class: "meta", text: `${nedelja.steps.length} koraka · koraci ${zbir} min · čas ${nedelja.minuta || 0} min` }),
+      el("p", { class: "meta", text: `Tema ${indeks + 1} od ${kurs.teme.length}` }),
+      el("h1", { id: "naslov-prikaz", text: tema.naslov || "Bez naslova" }),
+      el("p", { class: "meta", text: `${tema.steps.length} koraka · koraci ${zbir} min · čas ${tema.minuta || 0} min` }),
       el("div", { class: "red-akcija" }, [
         dugme("Dodaj korak", () => dodajKorakNa(indeks)),
-        dugmeBrisanja(`nedelja:${indeks}`, "Obriši nedelju", () => {
-          primeni(ukloniNedelju(kurs, indeks), izborPosleBrisanjaNedelje(indeks));
+        dugmeBrisanja(`tema:${indeks}`, "Obriši temu", () => {
+          primeni(ukloniTemu(kurs, indeks), izborPosleBrisanjaTeme(indeks));
         }),
       ]),
     ]),
-    sekcija("Nedelja", [
-      polje("Naslov", nedelja.naslov, (vrednost) => {
-        nedelja.naslov = vrednost;
-        osveziNatpisNedelje(indeks, vrednost);
+    sekcija("Tema", [
+      polje("Naslov", tema.naslov, (vrednost) => {
+        tema.naslov = vrednost;
+        osveziNatpisTeme(indeks, vrednost);
       }, { id: "naslov-polje" }),
-      polje("Podnaslov", nedelja.podnaslov, (vrednost) => { nedelja.podnaslov = vrednost; }, { visered: true, redovi: 2 }),
-      polje("Ishod", nedelja.ishod, (vrednost) => { nedelja.ishod = vrednost; }, { visered: true, redovi: 2 }),
-      polje("Minuta", nedelja.minuta, (vrednost) => { nedelja.minuta = vrednost; }, { tip: "number" }),
-      el("p", { class: "meta", text: `Preduslov: ${preduslovNedelje(kurs, indeks + 1) || "—"}` }),
+      polje("Podnaslov", tema.podnaslov, (vrednost) => { tema.podnaslov = vrednost; }, { visered: true, redovi: 2 }),
+      polje("Ishod", tema.ishod, (vrednost) => { tema.ishod = vrednost; }, { visered: true, redovi: 2 }),
+      polje("Minuta", tema.minuta, (vrednost) => { tema.minuta = vrednost; }, { tip: "number" }),
+      el("p", { class: "meta", text: `Preduslov: ${preduslovTeme(kurs, indeks + 1) || "—"}` }),
     ]),
     sekcija("Diskusija", [
-      polje("Problem", nedelja.problem, (vrednost) => { nedelja.problem = vrednost; }, { visered: true, redovi: 3 }),
-      polje("Pretpostavka", nedelja.pretpostavka, (vrednost) => { nedelja.pretpostavka = vrednost; }, { visered: true, redovi: 2 }),
-      blokOpcija(nedelja, "options"),
-      polje("Izlaz", nedelja.izlaz, (vrednost) => { nedelja.izlaz = vrednost; }, { visered: true, redovi: 2 }),
+      polje("Problem", tema.problem, (vrednost) => { tema.problem = vrednost; }, { visered: true, redovi: 3 }),
+      polje("Pretpostavka", tema.pretpostavka, (vrednost) => { tema.pretpostavka = vrednost; }, { visered: true, redovi: 2 }),
+      blokOpcija(tema, "options"),
+      polje("Izlaz", tema.izlaz, (vrednost) => { tema.izlaz = vrednost; }, { visered: true, redovi: 2 }),
     ]),
-    sekcija("Rezerva", rezervaPolja(nedelja)),
-    sekcija("Pojmovi", [blokPojmova(nedelja)]),
+    sekcija("Rezerva", rezervaPolja(tema)),
+    sekcija("Pojmovi", [blokPojmova(tema)]),
   ]);
 }
 
-function panelKoraka(nedeljaIndeks, indeks) {
-  const nedelja = kurs.nedelje[nedeljaIndeks];
-  const korak = nedelja.steps[indeks];
+function panelKoraka(temaIndeks, indeks) {
+  const tema = kurs.teme[temaIndeks];
+  const korak = tema.steps[indeks];
   return el("div", { class: "panel" }, [
     el("header", { class: "rad-h" }, [
-      el("p", { class: "meta", text: `${nedelja.naslov || "Nedelja"} · korak ${indeks + 1} od ${nedelja.steps.length}` }),
+      el("p", { class: "meta", text: `${tema.naslov || "Tema"} · korak ${indeks + 1} od ${tema.steps.length}` }),
       el("h1", { id: "naslov-prikaz", text: korak.naslov || "Bez naslova" }),
       el("div", { class: "hod" }, [
-        dugme("Prethodni", () => izaberi({ vrsta: "korak", nedelja: nedeljaIndeks, korak: indeks - 1 }), {
+        dugme("Prethodni", () => izaberi({ vrsta: "korak", tema: temaIndeks, korak: indeks - 1 }), {
           disabled: indeks === 0 ? "" : null,
         }),
-        dugme("Sledeći", () => izaberi({ vrsta: "korak", nedelja: nedeljaIndeks, korak: indeks + 1 }), {
-          disabled: indeks === nedelja.steps.length - 1 ? "" : null,
+        dugme("Sledeći", () => izaberi({ vrsta: "korak", tema: temaIndeks, korak: indeks + 1 }), {
+          disabled: indeks === tema.steps.length - 1 ? "" : null,
         }),
-        dugme("Dodaj ispod", () => dodajKorakNa(nedeljaIndeks, indeks + 1)),
-        nedelja.steps.length > 1
-          ? dugmeBrisanja(`korak:${nedeljaIndeks}:${indeks}`, "Obriši korak", () => {
-              primeni(ukloniKorak(kurs, nedeljaIndeks, indeks), izborPosleBrisanjaKoraka(nedeljaIndeks, indeks));
+        dugme("Dodaj ispod", () => dodajKorakNa(temaIndeks, indeks + 1)),
+        tema.steps.length > 1
+          ? dugmeBrisanja(`korak:${temaIndeks}:${indeks}`, "Obriši korak", () => {
+              primeni(ukloniKorak(kurs, temaIndeks, indeks), izborPosleBrisanjaKoraka(temaIndeks, indeks));
             })
           : null,
       ]),
@@ -396,10 +396,10 @@ function panelKoraka(nedeljaIndeks, indeks) {
   ]);
 }
 
-function rezervaPolja(nedelja) {
-  if (!nedelja.rezerva || typeof nedelja.rezerva !== "object") {
+function rezervaPolja(tema) {
+  if (!tema.rezerva || typeof tema.rezerva !== "object") {
     return [dugme("Dodaj rezervu", () => {
-      nedelja.rezerva = {
+      tema.rezerva = {
         problem: "",
         options: [
           { key: "A", text: "", ok: true, why: "" },
@@ -411,8 +411,8 @@ function rezervaPolja(nedelja) {
     })];
   }
   return [
-    polje("Problem rezerve", nedelja.rezerva.problem, (vrednost) => { nedelja.rezerva.problem = vrednost; }, { visered: true, redovi: 3 }),
-    blokOpcija(nedelja.rezerva, "options"),
+    polje("Problem rezerve", tema.rezerva.problem, (vrednost) => { tema.rezerva.problem = vrednost; }, { visered: true, redovi: 3 }),
+    blokOpcija(tema.rezerva, "options"),
   ];
 }
 
@@ -478,29 +478,29 @@ function redOpcije(vlasnik, poljeIme, indeks) {
   ]);
 }
 
-function blokPojmova(nedelja) {
+function blokPojmova(tema) {
   const kutija = el("div", { class: "pojmovi" });
-  napuniPojmove(kutija, nedelja);
+  napuniPojmove(kutija, tema);
   return kutija;
 }
 
-function napuniPojmove(kutija, nedelja) {
-  const pojmovi = Array.isArray(nedelja.pojmoviCasa) ? nedelja.pojmoviCasa : [];
+function napuniPojmove(kutija, tema) {
+  const pojmovi = Array.isArray(tema.pojmoviCasa) ? tema.pojmoviCasa : [];
   kutija.replaceChildren();
-  pojmovi.forEach((pojam, indeks) => kutija.append(redPojma(nedelja, indeks)));
+  pojmovi.forEach((pojam, indeks) => kutija.append(redPojma(tema, indeks)));
   kutija.append(dugme("Dodaj pojam", () => {
-    dodajPojam(nedelja);
+    dodajPojam(tema);
     oznaciPrljavo();
-    napuniPojmove(kutija, nedelja);
+    napuniPojmove(kutija, tema);
     const poslednji = kutija.querySelector(".pojam:last-child input");
     if (poslednji) poslednji.focus();
   }));
 }
 
-function redPojma(nedelja, indeks) {
-  const pojam = nedelja.pojmoviCasa[indeks];
+function redPojma(tema, indeks) {
+  const pojam = tema.pojmoviCasa[indeks];
   const omot = el("div", { class: "pojam" });
-  const osvezi = () => napuniPojmove(omot.closest(".pojmovi"), nedelja);
+  const osvezi = () => napuniPojmove(omot.closest(".pojmovi"), tema);
   omot.append(
     el("div", { class: "mreza" }, [
       polje("Ime", pojam.name, (vrednost) => { pojam.name = vrednost; }),
@@ -510,15 +510,15 @@ function redPojma(nedelja, indeks) {
     polje("Tekst", pojam.body, (vrednost) => { pojam.body = vrednost; }, { visered: true, redovi: 3 }),
     polje("Kod", pojam.code, (vrednost) => { pojam.code = vrednost; }, { visered: true, redovi: 3, kod: true }),
     el("div", { class: "akcije" }, [
-      dugme("↑", () => { premestiPojam(nedelja, indeks, -1); oznaciPrljavo(); osvezi(); }, {
+      dugme("↑", () => { premestiPojam(tema, indeks, -1); oznaciPrljavo(); osvezi(); }, {
         "aria-label": "Pomeri pojam gore",
         disabled: indeks === 0 ? "" : null,
       }),
-      dugme("↓", () => { premestiPojam(nedelja, indeks, 1); oznaciPrljavo(); osvezi(); }, {
+      dugme("↓", () => { premestiPojam(tema, indeks, 1); oznaciPrljavo(); osvezi(); }, {
         "aria-label": "Pomeri pojam dole",
-        disabled: indeks === nedelja.pojmoviCasa.length - 1 ? "" : null,
+        disabled: indeks === tema.pojmoviCasa.length - 1 ? "" : null,
       }),
-      dugme("Obriši", () => { ukloniPojam(nedelja, indeks); oznaciPrljavo(); osvezi(); }, {
+      dugme("Obriši", () => { ukloniPojam(tema, indeks); oznaciPrljavo(); osvezi(); }, {
         class: "opasno",
         "aria-label": "Obriši pojam",
       }),
@@ -721,8 +721,8 @@ function osveziPregled(korak) {
   if (pregled) nacrtajFiguru(pregled, korak.figura);
 }
 
-function osveziNatpisNedelje(indeks, naslov) {
-  const ime = spisak.querySelector(`[data-uloga="nedelja"][data-indeks="${indeks}"] .ime-tekst`);
+function osveziNatpisTeme(indeks, naslov) {
+  const ime = spisak.querySelector(`[data-uloga="tema"][data-indeks="${indeks}"] .ime-tekst`);
   if (ime) ime.textContent = naslov || "Bez naslova";
   const prikaz = document.querySelector("#naslov-prikaz");
   if (prikaz) prikaz.textContent = naslov || "Bez naslova";
@@ -755,43 +755,43 @@ function primeni(sledeci, sledeciIzbor) {
   nacrtaj();
 }
 
-function dodajNedeljuNaKraj() {
-  const sledeci = dodajNedelju(kurs);
+function dodajTemuNaKraj() {
+  const sledeci = dodajTemu(kurs);
   fokus = "#naslov-polje";
-  primeni(sledeci, { vrsta: "nedelja", nedelja: sledeci.nedelje.length - 1 });
+  primeni(sledeci, { vrsta: "tema", tema: sledeci.teme.length - 1 });
 }
 
-function dodajKorakNa(nedeljaIndeks, indeks) {
-  const sledeci = dodajKorak(kurs, nedeljaIndeks, indeks);
-  const korak = indeks == null ? sledeci.nedelje[nedeljaIndeks].steps.length - 1 : indeks;
+function dodajKorakNa(temaIndeks, indeks) {
+  const sledeci = dodajKorak(kurs, temaIndeks, indeks);
+  const korak = indeks == null ? sledeci.teme[temaIndeks].steps.length - 1 : indeks;
   fokus = "#naslov-polje";
-  primeni(sledeci, { vrsta: "korak", nedelja: nedeljaIndeks, korak });
+  primeni(sledeci, { vrsta: "korak", tema: temaIndeks, korak });
 }
 
 function premesti(vrsta, indeks, smer) {
-  if (vrsta === "nedelja") {
-    const sledeci = premestiNedelju(kurs, indeks, smer);
+  if (vrsta === "tema") {
+    const sledeci = premestiTemu(kurs, indeks, smer);
     if (sledeci === kurs) return;
-    const nedelja = izbor.vrsta === "kurs" ? 0 : indeksPoslePremestanja(izbor.nedelja, indeks, smer);
-    primeni(sledeci, izbor.vrsta === "kurs" ? izbor : { ...izbor, nedelja });
+    const tema = izbor.vrsta === "kurs" ? 0 : indeksPoslePremestanja(izbor.tema, indeks, smer);
+    primeni(sledeci, izbor.vrsta === "kurs" ? izbor : { ...izbor, tema });
     return;
   }
-  const sledeci = premestiKorak(kurs, izbor.nedelja, indeks, smer);
+  const sledeci = premestiKorak(kurs, izbor.tema, indeks, smer);
   if (sledeci === kurs) return;
   const korak = izbor.vrsta === "korak" ? indeksPoslePremestanja(izbor.korak, indeks, smer) : izbor.korak;
   primeni(sledeci, { ...izbor, korak });
 }
 
-function izborPosleBrisanjaNedelje(indeks) {
+function izborPosleBrisanjaTeme(indeks) {
   if (izbor.vrsta === "kurs") return izbor;
-  if (izbor.nedelja === indeks) return kurs.nedelje.length > 1 ? { vrsta: "nedelja", nedelja: Math.max(0, indeks - 1) } : { vrsta: "kurs" };
-  if (izbor.nedelja > indeks) return { ...izbor, nedelja: izbor.nedelja - 1 };
+  if (izbor.tema === indeks) return kurs.teme.length > 1 ? { vrsta: "tema", tema: Math.max(0, indeks - 1) } : { vrsta: "kurs" };
+  if (izbor.tema > indeks) return { ...izbor, tema: izbor.tema - 1 };
   return izbor;
 }
 
-function izborPosleBrisanjaKoraka(nedeljaIndeks, indeks) {
-  if (izbor.vrsta !== "korak" || izbor.nedelja !== nedeljaIndeks) return izbor;
-  if (izbor.korak === indeks) return { vrsta: "korak", nedelja: nedeljaIndeks, korak: Math.max(0, indeks - 1) };
+function izborPosleBrisanjaKoraka(temaIndeks, indeks) {
+  if (izbor.vrsta !== "korak" || izbor.tema !== temaIndeks) return izbor;
+  if (izbor.korak === indeks) return { vrsta: "korak", tema: temaIndeks, korak: Math.max(0, indeks - 1) };
   if (izbor.korak > indeks) return { ...izbor, korak: izbor.korak - 1 };
   return izbor;
 }
@@ -852,7 +852,7 @@ async function ucitajFajl(fajl) {
     return;
   }
   kurs = rezultat.kurs;
-  izbor = kurs.nedelje.length ? { vrsta: "nedelja", nedelja: 0 } : { vrsta: "kurs" };
+  izbor = kurs.teme.length ? { vrsta: "tema", tema: 0 } : { vrsta: "kurs" };
   document.querySelector("#nacrt").hidden = true;
   oznaciPrljavo();
   nacrtaj();
@@ -929,7 +929,7 @@ async function pokreni() {
     const rezultat = procitajTekst(tekst);
     if (!rezultat.ok) throw new Error(rezultat.greska);
     kurs = rezultat.kurs;
-    izbor = kurs.nedelje.length ? { vrsta: "nedelja", nedelja: 0 } : { vrsta: "kurs" };
+    izbor = kurs.teme.length ? { vrsta: "tema", tema: 0 } : { vrsta: "kurs" };
     nacrtaj();
     postaviPoruku(rezultat.napomena || "Učitan je kurs.json.", "dobro");
     ponudiNacrt(tekst);

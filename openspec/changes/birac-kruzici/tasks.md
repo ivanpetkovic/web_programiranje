@@ -6,7 +6,7 @@
 
 ## 2. Krug po koraku
 
-- [x] 2.1 U `nacrtajBirac` u `site/js/main.js` ne crtaj `progressbar` ni širinu `(i + 1) / item.steps.length`. Za svaki korak nedelje dodaj dugme u `.birac-krugovi`. Indeks manji ili jednak otvorenom dobija klasu dosegnutog kruga, kasniji klasu budućeg. Klik zove `korakPoCasu.set(cas, indeks)` i `renderLecture`. Dugme nema tekst, ima pristupačno ime od rednog broja i naslova, a otvoreno ima `aria-current="step"`. Grupa ima `aria-label` Koraci. Prethodni, Svi koraci, Sledeći, Korak n od N i naslov ostaju. U `test/tema.test.mjs` ukloni traženje `Napredak kroz korake` i procente širine, pa proveri jedan krug po koraku, `aria-current="step"` i da sačuvani koraci ne biraju klasu. Pokreni `node --test test/tema.test.mjs`.
+- [x] 2.1 U `nacrtajBirac` u `site/js/main.js` ne crtaj `progressbar` ni širinu `(i + 1) / item.steps.length`. Za svaki korak teme dodaj dugme u `.birac-krugovi`. Indeks manji ili jednak otvorenom dobija klasu dosegnutog kruga, kasniji klasu budućeg. Klik zove `korakPoCasu.set(cas, indeks)` i `renderLecture`. Dugme nema tekst, ima pristupačno ime od rednog broja i naslova, a otvoreno ima `aria-current="step"`. Grupa ima `aria-label` Koraci. Prethodni, Svi koraci, Sledeći, Korak n od N i naslov ostaju. U `test/tema.test.mjs` ukloni traženje `Napredak kroz korake` i procente širine, pa proveri jedan krug po koraku, `aria-current="step"` i da sačuvani koraci ne biraju klasu. Pokreni `node --test test/tema.test.mjs`.
 
 ## 3. Cela provera
 

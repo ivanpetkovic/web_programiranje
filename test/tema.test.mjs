@@ -222,7 +222,7 @@ test("spisak tema zakuca paletu i ne pomera čas", () => {
   }
   assert.match(telo, /dataset\.tema = id/);
   assert.match(telo, /localStorage\.setItem\("tema", id\)/);
-  assert.equal(telo.includes("otvoriNedelju"), false);
+  assert.equal(telo.includes("otvoriTemu"), false);
   assert.equal(telo.includes("cas ="), false);
   assert.match(telo, /if \(pogled\) osveziEditor\(\)/);
 });

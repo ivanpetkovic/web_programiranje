@@ -1,4 +1,4 @@
-export function popunaKoraka(sacuvani, nedelja, brojKoraka) {
+export function popunaKoraka(sacuvani, tema, brojKoraka) {
   const ukupno = Number.isInteger(brojKoraka) && brojKoraka > 0 ? brojKoraka : 0;
   const vidjeni = new Set();
   for (const kljuc of Array.isArray(sacuvani) ? sacuvani : []) {
@@ -7,7 +7,7 @@ export function popunaKoraka(sacuvani, nedelja, brojKoraka) {
     if (razmak < 1) continue;
     const n = Number(kljuc.slice(0, razmak));
     const indeks = Number(kljuc.slice(razmak + 1));
-    if (n !== nedelja || !Number.isInteger(indeks) || indeks < 0 || indeks >= ukupno) continue;
+    if (n !== tema || !Number.isInteger(indeks) || indeks < 0 || indeks >= ukupno) continue;
     vidjeni.add(indeks);
   }
   return { sacuvano: vidjeni.size, ukupno };

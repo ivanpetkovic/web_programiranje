@@ -9,7 +9,7 @@ const css = fs.readFileSync(new URL("../site/css/studio.css", import.meta.url), 
 test("studio strana je na srpskom i nudi učitaj, preuzmi i sačuvaj", () => {
   assert.match(html, /<html lang="sr">/);
   assert.match(html, /id="studio"/);
-  assert.match(html, /aria-label="Nedelje i koraci"/);
+  assert.match(html, /aria-label="Teme i koraci"/);
   assert.match(html, />Učitaj</);
   assert.match(html, /id="preuzmi">Preuzmi</);
   assert.match(html, /id="preuzmi-xml">Preuzmi XML</);

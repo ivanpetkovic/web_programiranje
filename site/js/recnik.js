@@ -55,13 +55,13 @@ function tekstKoraka(korak) {
 
 export function lekcijePojma(kurs, glava) {
   const pogoci = [];
-  kurs.nedelje.forEach((nedelja, ni) => {
-    nedelja.steps.forEach((korak, ki) => {
-      if (celaRec(tekstKoraka(korak), glava)) pogoci.push({ nedelja: ni + 1, korak: ki });
+  kurs.teme.forEach((tema, ni) => {
+    tema.steps.forEach((korak, ki) => {
+      if (celaRec(tekstKoraka(korak), glava)) pogoci.push({ tema: ni + 1, korak: ki });
     });
   });
   return {
-    nedelje: [...new Set(pogoci.map((pogodak) => pogodak.nedelja))],
+    teme: [...new Set(pogoci.map((pogodak) => pogodak.tema))],
     prvi: pogoci[0] || null,
     pogoci,
   };
@@ -79,17 +79,17 @@ export function predlozi(kurs, pojmovi, upit) {
     const polja = poljaPojma(pojam);
     if (polja.ime.toLocaleLowerCase("sr").startsWith(q)) izlaz.push({ vrsta: "pojam", ...polja });
   }
-  kurs.nedelje.forEach((nedelja, ni) => {
-    nedelja.steps.forEach((korak, ki) => {
+  kurs.teme.forEach((tema, ni) => {
+    tema.steps.forEach((korak, ki) => {
       if (pocinje(korak.pitalica, q)) {
-        izlaz.push({ vrsta: "pitanje", tekst: korak.pitalica, nedelja: ni + 1, korak: ki });
+        izlaz.push({ vrsta: "pitanje", tekst: korak.pitalica, tema: ni + 1, korak: ki });
       }
       if (pocinje(korak.isecak, q)) {
         izlaz.push({
           vrsta: "primer",
           tekst: korak.isecak,
           naslov: korak.isecakNaslov,
-          nedelja: ni + 1,
+          tema: ni + 1,
           korak: ki,
         });
       }

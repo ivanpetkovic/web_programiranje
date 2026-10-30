@@ -20,7 +20,7 @@
 
 ## ADDED Requirements
 
-### Requirement: Nedelja 1 počinje Webom
+### Requirement: Tema 1 počinje Webom
 The first three steps of week 1 MUST be titled Web, Internet, and Istorija, in that order. Each MUST be a figure step and MUST name no file. Podela MUST be the next step.
 
 #### Scenario: Opening order
@@ -60,7 +60,7 @@ The Istorija step MUST show a timeline with a packet network in 1969, TCP/IP in 
 - **WHEN** the teacher reveals the Istorija quiz
 - **THEN** the marked answer says the 1969 packet network is not the Web
 
-### Requirement: Minuti nedelje 1
+### Requirement: Minuti teme 1
 The minute labels of the week 1 steps MUST sum to that week's minute budget.
 
 #### Scenario: Sum is the budget
@@ -91,7 +91,7 @@ The lectures MUST NOT quiz microtask order, MUST NOT teach database administrati
 
 ## MODIFIED Requirements
 
-### Requirement: Nedelja ima naslov i korake
+### Requirement: Tema ima naslov i korake
 The course MUST be one document that sets its duration as a number of weeks and lists that many weeks, in order, each with a title. The shell MUST use that duration and MUST NOT hardcode a week count. The shipped document MUST set the duration to ten, use the titles below, and give each week 10 to 20 steps. A step that names a file MUST be one fragment, not the whole week. The minute budget MUST stay a teaching label and MUST NOT be a timer.
 
 #### Scenario: Titles are visible
@@ -169,7 +169,7 @@ Every lecture MUST keep one room pair, one temperature reading, and one fan. A l
 - **WHEN** the teacher finishes lecture 10
 - **THEN** the panel still has one switch room, one machine room, one temperature, and one fan
 
-### Requirement: Nedelja 1 sklapa stranicu
+### Requirement: Tema 1 sklapa stranicu
 Week 1 MUST follow Istorija with Podela and then these steps, in order: Stranica, Glava, Telo, Naslov, Broj, Dugme, Veza, Selektor, Okvir, Unutra, Spolja, Osvežavanje, Alati, Dva zahteva, Soba prekidača, Semantika. Veza MUST add the link to the stylesheet. The original of each of these steps MUST be the whole file after that step. Weeks 2 through 10 MUST keep each step's stored fragment as its contribution. The editor MUST show the snapshot of that file through the step.
 
 #### Scenario: Week 1 order

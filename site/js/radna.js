@@ -58,6 +58,6 @@ export function tekstPrikaza({ putanja, original, radne, verzija, binarni }) {
   return { tekst: ugradjen, razlika: true, samoCitaj: true };
 }
 
-export function serverTabVidljiv(nedelja) {
-  return nedelja >= 5;
+export function serverTabVidljiv(tema) {
+  return tema >= 5;
 }

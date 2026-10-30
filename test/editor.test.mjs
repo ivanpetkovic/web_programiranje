@@ -157,7 +157,7 @@ test("dok fajl nije dirnut oba prikaza nose original", () => {
   }
 });
 
-test("tab Server čeka petu nedelju", () => {
+test("tab Server čeka petu temu", () => {
   assert.equal(serverTabVidljiv(1), false);
   assert.equal(serverTabVidljiv(4), false);
   assert.equal(serverTabVidljiv(5), true);

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Studio je strana na kojoj nastavnik dodaje nedelje i korake, menja sadržaj kursa i taj isti dokument učitava i čuva kao JSON.
+Studio je strana na kojoj nastavnik dodaje teme i korake, menja sadržaj kursa i taj isti dokument učitava i čuva kao JSON.
 
 ## Requirements
 
@@ -24,14 +24,14 @@ On open, the studio MUST read the course document with `GET /kurs.json` and show
 - **WHEN** the studio loads the shipped `kurs.json`
 - **THEN** it shows that course's weeks in order, and the first step of the first week is titled LO
 
-### Requirement: Trajanje prati nedelje
+### Requirement: Trajanje prati teme
 The studio MUST treat the duration as the number of weeks. When a loaded document's duration differs from that count, the studio MUST set the duration to the count before any save and MUST tell the teacher it was aligned.
 
 #### Scenario: Duration is aligned
 - **WHEN** a loaded document sets the duration to 4 and lists 2 weeks
 - **THEN** the studio shows 2 weeks and a later save writes the duration as 2
 
-### Requirement: Dodavanje nedelje
+### Requirement: Dodavanje teme
 The teacher MUST be able to add a week. The new week MUST have a title and exactly one step. Adding a week MUST leave every other week and its steps unchanged, and MUST set the duration to the new count.
 
 #### Scenario: Week is added

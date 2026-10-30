@@ -7,19 +7,20 @@ export function procitajTekst(tekst) {
   } catch {
     return { ok: false, greska: "Neispravan JSON.", kurs: null, napomena: "" };
   }
-  if (!kurs || typeof kurs !== "object" || Array.isArray(kurs) || !Array.isArray(kurs.nedelje)) {
-    return { ok: false, greska: "Dokument nema spisak nedelja.", kurs: null, napomena: "" };
+  uskladiStareKljuceve(kurs);
+  if (!kurs || typeof kurs !== "object" || Array.isArray(kurs) || !Array.isArray(kurs.teme)) {
+    return { ok: false, greska: "Dokument nema spisak tema.", kurs: null, napomena: "" };
   }
-  if (!nedeljeSuIspravne(kurs.nedelje)) {
-    return { ok: false, greska: "Nedelja nema korake.", kurs: null, napomena: "" };
+  if (!temeSuIspravne(kurs.teme)) {
+    return { ok: false, greska: "Tema nema korake.", kurs: null, napomena: "" };
   }
-  const napomena = kurs.trajanjeNedelja !== kurs.nedelje.length ? "Trajanje je usklađeno sa brojem nedelja." : "";
-  kurs.trajanjeNedelja = kurs.nedelje.length;
+  const napomena = kurs.trajanjeTema !== kurs.teme.length ? "Trajanje je usklađeno sa brojem tema." : "";
+  kurs.trajanjeTema = kurs.teme.length;
   return { ok: true, greska: "", napomena, kurs };
 }
 
 export function spremiTekst(kurs) {
-  kurs.trajanjeNedelja = Array.isArray(kurs.nedelje) ? kurs.nedelje.length : 0;
+  kurs.trajanjeTema = Array.isArray(kurs.teme) ? kurs.teme.length : 0;
   return `${JSON.stringify(kurs, null, 2)}\n`;
 }
 
@@ -31,15 +32,15 @@ export function prazanKurs() {
     naslov: "Novi kurs",
     oznaka: "",
     grb: "",
-    trajanjeNedelja: 0,
+    trajanjeTema: 0,
     preduslovPrve: "",
-    nedelje: [],
+    teme: [],
   };
 }
 
-export function praznaNedelja() {
+export function praznaTema() {
   return {
-    naslov: "Nova nedelja",
+    naslov: "Nova tema",
     podnaslov: "",
     ishod: "",
     minuta: 90,
@@ -68,56 +69,56 @@ export function prazanKorak() {
   };
 }
 
-export function dodajNedelju(kurs, indeks) {
+export function dodajTemu(kurs, indeks) {
   const sledeci = structuredClone(kurs);
-  const mesto = indeks == null ? sledeci.nedelje.length : ogranicen(indeks, sledeci.nedelje.length);
-  sledeci.nedelje.splice(mesto, 0, praznaNedelja());
-  sledeci.trajanjeNedelja = sledeci.nedelje.length;
+  const mesto = indeks == null ? sledeci.teme.length : ogranicen(indeks, sledeci.teme.length);
+  sledeci.teme.splice(mesto, 0, praznaTema());
+  sledeci.trajanjeTema = sledeci.teme.length;
   return sledeci;
 }
 
-export function ukloniNedelju(kurs, indeks) {
-  if (!kurs.nedelje[indeks]) return kurs;
+export function ukloniTemu(kurs, indeks) {
+  if (!kurs.teme[indeks]) return kurs;
   const sledeci = structuredClone(kurs);
-  sledeci.nedelje.splice(indeks, 1);
-  sledeci.trajanjeNedelja = sledeci.nedelje.length;
+  sledeci.teme.splice(indeks, 1);
+  sledeci.trajanjeTema = sledeci.teme.length;
   return sledeci;
 }
 
-export function premestiNedelju(kurs, indeks, smer) {
+export function premestiTemu(kurs, indeks, smer) {
   const cilj = indeks + smer;
-  if (!Array.isArray(kurs.nedelje) || cilj < 0 || cilj >= kurs.nedelje.length) return kurs;
+  if (!Array.isArray(kurs.teme) || cilj < 0 || cilj >= kurs.teme.length) return kurs;
   const sledeci = structuredClone(kurs);
-  const [nedelja] = sledeci.nedelje.splice(indeks, 1);
-  sledeci.nedelje.splice(cilj, 0, nedelja);
-  sledeci.trajanjeNedelja = sledeci.nedelje.length;
+  const [tema] = sledeci.teme.splice(indeks, 1);
+  sledeci.teme.splice(cilj, 0, tema);
+  sledeci.trajanjeTema = sledeci.teme.length;
   return sledeci;
 }
 
-export function dodajKorak(kurs, nedeljaIndeks, indeks) {
-  if (!kurs.nedelje[nedeljaIndeks]) return kurs;
+export function dodajKorak(kurs, temaIndeks, indeks) {
+  if (!kurs.teme[temaIndeks]) return kurs;
   const sledeci = structuredClone(kurs);
-  const koraci = sledeci.nedelje[nedeljaIndeks].steps;
+  const koraci = sledeci.teme[temaIndeks].steps;
   const mesto = indeks == null ? koraci.length : ogranicen(indeks, koraci.length);
   koraci.splice(mesto, 0, prazanKorak());
   return sledeci;
 }
 
-export function ukloniKorak(kurs, nedeljaIndeks, indeks) {
-  const nedelja = kurs.nedelje[nedeljaIndeks];
-  if (!nedelja || nedelja.steps.length < 2 || !nedelja.steps[indeks]) return kurs;
+export function ukloniKorak(kurs, temaIndeks, indeks) {
+  const tema = kurs.teme[temaIndeks];
+  if (!tema || tema.steps.length < 2 || !tema.steps[indeks]) return kurs;
   const sledeci = structuredClone(kurs);
-  sledeci.nedelje[nedeljaIndeks].steps.splice(indeks, 1);
+  sledeci.teme[temaIndeks].steps.splice(indeks, 1);
   return sledeci;
 }
 
-export function premestiKorak(kurs, nedeljaIndeks, indeks, smer) {
-  const nedelja = kurs.nedelje[nedeljaIndeks];
-  if (!nedelja) return kurs;
+export function premestiKorak(kurs, temaIndeks, indeks, smer) {
+  const tema = kurs.teme[temaIndeks];
+  if (!tema) return kurs;
   const cilj = indeks + smer;
-  if (cilj < 0 || cilj >= nedelja.steps.length) return kurs;
+  if (cilj < 0 || cilj >= tema.steps.length) return kurs;
   const sledeci = structuredClone(kurs);
-  const koraci = sledeci.nedelje[nedeljaIndeks].steps;
+  const koraci = sledeci.teme[temaIndeks].steps;
   const [korak] = koraci.splice(indeks, 1);
   koraci.splice(cilj, 0, korak);
   return sledeci;
@@ -244,37 +245,37 @@ export function oznaciOdgovor(opcije, indeks) {
   return opcije;
 }
 
-export function dodajPojam(nedelja) {
-  if (!Array.isArray(nedelja.pojmoviCasa)) nedelja.pojmoviCasa = [];
-  nedelja.pojmoviCasa.push({
-    id: `pojam-${nedelja.pojmoviCasa.length + 1}`,
+export function dodajPojam(tema) {
+  if (!Array.isArray(tema.pojmoviCasa)) tema.pojmoviCasa = [];
+  tema.pojmoviCasa.push({
+    id: `pojam-${tema.pojmoviCasa.length + 1}`,
     name: "",
     hint: "",
     body: "",
     code: "",
   });
-  return nedelja;
+  return tema;
 }
 
-export function ukloniPojam(nedelja, indeks) {
-  if (!nedelja.pojmoviCasa?.[indeks]) return nedelja;
-  nedelja.pojmoviCasa.splice(indeks, 1);
-  return nedelja;
+export function ukloniPojam(tema, indeks) {
+  if (!tema.pojmoviCasa?.[indeks]) return tema;
+  tema.pojmoviCasa.splice(indeks, 1);
+  return tema;
 }
 
-export function premestiPojam(nedelja, indeks, smer) {
-  const pojmovi = nedelja.pojmoviCasa;
-  if (!pojmovi) return nedelja;
+export function premestiPojam(tema, indeks, smer) {
+  const pojmovi = tema.pojmoviCasa;
+  if (!pojmovi) return tema;
   const cilj = indeks + smer;
-  if (cilj < 0 || cilj >= pojmovi.length) return nedelja;
+  if (cilj < 0 || cilj >= pojmovi.length) return tema;
   const [pojam] = pojmovi.splice(indeks, 1);
   pojmovi.splice(cilj, 0, pojam);
-  return nedelja;
+  return tema;
 }
 
-export function preduslovNedelje(kurs, broj) {
+export function preduslovTeme(kurs, broj) {
   if (broj <= 1) return kurs.preduslovPrve || "";
-  return kurs.nedelje[broj - 2]?.ishod || "";
+  return kurs.teme[broj - 2]?.ishod || "";
 }
 
 function praznaOpcija(key, ok) {
@@ -287,10 +288,22 @@ function prebroji(opcije) {
   });
 }
 
-function nedeljeSuIspravne(nedelje) {
-  return nedelje.every((nedelja) => {
-    if (!nedelja || typeof nedelja !== "object" || Array.isArray(nedelja) || !Array.isArray(nedelja.steps)) return false;
-    return nedelja.steps.every((korak) => korak && typeof korak === "object" && !Array.isArray(korak));
+function uskladiStareKljuceve(kurs) {
+  if (!kurs || typeof kurs !== "object" || Array.isArray(kurs)) return;
+  if (!Array.isArray(kurs.teme) && Array.isArray(kurs.nedelje)) {
+    kurs.teme = kurs.nedelje;
+    delete kurs.nedelje;
+  }
+  if (kurs.trajanjeTema == null && kurs.trajanjeNedelja != null) {
+    kurs.trajanjeTema = kurs.trajanjeNedelja;
+    delete kurs.trajanjeNedelja;
+  }
+}
+
+function temeSuIspravne(teme) {
+  return teme.every((tema) => {
+    if (!tema || typeof tema !== "object" || Array.isArray(tema) || !Array.isArray(tema.steps)) return false;
+    return tema.steps.every((korak) => korak && typeof korak === "object" && !Array.isArray(korak));
   });
 }
 

@@ -18,14 +18,14 @@ const OBRAZAC = [
   "      <faza naziv=\"Analiza\" minuta=\"7\">Svaka opcija dobije razlog i jedna bude označena. Upisana pogrešna pretpostavka ostaje.</faza>",
   "      <faza naziv=\"Ponovni izbor\" minuta=\"5\">Podvlačenje sme da se pomeri. Upisuje se jedna zajednička rečenica.</faza>",
   "      <posle minuta=\"7\">Rezerva, zatvorena do ovog trenutka, ili još ista ideja. Rezerva kreće opet od izbora.</posle>",
-  "      <napomena>Jedna diskusija pripada celoj nedelji. Sajt ne pamti glas. Nastavnik jedini pomera fazu. Ako grupa ostane bez zaključka, sledeća nedelja sme da krene istom pitalicom.</napomena>",
+  "      <napomena>Jedna diskusija pripada celoj temi. Sajt ne pamti glas. Nastavnik jedini pomera fazu. Ako grupa ostane bez zaključka, sledeća tema sme da krene istom pitalicom.</napomena>",
   "    </diskusija-faze>",
   "    <izlaz-oblik>Rečenica na poslednjem koraku. Nema opcija, pečata ni polja za upis.</izlaz-oblik>",
   "  </nastavni-obrazac>",
 ];
 
 export function ispisiXml(kurs) {
-  const nedelje = Array.isArray(kurs?.nedelje) ? kurs.nedelje : [];
+  const teme = Array.isArray(kurs?.teme) ? kurs.teme : [];
   const linije = [
     `<?xml version="1.0" encoding="UTF-8"?>`,
     "<!--",
@@ -33,7 +33,7 @@ export function ispisiXml(kurs) {
     "  Imena elemenata su pojmovi kursa. Tekst je sadržaj koji čas i studio prikazuju.",
     "  drzi=\"da\" je opcija koja drži. Na projektoru razlog ostaje zatvoren do Obrazloženja.",
     "-->",
-    `<kurs xml:lang="sr" izvor="site/kurs.json" trajanje-nedelja="${nedelje.length}">`,
+    `<kurs xml:lang="sr" izvor="site/kurs.json" trajanje-tema="${teme.length}">`,
     "  <ustanova>",
     linija("naziv", kurs?.ustanova || "", 2),
     linija("univerzitet", kurs?.ustanovaRed || "", 2),
@@ -44,28 +44,28 @@ export function ispisiXml(kurs) {
     linija("naslov", kurs?.naslov || "", 1),
     ...OBRAZAC,
     ...dopunskaPolja(kurs, IMENOVANA_KURSA, 1),
-    "  <nedelje>",
+    "  <teme>",
   ];
-  nedelje.forEach((nedelja, indeks) => linije.push(...linijeNedelje(nedelja, indeks, kurs, nedelje)));
-  linije.push("  </nedelje>", "</kurs>", "");
+  teme.forEach((tema, indeks) => linije.push(...linijeTeme(tema, indeks, kurs, teme)));
+  linije.push("  </teme>", "</kurs>", "");
   return linije.join("\n");
 }
 
-function linijeNedelje(nedelja, indeks, kurs, nedelje) {
-  const minuta = nedelja.minuta ?? 90;
+function linijeTeme(tema, indeks, kurs, teme) {
+  const minuta = tema.minuta ?? 90;
   const linije = [
-    `    <nedelja broj="${indeks + 1}" minuta="${escapeAttr(minuta)}">`,
-    linija("naslov", nedelja.naslov || "", 3),
-    linija("ishod", nedelja.ishod || "", 3),
+    `    <tema broj="${indeks + 1}" minuta="${escapeAttr(minuta)}">`,
+    linija("naslov", tema.naslov || "", 3),
+    linija("ishod", tema.ishod || "", 3),
   ];
-  if ((nedelja.podnaslov || "") !== (nedelja.ishod || "")) linije.push(linija("podnaslov", nedelja.podnaslov || "", 3));
-  const preduslov = indeks === 0 ? kurs?.preduslovPrve || "" : nedelje[indeks - 1]?.ishod || "";
-  linije.push(...dopunskaPolja(nedelja, IMENOVANA_NEDELJE, 3));
+  if ((tema.podnaslov || "") !== (tema.ishod || "")) linije.push(linija("podnaslov", tema.podnaslov || "", 3));
+  const preduslov = indeks === 0 ? kurs?.preduslovPrve || "" : teme[indeks - 1]?.ishod || "";
+  linije.push(...dopunskaPolja(tema, IMENOVANA_TEME, 3));
   linije.push(linija("preduslov", preduslov, 3), "      <lekcije>");
-  (nedelja.steps || []).forEach((korak, ki) => linije.push(...linijeKoraka(korak, ki)));
+  (tema.steps || []).forEach((korak, ki) => linije.push(...linijeKoraka(korak, ki)));
   linije.push("      </lekcije>", "      <pojmovi>");
-  (nedelja.pojmoviCasa || []).forEach((pojam) => linije.push(...linijePojma(pojam)));
-  linije.push("      </pojmovi>", ...linijeDiskusije(nedelja), "    </nedelja>");
+  (tema.pojmoviCasa || []).forEach((pojam) => linije.push(...linijePojma(pojam)));
+  linije.push("      </pojmovi>", ...linijeDiskusije(tema), "    </tema>");
   return linije;
 }
 
@@ -150,29 +150,29 @@ function linijePojma(pojam) {
   ];
 }
 
-function linijeDiskusije(nedelja) {
+function linijeDiskusije(tema) {
   const linije = [
     "      <diskusija>",
-    linija("problem", nedelja.problem || "", 4),
-    linija("pretpostavka", nedelja.pretpostavka || "", 4),
-    ...linijePitalice("glavna", nedelja.problem || "", nedelja.options || [], 4),
+    linija("problem", tema.problem || "", 4),
+    linija("pretpostavka", tema.pretpostavka || "", 4),
+    ...linijePitalice("glavna", tema.problem || "", tema.options || [], 4),
   ];
-  if (nedelja.rezerva === null) {
+  if (tema.rezerva === null) {
     linije.push("        <rezerva prisutna=\"ne\"></rezerva>");
-  } else if (nedelja.rezerva && typeof nedelja.rezerva === "object") {
+  } else if (tema.rezerva && typeof tema.rezerva === "object") {
     linije.push(
       `        <rezerva prisutna="da">`,
-      linija("problem", nedelja.rezerva.problem || "", 5),
-      ...linijePitalice("rezerva", nedelja.rezerva.problem || "", nedelja.rezerva.options || [], 5),
+      linija("problem", tema.rezerva.problem || "", 5),
+      ...linijePitalice("rezerva", tema.rezerva.problem || "", tema.rezerva.options || [], 5),
       "        </rezerva>",
     );
   }
-  linije.push("        <izlaz>", linija("recenica", nedelja.izlaz || "", 5), "        </izlaz>", "      </diskusija>");
+  linije.push("        <izlaz>", linija("recenica", tema.izlaz || "", 5), "        </izlaz>", "      </diskusija>");
   return linije;
 }
 
-const IMENOVANA_KURSA = ["ustanova", "ustanovaRed", "ustanovaBok", "naslov", "oznaka", "grb", "trajanjeNedelja", "preduslovPrve", "nedelje"];
-const IMENOVANA_NEDELJE = ["naslov", "podnaslov", "ishod", "minuta", "problem", "pretpostavka", "options", "rezerva", "izlaz", "pojmoviCasa", "steps"];
+const IMENOVANA_KURSA = ["ustanova", "ustanovaRed", "ustanovaBok", "naslov", "oznaka", "grb", "trajanjeTema", "preduslovPrve", "teme"];
+const IMENOVANA_TEME = ["naslov", "podnaslov", "ishod", "minuta", "problem", "pretpostavka", "options", "rezerva", "izlaz", "pojmoviCasa", "steps"];
 const IMENOVANA_POJMA = ["id", "name", "hint", "body", "code"];
 
 function imenovanaKoraka(korak) {

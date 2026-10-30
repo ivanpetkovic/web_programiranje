@@ -78,7 +78,7 @@ test("prekidač drži crtaj u svojim fajlovima", () => {
   assert.equal(prekidac.verzije["client/index.html"].includes("new Prekidac"), false);
 });
 
-test("kraj nedelje događaja ima klijentske fajlove kursa, svaki u verziji do tog koraka", () => {
+test("kraj teme događaja ima klijentske fajlove kursa, svaki u verziji do tog koraka", () => {
   const stablo = stabloDo(koraci, indeks("Closure"));
   const fajlovi = fajloviStrane(stablo, "client");
   for (const put of ["index.html", "css/soba.css", "js/korak.js", "js/niz.js", "js/displej.js", "js/prekidac.js"]) {
