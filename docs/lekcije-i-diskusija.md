@@ -112,15 +112,15 @@ Zašto uopšte slati poruku ako veza može da pukne usred reči? 29. oktobra 196
 
 ~4 min · bez fajla
 
-Zašto seći poruku, umesto da se rezerviše veza od kraja do kraja? Ako je veza rezervisana, prekid uništi celu poruku. Paket ide drugim putem i poruka se sklopi.
+Zašto seći poruku, umesto da se rezerviše veza od kraja do kraja? Ako je veza rezervisana, prekid izgubi celu poruku. Paket ide drugim putem i poruka se sklopi.
 
-> **Ključna ideja.** Prekinuta veza ne mora da uništi poruku.
+> **Ključna ideja.** Prekinuta veza ne mora da izgubi poruku.
 
 **Pitalica.** Šta prekinuta veza uradi poruci od paketa?
 
-- A. Uništi je, jer put je jedan.
+- A. Izgubi je, jer put je jedan.
   Paket ne traži jednu rezervisanu vezu.
-- **B. Prekinuta veza ne mora da uništi poruku.**
+- **B. Prekinuta veza ne mora da izgubi poruku.**
   **drži.** Drugi paket može drugim putem. Poruka se sklopi na kraju.
 
 <a id="n1-k3"></a>
