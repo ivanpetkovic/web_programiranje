@@ -43,6 +43,7 @@ export function ispisiXml(kurs) {
     "  </ustanova>",
     linija("naslov", kurs?.naslov || "", 1),
     ...OBRAZAC,
+    ...dopunskaPolja(kurs, IMENOVANA_KURSA, 1),
     "  <nedelje>",
   ];
   nedelje.forEach((nedelja, indeks) => linije.push(...linijeNedelje(nedelja, indeks, kurs, nedelje)));
@@ -59,6 +60,7 @@ function linijeNedelje(nedelja, indeks, kurs, nedelje) {
   ];
   if ((nedelja.podnaslov || "") !== (nedelja.ishod || "")) linije.push(linija("podnaslov", nedelja.podnaslov || "", 3));
   const preduslov = indeks === 0 ? kurs?.preduslovPrve || "" : nedelje[indeks - 1]?.ishod || "";
+  linije.push(...dopunskaPolja(nedelja, IMENOVANA_NEDELJE, 3));
   linije.push(linija("preduslov", preduslov, 3), "      <lekcije>");
   (nedelja.steps || []).forEach((korak, ki) => linije.push(...linijeKoraka(korak, ki)));
   linije.push("      </lekcije>", "      <pojmovi>");
@@ -76,10 +78,18 @@ function linijeKoraka(korak, indeks) {
   linije.push(linija("tekst", korak.tekst || "", 5));
   linije.push(linija("kljucna-ideja", korak.kljucnaIdeja || "", 5));
   if (korak.figura) linije.push(...linijeCrteza(korak.figura));
-  else if (typeof korak.putanja === "string" || typeof korak.isecak === "string") linije.push(...linijeFajla(korak));
+  else if (typeof korak.putanja === "string") linije.push(...linijeFajla(korak));
+  else if (typeof korak.isecak === "string") linije.push(...linijePrimer(korak));
+  linije.push(...dopunskaPolja(korak, imenovanaKoraka(korak), 5));
   linije.push(...linijePitalice("kratka", korak.pitalica || "", korak.opcije || [], 5));
   linije.push("        </korak>");
   return linije;
+}
+
+function linijePrimer(korak) {
+  const attrs = {};
+  if (typeof korak.isecakNaslov === "string") attrs.naslov = korak.isecakNaslov;
+  return [kod("primer", attrs, korak.isecak, 5)];
 }
 
 function linijeFajla(korak) {
@@ -135,6 +145,7 @@ function linijePojma(pojam) {
     linija("nagovestaj", pojam.hint || "", 5),
     linija("opis", pojam.body || "", 5),
     kod("zapis", { jezik: String(pojam.code || "").includes("<") ? "html" : "text" }, pojam.code || "", 5),
+    ...dopunskaPolja(pojam, IMENOVANA_POJMA, 5),
     "        </pojam>",
   ];
 }
@@ -158,6 +169,28 @@ function linijeDiskusije(nedelja) {
   }
   linije.push("        <izlaz>", linija("recenica", nedelja.izlaz || "", 5), "        </izlaz>", "      </diskusija>");
   return linije;
+}
+
+const IMENOVANA_KURSA = ["ustanova", "ustanovaRed", "ustanovaBok", "naslov", "oznaka", "grb", "trajanjeNedelja", "preduslovPrve", "nedelje"];
+const IMENOVANA_NEDELJE = ["naslov", "podnaslov", "ishod", "minuta", "problem", "pretpostavka", "options", "rezerva", "izlaz", "pojmoviCasa", "steps"];
+const IMENOVANA_POJMA = ["id", "name", "hint", "body", "code"];
+
+function imenovanaKoraka(korak) {
+  const imena = ["naslov", "tekst", "kljucnaIdeja", "nivo", "minuta", "figura", "pitalica", "opcije"];
+  if (typeof korak.putanja === "string") imena.push("putanja", "isecak", "isecakNaslov", "delic", "original");
+  else if (typeof korak.isecak === "string") imena.push("isecak", "isecakNaslov");
+  return imena;
+}
+
+function dopunskaPolja(obj, imenovana, uvlaka) {
+  if (!obj || typeof obj !== "object" || Array.isArray(obj)) return [];
+  const ostatak = {};
+  for (const kljuc of Object.keys(obj)) {
+    if (imenovana.includes(kljuc) || kljuc === "__proto__" || kljuc === "prototype" || kljuc === "constructor") continue;
+    ostatak[kljuc] = obj[kljuc];
+  }
+  if (Object.keys(ostatak).length === 0) return [];
+  return [kod("dopunska-polja", { format: "json" }, JSON.stringify(ostatak), uvlaka)];
 }
 
 function jezikPutanje(putanja) {
