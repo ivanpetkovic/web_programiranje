@@ -2666,6 +2666,11 @@ function vezniSwipeTeme(element) {
 vezniSwipeTeme(mobilNavTraka);
 vezniSwipeTeme(mobilGradivoZaglavlje);
 
+function mozePovuciIzborSheet(dogadjaj, sheet) {
+  if (dogadjaj.target.closest(".mobil-sheet-hvat, .mobil-izbor-sheet-h")) return true;
+  return sheet.scrollTop <= 0;
+}
+
 function vezniPovuciNadole(element, zatvori) {
   element?.addEventListener(
     "touchstart",
@@ -2673,7 +2678,7 @@ function vezniPovuciNadole(element, zatvori) {
       if (!usko()) return;
       const dodir = dogadjaj.touches[0] || dogadjaj.changedTouches[0];
       if (!dodir) return;
-      dodirSheet = { y: dodir.clientY, zatvori };
+      dodirSheet = { x: dodir.clientX, y: dodir.clientY, zatvori };
     },
     { passive: true },
   );
@@ -2682,9 +2687,11 @@ function vezniPovuciNadole(element, zatvori) {
     (dogadjaj) => {
       if (!dodirSheet || dodirSheet.zatvori !== zatvori) return;
       const dodir = dogadjaj.changedTouches[0];
+      const dx = dodir.clientX - dodirSheet.x;
       const dy = dodir.clientY - dodirSheet.y;
       dodirSheet = null;
-      if (dy > 72) zatvori();
+      if (dy < 72 || dy < Math.abs(dx) * 1.1) return;
+      zatvori();
     },
     { passive: true },
   );
@@ -2692,11 +2699,42 @@ function vezniPovuciNadole(element, zatvori) {
     if (dodirSheet?.zatvori === zatvori) dodirSheet = null;
   });
 }
+
+function vezniPovuciNadoleIzborSheet(sheet, zatvori) {
+  if (!sheet) return;
+  sheet.addEventListener(
+    "touchstart",
+    (dogadjaj) => {
+      if (!usko()) return;
+      if (!mozePovuciIzborSheet(dogadjaj, sheet)) return;
+      const dodir = dogadjaj.touches[0] || dogadjaj.changedTouches[0];
+      if (!dodir) return;
+      dodirSheet = { x: dodir.clientX, y: dodir.clientY, zatvori, sheet };
+    },
+    { passive: true },
+  );
+  sheet.addEventListener(
+    "touchend",
+    (dogadjaj) => {
+      if (!dodirSheet || dodirSheet.sheet !== sheet || dodirSheet.zatvori !== zatvori) return;
+      const dodir = dogadjaj.changedTouches[0];
+      const dx = dodir.clientX - dodirSheet.x;
+      const dy = dodir.clientY - dodirSheet.y;
+      dodirSheet = null;
+      if (dy < 72 || dy < Math.abs(dx) * 1.1) return;
+      zatvori();
+    },
+    { passive: true },
+  );
+  sheet.addEventListener("touchcancel", () => {
+    if (dodirSheet?.sheet === sheet) dodirSheet = null;
+  });
+}
 vezniPovuciNadole(mobilGradivoZaglavlje, zatvoriMobilNav);
 vezniPovuciNadole(mobilPodesavanja?.querySelector(".mobil-sheet-hvat"), zatvoriMobilProfil);
 vezniPovuciNadole(mobilPretraga?.querySelector(".mobil-sheet-hvat"), zatvoriMobilPretragu);
-vezniPovuciNadole(mobilNedSheet?.querySelector(".mobil-sheet-hvat"), zatvoriMobilIzborSheetove);
-vezniPovuciNadole(mobilKorSheet?.querySelector(".mobil-sheet-hvat"), zatvoriMobilIzborSheetove);
+vezniPovuciNadoleIzborSheet(mobilNedSheet, zatvoriMobilIzborSheetove);
+vezniPovuciNadoleIzborSheet(mobilKorSheet, zatvoriMobilIzborSheetove);
 
 const pocetno = procitajMesto();
 const izHesha = Number((location.hash.match(/cas-(\d+)/) || [])[1]);
