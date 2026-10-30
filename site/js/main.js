@@ -19,6 +19,7 @@ import { adresaPregleda, izborFajla, popunaKoraka, prikaziIzlaz } from "./birac.
 import { nacrtajFiguru } from "./crtez.js";
 import { prikazKoraka } from "./figura.js";
 import { blokoviTeksta, imaMermaid, nacrtajMermaid, osveziMermaid } from "./mermaid.js";
+import { blokoviProze } from "./proza.js";
 import { potez, praznoStanje, prikaz as prikazDiskusije } from "./diskusija.js";
 import { PODRAZUMEVANI_PRIMER, pocetniFajl, primeniPrimer } from "./primer.js";
 import { praznaSesija, primeni } from "./verzija.js";
@@ -756,18 +757,67 @@ function fragmentTeksta(tekst) {
   return frag;
 }
 
-function cvoroviProze(tekst, dijagrami) {
-  if (!imaMermaid(tekst)) {
+function cvorDelova(delovi) {
+  const frag = document.createDocumentFragment();
+  for (const deo of delovi) {
+    const unutra = fragmentTeksta(deo.tekst);
+    if (deo.jako) {
+      const jako = document.createElement("strong");
+      jako.append(unutra);
+      frag.append(jako);
+    } else if (deo.kod) {
+      const kod = document.createElement("code");
+      kod.append(unutra);
+      frag.append(kod);
+    } else {
+      frag.append(unutra);
+    }
+  }
+  return frag;
+}
+
+function cvoroviPasusa(tekst) {
+  const izvor = tekst || "";
+  const blokovi = blokoviProze(izvor);
+  const obican = blokovi.length === 1
+    && blokovi[0].vrsta === "pasus"
+    && blokovi[0].delovi.length === 1
+    && !blokovi[0].delovi[0].jako
+    && !blokovi[0].delovi[0].kod
+    && blokovi[0].delovi[0].tekst === izvor;
+  if (obican) {
     const p = document.createElement("p");
-    p.append(fragmentTeksta(tekst));
+    p.append(fragmentTeksta(izvor));
     return [p];
   }
+  return blokovi.map((blok) => {
+    if (blok.vrsta === "naslov") {
+      const nivo = Math.min(4, Math.max(2, blok.nivo));
+      const naslov = document.createElement(`h${nivo}`);
+      naslov.append(cvorDelova(blok.delovi));
+      return naslov;
+    }
+    if (blok.vrsta === "lista") {
+      const lista = document.createElement("ul");
+      for (const stavka of blok.stavke) {
+        const li = document.createElement("li");
+        li.append(cvorDelova(stavka));
+        lista.append(li);
+      }
+      return lista;
+    }
+    const p = document.createElement("p");
+    p.append(cvorDelova(blok.delovi));
+    return p;
+  });
+}
+
+function cvoroviProze(tekst, dijagrami) {
+  if (!imaMermaid(tekst)) return cvoroviPasusa(tekst);
   const cvorovi = [];
   for (const blok of blokoviTeksta(tekst)) {
     if (blok.vrsta === "tekst") {
-      const p = document.createElement("p");
-      p.append(fragmentTeksta(blok.tekst));
-      cvorovi.push(p);
+      cvorovi.push(...cvoroviPasusa(blok.tekst));
       continue;
     }
     const dijagram = document.createElement("div");
