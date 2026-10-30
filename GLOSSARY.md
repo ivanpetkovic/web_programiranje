@@ -191,7 +191,7 @@ Poruka kutije ka browseru, bez novog čitanja. Ide u sobu mašina.
 _Avoid_: Dovod, guranje.
 
 **opaque token**:
-Ključ sesije koji stranica ne tumači: browser ga samo nosi, kutija u mapi nađe ulogu. Suprotno je od cookie-ja čiju vrednost JS čita. Po srpski: neprozirni token. Engleski: opaque token.
+Ključ sesije koji stranica ne tumači: browser ga samo nosi, kutija u mapi nađe ulogu. Suprotno je od cookie-ja čiju vrednost JS čita. Engleski: opaque token.
 _Avoid_: Neprozirni ključ, transparentni kolačić, prozirni kolačić.
 
 **klijent**:
