@@ -131,7 +131,7 @@ Zašto seći poruku, umesto da se rezerviše veza od kraja do kraja? Ako je veza
 
 Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? TCP je pouzdan tok bajtova: dokument traži svaki bajt. UDP sme da odbaci datagram, pa glas, slika ili igra ne čekaju zakasneli kadar.
 
-> **Ključna ideja.** TCP čuva svaki bajt dokumenta. UDP sme da odbaci zakasneli kadar.
+> **Ključna ideja.** TCP čuva svaki bajt dokumenta. UDP sme da odbaci datagram.
 
 **Crtež.**
 
