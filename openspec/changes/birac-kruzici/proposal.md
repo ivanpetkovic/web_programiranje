@@ -2,11 +2,11 @@
 
 ## Why
 
-Birač koraka zauzima celu širinu kolone časa, a ispod kontrola stoji traka čija je popuna razlomak otvorenog koraka. Za nedelju od 19 koraka ta traka ne kaže gde je koji korak i ne vodi na njega. Koraci treba da budu kratak niz krugova, širok onoliko koliko ih ima.
+Birač koraka zauzima celu širinu kolone časa, a ispod kontrola stoji traka čija je popuna razlomak otvorenog koraka. Za temu od 19 koraka ta traka ne kaže gde je koji korak i ne vodi na njega. Koraci treba da budu kratak niz krugova, širok onoliko koliko ih ima.
 
 ## What Changes
 
-- **BREAKING:** traka napretka nestaje. Na njenom mestu je jedan krug po koraku otvorene nedelje. Budući koraci su svetlo sivi. Prethodni i trenutni su žuti: na mornaru i uglju to je `#ffb000`, a na pesku i terakoti naglasak te teme. Sačuvani koraci ne boje krugove.
+- **BREAKING:** traka napretka nestaje. Na njenom mestu je jedan krug po koraku otvorene teme. Budući koraci su svetlo sivi. Prethodni i trenutni su žuti: na mornaru i uglju to je `#ffb000`, a na pesku i terakoti naglasak te teme. Sačuvani koraci ne boje krugove.
 - Klik na krug, uključujući budući, otvara taj korak i ostavlja otvoreni tab. Krug ne ispisuje broj. Trenutni krug je i dalje žut, kao prethodni, i nosi `aria-current="step"`.
 - Birač više nije rastegnut na širinu kolone. Širina prati sadržaj, a niz krugova raste sa brojem koraka i staje na širini kolone. Kad ne stane u jedan red, krugovi prelaze u sledeći.
 - „Korak n od N”, naslov koraka, Prethodni korak, Svi koraci i Sledeći ostaju. Nivo, minuti i Sačuvaj korak ostaju van birača. Red brojeva u telu lekcije se ne vraća.

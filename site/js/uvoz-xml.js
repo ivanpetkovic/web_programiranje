@@ -8,16 +8,16 @@ export function procitajXml(tekst) {
 
 function procitajDokument(tekst) {
   const stablo = koren(tekst);
-  if (!stablo || stablo.ime !== "kurs" || !dete(stablo, "nedelje")) {
-    return { ok: false, greska: "Dokument nema spisak nedelja.", kurs: null, napomena: "", nedostajeUgradjena: 0 };
+  if (!stablo || stablo.ime !== "kurs" || !dete(stablo, "teme")) {
+    return { ok: false, greska: "Dokument nema spisak tema.", kurs: null, napomena: "", nedostajeUgradjena: 0 };
   }
-  const nedelje = deca(dete(stablo, "nedelje"), "nedelja").map(procitajNedelju);
-  if (nedelje.some((nedelja) => !nedelja.steps.length)) {
-    return { ok: false, greska: "Nedelja nema korake.", kurs: null, napomena: "", nedostajeUgradjena: 0 };
+  const teme = deca(dete(stablo, "teme"), "tema").map(procitajTemu);
+  if (teme.some((tema) => !tema.steps.length)) {
+    return { ok: false, greska: "Tema nema korake.", kurs: null, napomena: "", nedostajeUgradjena: 0 };
   }
   const ustanova = dete(stablo, "ustanova");
-  const zadato = stablo.attrs["trajanje-nedelja"];
-  const napomena = zadato != null && Number(zadato) !== nedelje.length ? "Trajanje je usklađeno sa brojem nedelja." : "";
+  const zadato = stablo.attrs["trajanje-tema"];
+  const napomena = zadato != null && Number(zadato) !== teme.length ? "Trajanje je usklađeno sa brojem tema." : "";
   const kurs = {
     ustanova: tekstElementa(dete(ustanova, "naziv")),
     ustanovaRed: tekstElementa(dete(ustanova, "univerzitet")),
@@ -25,21 +25,21 @@ function procitajDokument(tekst) {
     naslov: tekstElementa(dete(stablo, "naslov")),
     oznaka: tekstElementa(dete(ustanova, "oznaka")),
     grb: tekstElementa(dete(ustanova, "grb")),
-    trajanjeNedelja: nedelje.length,
-    preduslovPrve: tekstElementa(dete(deca(dete(stablo, "nedelje"), "nedelja")[0], "preduslov")),
-    nedelje,
+    trajanjeTema: teme.length,
+    preduslovPrve: tekstElementa(dete(deca(dete(stablo, "teme"), "tema")[0], "preduslov")),
+    teme,
   };
   Object.assign(kurs, dopunskaPolja(stablo));
   return { ok: true, greska: "", napomena, kurs, nedostajeUgradjena: brojBezUgradjene(kurs) };
 }
 
-function procitajNedelju(el) {
+function procitajTemu(el) {
   const ishod = tekstElementa(dete(el, "ishod"));
   const podnaslov = dete(el, "podnaslov");
   const diskusija = dete(el, "diskusija");
   const glavna = pitalicaVrste(diskusija, "glavna");
   const rezerva = procitajRezervu(diskusija);
-  const nedelja = {
+  const tema = {
     naslov: tekstElementa(dete(el, "naslov")),
     podnaslov: podnaslov ? tekstElementa(podnaslov) : ishod,
     ishod,
@@ -48,12 +48,12 @@ function procitajNedelju(el) {
     pretpostavka: tekstElementa(dete(diskusija, "pretpostavka")),
     options: procitajOpcije(dete(glavna, "opcije")),
   };
-  if (rezerva !== undefined) nedelja.rezerva = rezerva;
-  nedelja.izlaz = tekstIzlaza(diskusija);
-  nedelja.pojmoviCasa = procitajPojmove(dete(el, "pojmovi"));
-  nedelja.steps = deca(dete(el, "lekcije"), "korak").map(procitajKorak);
-  Object.assign(nedelja, dopunskaPolja(el));
-  return nedelja;
+  if (rezerva !== undefined) tema.rezerva = rezerva;
+  tema.izlaz = tekstIzlaza(diskusija);
+  tema.pojmoviCasa = procitajPojmove(dete(el, "pojmovi"));
+  tema.steps = deca(dete(el, "lekcije"), "korak").map(procitajKorak);
+  Object.assign(tema, dopunskaPolja(el));
+  return tema;
 }
 
 function procitajKorak(el) {
@@ -182,7 +182,7 @@ function dopunskaPolja(el) {
 }
 
 function brojBezUgradjene(kurs) {
-  return kurs.nedelje.reduce((zbir, nedelja) => zbir + nedelja.steps.filter((korak) => {
+  return kurs.teme.reduce((zbir, tema) => zbir + tema.steps.filter((korak) => {
     if (korak.figura || typeof korak.putanja !== "string") return false;
     return typeof korak.original !== "string";
   }).length, 0);

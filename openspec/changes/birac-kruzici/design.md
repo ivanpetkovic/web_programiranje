@@ -8,7 +8,7 @@ Birač crta `nacrtajBirac` u `site/js/main.js` i stavlja ga u `#birac-mesto`. `.
 
 **Goals:**
 
-- Traka nestaje, a svaki korak nedelje je krug čija boja zavisi samo od otvorenog indeksa.
+- Traka nestaje, a svaki korak teme je krug čija boja zavisi samo od otvorenog indeksa.
 - Širina birača je širina sadržaja. Niz krugova je širi kad ima više koraka i ne prelazi kolonu.
 
 **Non-Goals:**

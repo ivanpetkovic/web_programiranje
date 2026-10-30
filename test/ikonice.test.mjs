@@ -30,7 +30,7 @@ test("zaglavlje, spisak i kartica nose ikonice", () => {
   assert.match(html, /id="grb"/);
   assert.match(main, /dokument\.oznaka/);
   assert.match(main, /dokument\.grb/);
-  assert.match(main, /nedeljaZavrsena\(item, mesto\) \? "check-circle" : "circle"/);
+  assert.match(main, /temaZavrsena\(item, mesto\) \? "check-circle" : "circle"/);
   assert.match(main, /otvoren \? "chevron-up" : "chevron-down"/);
   assert.equal(main.includes('kvaka.textContent'), false);
   assert.equal(main.includes("●"), false);

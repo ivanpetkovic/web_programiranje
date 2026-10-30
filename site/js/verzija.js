@@ -29,7 +29,7 @@ function puna(sesija) {
   return put ? `${sesija.strana}/${put}` : "";
 }
 
-function fokus(sesija, dogadaj, nedelja) {
+function fokus(sesija, dogadaj, tema) {
   const sledeca = kopija(sesija);
   if (!dogadaj.putanja) {
     const kljuc = `${dogadaj.kljuc}:prazno`;
@@ -40,7 +40,7 @@ function fokus(sesija, dogadaj, nedelja) {
   }
   const side = dogadaj.putanja.slice(0, dogadaj.putanja.indexOf("/"));
   const put = dogadaj.putanja.slice(dogadaj.putanja.indexOf("/") + 1);
-  if (!serverTabVidljiv(nedelja) && side === "server") return sesija;
+  if (!serverTabVidljiv(tema) && side === "server") return sesija;
   const kljuc = `${dogadaj.kljuc}:${side}:${put}`;
   if (sledeca.kljucFokusa === kljuc) return sesija;
   sledeca.kljucFokusa = kljuc;
@@ -53,7 +53,7 @@ function fokus(sesija, dogadaj, nedelja) {
 
 function uskladi(sesija, kontekst) {
   const sledeca = kopija(sesija);
-  if (!serverTabVidljiv(kontekst.nedelja) && sledeca.strana === "server") {
+  if (!serverTabVidljiv(kontekst.tema) && sledeca.strana === "server") {
     sledeca.strana = "client";
     sledeca.kljucFokusa = "";
   }
@@ -113,7 +113,7 @@ export function primeni(sesija, dogadaj, kontekst) {
   let forsiraj = false;
 
   if (dogadaj.tip === "fokus") {
-    sledeca = fokus(sesija, dogadaj, kontekst.nedelja);
+    sledeca = fokus(sesija, dogadaj, kontekst.tema);
   } else if (dogadaj.tip === "strana" && dogadaj.strana !== sesija.strana) {
     sledeca.strana = dogadaj.strana;
     sledeca.verzija = "radna";

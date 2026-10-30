@@ -2,8 +2,12 @@
 
 ## Jezik kursa
 
+**Tema**:
+Jedna celina kursa: naslov, ishod i koraci jednog predavanja.
+_Avoid_: Nedelja
+
 **Osnova teme**:
-Minimalno objašnjenje pojmova i vođeni primer koji student dobija pre zadatka koji zahteva te pojmove.
+Unutar teme, minimalno objašnjenje pojmova i vođeni primer pre zadatka koji te pojmove traži.
 
 **Pitalica za proveru razumevanja**:
 Pitanje koje proverava primenu prethodno objašnjenih pojmova, uz obrazloženje odgovora.
@@ -17,18 +21,24 @@ _Avoid_: Kviz za svaki pojam.
 Drugo pitanje istog časa, otvoreno tek kad je glavna pitalica razjašnjena.
 _Avoid_: Druga obavezna diskusija.
 
-**Postepeni nedeljni plan**:
-Raspored u kojem zadaci svake nedelje koriste prethodno uvedene osnove i jasno označene nove pojmove.
+**Postepeni plan tema**:
+Raspored u kojem zadaci svake teme koriste prethodno uvedene osnove i jasno označene nove pojmove.
+_Avoid_: Nedeljni plan
 
 **Povezujući primer**:
 Jedna aplikacija kojoj se predavanja vraćaju da bi demonstrirala nove koncepte i posledice odluka kroz poznat scenario.
 
 **Pregledna tema**:
-Oblast koja se na predavanju predstavlja kroz problem koji rešava, osnovnu ideju i kratak primer ili pitalicu, bez detaljne razrade.
+Oblast koja se na predavanju predstavlja kroz problem koji rešava, osnovnu ideju i kratak primer ili pitalicu, bez detaljne razrade. Nije celina kursa.
+_Avoid_: Tema, Paleta
 
 **Sajt časa**:
 Interaktivni tok predavanja koji zamenjuje slajdove i ugrađuje povezujući primer.
-_Avoid_: Prezentacija, slajdovi.
+_Avoid_: Prezentacija, slajdovi
+
+**Paleta**:
+Jedan izgled sajta časa. Četiri su Plava, Ugalj, Pesak i Terakota.
+_Avoid_: Tema, Pregledna tema.
 
 **Editor časa**:
 Mesto na sajtu časa gde se menja jedan isečak povezujućeg primera koji već radi.

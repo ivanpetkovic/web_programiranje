@@ -29,20 +29,20 @@ export function mapirajKorak(korak) {
 }
 
 function napraviLekcije(doc) {
-  return doc.nedelje.map((nedelja, i) => ({
+  return doc.teme.map((tema, i) => ({
     n: i + 1,
-    title: nedelja.naslov,
-    outcome: nedelja.ishod,
-    podnaslov: nedelja.podnaslov,
-    minuta: nedelja.minuta,
-    problem: nedelja.problem,
-    pretpostavka: nedelja.pretpostavka,
-    options: nedelja.options,
-    rezerva: nedelja.rezerva,
-    izlaz: nedelja.izlaz,
-    overview: nedelja.overview,
-    terms: nedelja.pojmoviCasa,
-    steps: nedelja.steps.map(mapirajKorak),
+    title: tema.naslov,
+    outcome: tema.ishod,
+    podnaslov: tema.podnaslov,
+    minuta: tema.minuta,
+    problem: tema.problem,
+    pretpostavka: tema.pretpostavka,
+    options: tema.options,
+    rezerva: tema.rezerva,
+    izlaz: tema.izlaz,
+    overview: tema.overview,
+    terms: tema.pojmoviCasa,
+    steps: tema.steps.map(mapirajKorak),
   }));
 }
 
@@ -52,16 +52,16 @@ export function osveziLekcije() {
   lectures = napraviLekcije(dokument);
 }
 
-export function sirovaNedelja(brojNedelje) {
-  return dokument.nedelje[brojNedelje - 1] || null;
+export function sirovaTema(brojTeme) {
+  return dokument.teme[brojTeme - 1] || null;
 }
 
-export function siroviKorak(brojNedelje, indeksKoraka) {
-  const nedelja = sirovaNedelja(brojNedelje);
-  return nedelja?.steps[indeksKoraka] || null;
+export function siroviKorak(brojTeme, indeksKoraka) {
+  const tema = sirovaTema(brojTeme);
+  return tema?.steps[indeksKoraka] || null;
 }
 
 export function preduslovCasa(n) {
   if (n === 1) return dokument.preduslovPrve;
-  return dokument.nedelje[n - 2]?.ishod || "";
+  return dokument.teme[n - 2]?.ishod || "";
 }

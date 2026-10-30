@@ -32,7 +32,7 @@ test("Alati browsera dolaze iz GLOSSARY.md, a alat van browsera nije taj pojam",
   assert.match(alati.definicija, /prikaz/);
   assert.match(alati.izbegava, /Izmena fajla/);
   const kurs = {
-    nedelje: [
+    teme: [
       {
         steps: [
           { tekst: "Alati browsera menjaju prikaz.", kljucnaIdeja: "", pitalica: "?", isecak: "", opcije: [] },
@@ -41,21 +41,21 @@ test("Alati browsera dolaze iz GLOSSARY.md, a alat van browsera nije taj pojam",
       },
     ],
   };
-  assert.deepEqual(lekcijePojma(kurs, "Alati browsera").pogoci, [{ nedelja: 1, korak: 0 }]);
+  assert.deepEqual(lekcijePojma(kurs, "Alati browsera").pogoci, [{ tema: 1, korak: 0 }]);
 });
 
-test("pogodak deli nedelje i ćuti kad glave nema", () => {
+test("pogodak deli teme i ćuti kad glave nema", () => {
   const kurs = {
-    nedelje: [
+    teme: [
       { steps: [{ tekst: "Kontrolna soba stoji.", kljucnaIdeja: "", pitalica: "?", isecak: "", opcije: [] }] },
       { steps: [{ tekst: "nema", kljucnaIdeja: "I ovde je Kontrolna soba.", pitalica: "?", isecak: "", opcije: [] }] },
       { steps: [{ tekst: "Kontrolna sobica nije ista reč.", kljucnaIdeja: "", pitalica: "?", isecak: "", opcije: [] }] },
     ],
   };
   const pogodak = lekcijePojma(kurs, "Kontrolna soba");
-  assert.deepEqual(pogodak.nedelje, [1, 2]);
-  assert.deepEqual(pogodak.prvi, { nedelja: 1, korak: 0 });
-  assert.deepEqual(lekcijePojma(kurs, "Operater").nedelje, []);
+  assert.deepEqual(pogodak.teme, [1, 2]);
+  assert.deepEqual(pogodak.prvi, { tema: 1, korak: 0 });
+  assert.deepEqual(lekcijePojma(kurs, "Operater").teme, []);
   assert.equal(lekcijePojma(kurs, "Operater").prvi, null);
 });
 
@@ -74,14 +74,14 @@ test("termini gradiva izbegavaju kalk i javljaju se u kursu", () => {
   assert.match(trazi("cookie").izbegava, /Kolačić/);
   assert.match(trazi("cache").izbegava, /Keš/);
   assert.match(trazi("push").izbegava, /Dovod/);
-  assert.match(dokument.nedelje[0].problem, /blockchain/);
+  assert.match(dokument.teme[0].problem, /blockchain/);
   assert.equal(lekcijePojma(dokument, "veza od kraja do kraja").prvi.korak >= 0, true);
-  assert.equal(lekcijePojma(dokument, "Žica").nedelje.length, 0);
+  assert.equal(lekcijePojma(dokument, "Žica").teme.length, 0);
 });
 
 test("pitanje koje počinje upitom vraća svoj korak", () => {
   const kurs = {
-    nedelje: [
+    teme: [
       {
         steps: [
           { pitalica: "Šta browser učitava?", isecak: "client/", tekst: "", kljucnaIdeja: "", opcije: [] },
@@ -91,7 +91,7 @@ test("pitanje koje počinje upitom vraća svoj korak", () => {
     ],
   };
   const pitanje = predlozi(kurs, [], "Šta browser").find((stavka) => stavka.vrsta === "pitanje");
-  assert.equal(pitanje.nedelja, 1);
+  assert.equal(pitanje.tema, 1);
   assert.equal(pitanje.korak, 0);
   assert.equal(pitanje.tekst, "Šta browser učitava?");
   const primer = predlozi(kurs, [{ ime: "Kutija", definicija: "Server.", izbegava: "" }], "client").find((stavka) => stavka.vrsta === "primer");

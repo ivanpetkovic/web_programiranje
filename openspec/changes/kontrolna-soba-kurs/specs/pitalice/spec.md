@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Pitalice drže razgovor na projektoru: kratka provera u svakom koraku i jedna duga diskusija po nedelji, bez pamćenja glasova i bez bodovanja.
+Pitalice drže razgovor na projektoru: kratka provera u svakom koraku i jedna duga diskusija po temi, bez pamćenja glasova i bez bodovanja.
 
 ## ADDED Requirements
 

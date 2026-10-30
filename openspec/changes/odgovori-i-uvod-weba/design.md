@@ -4,22 +4,22 @@
 
 Vidi `proposal.md` za razlog. Kratka pitalica je `.opcije-mreza`: u osnovi jedna kolona, a od 861px dve. Test `test/tema.test.mjs` zaključava oba pravila. `pitalice` već traži jedan red po odgovoru; `sajt-casa` traži dva stupca na širokom času. Ovaj change rešava sukob u korist jedne kolone.
 
-„Osvrt” je `<details>` u `renderLecture` i čita `nedelja.overview`. Ispod njega, na svakom koraku, stoje `nedelja.izlaz` i `textarea` bez slušaoca. Polja pretpostavki i zaključka žive u `nacrtajDiskusiju` i pamte tekst u mapi časa.
+„Osvrt” je `<details>` u `renderLecture` i čita `tema.overview`. Ispod njega, na svakom koraku, stoje `tema.izlaz` i `textarea` bez slušaoca. Polja pretpostavki i zaključka žive u `nacrtajDiskusiju` i pamte tekst u mapi časa.
 
-`izgradi` u `site/js/stablo.js` već preskače korak bez `putanja` i ostavlja prethodni snimak. `focusFile` u tom slučaju pada na `fileForLecture`, a za nedelju 1 to je `client/css/soba.css`, fajl koji još nije uveden. Nedelja 1 ima 17 koraka i tačno 90 minuta. Granica dokumenta je 10 do 20 koraka po nedelji.
+`izgradi` u `site/js/stablo.js` već preskače korak bez `putanja` i ostavlja prethodni snimak. `focusFile` u tom slučaju pada na `fileForLecture`, a za temu 1 to je `client/css/soba.css`, fajl koji još nije uveden. Tema 1 ima 17 koraka i tačno 90 minuta. Granica dokumenta je 10 do 20 koraka po temi.
 
 ## Goals / Non-Goals
 
 **Goals:**
 
 - Jedna kolona kratke pitalice na svakoj širini.
-- Tri koraka-crteža na početku nedelje 1, sa natpisima iz `site/kurs.json`.
+- Tri koraka-crteža na početku teme 1, sa natpisima iz `site/kurs.json`.
 - Izlaz kao rečenica samo na poslednjem koraku, bez polja.
 - Prazan editor dok korak ne imenuje fajl.
 
 **Non-Goals:**
 
-- Nova nedelja, nova zavisnost, biblioteka animacija.
+- Nova tema, nova zavisnost, biblioteka animacija.
 - Teorija za imena koja čas ne predaje.
 - Izmena faza diskusije, panela ili `kontrolna-soba`.
 - Promena rasta HTML-a od Stranice do Semantike.
@@ -57,7 +57,7 @@ Alternativa: crtež-koraci nose `putanja` Podele. Odbijena jer bi stablo prikaza
 
 ### Izlaz je pasus poslednjeg koraka
 
-`textarea` izlaza i njen natpis nestaju. Na poslednjem koraku nedelje jedan pasus sa klasom `log` pokazuje `nedelja.izlaz`. Raniji koraci ga ne pokazuju. `nacrtajDiskusiju` i dalje pravi polja pretpostavki i zaključka.
+`textarea` izlaza i njen natpis nestaju. Na poslednjem koraku teme jedan pasus sa klasom `log` pokazuje `tema.izlaz`. Raniji koraci ga ne pokazuju. `nacrtajDiskusiju` i dalje pravi polja pretpostavki i zaključka.
 
 `overview` se briše iz dokumenta i više se ne čita. Korak časa 10 sa naslovom Osvrt postaje „Jedna soba”: rečenica o tipu i predlogu asistenta ostaje u `tekst` tog koraka, bez reči „osvrt” i bez drugog glasanja. Korak Izlaz više ne kaže da postoji slobodan upis; tačan odgovor i dalje kaže da nema pečata ni opcija, a obrazloženje kaže da nema ni polja.
 
@@ -73,13 +73,13 @@ Novi koraci su po 5 minuta. Sa postojećih se skida 15, sa mehaničkih koraka, n
 | Selektor, Okvir, Unutra, Spolja | 3, 2, 2, 2 |
 | Osvežavanje, Alati, Dva zahteva, Soba prekidača, Semantika | 6, 6, 6, 6, 6 |
 
-Zbir je 90. Tri nova koraka dižu nedelju 1 na 20, što je gornja granica „10 do 20”.
+Zbir je 90. Tri nova koraka dižu temu 1 na 20, što je gornja granica „10 do 20”.
 
-Alternativa: jedanaesta nedelja samo za istoriju. Odbijena jer dokument i naslovi nedelja ostaju deset, a istorija je uvod u postojeću prvu nedelju.
+Alternativa: jedanaesta tema samo za istoriju. Odbijena jer dokument i naslovi tema ostaju deset, a istorija je uvod u postojeću prvu temu.
 
 ## Risks / Trade-offs
 
-- [Nedelja 1 je na granici od 20 koraka] → Ovaj change ne dodaje četvrti uvodni korak. Sledeći dodatak mora da spoji korak ili da menja granicu posebnim zahtevom.
+- [Tema 1 je na granici od 20 koraka] → Ovaj change ne dodaje četvrti uvodni korak. Sledeći dodatak mora da spoji korak ili da menja granicu posebnim zahtevom.
 - [Glava do Veze padaju na 4 minuta] → To su kratki dodaci oznaka. Koraci koji nose razliku dokumenta i prikaza ostaju na 6.
 - [`fileForLecture` bi na Webu otvorio CSS] → Prazan editor je deo odluke, ne sporedni efekat. Test ne sme da traži `soba.css` na prva tri koraka.
 - [Animacija na projektoru odvrati od rečenice] → Jedan prolaz, pa miran kadar. Smanjeno pokretanje preskače prolaz.

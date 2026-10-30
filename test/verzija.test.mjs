@@ -8,8 +8,8 @@ const koraci = [
   { putanja: "client/index.html", original: "a\nb\n", ugradjen: true, delic: "b\n" },
 ];
 
-function kontekst(indeks, nedelja) {
-  return { koraci, indeks, nedelja };
+function kontekst(indeks, tema) {
+  return { koraci, indeks, tema };
 }
 
 test("korak bira radnu verziju, prazan nacrt ostaje ugrađeni tekst", () => {
@@ -85,7 +85,7 @@ test("isti prekidač bira tekst serverskih fajlova", () => {
   assert.equal(ugradjena.prikaz.server["server/soba.js"], "takt\n");
 });
 
-test("fajl servera pre pete nedelje ne otvara karticu Server", () => {
+test("fajl servera pre pete teme ne otvara karticu Server", () => {
   const rezultat = primeni(praznaSesija(), { tip: "fokus", putanja: "server/soba.js", kljuc: "1:1" }, kontekst(1, 1));
   assert.equal(rezultat.sesija.strana, "client");
   assert.equal(rezultat.sesija.verzija, "ugradjena");

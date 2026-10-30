@@ -58,7 +58,7 @@ Lopatice se crtaju samo u sobi mašina, i samo od časa na kome server već radi
 
 ## Risks / Trade-offs
 
-- [Deset nedelja po 10 do 20 koraka je puno teksta] → Svaki korak mora da pogodi zahtev te nedelje, a doslovne rečenice smeju da se dotegnu dok primer, pitalica, objašnjenje i putanja ostanu.
+- [Deset tema po 10 do 20 koraka je puno teksta] → Svaki korak mora da pogodi zahtev te teme, a doslovne rečenice smeju da se dotegnu dok primer, pitalica, objašnjenje i putanja ostanu.
 - [Stari sajt ima jednu pitalicu i ventilator u sobi prekidača] → Zamena sadržaja može da pokvari postojeći prolaz kroz čas. Provera ide čas po čas, od časa 1 bez API reda do časa 9 sa ulogama.
 - [Dva zapisa se nisu slagala oko Err] → Odluka je zapisana iznad. Ako nastavnik hoće da 500 zauvek čuva cifre, menja se specifikacija `kontrolna-soba` i čas 5 pre implementacije.
 - [Čuvanje serverskog fajla menja živi proces] → To je već ponašanje. Čas i dalje kaže koji fajl važi tek posle restarta.

@@ -13,8 +13,8 @@ const chromeBin = process.env.CHROME_BIN || "/opt/google/chrome/chrome";
 const kurs = JSON.parse(fs.readFileSync(new URL("../site/kurs.json", import.meta.url), "utf8"));
 
 function sviPrimeri() {
-  return kurs.nedelje.flatMap((nedelja, i) =>
-    (nedelja.dodatniPrimeri || []).map((primer) => ({ ...primer, nedelja: i + 1 })),
+  return kurs.teme.flatMap((tema, i) =>
+    (tema.dodatniPrimeri || []).map((primer) => ({ ...primer, tema: i + 1 })),
   );
 }
 
@@ -25,8 +25,8 @@ function primer(id) {
 }
 
 function korak(naslov) {
-  for (const nedelja of kurs.nedelje) {
-    const nadjen = nedelja.steps.find((s) => s.naslov === naslov);
+  for (const tema of kurs.teme) {
+    const nadjen = tema.steps.find((s) => s.naslov === naslov);
     if (nadjen) return nadjen;
   }
   assert.fail(naslov);
@@ -695,8 +695,8 @@ console.log("poslednje", shown.at(-1).t);
   }
 
   const sintakse = [];
-  for (const nedelja of kurs.nedelje) {
-    for (const kor of nedelja.steps) {
+  for (const tema of kurs.teme) {
+    for (const kor of tema.steps) {
       for (const [jezik, kod] of [
         [kor.isecakJezik, kor.isecak],
         [kor.originalJezik, kor.original],
@@ -708,7 +708,7 @@ console.log("poslednje", shown.at(-1).t);
         }
       }
     }
-    for (const p of nedelja.dodatniPrimeri || []) {
+    for (const p of tema.dodatniPrimeri || []) {
       if (p.jezik === "javascript") {
         const greska = syntaxCheck(p.kod);
         if (greska) sintakse.push(`${p.id}: ${greska.split("\n")[0]}`);

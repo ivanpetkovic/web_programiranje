@@ -11,7 +11,7 @@ const main = fs.readFileSync(new URL("../site/js/main.js", import.meta.url), "ut
 
 const TEME = ["ugalj", "mornar", "pesak", "terakota"];
 
-test("mobil: pad nedelje/koraka pre tabova, footer Tema+Pretraga+Podešavanja", () => {
+test("mobil: pad teme/koraka pre tabova, footer Tema+Pretraga+Podešavanja", () => {
   assert.match(html, /id="mobil-footer"/);
   assert.match(html, /id="mobil-ft-tema"/);
   assert.match(html, /id="mobil-ft-pretraga"/);
@@ -70,7 +70,7 @@ function raspored() {
     nedNaslov: document.querySelector("#mobil-ned-naslov")?.textContent || "",
     nedBroj: document.querySelector("#mobil-ned-broj")?.textContent || "",
     korGlava: document.querySelector("#mobil-kor-glava")?.textContent || "",
-    stavkeNedelje: document.querySelectorAll("#mobil-ned-lista .mobil-izbor-naslov").length,
+    stavkeTeme: document.querySelectorAll("#mobil-ned-lista .mobil-izbor-naslov").length,
   };
 }
 
@@ -93,7 +93,7 @@ test("desktop 1440: tri kolone, bez footera", { timeout: 30000 }, async (t) => {
   assert.equal(desktop.footerVidljiv, false);
 });
 
-test("mobil: meni nedelja sa naslovima, koraci, swipe", { timeout: 60000 }, async (t) => {
+test("mobil: meni tema sa naslovima, koraci, swipe", { timeout: 60000 }, async (t) => {
   mkdirSync(snimci, { recursive: true });
   const portSajta = await slobodanPort();
   const portChrome = await slobodanPort();
@@ -131,10 +131,10 @@ test("mobil: meni nedelja sa naslovima, koraci, swipe", { timeout: 60000 }, asyn
   assert.ok(meni.naslovi.length >= 5);
   assert.ok(meni.brojevi.includes("2"));
   assert.ok(meni.naslovi.some((t) => t.includes("HTML")));
-  assert.equal(meni.naslovi.some((t) => t.startsWith("Nedelja")), false);
+  assert.equal(meni.naslovi.some((t) => t.startsWith("Tema")), false);
 
   const meniSlika = await strana.posalji("Page.captureScreenshot", { format: "png" });
-  writeFileSync(path.join(snimci, "mobil-nedelja-meni.png"), Buffer.from(meniSlika.data, "base64"));
+  writeFileSync(path.join(snimci, "mobil-tema-meni.png"), Buffer.from(meniSlika.data, "base64"));
 
   await strana.vrednost(`document.querySelector("#mobil-kor-napred").click()`);
   await pauza(100);

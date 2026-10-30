@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Sajt časa je statičan tok u kome nastavnik vodi nedelju pored panela, otvara fajlove iz `client/` i `server/`, i vidi kako sačuvana izmena menja panel ili sledeći zahtev.
+Sajt časa je statičan tok u kome nastavnik vodi temu pored panela, otvara fajlove iz `client/` i `server/`, i vidi kako sačuvana izmena menja panel ili sledeći zahtev.
 
 ## Requirements
 
@@ -332,17 +332,17 @@ The header MUST show the institution, its mark, and the course title from the co
 #### Scenario: Next week
 - **WHEN** the teacher activates next week and a later week exists
 - **THEN** that later week opens
-### Requirement: Klizač nedelja
-The header MUST show Nedelja {n} od {N}, where N is the course duration and n is the open week. The slider MUST have one position per week. Only the current position MUST print its week number. The page MUST NOT show a row of the numbers 1 through N.
+### Requirement: Klizač tema
+The header MUST show Tema {n} od {N}, where N is the course duration and n is the open week. The slider MUST have one position per week. Only the current position MUST print its week number. The page MUST NOT show a row of the numbers 1 through N.
 
 #### Scenario: Only the current number is printed
 - **WHEN** week 10 of a course whose duration is 15 is open
-- **THEN** the header reads Nedelja 10 od 15, the slider has 15 positions, and the only week number printed on the slider is 10
+- **THEN** the header reads Tema 10 od 15, the slider has 15 positions, and the only week number printed on the slider is 10
 
 #### Scenario: Slider opens a week
 - **WHEN** the teacher chooses another position on the slider
 - **THEN** that week opens
-### Requirement: Sklopivi spisak nedelja
+### Requirement: Sklopivi spisak tema
 The left column MUST list every week in the course document. A week MUST show its number, title, and subtitle, and MUST collapse and expand. The open week MUST be expanded and MUST list the same steps as the lesson. Choosing a step MUST open it. A week whose every step is saved MUST show a completed mark, and that mark MUST NOT be a grade.
 
 #### Scenario: Other weeks stay collapsed
@@ -377,11 +377,11 @@ On Gradivo, the key-idea callout MUST be labeled Ključna ideja and MUST be visi
 - **WHEN** the teacher uses the snippet copy control
 - **THEN** the clipboard receives the snippet text
 ### Requirement: Kartica napretka
-The progress card MUST show Nedelja {n} od {N}, the percentage n/N rounded to the nearest whole number, the open week's step count, and that week's minute budget as a label. The budget MUST NOT count down.
+The progress card MUST show Tema {n} od {N}, the percentage n/N rounded to the nearest whole number, the open week's step count, and that week's minute budget as a label. The budget MUST NOT count down.
 
 #### Scenario: Share follows the duration
 - **WHEN** week 10 of a course whose duration is 15 is open
-- **THEN** the card shows Nedelja 10 od 15 and 67 percent
+- **THEN** the card shows Tema 10 od 15 and 67 percent
 
 #### Scenario: Budget is a label
 - **WHEN** the open week declares a minute budget
@@ -540,7 +540,7 @@ Search MUST show `search`. Previous week MUST show `chevron-left`. Next week MUS
 #### Scenario: Header icons
 - **WHEN** a lecture is open
 - **THEN** search, the week controls, header save, and help show those icons, and the initials and the mark are unchanged
-### Requirement: Ikonice spiska nedelja
+### Requirement: Ikonice spiska tema
 The course head MUST show `book-open`. A week whose every step is saved MUST show `check-circle`. Any other week MUST show `circle`. An expanded week MUST show `chevron-up`. A collapsed week MUST show `chevron-down`. The completed mark MUST NOT be a grade.
 
 #### Scenario: Open week and a finished week
@@ -551,7 +551,7 @@ The progress card MUST show `calendar-days` beside the week label, `book-open` b
 
 #### Scenario: Card icons sit beside the labels
 - **WHEN** a week with a minute budget is open
-- **THEN** the card shows those three icons beside Nedelja {n} od {N}, the step count, and the minute budget
+- **THEN** the card shows those three icons beside Tema {n} od {N}, the step count, and the minute budget
 ### Requirement: Ikonice tabova
 Gradivo MUST show `file-text` and the word Gradivo. Diskusija MUST show `messages-square` and the word Diskusija. Editor MUST show `code-xml` and the word Editor.
 
@@ -660,7 +660,7 @@ Once `client/index.html` has a body and the snapshot contains at least one `clie
 #### Scenario: Canvas appears with the line
 - **WHEN** the teacher shows the built-in version of `client/index.html` on Linija
 - **THEN** the document contains a canvas of 320 by 120 and mentions `nacrtajLiniju`
-### Requirement: Panel od Node nedelje
+### Requirement: Panel od Node teme
 The shell machine room MUST show beside the iframe from Od naivnog prenosa do HTTP-a, pa Node onward. That room is not a file from the editor. The waiting label and the cable control MUST show from Čekanje i neuspeh onward. History and the database flag MUST show from Trajno stanje i Docker onward. Periodic reading, freshness, and age MUST show from Koliko je prikaz svež onward. Roles MUST show from Ko sme da upravlja onward.
 
 #### Scenario: Node week shows the machine room

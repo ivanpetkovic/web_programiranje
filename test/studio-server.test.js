@@ -42,8 +42,8 @@ test("upis kursa ide preko privremenog fajla", () => {
 test("dokument kursa poznaje isporučeni kurs.json", () => {
   const kurs = JSON.parse(fs.readFileSync(path.join(KORENI, "site", "kurs.json"), "utf8"));
   assert.equal(dokumentJeKurs(kurs), true);
-  assert.equal(dokumentJeKurs({ trajanjeNedelja: 1, nedelje: [] }), false);
-  assert.equal(dokumentJeKurs({ trajanjeNedelja: 1, nedelje: [{ steps: [null] }] }), false);
+  assert.equal(dokumentJeKurs({ trajanjeTema: 1, teme: [] }), false);
+  assert.equal(dokumentJeKurs({ trajanjeTema: 1, teme: [{ steps: [null] }] }), false);
 });
 
 test("čuvanje kursa piše JSON i odbija dokument koji čas ne bi učitao", async () => {
@@ -80,8 +80,8 @@ test("čuvanje kursa piše JSON i odbija dokument koji čas ne bi učitao", asyn
 
     const kurs = {
       naslov: "Proba",
-      trajanjeNedelja: 1,
-      nedelje: [{ naslov: "Jedna", steps: [{ naslov: "Korak" }] }],
+      trajanjeTema: 1,
+      teme: [{ naslov: "Jedna", steps: [{ naslov: "Korak" }] }],
     };
     const sacuvan = await zahtev("PUT", "/api/kurs", JSON.stringify(kurs), {
       "content-type": "application/json",
@@ -97,7 +97,7 @@ test("čuvanje kursa piše JSON i odbija dokument koji čas ne bi učitao", asyn
     const trajanje = await zahtev(
       "PUT",
       "/api/kurs",
-      JSON.stringify({ trajanjeNedelja: 3, nedelje: [{ naslov: "A", steps: [{}] }] }),
+      JSON.stringify({ trajanjeTema: 3, teme: [{ naslov: "A", steps: [{}] }] }),
       { "content-type": "application/json" }
     );
     assert.equal(trajanje.status, 400);
@@ -105,21 +105,21 @@ test("čuvanje kursa piše JSON i odbija dokument koji čas ne bi učitao", asyn
 
     const saViskom = {
       naslov: "Proba",
-      trajanjeNedelja: 1,
-      nedelje: [{ naslov: "Jedna", visak: "ostaje", steps: [{ naslov: "Korak" }] }],
+      trajanjeTema: 1,
+      teme: [{ naslov: "Jedna", visak: "ostaje", steps: [{ naslov: "Korak" }] }],
     };
     const visak = await zahtev("PUT", "/api/kurs", JSON.stringify(saViskom), {
       "content-type": "application/json",
     });
     assert.equal(visak.status, 200);
-    assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).nedelje[0].visak, "ostaje");
+    assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).teme[0].visak, "ostaje");
 
     const preveliko = await zahtev("PUT", "/api/kurs", "x".repeat(2_000_001), {
       "content-type": "application/json",
     });
     assert.equal(preveliko.status, 400);
     assert.equal(JSON.parse(preveliko.body).greska, "telo je preveliko");
-    assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).nedelje[0].visak, "ostaje");
+    assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).teme[0].visak, "ostaje");
 
     const serverFajl = path.join(KORENI, "server", "server.js");
     const preServera = fs.readFileSync(serverFajl, "utf8");

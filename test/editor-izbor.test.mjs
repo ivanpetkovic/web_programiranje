@@ -71,7 +71,7 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
     );
     await strana.idi(`http://127.0.0.1:${portSajta}/?skica=1#cas-2`);
     const kurs = JSON.parse(readFileSync(path.join(koren, "site/kurs.json"), "utf8"));
-    const prva = kurs.nedelje[1].steps;
+    const prva = kurs.teme[1].steps;
     const htmlKoraka = prva.find((korak) => korak.naslov === "Stranica").delic.trim();
     const cssKoraka = prva.find((korak) => korak.naslov === "Selektor").delic.trim();
 
@@ -185,7 +185,7 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
     strana = await otvoriStranu(portChrome);
     await strana.idi(`http://127.0.0.1:${portSajta}/#cas-3`);
     const kurs = JSON.parse(readFileSync(path.join(koren, "site/kurs.json"), "utf8"));
-    const filterKorak = kurs.nedelje[2].steps.find((korak) => korak.naslov === "filter");
+    const filterKorak = kurs.teme[2].steps.find((korak) => korak.naslov === "filter");
     const filter = (filterKorak.original || filterKorak.delic).trim();
 
     async function ekran() {

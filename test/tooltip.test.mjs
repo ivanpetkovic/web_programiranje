@@ -72,8 +72,8 @@ test("oblačić pojma se sklapa sekundu posle odlaska ili klika sa strane", { ti
       });
     }
 
-    await sačekajElement("#nav .nedelja-koraci .korak-red");
-    await strana.vrednost(`document.querySelectorAll("#nav .nedelja-koraci .korak-red")[1].click()`);
+    await sačekajElement("#nav .tema-koraci .korak-red");
+    await strana.vrednost(`document.querySelectorAll("#nav .tema-koraci .korak-red")[1].click()`);
     await sačekajElement(".pojam-crta");
     const pojam = await tacka(".pojam-crta", true);
     const skloniste = await tacka("#nav .kurs-zaglavlje");

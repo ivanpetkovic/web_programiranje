@@ -3,19 +3,19 @@ import fs from "node:fs";
 import test from "node:test";
 import {
   dodajKorak,
-  dodajNedelju,
+  dodajTemu,
   dodajOpciju,
   indeksPoslePremestanja,
   oznaciOdgovor,
   postaviVrstuFigure,
   postaviVrstuKoraka,
   premestiKorak,
-  premestiNedelju,
+  premestiTemu,
   premestiOpciju,
   procitajTekst,
   spremiTekst,
   ukloniKorak,
-  ukloniNedelju,
+  ukloniTemu,
   ukloniOpciju,
   vrstaKoraka,
 } from "../site/js/studio.js";
@@ -26,8 +26,8 @@ function kursOdJedne() {
   return procitajTekst(JSON.stringify({
     naslov: "Proba",
     oznaka: "X",
-    trajanjeNedelja: 1,
-    nedelje: [{ naslov: "Prva", visak: 1, steps: [{ naslov: "A", tekst: "ostaje" }] }],
+    trajanjeTema: 1,
+    teme: [{ naslov: "Prva", visak: 1, steps: [{ naslov: "A", tekst: "ostaje" }] }],
   })).kurs;
 }
 
@@ -35,61 +35,73 @@ test("isporučeni kurs.json prolazi kroz studio bez izmene bajtova", () => {
   const procitan = procitajTekst(izvor);
   assert.equal(procitan.ok, true);
   assert.equal(procitan.napomena, "");
-  assert.equal(procitan.kurs.trajanjeNedelja, 11);
-  assert.equal(procitan.kurs.nedelje[0].steps[0].naslov, "LO");
+  assert.equal(procitan.kurs.trajanjeTema, 11);
+  assert.equal(procitan.kurs.teme[0].steps[0].naslov, "LO");
   assert.equal(spremiTekst(procitan.kurs), izvor);
 });
 
-test("neispravan JSON i nedelja bez koraka ne ulaze u studio", () => {
+test("neispravan JSON i tema bez koraka ne ulaze u studio", () => {
   assert.equal(procitajTekst("{").ok, false);
   assert.match(procitajTekst("{").greska, /JSON/);
-  const bezKoraka = procitajTekst(JSON.stringify({ trajanjeNedelja: 1, nedelje: [{ naslov: "A" }] }));
+  const bezKoraka = procitajTekst(JSON.stringify({ trajanjeTema: 1, teme: [{ naslov: "A" }] }));
   assert.equal(bezKoraka.ok, false);
   assert.equal(bezKoraka.kurs, null);
 });
 
-test("trajanje se usklađuje sa brojem nedelja", () => {
+test("stari ključevi nedelje postaju teme", () => {
   const procitan = procitajTekst(JSON.stringify({
-    trajanjeNedelja: 4,
-    nedelje: [{ naslov: "A", steps: [{}] }, { naslov: "B", steps: [{}] }],
+    trajanjeNedelja: 1,
+    nedelje: [{ naslov: "Stara", steps: [{ naslov: "A" }] }],
+  }));
+  assert.equal(procitan.ok, true);
+  assert.equal(procitan.kurs.teme[0].naslov, "Stara");
+  assert.equal(procitan.kurs.trajanjeTema, 1);
+  assert.equal("nedelje" in procitan.kurs, false);
+  assert.equal("trajanjeNedelja" in procitan.kurs, false);
+});
+
+test("trajanje se usklađuje sa brojem tema", () => {
+  const procitan = procitajTekst(JSON.stringify({
+    trajanjeTema: 4,
+    teme: [{ naslov: "A", steps: [{}] }, { naslov: "B", steps: [{}] }],
   }));
   assert.equal(procitan.ok, true);
   assert.match(procitan.napomena, /Trajanje/);
-  assert.equal(procitan.kurs.trajanjeNedelja, 2);
+  assert.equal(procitan.kurs.trajanjeTema, 2);
 });
 
-test("nova nedelja produžava trajanje i čuva ostala polja", () => {
+test("nova tema produžava trajanje i čuva ostala polja", () => {
   const kurs = kursOdJedne();
-  const sledeci = dodajNedelju(kurs, 0);
-  assert.equal(kurs.nedelje.length, 1);
-  assert.equal(sledeci.trajanjeNedelja, 2);
+  const sledeci = dodajTemu(kurs, 0);
+  assert.equal(kurs.teme.length, 1);
+  assert.equal(sledeci.trajanjeTema, 2);
   assert.equal(sledeci.oznaka, "X");
-  assert.equal(sledeci.nedelje[0].naslov, "Nova nedelja");
-  assert.equal(sledeci.nedelje[0].steps[0].naslov, "Novi korak");
-  assert.equal(sledeci.nedelje[1].visak, 1);
-  assert.equal(sledeci.nedelje[1].steps[0].tekst, "ostaje");
+  assert.equal(sledeci.teme[0].naslov, "Nova tema");
+  assert.equal(sledeci.teme[0].steps[0].naslov, "Novi korak");
+  assert.equal(sledeci.teme[1].visak, 1);
+  assert.equal(sledeci.teme[1].steps[0].tekst, "ostaje");
 });
 
-test("brisanje i pomeranje nedelje ostavljaju redosled", () => {
+test("brisanje i pomeranje teme ostavljaju redosled", () => {
   let kurs = kursOdJedne();
-  kurs = dodajNedelju(kurs);
-  kurs.nedelje[1].naslov = "Druga";
-  const pomerena = premestiNedelju(kurs, 1, -1);
-  assert.deepEqual(pomerena.nedelje.map((nedelja) => nedelja.naslov), ["Druga", "Prva"]);
-  assert.equal(premestiNedelju(pomerena, 0, -1), pomerena);
-  const bez = ukloniNedelju(pomerena, 0);
-  assert.equal(bez.trajanjeNedelja, 1);
-  assert.equal(bez.nedelje[0].naslov, "Prva");
+  kurs = dodajTemu(kurs);
+  kurs.teme[1].naslov = "Druga";
+  const pomerena = premestiTemu(kurs, 1, -1);
+  assert.deepEqual(pomerena.teme.map((tema) => tema.naslov), ["Druga", "Prva"]);
+  assert.equal(premestiTemu(pomerena, 0, -1), pomerena);
+  const bez = ukloniTemu(pomerena, 0);
+  assert.equal(bez.trajanjeTema, 1);
+  assert.equal(bez.teme[0].naslov, "Prva");
 });
 
 test("korak se dodaje, pomera i ne briše poslednji", () => {
   let kurs = kursOdJedne();
   kurs = dodajKorak(kurs, 0);
-  assert.deepEqual(kurs.nedelje[0].steps.map((korak) => korak.naslov), ["A", "Novi korak"]);
+  assert.deepEqual(kurs.teme[0].steps.map((korak) => korak.naslov), ["A", "Novi korak"]);
   const pomerena = premestiKorak(kurs, 0, 1, -1);
-  assert.equal(pomerena.nedelje[0].steps[0].naslov, "Novi korak");
+  assert.equal(pomerena.teme[0].steps[0].naslov, "Novi korak");
   const jedan = ukloniKorak(pomerena, 0, 1);
-  assert.equal(jedan.nedelje[0].steps.length, 1);
+  assert.equal(jedan.teme[0].steps.length, 1);
   assert.equal(ukloniKorak(jedan, 0, 0), jedan);
 });
 

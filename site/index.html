@@ -32,12 +32,12 @@
         <kbd aria-hidden="true">⌘K</kbd>
         <ul id="typeahead" class="typeahead" role="listbox" hidden></ul>
       </form>
-      <div class="nedelja-klizac">
-        <p id="natpis-nedelje" class="meta"></p>
-        <div id="klizac" class="klizac" role="group" aria-label="Nedelje"></div>
+      <div class="tema-klizac">
+        <p id="natpis-teme" class="meta"></p>
+        <div id="klizac" class="klizac" role="group" aria-label="Teme"></div>
       </div>
-      <button type="button" id="prethodna-nedelja" aria-label="Prethodna nedelja" data-ikona="chevron-left"></button>
-      <button type="button" id="sledeca-nedelja" aria-label="Sledeća nedelja" data-ikona="chevron-right"></button>
+      <button type="button" id="prethodna-tema" aria-label="Prethodna tema" data-ikona="chevron-left"></button>
+      <button type="button" id="sledeca-tema" aria-label="Sledeća tema" data-ikona="chevron-right"></button>
       <button type="button" id="sacuvaj-zaglavlje" aria-label="Sačuvaj korak" data-ikona="bookmark"></button>
       <button type="button" id="mobil-nav-prekidac" class="mobil-nav-prekidac" aria-label="Prikaži izbor teme i koraka" aria-expanded="true" aria-controls="mobil-nav-red" data-ikona="book-open" hidden></button>
       <button type="button" id="pomoc" aria-label="Pomoć" data-ikona="help-circle"></button>
@@ -52,22 +52,22 @@
       <span id="oznaka" class="oznaka"></span>
     </header>
     <div class="okvir">
-      <div class="nav-omot" id="mobil-gradivo-panel" aria-label="Gradivo i nedelje">
+      <div class="nav-omot" id="mobil-gradivo-panel" aria-label="Gradivo i teme">
         <div class="mobil-gradivo-zaglavlje" id="mobil-gradivo-zaglavlje">
           <div class="mobil-gradivo-hvat" aria-hidden="true"></div>
           <p class="mobil-gradivo-povuci meta">Povucite nadole za zatvaranje</p>
-          <div class="mobil-nedelja-zaglavlje">
-            <span class="mobil-nedelja-ivica mobil-nedelja-ivica-levo" aria-hidden="true"></span>
-            <div class="mobil-nedelja-tekst">
-              <p id="mobil-nedelja-broj" class="meta"></p>
-              <h2 id="mobil-nedelja-naslov"></h2>
-              <p id="mobil-nedelja-podnaslov" class="meta"></p>
+          <div class="mobil-tema-zaglavlje">
+            <span class="mobil-tema-ivica mobil-tema-ivica-levo" aria-hidden="true"></span>
+            <div class="mobil-tema-zaglavlje-tekst">
+              <p id="mobil-tema-broj" class="meta"></p>
+              <h2 id="mobil-tema-naslov"></h2>
+              <p id="mobil-tema-podnaslov" class="meta"></p>
             </div>
-            <span class="mobil-nedelja-ivica mobil-nedelja-ivica-desno" aria-hidden="true"></span>
+            <span class="mobil-tema-ivica mobil-tema-ivica-desno" aria-hidden="true"></span>
           </div>
         </div>
         <button type="button" id="nav-preklop" class="nav-preklop" aria-controls="nav" aria-expanded="true" aria-label="Sakrij navigaciju" data-ikona="panel-left"></button>
-        <nav id="nav" class="nav" aria-label="Nedelje"></nav>
+        <nav id="nav" class="nav" aria-label="Teme"></nav>
       </div>
       <main class="stranica">
         <p id="greska-kursa" class="err" hidden></p>

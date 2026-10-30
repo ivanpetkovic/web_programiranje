@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Pitalice drže razgovor na projektoru: kratka provera u svakom koraku i jedna duga diskusija po nedelji, bez pamćenja glasova i bez bodovanja.
+Pitalice drže razgovor na projektoru: kratka provera u svakom koraku i jedna duga diskusija po temi, bez pamćenja glasova i bez bodovanja.
 
 ## Requirements
 
@@ -94,13 +94,13 @@ The Ceo sistem exit MUST be a sentence asking where the right is checked, where 
 #### Scenario: Exit stays free text
 - **WHEN** the teacher reaches the Ceo sistem exit
 - **THEN** the page shows that sentence and no text field and no options
-### Requirement: Diskusija nedelje istorije
+### Requirement: Diskusija teme istorije
 The week 1 main quiz MUST ask what a 1991 page already is when one word covers the network, that page, Gmail, and a ledger. The marked answer MUST say it is a hypertext document fetched by a URL, and MUST deny that it is the network, an application, or a ledger.
 
 #### Scenario: The page is a document
 - **WHEN** the week 1 main quiz is analyzed
 - **THEN** the marked answer is the hypertext document and not the network, the application, or the ledger
-### Requirement: Rezerva nedelje istorije
+### Requirement: Rezerva teme istorije
 The week 1 reserve MUST ask whether a late video frame waits for the byte. The marked answer MUST say the frame may be dropped and a document may not lose a byte. The reserve MUST stay closed until the teacher opens it.
 
 #### Scenario: Reserve starts closed
@@ -110,7 +110,7 @@ The week 1 reserve MUST ask whether a late video frame waits for the byte. The m
 #### Scenario: Frame may drop
 - **WHEN** the teacher opens the week 1 reserve and reaches analysis
 - **THEN** the marked answer says the frame may be dropped and a document may not lose a byte
-### Requirement: Izlaz nedelje istorije
+### Requirement: Izlaz teme istorije
 The week 1 exit MUST be a sentence asking what hypertext is, how TCP differs from UDP, and what Ajax adds that the first page does not have. It MUST NOT offer options, a text field, or a mark.
 
 #### Scenario: Exit stays a sentence

@@ -2,11 +2,11 @@
 
 ## Purpose
 
-Deset nedelja vodi nastavnika od praznog `client/index.html` do iste kontrolne sobe, tako da svaki korak doda jedan delić koji se prekuca u VS Code.
+Deset tema vodi nastavnika od praznog `client/index.html` do iste kontrolne sobe, tako da svaki korak doda jedan delić koji se prekuca u VS Code.
 
 ## Requirements
 
-### Requirement: Nedelja ima naslov i korake
+### Requirement: Tema ima naslov i korake
 The course MUST be one document that sets its duration as a number of weeks and lists that many weeks, in order, each with a title. The shell MUST use that duration and MUST NOT hardcode a week count. The shipped document MUST set the duration to eleven, use the titles below, and give each week 10 to 22 steps. A step that names a file MUST be one fragment, not the whole week. The minute budget MUST stay a teaching label and MUST NOT be a timer.
 
 #### Scenario: Titles are visible
@@ -211,7 +211,7 @@ The preview MUST keep one shell machine room, one temperature on that room, and 
 #### Scenario: After the last lecture
 - **WHEN** the teacher finishes week 11
 - **THEN** the preview still has one shell machine room, one temperature, and one fan beside the iframe
-### Requirement: Preduslov nedelje
+### Requirement: Preduslov teme
 Each lecture MUST name a prerequisite and an outcome in the course document. Week 1's prerequisite MUST say that there is no file yet and that the story starts before the page. Week 1's outcome MUST say that the Web is a service on the Internet, that a page is a document, and that `server/` still has no files. Each later lecture's prerequisite MUST be the outcome the previous lecture already reached. The lecture page MUST NOT display that prerequisite or that outcome.
 
 #### Scenario: Later lecture names the previous outcome
@@ -281,7 +281,7 @@ The institution, course title, initials, week titles, subtitles, step prose, key
 #### Scenario: Minutes come from the document
 - **WHEN** a week sets a minute budget
 - **THEN** the progress card shows that budget and the shell does not substitute a fixed duration
-### Requirement: Nedelja stranice sklapa stranicu
+### Requirement: Tema stranice sklapa stranicu
 The week titled Šta browser prikazuje MUST follow these steps, in order: Podela, Stranica, Glava, Telo, Naslov, Broj, Dugme, Veza, Selektor, Okvir, Unutra, Spolja, Promenljiva, Calc, Osvežavanje, Alati, Dva zahteva, Soba prekidača, Semantika. It MUST NOT include Web, Internet, or Istorija. Veza MUST add the link to the stylesheet. The original of each of these steps MUST be the whole file after that step. Weeks 3 through 11 MUST keep each step's stored fragment as its contribution. The editor MUST show the snapshot of that file through the step.
 
 #### Scenario: Week 1 order
@@ -295,13 +295,13 @@ The week titled Šta browser prikazuje MUST follow these steps, in order: Podela
 #### Scenario: Week 1 original is the whole file
 - **WHEN** the teacher shows the original of Broj in the week titled Šta browser prikazuje
 - **THEN** the original is the whole HTML file after that step, including the page begun in Stranica
-### Requirement: Minuti prve dve nedelje
+### Requirement: Minuti prve dve teme
 The minute labels of week 1 MUST sum to that week's minute budget. The minute labels of the week titled Šta browser prikazuje MUST sum to that week's minute budget.
 
 #### Scenario: Sum is the budget
 - **WHEN** the shipped course is read
 - **THEN** week 1 and the week titled Šta browser prikazuje each have step minute labels that sum to 90
-### Requirement: HTML nedelje stranice
+### Requirement: HTML teme stranice
 From Stranica through Semantika, the original of `client/index.html` MUST be the whole document after that step. Stranica MUST be a nearly empty document and MUST NOT keep the folder sketch. Each later step of that file MUST keep every line of the previous original of that file and MUST add at least one line about that step. The document MUST still contain 24 and MUST NOT add the machine room or a room request.
 
 #### Scenario: Stranica starts nearly empty
@@ -323,7 +323,7 @@ From Stranica through Semantika, the original of `client/index.html` MUST be the
 #### Scenario: Temperature stays in the file
 - **WHEN** the teacher shows the original of Semantika
 - **THEN** the document still contains 24 and does not contain the machine room or `/api/soba`
-### Requirement: Nedelja stranice pokazuje HTML
+### Requirement: Tema stranice pokazuje HTML
 Each step from Stranica through Dugme MUST add one HTML element or attribute, and its key idea MUST name that element or attribute. Broj MUST add the class attribute on the paragraph that contains 24. Dugme MUST add a button with a type attribute.
 
 #### Scenario: Heading is the step
@@ -337,7 +337,7 @@ Each step from Stranica through Dugme MUST add one HTML element or attribute, an
 #### Scenario: Button is an element
 - **WHEN** the teacher opens Dugme
 - **THEN** the key idea names the button element and the type attribute
-### Requirement: Stil nedelje stranice je box model
+### Requirement: Stil teme stranice je box model
 Selektor MUST be the first original of `client/css/soba.css` and MUST be one class rule with one declaration. Okvir MUST add `border` and keep that rule. Unutra MUST add `padding` and keep the earlier declarations. Spolja MUST add `margin` and keep the earlier declarations. Each of those steps MUST name that concept in its key idea.
 
 #### Scenario: Selektor starts the stylesheet
@@ -355,7 +355,7 @@ Selektor MUST be the first original of `client/css/soba.css` and MUST be one cla
 #### Scenario: Margin finishes the box
 - **WHEN** the teacher shows the original of Spolja
 - **THEN** the rule contains the class selector, border, padding, and margin
-### Requirement: Stil nedelje stranice imenuje dužinu
+### Requirement: Stil teme stranice imenuje dužinu
 Promenljiva MUST follow Spolja. Its original of `client/css/soba.css` MUST keep the box-model declarations and MUST add a custom property `--broj: 2rem` plus a `font-size` declaration that reads it with `var(--broj)`. Calc MUST follow Promenljiva. Its original MUST keep `--broj: 2rem` and MUST set `font-size` with `calc(var(--broj) * 2)`. Each of those steps MUST name that concept in its key idea. Neither step MUST change 24 in the HTML document.
 
 #### Scenario: A name holds the length
@@ -365,7 +365,7 @@ Promenljiva MUST follow Spolja. Its original of `client/css/soba.css` MUST keep 
 #### Scenario: Calc multiplies the named length
 - **WHEN** the teacher shows the original of Calc
 - **THEN** it contains `--broj: 2rem` and `font-size: calc(var(--broj) * 2)`, and still contains the padding and margin declarations
-### Requirement: Nedelja istorije je prva
+### Requirement: Tema istorije je prva
 Week 1 MUST be titled Zašto je Web nastao and MUST contain exactly the 20 steps named in the scenario, in that order. No step of week 1 MUST name a file or show a snippet. The step minute labels MUST sum to 90.
 
 #### Scenario: Twenty story steps

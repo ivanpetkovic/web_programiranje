@@ -32,13 +32,13 @@ Jedna nastavna sekvenca ide ovim redom:
 
 Pogrešno obrazloženje se ne prekida odmah. Traži se pretpostavka koja ga drži, pa se proveri primerom. Pitanje ne traži sintaksu koja još nije pokazana.
 
-Sajt časa (`site/`) otvara jednu nedelju. Korak koji menja fajl pokazuje redom tekst, ključnu ideju, isečak i kratku pitalicu. Isečak je delić koji se prekuca, ne cela nedelja. Odgovori pitalice ostaju neoznačeni dok se obrazloženje ne otkrije.
+Sajt časa (`site/`) otvara jednu temu. Korak koji menja fajl pokazuje redom tekst, ključnu ideju, isečak i kratku pitalicu. Isečak je delić koji se prekuca, ne cela tema. Odgovori pitalice ostaju neoznačeni dok se obrazloženje ne otkrije.
 
-Panel raste sa časom. Do četvrte nedelje živi u browseru, u `client/`. Od četvrte sluša Node proces iz `server/server.js`, bez web okvira. Od sedme nedelje režim ventilatora i istorija komandi ostaju u bazi. Kucanje u editoru sajta ne menja fajlove na disku: isti `client/` i `server/` nastavnik prekucava i u svom editoru.
+Panel raste sa časom. Do četvrte teme živi u browseru, u `client/`. Od četvrte sluša Node proces iz `server/server.js`, bez web okvira. Od sedme teme režim ventilatora i istorija komandi ostaju u bazi. Kucanje u editoru sajta ne menja fajlove na disku: isti `client/` i `server/` nastavnik prekucava i u svom editoru.
 
 ## Časovi
 
-| Nedelja | Naslov | Šta ostaje posle časa |
+| Tema | Naslov | Šta ostaje posle časa |
 | --- | --- | --- |
 | 1 | Šta browser prikazuje | Dokument, prikaz i merenje nisu ista stvar. |
 | 2 | JavaScript opisuje stanje | Objekat drži temperaturu. Ekran je još ne crta. |
@@ -55,7 +55,7 @@ Razrada vremena, pitalica i preglednih tema je u `web_programiranje_interaktivni
 
 ## Instalacija i pokretanje
 
-Potrebni su Node.js 22 i npm. Docker i Docker Compose trebaju od nedelje u kojoj stanje ide u bazu.
+Potrebni su Node.js 22 i npm. Docker i Docker Compose trebaju od teme u kojoj stanje ide u bazu.
 
 Iz korena repozitorijuma:
 

@@ -4,14 +4,14 @@ import { cekajHttp, otvoriStranu, pauza, pokreni, slobodanPort, ugasi } from "./
 
 function stanjeNava() {
   const nav = document.querySelector("#nav");
-  const nedelja = [...nav.querySelectorAll(".nedelja-red")].find((b) => b.textContent.startsWith("Nedelja 10 "));
-  const korak = nav.querySelector(".nedelja-red[aria-current='page'] + .nedelja-koraci .korak-red[aria-current='page']");
+  const tema = [...nav.querySelectorAll(".tema-red")].find((b) => b.textContent.startsWith("Tema 10 "));
+  const korak = nav.querySelector(".tema-red[aria-current='page'] + .tema-koraci .korak-red[aria-current='page']");
   const okvir = nav.getBoundingClientRect();
-  const red = (korak || nedelja)?.getBoundingClientRect();
+  const red = (korak || tema)?.getBoundingClientRect();
   return {
     hash: location.hash,
     skrol: nav.scrollTop,
-    odmak: nedelja ? nedelja.getBoundingClientRect().top - okvir.top : null,
+    odmak: tema ? tema.getBoundingClientRect().top - okvir.top : null,
     visina: nav.clientHeight,
     sadrzaj: nav.scrollHeight,
     vrh: okvir.top,
@@ -22,7 +22,7 @@ function stanjeNava() {
   };
 }
 
-test("levi panel drži svoj skrol dok se otvara nedelja 10", { timeout: 30000 }, async (t) => {
+test("levi panel drži svoj skrol dok se otvara tema 10", { timeout: 30000 }, async (t) => {
   const portSajta = await slobodanPort();
   const portChrome = await slobodanPort();
   const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
@@ -51,22 +51,22 @@ test("levi panel drži svoj skrol dok se otvara nedelja 10", { timeout: 30000 },
     }
 
     await sačekaj((s) => s.sadrzaj > 0);
-    await strana.vrednost(`[...document.querySelectorAll("#nav .nedelja-red")].find((b) => b.textContent.startsWith("Nedelja 10 ")).click()`);
+    await strana.vrednost(`[...document.querySelectorAll("#nav .tema-red")].find((b) => b.textContent.startsWith("Tema 10 ")).click()`);
     const pre = await strana.vrednost(`(() => {
       const nav = document.querySelector("#nav");
-      const nedelja = [...nav.querySelectorAll(".nedelja-red")].find((b) => b.textContent.startsWith("Nedelja 10 "));
-      nav.scrollTop += nedelja.getBoundingClientRect().top - nav.getBoundingClientRect().top;
-      const odmak = nedelja.getBoundingClientRect().top - nav.getBoundingClientRect().top;
+      const tema = [...nav.querySelectorAll(".tema-red")].find((b) => b.textContent.startsWith("Tema 10 "));
+      nav.scrollTop += tema.getBoundingClientRect().top - nav.getBoundingClientRect().top;
+      const odmak = tema.getBoundingClientRect().top - nav.getBoundingClientRect().top;
       return { skrol: nav.scrollTop, odmak, prozor: scrollY, visina: nav.clientHeight, sadrzaj: nav.scrollHeight };
     })()`);
     assert.ok(pre.sadrzaj > pre.visina, `nav treba da ima svoj skrol: ${JSON.stringify(pre)}`);
     assert.ok(pre.skrol > 0, `nav se nije pomerio: ${JSON.stringify(pre)}`);
     assert.equal(pre.prozor, 0, "prozor ne treba da se pomera kad se skroluje nav");
 
-    await strana.vrednost(`[...document.querySelectorAll("#nav .nedelja-red")].find((b) => b.textContent.startsWith("Nedelja 10 ")).nextElementSibling.querySelectorAll(".korak-red")[2].click()`);
+    await strana.vrednost(`[...document.querySelectorAll("#nav .tema-red")].find((b) => b.textContent.startsWith("Tema 10 ")).nextElementSibling.querySelectorAll(".korak-red")[2].click()`);
     const posle = await sačekaj((s) => s.hash === "#cas-10" && s.korak.startsWith("3 "));
-    assert.ok(Math.abs(posle.odmak - pre.odmak) <= 1, `nedelja 10 je skočila sa ${pre.odmak} na ${posle.odmak}px od vrha nava`);
-    assert.ok(posle.redVidljiv, "izabrani korak nedelje 10 ostaje u vidu");
+    assert.ok(Math.abs(posle.odmak - pre.odmak) <= 1, `tema 10 je skočila sa ${pre.odmak} na ${posle.odmak}px od vrha nava`);
+    assert.ok(posle.redVidljiv, "izabrani korak teme 10 ostaje u vidu");
 
     await strana.vrednost(`window.scrollTo(0, document.documentElement.scrollHeight)`);
     await pauza(80);
@@ -79,12 +79,12 @@ test("levi panel drži svoj skrol dok se otvara nedelja 10", { timeout: 30000 },
     const gore = await strana.vrednost(`(() => {
       const nav = document.querySelector("#nav");
       nav.scrollTop = nav.scrollHeight;
-      const poslednja = [...nav.querySelectorAll(".nedelja-red")].at(-1).getBoundingClientRect();
+      const poslednja = [...nav.querySelectorAll(".tema-red")].at(-1).getBoundingClientRect();
       return { dno: nav.getBoundingClientRect().bottom, poslednja: poslednja.bottom, prozor: innerHeight, strana: scrollY };
     })()`);
     assert.equal(gore.strana, 0);
     assert.ok(gore.dno <= gore.prozor + 1, `dno nava je ispod prozora na vrhu strane: ${JSON.stringify(gore)}`);
-    assert.ok(gore.poslednja <= gore.prozor + 1, `poslednja nedelja se ne vidi bez skrola strane: ${JSON.stringify(gore)}`);
+    assert.ok(gore.poslednja <= gore.prozor + 1, `poslednja tema se ne vidi bez skrola strane: ${JSON.stringify(gore)}`);
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
     throw greska;

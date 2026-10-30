@@ -4,7 +4,7 @@
 
 Sajt časa je jedna statična stranica. Vidi `proposal.md` za razlog. Editor je `#sekcija-editor`: tabovi Klijent i Server, stablo, putanja sa `#reset-radne` i `#verzija`, CodeMirror, traka `#traka`, pa soba u `.panel`. `rezim` je `radna` ili `original`. Reset zove `upisiRadnu` sa originalom koraka i vraća `rezim` na `radna`. Dugme verzije danas stavlja `code-xml` ili `book-open`, a reset `arrow-left`. Zahtev već traži olovku i stranicu.
 
-Hod stoji u `renderLecture` kao `.korak-traka`: žuta dugmad, `Korak n od N`, nivo, minuti i Sačuvaj korak. Brojevi koraka `#koraci-kontrole` nestaju, jer birač već otvara svaki korak. Sačuvan korak je `localStorage` ključ `web-programiranje:korak`, niz `sacuvani` sa stavkama `nedelja:indeks`. Server sluša podrazumevano na 8787. Pregled crta `primeniPrikaz`, ne iframe.
+Hod stoji u `renderLecture` kao `.korak-traka`: žuta dugmad, `Korak n od N`, nivo, minuti i Sačuvaj korak. Brojevi koraka `#koraci-kontrole` nestaju, jer birač već otvara svaki korak. Sačuvan korak je `localStorage` ključ `web-programiranje:korak`, niz `sacuvani` sa stavkama `tema:indeks`. Server sluša podrazumevano na 8787. Pregled crta `primeniPrikaz`, ne iframe.
 
 ## Goals / Non-Goals
 
@@ -16,7 +16,7 @@ Hod stoji u `renderLecture` kao `.korak-traka`: žuta dugmad, `Korak n od N`, ni
 **Non-Goals:**
 
 - Novi zapis u `localStorage`, iframe, ili upis fajla na disk.
-- Prikaz taba Server u nedeljama 1–3. Menjanje kartice napretka, levog spiska ili dokumenta kursa.
+- Prikaz taba Server u temama 1–3. Menjanje kartice napretka, levog spiska ili dokumenta kursa.
 
 ## Decisions
 
@@ -24,13 +24,13 @@ Hod stoji u `renderLecture` kao `.korak-traka`: žuta dugmad, `Korak n od N`, ni
 
 Birač stoji u `#birac-mesto`, u zaglavlju časa, izvan `#sekcija-koraci`. Krug je `chevron-left`, red `Korak n od N`, ispod njega `korak.naslov`, puna širina trake, pa `Svi koraci` i `Sledeći`. Nivo, minuti i Sačuvaj korak ostaju u telu Gradiva. Red brojeva `#koraci-kontrole` se ne crta. Editor i Diskusija kriju `#sekcija-koraci`, a birač ostaje, i izbor koraka ne menja otvoreni tab.
 
-Drugi red je naslov koraka. Za Alati u nedelji 1 to je „Alati”, ne „Šta browser prikazuje”. Naslov nedelje već stoji u `h1`.
+Drugi red je naslov koraka. Za Alati u temi 1 to je „Alati”, ne „Šta browser prikazuje”. Naslov teme već stoji u `h1`.
 
-Alternativa: drugi red je naslov nedelje, kao slova na maketi. Odbijena jer ponavlja `h1` i ne kaže koji je korak 14.
+Alternativa: drugi red je naslov teme, kao slova na maketi. Odbijena jer ponavlja `h1` i ne kaže koji je korak 14.
 
-### Popuna je broj sačuvanih koraka ove nedelje
+### Popuna je broj sačuvanih koraka ove teme
 
-`site/js/birac.js` izvozi `popunaKoraka(sacuvani, nedelja, brojKoraka)`. Broji stavke `nedelja:indeks` čiji je indeks u opsegu, jednom. Rezultat je `{ sacuvano, ukupno }`. Širina trake je `sacuvano / ukupno`, ili nula kad je `ukupno` nula. Otvoreni indeks ne ulazi u račun. Nesačuvani korak 14 od 17, uz tri sačuvana, daje 3/17.
+`site/js/birac.js` izvozi `popunaKoraka(sacuvani, tema, brojKoraka)`. Broji stavke `tema:indeks` čiji je indeks u opsegu, jednom. Rezultat je `{ sacuvano, ukupno }`. Širina trake je `sacuvano / ukupno`, ili nula kad je `ukupno` nula. Otvoreni indeks ne ulazi u račun. Nesačuvani korak 14 od 17, uz tri sačuvana, daje 3/17.
 
 Alternativa: puniti do tekućeg indeksa. Odbijena jer natpis na maketi kaže da traka prati završene korake, ne položaj.
 
@@ -58,14 +58,14 @@ Alternativa: upisati `http://localhost:3000/...` kao na slici. Odbijena jer proc
 
 `monitor`, `server`, `save`, `refresh-cw` i `pencil` dobijaju isti potez kao ostali `currentColor` simboli, u `site/icons/svg_currentColor/` i u `sprite.svg`. Učitaj koristi postojeći `folder`, Svi koraci postojeći `menu`. Glava časa ne prikazuje preduslov. Izabrani tab časa dobija ivicu `var(--amber)` i pozadinu `var(--amber-dim)`.
 
-Klijent i Server dobijaju ikonice u `loadSide` / stalnim ikonicama. `osveziServerTab` i dalje krije Server u nedeljama 1–3.
+Klijent i Server dobijaju ikonice u `loadSide` / stalnim ikonicama. `osveziServerTab` i dalje krije Server u temama 1–3.
 
 ## Risks / Trade-offs
 
 - [Tamno dugme na maketi postaje svetlo na mornaru i uglju] → Mastilo teme drži kontrast. Naglasak ostaje za segment i tekući korak.
 - [Dva natpisa Sačuvaj] → U editoru je „Sačuvaj” i dira samo radnu verziju. „Sačuvaj korak” i bukmark u zaglavlju i dalje pišu `sacuvani`.
 - [Testovi traže `.hod-koraka` i redosled `trakaKoraka.append`] → `test/tema.test.mjs` i `test/ikonice.test.mjs` prate deltu. `#sledeci` sobe i dalje nema klasu hoda.
-- [Maketa crta tab Server na klijentskom primeru] → `serverTabVidljiv` ostaje. Nedelja 1 nema Server.
+- [Maketa crta tab Server na klijentskom primeru] → `serverTabVidljiv` ostaje. Tema 1 nema Server.
 
 ## Migration Plan
 

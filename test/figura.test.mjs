@@ -69,7 +69,7 @@ test("natpis ne lomi Mermaid sintaksu", () => {
 });
 
 test("LO nema crtež, Hipertekst crta vezu, Stranica otvara index", () => {
-  const istorija = dokument.nedelje[0].steps;
+  const istorija = dokument.teme[0].steps;
   const lo = prikazKoraka(istorija[0]);
   assert.equal(lo.mermaid, null);
   assert.equal(lo.putanja, null);
@@ -77,7 +77,7 @@ test("LO nema crtež, Hipertekst crta vezu, Stranica otvara index", () => {
   assert.match(veza.mermaid, /"Veza"/);
   assert.match(veza.mermaid, /"Drugi tekst"/);
   assert.equal(veza.putanja, null);
-  const stranica = dokument.nedelje[1].steps;
+  const stranica = dokument.teme[1].steps;
   const stranicaKorak = prikazKoraka(stranica.find((korak) => korak.naslov === "Stranica"));
   assert.equal(stranicaKorak.mermaid, null);
   assert.equal(stranicaKorak.putanja, "client/index.html");
@@ -90,21 +90,21 @@ test("LO nema crtež, Hipertekst crta vezu, Stranica otvara index", () => {
 });
 
 test("izlaz je rečenica na poslednjem koraku, pretpostavke ostaju", () => {
-  const nedelja = dokument.nedelje[1];
-  const poslednji = prikaziIzlaz(nedelja.steps.length - 1, nedelja.steps.length, nedelja.izlaz);
+  const tema = dokument.teme[1];
+  const poslednji = prikaziIzlaz(tema.steps.length - 1, tema.steps.length, tema.izlaz);
   assert.match(poslednji.tekst, /dokument/i);
   assert.match(poslednji.tekst, /prikaz/i);
   assert.match(poslednji.tekst, /osvežavanje/i);
   assert.equal(poslednji.polje, false);
-  assert.equal(prikaziIzlaz(0, nedelja.steps.length, nedelja.izlaz), null);
+  assert.equal(prikaziIzlaz(0, tema.steps.length, tema.izlaz), null);
   assert.match(main, /tabla\.className = "pretpostavke"/);
   assert.equal(main.includes("Izlazno pitanje"), false);
   assert.equal(main.includes('textContent = "Osvrt"'), false);
 });
 
 test("LO ne otvara soba.css, Stranica otvara index.html", () => {
-  const istorija = dokument.nedelje[0].steps;
-  const stranica = dokument.nedelje[1].steps;
+  const istorija = dokument.teme[0].steps;
+  const stranica = dokument.teme[1].steps;
   assert.equal(izborFajla(istorija[0]), null);
   assert.equal(izborFajla(stranica.find((korak) => korak.naslov === "Stranica")), "client/index.html");
   assert.equal(main.includes("fileForLecture"), false);
