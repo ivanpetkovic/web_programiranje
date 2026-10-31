@@ -4006,7 +4006,8 @@
               "ok": false
             }
           ],
-          "analizaPitalice": "JSON tekst je string dok ga ne parsiraš. JSON.parse pravi vrednost, ali ne proverava da li polja i tipovi odgovaraju našem API ugovoru."
+          "analizaPitalice": "JSON tekst je string dok ga ne parsiraš. JSON.parse pravi vrednost, ali ne proverava da li polja i tipovi odgovaraju našem API ugovoru.",
+          "proveraPitalice": "predvidi-pa-proveri"
         },
         {
           "naslov": "Odgovor kao JSON tekst",
@@ -4035,9 +4036,16 @@
               "text": "JSON tekst i zaglavlje koje opisuje medijski tip.",
               "why": "JSON.stringify i Content-Type opisuju telo. Server ne šalje JavaScript objekat preko mreže, već JSON tekst.",
               "ok": true
+            },
+            {
+              "key": "C",
+              "text": "Referencu na objekat u memoriji servera.",
+              "why": "Preko mreže ne ide referenca ni deljeni objekat. Mrežom idu bajtovi teksta.",
+              "ok": false
             }
           ],
-          "analizaPitalice": "JSON.stringify i Content-Type opisuju telo. Klijent tek posle čitanja i parse-a gradi vrednost u memoriji."
+          "analizaPitalice": "JSON.stringify i Content-Type opisuju telo. Klijent tek posle čitanja i parse-a gradi vrednost u memoriji.",
+          "proveraPitalice": "predvidi-pa-proveri"
         },
         {
           "naslov": "Bez Err",
@@ -4249,6 +4257,88 @@
           "ocekivaniRezultat": "Content-Type: application/json; charset=utf-8",
           "predlogPopravke": "res.writeHead(200,{\"Content-Type\":\"application/json; charset=utf-8\"});",
           "provera-popravke": "potrebna"
+        },
+        {
+          "id": "05-e05",
+          "vrsta": "predvidi",
+          "jezik": "javascript",
+          "nivo": "Treca godina",
+          "izvrsavanje": "izolovano",
+          "okruzenje": "javascript-izolovano",
+          "odgovorOdlozen": true,
+          "uticajNaAplikaciju": "nema",
+          "editorPrimer": true,
+          "naslov": "JSON.stringify i undefined",
+          "uvod": "Najpre predvidi rezultat bez pokretanja. Objasni jednu pretpostavku na kojoj tvoj odgovor počiva. Zatim pokreni primer ili ga proveri u odgovarajućem okruženju, pa uporedi sa objašnjenjem.",
+          "kod": "console.log(JSON.stringify({ a: 1, b: undefined, c: null }));",
+          "pitanje": "Šta stringify ispisuje i zašto?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "{\"a\":1,\"b\":null,\"c\":null} — undefined postaje null.",
+              "why": "JSON nema undefined; JSON.stringify izostavlja svojstva čija je vrednost undefined, dok null ostaje.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "{\"a\":1,\"c\":null} — polje b nestaje iz teksta.",
+              "why": "JSON nema undefined; JSON.stringify izostavlja svojstva čija je vrednost undefined, dok null ostaje.",
+              "ok": true
+            },
+            {
+              "key": "C",
+              "text": "{} — stringify briše ceo objekat.",
+              "why": "Ostala su polja a i c. JSON nema undefined; JSON.stringify izostavlja svojstva čija je vrednost undefined.",
+              "ok": false
+            }
+          ],
+          "tacanOdgovor": "{\"a\":1,\"c\":null} — polje b nestaje iz teksta.",
+          "objasnjenje": "JSON nema undefined; JSON.stringify izostavlja svojstva čija je vrednost undefined, dok null ostaje. Zato API odgovor može izgledati manji nego JavaScript objekat u memoriji servera.",
+          "promeniIProveri": "Promeni jedan uslov iz primera, napiši novo očekivanje i tek onda ponovi proveru. Kod sa browserom koristi DOM okruženje, a HTTP/SQL scenarije pokreći samo u odgovarajućem simuliranom servisu.",
+          "vezaSaAplikacijom": "HTTP odvaja metod, adresu i status od samog TCP prenosa; Node handler formira odgovor i ne može direktno menjati DOM udaljenog browsera.",
+          "ocekivaniRezultat": "{\"a\":1,\"c\":null}"
+        },
+        {
+          "id": "05-r04",
+          "vrsta": "predvidi",
+          "jezik": "javascript",
+          "nivo": "Treca godina",
+          "izvrsavanje": "izolovano",
+          "okruzenje": "javascript-izolovano",
+          "odgovorOdlozen": false,
+          "uticajNaAplikaciju": null,
+          "editorPrimer": true,
+          "naslov": "Zarez na kraju nije JSON",
+          "uvod": "Predvidi odgovor ili pronađi grešku pre izvršavanja. Zapiši pretpostavku, pa proveri tek nakon izbora; rad je nezavisan od fajlova Kontrolne sobe.",
+          "kod": "try {\n  JSON.parse('{\"t\":24,}');\n  console.log('ok');\n} catch {\n  console.log('syntax');\n}",
+          "pitanje": "Šta ispisuje kod?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "ok",
+              "why": "Ne važi tvrdnja „ok”. JSON ne dozvoljava zarez posle poslednjeg elementa; JSON.parse baca grešku sintakse.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "syntax",
+              "why": "Tačan zaključak. JSON ne dozvoljava zarez posle poslednjeg elementa; JSON.parse baca grešku sintakse. JavaScript objektni literal to ponekad dozvoljava, ali JSON tekst ne.",
+              "ok": true
+            },
+            {
+              "key": "C",
+              "text": "24",
+              "why": "Ne važi tvrdnja „24”. JSON.parse ne vraća broj bez uspešnog parse-a celog teksta.",
+              "ok": false
+            }
+          ],
+          "tacanOdgovor": "syntax",
+          "objasnjenje": "JSON ne dozvoljava zarez posle poslednjeg elementa; JSON.parse baca grešku sintakse. JavaScript objektni literal to ponekad dozvoljava, ali JSON tekst ne. Na granici servera takav ulaz treba odbiti pre promene stanja.",
+          "promeniIProveri": "Promeni jedan ulaz ili pravilo, predvidi novi rezultat i pokreni u naznačenom okruženju. Kod primera sa kvarom prvo pokušaj samostalnu popravku.",
+          "vezaSaAplikacijom": "Prenesi isti mehanizam na Kontrolnu sobu: šta bi se promenilo u prikazu, HTTP zahtevu, serverskom stanju ili bazi?",
+          "ocekivaniRezultat": "syntax",
+          "odgovor_odlozen": "da",
+          "uticaj_na_aplikaciju": "nema"
         },
         {
           "id": "05-r01",
@@ -5422,7 +5512,8 @@
               "ok": false
             }
           ],
-          "analizaPitalice": "Šema opisuje semantiku oblika, ne samo zagrade i navodnike. Sintaksno ispravan JSON i dalje može kršiti ugovor."
+          "analizaPitalice": "Šema opisuje semantiku oblika, ne samo zagrade i navodnike. Sintaksno ispravan JSON i dalje može kršiti ugovor.",
+          "proveraPitalice": "predvidi-pa-proveri"
         },
         {
           "naslov": "Validator na granici",
@@ -5451,9 +5542,16 @@
               "text": "Ne, mora da je pozove handler posle JSON.parse.",
               "why": "Runtime validacija je u kodu na granici. Opis nije izvršavanje.",
               "ok": true
+            },
+            {
+              "key": "C",
+              "text": "Da, ako je šema commitovana u repozitorijum.",
+              "why": "Verzionisanje opisa ne zamenjuuje runtime poziv. Handler mora pozvati validator posle parse-a.",
+              "ok": false
             }
           ],
-          "analizaPitalice": "JSON Schema pomaže da ugovor bude čitljiv i proverljiv, ali granica poverenja ostaje u handleru koji odbija telo pre promene stanja."
+          "analizaPitalice": "JSON Schema pomaže da ugovor bude čitljiv i proverljiv, ali granica poverenja ostaje u handleru koji odbija telo pre promene stanja.",
+          "proveraPitalice": "predvidi-pa-proveri"
         },
         {
           "naslov": "Samo režim",
@@ -5954,6 +6052,88 @@
           "promeniIProveri": "Promeni jedan uslov iz primera, napiši novo očekivanje i tek onda ponovi proveru. Kod sa browserom koristi DOM okruženje, a HTTP/SQL scenarije pokreći samo u odgovarajućem simuliranom servisu.",
           "vezaSaAplikacijom": "API treba da jasno opisuje željeno stanje, proverava ulaz i razlikuje idempotentno postavljanje od prebacivanja (toggle).",
           "ocekivaniRezultat": "Ne nužno; zavisi od toga šta API ugovorom potvrđuje."
+        },
+        {
+          "id": "07-e05",
+          "vrsta": "predvidi",
+          "jezik": "json",
+          "nivo": "Treca godina",
+          "izvrsavanje": "konceptualno",
+          "okruzenje": "konceptualni-zapis",
+          "odgovorOdlozen": true,
+          "uticajNaAplikaciju": "nema",
+          "editorPrimer": true,
+          "naslov": "Suvišno polje u šemi",
+          "uvod": "Najpre predvidi rezultat bez pokretanja. Objasni jednu pretpostavku na kojoj tvoj odgovor počiva. Zatim pokreni primer ili ga proveri u odgovarajućem okruženju, pa uporedi sa objašnjenjem.",
+          "kod": "Šema: { \"type\":\"object\", \"required\":[\"ukljucen\"], \"properties\":{\"ukljucen\":{\"type\":\"boolean\"}}, \"additionalProperties\":false }\nTelo: {\"ukljucen\":true,\"temperatura\":24}",
+          "pitanje": "Da li telo zadovoljava šemu?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da, ukljucen je boolean.",
+              "why": "additionalProperties:false zabranjuje temperatura. Sintaksno ispravan JSON i ispravno polje ukljucen nisu dovoljni.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne, dozvoljeno je samo polje ukljucen.",
+              "why": "Šema ograničava ključeve objekta. additionalProperties:false zabranjuje temperatura.",
+              "ok": true
+            },
+            {
+              "key": "C",
+              "text": "Da, temperatura ne smeta parse-u.",
+              "why": "Parse ne proverava šemu. additionalProperties:false zabranjuje temperatura.",
+              "ok": false
+            }
+          ],
+          "tacanOdgovor": "Ne, dozvoljeno je samo polje ukljucen.",
+          "objasnjenje": "JSON Schema može zabraniti dodatna polja i time precizirati API ugovor. To je druga provera od JSON.parse, koja samo potvrđuje sintaksu.",
+          "promeniIProveri": "Promeni jedan uslov iz primera, napiši novo očekivanje i tek onda ponovi proveru. Kod sa browserom koristi DOM okruženje, a HTTP/SQL scenarije pokreći samo u odgovarajućem simuliranom servisu.",
+          "vezaSaAplikacijom": "API treba da jasno opisuje željeno stanje, proverava ulaz i razlikuje idempotentno postavljanje od prebacivanja (toggle).",
+          "ocekivaniRezultat": "Ne, dozvoljeno je samo polje ukljucen."
+        },
+        {
+          "id": "07-r04",
+          "vrsta": "predvidi",
+          "jezik": "javascript",
+          "nivo": "Treca godina",
+          "izvrsavanje": "izolovano",
+          "okruzenje": "javascript-izolovano",
+          "odgovorOdlozen": false,
+          "uticajNaAplikaciju": null,
+          "editorPrimer": true,
+          "naslov": "Parse prošao, šema ne",
+          "uvod": "Predvidi odgovor ili pronađi grešku pre izvršavanja. Zapiši pretpostavku, pa proveri tek nakon izbora; rad je nezavisan od fajlova Kontrolne sobe.",
+          "kod": "const telo = JSON.parse('{\"ukljucen\":true,\"temperatura\":24}');\nconst ok =\n  Object.keys(telo).length === 1 &&\n  typeof telo.ukljucen === \"boolean\";\nconsole.log(ok);",
+          "pitanje": "Da li ručna provera oblika (kao u šemi) prihvata telo?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "true",
+              "why": "Ne važi tvrdnja „true”. Suvišno polje temperatura krši ugovor jednog polja.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "false",
+              "why": "Tačan zaključak. JSON.parse ne odbija suvišna polja; runtime provera mora eksplicitno odbiti telo pre promene modela.",
+              "ok": true
+            },
+            {
+              "key": "C",
+              "text": "undefined",
+              "why": "Ne važi tvrdnja „undefined”. Izraz sa && daje boolean vrednost.",
+              "ok": false
+            }
+          ],
+          "tacanOdgovor": "false",
+          "objasnjenje": "JSON.parse ne odbija suvišna polja; runtime provera mora eksplicitno odbiti telo pre promene modela. Ista logika stoji iza JSON Schema validatora na granici handlera.",
+          "promeniIProveri": "Promeni jedan ulaz ili pravilo, predvidi novi rezultat i pokreni u naznačenom okruženju. Kod primera sa kvarom prvo pokušaj samostalnu popravku.",
+          "vezaSaAplikacijom": "Prenesi isti mehanizam na Kontrolnu sobu: šta bi se promenilo u prikazu, HTTP zahtevu, serverskom stanju ili bazi?",
+          "ocekivaniRezultat": "false",
+          "odgovor_odlozen": "da",
+          "uticaj_na_aplikaciju": "nema"
         },
         {
           "id": "07-r01",

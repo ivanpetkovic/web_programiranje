@@ -276,7 +276,9 @@ test("svi primeri se izvršavaju, a namerno pogrešni ne daju ispravan ishod", {
     ["03-r01", "1 false"],
     ["03-r02", "1 2 1"],
     ["05-e03", "string 24"],
+    ["05-e05", '{"a":1,"c":null}'],
     ["05-r02", "string 25"],
+    ["05-r04", "syntax"],
     ["06-e01", "A D C B"],
     ["06-e02", "C A D B"],
     ["06-r01", "1 4 3 2"],
@@ -285,6 +287,7 @@ test("svi primeri se izvršavaju, a namerno pogrešni ne daju ispravan ishod", {
     ["07-e02", "false"],
     ["07-r01", "true"],
     ["07-r02", "true"],
+    ["07-r04", "false"],
     ["09-r02", "2"],
     ["10-r01", "false"],
   ]) {
