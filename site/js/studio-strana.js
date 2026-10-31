@@ -28,8 +28,6 @@ import {
   ukloniPojam,
   vrstaKoraka,
 } from "./studio.js";
-import { ispisiXml } from "./izvoz-xml.js";
-import { procitajXml } from "./uvoz-xml.js";
 
 const KLJUC = "studio:kurs";
 const spisak = document.querySelector("#spisak");
@@ -294,7 +292,7 @@ function panelKursa() {
     el("h1", { text: "Kurs" }),
     el("p", {
       class: "uvod",
-      text: "Sačuvaj upisuje kurs.json, fajl koji čas otvara. Učitaj prima JSON ili semantički XML. Preuzmi skida JSON. Preuzmi XML skida kurs.xml.",
+      text: "Kurs je fajl kurs.json. Sačuvaj upisuje taj fajl. Učitaj otvara drugi JSON. Preuzmi skida kopiju.",
     }),
     el("p", {
       class: "uvod",
@@ -845,8 +843,11 @@ async function sacuvaj() {
 
 async function ucitajFajl(fajl) {
   const tekst = await fajl.text();
-  const xml = fajl.name.toLowerCase().endsWith(".xml") || tekst.trimStart().startsWith("<");
-  const rezultat = xml ? procitajXml(tekst) : procitajTekst(tekst);
+  if (fajl.name.toLowerCase().endsWith(".xml") || tekst.trimStart().startsWith("<")) {
+    postaviPoruku("Učitaj prima samo JSON. Koristi kurs.json.", "greska");
+    return;
+  }
+  const rezultat = procitajTekst(tekst);
   if (!rezultat.ok) {
     postaviPoruku(rezultat.greska, "greska");
     return;
@@ -856,11 +857,7 @@ async function ucitajFajl(fajl) {
   document.querySelector("#nacrt").hidden = true;
   oznaciPrljavo();
   nacrtaj();
-  const uvod = rezultat.napomena || `Učitan je ${fajl.name}. Sačuvaj da upišeš kurs.json.`;
-  const rupa = rezultat.nedostajeUgradjena
-    ? ` ${rezultat.nedostajeUgradjena} koraka nema ugrađenu verziju, pa editor sklapa fajl iz delića.`
-    : "";
-  postaviPoruku(`${uvod}${rupa}`, "dobro");
+  postaviPoruku(rezultat.napomena || `Učitan je ${fajl.name}. Sačuvaj da upišeš kurs.json.`, "dobro");
 }
 
 function procitajNacrt() {
@@ -898,10 +895,6 @@ async function pokreni() {
   document.querySelector("#preuzmi").addEventListener("click", () => {
     preuzmiTekst(spremiTekst(kurs));
     postaviPoruku("Preuzet je kurs.json.", "dobro");
-  });
-  document.querySelector("#preuzmi-xml").addEventListener("click", () => {
-    preuzmiDatoteku(ispisiXml(kurs), "kurs.xml", "application/xml");
-    postaviPoruku("Preuzet je kurs.xml.", "dobro");
   });
   document.querySelector("#vrati-nacrt").addEventListener("click", () => {
     const nacrt = procitajNacrt();
