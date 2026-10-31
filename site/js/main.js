@@ -109,6 +109,7 @@ let nedSheetOtvoren = false;
 let korSheetOtvoren = false;
 let mobilNavPrisilno = false;
 const MOBIL_SKROL_PRAG = 28;
+let skrolSidroTajmer = 0;
 let dodirKoraka = null;
 let dodirTeme = null;
 let dodirSheet = null;
@@ -496,8 +497,18 @@ function prikaziMobilFooter() {
     mobilNavPrisilno = false;
     zatvoriMobilPadMenije();
     document.body.classList.remove("mobil-glava-skupljena", "mobil-nav-prisilno");
+    clearTimeout(skrolSidroTajmer);
+    document.documentElement.style.overflowAnchor = "";
   } else osveziMobilGlavaSkrol();
   document.body.classList.toggle("mobil-segment-vidljiv", mobil);
+}
+
+function ugasiSkrolSidro() {
+  document.documentElement.style.overflowAnchor = "none";
+  clearTimeout(skrolSidroTajmer);
+  skrolSidroTajmer = setTimeout(() => {
+    document.documentElement.style.overflowAnchor = "";
+  }, 450);
 }
 
 function osveziMobilGlavaSkrol() {
@@ -505,6 +516,7 @@ function osveziMobilGlavaSkrol() {
   const skrol = window.scrollY || document.documentElement.scrollTop || 0;
   if (skrol <= MOBIL_SKROL_PRAG) mobilNavPrisilno = false;
   const skupljeno = skrol > MOBIL_SKROL_PRAG && !mobilNavPrisilno;
+  if (skupljeno !== document.body.classList.contains("mobil-glava-skupljena")) ugasiSkrolSidro();
   document.body.classList.toggle("mobil-glava-skupljena", skupljeno);
   document.body.classList.toggle("mobil-nav-prisilno", mobilNavPrisilno);
   if (mobilNavPrekidac) {
@@ -2612,8 +2624,17 @@ window.addEventListener("resize", () => {
 
 const navOmot = document.querySelector(".nav-omot");
 let vrhNavaZakazan = false;
+let visinaVrha = -1;
 function postaviVrhNava() {
   vrhNavaZakazan = false;
+  const vrh = document.querySelector(".top");
+  if (vrh) {
+    const visina = vrh.getBoundingClientRect().height;
+    if (Math.abs(visina - visinaVrha) >= 0.5) {
+      visinaVrha = visina;
+      document.documentElement.style.setProperty("--visina-vrha", `${visina}px`);
+    }
+  }
   navOmot.style.setProperty("--nav-vrh", `${Math.max(0, navOmot.getBoundingClientRect().top)}px`);
 }
 function zakaziVrhNava() {

@@ -203,3 +203,65 @@ test("mobil: ikona gradiva selektovana kad je red vidljiv", { timeout: 60000 }, 
   assert.ok(otvoren.redOpacity > 0.5);
   assert.notEqual(otvoren.pozadina, otvoren.pomocPozadina);
 });
+
+test("mobil: tabovi ne skaču kad se skrol vrati na vrh", { timeout: 60000 }, async (t) => {
+  const portSajta = await slobodanPort();
+  const portChrome = await slobodanPort();
+  const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
+  let strana;
+  t.after(() => {
+    strana?.zatvori();
+    ugasi(server);
+  });
+  await cekajHttp(`http://127.0.0.1:${portSajta}/`);
+  strana = await otvoriStranu(portChrome);
+  await strana.posalji("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+  await strana.idi(`http://127.0.0.1:${portSajta}/#cas-2`);
+  await pauza(400);
+  await strana.vrednost(`window.scrollTo(0, 240)`);
+  await pauza(250);
+  await strana.vrednost(`(() => {
+    window.__logTabova = [];
+    window.__logTabovaGotovo = false;
+    let n = 0;
+    const otkucaj = () => {
+      const tab = document.querySelector(".cas-tabovi").getBoundingClientRect();
+      window.__logTabova.push({
+        y: window.scrollY,
+        tab: tab.top,
+        c: document.body.classList.contains("mobil-glava-skupljena"),
+      });
+      n += 1;
+      if (n < 240) requestAnimationFrame(otkucaj);
+      else window.__logTabovaGotovo = true;
+    };
+    requestAnimationFrame(otkucaj);
+  })()`);
+  for (let i = 0; i < 30; i++) {
+    await strana.posalji("Input.dispatchMouseEvent", { type: "mouseWheel", x: 180, y: 420, deltaX: 0, deltaY: -12 });
+    await pauza(50);
+  }
+  const kraj = Date.now() + 8000;
+  while (Date.now() < kraj && !(await strana.vrednost(`window.__logTabovaGotovo === true`))) await pauza(40);
+  const izvestaj = await strana.vrednost(`(() => {
+    const log = window.__logTabova || [];
+    let prebacivanja = 0;
+    for (let i = 1; i < log.length; i++) if (log[i].c !== log[i - 1].c) prebacivanja++;
+    let obrti = 0;
+    for (let i = 2; i < log.length; i++) {
+      const d1 = log[i - 1].tab - log[i - 2].tab;
+      const d2 = log[i].tab - log[i - 1].tab;
+      if (Math.abs(d1) >= 0.5 && Math.abs(d2) >= 0.5 && Math.sign(d1) !== Math.sign(d2)) obrti++;
+    }
+    const poslednji = log.at(-1) || { y: null, c: null, tab: null };
+    const vrhovi = log.map((f) => f.tab);
+    const tabRaspon = vrhovi.length ? Math.max(...vrhovi) - Math.min(...vrhovi) : 0;
+    return { kadrova: log.length, prebacivanja, obrti, tabRaspon, y: poslednji.y, skupljeno: poslednji.c };
+  })()`);
+  assert.ok(izvestaj.kadrova > 100, JSON.stringify(izvestaj));
+  assert.ok(izvestaj.y < 2, JSON.stringify(izvestaj));
+  assert.equal(izvestaj.skupljeno, false, JSON.stringify(izvestaj));
+  assert.ok(izvestaj.prebacivanja <= 2, JSON.stringify(izvestaj));
+  assert.ok(izvestaj.obrti <= 1, JSON.stringify(izvestaj));
+  assert.ok(izvestaj.tabRaspon < 8, JSON.stringify(izvestaj));
+});
