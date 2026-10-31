@@ -21,7 +21,7 @@ const KLIJENT = path.join(__dirname, "..", "client");
 const PRIMERI = path.join(__dirname, "..", "primeri");
 const FONT = path.join(KLIJENT, "assets", "fonts", "digital-7", "digital-7 (mono).ttf");
 const NAPOMENA_BINARNOG = "Binarni fajl. Pregledač ga učitava kao fajl, ne kao tekst.";
-const TEKSTUALNI = new Set([".html", ".css", ".js", ".mjs", ".json", ".md", ".txt", ".svg"]);
+const TEKSTUALNI = new Set([".html", ".css", ".js", ".mjs", ".json", ".schema", ".md", ".txt", ".svg"]);
 const KORENI = { client: KLIJENT, server: __dirname };
 const MODULI_PO_ZAHTEVU = new Set(["soba.js", "ventilator.js", "sesija.js"]);
 const MODULI_PRI_POKRETANJU = new Set(["server.js", "stanje.js", "baza.js"]);
@@ -33,6 +33,7 @@ const TIPOVI = {
   ".svg": "image/svg+xml",
   ".png": "image/png",
   ".json": "application/json",
+  ".schema": "application/json",
 };
 
 function ucitajModul(ime) {

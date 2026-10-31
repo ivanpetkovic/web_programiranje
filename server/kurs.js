@@ -1,10 +1,12 @@
+const fs = require("fs");
+const path = require("path");
+const { proveriSemu } = require("../site/js/sema.js");
+
+const sema = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "site", "kurs.json.schema"), "utf8"));
+
 function dokumentJeKurs(kurs) {
-  if (!kurs || typeof kurs !== "object" || Array.isArray(kurs)) return false;
-  if (!Array.isArray(kurs.teme) || kurs.trajanjeTema !== kurs.teme.length) return false;
-  return kurs.teme.every((tema) => {
-    if (!tema || typeof tema !== "object" || Array.isArray(tema) || !Array.isArray(tema.steps)) return false;
-    return tema.steps.every((korak) => korak && typeof korak === "object" && !Array.isArray(korak));
-  });
+  if (!proveriSemu(sema, kurs).ok) return false;
+  return Array.isArray(kurs.teme) && kurs.trajanjeTema === kurs.teme.length;
 }
 
 module.exports = { dokumentJeKurs };
