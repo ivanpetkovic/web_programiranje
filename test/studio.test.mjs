@@ -50,6 +50,7 @@ test("neispravan JSON i tema bez koraka ne ulaze u studio", () => {
 
 test("stari ključevi nedelje postaju teme", () => {
   const procitan = procitajTekst(JSON.stringify({
+    naslov: "Stari",
     trajanjeNedelja: 1,
     nedelje: [{ naslov: "Stara", steps: [{ naslov: "A" }] }],
   }));
@@ -62,8 +63,9 @@ test("stari ključevi nedelje postaju teme", () => {
 
 test("trajanje se usklađuje sa brojem tema", () => {
   const procitan = procitajTekst(JSON.stringify({
+    naslov: "Proba",
     trajanjeTema: 4,
-    teme: [{ naslov: "A", steps: [{}] }, { naslov: "B", steps: [{}] }],
+    teme: [{ naslov: "A", steps: [{ naslov: "A" }] }, { naslov: "B", steps: [{ naslov: "B" }] }],
   }));
   assert.equal(procitan.ok, true);
   assert.match(procitan.napomena, /Trajanje/);

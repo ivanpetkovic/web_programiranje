@@ -1,4 +1,16 @@
+import { proveriSemu } from "./sema.js";
+
 const POLJA_FAJLA = ["putanja", "isecak", "isecakNaslov", "delic", "original"];
+let semaKursa = null;
+
+if (typeof process !== "undefined" && process.release?.name === "node") {
+  const { readFileSync } = await import("node:fs");
+  semaKursa = JSON.parse(readFileSync(new URL("../kurs.json.schema", import.meta.url), "utf8"));
+}
+
+export function postaviSemuKursa(sema) {
+  semaKursa = sema;
+}
 
 export function procitajTekst(tekst) {
   let kurs;
@@ -11,11 +23,11 @@ export function procitajTekst(tekst) {
   if (!kurs || typeof kurs !== "object" || Array.isArray(kurs) || !Array.isArray(kurs.teme)) {
     return { ok: false, greska: "Dokument nema spisak tema.", kurs: null, napomena: "" };
   }
-  if (!temeSuIspravne(kurs.teme)) {
-    return { ok: false, greska: "Tema nema korake.", kurs: null, napomena: "" };
-  }
   const napomena = kurs.trajanjeTema !== kurs.teme.length ? "Trajanje je usklađeno sa brojem tema." : "";
   kurs.trajanjeTema = kurs.teme.length;
+  if (!semaKursa) return { ok: false, greska: "Šema kursa nije učitana.", kurs: null, napomena: "" };
+  const provera = proveriSemu(semaKursa, kurs);
+  if (!provera.ok) return { ok: false, greska: provera.greske[0], kurs: null, napomena: "" };
   return { ok: true, greska: "", napomena, kurs };
 }
 
@@ -298,13 +310,6 @@ function uskladiStareKljuceve(kurs) {
     kurs.trajanjeTema = kurs.trajanjeNedelja;
     delete kurs.trajanjeNedelja;
   }
-}
-
-function temeSuIspravne(teme) {
-  return teme.every((tema) => {
-    if (!tema || typeof tema !== "object" || Array.isArray(tema) || !Array.isArray(tema.steps)) return false;
-    return tema.steps.every((korak) => korak && typeof korak === "object" && !Array.isArray(korak));
-  });
 }
 
 function ogranicen(indeks, duzina) {

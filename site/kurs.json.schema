@@ -1,0 +1,368 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "kurs.json.schema",
+  "title": "Kurs",
+  "description": "Dokument koji čas i studio čitaju iz site/kurs.json.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["naslov", "trajanjeTema", "teme"],
+  "properties": {
+    "ustanova": { "type": "string" },
+    "ustanovaRed": { "type": "string" },
+    "ustanovaBok": { "type": "string" },
+    "naslov": { "type": "string" },
+    "oznaka": { "type": "string" },
+    "grb": { "type": "string" },
+    "trajanjeTema": { "type": "number" },
+    "verzija": { "type": "string" },
+    "revizija": { "type": "string" },
+    "statusIzvrsavanja": { "type": "string" },
+    "ciljnaGrupa": { "type": "string" },
+    "preduslovPrve": { "type": "string" },
+    "povezujuciPrimer": { "$ref": "#/$defs/povezujuciPrimer" },
+    "nastavniObrazac": { "$ref": "#/$defs/nastavniObrazac" },
+    "dopunaGlosara": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/glosar" }
+    },
+    "napomeneZaIntegraciju": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "teme": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/tema" }
+    }
+  },
+  "$defs": {
+    "jezik": {
+      "type": "string",
+      "enum": ["html", "css", "text", "javascript", "sql", "typescript"]
+    },
+    "opcija": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "text", "ok", "why"],
+      "properties": {
+        "key": { "type": "string" },
+        "text": { "type": "string" },
+        "ok": { "type": "boolean" },
+        "why": { "type": "string" }
+      }
+    },
+    "cvor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "natpis"],
+      "properties": {
+        "id": { "type": "string" },
+        "natpis": { "type": "string" }
+      }
+    },
+    "oznaka": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["godina", "natpis"],
+      "properties": {
+        "godina": { "type": "string" },
+        "natpis": { "type": "string" }
+      }
+    },
+    "figura": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vrsta"],
+      "properties": {
+        "vrsta": { "type": "string", "enum": ["put", "linija"] },
+        "pokret": { "type": "string", "enum": ["redom", "jednom"] },
+        "cvorovi": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/cvor" }
+        },
+        "oznake": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/oznaka" }
+        }
+      }
+    },
+    "dijagram": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "tekst"],
+      "properties": {
+        "format": { "type": "string" },
+        "tekst": { "type": "string" }
+      }
+    },
+    "samostalniPrimer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jezik", "izolovan", "tekst"],
+      "properties": {
+        "jezik": { "$ref": "#/$defs/jezik" },
+        "izolovan": { "type": "boolean" },
+        "tekst": { "type": "string" }
+      }
+    },
+    "pojam": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "hint", "body", "code"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "hint": { "type": "string" },
+        "body": { "type": "string" },
+        "code": { "type": "string" },
+        "codeLanguage": { "$ref": "#/$defs/jezik" }
+      }
+    },
+    "glosar": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "hint", "body"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "hint": { "type": "string" },
+        "body": { "type": "string" },
+        "uKursu": { "type": "string" }
+      }
+    },
+    "rezerva": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["problem", "options"],
+      "properties": {
+        "problem": { "type": "string" },
+        "options": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/opcija" }
+        }
+      }
+    },
+    "samostalno": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["uvod", "detaljnoGradivo", "tokRada", "graniceZnanja", "proveraRazumevanja"],
+      "properties": {
+        "uvod": { "type": "string" },
+        "detaljnoGradivo": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "tokRada": { "type": "string" },
+        "graniceZnanja": { "type": "string" },
+        "proveraRazumevanja": { "type": "string" }
+      }
+    },
+    "primer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "editorPrimer",
+        "id",
+        "izvrsavanje",
+        "jezik",
+        "kod",
+        "naslov",
+        "nivo",
+        "objasnjenje",
+        "ocekivaniRezultat",
+        "odgovorOdlozen",
+        "okruzenje",
+        "opcije",
+        "pitanje",
+        "promeniIProveri",
+        "tacanOdgovor",
+        "uticajNaAplikaciju",
+        "uvod",
+        "vezaSaAplikacijom",
+        "vrsta"
+      ],
+      "properties": {
+        "editorPrimer": { "type": "boolean" },
+        "id": { "type": "string" },
+        "izvrsavanje": {
+          "type": "string",
+          "enum": ["konceptualno", "izolovano", "uz-pripremljeno-okruzenje", "uz-postgres-lab", "uz-typescript-okolinu"]
+        },
+        "jezik": { "$ref": "#/$defs/jezik" },
+        "kod": { "type": "string" },
+        "naslov": { "type": "string" },
+        "nivo": { "type": "string" },
+        "objasnjenje": { "type": "string" },
+        "ocekivaniRezultat": { "type": "string" },
+        "ocekivani-izuzetak": { "type": "string" },
+        "odgovorOdlozen": { "type": "boolean" },
+        "odgovor_odlozen": { "type": "string" },
+        "okruzenje": { "type": "string" },
+        "opcije": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/opcija" }
+        },
+        "pitanje": { "type": "string" },
+        "predlogPopravke": { "type": "string" },
+        "pripremaTestOkruzenja": { "type": "string" },
+        "promeniIProveri": { "type": "string" },
+        "provera-popravke": { "type": "string" },
+        "tacanOdgovor": { "type": "string" },
+        "uticajNaAplikaciju": { "type": ["string", "null"] },
+        "uticaj_na_aplikaciju": { "type": "string" },
+        "uvod": { "type": "string" },
+        "vezaSaAplikacijom": { "type": "string" },
+        "vrsta": { "type": "string", "enum": ["predvidi", "ispravi-gresku"] }
+      }
+    },
+    "korak": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["naslov"],
+      "properties": {
+        "naslov": { "type": "string" },
+        "nivo": { "type": "string" },
+        "minuta": { "type": "number" },
+        "tekst": { "type": "string" },
+        "kljucnaIdeja": { "type": "string" },
+        "pitalica": { "type": "string" },
+        "opcije": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/opcija" }
+        },
+        "analizaPitalice": { "type": "string" },
+        "proveraPitalice": { "type": "string" },
+        "tipPrimer": { "type": "string", "enum": ["aplikacija", "eksperiment", "pitalica-kod"] },
+        "putanja": { "type": "string" },
+        "isecak": { "type": "string" },
+        "isecakNaslov": { "type": "string" },
+        "isecakJezik": { "$ref": "#/$defs/jezik" },
+        "delic": { "type": "string" },
+        "original": { "type": "string" },
+        "originalJezik": { "$ref": "#/$defs/jezik" },
+        "figura": { "$ref": "#/$defs/figura" },
+        "dijagram": { "$ref": "#/$defs/dijagram" },
+        "samostalniPrimer": { "$ref": "#/$defs/samostalniPrimer" }
+      }
+    },
+    "tema": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["naslov", "steps"],
+      "properties": {
+        "naslov": { "type": "string" },
+        "podnaslov": { "type": "string" },
+        "ishod": { "type": "string" },
+        "minuta": { "type": "number" },
+        "predavanjeMinuta": { "type": "number" },
+        "diskusijaMinuta": { "type": "number" },
+        "preduslov": { "type": "string" },
+        "problem": { "type": "string" },
+        "pretpostavka": { "type": "string" },
+        "options": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/opcija" }
+        },
+        "rezerva": { "$ref": "#/$defs/rezerva" },
+        "rezervaNapomena": { "type": "string" },
+        "izlaz": { "type": "string" },
+        "pojmoviCasa": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/pojam" }
+        },
+        "dodatniPrimeri": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/primer" }
+        },
+        "samostalniZadaci": { "type": "string" },
+        "samostalnoUcenje": { "$ref": "#/$defs/samostalno" },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/korak" }
+        }
+      }
+    },
+    "faza": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["naziv", "minuta", "opis"],
+      "properties": {
+        "naziv": { "type": "string" },
+        "minuta": { "type": "number" },
+        "opis": { "type": "string" }
+      }
+    },
+    "povezujuciPrimer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["naziv", "opis"],
+      "properties": {
+        "naziv": { "type": "string" },
+        "opis": { "type": "string" }
+      }
+    },
+    "nastavniObrazac": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "napomenaKoraka",
+        "pedagoskaNapomena",
+        "tipoviPrimer",
+        "redosledKoraka",
+        "diskusijaFaze",
+        "izlazOblik"
+      ],
+      "properties": {
+        "napomenaKoraka": { "type": "string" },
+        "pedagoskaNapomena": { "type": "string" },
+        "tipoviPrimer": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "naziv", "opis"],
+            "properties": {
+              "id": { "type": "string" },
+              "naziv": { "type": "string" },
+              "opis": { "type": "string" }
+            }
+          }
+        },
+        "redosledKoraka": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "diskusijaFaze": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["budzetMinuta", "faze", "posle", "napomena"],
+          "properties": {
+            "budzetMinuta": { "type": "number" },
+            "faze": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/faza" }
+            },
+            "posle": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["minuta", "opis"],
+              "properties": {
+                "minuta": { "type": "number" },
+                "opis": { "type": "string" }
+              }
+            },
+            "napomena": { "type": "string" }
+          }
+        },
+        "izlazOblik": { "type": "string" },
+        "samostalnoUcenje": { "type": "string" },
+        "editorDodatniPrimeri": { "type": "string" },
+        "nemaReacta": { "type": "string" },
+        "ucenjeBezNastavnika": { "type": "string" },
+        "proveraKoda": { "type": "string" },
+        "raspodelaVremena": { "type": "string" },
+        "statusIzvrsavanja": { "type": "string" }
+      }
+    }
+  }
+}
