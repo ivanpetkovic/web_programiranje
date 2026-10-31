@@ -183,6 +183,13 @@
       "uKursu": "TypeScript anotacija nije runtime validacija."
     },
     {
+      "id": "json-schema",
+      "name": "JSON Schema",
+      "hint": "",
+      "body": "JSON dokument koji opisuje dozvoljen oblik podatka: tipove, obavezna polja i zabranu dodatnih ključeva. Ne zamenjuje poziv validatora u handleru.",
+      "uKursu": "Ugovor za telo PUT /api/ventilator posle JSON.parse."
+    },
+    {
       "id": "rev-race-condition",
       "name": "race condition",
       "hint": "",
@@ -3717,7 +3724,7 @@
         {
           "naslov": "Putanja i metod čine rutu",
           "nivo": "Primena",
-          "minuta": 5,
+          "minuta": 4,
           "tipPrimer": "eksperiment",
           "tekst": "Ista putanja nije isto što i ista operacija. Isti URL može prihvatiti različite HTTP metode i time predstavljati različite operacije. GET po ugovoru treba da bude bezbedan za čitanje; promena stanja ne sme biti skrivena iza GET zahteva.",
           "kljucnaIdeja": "HTTP metod utiče na značenje zahteva; server odlučuje koju kombinaciju podržava.",
@@ -3752,7 +3759,7 @@
         {
           "naslov": "HTTP",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Na tok se stavi metod, putanja, zaglavlja, telo i status. HTTP dodaje semantiku zahteva i odgovora na tok prenetih podataka. Metod, putanja, zaglavlja, telo i status nisu ukrasi nego nezavisni delovi protokola koje klijent i server zajednički tumače.",
           "kljucnaIdeja": "HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1.",
@@ -3781,7 +3788,7 @@
         {
           "naslov": "createServer",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Običan Node, nema framework. http.createServer kreira serverski objekat i registruje funkciju obrade, ali ne otvara automatski browser. Node-ov HTTP server prima req/res objekte, različite od browser DOM API-ja.",
           "kljucnaIdeja": "http.createServer dolazi pre slušanja porta.",
@@ -3813,7 +3820,7 @@
         {
           "naslov": "listen",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Server kaže na kom portu čeka. listen određuje port na kome server prihvata veze. To ne šalje zahtev niti garantuje da port može da se dosegne sa druge mašine: konfiguracija hosta i mrežni firewall utiču na dostupnost.",
           "kljucnaIdeja": "listen otvara port. Zahtev još nije poslat.",
@@ -3842,7 +3849,7 @@
         {
           "naslov": "Komanda",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Proces se podiže iz terminala. Komanda node server/server.js podiže proces na serveru. Da bi primer bio izvršiv, modul mora učitati http i definisati handler; fragment sa samo createServer nije samostalan program.",
           "kljucnaIdeja": "Komanda je node server/server.js. Browser je i dalje poseban korak.",
@@ -3871,7 +3878,7 @@
         {
           "naslov": "Konkurentni zahtevi",
           "nivo": "Primena",
-          "minuta": 5,
+          "minuta": 4,
           "tipPrimer": "eksperiment",
           "tekst": "Dva klijenta istovremeno traže podatke. Jedan dug sinhroni CPU zadatak u Node event loop-u sprečava obradu drugih zahteva dok traje. Asinhroni I/O ne znači da je težak račun automatski paralelan, pa arhitektura mora razlikovati te dve vrste rada.",
           "kljucnaIdeja": "Node event loop omogućava obradu događaja; blokirajući kod i dalje može zaustaviti odziv.",
@@ -3906,7 +3913,7 @@
         {
           "naslov": "Adresa",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Ista adresa se otvori u browseru, kao stranica, ne iz koda. Otvaranje /api/soba direktno u browseru već šalje HTTP GET. fetch dolazi kasnije kao način da isti zahtev pokrene skripta i pročita odgovor bez zamene dokumenta.",
           "kljucnaIdeja": "Čitanje sobe se prvo otvara direktno u browseru. U telu je JSON tekst.",
@@ -3937,7 +3944,7 @@
         {
           "naslov": "Ruta",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Poznata putanja vraća temperaturu i režim. Nepoznata putanja može dobiti HTTP 404 sa validnim odgovorom, dok ugašen proces ne može vratiti status uopšte. Server treba da razlikuje i metod: isti put sa pogrešnom metodom nije nužno isti problem.",
           "kljucnaIdeja": "Poznata putanja vraća temperaturu i režim. Ostale vraćaju 404.",
@@ -3965,6 +3972,72 @@
           ],
           "analizaPitalice": "Nepoznata putanja može dobiti HTTP 404 sa validnim odgovorom, dok ugašen proces ne može vratiti status uopšte. Server treba da razlikuje i metod: isti put sa pogrešnom metodom nije nužno isti problem.",
           "proveraPitalice": "predvidi-pa-proveri"
+        },
+        {
+          "naslov": "JSON tekst, ne objekat",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "eksperiment",
+          "tekst": "HTTP telo stiže kao niz bajtova koji se čita kao tekst. JSON je tekstualni format: dok ga ne parsiraš, u JavaScriptu nema objekta. JSON.parse pravi vrednost, ali ne proverava da li polja i tipovi odgovaraju našem API ugovoru.",
+          "kljucnaIdeja": "JSON na žici je tekst; JavaScript vrednost nastaje tek posle JSON.parse.",
+          "samostalniPrimer": {
+            "jezik": "javascript",
+            "izolovan": true,
+            "tekst": "const s = '{\"t\":24}';\nconsole.log(typeof s, typeof JSON.parse(s));"
+          },
+          "pitalica": "Šta ispisuje typeof pre i posle parse?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "object object",
+              "why": "Pre parse promenljiva s drži string, ne objekat. HTTP telo stiže kao niz bajtova koji se čita kao tekst.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "string object",
+              "why": "JSON tekst je string dok ga ne parsiraš. JSON.parse pravi vrednost, ali ne proverava da li polja i tipovi odgovaraju našem API ugovoru.",
+              "ok": true
+            },
+            {
+              "key": "C",
+              "text": "string number",
+              "why": "typeof JSON.parse(s) je object, ne number. HTTP telo stiže kao niz bajtova koji se čita kao tekst.",
+              "ok": false
+            }
+          ],
+          "analizaPitalice": "JSON tekst je string dok ga ne parsiraš. JSON.parse pravi vrednost, ali ne proverava da li polja i tipovi odgovaraju našem API ugovoru."
+        },
+        {
+          "naslov": "Odgovor kao JSON tekst",
+          "nivo": "Osnovno",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Server ne šalje JavaScript objekat preko mreže, već JSON tekst. JSON.stringify pretvara vrednost u tekst; klijent pouzdano zna da je reč o JSON-u tek kad odgovor nosi Content-Type: application/json.",
+          "kljucnaIdeja": "Handler šalje JSON tekst i zaglavlje application/json.",
+          "putanja": "server/soba.js",
+          "isecakNaslov": "JSON telo",
+          "isecakJezik": "javascript",
+          "isecak": "JSON.stringify({ temperatura, ukljucen })",
+          "delic": "JSON.stringify({ temperatura, ukljucen })",
+          "original": "res.writeHead(200, { \"Content-Type\": \"application/json; charset=utf-8\" });\nres.end(JSON.stringify({ temperatura, ukljucen }));",
+          "originalJezik": "javascript",
+          "pitalica": "Šta handler stvarno šalje preko mreže?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "JavaScript objekat koji browser automatski razume.",
+              "why": "Mrežom idu bajtovi teksta. Server ne šalje JavaScript objekat preko mreže, već JSON tekst.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "JSON tekst i zaglavlje koje opisuje medijski tip.",
+              "why": "JSON.stringify i Content-Type opisuju telo. Server ne šalje JavaScript objekat preko mreže, već JSON tekst.",
+              "ok": true
+            }
+          ],
+          "analizaPitalice": "JSON.stringify i Content-Type opisuju telo. Klijent tek posle čitanja i parse-a gradi vrednost u memoriji."
         },
         {
           "naslov": "Bez Err",
@@ -4005,6 +4078,7 @@
           "TCP prenosi uređeni tok bajtova, ali ne određuje značenje poruke. HTTP preko odgovarajućeg transporta daje semantiku: metod označava nameru, putanja resurs, zaglavlja metapodatke, a status ishod obrade. GET je namenjen čitanju i ne treba da izaziva komandovanje uređajem, dok se promena željenog stanja izražava odgovarajućim mutirajućim zahtevom.",
           "Node.js pokreće serverski JavaScript izvan browsera. Zato server nema neposredan pristup DOM-u klijenta: formira HTTP odgovor, a browser odlučuje kako da ga predstavi. HTTP 404 jeste odgovor, dok zatvoren port ili neuspešno uspostavljanje veze mogu značiti da HTTP odgovora uopšte nema.",
           "JSON je tekstualni format razmene. Tek posle parsiranja nastaje JavaScript vrednost, čija stvarna struktura zahteva proveru. U Kontrolnoj sobi GET /api/soba vraća temperaturu i režim; sledeći koraci uče kako klijent asinhrono čeka taj odgovor i kako razlikuje neuspeh servera od neuspeha komunikacije.",
+          "JSON dozvoljava samo podskup JavaScript vrednosti: nema funkcija, undefined ni komentara; null je dozvoljen. Ključevi objekta i stringovi su u UTF-8 tekstu. Zato HTTP telo uvek prvo gledamo kao tekst, pa tek onda kao podatak.",
           "Počni od konkretne HTTP razmene. GET /api/soba traži reprezentaciju trenutnog stanja; odgovor uključuje status, Content-Type i JSON telo. HTTP 404 znači da server postoji i da je poslao odgovor za nepoznati resurs. Odbijena TCP veza ili DNS greška ne donose HTTP status. To su različita opažanja u Network panelu.",
           "U Node-u nema browserovog document objekta. Server dobija req/res i odlučuje šta će poslati nazad; browser je taj koji kasnije menja prikaz. Handler mora razlikovati metod i putanju, proveriti ulaz i poslati jasno definisan odgovor. Status 200 nije zamena za validan JSON i eksplicitni Content-Type.",
           "Za konkurentne zahteve odvoj I/O od CPU posla. Node može čekati mrežu i bazu bez blokiranja događaja, ali duga sinhrona petlja zauzima event loop i odlaže druge klijente. Zato 'asinhrono' ne znači automatski 'paralelno' niti 'uvek brzo'."
@@ -5213,6 +5287,14 @@
           "body": "Tekst umesto boolean vrednosti dobija HTTP 400. Forma ne sprečava drugačije telo.",
           "code": "{\"ukljucen\":\"da\"}\n\nHTTP/1.1 400",
           "codeLanguage": "text"
+        },
+        {
+          "id": "json-schema",
+          "name": "JSON Schema",
+          "hint": "oblik tela",
+          "body": "Opis dozvoljenog JSON tela: tip ukljucen je boolean, nema drugih polja. Validator se poziva u handleru.",
+          "code": "{\n  \"type\": \"object\",\n  \"required\": [\"ukljucen\"],\n  \"properties\": { \"ukljucen\": { \"type\": \"boolean\" } },\n  \"additionalProperties\": false\n}",
+          "codeLanguage": "json"
         }
       ],
       "steps": [
@@ -5250,7 +5332,7 @@
         {
           "naslov": "PUT",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Metod i putanja su deo zahteva. PUT /api/ventilator semantički zahteva konkretno stanje resursa. Metod nije samo reč u URL-u; server odlučuje koju operaciju i validaciju taj metod pokreće.",
           "kljucnaIdeja": "Komanda je PUT /api/ventilator.",
@@ -5308,9 +5390,75 @@
           "analizaPitalice": "Ako API prihvata isključivo objekt sa poljem ukljucen tipa boolean, dodatno polje ili string nisu validni po tom dogovoru. JSON.parse proverava samo sintaksu, a ne domenska pravila."
         },
         {
+          "naslov": "Ugovor u šemi",
+          "nivo": "Primena",
+          "minuta": 4,
+          "tipPrimer": "eksperiment",
+          "tekst": "Ista pravila kao ručna provera u kodu mogu stajati u JSON Schema: obavezno polje ukljucen tipa boolean, bez dodatnih ključeva. Šema je deljivi opis ugovora za ljude i alate; ne zamenjuje autorizaciju niti sama menja stanje ventilatora.",
+          "kljucnaIdeja": "JSON Schema dokumentuje dozvoljen oblik tela API-ja.",
+          "samostalniPrimer": {
+            "jezik": "json",
+            "izolovan": true,
+            "tekst": "{\n  \"type\": \"object\",\n  \"required\": [\"ukljucen\"],\n  \"properties\": { \"ukljucen\": { \"type\": \"boolean\" } },\n  \"additionalProperties\": false\n}"
+          },
+          "pitalica": "Da li telo {\"ukljucen\":\"da\"} zadovoljava ovu šemu?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da, jer je sintaksno ispravan JSON.",
+              "why": "JSON.parse i sintaksa nisu ista stvar kao tip polja. Vrednost \"da\" je string, a šema traži boolean.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne, tip polja ukljucen mora biti boolean.",
+              "why": "Šema opisuje semantiku oblika, ne samo zagrade i navodnike. Vrednost \"da\" je string, a šema traži boolean.",
+              "ok": true
+            },
+            {
+              "key": "C",
+              "text": "Da, parse je prošao bez greške.",
+              "why": "Parse ne proverava API ugovor. Vrednost \"da\" je string, a šema traži boolean.",
+              "ok": false
+            }
+          ],
+          "analizaPitalice": "Šema opisuje semantiku oblika, ne samo zagrade i navodnike. Sintaksno ispravan JSON i dalje može kršiti ugovor."
+        },
+        {
+          "naslov": "Validator na granici",
+          "nivo": "Primena",
+          "minuta": 4,
+          "tipPrimer": "aplikacija",
+          "tekst": "Posle JSON.parse handler mora proveriti telo pre promene modela — bilo ručnim if-ovima bilo validatorom koji koristi istu šemu. Sam fajl šeme ne odbija zahtev; granica poverenja je kod koji poziva validator i vraća HTTP 400.",
+          "kljucnaIdeja": "Runtime validacija mora da se izvrši u handleru posle parse-a.",
+          "putanja": "server/ventilator.js",
+          "isecakNaslov": "Validator",
+          "isecakJezik": "javascript",
+          "isecak": "if (!validno(telo)) return { status: 400 };",
+          "delic": "if (!validno(telo)) return { status: 400 };",
+          "original": "if (typeof telo.ukljucen !== \"boolean\") return { status: 400 };",
+          "originalJezik": "javascript",
+          "pitalica": "Da li sam JSON Schema fajl štiti server od lošeg tela?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "Da, šema automatski filtrira sve zahteve.",
+              "why": "Opis nije izvršavanje. Handler mora pozvati validator; inače parse može proći, a model se ipak promeni pogrešno.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "Ne, mora da je pozove handler posle JSON.parse.",
+              "why": "Runtime validacija je u kodu na granici. Opis nije izvršavanje.",
+              "ok": true
+            }
+          ],
+          "analizaPitalice": "JSON Schema pomaže da ugovor bude čitljiv i proverljiv, ali granica poverenja ostaje u handleru koji odbija telo pre promene stanja."
+        },
+        {
           "naslov": "Samo režim",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Uspeh ne vraća sobu. Odgovor koji sadrži samo {ukljucen:true} ne sadrži novu temperaturu. Klijent ne sme izmišljati merenje na osnovu komande, već mora zasebno pročitati očitavanje.",
           "kljucnaIdeja": "Uspešan odgovor nosi samo režim.",
@@ -5341,7 +5489,7 @@
         {
           "naslov": "Ponovljen PUT i toggle",
           "nivo": "Primena",
-          "minuta": 5,
+          "minuta": 4,
           "tipPrimer": "eksperiment",
           "tekst": "Ako odgovor nestane, klijent može pokušati ponovo. Idempotentno postavljanje na true ostavlja isti efekat na ciljano stanje pri ponavljanju, a toggle menja stanje svaki put. To postaje presudno kada se izgubi odgovor i klijent razmatra retry.",
           "kljucnaIdeja": "Postavljanje željenog stanja je idempotentno; prebacivanje na suprotno nije.",
@@ -5376,7 +5524,7 @@
         {
           "naslov": "Displej miruje",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Stigao je 200 na komandu. Uspešan PUT o režimu ne daje novu temperaturu. Displej temperature zato ostaje na poslednjem čitanju; zaseban GET ili drugi dogovoreni kanal osvežava merenje.",
           "kljucnaIdeja": "Komanda ne menja displej sobe prekidača.",
@@ -5407,7 +5555,7 @@
         {
           "naslov": "400",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Neko pošalje tekst umesto boolean vrednosti. Server vraća 400 kada telo krši prihvaćeni ugovor, čak i ako korisnička forma nikad ne bi proizvela takav zahtev. Napadač ili skripta iz druge aplikacije može neposredno poslati HTTP telo.",
           "kljucnaIdeja": "Telo mimo forme, sa tekstom umesto boolean vrednosti, dobija HTTP 400.",
@@ -5438,7 +5586,7 @@
         {
           "naslov": "Dvaput uključeno",
           "nivo": "Osnovno",
-          "minuta": 5,
+          "minuta": 4,
           "tipPrimer": "aplikacija",
           "tekst": "Ista komanda ode dvaput. Ponovljeno postavljanje ukljucen=true ne prebacuje ventilator u false. Ipak, svaki pokušaj može napraviti dodatni zapis u logu, pa idempotentnost efekta nije isto što i odsustvo svih sporednih događaja.",
           "kljucnaIdeja": "Dva slanja „uključeno” ostavljaju isti željeni efekat.",
@@ -5469,7 +5617,7 @@
         {
           "naslov": "Prebacivanje",
           "nivo": "Osnovno",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Druga komanda samo okrene trenutni režim. Komanda ukljucen=!ukljucen zavisi od trenutnog stanja, pa dva izvršavanja poništavaju jedan drugog. Zato je takvu operaciju teško slepo ponoviti posle timeout-a.",
           "kljucnaIdeja": "Dva slanja prebacivanja menjaju ishod.",
@@ -5500,7 +5648,7 @@
         {
           "naslov": "Ne veruj HTML formi",
           "nivo": "Primena",
-          "minuta": 4,
+          "minuta": 3,
           "tipPrimer": "aplikacija",
           "tekst": "Napadač može poslati zahtev bez korišćenja našeg UI-a. Frontend validacija pomaže korisniku, ali nije granica poverenja. Server mora odbiti nevažeću vrednost pre promene modela i mora ograničiti veličinu tela i obradu neispravnog JSON-a.",
           "kljucnaIdeja": "Validacija podataka na serveru ne može se zameniti client-side proverom.",
@@ -5633,6 +5781,7 @@
         "uvod": "Ova tema razvija Kontrolnu sobu kroz poznat problem. API treba da jasno opisuje željeno stanje, proverava ulaz i razlikuje idempotentno postavljanje od prebacivanja (toggle). Pre nego što otvoriš objašnjenje pitalice, napiši sopstvenu pretpostavku, pokreni kod i uporedi stvarni ishod sa očekivanjem.",
         "detaljnoGradivo": [
           "API nije zbir proizvoljnih URL-ova, već ugovor o tome koje operacije postoje, kakva tela prihvataju i kakvi odgovori slede. Server ne sme da veruje samo frontend formi: JSON može doći iz terminala ili druge aplikacije. Posle parsiranja proveravaju se tipovi, obavezna polja i dozvoljene vrednosti pre promene stanja.",
+          "JSON Schema može opisati isti ugovor kao ručna provera u handleru. Šema ne zamenjuje poziv validatora niti proveru identiteta klijenta; samo pomaže da oblik tela bude jasan i proverljiv.",
           "Idempotentna operacija ima isti predviđeni efekat na ciljano stanje posle jednog ili više izvršavanja. Postaviti ukljucen=true dvaput nije isto što i dva puta prebaciti ukljucen=!ukljucen. Kada odgovor nestane, retry može biti potreban, ali se mora razumeti semantika operacije. Evidentiranje svakog pokušaja je zasebno pitanje od efekta na uređaj.",
           "Kontrolna soba uvodi PUT /api/ventilator koji traži konkretno željeno stanje, a server vraća validiran odgovor. HTTP status 200 znači da server tvrdi određeni nivo uspeha, ali to samo po sebi ne dokazuje fizičko kretanje stvarnog motora. Dobro definisan API razlikuje prihvatanje zahteva, promenu serverskog modela i eventualnu potvrdu udaljenog uređaja.",
           "Dizajn API-ja počinje ugovorom o cilju, ne nazivom endpointa. PUT /api/ventilator u primeru postavlja željeno stanje. Ako server prihvata samo {ukljucen:boolean}, mora odbiti nevažeće telo čak i kad HTML forma ne dozvoljava korisniku da ga napiše. JSON je sintaksa, ne potvrda semantičke ispravnosti.",
@@ -8837,7 +8986,7 @@
           "nivo": "Primena",
           "minuta": 5,
           "tipPrimer": "eksperiment",
-          "tekst": "LLM ili compiler sugeriše da TypeScript tip garantuje sadržaj odgovora. Ako odgovor nosi temperaturu kao string 'nepoznato', TypeScript anotacija ne pretvara ga u broj. Pozivanje aritmetike može dati NaN ili neželjeno ponašanje; validacija se mora izvršiti kada podatak stigne.",
+          "tekst": "LLM ili compiler sugeriše da TypeScript tip garantuje sadržaj odgovora. Ako odgovor nosi temperaturu kao string 'nepoznato', TypeScript anotacija ne pretvara ga u broj. Pozivanje aritmetike može dati NaN ili neželjeno ponašanje; validacija se mora izvršiti kada podatak stigne — ručno, JSON Schema validatorom ili drugim runtime proverama, ne samo TypeScript tipom.",
           "kljucnaIdeja": "TypeScript provera se obavlja pre izvršavanja; mrežni podaci zahtevaju runtime validaciju.",
           "samostalniPrimer": {
             "jezik": "typescript",
@@ -8865,7 +9014,7 @@
               "ok": false
             }
           ],
-          "analizaPitalice": "Ako odgovor nosi temperaturu kao string 'nepoznato', TypeScript anotacija ne pretvara ga u broj. Pozivanje aritmetike može dati NaN ili neželjeno ponašanje; validacija se mora izvršiti kada podatak stigne."
+          "analizaPitalice": "Ako odgovor nosi temperaturu kao string 'nepoznato', TypeScript anotacija ne pretvara ga u broj. Pozivanje aritmetike može dati NaN ili neželjeno ponašanje; validacija se mora izvršiti kada podatak stigne — ručno, JSON Schema validatorom ili drugim runtime proverama, ne samo TypeScript tipom."
         },
         {
           "naslov": "Jedan neuspeh",
