@@ -386,60 +386,18 @@
           "nivo": "Osnovno",
           "minuta": 5,
           "tipPrimer": "eksperiment",
-          "tekst": "Zašto seći poruku, umesto da se rezerviše veza od kraja do kraja? Ako je veza rezervisana, prekid uništi celu poruku. Paket ide drugim putem i poruka se sklopi. Kod komutacije paketa više učesnika deli mrežne veze bez trajnog rezervisanja jednog kanala. Ali gubitak paketa ne rešava se automatski samim paketizovanjem: za oporavak su potrebni protokoli i odgovarajuće ponašanje krajnjih sistema.",
-          "kljucnaIdeja": "Prekinuta veza ne mora da uništi poruku.",
-          "pitalica": "Šta prekinuta veza uradi poruci od paketa?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Uništi je, jer put je jedan.",
-              "why": "Paket ne traži jednu rezervisanu vezu. Kod komutacije paketa više učesnika deli mrežne veze bez trajnog rezervisanja jednog kanala.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Prekinuta veza ne mora da uništi poruku.",
-              "why": "Drugi paket može drugim putem. Poruka se sklopi na kraju. Kod komutacije paketa više učesnika deli mrežne veze bez trajnog rezervisanja jednog kanala. Ali gubitak paketa ne rešava se automatski samim paketizovanjem: za oporavak su potrebni protokoli i odgovarajuće ponašanje krajnjih sistema.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "Kod komutacije paketa više učesnika deli mrežne veze bez trajnog rezervisanja jednog kanala. Ali gubitak paketa ne rešava se automatski samim paketizovanjem: za oporavak su potrebni protokoli i odgovarajuće ponašanje krajnjih sistema.",
+          "prica": "Slova prijave nisu dobila rezervisan kanal od UCLA do SRI. Poruka se seče na pakete. Svaki nosi deo i adresu primaoca. Paket koji je već stigao ostaje. Paket koji je bio na prekinutoj vezi nije stigao.",
+          "tekst": "Rezervisana veza drži kanal dok razgovor traje. Prekid te veze prekida razgovor. Niko drugi taj kanal ne koristi dok je rezervisan.\n\nPaket je deo poruke sa adresom primaoca. Više razgovora deli iste veze. Paket koji je već stigao ostaje. Paket na prekinutoj vezi nije stigao. Sečenje ne sklapa poruku i ne šalje izgubljeni paket ponovo.",
+          "kljucnaIdeja": "Paket deli mrežu. Prekid veze ne briše ono što je već stiglo.",
+          "pitalica": "Zašto se poruka seče na pakete, umesto da se rezerviše veza od kraja do kraja?",
           "pitalice": [
             {
-              "pitalica": "Šta prekinuta veza uradi poruci od paketa?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Uništi je, jer put je jedan.",
-                  "why": "Paket ne traži jednu rezervisanu vezu. Kod komutacije paketa više učesnika deli mrežne veze bez trajnog rezervisanja jednog kanala.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Prekinuta veza ne mora da uništi poruku.",
-                  "why": "Drugi paket može drugim putem. Poruka se sklopi na kraju. Kod komutacije paketa više učesnika deli mrežne veze bez trajnog rezervisanja jednog kanala. Ali gubitak paketa ne rešava se automatski samim paketizovanjem: za oporavak su potrebni protokoli i odgovarajuće ponašanje krajnjih sistema.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Kod komutacije paketa više učesnika deli mrežne veze bez trajnog rezervisanja jednog kanala. Ali gubitak paketa ne rešava se automatski samim paketizovanjem: za oporavak su potrebni protokoli i odgovarajuće ponašanje krajnjih sistema."
+              "pitalica": "Zašto se poruka seče na pakete, umesto da se rezerviše veza od kraja do kraja?",
+              "odgovor": "Da bi više razgovora delilo iste veze, bez trajne rezervacije jednog kanala. Sečenje samo od sebe ne sklapa poruku i ne šalje izgubljeni paket ponovo."
             },
             {
-              "pitalica": "Zašto se poruka uopšte seče na pakete?",
-              "opcije": [
-                {
-                  "key": "B",
-                  "text": "Da bi jedna veza zauvek rezervisala kanal od kraja do kraja.",
-                  "why": "To je suprotan model: rezervisana veza. Paket deli mrežu između više razgovora.",
-                  "ok": false
-                },
-                {
-                  "key": "A",
-                  "text": "Da bi više razgovora delilo mrežu, a prekid jedne veze ne morao da obriše celu poruku.",
-                  "why": "Paketni prenos nastaje jer trajna rezervacija kanala ne skalira. Prekid veze ne briše već prenete delove.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Paket ne postoji da bi poruka bila kraća, nego da mreža ostane deljena. Posledica: redosled i gubitak postaju problem koji viši sloj mora da reši, ako mu je red bitan."
+              "pitalica": "Ako veza padne usred poruke, šta od nje ostaje?",
+              "odgovor": "Ostaje ono što je već stiglo. Ostatak na toj vezi ne stiže. Sledeći paket može drugom vezom, ali izgubljeni paket se sam ne zamenjuje."
             }
           ]
         },

@@ -69,7 +69,7 @@ Budžet razgovora je jedan za celu nedelju, oko 35 minuta, ne za svaku pitalicu 
 ### Lekcije
 
 1. [LO](#n1-k1) · ~4 min
-2. [Paket](#n1-k2) · ~4 min
+2. [Paket](#n1-k2) · ~5 min
 3. [TCP i UDP](#n1-k3) · ~5 min
 4. [Internet](#n1-k4) · ~4 min
 5. [Hipertekst](#n1-k5) · ~5 min
@@ -111,18 +111,19 @@ Odgovor, skriven dok se ne otvori ikonica: dokument mora da ima lokaciju. Veza j
 
 #### Korak 2. Paket
 
-~4 min · bez fajla
+~5 min · bez fajla
 
-Zašto seći poruku, umesto da se rezerviše veza od kraja do kraja? Ako je veza rezervisana, prekid uništi celu poruku. Paket ide drugim putem i poruka se sklopi.
+Slova prijave nisu dobila rezervisan kanal od UCLA do SRI. Poruka se seče na pakete. Svaki nosi deo i adresu primaoca. Paket koji je već stigao ostaje. Paket koji je bio na prekinutoj vezi nije stigao.
 
-> **Ključna ideja.** Prekinuta veza ne mora da uništi poruku.
+> **Ključna ideja.** Paket deli mrežu. Prekid veze ne briše ono što je već stiglo.
 
-**Pitalica.** Šta prekinuta veza uradi poruci od paketa?
+**Pitalica.** Zašto se poruka seče na pakete, umesto da se rezerviše veza od kraja do kraja?
 
-- A. Uništi je, jer put je jedan.
-  Paket ne traži jednu rezervisanu vezu.
-- **B. Prekinuta veza ne mora da uništi poruku.**
-  **drži.** Drugi paket može drugim putem. Poruka se sklopi na kraju.
+Odgovor, skriven dok se ne otvori ikonica: da bi više razgovora delilo iste veze, bez trajne rezervacije jednog kanala. Sečenje samo od sebe ne sklapa poruku i ne šalje izgubljeni paket ponovo.
+
+**Pitalica.** Ako veza padne usred poruke, šta od nje ostaje?
+
+Odgovor, skriven dok se ne otvori ikonica: ostaje ono što je već stiglo. Ostatak na toj vezi ne stiže. Sledeći paket može drugom vezom, ali izgubljeni paket se sam ne zamenjuje.
 
 <a id="n1-k3"></a>
 
