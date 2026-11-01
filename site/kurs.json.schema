@@ -267,6 +267,7 @@
         "nivo": { "type": "string" },
         "minuta": { "type": "number" },
         "tekst": { "type": "string" },
+        "prica": { "type": "string" },
         "kljucnaIdeja": { "type": "string" },
         "pitalica": { "type": "string" },
         "opcije": {

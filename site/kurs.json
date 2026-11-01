@@ -366,42 +366,43 @@
           "nivo": "Osnovno",
           "minuta": 5,
           "tipPrimer": "eksperiment",
-          "tekst": "Zašto uopšte slati poruku ako veza može da pukne usred reči? 29. oktobra 1969. sa UCLA ka SRI stiže „LO”, pa sistem padne umesto „LOGIN”. To je mreža paketa. To nije Web. Dva uspešno preneta znaka pokazuju da mreža može preneti informaciju između udaljenih računara; ne govore ništa o hipertekstu, URL-u ni HTTP-u. Odvoji pitanje kako podaci putuju od pitanja šta ti podaci predstavljaju.",
+          "prica": "29. oktobra 1969. sa UCLA ka SRI kreće poruka LOGIN. Stignu dva znaka, L i O. Računar na drugom kraju padne. Veza je prenela nešto, pa se prekinula. Niko nije otvorio stranicu i niko nije uneo adresu.",
+          "tekst": "29. oktobra 1969. sa UCLA ka SRI kreće poruka LOGIN. Stignu dva znaka, L i O. Računar na drugom kraju padne. Dva preneta znaka pokazuju da mreža može da prenese podatak između udaljenih računara. Ne govore šta taj podatak jeste, ni kako bi se dokument tražio. Hipertekst, URL i HTTP tu još nemaju mesta.",
           "kljucnaIdeja": "Mreža paketa iz 1969. još nema stranicu u browseru.",
-          "pitalica": "Šta je stiglo 29. oktobra 1969?",
+          "pitalica": "Kolega kaže: poruka je stigla, znači Web je već postojao. Gde ta procena puca?",
           "opcije": [
             {
               "key": "A",
-              "text": "To već jeste Web, jer je poruka stigla.",
-              "why": "Stigla su dva slova po mreži. Nema URL ni dokument u browseru.",
+              "text": "Puca jer nisu stigla sva slova reči LOGIN.",
+              "why": "Dužina poruke nije razlika između mreže i Weba. Cela reč i dalje bi bila samo bajtovi na vezi.",
               "ok": false
             },
             {
               "key": "B",
-              "text": "Poruka iz 1969. nije Web.",
-              "why": "LO je mreža paketa. Web je povezani dokument, mnogo kasnije. Dva uspešno preneta znaka pokazuju da mreža može preneti informaciju između udaljenih računara; ne govore ništa o hipertekstu, URL-u ni HTTP-u. Odvoji pitanje kako podaci putuju od pitanja šta ti podaci predstavljaju.",
+              "text": "Puca jer uspeh prenosa ne kaže da postoji dokument koji se traži po adresi.",
+              "why": "Dva znaka pokazuju da mreža nosi podatak. Ne pokazuju stranicu, vezu ni način da se dokument zatraži.",
               "ok": true
             }
           ],
-          "analizaPitalice": "nije Web. Dva uspešno preneta znaka pokazuju da mreža može preneti informaciju između udaljenih računara; ne govore ništa o hipertekstu, URL-u ni HTTP-u. Odvoji pitanje kako podaci putuju od pitanja šta ti podaci predstavljaju.",
+          "analizaPitalice": "Procena meša prenos sa dokumentom. Stigla poruka dokazuje da su dva računara razmenila znake. Iz toga ne sledi stranica, adresa ni zahtev.",
           "pitalice": [
             {
-              "pitalica": "Šta je stiglo 29. oktobra 1969?",
+              "pitalica": "Kolega kaže: poruka je stigla, znači Web je već postojao. Gde ta procena puca?",
               "opcije": [
                 {
                   "key": "A",
-                  "text": "To već jeste Web, jer je poruka stigla.",
-                  "why": "Stigla su dva slova po mreži. Nema URL ni dokument u browseru.",
+                  "text": "Puca jer nisu stigla sva slova reči LOGIN.",
+                  "why": "Dužina poruke nije razlika između mreže i Weba. Cela reč i dalje bi bila samo bajtovi na vezi.",
                   "ok": false
                 },
                 {
                   "key": "B",
-                  "text": "Poruka iz 1969. nije Web.",
-                  "why": "LO je mreža paketa. Web je povezani dokument, mnogo kasnije. Dva uspešno preneta znaka pokazuju da mreža može preneti informaciju između udaljenih računara; ne govore ništa o hipertekstu, URL-u ni HTTP-u. Odvoji pitanje kako podaci putuju od pitanja šta ti podaci predstavljaju.",
+                  "text": "Puca jer uspeh prenosa ne kaže da postoji dokument koji se traži po adresi.",
+                  "why": "Dva znaka pokazuju da mreža nosi podatak. Ne pokazuju stranicu, vezu ni način da se dokument zatraži.",
                   "ok": true
                 }
               ],
-              "analizaPitalice": "nije Web. Dva uspešno preneta znaka pokazuju da mreža može preneti informaciju između udaljenih računara; ne govore ništa o hipertekstu, URL-u ni HTTP-u. Odvoji pitanje kako podaci putuju od pitanja šta ti podaci predstavljaju."
+              "analizaPitalice": "Procena meša prenos sa dokumentom. Stigla poruka dokazuje da su dva računara razmenila znake. Iz toga ne sledi stranica, adresa ni zahtev."
             },
             {
               "pitalica": "Zašto „LO” nije dokaz da Web već postoji?",

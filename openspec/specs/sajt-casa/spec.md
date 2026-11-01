@@ -38,6 +38,10 @@ A step that names a file MUST show, in order, the step prose, the key-idea callo
 - **WHEN** the teacher opens Diskusija on a step
 - **THEN** the short quiz for that step is visible with unmarked answers until Obrazloženje is opened
 
+#### Scenario: The first step can open with a story
+- **WHEN** a step names a story and the teacher opens Diskusija
+- **THEN** the story is visible before the question, and the question asks for a judgment rather than a recalled fact
+
 #### Scenario: Callout before snippet on Gradivo
 - **WHEN** the teacher opens Gradivo on a step that names a file
 - **THEN** the prose, the key idea, and the snippet are visible and the short quiz is not

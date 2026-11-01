@@ -95,16 +95,16 @@ Budžet razgovora je jedan za celu nedelju, oko 35 minuta, ne za svaku pitalicu 
 
 ~4 min · bez fajla
 
-Zašto uopšte slati poruku ako veza može da pukne usred reči? 29. oktobra 1969. sa UCLA ka SRI stiže „LO”, pa sistem padne umesto „LOGIN”. To je mreža paketa. To nije Web.
+29. oktobra 1969. sa UCLA ka SRI kreće poruka LOGIN. Stignu dva znaka, L i O. Računar na drugom kraju padne. Veza je prenela nešto, pa se prekinula. Niko nije otvorio stranicu i niko nije uneo adresu.
 
 > **Ključna ideja.** Mreža paketa iz 1969. još nema stranicu u browseru.
 
-**Pitalica.** Šta je stiglo 29. oktobra 1969?
+**Pitalica.** Kolega kaže: poruka je stigla, znači Web je već postojao. Gde ta procena puca?
 
-- A. To već jeste Web, jer je poruka stigla.
-  Stigla su dva slova po mreži. Nema URL ni dokument u browseru.
-- **B. Poruka iz 1969. nije Web.**
-  **drži.** LO je mreža paketa. Web je povezani dokument, mnogo kasnije.
+- A. Puca jer nisu stigla sva slova reči LOGIN.
+  Dužina poruke nije razlika između mreže i Weba.
+- **B. Puca jer uspeh prenosa ne kaže da postoji dokument koji se traži po adresi.**
+  **drži.** Dva znaka pokazuju da mreža nosi podatak. Ne pokazuju stranicu ni adresu.
 
 <a id="n1-k2"></a>
 

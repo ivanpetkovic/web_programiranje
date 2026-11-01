@@ -26,6 +26,7 @@ export function mapirajKorak(korak) {
     minuta: korak.minuta,
     primer: korak.tekst,
     tekst: korak.tekst,
+    prica: korak.prica,
     objasnjenje: korak.kljucnaIdeja,
     kljucnaIdeja: korak.kljucnaIdeja,
     kod: korak.isecak,
