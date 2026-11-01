@@ -37,7 +37,7 @@ test("LO na Diskusiji ima priču i retorička pitanja, bez odgovora", () => {
       "Šta je moralo da se pojavi da bi jedan dokument vodio na drugi, na drugom računaru?",
     ],
   );
-  assert.equal(lo.pitalice.every((p) => !p.opcije), true);
+  assert.equal(lo.pitalice.every((p) => !p.opcije && p.odgovor), true);
   assert.equal("opcije" in lo, false);
 });
 

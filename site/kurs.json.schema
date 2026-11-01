@@ -86,6 +86,7 @@
       "required": ["pitalica"],
       "properties": {
         "pitalica": { "type": "string" },
+        "odgovor": { "type": "string" },
         "opcije": {
           "type": "array",
           "minItems": 2,

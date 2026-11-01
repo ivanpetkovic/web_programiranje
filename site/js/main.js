@@ -1627,6 +1627,24 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi) {
   const pitanje = document.createElement("h3");
   pitanje.append(fragmentTeksta(pitalica.pitalica));
   const retoricko = !(pitalica.opcije || []).length;
+  const odgovor = pitalica.odgovor || "";
+  const red = document.createElement("div");
+  red.className = "pitanje-red";
+  red.append(pitanje);
+  if (retoricko && odgovor) {
+    const dugme = document.createElement("button");
+    dugme.type = "button";
+    dugme.className = otvoreno ? "odgovor-ikona otvoreno" : "odgovor-ikona";
+    dugme.setAttribute("aria-label", otvoreno ? "Sakrij odgovor" : "Odgovor");
+    dugme.setAttribute("aria-expanded", String(otvoreno));
+    const znak = ikonica("lightbulb");
+    if (znak) dugme.append(znak);
+    dugme.addEventListener("click", () => {
+      objasnjenjePoKoraku.set(kljuc, !otvoreno);
+      renderLecture();
+    });
+    red.append(dugme);
+  }
   const uputa = document.createElement("p");
   uputa.className = "meta";
   uputa.textContent = urediSadrzaj.aktivan
@@ -1659,7 +1677,13 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi) {
     });
     kratke.append(button);
   }
-  pitanjeUnutra.append(pitanjeNad, pitanje);
+  pitanjeUnutra.append(pitanjeNad, red);
+  if (retoricko && odgovor && otvoreno) {
+    const telo = document.createElement("p");
+    telo.className = "odgovor-tekst";
+    telo.textContent = odgovor;
+    pitanjeUnutra.append(telo);
+  }
   if (!retoricko) pitanjeUnutra.append(uputa, kratke);
   const pitanjeBlok = omotUredjivog(urediSadrzaj, kljucPolja(casBroj, i, `pitalica-${pi}`), pitanjeUnutra, () => {
     const wrap = document.createElement("div");

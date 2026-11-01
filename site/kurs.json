@@ -372,10 +372,12 @@
           "pitalica": "Prijava na udaljeni računar već radi. Zašto Web ipak nije nastao te noći?",
           "pitalice": [
             {
-              "pitalica": "Prijava na udaljeni računar već radi. Zašto Web ipak nije nastao te noći?"
+              "pitalica": "Prijava na udaljeni računar već radi. Zašto Web ipak nije nastao te noći?",
+              "odgovor": "Zato što prijava samo prenese komandu i otvori tuđi računar. Nema dokumenta sa imenom, veze ka drugom dokumentu, ni dogovora kako se taj dokument traži."
             },
             {
-              "pitalica": "Šta je moralo da se pojavi da bi jedan dokument vodio na drugi, na drugom računaru?"
+              "pitalica": "Šta je moralo da se pojavi da bi jedan dokument vodio na drugi, na drugom računaru?",
+              "odgovor": "Dokument koji ima ime, veza koja vodi na drugi dokument, i dogovor kako se taj dokument traži. Mreža je već postojala."
             }
           ]
         },

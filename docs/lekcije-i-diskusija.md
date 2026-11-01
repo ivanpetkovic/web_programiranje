@@ -101,9 +101,11 @@ Budžet razgovora je jedan za celu nedelju, oko 35 minuta, ne za svaku pitalicu 
 
 **Pitalica.** Prijava na udaljeni računar već radi. Zašto Web ipak nije nastao te noći?
 
+Odgovor, skriven dok se ne otvori ikonica: prijava samo prenese komandu i otvori tuđi računar. Nema dokumenta sa imenom, veze ka drugom dokumentu, ni dogovora kako se taj dokument traži.
+
 **Pitalica.** Šta je moralo da se pojavi da bi jedan dokument vodio na drugi, na drugom računaru?
 
-Retorička pitanja nemaju ponuđen odgovor. Diskutuje ih nastavnik.
+Odgovor, skriven dok se ne otvori ikonica: dokument koji ima ime, veza koja vodi na drugi dokument, i dogovor kako se taj dokument traži. Mreža je već postojala.
 
 <a id="n1-k2"></a>
 

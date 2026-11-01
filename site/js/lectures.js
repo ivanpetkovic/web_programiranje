@@ -12,6 +12,7 @@ export function listaPitalica(korak) {
   return izvor.map((p) => ({
     pitalica: p.pitalica || "",
     opcije: p.opcije || [],
+    odgovor: p.odgovor || "",
     analiza: p.analizaPitalice || p.analiza || "",
   }));
 }
