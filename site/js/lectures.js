@@ -24,7 +24,7 @@ export function mapirajKorak(korak) {
     tipPrimer: korak.tipPrimer,
     samostalniPrimer: korak.samostalniPrimer,
     dijagram: korak.dijagram,
-    analiza: korak.analiza,
+    analiza: korak.analiza ?? korak.analizaPitalice,
   };
 }
 

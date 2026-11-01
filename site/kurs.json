@@ -16,8 +16,8 @@
     "opis": "Jedan panel, temperatura i jedan ventilator. Nema stvarnog hardvera. Student prati jednu radnju od browsera, preko Node procesa, do PostgreSQL baze."
   },
   "nastavniObrazac": {
-    "napomenaKoraka": "Svaki korak polazi od problema ili predviđanja, zatim prikazuje potrebnu osnovu, mali izvršivi primer ili dijagram i pitalicu. Pitalice sa kodom mogu raditi nezavisno od Kontrolne sobe; njihovo pokretanje ne menja fajlove aplikacije. Obrazloženja pokrivaju uzrok, posledicu i pogrešne pretpostavke. Odgovor nastavnik otkriva posle glasanja.",
-    "pedagoskaNapomena": "Kratke pitalice traju 30–90 sekundi; glavna diskusija je duža. Pitanja ne smeju biti prosta reprodukcija prethodne rečenice. LLM kod je predmet verifikacije, ne izvor autoriteta. Nema Reacta; testiranje se pokazuje kroz male provere, bez posebne teme.",
+    "napomenaKoraka": "Na času tab Diskusija vodi kroz korak pitalicom; nastavnik usmeno nadograđuje obrazloženje iz dokumenta. Tab Gradivo daje tekst, ključnu ideju i isečak za samostalno učenje. Pitalica ne sme biti prosta reprodukcija prethodne rečenice: pita za uzrok, posledicu ili pogrešnu pretpostavku. Obrazloženje (analizaPitalice) otkriva nastavnik posle glasanja.",
+    "pedagoskaNapomena": "Kratke pitalice traju 30–90 sekundi po koraku; diskusija cele teme je duža i stoji na poslednjem koraku u tabu Diskusija. Pitanja podstiču kritičko razmišljanje i ukazuju zašto je nešto nastalo. LLM kod je predmet verifikacije, ne izvor autoriteta.",
     "tipoviPrimer": [
       {
         "id": "aplikacija",
@@ -36,10 +36,10 @@
       }
     ],
     "redosledKoraka": [
-      "tekst",
+      "diskusija: pitalica koraka",
+      "gradivo: tekst",
       "kljucna-ideja",
-      "isecak ili crtez",
-      "kratka pitalica"
+      "isecak ili crtez"
     ],
     "diskusijaFaze": {
       "budzetMinuta": 35,

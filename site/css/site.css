@@ -438,6 +438,9 @@ pre {
   padding-top: 0.8rem;
   border-top: 1px solid var(--line);
 }
+.diskusija-korak { display: grid; gap: 0.55rem; }
+.diskusija-razmak { margin: 1.4rem 0 0.2rem; border: none; border-top: 1px solid var(--line); }
+.gradivo-uputa { margin-bottom: 0.75rem; }
 .option.podvuceno { text-decoration: underline; text-underline-offset: 0.2em; }
 .pretpostavke, .izlaz, .diskusija textarea { width: 100%; margin-top: 0.45rem; }
 .izlaz { display: grid; gap: 0.35rem; margin-top: 0.8rem; }

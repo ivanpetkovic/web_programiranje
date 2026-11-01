@@ -53,7 +53,7 @@ test("tabovi, traka i isečak zadržavaju natpise", () => {
 });
 
 test("pitanje, stablo, olovka i panel", () => {
-  assert.match(main, /saIkonom\(pitanjeNad, "question", "Pitanje"\)/);
+  assert.match(main, /saIkonom\(pitanjeNad, "question", "Pitalica"\)/);
   assert.match(main, /saIkonom\(otvori, otvoreno \? "check-circle" : "info", otvoreno \? "Obrazloženje je otvoreno" : "Obrazloženje"\)/);
   assert.match(main, /saIkonom\(ponovi, "refresh-cw", "Ponovi pitanje"\)/);
   assert.match(main, /if \(otkriveno && opt\.ok\) return ikonica\("check-circle"\)/);

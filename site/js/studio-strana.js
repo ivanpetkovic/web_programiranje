@@ -297,7 +297,7 @@ function panelKursa() {
     }),
     el("p", {
       class: "uvod",
-      text: "Naslov i ustanova su zaglavlje časa. Ishod teme je podnaslov u spisku. Na Gradivu korak ide redom: tekst, ključna ideja, isečak ili crtež, pa kratka pitalica. Razlog i oznaka drži ostaju zatvoreni do Obrazloženja. Delić ulazi u fajl, a prethodni delići stoje kao Već u fajlu. Ugrađena verzija je Lekcija u editoru. Diskusija teme je tab Diskusija, izlaz je rečenica na poslednjem koraku, a pojmovi se uređuju ovde.",
+      text: "Naslov i ustanova su zaglavlje časa. Ishod teme je podnaslov u spisku. Tab Diskusija (podrazumevano) nosi pitalicu otvorenog koraka i obrazloženje; na poslednjem koraku ispod stoji diskusija cele teme. Tab Gradivo daje tekst, ključnu ideju, isečak ili crtež — bez pitalice. Delić ulazi u fajl, a prethodni delići stoje kao Već u fajlu. Ugrađena verzija je Lekcija u editoru. Izlaz je rečenica na poslednjem koraku u Diskusiji, a pojmovi se uređuju ovde.",
     }),
     el("div", { class: "mreza" }, [
       polje("Naslov", kurs.naslov, (vrednost) => {
