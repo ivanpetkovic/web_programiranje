@@ -25,13 +25,13 @@ test("uvod stoji pre tema i nije tema", () => {
   assert.match(dokument.uvod.napomenaOsnova, /tempo/);
 });
 
-test("prva tema na Diskusiji kreće pričom, pa procenom", () => {
+test("prva tema na Diskusiji kreće pričom, pa direktnim pitanjem", () => {
   const lo = dokument.teme[0].steps[0];
   assert.equal(lo.naslov, "LO");
-  assert.match(lo.prica, /LOGIN/);
-  assert.equal(lo.prica.includes("nije Web"), false);
-  assert.match(lo.pitalice[0].pitalica, /procena puca/);
-  assert.equal(lo.pitalice[0].pitalica.includes("Šta je stiglo"), false);
+  assert.match(lo.prica, /sat vremena kasnije/);
+  assert.match(lo.prica, /L, O i G/);
+  assert.equal(/[Kk]olega|[Pp]rocen/.test(lo.prica + lo.pitalice.map((p) => p.pitalica).join(" ")), false);
+  assert.equal(lo.pitalica, "Kad sat kasnije stignu L, O i G, šta je time nastalo?");
   assert.equal(lo.pitalica, lo.pitalice[0].pitalica);
 });
 
@@ -126,7 +126,7 @@ test("tema istorije drži korake bez fajla", () => {
   assert.deepEqual(sirovi.map((korak) => korak.naslov), redosled);
   assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 55);
   const tacan = (naslov) => sirovi.find((korak) => korak.naslov === naslov).opcije.find((opcija) => opcija.ok).text;
-  assert.match(tacan("LO"), /dokument koji se traži/);
+  assert.match(tacan("LO"), /Udaljena prijava/);
   assert.match(tacan("TCP i UDP"), /Kadar sme da se odbaci/);
   assert.match(tacan("Ajax"), /Dokument ostaje/);
   for (const korak of sirovi) {

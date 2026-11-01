@@ -95,16 +95,16 @@ Budžet razgovora je jedan za celu nedelju, oko 35 minuta, ne za svaku pitalicu 
 
 ~4 min · bez fajla
 
-29. oktobra 1969. sa UCLA ka SRI kreće poruka LOGIN. Stignu dva znaka, L i O. Računar na drugom kraju padne. Veza je prenela nešto, pa se prekinula. Niko nije otvorio stranicu i niko nije uneo adresu.
+29. oktobra 1969, oko 22:30, sa UCLA ka SRI kreće prijava. Na drugoj mašini dovoljno je LOG: ona sama dopiše IN. Stignu L i O. Na G mašina padne. Oko sat vremena kasnije ista prijava prođe: stignu L, O i G.
 
-> **Ključna ideja.** Mreža paketa iz 1969. još nema stranicu u browseru.
+> **Ključna ideja.** LO je prekid prvog pokušaja. Cela prijava sat kasnije i dalje nije stranica.
 
-**Pitalica.** Kolega kaže: poruka je stigla, znači Web je već postojao. Gde ta procena puca?
+**Pitalica.** Kad sat kasnije stignu L, O i G, šta je time nastalo?
 
-- A. Puca jer nisu stigla sva slova reči LOGIN.
-  Dužina poruke nije razlika između mreže i Weba.
-- **B. Puca jer uspeh prenosa ne kaže da postoji dokument koji se traži po adresi.**
-  **drži.** Dva znaka pokazuju da mreža nosi podatak. Ne pokazuju stranicu ni adresu.
+- A. Web, jer je prijava sada cela.
+  Cela prijava i dalje je ulaz na tuđi računar.
+- **B. Udaljena prijava. Nema dokumenta ni adrese stranice.**
+  **drži.** Mreža je prenela komandu. Stranica i adresa tu ne postoje.
 
 <a id="n1-k2"></a>
 

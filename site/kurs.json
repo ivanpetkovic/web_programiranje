@@ -366,79 +366,79 @@
           "nivo": "Osnovno",
           "minuta": 5,
           "tipPrimer": "eksperiment",
-          "prica": "29. oktobra 1969. sa UCLA ka SRI kreće poruka LOGIN. Stignu dva znaka, L i O. Računar na drugom kraju padne. Veza je prenela nešto, pa se prekinula. Niko nije otvorio stranicu i niko nije uneo adresu.",
-          "tekst": "29. oktobra 1969. sa UCLA ka SRI kreće poruka LOGIN. Stignu dva znaka, L i O. Računar na drugom kraju padne. Dva preneta znaka pokazuju da mreža može da prenese podatak između udaljenih računara. Ne govore šta taj podatak jeste, ni kako bi se dokument tražio. Hipertekst, URL i HTTP tu još nemaju mesta.",
-          "kljucnaIdeja": "Mreža paketa iz 1969. još nema stranicu u browseru.",
-          "pitalica": "Kolega kaže: poruka je stigla, znači Web je već postojao. Gde ta procena puca?",
+          "prica": "29. oktobra 1969, oko 22:30, sa UCLA ka SRI kreće prijava. Na drugoj mašini dovoljno je LOG: ona sama dopiše IN. Stignu L i O. Na G mašina padne. Oko sat vremena kasnije ista prijava prođe: stignu L, O i G.",
+          "tekst": "29. oktobra 1969, oko 22:30, sa UCLA ka SRI kreće prijava. Na drugoj mašini dovoljno je LOG: ona sama dopiše IN. Stignu L i O. Na G mašina padne. Oko sat vremena kasnije ista prijava prođe: stignu L, O i G. Poenta nije što je prva poruka stala na LO. Sledeći pokušaj prenese prijavu do kraja. I cela prijava je ulaz na udaljeni računar preko mreže paketa. Nema dokumenta, adrese stranice ni HTTP-a.",
+          "kljucnaIdeja": "LO je prekid prvog pokušaja. Cela prijava sat kasnije i dalje nije stranica.",
+          "pitalica": "Kad sat kasnije stignu L, O i G, šta je time nastalo?",
           "opcije": [
             {
               "key": "A",
-              "text": "Puca jer nisu stigla sva slova reči LOGIN.",
-              "why": "Dužina poruke nije razlika između mreže i Weba. Cela reč i dalje bi bila samo bajtovi na vezi.",
+              "text": "Web, jer je prijava sada cela.",
+              "why": "Cela prijava i dalje je ulaz na tuđi računar. Dužina poruke ne pravi dokument.",
               "ok": false
             },
             {
               "key": "B",
-              "text": "Puca jer uspeh prenosa ne kaže da postoji dokument koji se traži po adresi.",
-              "why": "Dva znaka pokazuju da mreža nosi podatak. Ne pokazuju stranicu, vezu ni način da se dokument zatraži.",
+              "text": "Udaljena prijava. Nema dokumenta ni adrese stranice.",
+              "why": "Mreža je prenela komandu. Stranica i adresa tu ne postoje.",
               "ok": true
             }
           ],
-          "analizaPitalice": "Procena meša prenos sa dokumentom. Stigla poruka dokazuje da su dva računara razmenila znake. Iz toga ne sledi stranica, adresa ni zahtev.",
+          "analizaPitalice": "Prvi prekid na LO nije poenta. Sledeći pokušaj prenese prijavu. Iz uspele prijave ne sledi Web.",
           "pitalice": [
             {
-              "pitalica": "Kolega kaže: poruka je stigla, znači Web je već postojao. Gde ta procena puca?",
+              "pitalica": "Kad sat kasnije stignu L, O i G, šta je time nastalo?",
               "opcije": [
                 {
                   "key": "A",
-                  "text": "Puca jer nisu stigla sva slova reči LOGIN.",
-                  "why": "Dužina poruke nije razlika između mreže i Weba. Cela reč i dalje bi bila samo bajtovi na vezi.",
+                  "text": "Web, jer je prijava sada cela.",
+                  "why": "Cela prijava i dalje je ulaz na tuđi računar. Dužina poruke ne pravi dokument.",
                   "ok": false
                 },
                 {
                   "key": "B",
-                  "text": "Puca jer uspeh prenosa ne kaže da postoji dokument koji se traži po adresi.",
-                  "why": "Dva znaka pokazuju da mreža nosi podatak. Ne pokazuju stranicu, vezu ni način da se dokument zatraži.",
+                  "text": "Udaljena prijava. Nema dokumenta ni adrese stranice.",
+                  "why": "Mreža je prenela komandu. Stranica i adresa tu ne postoje.",
                   "ok": true
                 }
               ],
-              "analizaPitalice": "Procena meša prenos sa dokumentom. Stigla poruka dokazuje da su dva računara razmenila znake. Iz toga ne sledi stranica, adresa ni zahtev."
+              "analizaPitalice": "Prvi prekid na LO nije poenta. Sledeći pokušaj prenese prijavu. Iz uspele prijave ne sledi Web."
             },
             {
-              "pitalica": "Zašto „LO” nije dokaz da Web već postoji?",
+              "pitalica": "Zašto ni cela prijava nije Web?",
               "opcije": [
                 {
                   "key": "A",
-                  "text": "Zato što prenos bajtova još ne kaže šta je dokument ni kako se traži.",
-                  "why": "Web nastaje kad dokument ima adresu i vezu, ne u trenutku kad mreža prenese prva dva slova.",
+                  "text": "Zato što prenos komande još ne kaže šta je dokument ni kako se traži.",
+                  "why": "Web nastaje kad dokument ima adresu i vezu, ne kad udaljena prijava prođe.",
                   "ok": true
                 },
                 {
                   "key": "B",
                   "text": "Zato što je poruka stigla, a stigla poruka i jeste Web.",
-                  "why": "Prenos dva slova pokazuje samo da mreža nosi podatak. Web traži dokument koji se traži po adresi.",
+                  "why": "Prenos komande pokazuje da mreža nosi podatak. Web traži dokument koji se traži po adresi.",
                   "ok": false
                 }
               ],
-              "analizaPitalice": "Mreža iz 1969. rešava prenos između udaljenih računara. Iz uspeha prenosa ne sledi hipertekst, URL ni HTTP. Ako te slojeve pomešamo, svaki kasniji status mreže pogrešno čitamo kao uspeh stranice."
+              "analizaPitalice": "Mreža iz 1969. rešava prenos između udaljenih računara. Iz uspele prijave ne sledi hipertekst, URL ni HTTP."
             },
             {
-              "pitalica": "Šta bi nedostajalo i da je stigla cela reč LOGIN?",
+              "pitalica": "Šta nedostaje i kad L, O i G stignu?",
               "opcije": [
                 {
                   "key": "A",
-                  "text": "Tada bi to već bio HTML, jer je poruka potpuna.",
-                  "why": "Potpunost poruke nije oznaka dokumenta. HTML imenuje strukturu teksta, ne uspeh prijave.",
+                  "text": "Ništa. Potpuna poruka već jeste HTML.",
+                  "why": "Potpunost prijave nije oznaka dokumenta. HTML imenuje strukturu teksta, ne uspeh prijave.",
                   "ok": false
                 },
                 {
                   "key": "B",
-                  "text": "I dalje nema dokumenta u browseru ni adrese kojom se taj dokument traži.",
-                  "why": "Dužina poruke ne menja sloj. Cela reč i dalje je samo bajtovi na mreži.",
+                  "text": "Dokument u browseru i adresa kojom se taj dokument traži.",
+                  "why": "Dužina poruke ne menja sloj. Cela prijava i dalje je bajtovi na mreži.",
                   "ok": true
                 }
               ],
-              "analizaPitalice": "Pitanje „koliko je stiglo” skreće sa pitanja „šta taj prenos predstavlja”. Web ne nastaje dužom porukom."
+              "analizaPitalice": "Koliko je slova stiglo skreće sa toga šta prenos jeste. Web ne nastaje dužom prijavom."
             }
           ]
         },

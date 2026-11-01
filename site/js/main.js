@@ -1786,19 +1786,18 @@ function nacrtajDiskusijuKoraka(item, i, korak, sirovi) {
   omot.setAttribute("aria-label", "Pitalice koraka");
   const naslov = document.createElement("h2");
   naslov.textContent = korak.naslov;
-  const vodica = document.createElement("p");
-  vodica.className = "meta";
-  const prica = korak.prica ? document.createElement("p") : null;
-  if (prica) {
+  omot.append(naslov);
+  if (korak.prica) {
+    const prica = document.createElement("p");
     prica.className = "prica-koraka";
     prica.textContent = korak.prica;
-    vodica.textContent = "Prvo priča. Pitanje traži procenu, ne datum ni definiciju.";
+    omot.append(prica);
   } else {
-    vodica.textContent =
-      "Pitanje traži procenu: uzrok, posledicu ili pogrešnu pretpostavku. Tekst lekcije je na tabu Gradivo.";
+    const vodica = document.createElement("p");
+    vodica.className = "meta";
+    vodica.textContent = "Tekst lekcije je na tabu Gradivo.";
+    omot.append(vodica);
   }
-  omot.append(naslov, vodica);
-  if (prica) omot.append(prica);
   omot.append(nacrtajPitaliceKoraka(cas, i, korak, sirovi, item));
   const poslednji = i === item.steps.length - 1;
   if (poslednji && item.problem) {
