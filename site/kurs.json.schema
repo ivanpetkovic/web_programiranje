@@ -83,7 +83,7 @@
     "pitalicaKoraka": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["pitalica", "opcije"],
+      "required": ["pitalica"],
       "properties": {
         "pitalica": { "type": "string" },
         "opcije": {

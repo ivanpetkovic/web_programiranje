@@ -1626,6 +1626,7 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi) {
   saIkonom(pitanjeNad, "question", pi === 0 ? "Pitalica" : `Pitalica ${pi + 1}`);
   const pitanje = document.createElement("h3");
   pitanje.append(fragmentTeksta(pitalica.pitalica));
+  const retoricko = !(pitalica.opcije || []).length;
   const uputa = document.createElement("p");
   uputa.className = "meta";
   uputa.textContent = urediSadrzaj.aktivan
@@ -1658,7 +1659,8 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi) {
     });
     kratke.append(button);
   }
-  pitanjeUnutra.append(pitanjeNad, pitanje, uputa, kratke);
+  pitanjeUnutra.append(pitanjeNad, pitanje);
+  if (!retoricko) pitanjeUnutra.append(uputa, kratke);
   const pitanjeBlok = omotUredjivog(urediSadrzaj, kljucPolja(casBroj, i, `pitalica-${pi}`), pitanjeUnutra, () => {
     const wrap = document.createElement("div");
     wrap.className = "uredjivi-editor-pitalica";
@@ -1668,15 +1670,18 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi) {
     const pitanjeEditor = napraviEditorKratkog(izvor.pitalica, { opis: "tekst pitanja" }, (vrednost) => {
       izvor.pitalica = vrednost;
     });
-    const opcijeEditor = napraviEditorOpcija(izvor.opcije, { opis: "odgovore pitalice" });
-    wrap.append(pitanjeEditor.telo, opcijeEditor.telo);
+    const opcijeEditor = Array.isArray(izvor.opcije)
+      ? napraviEditorOpcija(izvor.opcije, { opis: "odgovore pitalice" })
+      : null;
+    wrap.append(pitanjeEditor.telo);
+    if (opcijeEditor) wrap.append(opcijeEditor.telo);
     return {
       telo: wrap,
       opis: "pitalicu",
-      promenjeno: () => pitanjeEditor.promenjeno() || opcijeEditor.promenjeno(),
+      promenjeno: () => pitanjeEditor.promenjeno() || (opcijeEditor ? opcijeEditor.promenjeno() : false),
       primeni() {
         pitanjeEditor.primeni();
-        opcijeEditor.primeni(izvor.opcije);
+        if (opcijeEditor) opcijeEditor.primeni(izvor.opcije);
         uskladiPrvuPitalicu(sirovi);
       },
     };
@@ -1726,8 +1731,9 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi) {
   }
   const blok = document.createElement("section");
   blok.className = "pitalica-koraka";
-  blok.append(pitanjeBlok, radnjePitanja);
-  if (analizaBlok) blok.append(analizaBlok);
+  blok.append(pitanjeBlok);
+  if (!retoricko) blok.append(radnjePitanja);
+  if (analizaBlok && !retoricko) blok.append(analizaBlok);
   return blok;
 }
 
@@ -1746,8 +1752,10 @@ function uskladiPrvuPitalicu(sirovi) {
   const prva = sirovi.pitalice?.[0];
   if (!prva) return;
   sirovi.pitalica = prva.pitalica;
-  sirovi.opcije = prva.opcije;
-  sirovi.analizaPitalice = prva.analizaPitalice || "";
+  if (Array.isArray(prva.opcije)) sirovi.opcije = prva.opcije;
+  else delete sirovi.opcije;
+  if (prva.analizaPitalice) sirovi.analizaPitalice = prva.analizaPitalice;
+  else delete sirovi.analizaPitalice;
 }
 
 function nacrtajPitaliceKoraka(casBroj, i, korak, sirovi, item) {
@@ -1756,6 +1764,7 @@ function nacrtajPitaliceKoraka(casBroj, i, korak, sirovi, item) {
   lista.forEach((pitalica, pi) => {
     omot.append(nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi));
   });
+  if (!lista.some((pitalica) => (pitalica.opcije || []).length)) return omot;
   const ponovi = document.createElement("button");
   ponovi.type = "button";
   ponovi.id = "ponovi-pitanje";

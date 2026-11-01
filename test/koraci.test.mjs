@@ -25,14 +25,20 @@ test("uvod stoji pre tema i nije tema", () => {
   assert.match(dokument.uvod.napomenaOsnova, /tempo/);
 });
 
-test("prva tema na Diskusiji kreće pričom, pa direktnim pitanjem", () => {
+test("LO na Diskusiji ima priču i retorička pitanja, bez odgovora", () => {
   const lo = dokument.teme[0].steps[0];
   assert.equal(lo.naslov, "LO");
   assert.match(lo.prica, /sat vremena kasnije/);
-  assert.match(lo.prica, /L, O i G/);
-  assert.equal(/[Kk]olega|[Pp]rocen/.test(lo.prica + lo.pitalice.map((p) => p.pitalica).join(" ")), false);
-  assert.equal(lo.pitalica, "Kad sat kasnije stignu L, O i G, šta je time nastalo?");
-  assert.equal(lo.pitalica, lo.pitalice[0].pitalica);
+  assert.match(lo.tekst, /jednog teksta pređe na drugi tekst/);
+  assert.deepEqual(
+    lo.pitalice.map((p) => p.pitalica),
+    [
+      "Prijava na udaljeni računar već radi. Zašto Web ipak nije nastao te noći?",
+      "Šta je moralo da se pojavi da bi jedan dokument vodio na drugi, na drugom računaru?",
+    ],
+  );
+  assert.equal(lo.pitalice.every((p) => !p.opcije), true);
+  assert.equal("opcije" in lo, false);
 });
 
 test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
@@ -57,9 +63,11 @@ test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
     for (const korak of cas.steps) {
       assert.ok(korak.primer);
       assert.ok(korak.pitalica);
-      assert.ok(korak.opcije.length >= 2);
-      assert.equal(korak.opcije.filter((opcija) => opcija.ok).length, 1);
       assert.ok(korak.objasnjenje);
+      if (korak.opcije.length) {
+        assert.ok(korak.opcije.length >= 2);
+        assert.equal(korak.opcije.filter((opcija) => opcija.ok).length, 1);
+      }
       if (!korak.putanja) {
         assert.equal(korak.delic, undefined);
         continue;
@@ -126,7 +134,7 @@ test("tema istorije drži korake bez fajla", () => {
   assert.deepEqual(sirovi.map((korak) => korak.naslov), redosled);
   assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 55);
   const tacan = (naslov) => sirovi.find((korak) => korak.naslov === naslov).opcije.find((opcija) => opcija.ok).text;
-  assert.match(tacan("LO"), /Udaljena prijava/);
+  assert.equal(sirovi.find((korak) => korak.naslov === "LO").pitalice.every((p) => !p.opcije), true);
   assert.match(tacan("TCP i UDP"), /Kadar sme da se odbaci/);
   assert.match(tacan("Ajax"), /Dokument ostaje/);
   for (const korak of sirovi) {
@@ -248,14 +256,21 @@ test("svaki korak nosi pitalice redom, prva ostaje postojeća", () => {
       const mapiran = mapirajKorak(korak);
       assert.equal(mapiran.pitalice.length, korak.pitalice.length);
       assert.equal(mapiran.pitalica, korak.pitalica);
-      assert.equal(mapiran.opcije.find((o) => o.ok).text, korak.opcije.find((o) => o.ok).text);
+      const saOdgovorom = (korak.opcije || []).some((o) => o.ok);
+      if (saOdgovorom) {
+        assert.equal(mapiran.opcije.find((o) => o.ok).text, korak.opcije.find((o) => o.ok).text);
+      }
       for (const p of korak.pitalice) {
         assert.ok(p.pitalica, korak.naslov);
+        if (!(p.opcije || []).length) continue;
         assert.ok(p.analizaPitalice, korak.naslov);
         assert.equal(p.opcije.filter((o) => o.ok).length, 1, p.pitalica);
       }
       if (korak.pitalice.length >= 2) saDrugom += 1;
-      for (const p of korak.pitalice.slice(1)) kljucevi[p.opcije.find((o) => o.ok).key] += 1;
+      for (const p of korak.pitalice.slice(1)) {
+        const drzi = (p.opcije || []).find((o) => o.ok);
+        if (drzi) kljucevi[drzi.key] += 1;
+      }
     }
   }
   assert.equal(saDrugom, dokument.teme.reduce((n, t) => n + t.steps.length, 0));

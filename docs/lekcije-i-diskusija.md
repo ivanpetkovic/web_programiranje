@@ -97,14 +97,13 @@ Budžet razgovora je jedan za celu nedelju, oko 35 minuta, ne za svaku pitalicu 
 
 29. oktobra 1969, oko 22:30, sa UCLA ka SRI kreće prijava. Na drugoj mašini dovoljno je LOG: ona sama dopiše IN. Stignu L i O. Na G mašina padne. Oko sat vremena kasnije ista prijava prođe: stignu L, O i G.
 
-> **Ključna ideja.** LO je prekid prvog pokušaja. Cela prijava sat kasnije i dalje nije stranica.
+> **Ključna ideja.** Uspešna prijava rešava prenos. Web traži dokument koji vodi dalje.
 
-**Pitalica.** Kad sat kasnije stignu L, O i G, šta je time nastalo?
+**Pitalica.** Prijava na udaljeni računar već radi. Zašto Web ipak nije nastao te noći?
 
-- A. Web, jer je prijava sada cela.
-  Cela prijava i dalje je ulaz na tuđi računar.
-- **B. Udaljena prijava. Nema dokumenta ni adrese stranice.**
-  **drži.** Mreža je prenela komandu. Stranica i adresa tu ne postoje.
+**Pitalica.** Šta je moralo da se pojavi da bi jedan dokument vodio na drugi, na drugom računaru?
+
+Retorička pitanja nemaju ponuđen odgovor. Diskutuje ih nastavnik.
 
 <a id="n1-k2"></a>
 
