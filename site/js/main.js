@@ -100,7 +100,7 @@ let typeaheadIndeks = -1;
 let sidroNava = 0;
 
 let cas = 1;
-let deo = "koraci";
+let deo = "diskusija";
 let navOtvoren = true;
 let karticaOtvorena = false;
 let profilOtvoren = false;
@@ -220,10 +220,11 @@ function temaZavrsena(item, mesto) {
   return item.steps.every((_, i) => mesto.sacuvani.includes(`${item.n}:${i}`));
 }
 
-function otvoriTemu(n, korak) {
+function otvoriTemu(n, korak, tab) {
   if (n < 1 || n > dokument.trajanjeTema) return;
   if (korak !== undefined) korakPoCasu.set(n, korak);
-  if (n !== cas) deo = "koraci";
+  if (tab) deo = tab;
+  else if (n !== cas) deo = "diskusija";
   cas = n;
   if (korak !== undefined && usko()) {
     zatvoriMobilNav();
@@ -926,17 +927,20 @@ function postaviDefiniciju(polja) {
 function odaberiPredlog(stavka) {
   document.querySelector("#typeahead").hidden = true;
   q.setAttribute("aria-expanded", "false");
-  deo = "koraci";
   if (stavka.vrsta === "pojam") {
     postaviDefiniciju(poljaPojma(stavka));
     const lekcije = lekcijePojma(dokument, stavka.ime);
     otvoreneTeme.clear();
     for (const n of lekcije.teme) otvoreneTeme.add(n);
-    if (lekcije.prvi) otvoriTemu(lekcije.prvi.tema, lekcije.prvi.korak);
-    else renderLecture();
+    if (lekcije.prvi) otvoriTemu(lekcije.prvi.tema, lekcije.prvi.korak, "koraci");
+    else {
+      deo = "koraci";
+      renderLecture();
+    }
     return;
   }
-  otvoriTemu(stavka.tema, stavka.korak);
+  const tab = stavka.vrsta === "pitanje" ? "diskusija" : "koraci";
+  otvoriTemu(stavka.tema, stavka.korak, tab);
 }
 
 function nacrtajTekstBloka(tekst, naslovTekst, ikona = "file-text") {
@@ -1425,7 +1429,9 @@ function renderLecture() {
   pitanje.append(fragmentTeksta(korak.pitalica));
   const uputa = document.createElement("p");
   uputa.className = "meta";
-  uputa.textContent = urediSadrzaj.aktivan ? "Uređivanje: izmenite pitanje i odgovore ispod." : "Izaberi tačan odgovor.";
+  uputa.textContent = urediSadrzaj.aktivan
+    ? "Uređivanje: izmenite pitanje i odgovore ispod."
+    : "Izaberi pretpostavku. Obrazloženje ostaje zatvoreno dok ga nastavnik ne otvori.";
   const kratke = document.createElement("div");
   kratke.className = "opcije-mreza";
   kratke.dataset.kviz = "korak";
@@ -1496,8 +1502,6 @@ function renderLecture() {
   ponovi.addEventListener("click", () => {
     objasnjenjePoKoraku.delete(`${cas}:${i}`);
     izborKoraka.delete(`${cas}:${i}`);
-    const kljuc = kljucDiskusije();
-    diskusije.set(kljuc, potez(diskusije.get(kljuc), { tip: "ponovi" }));
     renderLecture();
   });
   radnjePitanja.append(otvori, ponovi);
@@ -1547,10 +1551,21 @@ function renderLecture() {
   }
   if (izolovan) casEl.append(izolovan);
   if (dijagram) casEl.append(dijagram);
-  casEl.append(pitanjeBlok, radnjePitanja);
-  if (analizaBlok) casEl.append(analizaBlok);
+  const kaPitalicama = document.createElement("p");
+  kaPitalicama.className = "meta";
+  kaPitalicama.textContent = "Pitalica ovog koraka je na Diskusiji.";
+  casEl.append(kaPitalicama);
   if (izlaz) casEl.append(izlaz);
-  diskusijaMesto.replaceChildren(nacrtajDiskusiju(item));
+  const pitalicaKoraka = document.createElement("section");
+  pitalicaKoraka.className = "pitalica-koraka";
+  pitalicaKoraka.setAttribute("aria-label", "Pitalica koraka");
+  const kaGradivu = document.createElement("p");
+  kaGradivu.className = "meta";
+  kaGradivu.textContent = "Tekst lekcije ovog koraka je na Gradivu.";
+  pitalicaKoraka.append(kaGradivu, pitanjeBlok, radnjePitanja);
+  if (analizaBlok) pitalicaKoraka.append(analizaBlok);
+  if (izlaz) pitalicaKoraka.append(izlaz.cloneNode(true));
+  diskusijaMesto.replaceChildren(pitalicaKoraka, nacrtajDiskusiju(item));
   osveziTrakuUredjivanja();
   prikaziDeo();
   paintNav();
@@ -1592,9 +1607,9 @@ function nacrtajDiskusiju(item) {
   const izvorOpcija = rezerva && tema?.rezerva ? tema.rezerva : tema;
   const blok = document.createElement("section");
   blok.className = "diskusija";
-  blok.setAttribute("aria-label", "Duga pitalica");
+  blok.setAttribute("aria-label", "Pitanje teme");
   const naslov = document.createElement("h2");
-  naslov.textContent = model.naslov;
+  naslov.textContent = model.naslov === "Rezerva" ? "Rezerva" : "Pitanje teme";
   const fazaEl = document.createElement("p");
   fazaEl.className = "log";
   fazaEl.textContent = `Faza: ${model.faza}`;
@@ -2508,7 +2523,7 @@ natpisPalete();
 window.addEventListener("hashchange", () => {
   const n = Number((location.hash.match(/cas-(\d+)/) || [])[1]);
   if (n >= 1 && n <= dokument.trajanjeTema) {
-    if (n !== cas) deo = "koraci";
+    if (n !== cas) deo = "diskusija";
     cas = n;
     renderLecture();
   }

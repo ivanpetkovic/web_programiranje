@@ -92,18 +92,18 @@
           </div>
           </div>
           <div class="cas-tabovi" role="tablist" aria-label="Delovi časa">
-            <button type="button" id="tab-koraci" role="tab" aria-selected="true" aria-controls="sekcija-koraci">Gradivo</button>
-            <button type="button" id="tab-diskusija" role="tab" aria-selected="false" aria-controls="sekcija-diskusija" tabindex="-1">Diskusija</button>
+            <button type="button" id="tab-koraci" role="tab" aria-selected="false" aria-controls="sekcija-koraci" tabindex="-1">Gradivo</button>
+            <button type="button" id="tab-diskusija" role="tab" aria-selected="true" aria-controls="sekcija-diskusija">Diskusija</button>
             <button type="button" id="tab-editor" role="tab" aria-selected="false" aria-controls="sekcija-editor" tabindex="-1">Editor</button>
           </div>
           <h1 id="naslov-casa"></h1>
           <div id="definicija" class="definicija" hidden></div>
           <div id="birac-mesto"></div>
         </div>
-        <section id="sekcija-koraci" role="tabpanel" aria-labelledby="tab-koraci">
+        <section id="sekcija-koraci" role="tabpanel" aria-labelledby="tab-koraci" hidden>
           <article id="cas" class="cas"></article>
         </section>
-        <section id="sekcija-diskusija" role="tabpanel" aria-labelledby="tab-diskusija" hidden></section>
+        <section id="sekcija-diskusija" role="tabpanel" aria-labelledby="tab-diskusija"></section>
         <section id="sekcija-editor" role="tabpanel" aria-labelledby="tab-editor" hidden>
           <div class="podela" id="podela">
             <section class="files" id="files" aria-label="Fajlovi">
@@ -202,8 +202,8 @@
       <form method="dialog">
         <h2>Pomoć</h2>
         <p>Pojam iz rečnika u tekstu lekcije podvučen je isprekidanom crtom. Ista polja stoje u oblačiću i u listi pretrage.</p>
-        <p>Nađi pojam otvara definiciju i svaku lekciju u kojoj se pojam ponavlja. Pitanje i primer koda otvaraju taj korak u Gradivu.</p>
-        <p>Gradivo, Diskusija i Editor su tri taba. Na ekranu je tačno jedan.</p>
+        <p>Nađi pojam otvara definiciju i tekst lekcije u Gradivu. Pitanje otvara taj korak u Diskusiji. Primer koda otvara isti korak u Gradivu.</p>
+        <p>Gradivo, Diskusija i Editor su tri taba. Diskusija je podrazumevani: pitalicom se prelazi trenutni korak. Gradivo daje tekst lekcije tog koraka. Na ekranu je tačno jedan.</p>
         <button type="submit">Zatvori</button>
       </form>
     </dialog>

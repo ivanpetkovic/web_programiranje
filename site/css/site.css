@@ -494,7 +494,8 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
   align-items: center;
   gap: 0.35rem;
 }
-.option { display: flex; align-items: center; gap: 0.45rem; width: 100%; }
+.option { display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem; width: 100%; }
+.option .why { flex-basis: 100%; }
 .isecak header span { display: inline-flex; align-items: center; gap: 0.35rem; }
 .kartica p { display: flex; align-items: center; gap: 0.4rem; }
 .trazi kbd {
@@ -626,7 +627,9 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 .isecak .red.novo .komentar { color: var(--diff-dodato); }
 .isecak .red.novo .br { color: var(--muted); }
 .isecak .red.novo { background: color-mix(in srgb, var(--diff-dodato) 16%, transparent); }
-.pitanje-blok { margin-top: 1rem; }
+.pitalica-koraka { margin-top: 0.2rem; }
+.pitalica-koraka > .meta { margin: 0 0 0.35rem; }
+.pitanje-blok { margin-top: 0.2rem; }
 .radnje-pitanja {
   display: flex;
   flex-wrap: wrap;

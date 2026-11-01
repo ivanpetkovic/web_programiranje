@@ -17,27 +17,27 @@ The lecture site MUST be a static page with no build step. It MUST read one cour
 - **WHEN** the course document sets a duration other than ten and lists that many weeks
 - **THEN** the page lists that many weeks and does not add or remove weeks to reach ten
 ### Requirement: Korak na sajtu
-A step that names a file MUST show, in order, the step prose, the key-idea callout, the code snippet, and a short quiz with unmarked answers. The next step MUST treat that step's file fragment as already typed. The site MUST show the file path of the fragment. A figure step MUST show the prose, the key-idea callout, the figure, and the short quiz, and MUST NOT show a code snippet or a file path. A step that names no file and has no figure MUST show the prose, the key-idea callout, and the short quiz, and MUST NOT show a snippet, a file path, or a figure.
+Gradivo for a step that names a file MUST show, in order, the step prose, the key-idea callout, and the code snippet, and MUST NOT show the short quiz. The short quiz of the open step MUST appear on Diskusija, with unmarked answers. The next step MUST treat that step's file fragment as already typed. The site MUST show the file path of the fragment. A figure step on Gradivo MUST show the prose, the key-idea callout, and the figure, and MUST NOT show a code snippet, a file path, or the short quiz. A step that names no file and has no figure MUST show the prose and the key-idea callout on Gradivo, and MUST NOT show a snippet, a file path, or a figure.
 
-#### Scenario: Callout comes before the quiz
-- **WHEN** the teacher opens a step that names a file
-- **THEN** the prose, the key idea, and the snippet are visible before the quiz, and no quiz answer is marked
+#### Scenario: Callout comes before the snippet
+- **WHEN** the teacher opens Gradivo on a step that names a file
+- **THEN** the prose, the key idea, and the snippet are visible, and the short quiz is not in that section
 
-#### Scenario: Figure comes before the quiz
-- **WHEN** the teacher opens a figure step
-- **THEN** the prose, the key idea, and the figure are visible before the quiz, and no snippet or file path is shown
+#### Scenario: Figure stays on Gradivo
+- **WHEN** the teacher opens Gradivo on a figure step
+- **THEN** the prose, the key idea, and the figure are visible, and no snippet, file path, or short quiz is shown
 
 #### Scenario: Step adds a fragment
 - **WHEN** the teacher finishes a step that adds a fragment
 - **THEN** the named file contains that fragment and the following step shows it as already present
 
 #### Scenario: Short quiz stays closed
-- **WHEN** the short quiz is first shown
+- **WHEN** the short quiz is first shown on Diskusija
 - **THEN** no answer is marked correct until the teacher reveals the explanation
 
 #### Scenario: Story step has no figure
-- **WHEN** the teacher opens LO
-- **THEN** the prose and the key idea are visible before the quiz, and no snippet, file path, or figure is shown
+- **WHEN** the teacher opens LO on Gradivo
+- **THEN** the prose and the key idea are visible, and no snippet, file path, or figure is shown
 ### Requirement: Dva stabla
 The editor MUST offer a Klijent tab for `client/` and a Server tab for `server/`. The Server tab MUST be absent during weeks 1, 2, 3, and 4, and MUST be present from week 5. Each visible tab MUST show that side's file tree as introduced by a step at or before the open step, the open file's path, and a place for an error. A file MUST appear when such a step first names it and MUST remain on later steps. Prepared copies MUST stay out of the tree. During week 1 the editor MUST NOT open a buffer.
 
@@ -271,7 +271,7 @@ In every theme the chart well MUST remain a dark surface so the yellow stroke al
 - **WHEN** pesak or terakota is active and the chart is shown
 - **THEN** the chart well is dark and the yellow stroke on it stays visible
 ### Requirement: Tri taba
-Below the lecture title the site MUST offer Gradivo, Diskusija, and Editor. Exactly one of those sections MUST be on screen. The title and the step selector MUST stay visible on every tab. Opening a lecture MUST show Gradivo.
+Below the lecture title the site MUST offer Gradivo, Diskusija, and Editor. Exactly one of those sections MUST be on screen. The title and the step selector MUST stay visible on every tab. Opening a lecture MUST show Diskusija. Diskusija MUST show the short quiz of the open step, then the lecture's main discussion. Gradivo MUST show the lesson text of that same step.
 
 #### Scenario: Discussion replaces the steps
 - **WHEN** the teacher opens Diskusija
@@ -281,9 +281,13 @@ Below the lecture title the site MUST offer Gradivo, Diskusija, and Editor. Exac
 - **WHEN** the teacher opens Gradivo while Editor was open
 - **THEN** the Gradivo section and the step selector are on screen, and the editor and the preview are not
 
-#### Scenario: Search shows the steps
+#### Scenario: Search shows the lesson
 - **WHEN** the teacher chooses a glossary term while another tab is open
 - **THEN** Gradivo is the open tab and the first matching step is open
+
+#### Scenario: Opening a lecture shows the questions
+- **WHEN** the teacher opens a lecture
+- **THEN** Diskusija is the open tab and the short quiz of the open step is on screen
 ### Requirement: Editor i pregled
 The Editor tab MUST show the file editor on the left and the preview on the right. Those two sides MUST start at equal width. The code surface MUST fill the width from the file tree to the divider. The preview MUST be an iframe of the client tree in the editor. The Gradivo section and the discussion MUST NOT be on screen. The step selector MUST stay on screen.
 
@@ -423,11 +427,15 @@ The header save control and Sačuvaj korak MUST record the current step in this 
 - **WHEN** the teacher saves a step and loads the page again
 - **THEN** that week and that step are open
 ### Requirement: Pitanje i primer u pretrazi
-The search placeholder MUST be Nađi pojam, pitanje ili primer koda... Choosing a quiz question or a code snippet from the typeahead MUST open the step that contains it.
+The search placeholder MUST be Nađi pojam, pitanje ili primer koda... Choosing a quiz question from the typeahead MUST open that step on Diskusija. Choosing a code snippet MUST open that step on Gradivo.
 
 #### Scenario: Question opens its step
 - **WHEN** the teacher chooses a quiz question from the typeahead
-- **THEN** the step that asks that question becomes the open lesson on Gradivo
+- **THEN** the step that asks that question is open on Diskusija
+
+#### Scenario: Snippet opens the lesson
+- **WHEN** the teacher chooses a code snippet from the typeahead
+- **THEN** the step that contains that snippet is open on Gradivo
 ### Requirement: Birač koraka
 The selector MUST sit outside the Gradivo section and MUST stay on screen while Gradivo, Diskusija, or Editor is open. It MUST show Korak {n} od {N}, the open step's title, a previous control, Svi koraci, Sledeći, and a progress bar filled by the open step. The filled width MUST be n/N. The number of saved steps MUST NOT set that width. Choosing a step MUST keep the open tab. It MUST NOT show one button per step. The previous control MUST show only `chevron-left` and MUST be named Prethodni korak. Sledeći MUST show that word and `chevron-right`, and MUST use the theme ink as its background. Sledeći MUST NOT use the accent background. The temperature control on the panel MUST stay without that background. The page MUST NOT show the sentence Progress indicates completed steps, not just the current position.
 

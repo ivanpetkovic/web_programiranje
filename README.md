@@ -23,16 +23,14 @@ JavaScript specifičnosti ne dolaze same od sebe. Poznavanje petlje ne podrazume
 
 Jedna nastavna sekvenca ide ovim redom:
 
-1. Poznat scenario, pre nove terminologije.
-2. Osnove koje taj scenario traži.
-3. Mali primer, sa početnim i završnim stanjem.
-4. Pitalica: svako prvo bira odgovor.
-5. Obrazloženje svih odgovora, i onih koji ne drže.
-6. Promena jednog uslova, pa ponovo isti sud.
+1. Pitalica trenutnog koraka na Diskusiji. Polazi od potrebe zbog koje je nešto nastalo.
+2. Svako prvo bira odgovor. Obrazloženje ostaje zatvoreno.
+3. Obrazloženje je seme. Nastavnik ga usmeno produži.
+4. Tekst lekcije, ključna ideja i isečak stoje na Gradivu, za studenta koji sutra hoće više objašnjenja.
 
 Pogrešno obrazloženje se ne prekida odmah. Traži se pretpostavka koja ga drži, pa se proveri primerom. Pitanje ne traži sintaksu koja još nije pokazana.
 
-Sajt časa (`site/`) otvara jednu temu. Korak koji menja fajl pokazuje redom tekst, ključnu ideju, isečak i kratku pitalicu. Isečak je delić koji se prekuca, ne cela tema. Odgovori pitalice ostaju neoznačeni dok se obrazloženje ne otkrije.
+Sajt časa (`site/`) otvara jednu temu. Podrazumevani tab je Diskusija: pitalica trenutnog koraka, pa pitanje teme. Gradivo daje tekst lekcije istog koraka. Isečak je delić koji se prekuca, ne cela tema. Odgovori pitalice ostaju neoznačeni dok se obrazloženje ne otkrije.
 
 Panel raste sa časom. Do četvrte teme živi u browseru, u `client/`. Od četvrte sluša Node proces iz `server/server.js`, bez web okvira. Od sedme teme režim ventilatora i istorija komandi ostaju u bazi. Kucanje u editoru sajta ne menja fajlove na disku: isti `client/` i `server/` nastavnik prekucava i u svom editoru.
 

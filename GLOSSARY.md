@@ -9,13 +9,13 @@ _Avoid_: Nedelja
 **Osnova teme**:
 Unutar teme, minimalno objašnjenje pojmova i vođeni primer pre zadatka koji te pojmove traži.
 
-**Pitalica za proveru razumevanja**:
-Pitanje koje proverava primenu prethodno objašnjenih pojmova, uz obrazloženje odgovora.
-_Avoid_: Pitalica koja zahteva još neobrađeno gradivo.
+**Pitalica**:
+Pitanje kojim se na času prelazi trenutni korak. Ide od potrebe zbog koje je nešto nastalo i traži kritički sud. Obrazloženje je seme: nastavnik ga usmeno produži. Tekst lekcije istog koraka stoji na Gradivu.
+_Avoid_: Pitalica koja samo ponavlja prethodnu rečenicu. Provera koja pretpostavlja da je gradivo već pročitano.
 
 **Glavna pitalica**:
-Jedina diskusija časa. Budžet razgovora pripada njoj.
-_Avoid_: Kviz za svaki pojam.
+Pitanje teme, ispod pitalica koraka. Budžet dužeg razgovora pripada njoj.
+_Avoid_: Zamena za pitalice kojima se prelazi korak.
 
 **Rezervna pitalica**:
 Drugo pitanje istog časa, otvoreno tek kad je glavna pitalica razjašnjena.

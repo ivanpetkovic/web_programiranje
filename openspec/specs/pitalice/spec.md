@@ -7,7 +7,7 @@ Pitalice drže razgovor na projektoru: kratka provera u svakom koraku i jedna du
 ## Requirements
 
 ### Requirement: Kratka pitalica koraka
-Every step MUST have one short quiz about its step. The answers MUST stay unmarked until the teacher reveals the reasons. Selecting an option MUST highlight only that selection and MUST NOT reveal which option holds. The short quiz MUST show its options together on the lesson page, one under another. It MUST NOT use the assumption board, the comparison phase, or a second half-hour discussion.
+Every step MUST have one short quiz about its step. The quiz MUST be on Diskusija for the open step and MUST NOT be inside Gradivo. The question MUST open from a need, so the class can reason before reading the lesson text, and the revealed reason MUST be a seed the teacher extends aloud. The answers MUST stay unmarked until the teacher reveals the reasons. Selecting an option MUST highlight only that selection and MUST NOT reveal which option holds. The short quiz MUST show its options together, one under another. It MUST NOT use the assumption board, the comparison phase, or a second half-hour discussion. Gradivo MUST show the lesson text of the same step.
 
 #### Scenario: Step quiz stays unmarked
 - **WHEN** the teacher opens a step
@@ -18,8 +18,12 @@ Every step MUST have one short quiz about its step. The answers MUST stay unmark
 - **THEN** that option is highlighted and no option is marked as the one that holds
 
 #### Scenario: Options stack
-- **WHEN** the teacher opens a step on a wide page
+- **WHEN** the teacher opens a step on Diskusija on a wide page
 - **THEN** each short-quiz option is on its own row
+
+#### Scenario: Lesson text stays on Gradivo
+- **WHEN** the teacher opens Gradivo for the open step
+- **THEN** the lesson text is visible and the short quiz is not
 ### Requirement: Jedna duga diskusija
 Each lecture MUST have one main discussion quiz on the projector. The site MUST NOT remember a vote. The teacher MUST be the only one who advances the phase. The 35-minute budget MUST belong to the whole lecture and that one discussion, and the site MUST NOT show a timer.
 
