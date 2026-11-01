@@ -388,11 +388,34 @@ function panelKoraka(temaIndeks, indeks) {
       el("p", { class: "meta", text: "Blok ```mermaid u tekstu ili ključnoj ideji crta dijagram." }),
     ]),
     sekcija("Sadržaj", [sadrzajKoraka(korak)]),
-    sekcija("Pitalica", [
-      polje("Pitanje", korak.pitalica, (vrednost) => { korak.pitalica = vrednost; }, { visered: true, redovi: 2 }),
-      blokOpcija(korak, "opcije"),
-    ]),
+    sekcija("Pitalice", poljaPitalica(korak)),
   ]);
+}
+
+function poljaPitalica(korak) {
+  if (!Array.isArray(korak.pitalice) || !korak.pitalice.length) {
+    korak.pitalice = [
+      {
+        pitalica: korak.pitalica || "",
+        opcije: korak.opcije || [],
+        analizaPitalice: korak.analizaPitalice || "",
+      },
+    ];
+  }
+  return korak.pitalice.flatMap((p, i) => {
+    if (i === 0) korak.opcije = p.opcije;
+    return [
+    polje(`Pitanje ${i + 1}`, p.pitalica, (vrednost) => {
+      p.pitalica = vrednost;
+      if (i === 0) korak.pitalica = vrednost;
+    }, { visered: true, redovi: 2 }),
+    blokOpcija(p, "opcije"),
+    polje(`Obrazloženje ${i + 1}`, p.analizaPitalice || "", (vrednost) => {
+      p.analizaPitalice = vrednost;
+      if (i === 0) korak.analizaPitalice = vrednost;
+    }, { visered: true, redovi: 3 }),
+  ];
+  });
 }
 
 function rezervaPolja(tema) {

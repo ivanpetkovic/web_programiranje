@@ -439,6 +439,8 @@ pre {
   border-top: 1px solid var(--line);
 }
 .diskusija-korak { display: grid; gap: 0.55rem; }
+.pitalica-koraka { display: grid; gap: 0.45rem; margin-top: 1rem; }
+.pitalica-koraka + .pitalica-koraka { padding-top: 0.8rem; border-top: 1px solid var(--line); }
 .diskusija-razmak { margin: 1.4rem 0 0.2rem; border: none; border-top: 1px solid var(--line); }
 .gradivo-uputa { margin-bottom: 0.75rem; }
 .option.podvuceno { text-decoration: underline; text-underline-offset: 0.2em; }

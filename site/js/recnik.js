@@ -48,9 +48,22 @@ function celaRec(tekst, glava) {
   return new RegExp(`(?<![\\p{L}\\p{N}_])${bezbedno}(?![\\p{L}\\p{N}_])`, "iu").test(izvor);
 }
 
+function nizPitalica(korak) {
+  if (Array.isArray(korak.pitalice) && korak.pitalice.length) return korak.pitalice;
+  if (korak.pitalica || (korak.opcije || []).length) {
+    return [{ pitalica: korak.pitalica, opcije: korak.opcije }];
+  }
+  return [];
+}
+
 function tekstKoraka(korak) {
-  const opcije = (korak.opcije || []).map((opcija) => `${opcija.text || ""} ${opcija.why || ""}`).join("\n");
-  return [korak.tekst, korak.kljucnaIdeja, korak.pitalica, korak.isecak, korak.delic, opcije].filter(Boolean).join("\n");
+  const pitalice = nizPitalica(korak)
+    .map((p) => {
+      const opcije = (p.opcije || []).map((opcija) => `${opcija.text || ""} ${opcija.why || ""}`).join("\n");
+      return [p.pitalica, opcije].filter(Boolean).join("\n");
+    })
+    .join("\n");
+  return [korak.tekst, korak.kljucnaIdeja, pitalice, korak.isecak, korak.delic].filter(Boolean).join("\n");
 }
 
 export function lekcijePojma(kurs, glava) {
@@ -81,8 +94,10 @@ export function predlozi(kurs, pojmovi, upit) {
   }
   kurs.teme.forEach((tema, ni) => {
     tema.steps.forEach((korak, ki) => {
-      if (pocinje(korak.pitalica, q)) {
-        izlaz.push({ vrsta: "pitanje", tekst: korak.pitalica, tema: ni + 1, korak: ki });
+      for (const p of nizPitalica(korak)) {
+        if (pocinje(p.pitalica, q)) {
+          izlaz.push({ vrsta: "pitanje", tekst: p.pitalica, tema: ni + 1, korak: ki });
+        }
       }
       if (pocinje(korak.isecak, q)) {
         izlaz.push({

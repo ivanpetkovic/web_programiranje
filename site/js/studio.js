@@ -70,6 +70,7 @@ export function praznaTema() {
 }
 
 export function prazanKorak() {
+  const opcije = [praznaOpcija("A", false), praznaOpcija("B", true)];
   return {
     naslov: "Novi korak",
     nivo: "Osnovno",
@@ -77,7 +78,9 @@ export function prazanKorak() {
     tekst: "",
     kljucnaIdeja: "",
     pitalica: "",
-    opcije: [praznaOpcija("A", false), praznaOpcija("B", true)],
+    opcije,
+    analizaPitalice: "",
+    pitalice: [{ pitalica: "", opcije, analizaPitalice: "" }],
   };
 }
 

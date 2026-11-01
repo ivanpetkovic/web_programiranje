@@ -215,6 +215,31 @@ test("nema preglednog spiska ni naslova Osvrt", () => {
   assert.match(dokument.dopunaGlosara.find((pojam) => pojam.id === "push").body, /WebSocket/);
 });
 
+test("svaki korak nosi pitalice redom, prva ostaje postojeća", () => {
+  let saDrugom = 0;
+  const kljucevi = { A: 0, B: 0 };
+  for (const tema of dokument.teme) {
+    for (const korak of tema.steps) {
+      assert.ok(Array.isArray(korak.pitalice) && korak.pitalice.length >= 2, korak.naslov);
+      assert.equal(korak.pitalice[0].pitalica, korak.pitalica);
+      assert.equal(korak.pitalice[0].analizaPitalice || "", korak.analizaPitalice || "");
+      const mapiran = mapirajKorak(korak);
+      assert.equal(mapiran.pitalice.length, korak.pitalice.length);
+      assert.equal(mapiran.pitalica, korak.pitalica);
+      assert.equal(mapiran.opcije.find((o) => o.ok).text, korak.opcije.find((o) => o.ok).text);
+      for (const p of korak.pitalice) {
+        assert.ok(p.pitalica, korak.naslov);
+        assert.ok(p.analizaPitalice, korak.naslov);
+        assert.equal(p.opcije.filter((o) => o.ok).length, 1, p.pitalica);
+      }
+      if (korak.pitalice.length >= 2) saDrugom += 1;
+      for (const p of korak.pitalice.slice(1)) kljucevi[p.opcije.find((o) => o.ok).key] += 1;
+    }
+  }
+  assert.equal(saDrugom, dokument.teme.reduce((n, t) => n + t.steps.length, 0));
+  assert.ok(kljucevi.A > 40 && kljucevi.B > 40);
+});
+
 test("čas 11 ne tvrdi da je upis prošao", () => {
   const cas = lectures[10];
   const tacno = cas.options.find((opcija) => opcija.ok);
