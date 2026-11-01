@@ -130,6 +130,11 @@ test("zakucana tema se čita pre stilova", () => {
 
 test("gradivo, jedna kolona i birač", () => {
   assert.match(html, /id="tab-koraci"[^>]*>Gradivo</);
+  assert.match(html, /id="tab-diskusija"[^>]*aria-selected="true"/);
+  assert.match(html, /id="tab-koraci"[^>]*aria-selected="false"/);
+  assert.match(main, /let deo = "diskusija"/);
+  assert.match(main, /diskusijaMesto\.replaceChildren\(nacrtajDiskusijuKoraka/);
+  assert.match(html, /podrazumevano je Diskusija/);
   assert.match(html, /Gradivo, Diskusija i Editor su tri taba/);
   assert.match(html, /otvaraju taj korak u Gradivu/);
   assert.equal(html.includes(">Koraci<"), false);

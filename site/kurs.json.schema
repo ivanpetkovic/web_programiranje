@@ -18,6 +18,7 @@
     "revizija": { "type": "string" },
     "statusIzvrsavanja": { "type": "string" },
     "ciljnaGrupa": { "type": "string" },
+    "uvod": { "$ref": "#/$defs/uvod" },
     "preduslovPrve": { "type": "string" },
     "povezujuciPrimer": { "$ref": "#/$defs/povezujuciPrimer" },
     "nastavniObrazac": { "$ref": "#/$defs/nastavniObrazac" },
@@ -35,6 +36,35 @@
     }
   },
   "$defs": {
+    "uvod": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["naslov", "cilj", "ocekivanje", "osnov"],
+      "properties": {
+        "naslov": { "type": "string" },
+        "cilj": { "type": "string" },
+        "ocekivanje": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "osnov": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["naziv", "recenica"],
+            "properties": {
+              "naziv": { "type": "string" },
+              "veza": { "type": "string" },
+              "recenica": { "type": "string" }
+            }
+          }
+        },
+        "napomenaOsnova": { "type": "string" }
+      }
+    },
     "jezik": {
       "type": "string",
       "enum": ["html", "css", "text", "javascript", "sql", "typescript"]
@@ -48,6 +78,21 @@
         "text": { "type": "string" },
         "ok": { "type": "boolean" },
         "why": { "type": "string" }
+      }
+    },
+    "pitalicaKoraka": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pitalica"],
+      "properties": {
+        "pitalica": { "type": "string" },
+        "odgovor": { "type": "string" },
+        "opcije": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/opcija" }
+        },
+        "analizaPitalice": { "type": "string" }
       }
     },
     "cvor": {
@@ -223,6 +268,7 @@
         "nivo": { "type": "string" },
         "minuta": { "type": "number" },
         "tekst": { "type": "string" },
+        "prica": { "type": "string" },
         "kljucnaIdeja": { "type": "string" },
         "pitalica": { "type": "string" },
         "opcije": {
@@ -230,6 +276,11 @@
           "items": { "$ref": "#/$defs/opcija" }
         },
         "analizaPitalice": { "type": "string" },
+        "pitalice": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/pitalicaKoraka" }
+        },
         "proveraPitalice": { "type": "string" },
         "tipPrimer": { "type": "string", "enum": ["aplikacija", "eksperiment", "pitalica-kod"] },
         "putanja": { "type": "string" },

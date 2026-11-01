@@ -2,7 +2,24 @@ import kurs from "../kurs.json" with { type: "json" };
 
 export const dokument = kurs;
 
+export function listaPitalica(korak) {
+  const izNiza = Array.isArray(korak.pitalice) ? korak.pitalice.filter((p) => p && (p.pitalica || (p.opcije || []).length)) : [];
+  const izvor = izNiza.length
+    ? izNiza
+    : korak.pitalica || (korak.opcije || []).length
+      ? [{ pitalica: korak.pitalica || "", opcije: korak.opcije || [], analizaPitalice: korak.analizaPitalice || korak.analiza || "" }]
+      : [];
+  return izvor.map((p) => ({
+    pitalica: p.pitalica || "",
+    opcije: p.opcije || [],
+    odgovor: p.odgovor || "",
+    analiza: p.analizaPitalice || p.analiza || "",
+  }));
+}
+
 export function mapirajKorak(korak) {
+  const pitalice = listaPitalica(korak);
+  const prva = pitalice[0] || { pitalica: "", opcije: [], analiza: "" };
   return {
     putanja: korak.putanja,
     naslov: korak.naslov,
@@ -10,6 +27,7 @@ export function mapirajKorak(korak) {
     minuta: korak.minuta,
     primer: korak.tekst,
     tekst: korak.tekst,
+    prica: korak.prica,
     objasnjenje: korak.kljucnaIdeja,
     kljucnaIdeja: korak.kljucnaIdeja,
     kod: korak.isecak,
@@ -18,13 +36,14 @@ export function mapirajKorak(korak) {
     delic: korak.delic,
     original: korak.original ?? korak.delic,
     ugradjen: typeof korak.original === "string",
-    pitalica: korak.pitalica,
-    opcije: korak.opcije,
+    pitalica: prva.pitalica,
+    opcije: prva.opcije,
+    pitalice,
     figura: korak.figura,
     tipPrimer: korak.tipPrimer,
     samostalniPrimer: korak.samostalniPrimer,
     dijagram: korak.dijagram,
-    analiza: korak.analiza,
+    analiza: prva.analiza,
   };
 }
 

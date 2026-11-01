@@ -95,16 +95,17 @@ Budžet razgovora je jedan za celu nedelju, oko 35 minuta, ne za svaku pitalicu 
 
 ~4 min · bez fajla
 
-Zašto uopšte slati poruku ako veza može da pukne usred reči? 29. oktobra 1969. sa UCLA ka SRI stiže „LO”, pa sistem padne umesto „LOGIN”. To je mreža paketa. To nije Web.
+29. oktobra 1969, oko 22:30, sa UCLA ka SRI kreće prijava. Na drugoj mašini dovoljno je LOG: ona sama dopiše IN. Stignu L i O. Na G mašina padne. Oko sat vremena kasnije ista prijava prođe: stignu L, O i G.
 
-> **Ključna ideja.** Mreža paketa iz 1969. još nema stranicu u browseru.
+> **Ključna ideja.** Prijava šalje komandu. Web traži dokument na lokaciji.
 
-**Pitalica.** Šta je stiglo 29. oktobra 1969?
+**Pitalica.** Prijava na udaljeni računar već radi. Zašto Web ipak nije nastao te noći?
 
-- A. To već jeste Web, jer je poruka stigla.
-  Stigla su dva slova po mreži. Nema URL ni dokument u browseru.
-- **B. Poruka iz 1969. nije Web.**
-  **drži.** LO je mreža paketa. Web je povezani dokument, mnogo kasnije.
+Odgovor, skriven dok se ne otvori ikonica: prijava šalje komandu programu na drugom računaru. Udaljeni računar se ne otvara. Nema dokumenta na lokaciji.
+
+**Pitalica.** Šta je moralo da se pojavi da bi jedan dokument vodio na drugi, na drugom računaru?
+
+Odgovor, skriven dok se ne otvori ikonica: dokument mora da ima lokaciju. Veza je lokacija drugog dokumenta.
 
 <a id="n1-k2"></a>
 

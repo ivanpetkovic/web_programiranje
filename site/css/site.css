@@ -438,6 +438,51 @@ pre {
   padding-top: 0.8rem;
   border-top: 1px solid var(--line);
 }
+body.uvod-otvoren .cas-tabovi,
+body.uvod-otvoren #birac-mesto,
+body.uvod-otvoren .procenat-red,
+body.uvod-otvoren .procenat-traka,
+body.uvod-otvoren .mobil-korak-lizac { display: none; }
+.uvod-red {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  margin: 0.35rem 0 0.6rem;
+  padding: 0.35rem 0.4rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 650;
+}
+.uvod-red[aria-current="page"] { background: var(--amber-dim); }
+.uvod { display: grid; gap: 1.15rem; max-width: 42rem; }
+.uvod-blok h2 { margin: 0 0 0.35rem; font-size: 1.05rem; }
+.uvod-blok ul, .uvod-blok ol { margin: 0; padding-left: 1.15rem; }
+.uvod-blok li { margin: 0.35rem 0; }
+.uvod-osnov a { color: inherit; }
+.uvod-teme { list-style: none; padding-left: 0; display: grid; gap: 0.35rem; }
+.uvod-tema {
+  display: grid;
+  gap: 0.15rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+}
+.uvod-tema span { color: var(--muted); font-size: 0.92rem; }
+.uvod-dalje { justify-self: start; }
+.prica-koraka { font-size: 1.05rem; line-height: 1.45; margin: 0; }
+.diskusija-korak { display: grid; gap: 0.55rem; }
+.pitalica-koraka { display: grid; gap: 0.45rem; margin-top: 1rem; }
+.pitalica-koraka + .pitalica-koraka { padding-top: 0.8rem; border-top: 1px solid var(--line); }
+.diskusija-razmak { margin: 1.4rem 0 0.2rem; border: none; border-top: 1px solid var(--line); }
+.gradivo-uputa { margin-bottom: 0.75rem; }
 .option.podvuceno { text-decoration: underline; text-underline-offset: 0.2em; }
 .pretpostavke, .izlaz, .diskusija textarea { width: 100%; margin-top: 0.45rem; }
 .izlaz { display: grid; gap: 0.35rem; margin-top: 0.8rem; }
@@ -627,6 +672,20 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 .isecak .red.novo .br { color: var(--muted); }
 .isecak .red.novo { background: color-mix(in srgb, var(--diff-dodato) 16%, transparent); }
 .pitanje-blok { margin-top: 1rem; }
+.pitanje-red { display: flex; align-items: flex-start; gap: 0.45rem; }
+.pitanje-red h3 { margin: 0; flex: 1; }
+.odgovor-ikona {
+  flex: none;
+  margin-top: 0.1rem;
+  padding: 0.15rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--amber);
+}
+.odgovor-ikona.otvoreno { background: var(--amber-dim); }
+.odgovor-tekst { margin: 0.55rem 0 0; }
+.uredi-natpis { display: grid; gap: 0.25rem; margin-bottom: 0.55rem; }
 .radnje-pitanja {
   display: flex;
   flex-wrap: wrap;

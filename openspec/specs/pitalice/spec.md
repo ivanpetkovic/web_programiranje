@@ -7,21 +7,25 @@ Pitalice drže razgovor na projektoru: kratka provera u svakom koraku i jedna du
 ## Requirements
 
 ### Requirement: Kratka pitalica koraka
-Every step MUST have one short quiz about its step. The answers MUST stay unmarked until the teacher reveals the reasons. Selecting an option MUST highlight only that selection and MUST NOT reveal which option holds. The short quiz MUST show its options together on the lesson page, one under another. It MUST NOT use the assumption board, the comparison phase, or a second half-hour discussion.
+Every step MUST have at least one question about its step on the Diskusija tab. A question MAY be rhetorical: it shows the question and no options. When that question carries an answer, an icon beside the question MUST reveal the answer below it and MUST NOT show choices. A rhetorical question without an answer MUST NOT offer Obrazloženje. A step MAY have more than one question, shown in order on that tab. When a question has options, those answers MUST stay unmarked until the teacher reveals that quiz's reasons with Obrazloženje. Selecting an option MUST highlight only that selection and MUST NOT reveal which option holds. Each short quiz MUST show its options one under another. It MUST NOT use the assumption board, the comparison phase, or the theme discussion phases. Obrazloženje MUST show that quiz's analizaPitalice from the course document when present.
 
 #### Scenario: Step quiz stays unmarked
-- **WHEN** the teacher opens a step
+- **WHEN** the teacher opens Diskusija on a step
 - **THEN** the short quiz shows its answers with none marked, and the reasons are still closed
 
 #### Scenario: Selection is not the mark
-- **WHEN** the teacher selects an option before the reasons are revealed
+- **WHEN** the teacher selects an option on Diskusija before Obrazloženje
 - **THEN** that option is highlighted and no option is marked as the one that holds
 
 #### Scenario: Options stack
-- **WHEN** the teacher opens a step on a wide page
+- **WHEN** the teacher opens Diskusija on a wide page
 - **THEN** each short-quiz option is on its own row
+
+#### Scenario: Several quizzes stay in order
+- **WHEN** a step has more than one short quiz
+- **THEN** Diskusija shows them in document order, and Obrazloženje on one quiz does not open the reasons of another
 ### Requirement: Jedna duga diskusija
-Each lecture MUST have one main discussion quiz on the projector. The site MUST NOT remember a vote. The teacher MUST be the only one who advances the phase. The 35-minute budget MUST belong to the whole lecture and that one discussion, and the site MUST NOT show a timer.
+Each lecture MUST have one main discussion quiz. It MUST appear on Diskusija only on the last step of that lecture, below the last step quiz. The site MUST NOT remember a vote. The teacher MUST be the only one who advances the phase. The 35-minute budget MUST belong to the whole lecture and that one discussion, and the site MUST NOT show a timer.
 
 #### Scenario: No stored vote
 - **WHEN** a student answers the main quiz out loud

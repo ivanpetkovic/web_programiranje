@@ -13,6 +13,38 @@ function tekst(korak) {
   return [korak.naslov, korak.primer, korak.kod, korak.pitalica, korak.objasnjenje, korak.delic, korak.putanja].join("\n");
 }
 
+test("uvod stoji pre tema i nije tema", () => {
+  assert.equal(dokument.teme.length, 11);
+  assert.equal(dokument.teme.some((tema) => tema.naslov === "Uvod"), false);
+  assert.match(dokument.uvod.cilj, /Kontrolne sobe/);
+  assert.ok(dokument.uvod.ocekivanje.length >= 3);
+  assert.deepEqual(
+    dokument.uvod.osnov.map((izvor) => izvor.naziv),
+    ["Stanford CS193X", "Stanford CS142", "MIT web.lab"],
+  );
+  assert.match(dokument.uvod.napomenaOsnova, /tempo/);
+});
+
+test("LO na Diskusiji ima priču i retorička pitanja, bez odgovora", () => {
+  const lo = dokument.teme[0].steps[0];
+  assert.equal(lo.naslov, "LO");
+  assert.match(lo.prica, /sat vremena kasnije/);
+  assert.match(lo.tekst, /dokument mora da ima lokaciju/);
+  assert.match(lo.tekst, /ne otvara udaljeni računar/);
+  assert.equal(lo.tekst.includes("otvara tuđi"), false);
+  assert.match(lo.pitalice[0].odgovor, /Udaljeni računar se ne otvara/);
+  assert.match(lo.pitalice[1].odgovor, /Dokument mora da ima lokaciju/);
+  assert.deepEqual(
+    lo.pitalice.map((p) => p.pitalica),
+    [
+      "Prijava na udaljeni računar već radi. Zašto Web ipak nije nastao te noći?",
+      "Šta je moralo da se pojavi da bi jedan dokument vodio na drugi, na drugom računaru?",
+    ],
+  );
+  assert.equal(lo.pitalice.every((p) => !p.opcije && p.odgovor), true);
+  assert.equal("opcije" in lo, false);
+});
+
 test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
   assert.equal(lectures.length, 11);
   const naslovi = [
@@ -35,9 +67,11 @@ test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
     for (const korak of cas.steps) {
       assert.ok(korak.primer);
       assert.ok(korak.pitalica);
-      assert.ok(korak.opcije.length >= 2);
-      assert.equal(korak.opcije.filter((opcija) => opcija.ok).length, 1);
       assert.ok(korak.objasnjenje);
+      if (korak.opcije.length) {
+        assert.ok(korak.opcije.length >= 2);
+        assert.equal(korak.opcije.filter((opcija) => opcija.ok).length, 1);
+      }
       if (!korak.putanja) {
         assert.equal(korak.delic, undefined);
         continue;
@@ -104,7 +138,7 @@ test("tema istorije drži korake bez fajla", () => {
   assert.deepEqual(sirovi.map((korak) => korak.naslov), redosled);
   assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 55);
   const tacan = (naslov) => sirovi.find((korak) => korak.naslov === naslov).opcije.find((opcija) => opcija.ok).text;
-  assert.match(tacan("LO"), /1969.*nije Web/);
+  assert.equal(sirovi.find((korak) => korak.naslov === "LO").pitalice.every((p) => !p.opcije), true);
   assert.match(tacan("TCP i UDP"), /Kadar sme da se odbaci/);
   assert.match(tacan("Ajax"), /Dokument ostaje/);
   for (const korak of sirovi) {
@@ -213,6 +247,38 @@ test("nema preglednog spiska ni naslova Osvrt", () => {
   assert.equal(naslovi.includes("Osvrt"), false);
   assert.match(dokument.dopunaGlosara.find((pojam) => pojam.id === "push").body, /SSE/);
   assert.match(dokument.dopunaGlosara.find((pojam) => pojam.id === "push").body, /WebSocket/);
+});
+
+test("svaki korak nosi pitalice redom, prva ostaje postojeća", () => {
+  let saDrugom = 0;
+  const kljucevi = { A: 0, B: 0 };
+  for (const tema of dokument.teme) {
+    for (const korak of tema.steps) {
+      assert.ok(Array.isArray(korak.pitalice) && korak.pitalice.length >= 2, korak.naslov);
+      assert.equal(korak.pitalice[0].pitalica, korak.pitalica);
+      assert.equal(korak.pitalice[0].analizaPitalice || "", korak.analizaPitalice || "");
+      const mapiran = mapirajKorak(korak);
+      assert.equal(mapiran.pitalice.length, korak.pitalice.length);
+      assert.equal(mapiran.pitalica, korak.pitalica);
+      const saOdgovorom = (korak.opcije || []).some((o) => o.ok);
+      if (saOdgovorom) {
+        assert.equal(mapiran.opcije.find((o) => o.ok).text, korak.opcije.find((o) => o.ok).text);
+      }
+      for (const p of korak.pitalice) {
+        assert.ok(p.pitalica, korak.naslov);
+        if (!(p.opcije || []).length) continue;
+        assert.ok(p.analizaPitalice, korak.naslov);
+        assert.equal(p.opcije.filter((o) => o.ok).length, 1, p.pitalica);
+      }
+      if (korak.pitalice.length >= 2) saDrugom += 1;
+      for (const p of korak.pitalice.slice(1)) {
+        const drzi = (p.opcije || []).find((o) => o.ok);
+        if (drzi) kljucevi[drzi.key] += 1;
+      }
+    }
+  }
+  assert.equal(saDrugom, dokument.teme.reduce((n, t) => n + t.steps.length, 0));
+  assert.ok(kljucevi.A > 40 && kljucevi.B > 40);
 });
 
 test("čas 11 ne tvrdi da je upis prošao", () => {
