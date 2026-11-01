@@ -97,15 +97,15 @@ Budžet razgovora je jedan za celu nedelju, oko 35 minuta, ne za svaku pitalicu 
 
 29. oktobra 1969, oko 22:30, sa UCLA ka SRI kreće prijava. Na drugoj mašini dovoljno je LOG: ona sama dopiše IN. Stignu L i O. Na G mašina padne. Oko sat vremena kasnije ista prijava prođe: stignu L, O i G.
 
-> **Ključna ideja.** Uspešna prijava rešava prenos. Web traži dokument koji vodi dalje.
+> **Ključna ideja.** Prijava šalje komandu. Web traži dokument na lokaciji.
 
 **Pitalica.** Prijava na udaljeni računar već radi. Zašto Web ipak nije nastao te noći?
 
-Odgovor, skriven dok se ne otvori ikonica: prijava samo prenese komandu i otvori tuđi računar. Nema dokumenta sa imenom, veze ka drugom dokumentu, ni dogovora kako se taj dokument traži.
+Odgovor, skriven dok se ne otvori ikonica: prijava šalje komandu programu na drugom računaru. Udaljeni računar se ne otvara. Nema dokumenta na lokaciji.
 
 **Pitalica.** Šta je moralo da se pojavi da bi jedan dokument vodio na drugi, na drugom računaru?
 
-Odgovor, skriven dok se ne otvori ikonica: dokument koji ima ime, veza koja vodi na drugi dokument, i dogovor kako se taj dokument traži. Mreža je već postojala.
+Odgovor, skriven dok se ne otvori ikonica: dokument mora da ima lokaciju. Veza je lokacija drugog dokumenta.
 
 <a id="n1-k2"></a>
 

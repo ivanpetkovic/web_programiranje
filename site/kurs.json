@@ -367,17 +367,17 @@
           "minuta": 5,
           "tipPrimer": "eksperiment",
           "prica": "29. oktobra 1969, oko 22:30, sa UCLA ka SRI kreće prijava. Na drugoj mašini dovoljno je LOG: ona sama dopiše IN. Stignu L i O. Na G mašina padne. Oko sat vremena kasnije ista prijava prođe: stignu L, O i G.",
-          "tekst": "Dva računara 29. oktobra 1969. prvi put razmene prijavu. Prvi pokušaj padne na G, posle L i O. Oko sat kasnije stignu L, O i G, a mašina na drugom kraju sama dopiše IN. Prenos komande time radi.\n\nWeb iz toga ne nastaje. Prijava otvara tuđi računar. Ne ostavlja dokument koji ima ime, ni vezu koja vodi na drugi dokument, ni dogovor kako se taj dokument traži. Do Weba vodi potreba da se sa jednog teksta pređe na drugi tekst na drugom računaru. Mreža za to već postoji.",
-          "kljucnaIdeja": "Uspešna prijava rešava prenos. Web traži dokument koji vodi dalje.",
+          "tekst": "Dva računara 29. oktobra 1969. prvi put razmene prijavu. Prvi pokušaj padne na G, posle L i O. Oko sat kasnije stignu L, O i G, a mašina na drugom kraju sama dopiše IN. Komanda je stigla do programa na drugom računaru.\n\nWeb iz toga ne nastaje. Prijava ne otvara udaljeni računar. Ne stavlja dokument na lokaciju. Da bi jedan dokument vodio na drugi, dokument mora da ima lokaciju. Veza je ta lokacija.",
+          "kljucnaIdeja": "Prijava šalje komandu. Web traži dokument na lokaciji.",
           "pitalica": "Prijava na udaljeni računar već radi. Zašto Web ipak nije nastao te noći?",
           "pitalice": [
             {
               "pitalica": "Prijava na udaljeni računar već radi. Zašto Web ipak nije nastao te noći?",
-              "odgovor": "Zato što prijava samo prenese komandu i otvori tuđi računar. Nema dokumenta sa imenom, veze ka drugom dokumentu, ni dogovora kako se taj dokument traži."
+              "odgovor": "Zato što prijava šalje komandu programu na drugom računaru. Udaljeni računar se ne otvara. Nema dokumenta na lokaciji."
             },
             {
               "pitalica": "Šta je moralo da se pojavi da bi jedan dokument vodio na drugi, na drugom računaru?",
-              "odgovor": "Dokument koji ima ime, veza koja vodi na drugi dokument, i dogovor kako se taj dokument traži. Mreža je već postojala."
+              "odgovor": "Dokument mora da ima lokaciju. Veza je lokacija drugog dokumenta."
             }
           ]
         },

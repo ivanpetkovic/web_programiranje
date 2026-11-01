@@ -29,7 +29,11 @@ test("LO na Diskusiji ima priču i retorička pitanja, bez odgovora", () => {
   const lo = dokument.teme[0].steps[0];
   assert.equal(lo.naslov, "LO");
   assert.match(lo.prica, /sat vremena kasnije/);
-  assert.match(lo.tekst, /jednog teksta pređe na drugi tekst/);
+  assert.match(lo.tekst, /dokument mora da ima lokaciju/);
+  assert.match(lo.tekst, /ne otvara udaljeni računar/);
+  assert.equal(lo.tekst.includes("otvara tuđi"), false);
+  assert.match(lo.pitalice[0].odgovor, /Udaljeni računar se ne otvara/);
+  assert.match(lo.pitalice[1].odgovor, /Dokument mora da ima lokaciju/);
   assert.deepEqual(
     lo.pitalice.map((p) => p.pitalica),
     [
