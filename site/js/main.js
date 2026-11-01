@@ -1616,6 +1616,16 @@ function renderLecture() {
   document.querySelector("#sledeca-tema").disabled = cas >= dokument.trajanjeTema;
 }
 
+function natpisPolja(natpis, polje) {
+  const omot = document.createElement("label");
+  omot.className = "uredi-natpis";
+  const ime = document.createElement("span");
+  ime.className = "meta";
+  ime.textContent = natpis;
+  omot.append(ime, polje);
+  return omot;
+}
+
 function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi) {
   const kljuc = `${casBroj}:${i}:${pi}`;
   const otvoreno = objasnjenjePoKoraku.get(kljuc) === true;
@@ -1678,10 +1688,10 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi) {
     kratke.append(button);
   }
   pitanjeUnutra.append(pitanjeNad, red);
-  if (retoricko && odgovor && otvoreno) {
+  if (retoricko && (otvoreno || urediSadrzaj.aktivan)) {
     const telo = document.createElement("p");
-    telo.className = "odgovor-tekst";
-    telo.textContent = odgovor;
+    telo.className = odgovor ? "odgovor-tekst" : "odgovor-tekst meta";
+    telo.textContent = odgovor || "Nema odgovora.";
     pitanjeUnutra.append(telo);
   }
   if (!retoricko) pitanjeUnutra.append(uputa, kratke);
@@ -1691,20 +1701,42 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi) {
     if (!sirovi) return { telo: wrap, opis: "pitalicu", promenjeno: () => false, primeni() {} };
     obezbediPitalice(sirovi);
     const izvor = sirovi.pitalice[pi];
-    const pitanjeEditor = napraviEditorKratkog(izvor.pitalica, { opis: "tekst pitanja" }, (vrednost) => {
-      izvor.pitalica = vrednost;
-    });
+    const pitanjeEditor = retoricko
+      ? napraviEditorTeksta(izvor.pitalica ?? "", { redovi: 3, placeholder: "Pitanje" }, { opis: "tekst pitanja" })
+      : napraviEditorKratkog(izvor.pitalica, { opis: "tekst pitanja" }, (vrednost) => {
+          izvor.pitalica = vrednost;
+        });
+    const odgovorEditor = retoricko
+      ? napraviEditorTeksta(
+          izvor.odgovor ?? "",
+          { redovi: 4, placeholder: "Odgovor koji otvara sijalica." },
+          { opis: "odgovor" }
+        )
+      : null;
     const opcijeEditor = Array.isArray(izvor.opcije)
       ? napraviEditorOpcija(izvor.opcije, { opis: "odgovore pitalice" })
       : null;
-    wrap.append(pitanjeEditor.telo);
+    wrap.append(natpisPolja("Pitanje", pitanjeEditor.telo));
+    if (odgovorEditor) wrap.append(natpisPolja("Odgovor", odgovorEditor.telo));
     if (opcijeEditor) wrap.append(opcijeEditor.telo);
     return {
       telo: wrap,
       opis: "pitalicu",
-      promenjeno: () => pitanjeEditor.promenjeno() || (opcijeEditor ? opcijeEditor.promenjeno() : false),
+      promenjeno: () =>
+        pitanjeEditor.promenjeno() ||
+        (odgovorEditor ? odgovorEditor.promenjeno() : false) ||
+        (opcijeEditor ? opcijeEditor.promenjeno() : false),
       primeni() {
-        pitanjeEditor.primeni();
+        if (retoricko) pitanjeEditor.primeni((vrednost) => {
+          izvor.pitalica = vrednost;
+        });
+        else pitanjeEditor.primeni();
+        if (odgovorEditor) {
+          odgovorEditor.primeni((vrednost) => {
+            if (vrednost) izvor.odgovor = vrednost;
+            else delete izvor.odgovor;
+          });
+        }
         if (opcijeEditor) opcijeEditor.primeni(izvor.opcije);
         uskladiPrvuPitalicu(sirovi);
       },

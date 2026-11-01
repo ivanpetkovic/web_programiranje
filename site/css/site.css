@@ -685,6 +685,7 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 }
 .odgovor-ikona.otvoreno { background: var(--amber-dim); }
 .odgovor-tekst { margin: 0.55rem 0 0; }
+.uredi-natpis { display: grid; gap: 0.25rem; margin-bottom: 0.55rem; }
 .radnje-pitanja {
   display: flex;
   flex-wrap: wrap;
