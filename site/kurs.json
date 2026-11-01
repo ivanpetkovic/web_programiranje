@@ -10,6 +10,34 @@
   "revizija": "4.1-provera-izvrsavanja",
   "statusIzvrsavanja": "izvrsavanje-delimicno-provereno",
   "ciljnaGrupa": "3. godina studija računarstva",
+  "uvod": {
+    "naslov": "Pre prve teme",
+    "cilj": "Predmet prati jednu radnju Kontrolne sobe od browsera, preko Node procesa, do PostgreSQL baze. Panel ima temperaturu i jedan ventilator. Nema stvarnog hardvera. Posle kursa student razlikuje prikaz od stanja, obrazloži grešku, izostanak odgovora i ponovljeni zahtev, i kaže šta sme da veruje ekranu, a šta mora da proveri server.",
+    "ocekivanje": [
+      "Preduslov je objektno programiranje, algoritmi i SQL. Prethodni veb kurs nije potreban.",
+      "Na času se bira odgovor pre obrazloženja. Tab Gradivo je tekst za posle časa.",
+      "Primer je HTML, CSS i JavaScript u browseru, Node modul http i PostgreSQL. React, Express i Next.js ostaju orijentacija, ne kod koji se piše.",
+      "Predavanje drži demonstraciju i diskusiju. Šira tema kaže koji problem rešava, i staje tu."
+    ],
+    "osnov": [
+      {
+        "naziv": "Stanford CS193X",
+        "veza": "https://web.stanford.edu/class/cs193x/lectures.html",
+        "recenica": "Web Programming Fundamentals, proleće 2023. Red ide od HTML-a i JavaScripta ka DOM-u, fetch-u, Node serveru i bazi. Preduslov je programiranje, ne prethodni veb."
+      },
+      {
+        "naziv": "Stanford CS142",
+        "veza": "https://web.stanford.edu/class/cs142/lectures.html",
+        "recenica": "Proleće 2023. Browser i server u JavaScriptu, pa sesija i validacija. Ovaj kurs ostaje na standardnom JavaScriptu i ne uvodi React."
+      },
+      {
+        "naziv": "MIT web.lab",
+        "veza": "https://webdevelopment.mit.edu/schedule/",
+        "recenica": "Januar 2025. Intenzivni raspored od stranice do naloga, baze i objave. Tempo i okviri React i Next se ne preuzimaju."
+      }
+    ],
+    "napomenaOsnova": "Kurs meri red problema prema ova tri izvođenja. Ne preuzima njihov tempo, projekat ni okvir."
+  },
   "preduslovPrve": "Još nema fajla. Priča počinje pre stranice.",
   "povezujuciPrimer": {
     "naziv": "Kontrolna soba",

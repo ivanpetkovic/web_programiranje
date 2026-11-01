@@ -13,6 +13,18 @@ function tekst(korak) {
   return [korak.naslov, korak.primer, korak.kod, korak.pitalica, korak.objasnjenje, korak.delic, korak.putanja].join("\n");
 }
 
+test("uvod stoji pre tema i nije tema", () => {
+  assert.equal(dokument.teme.length, 11);
+  assert.equal(dokument.teme.some((tema) => tema.naslov === "Uvod"), false);
+  assert.match(dokument.uvod.cilj, /Kontrolne sobe/);
+  assert.ok(dokument.uvod.ocekivanje.length >= 3);
+  assert.deepEqual(
+    dokument.uvod.osnov.map((izvor) => izvor.naziv),
+    ["Stanford CS193X", "Stanford CS142", "MIT web.lab"],
+  );
+  assert.match(dokument.uvod.napomenaOsnova, /tempo/);
+});
+
 test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
   assert.equal(lectures.length, 11);
   const naslovi = [

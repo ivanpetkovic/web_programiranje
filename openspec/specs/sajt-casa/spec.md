@@ -13,6 +13,17 @@ The lecture site MUST be a static page with no build step. It MUST read one cour
 - **WHEN** the teacher opens a week
 - **THEN** that week's title and steps are visible, the other weeks stay collapsed, and the embedded panel is not on screen
 
+### Requirement: Uvod nije tema
+The site MUST open on a preface before the first week when no week is in the address. The preface MUST state the course goal, what is expected of the student, the Stanford and MIT courses the sequence is measured against, and a short list of the weeks. The preface MUST NOT be a week: it MUST NOT add a step, a quiz, or a week number, and the week count MUST stay the document's duration.
+
+#### Scenario: Preface before the first week
+- **WHEN** the teacher opens the site without a week in the address
+- **THEN** the preface is visible, the week list still has the document's duration, and choosing the first week opens that week
+
+#### Scenario: A week address skips the preface
+- **WHEN** the address names a week
+- **THEN** that week is open and the preface is not the page
+
 #### Scenario: Duration is not ten
 - **WHEN** the course document sets a duration other than ten and lists that many weeks
 - **THEN** the page lists that many weeks and does not add or remove weeks to reach ten
