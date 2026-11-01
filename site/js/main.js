@@ -1725,9 +1725,10 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi) {
   }
   pitanjeUnutra.append(pitanjeNad, red);
   if (retoricko && (otvoreno || urediSadrzaj.aktivan)) {
-    const telo = document.createElement("p");
+    const telo = document.createElement("div");
     telo.className = odgovor ? "odgovor-tekst" : "odgovor-tekst meta";
-    telo.textContent = odgovor || "Nema odgovora.";
+    if (odgovor) telo.append(...cvoroviPasusa(odgovor));
+    else telo.textContent = "Nema odgovora.";
     pitanjeUnutra.append(telo);
   }
   if (!retoricko) pitanjeUnutra.append(uputa, kratke);
@@ -1889,9 +1890,9 @@ function nacrtajDiskusijuKoraka(item, i, korak, sirovi) {
   naslov.textContent = korak.naslov;
   omot.append(naslov);
   if (korak.prica) {
-    const prica = document.createElement("p");
+    const prica = document.createElement("div");
     prica.className = "prica-koraka";
-    prica.textContent = korak.prica;
+    prica.append(...cvoroviPasusa(korak.prica));
     omot.append(prica);
   } else {
     const vodica = document.createElement("p");

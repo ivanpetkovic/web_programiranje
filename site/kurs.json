@@ -386,18 +386,22 @@
           "nivo": "Osnovno",
           "minuta": 5,
           "tipPrimer": "eksperiment",
-          "prica": "Slova prijave nisu dobila rezervisan kanal od UCLA do SRI. Poruka se seče na pakete. Svaki nosi deo i adresu primaoca. Paket koji je već stigao ostaje. Paket koji je bio na prekinutoj vezi nije stigao.",
-          "tekst": "Rezervisana veza drži kanal dok razgovor traje. Prekid te veze prekida razgovor. Niko drugi taj kanal ne koristi dok je rezervisan.\n\nPaket je deo poruke sa adresom primaoca. Više razgovora deli iste veze. Paket koji je već stigao ostaje. Paket na prekinutoj vezi nije stigao. Sečenje ne sklapa poruku i ne šalje izgubljeni paket ponovo.",
-          "kljucnaIdeja": "Paket deli mrežu. Prekid veze ne briše ono što je već stiglo.",
-          "pitalica": "Zašto se poruka seče na pakete, umesto da se rezerviše veza od kraja do kraja?",
+          "prica": "Pri pokušaju prijave sa računara na UCLA na računar u SRI-ju, mreža nije rezervisala poseban kanal samo za ta dva računara. Takav kanal je veza od kraja do kraja. ARPANET je koristio prenos podataka u paketima: podaci se dele na manje celine, koje uz sadržaj nose i informacije potrebne da ih mreža prosledi do odredišta.",
+          "tekst": "Pri pokušaju prijave sa računara na UCLA na računar u SRI-ju, mreža nije rezervisala poseban kanal samo za ta dva računara. Takav kanal je veza od kraja do kraja. ARPANET je koristio prenos podataka u paketima: podaci se dele na manje celine, koje uz sadržaj nose i informacije potrebne da ih mreža prosledi do odredišta.\n\nRačunari ne šalju podatke neprekidno. Pošalju zahtev, sačekaju odgovor, pa neko vreme nemaju ništa za slanje. Rezervisani kanal bi tokom tih pauza ostajao zauzet, iako se ne koristi.\n\nPaketi omogućavaju da više komunikacija deli iste mrežne veze. Između dva paketa jedne poruke mogu se preneti paketi drugih poruka. Tako se raspoloživi kapacitet koristi efikasnije.\n\nPrekid ne poništava podatke koji su već primljeni. Međutim, neki paketi mogu da se izgube, pa poruka ostaje nepotpuna. Ako postoji drugi put do odredišta i mreža ga pronađe, dalji paketi mogu nastaviti tim putem.\n\nIpak, mogućnost promene puta nije isto što i pouzdana isporuka. Sama podela na pakete ne obezbeđuje da će svi delovi stići, da će stići redom ili da će izgubljeni delovi biti ponovo poslati. Za to su potrebna dodatna pravila komunikacije — protokoli.\n\nPaketni prenos postavlja osnovu: kako deliti mrežu i prenositi podatke kroz nju. Kasnije, u internetu, TCP obezbeđuje pouzdan prenos podataka u ispravnom redosledu, uz ponovno slanje izgubljenih delova.\n\nNa toj osnovi razvija se HTTP, sa drugačijim zadatkom: da definiše kako veb klijent traži resurs i kako server odgovara. Da bismo razumeli HTTP, zato prvo razdvajamo dva pitanja: kako podaci stižu do odredišta i šta zahtev i odgovor znače aplikacijama koje ih razmenjuju.",
+          "kljucnaIdeja": "Paketni prenos je temelj interneta na kojem je kasnije nastao HTTP; nije rana verzija samog HTTP-a.",
+          "pitalica": "Zašto deliti poruku na pakete, umesto rezervisati vezu od početka do kraja?",
           "pitalice": [
             {
-              "pitalica": "Zašto se poruka seče na pakete, umesto da se rezerviše veza od kraja do kraja?",
-              "odgovor": "Da bi više razgovora delilo iste veze, bez trajne rezervacije jednog kanala. Sečenje samo od sebe ne sklapa poruku i ne šalje izgubljeni paket ponovo."
+              "pitalica": "Zašto deliti poruku na pakete, umesto rezervisati vezu od početka do kraja?",
+              "odgovor": "Računari ne šalju podatke neprekidno. Pošalju zahtev, sačekaju odgovor, pa neko vreme nemaju ništa za slanje. Rezervisani kanal bi tokom tih pauza ostajao zauzet, iako se ne koristi.\n\nPaketi omogućavaju da više komunikacija deli iste mrežne veze. Između dva paketa jedne poruke mogu se preneti paketi drugih poruka. Tako se raspoloživi kapacitet koristi efikasnije."
             },
             {
-              "pitalica": "Ako veza padne usred poruke, šta od nje ostaje?",
-              "odgovor": "Ostaje ono što je već stiglo. Ostatak na toj vezi ne stiže. Sledeći paket može drugom vezom, ali izgubljeni paket se sam ne zamenjuje."
+              "pitalica": "Šta se dešava ako se neka mrežna veza prekine tokom prenosa?",
+              "odgovor": "Prekid ne poništava podatke koji su već primljeni. Međutim, neki paketi mogu da se izgube, pa poruka ostaje nepotpuna. Ako postoji drugi put do odredišta i mreža ga pronađe, dalji paketi mogu nastaviti tim putem.\n\nIpak, mogućnost promene puta nije isto što i pouzdana isporuka. Sama podela na pakete ne obezbeđuje da će svi delovi stići, da će stići redom ili da će izgubljeni delovi biti ponovo poslati. Za to su potrebna dodatna pravila komunikacije — protokoli."
+            },
+            {
+              "pitalica": "Kako nas ovo vodi ka HTTP-u?",
+              "odgovor": "Paketni prenos postavlja osnovu: kako deliti mrežu i prenositi podatke kroz nju. Kasnije, u internetu, TCP obezbeđuje pouzdan prenos podataka u ispravnom redosledu, uz ponovno slanje izgubljenih delova.\n\nNa toj osnovi razvija se HTTP, sa drugačijim zadatkom: da definiše kako veb klijent traži resurs i kako server odgovara. Da bismo razumeli HTTP, zato prvo razdvajamo dva pitanja: kako podaci stižu do odredišta i šta zahtev i odgovor znače aplikacijama koje ih razmenjuju.\n\nPaketni prenos je temelj interneta na kojem je kasnije nastao HTTP; nije rana verzija samog HTTP-a."
             }
           ]
         },

@@ -48,22 +48,25 @@ test("LO na Diskusiji ima priču i retorička pitanja, bez odgovora", () => {
 test("Paket na Diskusiji ima priču i retorička pitanja", () => {
   const paket = dokument.teme[0].steps[1];
   assert.equal(paket.naslov, "Paket");
-  assert.match(paket.prica, /rezervisan kanal/);
-  assert.match(paket.tekst, /Sečenje ne sklapa poruku/);
-  assert.equal(paket.tekst.includes("poruka se sklopi"), false);
-  assert.match(paket.kljucnaIdeja, /ne briše ono što je već stiglo/);
-  assert.match(paket.pitalice[0].odgovor, /bez trajne rezervacije jednog kanala/);
-  assert.match(paket.pitalice[1].odgovor, /izgubljeni paket se sam ne zamenjuje/);
+  assert.match(paket.prica, /poseban kanal samo za ta dva računara/);
+  assert.match(paket.prica, /veza od kraja do kraja/);
+  assert.match(paket.prica, /ARPANET/);
+  assert.match(paket.tekst, /ne obezbeđuje da će svi delovi stići/);
+  assert.match(paket.tekst, /veza od kraja do kraja/);
+  assert.match(paket.kljucnaIdeja, /nije rana verzija samog HTTP-a/);
+  assert.match(paket.pitalice[0].odgovor, /tokom tih pauza ostajao zauzet/);
+  assert.match(paket.pitalice[1].odgovor, /dodatna pravila komunikacije — protokoli/);
+  assert.match(paket.pitalice[2].odgovor, /nije rana verzija samog HTTP-a/);
   assert.deepEqual(
     paket.pitalice.map((p) => p.pitalica),
     [
-      "Zašto se poruka seče na pakete, umesto da se rezerviše veza od kraja do kraja?",
-      "Ako veza padne usred poruke, šta od nje ostaje?",
+      "Zašto deliti poruku na pakete, umesto rezervisati vezu od početka do kraja?",
+      "Šta se dešava ako se neka mrežna veza prekine tokom prenosa?",
+      "Kako nas ovo vodi ka HTTP-u?",
     ],
   );
   assert.equal(paket.pitalice.every((p) => !p.opcije && p.odgovor), true);
   assert.equal("opcije" in paket, false);
-  assert.equal(paket.tekst.includes("TCP"), false);
 });
 
 test("jedanaest časova ima naslov i 10 do 22 koraka", () => {

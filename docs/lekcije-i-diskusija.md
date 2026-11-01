@@ -113,17 +113,21 @@ Odgovor, skriven dok se ne otvori ikonica: dokument mora da ima lokaciju. Veza j
 
 ~5 min · bez fajla
 
-Slova prijave nisu dobila rezervisan kanal od UCLA do SRI. Poruka se seče na pakete. Svaki nosi deo i adresu primaoca. Paket koji je već stigao ostaje. Paket koji je bio na prekinutoj vezi nije stigao.
+Pri pokušaju prijave sa računara na UCLA na računar u SRI-ju, mreža nije rezervisala poseban kanal samo za ta dva računara. Takav kanal je veza od kraja do kraja. ARPANET je koristio prenos podataka u paketima: podaci se dele na manje celine, koje uz sadržaj nose i informacije potrebne da ih mreža prosledi do odredišta.
 
-> **Ključna ideja.** Paket deli mrežu. Prekid veze ne briše ono što je već stiglo.
+> **Ključna ideja.** Paketni prenos je temelj interneta na kojem je kasnije nastao HTTP; nije rana verzija samog HTTP-a.
 
-**Pitalica.** Zašto se poruka seče na pakete, umesto da se rezerviše veza od kraja do kraja?
+**Pitalica.** Zašto deliti poruku na pakete, umesto rezervisati vezu od početka do kraja?
 
-Odgovor, skriven dok se ne otvori ikonica: da bi više razgovora delilo iste veze, bez trajne rezervacije jednog kanala. Sečenje samo od sebe ne sklapa poruku i ne šalje izgubljeni paket ponovo.
+Odgovor, skriven dok se ne otvori ikonica: računari ne šalju podatke neprekidno. Rezervisani kanal bi tokom pauza ostajao zauzet. Paketi omogućavaju da više komunikacija deli iste mrežne veze.
 
-**Pitalica.** Ako veza padne usred poruke, šta od nje ostaje?
+**Pitalica.** Šta se dešava ako se neka mrežna veza prekine tokom prenosa?
 
-Odgovor, skriven dok se ne otvori ikonica: ostaje ono što je već stiglo. Ostatak na toj vezi ne stiže. Sledeći paket može drugom vezom, ali izgubljeni paket se sam ne zamenjuje.
+Odgovor, skriven dok se ne otvori ikonica: prekid ne poništava podatke koji su već primljeni. Neki paketi mogu da se izgube. Sama podela na pakete ne obezbeđuje red, dolazak svih delova ni ponovno slanje. Za to su potrebni protokoli.
+
+**Pitalica.** Kako nas ovo vodi ka HTTP-u?
+
+Odgovor, skriven dok se ne otvori ikonica: paketni prenos je osnova. TCP kasnije obezbeđuje pouzdan redosled. HTTP definiše kako klijent traži resurs i kako server odgovara. Paketni prenos nije rana verzija HTTP-a.
 
 <a id="n1-k3"></a>
 
