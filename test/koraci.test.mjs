@@ -89,6 +89,30 @@ test("Od paketa do stranice razdvaja IP, TCP i HTTP", () => {
   assert.equal("opcije" in korak, false);
 });
 
+test("Paket ili rezervisana veza gleda kasni deo, ne ponavlja slojeve", () => {
+  const korak = dokument.teme[0].steps[3];
+  assert.equal(korak.naslov, "Paket ili rezervisana veza");
+  assert.match(korak.prica, /P2 kasni/);
+  assert.match(korak.prica, /P3 može da stigne pre njega/);
+  assert.match(korak.tekst, /Fragment nije segment/);
+  assert.equal(korak.tekst.includes("Šta je tačno ako P3 stigne pre P2?"), false);
+  assert.match(korak.kljucnaIdeja, /nisu isto sečenje/);
+  assert.match(korak.samostalniPrimer.tekst, /P3 može stići pre njega/);
+  assert.deepEqual(
+    korak.pitalice.map((p) => p.pitalica),
+    [
+      "Šta je tačno ako P3 stigne pre P2?",
+      "Zašto TCP uopšte čeka P2 ako je P3 već stigao?",
+      "Da li je sečenje IP datagrama isto što i sečenje TCP toka?",
+    ],
+  );
+  assert.match(korak.pitalice[0].odgovor, /ne mora da vidi P3 pre P2/);
+  assert.match(korak.pitalice[1].odgovor, /rupu u bajtovima/);
+  assert.match(korak.pitalice[2].odgovor, /Fragment nije segment/);
+  assert.equal(korak.pitalice.every((p) => !p.opcije && p.odgovor), true);
+  assert.equal("opcije" in korak, false);
+});
+
 test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
   assert.equal(lectures.length, 11);
   const naslovi = [
