@@ -73,18 +73,19 @@ test("Od paketa do stranice razdvaja IP, TCP i HTTP", () => {
   const korak = dokument.teme[0].steps[2];
   assert.equal(korak.naslov, "Od paketa do stranice");
   assert.match(korak.prica, /Paketi mogu da putuju kroz mrežu/);
-  assert.equal(korak.pitalice.length, 18);
+  assert.equal(korak.pitalice.length, 5);
   assert.equal(korak.pitalica, korak.pitalice[0].pitalica);
   assert.match(korak.pitalice[1].odgovor, /Internet Protocol/);
-  assert.match(korak.pitalice[3].odgovor, /ne podrazumeva rezervisan fizički put/);
-  assert.match(korak.pitalice[5].odgovor, /Jedno čitanje iz TCP veze ne mora da vrati celu HTTP poruku/);
+  assert.match(korak.pitalice[3].odgovor, /Metode, statusi i zaglavlja/);
   assert.equal(korak.tekst.includes("Šta je IP u nazivu TCP/IP?"), false);
-  assert.equal(korak.tekst.includes("Da li HTTP uvek koristi TCP?"), false);
+  assert.equal(korak.tekst.includes("404 Not Found"), false);
+  assert.equal(korak.tekst.includes("HTTPS"), false);
   assert.match(korak.tekst, /Internet Protocol/);
   assert.match(korak.tekst, /Protokol \| Glavni zadatak/);
   assert.match(korak.tekst, /Kom resursu pristupamo\?/);
+  assert.match(korak.tekst, /dolaze redom, posle ove mape/);
   assert.match(korak.kljucnaIdeja, /HTTP kaže šta zahtev i odgovor znače/);
-  assert.match(korak.pitalice.at(-1).odgovor, /Sam TCP ne šifruje/);
+  assert.match(korak.pitalice.at(-1).odgovor, /posle ove mape/);
   assert.equal(korak.pitalice.every((p) => !p.opcije && p.odgovor), true);
   assert.equal("opcije" in korak, false);
 });
@@ -95,6 +96,8 @@ test("Paket ili rezervisana veza gleda kasni deo, ne ponavlja slojeve", () => {
   assert.match(korak.prica, /P2 kasni/);
   assert.match(korak.prica, /P3 može da stigne pre njega/);
   assert.match(korak.tekst, /Fragment nije segment/);
+  assert.match(korak.tekst, /nije rezervisan kanal/);
+  assert.match(korak.pitalice[2].odgovor, /ne mora da vrati celu poruku/);
   assert.equal(korak.tekst.includes("Šta je tačno ako P3 stigne pre P2?"), false);
   assert.match(korak.kljucnaIdeja, /nisu isto sečenje/);
   assert.match(korak.samostalniPrimer.tekst, /P3 može stići pre njega/);
@@ -119,7 +122,8 @@ test("TCP i UDP poredi zakasneli kadar sa bajtom dokumenta", () => {
   assert.match(korak.prica, /Kadar filma zakasni/);
   assert.match(korak.prica, /ne čekaju/);
   assert.match(korak.tekst, /nema ugrađenu potvrdu/);
-  assert.match(korak.tekst, /ventilator poslušao/);
+  assert.match(korak.tekst, /HTTP\/3 koristi QUIC/);
+  assert.equal(korak.tekst.includes("ventilator"), false);
   assert.equal(korak.tekst.includes("Šta radimo sa zakasnelim kadrom?"), false);
   assert.match(korak.kljucnaIdeja, /UDP ne garantuje isporuku/);
   assert.equal(korak.figura.cvorovi.map((cvor) => cvor.natpis).join(","), "Bajt,TCP,UDP");
@@ -128,12 +132,10 @@ test("TCP i UDP poredi zakasneli kadar sa bajtom dokumenta", () => {
     [
       "Šta radimo sa zakasnelim kadrom?",
       "Zašto kadar sme da se odbaci, a bajt dokumenta ne?",
-      "Šta iz pouzdanog TCP toka ne sledi?",
     ],
   );
   assert.match(korak.pitalice[0].odgovor, /Kadar sme da se odbaci/);
   assert.match(korak.pitalice[1].odgovor, /više nije ovaj trenutak/);
-  assert.match(korak.pitalice[2].odgovor, /uključi/);
   assert.equal(korak.pitalice.every((p) => !p.opcije && p.odgovor), true);
   assert.equal("opcije" in korak, false);
 });

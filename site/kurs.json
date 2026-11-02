@@ -387,7 +387,7 @@
           "minuta": 5,
           "tipPrimer": "eksperiment",
           "prica": "Pri pokušaju prijave sa računara na UCLA na računar u SRI-ju, mreža nije rezervisala poseban kanal samo za ta dva računara. Takav kanal je veza od kraja do kraja. ARPANET je koristio prenos podataka u paketima: podaci se dele na manje celine, koje uz sadržaj nose i informacije potrebne da ih mreža prosledi do odredišta.",
-          "tekst": "Pri pokušaju prijave sa računara na UCLA na računar u SRI-ju, mreža nije rezervisala poseban kanal samo za ta dva računara. Takav kanal je veza od kraja do kraja. ARPANET je koristio prenos podataka u paketima: podaci se dele na manje celine, koje uz sadržaj nose i informacije potrebne da ih mreža prosledi do odredišta.\n\nRačunari ne šalju podatke neprekidno. Pošalju zahtev, sačekaju odgovor, pa neko vreme nemaju ništa za slanje. Rezervisani kanal bi tokom tih pauza ostajao zauzet, iako se ne koristi.\n\nPaketi omogućavaju da više komunikacija deli iste mrežne veze. Između dva paketa jedne poruke mogu se preneti paketi drugih poruka. Tako se raspoloživi kapacitet koristi efikasnije.\n\nPrekid ne poništava podatke koji su već primljeni. Međutim, neki paketi mogu da se izgube, pa poruka ostaje nepotpuna. Ako postoji drugi put do odredišta i mreža ga pronađe, dalji paketi mogu nastaviti tim putem.\n\nIpak, mogućnost promene puta nije isto što i pouzdana isporuka. Sama podela na pakete ne obezbeđuje da će svi delovi stići, da će stići redom ili da će izgubljeni delovi biti ponovo poslati. Za to su potrebna dodatna pravila komunikacije — protokoli.\n\nPaketni prenos postavlja osnovu: kako deliti mrežu i prenositi podatke kroz nju. Kasnije, u internetu, TCP obezbeđuje pouzdan prenos podataka u ispravnom redosledu, uz ponovno slanje izgubljenih delova.\n\nNa toj osnovi razvija se HTTP, sa drugačijim zadatkom: da definiše kako veb klijent traži resurs i kako server odgovara. Da bismo razumeli HTTP, zato prvo razdvajamo dva pitanja: kako podaci stižu do odredišta i šta zahtev i odgovor znače aplikacijama koje ih razmenjuju.",
+          "tekst": "Pri pokušaju prijave sa računara na UCLA na računar u SRI-ju, mreža nije rezervisala poseban kanal samo za ta dva računara. Takav kanal je veza od kraja do kraja. ARPANET je koristio prenos podataka u paketima: podaci se dele na manje celine, koje uz sadržaj nose i informacije potrebne da ih mreža prosledi do odredišta.\n\nRačunari ne šalju podatke neprekidno. Pošalju zahtev, sačekaju odgovor, pa neko vreme nemaju ništa za slanje. Rezervisani kanal bi tokom tih pauza ostajao zauzet, iako se ne koristi.\n\nPaketi omogućavaju da više komunikacija deli iste mrežne veze. Između dva paketa jedne poruke mogu se preneti paketi drugih poruka. Tako se raspoloživi kapacitet koristi efikasnije.\n\nPrekid ne poništava podatke koji su već primljeni. Međutim, neki paketi mogu da se izgube, pa poruka ostaje nepotpuna. Ako postoji drugi put do odredišta i mreža ga pronađe, dalji paketi mogu nastaviti tim putem.\n\nIpak, mogućnost promene puta nije isto što i pouzdana isporuka. Sama podela na pakete ne obezbeđuje da će svi delovi stići, da će stići redom ili da će izgubljeni delovi biti ponovo poslati. Za to su potrebna dodatna pravila komunikacije — protokoli. Koji protokol šta radi, sledi.",
           "kljucnaIdeja": "Paketni prenos je temelj interneta na kojem je kasnije nastao HTTP; nije rana verzija samog HTTP-a.",
           "pitalica": "Zašto deliti poruku na pakete, umesto rezervisati vezu od početka do kraja?",
           "pitalice": [
@@ -401,7 +401,7 @@
             },
             {
               "pitalica": "Kako nas ovo vodi ka HTTP-u?",
-              "odgovor": "Paketni prenos postavlja osnovu: kako deliti mrežu i prenositi podatke kroz nju. Kasnije, u internetu, TCP obezbeđuje pouzdan prenos podataka u ispravnom redosledu, uz ponovno slanje izgubljenih delova.\n\nNa toj osnovi razvija se HTTP, sa drugačijim zadatkom: da definiše kako veb klijent traži resurs i kako server odgovara. Da bismo razumeli HTTP, zato prvo razdvajamo dva pitanja: kako podaci stižu do odredišta i šta zahtev i odgovor znače aplikacijama koje ih razmenjuju.\n\nPaketni prenos je temelj interneta na kojem je kasnije nastao HTTP; nije rana verzija samog HTTP-a."
+              "odgovor": "Paketni prenos deli mrežu. Ne rešava ni red bajtova ni značenje zahteva.\n\nPaketni prenos je temelj interneta na kojem je kasnije nastao HTTP; nije rana verzija samog HTTP-a."
             }
           ]
         },
@@ -411,81 +411,29 @@
           "minuta": 5,
           "tipPrimer": "eksperiment",
           "prica": "Paketi mogu da putuju kroz mrežu.",
-          "tekst": "Paketi mogu da putuju kroz mrežu.\n\nPodela podataka na pakete omogućava da više komunikacija deli iste mrežne veze. Međutim, ostaju tri različita problema: kako proslediti paket do odredišta, kako pouzdano preneti sve podatke i kako dogovoriti šta poslati zahtev i dobijeni odgovor znače.\n\nU internetu ove zadatke razdvajamo između protokola. Za početak ćemo posmatrati HTTP/1.1 preko TCP-a i IP-a.\n\nIP znači Internet Protocol. On definiše adresiranje i prenos paketa između povezanih mreža. IP paket sadrži izvornu i odredišnu IP adresu. Ruteri koriste odredišnu adresu i svoje tabele rutiranja da odrede kome će paket sledeće proslediti.\n\nPošiljalac zato ne mora unapred da poznaje svaki ruter na putu. Paket se prosleđuje korak po korak do odredišta.\n\nIP, međutim, ne garantuje da će paket stići, da će stići samo jednom ili da će paketi stići redom kojim su poslati. Takođe, sam ne šalje izgubljene podatke ponovo.\n\nNaziv TCP/IP potiče od dva važna protokola, ali se često koristi za celu porodicu internet protokola. To ne znači da svaka komunikacija preko IP-a koristi TCP.\n\nTCP — Transmission Control Protocol — aplikacijama pruža pouzdan tok bajtova u ispravnom redosledu. Koristi redne brojeve, potvrde prijema i ponovno slanje da nadoknadi izgubljene podatke. Primaocu omogućava da pravilno poređa primljene delove i ukloni duplikate.\n\nTCP takođe prilagođava slanje mogućnostima primaoca i zagušenju mreže. Portovi omogućavaju razlikovanje komunikacija i usluga na istom računaru.\n\nIpak, pouzdanost ne znači da TCP može da savlada svaki kvar. Ako komunikacija ne može da se nastavi, aplikacija dobija grešku ili prekid veze.\n\nNe. Krajnji računari održavaju stanje komunikacije, ali mrežne veze i dalje dele sa drugim korisnicima. TCP veza ne podrazumeva rezervisan fizički put.\n\nPouzdan prenos ne objašnjava značenje podataka. Ako server dobije niz bajtova, mora da zna da li klijent traži dokument, šalje podatke formulara ili želi da obriše resurs.\n\nHTTP — Hypertext Transfer Protocol — definiše značenje zahteva i odgovora između klijenta i servera. Na primer:\n\n- \"GET\" traži prikaz određenog resursa.\n- \"POST\" šalje podatke na obradu.\n- \"200 OK\" označava uspešan zahtev.\n- \"404 Not Found\" označava da server nije pronašao traženi resurs.\n- Zaglavlja prenose dodatne informacije, poput vrste sadržaja.\n\nHTTP može da prenosi HTML, slike, JSON i druge vrste sadržaja. Njegova primena nije ograničena na hipertekst, uprkos nazivu.\n\nNe. TCP prenosi tok bajtova, a HTTP određuje kako se taj tok tumači kao zahtevi i odgovori. Jedna HTTP poruka može biti preneta kroz mnogo TCP segmenata. Jedno čitanje iz TCP veze ne mora da vrati celu HTTP poruku.\n\nProtokol | Glavni zadatak | Šta ne određuje\nIP | Adresiranje i prosleđivanje paketa kroz mreže | Da li su svi podaci pouzdano stigli\nTCP | Pouzdan, uređen tok bajtova između krajnjih tačaka | Šta ti bajtovi znače aplikaciji\nHTTP | Značenje i pravila razmene zahteva i odgovora | Put paketa kroz mrežu\n\nVeb je sistem resursa koje možemo da identifikujemo, povezujemo i kojima možemo da pristupamo. Njegovu osnovu možemo objasniti kroz tri pitanja:\n\nPitanje | Osnovni pojam | Uloga\nKom resursu pristupamo? | URL | Identifikuje resurs i daje informacije za pristup\nKako ga tražimo i dobijamo odgovor? | HTTP | Definiše razmenu između klijenta i servera\nKako je dokument strukturisan i povezan sa drugim resursima? | HTML | Označava naslove, pasuse, linkove, obrasce i druge delove dokumenta\n\nOva trojka dobro opisuje osnovni veb, ali nisu svi veb resursi HTML dokumenti. Resurs može biti slika, video ili skup podataka. Opštije, arhitektura veba povezuje identifikaciju resursa, razmenu i predstavljanje sadržaja.\n\nHTML daje dokumentu strukturu i značenje. Hiperlink u HTML-u upućuje na drugi resurs pomoću URL-a. CSS određuje izgled, dok JavaScript omogućava programsku logiku i interakciju. Jednostavna stranica sa tekstom i linkovima može da radi i bez CSS-a i JavaScript-a.\n\nKorisnik otvara stranicu sa podacima senzora:\n\n1. URL određuje traženi resurs, na primer \"/senzori\".\n2. Pregledač šalje HTTP zahtev za taj resurs.\n3. U primeru sa HTTP/1.1, TCP prenosi bajtove zahteva, a IP omogućava prosleđivanje paketa kroz mrežu.\n4. Server tumači HTTP zahtev i šalje HTTP odgovor.\n5. Ako odgovor sadrži HTML, pregledač ga tumači i prikazuje dokument.\n\nZahtev za \"/api/senzori\" mogao bi da vrati JSON umesto HTML-a. Menja se sadržaj odgovora, dok osnovne uloge protokola ostaju iste.\n\nNe. Odgovor je uspešno stigao. HTTP status govori o traženom resursu, a ne o gubitku paketa.\n\nNe. Potvrđuje prijem bajtova na nivou TCP-a. Uspešnu obradu mora da potvrdi aplikacija odgovarajućim odgovorom.\n\nU primeru sa TCP-om, ponovno slanje izgubljenih podataka obavlja TCP.\n\nDa. Pouzdan prenos može savršeno da prenese neispravno sastavljenu poruku.\n\nNe. Granice HTTP poruka i mrežnih paketa ne moraju da se poklapaju.\n\nNe. HTML opisuje dokument. HTTP uređuje njegovu razmenu između klijenta i servera.\n\nNe. Može da sadrži JSON, sliku ili drugi sadržaj, a neki odgovori nemaju telo.\n\nNe. Internet povezuje mreže i omogućava različite oblike komunikacije. Veb je jedan od sistema koji tu infrastrukturu koriste.\n\nNe. HTTP/1.1 i HTTP/2 koriste TCP. HTTP/3 koristi QUIC preko UDP-a; QUIC obezbeđuje pouzdan prenos tokova podataka. HTTP zadržava osnovna značenja zahteva i odgovora i kada se promeni transport ispod njega.\n\nHTTPS je HTTP komunikacija zaštićena šifrovanjem, proverom integriteta i proverom identiteta servera. Kod HTTP/1.1 i HTTP/2 tu zaštitu pruža TLS iznad TCP-a; kod HTTP/3 ona je integrisana u QUIC. Sam TCP ne šifruje sadržaj komunikacije.",
+          "tekst": "Paketi mogu da putuju kroz mrežu.\n\nPodela podataka na pakete omogućava da više komunikacija deli iste mrežne veze. Ostaju tri druga problema: kako proslediti paket do odredišta, kako pouzdano preneti sve podatke i kako dogovoriti šta poslati zahtev i dobijeni odgovor znače.\n\nU internetu ove zadatke razdvajamo između protokola. Za početak posmatramo HTTP/1.1 preko TCP-a i IP-a.\n\nIP znači Internet Protocol. On definiše adresiranje i prenos paketa između povezanih mreža. IP paket sadrži izvornu i odredišnu IP adresu. Ruteri koriste odredišnu adresu i svoje tabele rutiranja da odrede kome će paket sledeće proslediti.\n\nPošiljalac zato ne mora unapred da poznaje svaki ruter na putu. Paket se prosleđuje korak po korak do odredišta.\n\nIP ne garantuje da će paket stići, da će stići samo jednom ili da će paketi stići redom kojim su poslati. Sam ne šalje izgubljene podatke ponovo.\n\nNaziv TCP/IP potiče od dva važna protokola, ali se često koristi za celu porodicu internet protokola. To ne znači da svaka komunikacija preko IP-a koristi TCP.\n\nTCP — Transmission Control Protocol — aplikacijama pruža pouzdan tok bajtova u ispravnom redosledu. Koristi redne brojeve, potvrde prijema i ponovno slanje. Primaocu omogućava da poređa primljene delove i ukloni duplikate. Ako se veza ne može nastaviti, aplikacija dobija grešku. Šta program vidi kad jedan deo zakasni, i kad datagram sme da se odbaci, dolazi u sledećim koracima.\n\nPouzdan prenos ne objašnjava značenje podataka. HTTP — Hypertext Transfer Protocol — definiše šta zahtev i odgovor znače između klijenta i servera. Metode, statusi i zaglavlja su taj dogovor, ne posao IP-a ni TCP-a.\n\nProtokol | Glavni zadatak | Šta ne određuje\nIP | Adresiranje i prosleđivanje paketa kroz mreže | Da li su svi podaci pouzdano stigli\nTCP | Pouzdan, uređen tok bajtova između krajnjih tačaka | Šta ti bajtovi znače aplikaciji\nHTTP | Značenje i pravila razmene zahteva i odgovora | Put paketa kroz mrežu\n\nVeb je sistem resursa koje možemo da identifikujemo, povezujemo i kojima možemo da pristupamo.\n\nPitanje | Osnovni pojam | Uloga\nKom resursu pristupamo? | URL | Identifikuje resurs i daje informacije za pristup\nKako ga tražimo i dobijamo odgovor? | HTTP | Definiše razmenu između klijenta i servera\nKako je sadržaj predstavljen? | predstavljanje | Resurs može biti HTML, slika ili skup podataka\n\nHipertekst, sam dogovor HTTP-a i put od URL-a do prikaza dolaze redom, posle ove mape.",
           "kljucnaIdeja": "IP prosleđuje paket. TCP predaje uređen tok bajtova. HTTP kaže šta zahtev i odgovor znače.",
           "pitalica": "Šta nam još nedostaje da bismo otvorili veb stranicu?",
           "pitalice": [
             {
               "pitalica": "Šta nam još nedostaje da bismo otvorili veb stranicu?",
-              "odgovor": "Podela podataka na pakete omogućava da više komunikacija deli iste mrežne veze. Međutim, ostaju tri različita problema: kako proslediti paket do odredišta, kako pouzdano preneti sve podatke i kako dogovoriti šta poslati zahtev i dobijeni odgovor znače.\n\nU internetu ove zadatke razdvajamo između protokola. Za početak ćemo posmatrati HTTP/1.1 preko TCP-a i IP-a."
+              "odgovor": "Podela na pakete deli mrežne veze. Ostaju tri druga problema: kako proslediti paket do odredišta, kako pouzdano preneti sve podatke i kako dogovoriti šta poslati zahtev i dobijeni odgovor znače.\n\nU internetu ove zadatke razdvajamo između protokola. Za početak posmatramo HTTP/1.1 preko TCP-a i IP-a."
             },
             {
               "pitalica": "Šta je IP u nazivu TCP/IP?",
-              "odgovor": "IP znači Internet Protocol. On definiše adresiranje i prenos paketa između povezanih mreža. IP paket sadrži izvornu i odredišnu IP adresu. Ruteri koriste odredišnu adresu i svoje tabele rutiranja da odrede kome će paket sledeće proslediti.\n\nPošiljalac zato ne mora unapred da poznaje svaki ruter na putu. Paket se prosleđuje korak po korak do odredišta.\n\nIP, međutim, ne garantuje da će paket stići, da će stići samo jednom ili da će paketi stići redom kojim su poslati. Takođe, sam ne šalje izgubljene podatke ponovo.\n\nNaziv TCP/IP potiče od dva važna protokola, ali se često koristi za celu porodicu internet protokola. To ne znači da svaka komunikacija preko IP-a koristi TCP."
+              "odgovor": "IP znači Internet Protocol. On definiše adresiranje i prenos paketa između povezanih mreža. IP paket sadrži izvornu i odredišnu IP adresu. Ruteri koriste odredišnu adresu i svoje tabele rutiranja da odrede kome će paket sledeće proslediti.\n\nPošiljalac zato ne mora unapred da poznaje svaki ruter na putu. Paket se prosleđuje korak po korak do odredišta.\n\nIP ne garantuje da će paket stići, da će stići samo jednom ili da će paketi stići redom kojim su poslati. Sam ne šalje izgubljene podatke ponovo.\n\nNaziv TCP/IP potiče od dva važna protokola, ali se često koristi za celu porodicu internet protokola. To ne znači da svaka komunikacija preko IP-a koristi TCP."
             },
             {
               "pitalica": "Ako IP može da izgubi paket, kako ipak dobijamo potpun dokument?",
-              "odgovor": "TCP — Transmission Control Protocol — aplikacijama pruža pouzdan tok bajtova u ispravnom redosledu. Koristi redne brojeve, potvrde prijema i ponovno slanje da nadoknadi izgubljene podatke. Primaocu omogućava da pravilno poređa primljene delove i ukloni duplikate.\n\nTCP takođe prilagođava slanje mogućnostima primaoca i zagušenju mreže. Portovi omogućavaju razlikovanje komunikacija i usluga na istom računaru.\n\nIpak, pouzdanost ne znači da TCP može da savlada svaki kvar. Ako komunikacija ne može da se nastavi, aplikacija dobija grešku ili prekid veze."
-            },
-            {
-              "pitalica": "Da li TCP veza znači da je rezervisan kanal kroz mrežu?",
-              "odgovor": "Ne. Krajnji računari održavaju stanje komunikacije, ali mrežne veze i dalje dele sa drugim korisnicima. TCP veza ne podrazumeva rezervisan fizički put."
+              "odgovor": "TCP — Transmission Control Protocol — aplikacijama pruža pouzdan tok bajtova u ispravnom redosledu. Koristi redne brojeve, potvrde prijema i ponovno slanje. Primaocu omogućava da poređa primljene delove i ukloni duplikate.\n\nAko se veza ne može nastaviti, aplikacija dobija grešku. Šta program vidi kad jedan deo zakasni, sledi."
             },
             {
               "pitalica": "Ako TCP pouzdano prenosi podatke, zašto nam je potreban HTTP?",
-              "odgovor": "Pouzdan prenos ne objašnjava značenje podataka. Ako server dobije niz bajtova, mora da zna da li klijent traži dokument, šalje podatke formulara ili želi da obriše resurs.\n\nHTTP — Hypertext Transfer Protocol — definiše značenje zahteva i odgovora između klijenta i servera. Na primer:\n\n- \"GET\" traži prikaz određenog resursa.\n- \"POST\" šalje podatke na obradu.\n- \"200 OK\" označava uspešan zahtev.\n- \"404 Not Found\" označava da server nije pronašao traženi resurs.\n- Zaglavlja prenose dodatne informacije, poput vrste sadržaja.\n\nHTTP može da prenosi HTML, slike, JSON i druge vrste sadržaja. Njegova primena nije ograničena na hipertekst, uprkos nazivu."
-            },
-            {
-              "pitalica": "Da li TCP prepoznaje početak i kraj HTTP poruke?",
-              "odgovor": "Ne. TCP prenosi tok bajtova, a HTTP određuje kako se taj tok tumači kao zahtevi i odgovori. Jedna HTTP poruka može biti preneta kroz mnogo TCP segmenata. Jedno čitanje iz TCP veze ne mora da vrati celu HTTP poruku.\n\nProtokol | Glavni zadatak | Šta ne određuje\nIP | Adresiranje i prosleđivanje paketa kroz mreže | Da li su svi podaci pouzdano stigli\nTCP | Pouzdan, uređen tok bajtova između krajnjih tačaka | Šta ti bajtovi znače aplikaciji\nHTTP | Značenje i pravila razmene zahteva i odgovora | Put paketa kroz mrežu"
+              "odgovor": "Pouzdan prenos ne objašnjava značenje podataka. HTTP — Hypertext Transfer Protocol — definiše šta zahtev i odgovor znače između klijenta i servera.\n\nMetode, statusi i zaglavlja su taj dogovor. Nisu posao IP-a ni TCP-a."
             },
             {
               "pitalica": "Šta onda čini veb?",
-              "odgovor": "Veb je sistem resursa koje možemo da identifikujemo, povezujemo i kojima možemo da pristupamo. Njegovu osnovu možemo objasniti kroz tri pitanja:\n\nPitanje | Osnovni pojam | Uloga\nKom resursu pristupamo? | URL | Identifikuje resurs i daje informacije za pristup\nKako ga tražimo i dobijamo odgovor? | HTTP | Definiše razmenu između klijenta i servera\nKako je dokument strukturisan i povezan sa drugim resursima? | HTML | Označava naslove, pasuse, linkove, obrasce i druge delove dokumenta\n\nOva trojka dobro opisuje osnovni veb, ali nisu svi veb resursi HTML dokumenti. Resurs može biti slika, video ili skup podataka. Opštije, arhitektura veba povezuje identifikaciju resursa, razmenu i predstavljanje sadržaja.\n\nHTML daje dokumentu strukturu i značenje. Hiperlink u HTML-u upućuje na drugi resurs pomoću URL-a. CSS određuje izgled, dok JavaScript omogućava programsku logiku i interakciju. Jednostavna stranica sa tekstom i linkovima može da radi i bez CSS-a i JavaScript-a."
-            },
-            {
-              "pitalica": "Kako to izgleda na primeru naše IoT aplikacije?",
-              "odgovor": "Korisnik otvara stranicu sa podacima senzora:\n\n1. URL određuje traženi resurs, na primer \"/senzori\".\n2. Pregledač šalje HTTP zahtev za taj resurs.\n3. U primeru sa HTTP/1.1, TCP prenosi bajtove zahteva, a IP omogućava prosleđivanje paketa kroz mrežu.\n4. Server tumači HTTP zahtev i šalje HTTP odgovor.\n5. Ako odgovor sadrži HTML, pregledač ga tumači i prikazuje dokument.\n\nZahtev za \"/api/senzori\" mogao bi da vrati JSON umesto HTML-a. Menja se sadržaj odgovora, dok osnovne uloge protokola ostaju iste."
-            },
-            {
-              "pitalica": "Server je vratio \"404\". Da li je TCP zakazao?",
-              "odgovor": "Ne. Odgovor je uspešno stigao. HTTP status govori o traženom resursu, a ne o gubitku paketa."
-            },
-            {
-              "pitalica": "Može li TCP potvrda prijema da dokaže da je server sačuvao očitavanje senzora u bazu?",
-              "odgovor": "Ne. Potvrđuje prijem bajtova na nivou TCP-a. Uspešnu obradu mora da potvrdi aplikacija odgovarajućim odgovorom."
-            },
-            {
-              "pitalica": "Ako se tokom prenosa izgube podaci, da li HTTP šalje taj paket ponovo?",
-              "odgovor": "U primeru sa TCP-om, ponovno slanje izgubljenih podataka obavlja TCP."
-            },
-            {
-              "pitalica": "Može li HTTP zahtev da bude neispravan iako su svi bajtovi stigli bez greške?",
-              "odgovor": "Da. Pouzdan prenos može savršeno da prenese neispravno sastavljenu poruku."
-            },
-            {
-              "pitalica": "Da li jedan HTTP zahtev odgovara jednom IP paketu?",
-              "odgovor": "Ne. Granice HTTP poruka i mrežnih paketa ne moraju da se poklapaju."
-            },
-            {
-              "pitalica": "Da li HTML određuje kako se dokument prenosi?",
-              "odgovor": "Ne. HTML opisuje dokument. HTTP uređuje njegovu razmenu između klijenta i servera."
-            },
-            {
-              "pitalica": "Da li HTTP odgovor mora da sadrži HTML?",
-              "odgovor": "Ne. Može da sadrži JSON, sliku ili drugi sadržaj, a neki odgovori nemaju telo."
-            },
-            {
-              "pitalica": "Da li su internet i veb isto?",
-              "odgovor": "Ne. Internet povezuje mreže i omogućava različite oblike komunikacije. Veb je jedan od sistema koji tu infrastrukturu koriste."
-            },
-            {
-              "pitalica": "Da li HTTP uvek koristi TCP?",
-              "odgovor": "Ne. HTTP/1.1 i HTTP/2 koriste TCP. HTTP/3 koristi QUIC preko UDP-a; QUIC obezbeđuje pouzdan prenos tokova podataka. HTTP zadržava osnovna značenja zahteva i odgovora i kada se promeni transport ispod njega."
-            },
-            {
-              "pitalica": "A šta je HTTPS?",
-              "odgovor": "HTTPS je HTTP komunikacija zaštićena šifrovanjem, proverom integriteta i proverom identiteta servera. Kod HTTP/1.1 i HTTP/2 tu zaštitu pruža TLS iznad TCP-a; kod HTTP/3 ona je integrisana u QUIC. Sam TCP ne šifruje sadržaj komunikacije."
+              "odgovor": "Veb je sistem resursa koje možemo da identifikujemo, povezujemo i kojima možemo da pristupamo.\n\nPitanje | Osnovni pojam | Uloga\nKom resursu pristupamo? | URL | Identifikuje resurs i daje informacije za pristup\nKako ga tražimo i dobijamo odgovor? | HTTP | Definiše razmenu između klijenta i servera\nKako je sadržaj predstavljen? | predstavljanje | Resurs može biti HTML, slika ili skup podataka\n\nHipertekst, sam dogovor HTTP-a i put od URL-a do prikaza dolaze redom, posle ove mape."
             }
           ]
         },
@@ -495,7 +443,7 @@
           "minuta": 5,
           "tipPrimer": "eksperiment",
           "prica": "Veliki fajl ide od računara A ka računaru B kao tri dela: P1, P2 i P3. P2 kasni. P3 može da stigne pre njega.",
-          "tekst": "Veliki fajl ide od računara A ka računaru B kao tri dela: P1, P2 i P3. P2 kasni. P3 može da stigne pre njega.\n\nIP sme da isporuči te delove drugim redom, da neki izgubi ili da isti stigne dvaput. Ne traži da svaki paket ide istim putem. Program koji čita fajl ne vidi taj nered. TCP numeriše bajtove i na prijemnoj strani čeka deo koji fali, pa aplikaciji predaje uređen tok. Ako P3 stigne pre P2, aplikacija preko TCP-a ne mora da vidi P3 prvo.\n\nČekanje nije pravilo IP-a. IP ne obećava red. TCP čeka zato što dokument ne sme da ima rupu u bajtovima. Rupa bi bila izgubljen znak, ne kasniji paket.\n\nDva sečenja nisu ista operacija. IP fragmentacija deli jedan datagram kad ne staje u sledeću vezu. TCP segmentacija deli tok bajtova na segmente koje veza može da ponese. Fragment nije segment, i redosled fragmenata nije redosled kojim aplikacija čita fajl.",
+          "tekst": "Veliki fajl ide od računara A ka računaru B kao tri dela: P1, P2 i P3. P2 kasni. P3 može da stigne pre njega.\n\nProgram koji čita fajl ne vidi redosled dolaska. TCP na prijemnoj strani čeka deo koji fali i predaje uređen tok. Ako P3 stigne pre P2, aplikacija preko TCP-a ne mora da vidi P3 prvo. To čekanje nije rezervisan kanal kroz mrežu: krajnji računari pamte red bajtova, a veze i dalje dele sa drugima.\n\nRupa u tom toku bila bi izgubljen znak, ne kasniji paket.\n\nDva sečenja nisu ista operacija. IP fragmentacija deli jedan datagram kad ne staje u sledeću vezu. TCP segmentacija deli tok bajtova na segmente koje veza može da ponese. Fragment nije segment. Jedna HTTP poruka može da pređe kroz više segmenata, a jedno čitanje iz veze ne mora da vrati celu poruku.",
           "kljucnaIdeja": "Ako P3 stigne pre P2, TCP i dalje predaje aplikaciji uređen tok. Fragmentacija IP-a i segmentacija TCP-a nisu isto sečenje.",
           "samostalniPrimer": {
             "jezik": "text",
@@ -506,15 +454,15 @@
           "pitalice": [
             {
               "pitalica": "Šta je tačno ako P3 stigne pre P2?",
-              "odgovor": "Aplikacija preko TCP-a ne mora da vidi P3 pre P2. TCP može da sačeka P2 i da isporuči uređen tok. Dolazak paketa nije redosled čitanja.\n\nIP sme da isporuči delove drugim redom, da neki izgubi ili da isti stigne dvaput. Ne traži da svaki paket ide istim putem."
+              "odgovor": "Aplikacija preko TCP-a ne mora da vidi P3 pre P2. TCP sačeka deo koji fali i isporuči uređen tok.\n\nTo čekanje nije rezervisan kanal kroz mrežu. Krajnji računari pamte red bajtova, a veze i dalje dele sa drugima."
             },
             {
               "pitalica": "Zašto TCP uopšte čeka P2 ako je P3 već stigao?",
-              "odgovor": "Aplikacija koja čita dokument ne sme da vidi rupu u bajtovima. Rupa bi bila izgubljen znak, ne kasniji paket.\n\nIP ne zabranjuje da P3 stigne pre P2. Čekanje je odluka TCP-a, ne svojstvo svakog paketa."
+              "odgovor": "Aplikacija koja čita dokument ne sme da vidi rupu u bajtovima. Rupa bi bila izgubljen znak, ne kasniji paket.\n\nČekanje je odluka TCP-a. IP ne zabranjuje da P3 stigne pre P2."
             },
             {
               "pitalica": "Da li je sečenje IP datagrama isto što i sečenje TCP toka?",
-              "odgovor": "Nije. IP fragmentacija deli datagram koji ne staje u sledeću vezu. TCP segmentacija deli tok bajtova na segmente. Fragment nije segment, i redosled fragmenata nije redosled kojim aplikacija čita fajl."
+              "odgovor": "Nije. IP fragmentacija deli datagram koji ne staje u sledeću vezu. TCP segmentacija deli tok bajtova na segmente. Fragment nije segment.\n\nJedna HTTP poruka može da pređe kroz više segmenata. Jedno čitanje iz veze ne mora da vrati celu poruku."
             }
           ]
         },
@@ -524,7 +472,7 @@
           "minuta": 5,
           "tipPrimer": "eksperiment",
           "prica": "Kadar filma zakasni. Dokument koji čeka bajt i dalje stoji. Glas, slika i igra ne čekaju.",
-          "tekst": "Kadar filma zakasni. Dokument koji čeka bajt i dalje stoji. Glas, slika i igra ne čekaju.\n\nUDP nema ugrađenu potvrdu, ponovno slanje ni garanciju redosleda. Aplikacija sme da preskoči zakasneli kadar, jer slika koja zakasni više nije ovaj trenutak. Dokument ne sme da izgubi bajt. TCP čuva tok bajtova dokumenta dok veza radi, ili prijavi da se veza prekinula.\n\nTCP i UDP nisu brži i sporiji internet. Nastaju jer različite aplikacije različito trpe gubitak. Ista mreža ne znači isto pravilo.\n\nStizanje bajtova komande „uključi” ne znači da je ventilator poslušao. TCP predaje bajtove. Ne zna šta bajt znači, niti da li je uređaj poslušao.",
+          "tekst": "Kadar filma zakasni. Dokument koji čeka bajt i dalje stoji. Glas, slika i igra ne čekaju.\n\nUDP nema ugrađenu potvrdu, ponovno slanje ni garanciju redosleda. Aplikacija sme da preskoči zakasneli kadar, jer slika koja zakasni više nije ovaj trenutak. Dokument ne sme da izgubi bajt. TCP čuva tok bajtova dokumenta dok veza radi, ili prijavi da se veza prekinula.\n\nTCP i UDP nisu brži i sporiji internet. Nastaju jer različite aplikacije različito trpe gubitak. Ista mreža ne znači isto pravilo.\n\nHTTP/1.1 i HTTP/2 koriste TCP. HTTP/3 koristi QUIC preko UDP-a. QUIC predaje pouzdan tok. Sam UDP tu pouzdanost nema.",
           "kljucnaIdeja": "TCP čuva svaki bajt dokumenta. UDP ne garantuje isporuku svakog paketa.",
           "figura": {
             "vrsta": "put",
@@ -547,15 +495,11 @@
           "pitalice": [
             {
               "pitalica": "Šta radimo sa zakasnelim kadrom?",
-              "odgovor": "Kadar sme da se odbaci, a dokument ne sme da izgubi bajt. Kadar koji zakasni više ne pripada slici koja je prošla.\n\nUDP nema ugrađenu potvrdu, ponovno slanje ni garanciju redosleda, pa glas, slika ili igra ne čekaju."
+              "odgovor": "Kadar sme da se odbaci, a dokument ne sme da izgubi bajt. Kadar koji zakasni više ne pripada slici koja je prošla.\n\nUDP nema ugrađenu potvrdu, ponovno slanje ni garanciju redosleda, pa glas, slika ili igra ne čekaju. HTTP/3 kasnije ide preko QUIC-a i UDP-a, ali sam UDP i dalje nema tu pouzdanost."
             },
             {
               "pitalica": "Zašto kadar sme da se odbaci, a bajt dokumenta ne?",
               "odgovor": "Zato što slika koja zakasni više nije ovaj trenutak, a dokument sa izgubljenim bajtom više nije taj dokument.\n\nTCP i UDP nisu brži i sporiji internet. Nastaju jer različite aplikacije različito trpe gubitak. Ista mreža ne znači isto pravilo."
-            },
-            {
-              "pitalica": "Šta iz pouzdanog TCP toka ne sledi?",
-              "odgovor": "Ne sledi da je komanda „uključi” izvršena. Sledi samo da su bajtovi stigli dok veza radi.\n\nTCP ne zna šta bajt znači niti da li je uređaj poslušao."
             }
           ]
         },
