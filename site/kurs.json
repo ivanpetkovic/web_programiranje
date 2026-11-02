@@ -523,7 +523,8 @@
           "nivo": "Osnovno",
           "minuta": 5,
           "tipPrimer": "eksperiment",
-          "tekst": "Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? TCP je pouzdan tok bajtova: dokument traži svaki bajt. UDP sme da odbaci datagram, pa glas, slika ili igra ne čekaju zakasneli kadar. UDP nema ugrađenu potvrdu, retransmisiju ni garanciju redosleda. Kod interaktivnog zvuka aplikacija može odlučiti da preskoči zakasnele podatke; kod preuzimanja dokumenta bitna je tačnost svake datoteke, bez obzira na transportni protokol.",
+          "prica": "Kadar filma zakasni. Dokument koji čeka bajt i dalje stoji. Glas, slika i igra ne čekaju.",
+          "tekst": "Kadar filma zakasni. Dokument koji čeka bajt i dalje stoji. Glas, slika i igra ne čekaju.\n\nUDP nema ugrađenu potvrdu, ponovno slanje ni garanciju redosleda. Aplikacija sme da preskoči zakasneli kadar, jer slika koja zakasni više nije ovaj trenutak. Dokument ne sme da izgubi bajt. TCP čuva tok bajtova dokumenta dok veza radi, ili prijavi da se veza prekinula.\n\nTCP i UDP nisu brži i sporiji internet. Nastaju jer različite aplikacije različito trpe gubitak. Ista mreža ne znači isto pravilo.\n\nStizanje bajtova komande „uključi” ne znači da je ventilator poslušao. TCP predaje bajtove. Ne zna šta bajt znači, niti da li je uređaj poslušao.",
           "kljucnaIdeja": "TCP čuva svaki bajt dokumenta. UDP ne garantuje isporuku svakog paketa.",
           "figura": {
             "vrsta": "put",
@@ -543,75 +544,18 @@
             ]
           },
           "pitalica": "Šta radimo sa zakasnelim kadrom?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Čekamo ga, kao što dokument čeka bajt.",
-              "why": "Kadar koji zakasni više ne pripada slici koja je prošla. UDP nema ugrađenu potvrdu, retransmisiju ni garanciju redosleda.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Kadar sme da se odbaci, a dokument ne sme da izgubi bajt.",
-              "why": "TCP omogućava pouzdan uređen tok bajtova (dok je konekcija uspešna). aplikacija koja koristi UDP može odlučiti da zanemari zakasneli audio/video podatak. UDP nema ugrađenu potvrdu, retransmisiju ni garanciju redosleda. Kod interaktivnog zvuka aplikacija može odlučiti da preskoči zakasnele podatke; kod preuzimanja dokumenta bitna je tačnost svake datoteke, bez obzira na transportni protokol.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "UDP nema ugrađenu potvrdu, retransmisiju ni garanciju redosleda. Kod interaktivnog zvuka aplikacija može odlučiti da preskoči zakasnele podatke; kod preuzimanja dokumenta bitna je tačnost svake datoteke, bez obzira na transportni protokol.",
           "pitalice": [
             {
               "pitalica": "Šta radimo sa zakasnelim kadrom?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Čekamo ga, kao što dokument čeka bajt.",
-                  "why": "Kadar koji zakasni više ne pripada slici koja je prošla. UDP nema ugrađenu potvrdu, retransmisiju ni garanciju redosleda.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Kadar sme da se odbaci, a dokument ne sme da izgubi bajt.",
-                  "why": "TCP omogućava pouzdan uređen tok bajtova (dok je konekcija uspešna). aplikacija koja koristi UDP može odlučiti da zanemari zakasneli audio/video podatak. UDP nema ugrađenu potvrdu, retransmisiju ni garanciju redosleda. Kod interaktivnog zvuka aplikacija može odlučiti da preskoči zakasnele podatke; kod preuzimanja dokumenta bitna je tačnost svake datoteke, bez obzira na transportni protokol.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "UDP nema ugrađenu potvrdu, retransmisiju ni garanciju redosleda. Kod interaktivnog zvuka aplikacija može odlučiti da preskoči zakasnele podatke; kod preuzimanja dokumenta bitna je tačnost svake datoteke, bez obzira na transportni protokol."
+              "odgovor": "Kadar sme da se odbaci, a dokument ne sme da izgubi bajt. Kadar koji zakasni više ne pripada slici koja je prošla.\n\nUDP nema ugrađenu potvrdu, ponovno slanje ni garanciju redosleda, pa glas, slika ili igra ne čekaju."
             },
             {
               "pitalica": "Zašto kadar sme da se odbaci, a bajt dokumenta ne?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Zato što slika koja zakasni više nije ovaj trenutak, a dokument sa izgubljenim bajtom više nije taj dokument.",
-                  "why": "UDP ne garantuje isporuku; aplikacija sme da odbaci kadar. TCP čuva tok bajtova dokumenta ili prijavi neuspeh veze.",
-                  "ok": true
-                },
-                {
-                  "key": "B",
-                  "text": "Zato što su oba na istoj mreži, pa važi isto pravilo.",
-                  "why": "Ista mreža ne znači isti zahtev aplikacije. Slika koja zakasni više nije ovaj trenutak; dokument sa rupom nije dokument.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "TCP i UDP nisu „brži i sporiji Internet”. Nastaju jer različite aplikacije različito trpe gubitak. Iz imena protokola ne sledi da ventilator jeste uključen."
+              "odgovor": "Zato što slika koja zakasni više nije ovaj trenutak, a dokument sa izgubljenim bajtom više nije taj dokument.\n\nTCP i UDP nisu brži i sporiji internet. Nastaju jer različite aplikacije različito trpe gubitak. Ista mreža ne znači isto pravilo."
             },
             {
               "pitalica": "Šta iz pouzdanog TCP toka ne sledi?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Da je komanda „uključi” izvršena.",
-                  "why": "TCP isporučuje bajtove. Ne zna šta bajt znači niti da li je uređaj poslušao.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Samo da su bajtovi stigli redom dok veza radi, ne i šta oni znače.",
-                  "why": "Značenje komande dolazi iznad TCP-a. Pouzdan tok nije poslovni uspeh.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Ova granica se vraća kad ekran kaže uključeno, a odgovor nije stigao. Mrežni uspeh i efekat u sobi nisu isto."
+              "odgovor": "Ne sledi da je komanda „uključi” izvršena. Sledi samo da su bajtovi stigli dok veza radi.\n\nTCP ne zna šta bajt znači niti da li je uređaj poslušao."
             }
           ]
         },

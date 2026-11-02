@@ -187,27 +187,23 @@ Odgovor, skriven dok se ne otvori ikonica: nije. Fragmentacija deli datagram. Se
 
 ~5 min · crtež, bez fajla
 
-Ako kadar filma zakasni, da li čekamo bajt ili idemo dalje? TCP je pouzdan tok bajtova: dokument traži svaki bajt. UDP sme da odbaci datagram, pa glas, slika ili igra ne čekaju zakasneli kadar.
+Kadar filma zakasni. Dokument koji čeka bajt i dalje stoji. Glas, slika i igra ne čekaju.
 
 > **Ključna ideja.** TCP čuva svaki bajt dokumenta. UDP ne garantuje isporuku svakog paketa.
 
-**Crtež.**
-
-```mermaid
-flowchart LR
-  c0["Bajt"]
-  c1["TCP"]
-  c2["UDP"]
-  c0 --> c1
-  c1 --> c2
-```
+**Crtež.** Bajt, TCP, UDP.
 
 **Pitalica.** Šta radimo sa zakasnelim kadrom?
 
-- A. Čekamo ga, kao što dokument čeka bajt.
-  Kadar koji zakasni više ne pripada slici koja je prošla.
-- **B. Kadar sme da se odbaci, a dokument ne sme da izgubi bajt.**
-  **drži.** TCP čuva svaki bajt dokumenta. UDP sme da odbaci glas ili sliku.
+Odgovor, skriven dok se ne otvori ikonica: kadar sme da se odbaci, a dokument ne sme da izgubi bajt. UDP nema ugrađenu potvrdu, ponovno slanje ni garanciju redosleda.
+
+**Pitalica.** Zašto kadar sme da se odbaci, a bajt dokumenta ne?
+
+Odgovor, skriven dok se ne otvori ikonica: slika koja zakasni više nije ovaj trenutak, a dokument sa izgubljenim bajtom više nije taj dokument. Ista mreža ne znači isto pravilo.
+
+**Pitalica.** Šta iz pouzdanog TCP toka ne sledi?
+
+Odgovor, skriven dok se ne otvori ikonica: ne sledi da je komanda „uključi” izvršena. TCP ne zna šta bajt znači niti da li je uređaj poslušao.
 
 <a id="n1-k4"></a>
 
