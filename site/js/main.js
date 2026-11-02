@@ -2739,8 +2739,8 @@ const temaMeni = document.querySelector(".tema-meni");
 const temaNatpis = document.querySelector("#tema .tema-natpis");
 
 const modKontrole = document.querySelector("#mod-kontrole");
-const modRoditelj = modKontrole?.parentElement || null;
-const modSidro = modKontrole?.nextSibling || null;
+const modMesto = document.querySelector("#mod-mesto");
+const fontKontrole = document.querySelector("#font-kontrole");
 
 function osveziMod() {
   const predavanja = modPredavanja();
@@ -2778,13 +2778,20 @@ function postaviSkalu(skala) {
 }
 
 function postaviModKontrole() {
-  if (!modKontrole || !modRoditelj) return;
-  if (usko() && mobilPodesavanja) {
-    const profil = mobilPodesavanja.querySelector(".mobil-profil-red");
-    if (profil && modKontrole.nextSibling !== profil) mobilPodesavanja.insertBefore(modKontrole, profil);
-    else if (!profil && modKontrole.parentElement !== mobilPodesavanja) mobilPodesavanja.append(modKontrole);
-  } else if (modKontrole.parentElement !== modRoditelj) {
-    modRoditelj.insertBefore(modKontrole, modSidro);
+  if (!modKontrole) return;
+  if (usko() && mobilNavTraka) {
+    if (modKontrole.parentElement !== mobilNavTraka) mobilNavTraka.prepend(modKontrole);
+  } else if (modMesto && modKontrole.parentElement !== modMesto) {
+    modMesto.append(modKontrole);
+  }
+}
+
+function postaviFontKontrole() {
+  if (!fontKontrole) return;
+  if (usko() && mobilTemaMesto) {
+    if (fontKontrole.previousElementSibling !== mobilTemaMesto) mobilTemaMesto.insertAdjacentElement("afterend", fontKontrole);
+  } else if (temaMeni && fontKontrole.previousElementSibling !== temaMeni) {
+    temaMeni.insertAdjacentElement("afterend", fontKontrole);
   }
 }
 
@@ -2871,6 +2878,7 @@ for (const [id, natpis, opis] of TEME) {
 natpisPalete();
 postaviSpisakTeme();
 postaviModKontrole();
+postaviFontKontrole();
 osveziMod();
 
 document.querySelector("#mod-predavanja")?.addEventListener("click", () => postaviMod("predavanja"));
@@ -3026,6 +3034,7 @@ window.addEventListener("resize", () => {
   prikaziMobilPretragu();
   postaviSpisakTeme();
   postaviModKontrole();
+  postaviFontKontrole();
 });
 
 const navOmot = document.querySelector(".nav-omot");

@@ -26,5 +26,17 @@ test("predavanja i samostalni rad", () => {
   assert.match(main, /pitalica-samo-ikona/);
   assert.match(css, /--skala-predavanja:\s*1\.3/);
   assert.match(css, /html\[data-mod="predavanja"\]\s*\{\s*font-size:\s*calc\(16px \* var\(--skala-predavanja\)\)/);
-  assert.match(css, /html\[data-mod="predavanja"\] \.top #font-segment \{ display: none; \}/);
+  assert.match(css, /html\[data-mod="predavanja"\] \.top #font-kontrole \{ display: none; \}/);
+  const traka = html.indexOf('id="mobil-nav-traka"');
+  const mod = html.indexOf('id="mod-kontrole"');
+  const ned = html.indexOf('id="mobil-ned-pad"');
+  assert.ok(traka > 0 && traka < mod && mod < ned);
+  const meni = html.indexOf('class="tema-meni"');
+  const font = html.indexOf('id="font-kontrole"');
+  const oznaka = html.indexOf('id="oznaka"');
+  assert.ok(meni > 0 && meni < font && font < oznaka);
+  assert.match(main, /mobilNavTraka\.prepend\(modKontrole\)/);
+  assert.match(main, /modMesto\.append\(modKontrole\)/);
+  assert.match(main, /mobilTemaMesto\.insertAdjacentElement\("afterend", fontKontrole\)/);
+  assert.match(main, /temaMeni\.insertAdjacentElement\("afterend", fontKontrole\)/);
 });
