@@ -135,11 +135,29 @@ Odgovor, skriven dok se ne otvori ikonica: paketni prenos je osnova. TCP kasnije
 
 ~5 min · bez fajla
 
+Gradivo drži objašnjenje: tri problema, IP, TCP, HTTP, tabele, primer i HTTPS. Diskusija drži pitanja. Odgovor je skriven dok se ne otvori ikonica.
+
 Paketi mogu da putuju kroz mrežu.
 
 > **Ključna ideja.** IP prosleđuje paket. TCP predaje uređen tok bajtova. HTTP kaže šta zahtev i odgovor znače.
 
-Osamnaest pitanja, odgovor skriven dok se ne otvori ikonica. Prvo: šta još nedostaje da bi se otvorila stranica. Zatim IP, TCP, da TCP veza nije rezervisan kanal, zašto HTTP, da TCP ne vidi granicu HTTP poruke, šta čini veb, primer IoT stranice, kratke provere (404, potvrda prijema, ponovno slanje, jedan paket, HTML, internet i veb), pa HTTP/3 i HTTPS.
+**Pitalica.** Šta nam još nedostaje da bismo otvorili veb stranicu?
+
+**Pitalica.** Šta je IP u nazivu TCP/IP?
+
+**Pitalica.** Ako IP može da izgubi paket, kako ipak dobijamo potpun dokument?
+
+**Pitalica.** Da li TCP veza znači da je rezervisan kanal kroz mrežu?
+
+**Pitalica.** Ako TCP pouzdano prenosi podatke, zašto nam je potreban HTTP?
+
+**Pitalica.** Da li TCP prepoznaje početak i kraj HTTP poruke?
+
+**Pitalica.** Šta onda čini veb?
+
+**Pitalica.** Kako to izgleda na primeru naše IoT aplikacije?
+
+Zatim provere: 404, potvrda prijema, ponovno slanje, jedan paket, HTML, internet i veb, HTTP/3 i HTTPS.
 
 <a id="n1-k3"></a>
 

@@ -78,6 +78,9 @@ test("Od paketa do stranice razdvaja IP, TCP i HTTP", () => {
   assert.match(korak.pitalice[1].odgovor, /Internet Protocol/);
   assert.match(korak.pitalice[3].odgovor, /ne podrazumeva rezervisan fizički put/);
   assert.match(korak.pitalice[5].odgovor, /Jedno čitanje iz TCP veze ne mora da vrati celu HTTP poruku/);
+  assert.equal(korak.tekst.includes("Šta je IP u nazivu TCP/IP?"), false);
+  assert.equal(korak.tekst.includes("Da li HTTP uvek koristi TCP?"), false);
+  assert.match(korak.tekst, /Internet Protocol/);
   assert.match(korak.tekst, /Protokol \| Glavni zadatak/);
   assert.match(korak.tekst, /Kom resursu pristupamo\?/);
   assert.match(korak.kljucnaIdeja, /HTTP kaže šta zahtev i odgovor znače/);
