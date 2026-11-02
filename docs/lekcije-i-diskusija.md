@@ -159,6 +159,28 @@ Paketi mogu da putuju kroz mrežu.
 
 Zatim provere: 404, potvrda prijema, ponovno slanje, jedan paket, HTML, internet i veb, HTTP/3 i HTTPS.
 
+<a id="n1-kasni"></a>
+
+#### Korak. Paket ili rezervisana veza
+
+~5 min · bez fajla
+
+Veliki fajl ide od računara A ka računaru B kao tri dela: P1, P2 i P3. P2 kasni. P3 može da stigne pre njega.
+
+> **Ključna ideja.** Ako P3 stigne pre P2, TCP i dalje predaje aplikaciji uređen tok. Fragmentacija IP-a i segmentacija TCP-a nisu isto sečenje.
+
+**Pitalica.** Šta je tačno ako P3 stigne pre P2?
+
+Odgovor, skriven dok se ne otvori ikonica: aplikacija preko TCP-a ne mora da vidi P3 pre P2. TCP može da sačeka P2. Dolazak paketa nije redosled čitanja. IP ne traži da svaki paket ide istim putem.
+
+**Pitalica.** Zašto TCP uopšte čeka P2 ako je P3 već stigao?
+
+Odgovor, skriven dok se ne otvori ikonica: dokument ne sme da ima rupu u bajtovima. IP ne zabranjuje da P3 stigne pre P2. Čekanje je odluka TCP-a.
+
+**Pitalica.** Da li je sečenje IP datagrama isto što i sečenje TCP toka?
+
+Odgovor, skriven dok se ne otvori ikonica: nije. Fragmentacija deli datagram. Segmentacija deli tok bajtova. Fragment nije segment.
+
 <a id="n1-k3"></a>
 
 #### Korak 3. TCP i UDP
