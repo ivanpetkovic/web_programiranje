@@ -74,8 +74,8 @@ test("oblačić pojma se sklapa sekundu posle odlaska ili klika sa strane", { ti
 
     await sačekajElement("#nav .tema-koraci .korak-red");
     await strana.vrednost(`document.querySelectorAll("#nav .tema-koraci .korak-red")[1].click()`);
-    await sačekajElement(".pojam-crta");
-    const pojam = await tacka(".pojam-crta", true);
+    await sačekajElement("#sekcija-diskusija .pojam-crta");
+    const pojam = await tacka("#sekcija-diskusija .pojam-crta", true);
     const skloniste = await tacka("#nav .kurs-zaglavlje");
     await na(pojam);
     const otvoren = await sačekaj((s) => s.otvoren && s.tekst.includes("Rezervisana veza"), "otvaranje");
@@ -89,7 +89,7 @@ test("oblačić pojma se sklapa sekundu posle odlaska ili klika sa strane", { ti
     await pauza(800);
     assert.equal((await stanje()).otvoren, false, "oblačić se gasi oko sekunde posle odlaska miša");
 
-    await na(await tacka(".pojam-crta"));
+    await na(await tacka("#sekcija-diskusija .pojam-crta"));
     await sačekaj((s) => s.otvoren, "ponovno otvaranje");
     const oblacic = await tacka("#tooltip");
     await na(oblacic);
@@ -101,7 +101,7 @@ test("oblačić pojma se sklapa sekundu posle odlaska ili klika sa strane", { ti
     await pauza(800);
     assert.equal((await stanje()).otvoren, false, "oblačić se gasi sekundu posle odlaska sa panela");
 
-    await strana.vrednost(`document.querySelector(".pojam-crta").focus()`);
+    await strana.vrednost(`document.querySelector("#sekcija-diskusija .pojam-crta").focus()`);
     await sačekaj((s) => s.otvoren, "otvaranje sa fokusa");
     await klik(skloniste);
     const posleKlika = await stanje();
@@ -111,15 +111,15 @@ test("oblačić pojma se sklapa sekundu posle odlaska ili klika sa strane", { ti
     await pauza(800);
     assert.equal((await stanje()).otvoren, false, "oblačić se gasi oko sekunde posle klika sa strane");
 
-    await na(await tacka(".pojam-crta"));
+    await na(await tacka("#sekcija-diskusija .pojam-crta"));
     await sačekaj((s) => s.otvoren, "otvaranje pred drugi klik");
-    await klik(await tacka(".pojam-crta"));
+    await klik(await tacka("#sekcija-diskusija .pojam-crta"));
     assert.equal((await stanje()).otvoren, false, "drugi klik na pojam i dalje sklapa oblačić odmah");
 
     await na(skloniste);
-    await na(await tacka(".pojam-crta"));
+    await na(await tacka("#sekcija-diskusija .pojam-crta"));
     await sačekaj((s) => s.otvoren, "otvaranje pred fokus");
-    await strana.vrednost(`document.querySelector(".pojam-crta").focus()`);
+    await strana.vrednost(`document.querySelector("#sekcija-diskusija .pojam-crta").focus()`);
     await na(skloniste);
     await pauza(500);
     assert.equal((await stanje()).otvoren, true, "fokusiran pojam još drži oblačić pola sekunde");

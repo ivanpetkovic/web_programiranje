@@ -307,8 +307,11 @@ button[aria-pressed="true"] { border-color: var(--amber); color: var(--amber); }
   font-weight: 650;
   letter-spacing: -0.02em;
 }
-.lekcija-tekst ul { margin: 0.2rem 0 0.85rem; padding-left: 1.25rem; }
-.lekcija-tekst li + li { margin-top: 0.35rem; }
+.lekcija-tekst ul, .lekcija-tekst ol, .odgovor-tekst ul, .odgovor-tekst ol { margin: 0.2rem 0 0.85rem; padding-left: 1.25rem; }
+.lekcija-tekst li + li, .odgovor-tekst li + li { margin-top: 0.35rem; }
+.proza-tabela { width: 100%; border-collapse: collapse; margin: 0.75rem 0 1rem; font-size: 0.95rem; }
+.proza-tabela th, .proza-tabela td { border: 1px solid var(--line); padding: 0.45rem 0.6rem; text-align: left; vertical-align: top; }
+.proza-tabela th { font-weight: 650; }
 .lekcija-tekst code { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 0.92em; }
 .panel { display: grid; gap: 0.8rem; align-content: start; }
 .room-h { display: flex; justify-content: space-between; align-items: baseline; }
@@ -523,6 +526,8 @@ body.uvod-otvoren .mobil-korak-lizac { display: none; }
 .uvod-tema span { color: var(--muted); font-size: 0.92rem; }
 .uvod-dalje { justify-self: start; }
 .prica-koraka { font-size: 1.05rem; line-height: 1.45; margin: 0; }
+.prica-koraka p { margin: 0; }
+.prica-koraka p + p { margin-top: 0.65rem; }
 .diskusija-korak { display: grid; gap: 0.55rem; }
 .pitalica-koraka { display: grid; gap: 0.45rem; margin-top: 1rem; }
 .pitalica-koraka + .pitalica-koraka { padding-top: 0.8rem; border-top: 1px solid var(--line); }
@@ -732,6 +737,8 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 }
 .odgovor-ikona.otvoreno { background: var(--amber-dim); }
 .odgovor-tekst { margin: 0.55rem 0 0; }
+.odgovor-tekst p { margin: 0; }
+.odgovor-tekst p + p { margin-top: 0.45rem; }
 .uredi-natpis { display: grid; gap: 0.25rem; margin-bottom: 0.55rem; }
 .radnje-pitanja {
   display: flex;

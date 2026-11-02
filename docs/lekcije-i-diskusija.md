@@ -69,7 +69,7 @@ Budžet razgovora je jedan za celu nedelju, oko 35 minuta, ne za svaku pitalicu 
 ### Lekcije
 
 1. [LO](#n1-k1) · ~4 min
-2. [Paket](#n1-k2) · ~4 min
+2. [Paket](#n1-k2) · ~5 min
 3. [TCP i UDP](#n1-k3) · ~5 min
 4. [Internet](#n1-k4) · ~4 min
 5. [Hipertekst](#n1-k5) · ~5 min
@@ -111,18 +111,53 @@ Odgovor, skriven dok se ne otvori ikonica: dokument mora da ima lokaciju. Veza j
 
 #### Korak 2. Paket
 
-~4 min · bez fajla
+~5 min · bez fajla
 
-Zašto seći poruku, umesto da se rezerviše veza od kraja do kraja? Ako je veza rezervisana, prekid uništi celu poruku. Paket ide drugim putem i poruka se sklopi.
+Pri pokušaju prijave sa računara na UCLA na računar u SRI-ju, mreža nije rezervisala poseban kanal samo za ta dva računara. Takav kanal je veza od kraja do kraja. ARPANET je koristio prenos podataka u paketima: podaci se dele na manje celine, koje uz sadržaj nose i informacije potrebne da ih mreža prosledi do odredišta.
 
-> **Ključna ideja.** Prekinuta veza ne mora da uništi poruku.
+> **Ključna ideja.** Paketni prenos je temelj interneta na kojem je kasnije nastao HTTP; nije rana verzija samog HTTP-a.
 
-**Pitalica.** Šta prekinuta veza uradi poruci od paketa?
+**Pitalica.** Zašto deliti poruku na pakete, umesto rezervisati vezu od početka do kraja?
 
-- A. Uništi je, jer put je jedan.
-  Paket ne traži jednu rezervisanu vezu.
-- **B. Prekinuta veza ne mora da uništi poruku.**
-  **drži.** Drugi paket može drugim putem. Poruka se sklopi na kraju.
+Odgovor, skriven dok se ne otvori ikonica: računari ne šalju podatke neprekidno. Rezervisani kanal bi tokom pauza ostajao zauzet. Paketi omogućavaju da više komunikacija deli iste mrežne veze.
+
+**Pitalica.** Šta se dešava ako se neka mrežna veza prekine tokom prenosa?
+
+Odgovor, skriven dok se ne otvori ikonica: prekid ne poništava podatke koji su već primljeni. Neki paketi mogu da se izgube. Sama podela na pakete ne obezbeđuje red, dolazak svih delova ni ponovno slanje. Za to su potrebni protokoli.
+
+**Pitalica.** Kako nas ovo vodi ka HTTP-u?
+
+Odgovor, skriven dok se ne otvori ikonica: paketni prenos je osnova. TCP kasnije obezbeđuje pouzdan redosled. HTTP definiše kako klijent traži resurs i kako server odgovara. Paketni prenos nije rana verzija HTTP-a.
+
+<a id="n1-sloj"></a>
+
+#### Korak. Od paketa do stranice
+
+~5 min · bez fajla
+
+Gradivo drži objašnjenje: tri problema, IP, TCP, HTTP, tabele, primer i HTTPS. Diskusija drži pitanja. Odgovor je skriven dok se ne otvori ikonica.
+
+Paketi mogu da putuju kroz mrežu.
+
+> **Ključna ideja.** IP prosleđuje paket. TCP predaje uređen tok bajtova. HTTP kaže šta zahtev i odgovor znače.
+
+**Pitalica.** Šta nam još nedostaje da bismo otvorili veb stranicu?
+
+**Pitalica.** Šta je IP u nazivu TCP/IP?
+
+**Pitalica.** Ako IP može da izgubi paket, kako ipak dobijamo potpun dokument?
+
+**Pitalica.** Da li TCP veza znači da je rezervisan kanal kroz mrežu?
+
+**Pitalica.** Ako TCP pouzdano prenosi podatke, zašto nam je potreban HTTP?
+
+**Pitalica.** Da li TCP prepoznaje početak i kraj HTTP poruke?
+
+**Pitalica.** Šta onda čini veb?
+
+**Pitalica.** Kako to izgleda na primeru naše IoT aplikacije?
+
+Zatim provere: 404, potvrda prijema, ponovno slanje, jedan paket, HTML, internet i veb, HTTP/3 i HTTPS.
 
 <a id="n1-k3"></a>
 

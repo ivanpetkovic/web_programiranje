@@ -44,6 +44,18 @@ export function deloviReda(tekst) {
   return delovi;
 }
 
+function celijeTabele(linija) {
+  const sredina = linija.trim().replace(/^\|/, "").replace(/\|$/, "");
+  if (!sredina.includes("|")) return null;
+  const celije = sredina.split("|").map((celija) => celija.trim());
+  if (celije.length < 2 || celije.some((celija) => celija === "")) return null;
+  return celije;
+}
+
+function razdelnikTabele(linija) {
+  return /^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$/.test(linija.trim());
+}
+
 export function blokoviProze(tekst) {
   const izvor = String(tekst ?? "");
   if (!izvor.trim()) return [{ vrsta: "pasus", delovi: [{ tekst: izvor }] }];
@@ -58,6 +70,24 @@ export function blokoviProze(tekst) {
       return {
         vrsta: "lista",
         stavke: linije.map((linija) => deloviReda(linija.trim().replace(/^-\s+/, ""))),
+      };
+    }
+    if (linije.every((linija) => /^\d+\.\s+\S/.test(linija.trim()))) {
+      return {
+        vrsta: "brojna",
+        stavke: linije.map((linija) => deloviReda(linija.trim().replace(/^\d+\.\s+/, ""))),
+      };
+    }
+    const bezRazdelnika = linije.filter((linija) => !razdelnikTabele(linija));
+    const tabela = bezRazdelnika.map(celijeTabele);
+    if (
+      tabela.length >= 2
+      && tabela.every((red) => red && red.length === tabela[0].length)
+    ) {
+      return {
+        vrsta: "tabela",
+        zaglavlje: tabela[0].map((celija) => deloviReda(celija)),
+        redovi: tabela.slice(1).map((red) => red.map((celija) => deloviReda(celija))),
       };
     }
     return { vrsta: "pasus", delovi: deloviReda(linije.join("\n")) };

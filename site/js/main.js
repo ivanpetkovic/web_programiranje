@@ -852,14 +852,38 @@ function cvoroviPasusa(tekst) {
       naslov.append(cvorDelova(blok.delovi));
       return naslov;
     }
-    if (blok.vrsta === "lista") {
-      const lista = document.createElement("ul");
+    if (blok.vrsta === "lista" || blok.vrsta === "brojna") {
+      const lista = document.createElement(blok.vrsta === "brojna" ? "ol" : "ul");
       for (const stavka of blok.stavke) {
         const li = document.createElement("li");
         li.append(cvorDelova(stavka));
         lista.append(li);
       }
       return lista;
+    }
+    if (blok.vrsta === "tabela") {
+      const tabela = document.createElement("table");
+      tabela.className = "proza-tabela";
+      const glava = document.createElement("thead");
+      const glavaRed = document.createElement("tr");
+      for (const celija of blok.zaglavlje) {
+        const th = document.createElement("th");
+        th.append(cvorDelova(celija));
+        glavaRed.append(th);
+      }
+      glava.append(glavaRed);
+      const telo = document.createElement("tbody");
+      for (const red of blok.redovi) {
+        const tr = document.createElement("tr");
+        for (const celija of red) {
+          const td = document.createElement("td");
+          td.append(cvorDelova(celija));
+          tr.append(td);
+        }
+        telo.append(tr);
+      }
+      tabela.append(glava, telo);
+      return tabela;
     }
     const p = document.createElement("p");
     p.append(cvorDelova(blok.delovi));
@@ -1725,9 +1749,10 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi) {
   }
   pitanjeUnutra.append(pitanjeNad, red);
   if (retoricko && (otvoreno || urediSadrzaj.aktivan)) {
-    const telo = document.createElement("p");
+    const telo = document.createElement("div");
     telo.className = odgovor ? "odgovor-tekst" : "odgovor-tekst meta";
-    telo.textContent = odgovor || "Nema odgovora.";
+    if (odgovor) telo.append(...cvoroviPasusa(odgovor));
+    else telo.textContent = "Nema odgovora.";
     pitanjeUnutra.append(telo);
   }
   if (!retoricko) pitanjeUnutra.append(uputa, kratke);
@@ -1889,9 +1914,9 @@ function nacrtajDiskusijuKoraka(item, i, korak, sirovi) {
   naslov.textContent = korak.naslov;
   omot.append(naslov);
   if (korak.prica) {
-    const prica = document.createElement("p");
+    const prica = document.createElement("div");
     prica.className = "prica-koraka";
-    prica.textContent = korak.prica;
+    prica.append(...cvoroviPasusa(korak.prica));
     omot.append(prica);
   } else {
     const vodica = document.createElement("p");
