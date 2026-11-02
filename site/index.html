@@ -9,6 +9,11 @@
         var mapa = { tamna: "ugalj", svetla: "pesak", mornar: "mornar", ugalj: "ugalj", pesak: "pesak", terakota: "terakota" };
         var tema = mapa[localStorage.getItem("tema")];
         if (tema) document.documentElement.dataset.tema = tema;
+        var mod = localStorage.getItem("web-programiranje:mod");
+        document.documentElement.dataset.mod = mod === "samostalni" ? "samostalni" : "predavanja";
+        var skale = { "0.875": "0.875", "1": "1", "1.125": "1.125", "1.25": "1.25" };
+        var skala = skale[localStorage.getItem("web-programiranje:font")];
+        if (skala) document.documentElement.style.setProperty("--skala-fonta", skala);
       } catch (e) {}
     </script>
     <link rel="stylesheet" href="/css/site.css" />
@@ -49,6 +54,16 @@
         </button>
         <ul id="tema-spisak" class="tema-spisak" role="listbox" hidden></ul>
       </div>
+      <div id="font-kontrole" class="font-kontrole">
+        <p class="mobil-podesavanja-naslov" id="font-naslov">Veličina teksta</p>
+        <div class="segment font-segment" id="font-segment" role="group" aria-label="Veličina teksta">
+          <button type="button" data-skala="0.875" aria-label="Sitniji tekst">A−</button>
+          <button type="button" data-skala="1" aria-pressed="true" aria-label="Normalan tekst">A</button>
+          <button type="button" data-skala="1.125" aria-label="Krupniji tekst">A+</button>
+          <button type="button" data-skala="1.25" aria-label="Veliki tekst">A++</button>
+        </div>
+        <p id="font-napomena" class="meta">U predavanjima je tekst veći. Ova veličina važi za samostalni rad.</p>
+      </div>
       <span id="oznaka" class="oznaka"></span>
     </header>
     <div class="okvir">
@@ -74,6 +89,13 @@
         <div class="cas-glava">
           <div id="mobil-nav-red" class="mobil-nav-red" hidden>
           <div id="mobil-nav-traka" class="mobil-nav-traka" hidden>
+            <div id="mod-kontrole" class="mod-kontrole">
+              <p class="sr">Režim</p>
+              <div class="segment mod-segment" role="group" aria-label="Režim rada">
+                <button type="button" id="mod-predavanja" aria-pressed="true">Predavanja</button>
+                <button type="button" id="mod-samostalni" aria-pressed="false">Samostalni rad</button>
+              </div>
+            </div>
             <button type="button" id="mobil-ned-pad" class="mobil-tema-dugme" aria-haspopup="dialog" aria-expanded="false" aria-controls="mobil-ned-sheet">
               <span class="ikona-slot" data-ikona="calendar-days" aria-hidden="true"></span>
               <span class="mobil-tema-tekst">
@@ -98,7 +120,10 @@
           </div>
           <h1 id="naslov-casa"></h1>
           <div id="definicija" class="definicija" hidden></div>
-          <div id="birac-mesto"></div>
+          <div class="izbor-red">
+            <div id="birac-mesto"></div>
+            <div id="mod-mesto"></div>
+          </div>
         </div>
         <section id="sekcija-koraci" role="tabpanel" aria-labelledby="tab-koraci">
           <article id="cas" class="cas"></article>
@@ -203,7 +228,7 @@
         <h2>Pomoć</h2>
         <p>Pojam iz rečnika u tekstu lekcije podvučen je isprekidanom crtom. Ista polja stoje u oblačiću i u listi pretrage.</p>
         <p>Nađi pojam otvara definiciju i svaku lekciju u kojoj se pojam ponavlja. Pitanje i primer koda otvaraju taj korak u Gradivu.</p>
-        <p>Pre tema stoji uvod: cilj, očekivanje, osnov i pregled. Uvod nije tema i nema korake. Gradivo, Diskusija i Editor su tri taba teme. Na ekranu je tačno jedan. Pri otvaranju teme podrazumevano je Diskusija — pitalice koraka za rad na času. Tab Gradivo daje tekst lekcije za samostalno učenje.</p>
+        <p>Pre tema stoji uvod: cilj, očekivanje, osnov i pregled. Uvod nije tema i nema korake. Gradivo, Diskusija i Editor su tri taba teme. Na ekranu je tačno jedan. U režimu predavanja, pri otvaranju teme podrazumevano je Diskusija — pitalice koraka za rad na času, veći tekst, i izbor teme ili koraka sklapa panel. Pitalica je samo znak pitanja. U samostalnom radu podrazumevano je Gradivo, panel ostaje otvoren, a veličina teksta se bira u Podešavanjima. Tab Gradivo daje tekst lekcije za samostalno učenje.</p>
         <button type="submit">Zatvori</button>
       </form>
     </dialog>

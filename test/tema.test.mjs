@@ -132,7 +132,8 @@ test("gradivo, jedna kolona i birač", () => {
   assert.match(html, /id="tab-koraci"[^>]*>Gradivo</);
   assert.match(html, /id="tab-diskusija"[^>]*aria-selected="true"/);
   assert.match(html, /id="tab-koraci"[^>]*aria-selected="false"/);
-  assert.match(main, /let deo = "diskusija"/);
+  assert.match(main, /let deo = podrazumevaniDeo\(\)/);
+  assert.match(main, /return modPredavanja\(\) \? "diskusija" : "koraci"/);
   assert.match(main, /diskusijaMesto\.replaceChildren\(nacrtajDiskusijuKoraka/);
   assert.match(html, /podrazumevano je Diskusija/);
   assert.match(html, /Gradivo, Diskusija i Editor su tri taba/);
