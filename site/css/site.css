@@ -134,6 +134,15 @@ html[data-tema="terakota"] {
   }
 }
 
+html {
+  --skala-fonta: 1;
+  --skala-predavanja: 1.3;
+  font-size: calc(16px * var(--skala-fonta));
+}
+html[data-mod="predavanja"] {
+  font-size: calc(16px * var(--skala-predavanja));
+}
+
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 body {
@@ -355,6 +364,25 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 .segment { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
 .segment button { border: 0; border-radius: 999px; background: transparent; }
 .segment button[aria-pressed="true"] { background: var(--amber); color: var(--on-amber); border-color: var(--amber); }
+.mod-kontrole { display: flex; align-items: center; gap: 0.4rem; }
+.top .mod-kontrole .mobil-podesavanja-naslov,
+.top .mod-kontrole #font-napomena {
+  position: absolute;
+  left: -999px;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.mod-kontrole .segment button { white-space: nowrap; }
+.font-segment button { min-width: 2.15rem; font-weight: 700; }
+#font-segment button:disabled { opacity: 0.45; }
+#font-napomena { margin: 0; max-width: 28rem; }
+html[data-mod="predavanja"] .top #font-segment { display: none; }
 .file-layout {
   display: grid;
   grid-template-columns: 11rem minmax(0, 1fr);
@@ -672,6 +700,8 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 .isecak .red.novo .br { color: var(--muted); }
 .isecak .red.novo { background: color-mix(in srgb, var(--diff-dodato) 16%, transparent); }
 .pitanje-blok { margin-top: 1rem; }
+.pitalica-samo-ikona { width: fit-content; margin: 0 0 0.15rem; color: var(--amber); }
+.pitalica-samo-ikona .ikona { width: 1.35rem; height: 1.35rem; }
 .pitanje-red { display: flex; align-items: flex-start; gap: 0.45rem; }
 .pitanje-red h3 { margin: 0; flex: 1; }
 .odgovor-ikona {
@@ -1528,6 +1558,11 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   .mobil-izbor-desno .ikona { width: 1rem; height: 1rem; }
   .mobil-izbor-desno .ikona-slot { display: grid; color: var(--amber); }
   .mobil-izbor-meta-broj { color: var(--muted); white-space: nowrap; }
+  .top > #mod-kontrole { display: none; }
+  .mobil-podesavanja #mod-kontrole { display: grid; gap: 0.35rem; }
+  .mobil-podesavanja #mod-kontrole .segment { display: flex; width: 100%; }
+  .mobil-podesavanja #mod-kontrole .segment button { flex: 1; justify-content: center; }
+  .mobil-podesavanja #font-napomena { max-width: none; }
   .mobil-podesavanja h2,
   .mobil-pretraga h2 { margin: 0; font-size: 1.05rem; color: var(--naslov); }
   .mobil-podesavanja-naslov {
