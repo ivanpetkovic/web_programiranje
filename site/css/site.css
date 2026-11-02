@@ -24,6 +24,8 @@
   --chart: #111111;
   --diff-dodato: #d7e7a1;
   --diff-obrisano: #ff8f7a;
+  --podesavanje-font: 1;
+  --sadrzaj-font: 1rem;
   color-scheme: dark;
 }
 
@@ -143,6 +145,9 @@ body {
   color: var(--ink);
   line-height: 1.45;
 }
+body.rezim-predavanje { --sadrzaj-font: 1.15rem; }
+body.rezim-samostalno { --sadrzaj-font: calc(1rem * var(--podesavanje-font, 1)); }
+.stranica { font-size: var(--sadrzaj-font); }
 button, input, textarea { font: inherit; color: inherit; }
 .sr, .skip {
   position: absolute;
@@ -353,8 +358,26 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 .primer-birac .birac-meni { left: 0; right: auto; max-height: 22rem; }
 #primer span { max-width: 11rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .segment { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.segment-puna { display: flex; width: 100%; }
+.segment-puna button { flex: 1; }
 .segment button { border: 0; border-radius: 999px; background: transparent; }
 .segment button[aria-pressed="true"] { background: var(--amber); color: var(--on-amber); border-color: var(--amber); }
+.podesavanja-font-blok {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem 0.65rem;
+  align-items: center;
+}
+.podesavanja-font-blok label { grid-column: 1 / -1; margin: 0; font-size: 0.88rem; }
+.podesavanja-font-blok input[type="range"] { grid-column: 1; width: 100%; }
+body.rezim-predavanje .podesavanja-font-blok,
+body.rezim-predavanje .podesavanja-font-napomena { display: none; }
+.podesavanja-dijalog form { display: grid; gap: 0.75rem; max-width: 22rem; margin: 0; }
+.podesavanja-dijalog-naslov { margin: 0; font-size: 0.92rem; color: var(--muted); font-weight: 600; }
+.top > .podesavanja-dugme { display: none; }
+@media (min-width: 861px) {
+  .top > .podesavanja-dugme { display: inline-flex; align-items: center; justify-content: center; }
+}
 .file-layout {
   display: grid;
   grid-template-columns: 11rem minmax(0, 1fr);
@@ -478,6 +501,16 @@ body.uvod-otvoren .mobil-korak-lizac { display: none; }
 .uvod-tema span { color: var(--muted); font-size: 0.92rem; }
 .uvod-dalje { justify-self: start; }
 .prica-koraka { font-size: 1.05rem; line-height: 1.45; margin: 0; }
+body.rezim-predavanje .prica-koraka { font-size: 1.12em; }
+body.rezim-predavanje .pitalica-koraka .pitanje-blok > .meta {
+  gap: 0;
+  font-size: 0;
+  line-height: 0;
+}
+body.rezim-predavanje .pitalica-koraka .pitanje-blok > .meta .ikona {
+  width: 1.25rem;
+  height: 1.25rem;
+}
 .diskusija-korak { display: grid; gap: 0.55rem; }
 .pitalica-koraka { display: grid; gap: 0.45rem; margin-top: 1rem; }
 .pitalica-koraka + .pitalica-koraka { padding-top: 0.8rem; border-top: 1px solid var(--line); }
@@ -1611,7 +1644,8 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   .top > #sledeca-tema,
   .top > #sacuvaj-zaglavlje,
   .top > .tema-meni,
-  .top > #oznaka {
+  .top > #oznaka,
+  .top > .podesavanja-dugme {
     display: none;
   }
   .top > #pomoc {

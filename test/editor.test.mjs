@@ -134,7 +134,8 @@ test("verzija koraka pobeđuje poslednji fajl sa diska", () => {
     verzija: "radna",
   });
   assert.equal(prazna.tekst, cssDisk);
-  assert.equal(main.replaceAll("rezim-uredjivanja", "").includes("rezim"), false);
+  assert.match(main, /from "\.\/rezim\.js"/);
+  assert.equal(main.includes("rezim-uredjivanja"), false);
   assert.match(fs.readFileSync(new URL("../site/js/verzija.js", import.meta.url), "utf8"), /stabloDo\(/);
   assert.equal(main.includes("/api/stablo"), false);
   assert.equal(main.includes("polazniTekst"), false);

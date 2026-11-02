@@ -25,6 +25,15 @@ import { PODRAZUMEVANI_PRIMER, pocetniFajl, primeniPrimer } from "./primer.js";
 import { praznaSesija, primeni } from "./verzija.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
+import {
+  jePredavanje,
+  podrazumevaniTab,
+  primeniRezimNaStranicu,
+  procitajRezim,
+  procitajSkaluFonta,
+  upisiRezim,
+  upisiSkaluFonta,
+} from "./rezim.js";
 import { jeKomentarLinije, prikazPriloga } from "./prilog.js";
 import { proveriJs } from "./provera-izvora.js";
 import { vecUFajlu } from "./stablo.js";
@@ -228,16 +237,25 @@ function otvoriUvod() {
   else renderLecture();
 }
 
+function sklopiPanelAkoPredavanje() {
+  if (!jePredavanje()) return;
+  zatvoriMobilNav();
+  zatvoriMobilIzborSheetove();
+}
+
+function otvoriKorak(indeks) {
+  korakPoCasu.set(cas, indeks);
+  sklopiPanelAkoPredavanje();
+  renderLecture();
+}
+
 function otvoriTemu(n, korak) {
   if (n < 1 || n > dokument.trajanjeTema) return;
   if (korak !== undefined) korakPoCasu.set(n, korak);
-  if (uvod || n !== cas) deo = "diskusija";
+  if (uvod || n !== cas) deo = podrazumevaniTab();
   uvod = false;
   cas = n;
-  if (korak !== undefined && usko()) {
-    zatvoriMobilNav();
-    zatvoriMobilIzborSheetove();
-  }
+  sklopiPanelAkoPredavanje();
   if (location.hash !== `#cas-${n}`) location.hash = `cas-${n}`;
   else renderLecture();
 }
@@ -660,10 +678,7 @@ function osveziMobilNavTraka(item, i) {
       dugme.append(krug, sredina, desno);
       dugme.addEventListener("click", () => {
         zatvoriMobilIzborSheetove();
-        if (ki !== i) {
-          korakPoCasu.set(cas, ki);
-          renderLecture();
-        }
+        if (ki !== i) otvoriKorak(ki);
       });
       li.append(dugme);
       mobilKorLista.append(li);
@@ -688,12 +703,14 @@ function pomeriKorakPrstom(dx) {
   if (dx < 0 && i < item.steps.length - 1) {
     korakPoCasu.set(cas, i + 1);
     animKoraka = 1;
+    sklopiPanelAkoPredavanje();
     renderLecture();
     return true;
   }
   if (dx > 0 && i > 0) {
     korakPoCasu.set(cas, i - 1);
     animKoraka = -1;
+    sklopiPanelAkoPredavanje();
     renderLecture();
     return true;
   }
@@ -1152,8 +1169,7 @@ function nacrtajBirac(item, i) {
   if (levo) prethodni.append(levo);
   prethodni.disabled = i === 0;
   prethodni.addEventListener("click", () => {
-    korakPoCasu.set(cas, i - 1);
-    renderLecture();
+    otvoriKorak(i - 1);
   });
   const sredina = document.createElement("div");
   const broj = document.createElement("p");
@@ -1187,8 +1203,7 @@ function nacrtajBirac(item, i) {
     dugme.textContent = `${ki + 1} ${korakNed.naslov}`;
     if (ki === i) dugme.setAttribute("aria-selected", "true");
     dugme.addEventListener("click", () => {
-      korakPoCasu.set(cas, ki);
-      renderLecture();
+      otvoriKorak(ki);
     });
     li.append(dugme);
     meni.append(li);
@@ -1221,8 +1236,7 @@ function nacrtajBirac(item, i) {
   if (desno) daljeKorak.append(desno);
   daljeKorak.disabled = i === item.steps.length - 1;
   daljeKorak.addEventListener("click", () => {
-    korakPoCasu.set(cas, i + 1);
-    renderLecture();
+    otvoriKorak(i + 1);
   });
   akcije.append(sviKoraci, meni, daljeKorak);
   red.append(prethodni, sredina, akcije);
@@ -1237,8 +1251,7 @@ function nacrtajBirac(item, i) {
     domacin.setAttribute("aria-label", `${ki + 1} ${korakNed.naslov}`);
     if (ki === i) domacin.setAttribute("aria-current", "step");
     domacin.addEventListener("click", () => {
-      korakPoCasu.set(cas, ki);
-      renderLecture();
+      otvoriKorak(ki);
     });
     const krug = document.createElement("span");
     krug.className = ki <= i ? "birac-krug birac-krug-dosegnut" : "birac-krug birac-krug-buduci";
@@ -1633,7 +1646,17 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi) {
   pitanjeUnutra.className = "pitanje-blok";
   const pitanjeNad = document.createElement("p");
   pitanjeNad.className = "meta";
-  saIkonom(pitanjeNad, "question", pi === 0 ? "Pitalica" : `Pitalica ${pi + 1}`);
+  const natpisPitalice = jePredavanje()
+    ? ""
+    : pi === 0
+      ? "Pitalica"
+      : `Pitalica ${pi + 1}`;
+  saIkonom(pitanjeNad, "question", natpisPitalice);
+  if (jePredavanje()) {
+    pitanjeNad.setAttribute("aria-label", pi === 0 ? "Pitalica" : `Pitalica ${pi + 1}`);
+  } else {
+    pitanjeNad.removeAttribute("aria-label");
+  }
   const pitanje = document.createElement("h3");
   pitanje.append(fragmentTeksta(pitalica.pitalica));
   const retoricko = !(pitalica.opcije || []).length;
@@ -2692,6 +2715,61 @@ document.querySelector("#pomoc").addEventListener("click", () => {
   document.querySelector("#pomoc-dijalog").showModal();
 });
 
+const podesavanjaDijalog = document.querySelector("#podesavanja-dijalog");
+const podesavanjaDugme = document.querySelector("#podesavanja-dugme");
+const fontUlazi = [
+  document.querySelector("#podesavanja-font"),
+  document.querySelector("#podesavanja-font-mobil"),
+].filter(Boolean);
+
+function natpisSkaleFonta(skala) {
+  return `${Math.round(skala * 100)}%`;
+}
+
+function osveziKontroleRezima() {
+  const rezim = procitajRezim();
+  const skala = procitajSkaluFonta();
+  primeniRezimNaStranicu(document, rezim, skala);
+  for (const segment of document.querySelectorAll(".rezim-segment")) {
+    for (const dugme of segment.querySelectorAll("button[data-rezim]")) {
+      dugme.setAttribute("aria-pressed", String(dugme.dataset.rezim === rezim));
+    }
+  }
+  for (const ulaz of fontUlazi) {
+    ulaz.value = String(Math.round(skala * 100));
+    ulaz.disabled = rezim === "predavanje";
+  }
+  for (const natpis of document.querySelectorAll("#podesavanja-font-natpis, #podesavanja-font-natpis-mobil")) {
+    natpis.textContent = natpisSkaleFonta(skala);
+  }
+}
+
+function postaviRezim(rezim) {
+  upisiRezim(localStorage, rezim);
+  osveziKontroleRezima();
+  renderLecture();
+}
+
+function postaviSkaluFonta(procenat) {
+  upisiSkaluFonta(localStorage, Number(procenat) / 100);
+  osveziKontroleRezima();
+}
+
+for (const segment of document.querySelectorAll(".rezim-segment")) {
+  segment.addEventListener("click", (dogadjaj) => {
+    const dugme = dogadjaj.target.closest("button[data-rezim]");
+    if (!dugme) return;
+    postaviRezim(dugme.dataset.rezim);
+  });
+}
+for (const ulaz of fontUlazi) {
+  ulaz.addEventListener("input", () => postaviSkaluFonta(ulaz.value));
+}
+podesavanjaDugme?.addEventListener("click", () => {
+  osveziKontroleRezima();
+  podesavanjaDijalog?.showModal();
+});
+
 const TEME = [
   ["mornar", "Plava", "Plava, sveža i smirena"],
   ["ugalj", "Ugalj", "Tamna i fokusirana"],
@@ -2811,9 +2889,10 @@ window.addEventListener("hashchange", () => {
   }
   const n = Number((location.hash.match(/cas-(\d+)/) || [])[1]);
   if (n >= 1 && n <= dokument.trajanjeTema) {
-    if (uvod || n !== cas) deo = "diskusija";
+    if (uvod || n !== cas) deo = podrazumevaniTab();
     uvod = false;
     cas = n;
+    sklopiPanelAkoPredavanje();
     renderLecture();
   }
 });
@@ -2847,18 +2926,12 @@ function otvoriMobilGradivo() {
 document.querySelector("#mobil-kor-nazad")?.addEventListener("click", () => {
   const item = lecture();
   const i = indeksKoraka();
-  if (i > 0) {
-    korakPoCasu.set(cas, i - 1);
-    renderLecture();
-  }
+  if (i > 0) otvoriKorak(i - 1);
 });
 document.querySelector("#mobil-kor-napred")?.addEventListener("click", () => {
   const item = lecture();
   const i = indeksKoraka();
-  if (i < item.steps.length - 1) {
-    korakPoCasu.set(cas, i + 1);
-    renderLecture();
-  }
+  if (i < item.steps.length - 1) otvoriKorak(i + 1);
 });
 mobilNedPad?.addEventListener("click", prebaciMobilNedSheet);
 mobilKorSredina?.addEventListener("click", prebaciMobilKorSheet);
@@ -3148,6 +3221,7 @@ Promise.all([
   urediSadrzaj.osvezi = () => renderLecture();
   urediSadrzaj.potvrdiIzmenu = potvrdiIzmenuSadrzaja;
   if (urediSadrzaj.aktivan) urediSadrzaj.istorija.osveziReferencu();
+  osveziKontroleRezima();
   renderLecture();
 });
 

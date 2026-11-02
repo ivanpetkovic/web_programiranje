@@ -40,6 +40,7 @@
       <button type="button" id="sledeca-tema" aria-label="Sledeća tema" data-ikona="chevron-right"></button>
       <button type="button" id="sacuvaj-zaglavlje" aria-label="Sačuvaj korak" data-ikona="bookmark"></button>
       <button type="button" id="mobil-nav-prekidac" class="mobil-nav-prekidac" aria-label="Prikaži izbor teme i koraka" aria-expanded="true" aria-controls="mobil-nav-red" data-ikona="book-open" hidden></button>
+      <button type="button" id="podesavanja-dugme" class="podesavanja-dugme" aria-haspopup="dialog" aria-controls="podesavanja-dijalog" aria-label="Podešavanja" data-ikona="menu"></button>
       <button type="button" id="pomoc" aria-label="Pomoć" data-ikona="help-circle"></button>
       <div class="tema-meni">
         <button type="button" id="tema" aria-haspopup="listbox" aria-expanded="false" aria-controls="tema-spisak">
@@ -198,12 +199,29 @@
         <p id="kartica-minuta" class="meta"></p>
       </aside>
     </div>
+    <dialog id="podesavanja-dijalog" class="podesavanja-dijalog">
+      <form method="dialog">
+        <h2>Podešavanja</h2>
+        <h3 class="podesavanja-dijalog-naslov">Režim rada</h3>
+        <div class="segment segment-puna rezim-segment" role="group" aria-label="Režim rada">
+          <button type="button" data-rezim="predavanje">Predavanje</button>
+          <button type="button" data-rezim="samostalno">Samostalni rad</button>
+        </div>
+        <p class="podesavanja-font-blok">
+          <label for="podesavanja-font">Veličina teksta</label>
+          <input type="range" id="podesavanja-font" min="85" max="120" step="5" value="100" />
+          <span id="podesavanja-font-natpis" class="meta">100%</span>
+        </p>
+        <p class="meta podesavanja-font-napomena">Veličina teksta važi u režimu samostalnog rada. U predavanju je uvećan prikaz.</p>
+        <button type="submit">Zatvori</button>
+      </form>
+    </dialog>
     <dialog id="pomoc-dijalog">
       <form method="dialog">
         <h2>Pomoć</h2>
         <p>Pojam iz rečnika u tekstu lekcije podvučen je isprekidanom crtom. Ista polja stoje u oblačiću i u listi pretrage.</p>
         <p>Nađi pojam otvara definiciju i svaku lekciju u kojoj se pojam ponavlja. Pitanje i primer koda otvaraju taj korak u Gradivu.</p>
-        <p>Pre tema stoji uvod: cilj, očekivanje, osnov i pregled. Uvod nije tema i nema korake. Gradivo, Diskusija i Editor su tri taba teme. Na ekranu je tačno jedan. Pri otvaranju teme podrazumevano je Diskusija — pitalice koraka za rad na času. Tab Gradivo daje tekst lekcije za samostalno učenje.</p>
+        <p>Pre tema stoji uvod: cilj, očekivanje, osnov i pregled. Uvod nije tema i nema korake. Gradivo, Diskusija i Editor su tri taba teme. Na ekranu je tačno jedan. U režimu predavanja podrazumevan je tab Diskusija; panel teme i koraka se posle izbora sklapa. U samostalnom režimu podrazumevan je tab Gradivo, panel ostaje otvoren, a veličinu teksta birate u podešavanjima.</p>
         <button type="submit">Zatvori</button>
       </form>
     </dialog>
@@ -219,6 +237,16 @@
       <p class="mobil-profil-red"><span class="oznaka" id="mobil-profil-oznaka"></span> <span id="mobil-profil-ime" class="meta"></span></p>
       <button type="button" id="mobil-profil-napredak" class="mobil-profil-dugme">Napredak kursa</button>
       <button type="button" id="mobil-profil-sacuvaj" class="mobil-profil-dugme" data-ikona="bookmark">Sačuvaj korak</button>
+      <h3 class="mobil-podesavanja-naslov">Režim rada</h3>
+      <div class="segment segment-puna rezim-segment" role="group" aria-label="Režim rada">
+        <button type="button" data-rezim="predavanje">Predavanje</button>
+        <button type="button" data-rezim="samostalno">Samostalni rad</button>
+      </div>
+      <p class="podesavanja-font-blok">
+        <label for="podesavanja-font-mobil">Veličina teksta</label>
+        <input type="range" id="podesavanja-font-mobil" min="85" max="120" step="5" value="100" />
+        <span id="podesavanja-font-natpis-mobil" class="meta">100%</span>
+      </p>
       <h3 class="mobil-podesavanja-naslov">Tema</h3>
       <div id="mobil-tema-mesto" class="mobil-tema-mesto"></div>
     </div>

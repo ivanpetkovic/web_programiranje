@@ -132,9 +132,9 @@ test("gradivo, jedna kolona i birač", () => {
   assert.match(html, /id="tab-koraci"[^>]*>Gradivo</);
   assert.match(html, /id="tab-diskusija"[^>]*aria-selected="true"/);
   assert.match(html, /id="tab-koraci"[^>]*aria-selected="false"/);
-  assert.match(main, /let deo = "diskusija"/);
+  assert.match(main, /podrazumevaniTab\(/);
   assert.match(main, /diskusijaMesto\.replaceChildren\(nacrtajDiskusijuKoraka/);
-  assert.match(html, /podrazumevano je Diskusija/);
+  assert.match(html, /režimu predavanja podrazumevan je tab Diskusija/);
   assert.match(html, /Gradivo, Diskusija i Editor su tri taba/);
   assert.match(html, /otvaraju taj korak u Gradivu/);
   assert.equal(html.includes(">Koraci<"), false);
@@ -166,10 +166,10 @@ test("gradivo, jedna kolona i birač", () => {
   assert.match(main, /item\.steps\.forEach\(\(korakNed, ki\) => \{[\s\S]*krug\.className = ki <= i \? "birac-krug birac-krug-dosegnut" : "birac-krug birac-krug-buduci"/);
   assert.match(main, /domacin\.setAttribute\("aria-label", `\$\{ki \+ 1\} \$\{korakNed\.naslov\}`\)/);
   assert.match(main, /domacin\.setAttribute\("aria-current", "step"\)/);
-  assert.match(main, /domacin\.addEventListener\("click", \(\) => \{[\s\S]*?korakPoCasu\.set\(cas, ki\)/);
+  assert.match(main, /domacin\.addEventListener\("click", \(\) => \{[\s\S]*?otvoriKorak\(ki\)/);
   assert.match(main, /domacin\.append\(krug\)/);
   assert.equal(/krug\.className[\s\S]{0,120}sacuvani/.test(main), false);
-  assert.match(main, /korakPoCasu\.set\(cas, ki\)/);
+  assert.match(main, /otvoriKorak\(ki\)/);
   assert.match(main, /naslovBiraca\.textContent = korak\.naslov/);
   assert.match(main, /Korak \$\{i \+ 1\} od \$\{item\.steps\.length\}/);
   assert.match(main, /saIkonom\(sviKoraci, "menu", "Svi koraci"\)/);
