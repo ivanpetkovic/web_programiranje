@@ -49,3 +49,21 @@ test("naslov, podebljano, kod i spisak ostaju posebni blokovi", () => {
 test("nezatvoren naglasak ostaje tekst", () => {
   assert.deepEqual(deloviReda("**samo"), [{ tekst: "**samo" }]);
 });
+
+test("numerisani spisak i tabela ostaju posebni blokovi", () => {
+  const tekst = [
+    "1. URL određuje resurs.",
+    "2. Pregledač šalje zahtev.",
+    "",
+    "Protokol | Glavni zadatak | Šta ne određuje",
+    "IP | Adresiranje | Pouzdan dolazak",
+    "TCP | Tok bajtova | Značenje bajtova",
+  ].join("\n");
+  const blokovi = blokoviProze(tekst);
+  assert.equal(blokovi[0].vrsta, "brojna");
+  assert.equal(blokovi[0].stavke.length, 2);
+  assert.equal(blokovi[1].vrsta, "tabela");
+  assert.deepEqual(blokovi[1].zaglavlje.map((celija) => celija[0].tekst), ["Protokol", "Glavni zadatak", "Šta ne određuje"]);
+  assert.equal(blokovi[1].redovi.length, 2);
+  assert.equal(blokovi[1].redovi[0][0][0].tekst, "IP");
+});

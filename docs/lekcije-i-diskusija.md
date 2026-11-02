@@ -129,6 +129,18 @@ Odgovor, skriven dok se ne otvori ikonica: prekid ne poništava podatke koji su 
 
 Odgovor, skriven dok se ne otvori ikonica: paketni prenos je osnova. TCP kasnije obezbeđuje pouzdan redosled. HTTP definiše kako klijent traži resurs i kako server odgovara. Paketni prenos nije rana verzija HTTP-a.
 
+<a id="n1-sloj"></a>
+
+#### Korak. Od paketa do stranice
+
+~5 min · bez fajla
+
+Paketi mogu da putuju kroz mrežu.
+
+> **Ključna ideja.** IP prosleđuje paket. TCP predaje uređen tok bajtova. HTTP kaže šta zahtev i odgovor znače.
+
+Osamnaest pitanja, odgovor skriven dok se ne otvori ikonica. Prvo: šta još nedostaje da bi se otvorila stranica. Zatim IP, TCP, da TCP veza nije rezervisan kanal, zašto HTTP, da TCP ne vidi granicu HTTP poruke, šta čini veb, primer IoT stranice, kratke provere (404, potvrda prijema, ponovno slanje, jedan paket, HTML, internet i veb), pa HTTP/3 i HTTPS.
+
 <a id="n1-k3"></a>
 
 #### Korak 3. TCP i UDP
