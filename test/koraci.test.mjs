@@ -113,6 +113,31 @@ test("Paket ili rezervisana veza gleda kasni deo, ne ponavlja slojeve", () => {
   assert.equal("opcije" in korak, false);
 });
 
+test("TCP i UDP poredi zakasneli kadar sa bajtom dokumenta", () => {
+  const korak = dokument.teme[0].steps[4];
+  assert.equal(korak.naslov, "TCP i UDP");
+  assert.match(korak.prica, /Kadar filma zakasni/);
+  assert.match(korak.prica, /ne čekaju/);
+  assert.match(korak.tekst, /nema ugrađenu potvrdu/);
+  assert.match(korak.tekst, /ventilator poslušao/);
+  assert.equal(korak.tekst.includes("Šta radimo sa zakasnelim kadrom?"), false);
+  assert.match(korak.kljucnaIdeja, /UDP ne garantuje isporuku/);
+  assert.equal(korak.figura.cvorovi.map((cvor) => cvor.natpis).join(","), "Bajt,TCP,UDP");
+  assert.deepEqual(
+    korak.pitalice.map((p) => p.pitalica),
+    [
+      "Šta radimo sa zakasnelim kadrom?",
+      "Zašto kadar sme da se odbaci, a bajt dokumenta ne?",
+      "Šta iz pouzdanog TCP toka ne sledi?",
+    ],
+  );
+  assert.match(korak.pitalice[0].odgovor, /Kadar sme da se odbaci/);
+  assert.match(korak.pitalice[1].odgovor, /više nije ovaj trenutak/);
+  assert.match(korak.pitalice[2].odgovor, /uključi/);
+  assert.equal(korak.pitalice.every((p) => !p.opcije && p.odgovor), true);
+  assert.equal("opcije" in korak, false);
+});
+
 test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
   assert.equal(lectures.length, 11);
   const naslovi = [
@@ -207,7 +232,10 @@ test("tema istorije drži korake bez fajla", () => {
   assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 60);
   const tacan = (naslov) => sirovi.find((korak) => korak.naslov === naslov).opcije.find((opcija) => opcija.ok).text;
   assert.equal(sirovi.find((korak) => korak.naslov === "LO").pitalice.every((p) => !p.opcije), true);
-  assert.match(tacan("TCP i UDP"), /Kadar sme da se odbaci/);
+  assert.match(
+    sirovi.find((korak) => korak.naslov === "TCP i UDP").pitalice[0].odgovor,
+    /Kadar sme da se odbaci/,
+  );
   assert.match(tacan("Ajax"), /Dokument ostaje/);
   for (const korak of sirovi) {
     assert.equal("putanja" in korak, false);
