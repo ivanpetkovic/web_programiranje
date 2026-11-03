@@ -25,20 +25,24 @@ test("uvod stoji pre tema i nije tema", () => {
   assert.match(dokument.uvod.napomenaOsnova, /tempo/);
 });
 
-test("LO na Diskusiji ima priču i retorička pitanja, bez odgovora", () => {
+test("Počeci uopštava veb, pa priča LO i zašto to nije veb", () => {
   const lo = dokument.teme[0].steps[0];
-  assert.equal(lo.naslov, "LO");
+  assert.equal(lo.naslov, "Počeci");
+  assert.match(lo.prica, /Šta čini veb/);
   assert.match(lo.prica, /sat vremena kasnije/);
+  assert.match(lo.prica, /informacija pošalje na udaljeni računar/);
   assert.match(lo.tekst, /dokument mora da ima lokaciju/);
   assert.match(lo.tekst, /ne otvara udaljeni računar/);
+  assert.match(lo.tekst, /To još nije veb/);
   assert.equal(lo.tekst.includes("otvara tuđi"), false);
-  assert.match(lo.pitalice[0].odgovor, /Udaljeni računar se ne otvara/);
+  assert.match(lo.pitalice[0].odgovor, /dokumenti na drugom računaru/);
+  assert.match(lo.pitalice[1].odgovor, /Udaljeni računar se ne otvara/);
   assert.match(lo.pitalice[1].odgovor, /Dokument mora da ima lokaciju/);
   assert.deepEqual(
     lo.pitalice.map((p) => p.pitalica),
     [
-      "Prijava na udaljeni računar već radi. Zašto Web ipak nije nastao te noći?",
-      "Šta je moralo da se pojavi da bi jedan dokument vodio na drugi, na drugom računaru?",
+      "Šta čini veb, i kako smo do njega došli?",
+      "Zašto prijava LO još nije veb?",
     ],
   );
   assert.equal(lo.pitalice.every((p) => !p.opcije && p.odgovor), true);
@@ -226,14 +230,14 @@ test("preduslov časa 1 je priča pre stranice, a časa 2 je ishod istorije", ()
 
 test("tema istorije drži korake bez fajla", () => {
   const redosled = [
-    "LO", "Paket", "Od paketa do stranice", "Paket ili rezervisana veza", "TCP i UDP", "Hipertekst", "Predlog",
+    "Počeci", "Paket", "Od paketa do stranice", "Paket ili rezervisana veza", "TCP i UDP", "Hipertekst", "Predlog",
     "HTTP kao dogovor", "HTML", "Rat browsera", "Od URL-a do prikaza", "Ajax", "Dokument",
   ];
   const sirovi = dokument.teme[0].steps;
   assert.deepEqual(sirovi.map((korak) => korak.naslov), redosled);
   assert.equal(sirovi.reduce((zbir, korak) => zbir + korak.minuta, 0), 60);
   const tacan = (naslov) => sirovi.find((korak) => korak.naslov === naslov).opcije.find((opcija) => opcija.ok).text;
-  assert.equal(sirovi.find((korak) => korak.naslov === "LO").pitalice.every((p) => !p.opcije), true);
+  assert.equal(sirovi.find((korak) => korak.naslov === "Počeci").pitalice.every((p) => !p.opcije), true);
   assert.match(
     sirovi.find((korak) => korak.naslov === "TCP i UDP").pitalice[0].odgovor,
     /Kadar sme da se odbaci/,
