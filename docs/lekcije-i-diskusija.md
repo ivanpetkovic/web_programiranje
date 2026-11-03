@@ -68,7 +68,7 @@ Budžet razgovora je jedan za celu nedelju, oko 35 minuta, ne za svaku pitalicu 
 
 ### Lekcije
 
-1. [LO](#n1-k1) · ~4 min
+1. [Počeci](#n1-k1) · ~5 min
 2. [Paket](#n1-k2) · ~5 min
 3. [TCP i UDP](#n1-k3) · ~5 min
 4. [Internet](#n1-k4) · ~4 min
@@ -91,21 +91,21 @@ Budžet razgovora je jedan za celu nedelju, oko 35 minuta, ne za svaku pitalicu 
 
 <a id="n1-k1"></a>
 
-#### Korak 1. LO
+#### Korak 1. Počeci
 
-~4 min · bez fajla
+~5 min · bez fajla
 
-29. oktobra 1969, oko 22:30, sa UCLA ka SRI kreće prijava. Na drugoj mašini dovoljno je LOG: ona sama dopiše IN. Stignu L i O. Na G mašina padne. Oko sat vremena kasnije ista prijava prođe: stignu L, O i G.
+Šta čini veb, i kako smo do njega došli? 29. oktobra 1969, oko 22:30, sa UCLA ka SRI kreće prijava. Na drugoj mašini dovoljno je LOG: ona sama dopiše IN. Stignu L i O. Na G mašina padne. Oko sat vremena kasnije ista prijava prođe: stignu L, O i G. Ideja je bila da se informacija pošalje na udaljeni računar.
 
-> **Ključna ideja.** Prijava šalje komandu. Web traži dokument na lokaciji.
+> **Ključna ideja.** Ideja je bila da se informacija pošalje na udaljeni računar. Veb traži dokument na lokaciji.
 
-**Pitalica.** Prijava na udaljeni računar već radi. Zašto Web ipak nije nastao te noći?
+**Pitalica.** Šta čini veb, i kako smo do njega došli?
 
-Odgovor, skriven dok se ne otvori ikonica: prijava šalje komandu programu na drugom računaru. Udaljeni računar se ne otvara. Nema dokumenta na lokaciji.
+Odgovor, skriven dok se ne otvori ikonica: veb čine dokumenti na drugom računaru i veza kojom jedan vodi na drugi. Prijava iz 1969. šalje komandu programu. Tu staje.
 
-**Pitalica.** Šta je moralo da se pojavi da bi jedan dokument vodio na drugi, na drugom računaru?
+**Pitalica.** Zašto prijava LO još nije veb?
 
-Odgovor, skriven dok se ne otvori ikonica: dokument mora da ima lokaciju. Veza je lokacija drugog dokumenta.
+Odgovor, skriven dok se ne otvori ikonica: ideja je bila da se informacija pošalje na udaljeni računar. Udaljeni računar se ne otvara. Dokument mora da ima lokaciju.
 
 <a id="n1-k2"></a>
 
