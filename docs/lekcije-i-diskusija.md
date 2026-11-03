@@ -113,21 +113,23 @@ Odgovor, skriven dok se ne otvori ikonica: ideja je bila da se informacija poša
 
 ~5 min · bez fajla
 
-Pri pokušaju prijave sa računara na UCLA na računar u SRI-ju, mreža nije rezervisala poseban kanal samo za ta dva računara. Takav kanal je veza od kraja do kraja. ARPANET je koristio prenos podataka u paketima: podaci se dele na manje celine, koje uz sadržaj nose i informacije potrebne da ih mreža prosledi do odredišta.
+Pri pokušaju prijave sa računara na UCLA na računar u SRI-ju, mreža nije rezervisala poseban komunikacioni put samo za ta dva računara. ARPANET je koristio prenos podataka u paketima. To je komutacija paketa: podaci se dele na manje celine, koje uz sadržaj nose i informacije potrebne da ih mreža prosledi do odredišta.
+
+Gradivo prvo razlikuje komutaciju kola od komutacije paketa: telefonska mreža rezerviše komunikacioni put, a paketi dele zajedničke mrežne resurse. Na kraju ostaju otvorena pitanja kako paket stiže, šta ako se izgubi ili stigne van reda, i kako primalac razume poruku.
 
 > **Ključna ideja.** Paketni prenos je temelj interneta na kojem je kasnije nastao HTTP; nije rana verzija samog HTTP-a.
 
-**Pitalica.** Zašto deliti poruku na pakete, umesto rezervisati vezu od početka do kraja?
+**Pitalica.** Zašto deliti poruku na pakete, umesto rezervisati komunikacioni put?
 
-Odgovor, skriven dok se ne otvori ikonica: računari ne šalju podatke neprekidno. Rezervisani kanal bi tokom pauza ostajao zauzet. Paketi omogućavaju da više komunikacija deli iste mrežne veze.
+Odgovor, skriven dok se ne otvori ikonica: računari ne šalju podatke neprekidno. Rezervisan komunikacioni put bi tokom pauza ostajao zauzet. Paketi dele komunikacionu vezu između susednih uređaja.
 
-**Pitalica.** Šta se dešava ako se neka mrežna veza prekine tokom prenosa?
+**Pitalica.** Šta se dešava ako se neka komunikaciona veza prekine tokom prenosa?
 
 Odgovor, skriven dok se ne otvori ikonica: prekid ne poništava podatke koji su već primljeni. Neki paketi mogu da se izgube. Sama podela na pakete ne obezbeđuje red, dolazak svih delova ni ponovno slanje. Za to su potrebni protokoli.
 
 **Pitalica.** Kako nas ovo vodi ka HTTP-u?
 
-Odgovor, skriven dok se ne otvori ikonica: paketni prenos deli mrežu. Ne rešava ni red bajtova ni značenje zahteva. Nije rana verzija HTTP-a.
+Odgovor, skriven dok se ne otvori ikonica: ostaju otvorena pitanja kako paket stiže, šta ako se izgubi ili stigne van reda, i kako primalac razume poruku. Nije rana verzija HTTP-a.
 
 <a id="n1-sloj"></a>
 
@@ -137,7 +139,7 @@ Odgovor, skriven dok se ne otvori ikonica: paketni prenos deli mrežu. Ne rešav
 
 Gradivo drži mapu: IP prosleđuje, TCP predaje uređen tok, HTTP daje značenje. Metode, hipertekst, UDP i put od URL-a do prikaza dolaze u kasnijim koracima.
 
-Paketi mogu da putuju kroz mrežu.
+Različiti protokoli rešavaju različite probleme: IP adresira i prosleđuje, TCP predaje pouzdan tok bajtova. To je veza između krajnjih uređaja. Nije rezervisan komunikacioni put. HTTP definiše značenje zahteva i odgovora.
 
 > **Ključna ideja.** IP prosleđuje paket. TCP predaje uređen tok bajtova. HTTP kaže šta zahtev i odgovor znače.
 
