@@ -68,7 +68,7 @@ Budžet razgovora je jedan za celu nedelju, oko 35 minuta, ne za svaku pitalicu 
 
 ### Lekcije
 
-1. [LO](#n1-k1) · ~4 min
+1. [Počeci](#n1-k1) · ~5 min
 2. [Paket](#n1-k2) · ~5 min
 3. [TCP i UDP](#n1-k3) · ~5 min
 4. [Internet](#n1-k4) · ~4 min
@@ -91,21 +91,21 @@ Budžet razgovora je jedan za celu nedelju, oko 35 minuta, ne za svaku pitalicu 
 
 <a id="n1-k1"></a>
 
-#### Korak 1. LO
+#### Korak 1. Počeci
 
-~4 min · bez fajla
+~5 min · bez fajla
 
-29. oktobra 1969, oko 22:30, sa UCLA ka SRI kreće prijava. Na drugoj mašini dovoljno je LOG: ona sama dopiše IN. Stignu L i O. Na G mašina padne. Oko sat vremena kasnije ista prijava prođe: stignu L, O i G.
+Šta čini veb, i kako smo do njega došli? 29. oktobra 1969, oko 22:30, sa UCLA ka SRI kreće prijava. Na drugoj mašini dovoljno je LOG: ona sama dopiše IN. Stignu L i O. Na G mašina padne. Oko sat vremena kasnije ista prijava prođe: stignu L, O i G. Ideja je bila da se informacija pošalje na udaljeni računar.
 
-> **Ključna ideja.** Prijava šalje komandu. Web traži dokument na lokaciji.
+> **Ključna ideja.** Ideja je bila da se informacija pošalje na udaljeni računar. Veb traži dokument na lokaciji.
 
-**Pitalica.** Prijava na udaljeni računar već radi. Zašto Web ipak nije nastao te noći?
+**Pitalica.** Šta čini veb, i kako smo do njega došli?
 
-Odgovor, skriven dok se ne otvori ikonica: prijava šalje komandu programu na drugom računaru. Udaljeni računar se ne otvara. Nema dokumenta na lokaciji.
+Odgovor, skriven dok se ne otvori ikonica: veb čine dokumenti na drugom računaru i veza kojom jedan vodi na drugi. Prijava iz 1969. šalje komandu programu. Tu staje.
 
-**Pitalica.** Šta je moralo da se pojavi da bi jedan dokument vodio na drugi, na drugom računaru?
+**Pitalica.** Zašto prijava LO još nije veb?
 
-Odgovor, skriven dok se ne otvori ikonica: dokument mora da ima lokaciju. Veza je lokacija drugog dokumenta.
+Odgovor, skriven dok se ne otvori ikonica: ideja je bila da se informacija pošalje na udaljeni računar. Udaljeni računar se ne otvara. Dokument mora da ima lokaciju.
 
 <a id="n1-k2"></a>
 
@@ -127,7 +127,7 @@ Odgovor, skriven dok se ne otvori ikonica: prekid ne poništava podatke koji su 
 
 **Pitalica.** Kako nas ovo vodi ka HTTP-u?
 
-Odgovor, skriven dok se ne otvori ikonica: paketni prenos je osnova. TCP kasnije obezbeđuje pouzdan redosled. HTTP definiše kako klijent traži resurs i kako server odgovara. Paketni prenos nije rana verzija HTTP-a.
+Odgovor, skriven dok se ne otvori ikonica: paketni prenos deli mrežu. Ne rešava ni red bajtova ni značenje zahteva. Nije rana verzija HTTP-a.
 
 <a id="n1-sloj"></a>
 
@@ -135,7 +135,7 @@ Odgovor, skriven dok se ne otvori ikonica: paketni prenos je osnova. TCP kasnije
 
 ~5 min · bez fajla
 
-Gradivo drži objašnjenje: tri problema, IP, TCP, HTTP, tabele, primer i HTTPS. Diskusija drži pitanja. Odgovor je skriven dok se ne otvori ikonica.
+Gradivo drži mapu: IP prosleđuje, TCP predaje uređen tok, HTTP daje značenje. Metode, hipertekst, UDP i put od URL-a do prikaza dolaze u kasnijim koracima.
 
 Paketi mogu da putuju kroz mrežu.
 
@@ -147,17 +147,9 @@ Paketi mogu da putuju kroz mrežu.
 
 **Pitalica.** Ako IP može da izgubi paket, kako ipak dobijamo potpun dokument?
 
-**Pitalica.** Da li TCP veza znači da je rezervisan kanal kroz mrežu?
-
 **Pitalica.** Ako TCP pouzdano prenosi podatke, zašto nam je potreban HTTP?
 
-**Pitalica.** Da li TCP prepoznaje početak i kraj HTTP poruke?
-
 **Pitalica.** Šta onda čini veb?
-
-**Pitalica.** Kako to izgleda na primeru naše IoT aplikacije?
-
-Zatim provere: 404, potvrda prijema, ponovno slanje, jedan paket, HTML, internet i veb, HTTP/3 i HTTPS.
 
 <a id="n1-kasni"></a>
 
@@ -171,7 +163,7 @@ Veliki fajl ide od računara A ka računaru B kao tri dela: P1, P2 i P3. P2 kasn
 
 **Pitalica.** Šta je tačno ako P3 stigne pre P2?
 
-Odgovor, skriven dok se ne otvori ikonica: aplikacija preko TCP-a ne mora da vidi P3 pre P2. TCP može da sačeka P2. Dolazak paketa nije redosled čitanja. IP ne traži da svaki paket ide istim putem.
+Odgovor, skriven dok se ne otvori ikonica: aplikacija preko TCP-a ne mora da vidi P3 pre P2. To čekanje nije rezervisan kanal kroz mrežu.
 
 **Pitalica.** Zašto TCP uopšte čeka P2 ako je P3 već stigao?
 
@@ -179,7 +171,7 @@ Odgovor, skriven dok se ne otvori ikonica: dokument ne sme da ima rupu u bajtovi
 
 **Pitalica.** Da li je sečenje IP datagrama isto što i sečenje TCP toka?
 
-Odgovor, skriven dok se ne otvori ikonica: nije. Fragmentacija deli datagram. Segmentacija deli tok bajtova. Fragment nije segment.
+Odgovor, skriven dok se ne otvori ikonica: nije. Fragmentacija deli datagram. Segmentacija deli tok bajtova. Jedna HTTP poruka može da pređe kroz više segmenata.
 
 <a id="n1-k3"></a>
 
@@ -199,11 +191,7 @@ Odgovor, skriven dok se ne otvori ikonica: kadar sme da se odbaci, a dokument ne
 
 **Pitalica.** Zašto kadar sme da se odbaci, a bajt dokumenta ne?
 
-Odgovor, skriven dok se ne otvori ikonica: slika koja zakasni više nije ovaj trenutak, a dokument sa izgubljenim bajtom više nije taj dokument. Ista mreža ne znači isto pravilo.
-
-**Pitalica.** Šta iz pouzdanog TCP toka ne sledi?
-
-Odgovor, skriven dok se ne otvori ikonica: ne sledi da je komanda „uključi” izvršena. TCP ne zna šta bajt znači niti da li je uređaj poslušao.
+Odgovor, skriven dok se ne otvori ikonica: slika koja zakasni više nije ovaj trenutak, a dokument sa izgubljenim bajtom više nije taj dokument. Ista mreža ne znači isto pravilo. HTTP/3 ide preko QUIC-a i UDP-a; sam UDP tu pouzdanost nema. Status odgovora i efekat na ventilator dolaze uz HTTP.
 
 <a id="n1-k4"></a>
 
