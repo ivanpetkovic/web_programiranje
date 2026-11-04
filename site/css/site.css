@@ -408,6 +408,9 @@ body.uvod-otvoren #birac-mesto,
 body.uvod-otvoren .procenat-red,
 body.uvod-otvoren .procenat-traka,
 body.uvod-otvoren .mobil-korak-lizac { display: none; }
+body.uvod-otvoren .okvir { grid-template-columns: 17rem minmax(0, 1fr); }
+body.uvod-otvoren.nav-skriven .okvir { grid-template-columns: auto minmax(0, 1fr); }
+body.uvod-otvoren #kartica { display: none; }
 .uvod-red {
   display: flex;
   align-items: center;
@@ -423,7 +426,7 @@ body.uvod-otvoren .mobil-korak-lizac { display: none; }
   font-weight: 650;
 }
 .uvod-red[aria-current="page"] { background: var(--amber-dim); }
-.uvod { display: grid; gap: 1.15rem; max-width: 42rem; }
+.uvod { display: grid; gap: 1.15rem; }
 .uvod-blok h2 { margin: 0 0 0.35rem; font-size: 1.05rem; }
 .uvod-blok ul, .uvod-blok ol { margin: 0; padding-left: 1.15rem; }
 .uvod-blok li { margin: 0.35rem 0; }
@@ -1371,7 +1374,9 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   .okvir,
   body.editor-pun .okvir,
   body.nav-skriven .okvir,
-  body.editor-pun.nav-skriven .okvir {
+  body.editor-pun.nav-skriven .okvir,
+  body.uvod-otvoren .okvir,
+  body.uvod-otvoren.nav-skriven .okvir {
     display: flex;
     flex-direction: column;
     grid-template-columns: 1fr;
@@ -1379,6 +1384,7 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     padding: 0 0.75rem calc(4.85rem + env(safe-area-inset-bottom, 0px));
   }
   .okvir > .stranica { order: 1; min-width: 0; }
+  body.uvod-otvoren .okvir > #kartica { display: grid; }
   .okvir > #kartica {
     order: 0;
     position: fixed;

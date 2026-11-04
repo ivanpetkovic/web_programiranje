@@ -298,3 +298,14 @@ test("red koraka koristi ćilibar, a beleške ostaju prigušene", () => {
   assert.match(css, /\.digit\s*\{[^}]*font-family:\s*"Digital-7 Mono"/);
   assert.match(css, /\.meta,\s*\.starost,\s*\.log\s*\{\s*color:\s*var\(--muted\);\s*\}/);
 });
+
+test("uvod krije karticu napretka i puni širinu", () => {
+  assert.match(html, /id="kartica"/);
+  assert.match(main, /saIkonom\(document\.querySelector\("#kartica-natpis"\), "calendar-days", "Uvod"\)/);
+  assert.match(css, /body\.uvod-otvoren \.okvir\s*\{[^}]*grid-template-columns:\s*17rem minmax\(0,\s*1fr\)/);
+  assert.match(css, /body\.uvod-otvoren\.nav-skriven \.okvir\s*\{[^}]*grid-template-columns:\s*auto minmax\(0,\s*1fr\)/);
+  assert.match(css, /body\.uvod-otvoren #kartica\s*\{[^}]*display:\s*none/);
+  assert.match(css, /body\.uvod-otvoren \.okvir > #kartica\s*\{[^}]*display:\s*grid/);
+  const uvod = blok(css, "\\.uvod\\s*\\{");
+  assert.equal(uvod.includes("max-width"), false);
+});
