@@ -4,7 +4,7 @@ Polazno stanje: na `main` (304314a) `npm test` daje 170/176; padaju `svi primeri
 
 ## 1. Sveža specifikacija
 
-- [ ] 1.1 Arhiviraj gotove promene `izgled-editora`, `birac-kruzici`, `odgovori-i-uvod-weba` i `kontrolna-soba-kurs` (`openspec archive <ime> --yes`), pa potvrdi da `openspec validate zaglavlje-opcije-i-lokalno-stanje --strict` i dalje prolazi i da `openspec/specs/sajt-casa/spec.md` sadrži `Zaglavlje školjke`, `Klizač tema`, `Tri taba`, `Nastavnik zakuca temu`, `Sačuvan korak`, `Sklopivi spisak tema` i `Ikonice spiska tema` u obliku na koji se delta odnosi. Ako arhiva promeni neki od tih blokova, prepiši odgovarajući MODIFIED blok u delti.
+- [x] 1.1 Arhiviraj gotove promene `izgled-editora`, `birac-kruzici`, `odgovori-i-uvod-weba` i `kontrolna-soba-kurs` (`openspec archive <ime> --yes`), pa potvrdi da `openspec validate zaglavlje-opcije-i-lokalno-stanje --strict` i dalje prolazi i da `openspec/specs/sajt-casa/spec.md` sadrži `Zaglavlje školjke`, `Klizač tema`, `Tri taba`, `Nastavnik zakuca temu`, `Sačuvan korak`, `Sklopivi spisak tema` i `Ikonice spiska tema` u obliku na koji se delta odnosi. Ako arhiva promeni neki od tih blokova, prepiši odgovarajući MODIFIED blok u delti.
 
 ## 2. Modul lokalnog stanja
 
