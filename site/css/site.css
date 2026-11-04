@@ -529,6 +529,32 @@ body.uvod-otvoren .mobil-korak-lizac { display: none; }
 .prica-koraka p { margin: 0; }
 .prica-koraka p + p { margin-top: 0.65rem; }
 .diskusija-korak { display: grid; gap: 0.55rem; }
+.diskusija-korak > h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+}
+.ka-gradivu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  margin: 0;
+  padding: 0.15rem;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  line-height: 0;
+}
+.ka-gradivu:hover,
+.ka-gradivu:focus-visible {
+  color: var(--amber);
+  background: var(--amber-dim);
+}
+.ka-gradivu .ikona { width: 1.15rem; height: 1.15rem; }
 .pitalica-koraka { display: grid; gap: 0.45rem; margin-top: 1rem; }
 .pitalica-koraka + .pitalica-koraka { padding-top: 0.8rem; border-top: 1px solid var(--line); }
 .diskusija-razmak { margin: 1.4rem 0 0.2rem; border: none; border-top: 1px solid var(--line); }
