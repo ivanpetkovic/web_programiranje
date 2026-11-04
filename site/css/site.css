@@ -171,9 +171,18 @@ body {
   line-height: 1.45;
 }
 button, input, textarea { font: inherit; color: inherit; }
-.sr, .skip {
+.skip { position: absolute; left: -999px; }
+.sr {
   position: absolute;
-  left: -999px;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 .skip:focus { left: 1rem; top: 1rem; background: var(--amber); color: var(--on-amber); padding: 0.4rem 0.7rem; z-index: 3; }
 .top, .nav {

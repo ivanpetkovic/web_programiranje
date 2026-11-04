@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 
+const css = fs.readFileSync(new URL("../site/css/site.css", import.meta.url), "utf8");
 const pomocnik = fs.readFileSync(new URL("../site/js/ikonice.js", import.meta.url), "utf8");
 const sprite = fs.readFileSync(new URL("../site/icons/sprite.svg", import.meta.url), "utf8");
 const main = fs.readFileSync(new URL("../site/js/main.js", import.meta.url), "utf8");
@@ -34,6 +35,15 @@ test("ikonice Opcija i beleški postoje kao fajl i kao simbol", () => {
   }
   const ispuna = sprite.slice(sprite.indexOf('id="bookmark-filled"'), sprite.indexOf("</symbol>", sprite.indexOf('id="bookmark-filled"')));
   assert.match(ispuna, /fill="currentColor"/);
+});
+
+test("natpis pretrage ostaje u polju i ne preklapa grb", () => {
+  assert.match(html, /<label class="sr" for="q">Nađi pojam<\/label>/);
+  const sr = css.slice(css.indexOf("\n.sr {"), css.indexOf("}", css.indexOf("\n.sr {")) + 1);
+  assert.match(sr, /overflow:\s*hidden/);
+  assert.match(sr, /clip-path:\s*inset\(50%\)/);
+  assert.equal(/left:\s*-999px/.test(sr), false);
+  assert.match(css, /\.skip\s*\{[^}]*left:\s*-999px/);
 });
 
 test("zaglavlje u jednom redu nosi ikonice i nema klizač tema", () => {
