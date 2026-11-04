@@ -159,10 +159,9 @@ export function napraviBeleske(ctx) {
       (sledeca?.querySelector("textarea") || dijalog.querySelector(".sve-beleske-zatvori"))?.focus();
     });
     glava.append(ukloni);
-    const oznaka = el("label", "sr", `Komentar: ${natpisBeleske(beleska)}`);
     const polje = el("textarea", "sve-beleske-komentar");
     polje.id = `sve-beleske-komentar-${beleska.tema}-${beleska.korak}`;
-    oznaka.htmlFor = polje.id;
+    polje.setAttribute("aria-label", `Komentar: ${natpisBeleske(beleska)}`);
     polje.maxLength = NAJVISE_KOMENTARA;
     polje.rows = 2;
     polje.value = beleska.komentar;
@@ -172,7 +171,7 @@ export function napraviBeleske(ctx) {
       if (!sada) return;
       lokalno.promeni((stanje) => postaviBelesku(stanje, { ...sada, komentar: polje.value.slice(0, NAJVISE_KOMENTARA) }));
     });
-    li.append(glava, oznaka, polje);
+    li.append(glava, polje);
     return li;
   }
 

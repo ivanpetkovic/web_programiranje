@@ -150,11 +150,10 @@ export function nacrtajOdeljke(ctx) {
   const obrisi = el("button", "dugme-stanja dugme-opasno");
   obrisi.type = "button";
   obrisi.append(slot("trash"), el("span", "", "Obriši progres"));
-  const fajl = el("input", "sr");
+  const fajl = el("input");
   fajl.type = "file";
   fajl.accept = "application/json,.json";
-  fajl.tabIndex = -1;
-  fajl.setAttribute("aria-hidden", "true");
+  fajl.hidden = true;
   const poruka = el("p", "poruka-stanja");
   poruka.setAttribute("role", "status");
   poruka.hidden = true;
