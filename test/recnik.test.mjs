@@ -74,6 +74,10 @@ test("termini gradiva izbegavaju kalk i javljaju se u kursu", () => {
   assert.match(trazi("cookie").izbegava, /Kolačić/);
   assert.match(trazi("cache").izbegava, /Keš/);
   assert.match(trazi("push").izbegava, /Dovod/);
+  assert.equal(
+    trazi("komunikacioni put").definicija,
+    "Put kojim podaci prolaze od izvornog do odredišnog uređaja kroz računarsku mrežu. Može obuhvatati više rutera i komunikacionih veza. Različiti paketi ne moraju uvek prolaziti istim putem."
+  );
   assert.match(dokument.teme[0].problem, /blockchain/);
   assert.equal(trazi("veza od kraja do kraja"), undefined);
   for (const ime of [

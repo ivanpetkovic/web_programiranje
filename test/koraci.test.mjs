@@ -31,6 +31,9 @@ test("Počeci uopštava veb, pa priča LO i zašto to nije veb", () => {
   assert.match(lo.prica, /Šta čini veb/);
   assert.match(lo.prica, /sat vremena kasnije/);
   assert.match(lo.prica, /informacija pošalje na udaljeni računar/);
+  assert.match(lo.tekst, /Komunikacioni put je put kojim podaci prolaze od izvornog do odredišnog uređaja/);
+  assert.match(lo.tekst, /više rutera i komunikacionih veza/);
+  assert.match(lo.tekst, /Različiti paketi ne moraju uvek prolaziti istim putem/);
   assert.match(lo.tekst, /dokument mora da ima lokaciju/);
   assert.match(lo.tekst, /ne otvara udaljeni računar/);
   assert.match(lo.tekst, /To još nije veb/);
@@ -58,6 +61,8 @@ test("Paket na Diskusiji ima priču i retorička pitanja", () => {
   assert.match(paket.tekst, /komutacija kola/);
   assert.match(paket.tekst, /Zajednički mrežni resursi/);
   assert.match(paket.tekst, /komunikaciona veza/);
+  assert.match(paket.tekst, /Komunikacioni put može obuhvatati više rutera i komunikacionih veza/);
+  assert.match(paket.tekst, /Različiti paketi ne moraju uvek prolaziti istim putem/);
   assert.match(paket.tekst, /kako primalac razume sadržaj poruke/);
   assert.equal(paket.tekst.includes("veza od kraja do kraja"), false);
   assert.equal(paket.tekst.includes("Internet Protocol"), false);
@@ -84,6 +89,8 @@ test("Od paketa do stranice razdvaja IP, TCP i HTTP", () => {
   assert.match(korak.prica, /IP obezbeđuje adresiranje i prosleđivanje paketa/);
   assert.match(korak.tekst, /veza između krajnjih uređaja/);
   assert.match(korak.tekst, /Nije rezervisan komunikacioni put/);
+  assert.match(korak.tekst, /Komunikacioni put može obuhvatati više rutera i komunikacionih veza/);
+  assert.match(korak.tekst, /Različiti paketi ne moraju uvek prolaziti istim putem/);
   assert.equal(korak.tekst.includes("komutacija kola"), false);
   assert.equal(korak.pitalice.length, 5);
   assert.equal(korak.pitalica, korak.pitalice[0].pitalica);
