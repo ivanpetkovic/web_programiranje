@@ -269,7 +269,7 @@ When no theme is pinned, the site MUST use ugalj if the browser prefers dark or 
 - **THEN** ugalj is active
 
 ### Requirement: Nastavnik zakuca temu
-The site MUST offer a control that lists mornar, ugalj, pesak, and terakota and pins the chosen one. A pinned theme MUST apply at once, MUST override the browser preference, and MUST remain after reload. A stored pin `tamna` MUST open ugalj. A stored pin `svetla` MUST open pesak.
+The Paleta section of Opcije MUST list mornar, ugalj, pesak, and terakota and MUST pin the chosen one. A pinned theme MUST apply at once, MUST override the browser preference, and MUST remain after reload because it is kept in the local state. A stored pin `tamna` MUST open ugalj. A stored pin `svetla` MUST open pesak.
 
 #### Scenario: Pin overrides the system
 - **WHEN** the teacher pins pesak while the browser prefers dark
@@ -320,7 +320,7 @@ In every theme the chart well MUST remain a dark surface so the yellow stroke al
 - **THEN** the chart well is dark and the yellow stroke on it stays visible
 
 ### Requirement: Tri taba
-Below the lecture title the site MUST offer Gradivo, Diskusija, and Editor. Exactly one of those sections MUST be on screen. The title and the step selector MUST stay visible on every tab. Opening a lecture MUST show Diskusija with the open step's short quiz.
+The lesson toolbar MUST offer Gradivo, Diskusija, and Editor. Exactly one of those sections MUST be on screen. The title and the step selector MUST stay visible on every tab. Opening a lecture MUST show Diskusija with the open step's short quiz.
 
 #### Scenario: Opening shows the step quiz
 - **WHEN** the teacher opens a week
@@ -337,6 +337,10 @@ Below the lecture title the site MUST offer Gradivo, Diskusija, and Editor. Exac
 #### Scenario: Search shows the steps
 - **WHEN** the teacher chooses a glossary term while another tab is open
 - **THEN** Gradivo is the open tab and the first matching step is open
+
+#### Scenario: Tabs sit in the toolbar
+- **WHEN** a lecture is open on a desktop width
+- **THEN** Gradivo, Diskusija, and Editor are in the lesson toolbar under the header and not under the lecture title
 
 ### Requirement: Editor i pregled
 The Editor tab MUST show the file editor on the left and the preview on the right. Those two sides MUST start at equal width. The code surface MUST fill the width from the file tree to the divider. The preview MUST be an iframe of the client tree in the editor. The Gradivo section and the discussion MUST NOT be on screen. The step selector MUST stay on screen.
@@ -380,29 +384,26 @@ Opening Editor MUST show the iframe of the client tree then in the editor, inclu
 - **THEN** the iframe shows the client tree then in the editor
 
 ### Requirement: Zaglavlje školjke
-The header MUST show the institution, its mark, and the course title from the course document, plus term search, the week slider, previous week, next week, save-step, help, the initials from the document, and the control that pins the theme. The site title MUST NOT be Kontrolna soba.
+The header MUST show, from left to right, the institution and its mark, a divider, the course title from the course document beside `monitor-code`, term search, help, the Sačuvane beleške control, the Opcije control, and the initials from the document. The header MUST NOT show the week slider, previous week, next week, or the palette, text-size, and mode controls. The site title MUST NOT be Kontrolna soba.
 
 #### Scenario: Shipped title
 - **WHEN** the shipped course is open
 - **THEN** the header title is Veb programiranje and the site title is not Kontrolna soba
 
 #### Scenario: Next week
-- **WHEN** the teacher activates next week and a later week exists
-- **THEN** that later week opens
+- **WHEN** the teacher chooses the following week in the toolbar week picker and a later week exists
+- **THEN** that later week opens and the header itself has no next-week control
 
-### Requirement: Klizač tema
-The header MUST show Tema {n} od {N}, where N is the course duration and n is the open week. The slider MUST have one position per week. Only the current position MUST print its week number. The page MUST NOT show a row of the numbers 1 through N.
+#### Scenario: Header order
+- **WHEN** a lecture is open on a desktop width
+- **THEN** the header shows the mark and institution, the course title with `monitor-code`, search, help, Sačuvane beleške, Opcije, and the initials in that order, on one row
 
-#### Scenario: Only the current number is printed
-- **WHEN** week 10 of a course whose duration is 15 is open
-- **THEN** the header reads Tema 10 od 15, the slider has 15 positions, and the only week number printed on the slider is 10
-
-#### Scenario: Slider opens a week
-- **WHEN** the teacher chooses another position on the slider
-- **THEN** that week opens
+#### Scenario: No week controls in the header
+- **WHEN** a lecture is open on a desktop width
+- **THEN** the header has no week slider and no previous-week or next-week control
 
 ### Requirement: Sklopivi spisak tema
-The left column MUST list every week in the course document. A week MUST show its number, title, and subtitle, and MUST collapse and expand. The open week MUST be expanded and MUST list the same steps as the lesson. Choosing a step MUST open it. A week whose every step is saved MUST show a completed mark, and that mark MUST NOT be a grade.
+The left column MUST list every week in the course document. A week MUST show its number, title, and subtitle, and MUST collapse and expand. The open week MUST be expanded and MUST list the same steps as the lesson. Choosing a step MUST open it. A week whose every step has been viewed MUST show a completed mark, and that mark MUST NOT be a grade.
 
 #### Scenario: Other weeks stay collapsed
 - **WHEN** the teacher opens one week
@@ -411,6 +412,10 @@ The left column MUST list every week in the course document. A week MUST show it
 #### Scenario: Step in the list
 - **WHEN** the teacher chooses a step in the expanded week
 - **THEN** that step is the open lesson
+
+#### Scenario: Viewing every step finishes the week
+- **WHEN** the teacher has opened every step of a week
+- **THEN** that week shows the completed mark without any save action
 
 ### Requirement: Zaglavlje lekcije
 The open lesson MUST show the course breadcrumb, the week title, the week subtitle, and the step selector outside the Gradivo section. The selector MUST stay on screen on Gradivo, Diskusija, and Editor. The selector MUST show one circle per step. The lesson body MUST NOT show a numbered row of step buttons. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the Gradivo section and MUST NOT sit inside the selector.
@@ -483,11 +488,15 @@ Help MUST open a short explanation of the dashed underline, the typeahead, and t
 - **THEN** that explanation is visible, the editor stays as it was, and no room request is sent
 
 ### Requirement: Sačuvan korak
-The header save control and Sačuvaj korak MUST record the current step in this browser. Loading the page again MUST restore that week and step. The record MUST NOT be a grade and MUST NOT be sent to the server.
+Loading the page with a week in the address MUST open that week's last open step from the local state. Sačuvaj korak MUST store a note for the current step in the local state and MUST NOT mark the step as done. The record MUST NOT be a grade and MUST NOT be sent to the server.
 
 #### Scenario: Reload restores the step
-- **WHEN** the teacher saves a step and loads the page again
+- **WHEN** the teacher opens a step and loads the page again
 - **THEN** that week and that step are open
+
+#### Scenario: Save is a note
+- **WHEN** the teacher activates Sačuvaj korak and saves
+- **THEN** the step has a note in Sačuvane beleške and the week's progress is unchanged by that action
 
 ### Requirement: Pitanje i primer u pretrazi
 The search placeholder MUST be Nađi pojam, pitanje ili primer koda... Choosing a quiz question or a code snippet from the typeahead MUST open the step that contains it.
@@ -618,17 +627,17 @@ A shell icon MUST be the same-named SVG from the currentColor set and MUST paint
 - **THEN** a shell icon painted in the accent color uses that theme's accent and no PNG icon is shown
 
 ### Requirement: Ikonice zaglavlja
-Search MUST show `search`. Previous week MUST show `chevron-left`. Next week MUST show `chevron-right`. The header save control MUST show `bookmark`. Help MUST show `help-circle`. The initials MUST stay the letters from the course document. The mark MUST stay the course document mark.
+Search MUST show `search`. Help MUST show `help-circle`. The Sačuvane beleške control MUST show `bookmark` and `chevron-down`. The Opcije control MUST show `settings`. The course title MUST show `monitor-code`. The initials MUST stay the letters from the course document. The mark MUST stay the course document mark.
 
 #### Scenario: Header icons
 - **WHEN** a lecture is open
-- **THEN** search, the week controls, header save, and help show those icons, and the initials and the mark are unchanged
+- **THEN** search, help, Sačuvane beleške, Opcije, and the course title show those icons, and the initials and the mark are unchanged
 
 ### Requirement: Ikonice spiska tema
-The course head MUST show `book-open`. A week whose every step is saved MUST show `check-circle`. Any other week MUST show `circle`. An expanded week MUST show `chevron-up`. A collapsed week MUST show `chevron-down`. The completed mark MUST NOT be a grade.
+The course head MUST show `book-open`. A week whose every step has been viewed MUST show `check-circle`. Any other week MUST show `circle`. An expanded week MUST show `chevron-up`. A collapsed week MUST show `chevron-down`. The completed mark MUST NOT be a grade.
 
 #### Scenario: Open week and a finished week
-- **WHEN** one week is expanded and another week has every step saved
+- **WHEN** one week is expanded and another week has every step viewed
 - **THEN** the course head shows `book-open`, the expanded week shows `chevron-up`, the finished week shows `check-circle`, and a week that is not finished shows `circle`
 
 ### Requirement: Ikonice kartice
@@ -821,3 +830,40 @@ The selector MUST be only as wide as its content and MUST NOT stretch to the les
 #### Scenario: A long week wraps
 - **WHEN** the open week has 19 steps and those circles do not fit on one line
 - **THEN** the selector stays within the column and the circles wrap onto another line
+
+### Requirement: Traka časa
+Directly under the header the site MUST show one lesson toolbar with, from left to right, the week picker, the step picker, and the tabs Gradivo, Diskusija, and Editor. The toolbar MUST stay on screen on every tab. The preface MUST show the week picker and MUST NOT show the step picker or the tabs. On a single-column layout the mobile navigation row MUST take the toolbar's place.
+
+#### Scenario: Single column
+- **WHEN** the lecture page is laid out in one column
+- **THEN** the lesson toolbar is not shown and the mobile navigation row offers the week and step choice
+
+#### Scenario: Toolbar on a lecture
+- **WHEN** a lecture is open on a desktop width
+- **THEN** the row under the header shows the week picker, the step picker, and the three tabs in that order
+
+#### Scenario: Toolbar on the preface
+- **WHEN** the preface is open
+- **THEN** the row under the header shows the week picker and no step picker or tabs
+
+### Requirement: Izbor teme u traci
+The week picker MUST show `layers`, Tema {n} – {week title} truncated to one line, and `chevron-down`. Activating it MUST open a list of Uvod and every week in the course document, with the open week marked current. Choosing an entry MUST open it. The list MUST work from the keyboard.
+
+#### Scenario: Pick another week
+- **WHEN** week 3 is open and the teacher chooses week 5 in the week picker
+- **THEN** week 5 opens on its last open step and the picker reads Tema 5 – that week's title
+
+#### Scenario: Back to the preface
+- **WHEN** the teacher chooses Uvod in the week picker
+- **THEN** the preface is open
+
+### Requirement: Izbor koraka u traci
+The step picker MUST show a previous control with `chevron-left`, Korak {n} od {N} – {step title} truncated to one line, and a next control with `chevron-right`. Previous MUST be disabled on the first step and next on the last. Activating the middle MUST list every step of the open week. Choosing a step MUST keep the open tab.
+
+#### Scenario: Next from the toolbar
+- **WHEN** step 3 of 12 is open on Diskusija and the teacher activates next in the toolbar
+- **THEN** step 4 is open, the picker reads Korak 4 od 12 and that step's title, and Diskusija stays open
+
+#### Scenario: Edges are disabled
+- **WHEN** the first step of a week is open
+- **THEN** the toolbar previous control is disabled and next is enabled
