@@ -388,6 +388,15 @@ function prikaziDeo() {
   prikaziMobilFooter();
 }
 
+function otvoriDeo(ime) {
+  deo = ime;
+  if (usko()) {
+    zatvoriMobilSheetove();
+    zatvoriMobilKarticu();
+  }
+  prikaziDeo();
+}
+
 function usko() {
   return window.matchMedia("(max-width: 860px)").matches;
 }
@@ -1911,18 +1920,29 @@ function nacrtajDiskusijuKoraka(item, i, korak, sirovi) {
   omot.className = "diskusija-korak";
   omot.setAttribute("aria-label", "Pitalice koraka");
   const naslov = document.createElement("h2");
-  naslov.textContent = korak.naslov;
+  naslov.append(document.createTextNode(korak.naslov));
+  if (!korak.prica && String(korak.tekst || "").trim()) {
+    const kaGradivu = document.createElement("button");
+    kaGradivu.type = "button";
+    kaGradivu.className = "ka-gradivu";
+    kaGradivu.setAttribute("aria-label", "Otvori gradivo");
+    kaGradivu.title = "Gradivo";
+    const knjiga = ikonica("book-open");
+    if (knjiga) kaGradivu.append(knjiga);
+    kaGradivu.addEventListener("click", () => {
+      otvoriDeo("koraci");
+      const panel = document.querySelector("#sekcija-koraci");
+      if (panel && !panel.hasAttribute("tabindex")) panel.tabIndex = -1;
+      panel?.focus();
+    });
+    naslov.append(kaGradivu);
+  }
   omot.append(naslov);
   if (korak.prica) {
     const prica = document.createElement("div");
     prica.className = "prica-koraka";
     prica.append(...cvoroviPasusa(korak.prica));
     omot.append(prica);
-  } else {
-    const vodica = document.createElement("p");
-    vodica.className = "meta";
-    vodica.textContent = "Tekst lekcije je na tabu Gradivo.";
-    omot.append(vodica);
   }
   omot.append(nacrtajPitaliceKoraka(cas, i, korak, sirovi, item));
   const poslednji = i === item.steps.length - 1;
@@ -2952,12 +2972,7 @@ window.addEventListener("hashchange", () => {
 
 for (const ime of ["koraci", "diskusija", "editor"]) {
   document.querySelector(`#tab-${ime}`).addEventListener("click", () => {
-    deo = ime;
-    if (usko()) {
-      zatvoriMobilSheetove();
-      zatvoriMobilKarticu();
-    }
-    prikaziDeo();
+    otvoriDeo(ime);
   });
 }
 
