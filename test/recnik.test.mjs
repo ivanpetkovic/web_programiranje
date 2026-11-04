@@ -62,7 +62,7 @@ test("pogodak deli teme i ćuti kad glave nema", () => {
 test("termini gradiva izbegavaju kalk i javljaju se u kursu", () => {
   const trazi = (ime) => pojmovi.find((pojam) => pojam.ime === ime);
   const blockchain = trazi("blockchain");
-  const veza = trazi("veza od kraja do kraja");
+  const veza = trazi("veza između krajnjih uređaja");
   const token = trazi("opaque token");
   const transakcija = trazi("Transakcija");
   assert.match(blockchain.izbegava, /Knjiga na lancu/);
@@ -75,7 +75,18 @@ test("termini gradiva izbegavaju kalk i javljaju se u kursu", () => {
   assert.match(trazi("cache").izbegava, /Keš/);
   assert.match(trazi("push").izbegava, /Dovod/);
   assert.match(dokument.teme[0].problem, /blockchain/);
-  assert.equal(lekcijePojma(dokument, "veza od kraja do kraja").prvi.korak >= 0, true);
+  assert.equal(trazi("veza od kraja do kraja"), undefined);
+  for (const ime of [
+    "komutacija kola",
+    "komutacija paketa",
+    "komunikaciona veza",
+    "komunikacioni put",
+    "veza između krajnjih uređaja",
+    "zajednički mrežni resursi",
+  ]) {
+    assert.ok(trazi(ime), ime);
+    assert.equal(lekcijePojma(dokument, ime).prvi.korak >= 0, true, ime);
+  }
   assert.equal(lekcijePojma(dokument, "Žica").teme.length, 0);
 });
 
