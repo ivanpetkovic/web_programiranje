@@ -1717,38 +1717,44 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi) {
   const otvoreno = objasnjenjePoKoraku.get(kljuc) === true;
   const pitanjeUnutra = document.createElement("section");
   pitanjeUnutra.className = "pitanje-blok";
-  const pitanjeNad = document.createElement("p");
-  pitanjeNad.className = "meta";
-  const natpisPitalice = pi === 0 ? "Pitalica" : `Pitalica ${pi + 1}`;
-  if (modPredavanja()) {
-    pitanjeNad.classList.add("pitalica-samo-ikona");
-    const znak = ikonica("question");
-    if (znak) pitanjeNad.append(znak);
-    const samoCitaoc = document.createElement("span");
-    samoCitaoc.className = "sr";
-    samoCitaoc.textContent = natpisPitalice;
-    pitanjeNad.append(samoCitaoc);
-  } else saIkonom(pitanjeNad, "question", natpisPitalice);
   const pitanje = document.createElement("h3");
   pitanje.append(fragmentTeksta(pitalica.pitalica));
   const retoricko = !(pitalica.opcije || []).length;
   const odgovor = pitalica.odgovor || "";
+  const mozeOdgovor = retoricko && Boolean(odgovor);
   const red = document.createElement("div");
-  red.className = "pitanje-red";
+  red.className = mozeOdgovor ? "pitanje-red otkriva" : "pitanje-red";
+  if (mozeOdgovor && otvoreno) red.classList.add("otvoreno");
+  const znak = ikonica("question");
+  if (znak) {
+    const omotZnaka = document.createElement("span");
+    omotZnaka.className = "pitanje-znak";
+    omotZnaka.setAttribute("aria-hidden", "true");
+    omotZnaka.append(znak);
+    red.append(omotZnaka);
+  }
   red.append(pitanje);
-  if (retoricko && odgovor) {
-    const dugme = document.createElement("button");
-    dugme.type = "button";
-    dugme.className = otvoreno ? "odgovor-ikona otvoreno" : "odgovor-ikona";
-    dugme.setAttribute("aria-label", otvoreno ? "Sakrij odgovor" : "Odgovor");
-    dugme.setAttribute("aria-expanded", String(otvoreno));
-    const znak = ikonica("lightbulb");
-    if (znak) dugme.append(znak);
-    dugme.addEventListener("click", () => {
+  const idOkidaca = `pitanje-okidac-${casBroj}-${i}-${pi}`;
+  if (mozeOdgovor) {
+    const lampica = document.createElement("span");
+    lampica.className = "odgovor-ikona";
+    lampica.setAttribute("aria-hidden", "true");
+    const sijalica = ikonica("lightbulb");
+    if (sijalica) lampica.append(sijalica);
+    red.append(lampica);
+    const okidac = document.createElement("button");
+    okidac.type = "button";
+    okidac.id = idOkidaca;
+    okidac.className = "pitanje-okidac";
+    okidac.setAttribute("aria-expanded", String(otvoreno));
+    okidac.setAttribute("aria-label", otvoreno ? "Sakrij odgovor" : "Prikaži odgovor");
+    red.append(okidac);
+    red.addEventListener("click", (e) => {
+      if (e.target.closest(".pojam-crta")) return;
       objasnjenjePoKoraku.set(kljuc, !otvoreno);
       renderLecture();
+      document.getElementById(idOkidaca)?.focus();
     });
-    red.append(dugme);
   }
   const uputa = document.createElement("p");
   uputa.className = "meta";
@@ -1782,10 +1788,12 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi) {
     });
     kratke.append(button);
   }
-  pitanjeUnutra.append(pitanjeNad, red);
+  pitanjeUnutra.append(red);
   if (retoricko && (otvoreno || urediSadrzaj.aktivan)) {
     const telo = document.createElement("div");
+    telo.id = `odgovor-${casBroj}-${i}-${pi}`;
     telo.className = odgovor ? "odgovor-tekst" : "odgovor-tekst meta";
+    if (mozeOdgovor) red.querySelector(".pitanje-okidac")?.setAttribute("aria-controls", telo.id);
     if (odgovor) telo.append(...cvoroviPasusa(odgovor));
     else telo.textContent = "Nema odgovora.";
     pitanjeUnutra.append(telo);

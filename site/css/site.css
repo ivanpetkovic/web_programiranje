@@ -975,20 +975,41 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 .isecak .red.novo .br { color: var(--muted); }
 .isecak .red.novo { background: color-mix(in srgb, var(--diff-dodato) 16%, transparent); }
 .pitanje-blok { margin-top: 1rem; }
-.pitalica-samo-ikona { width: fit-content; margin: 0 0 0.15rem; color: var(--amber); }
-.pitalica-samo-ikona .ikona { width: 1.35rem; height: 1.35rem; }
-.pitanje-red { display: flex; align-items: flex-start; gap: 0.45rem; }
-.pitanje-red h3 { margin: 0; flex: 1; }
-.odgovor-ikona {
+.pitanje-red { position: relative; display: flex; align-items: flex-start; gap: 0.55rem; }
+.pitanje-red h3 { margin: 0; flex: 1; min-width: 0; }
+.pitanje-znak {
   flex: none;
-  margin-top: 0.1rem;
-  padding: 0.15rem;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
+  display: grid;
+  margin-top: 0.18rem;
   color: var(--amber);
 }
-.odgovor-ikona.otvoreno { background: var(--amber-dim); }
+.pitanje-znak .ikona,
+.pitanje-red .odgovor-ikona .ikona { width: 1.25rem; height: 1.25rem; }
+.pitanje-red.otkriva h3,
+.pitanje-red.otkriva .pitanje-znak,
+.pitanje-red.otkriva .odgovor-ikona { position: relative; z-index: 1; pointer-events: none; }
+.pitanje-red.otkriva .pojam-crta { pointer-events: auto; }
+.pitanje-okidac {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+}
+.pitanje-okidac:hover,
+.pitanje-okidac:focus-visible { background: var(--amber-dim); }
+.odgovor-ikona {
+  flex: none;
+  display: grid;
+  margin-top: 0.12rem;
+  padding: 0.15rem;
+  border-radius: 999px;
+  color: var(--amber);
+}
+.pitanje-red.otvoreno .odgovor-ikona { background: var(--amber-dim); }
 .odgovor-tekst { margin: 0.55rem 0 0; }
 .odgovor-tekst p { margin: 0; }
 .odgovor-tekst p + p { margin-top: 0.45rem; }

@@ -31,7 +31,8 @@ test("predavanja i samostalni rad", () => {
   assert.match(main, /sakrijPanelSelekcije\(\);\n  if \(location\.hash !== `#cas-\$\{n\}`\)/);
   assert.match(main, /if \(modPredavanja\(\)\) zatvoriMobilIzborSheetove\(\)/);
   assert.match(main, /if \(!uvod && deo !== "editor"\) deo = podrazumevaniDeo\(\)/);
-  assert.match(main, /pitalica-samo-ikona/);
+  assert.equal(main.includes("pitalica-samo-ikona"), false);
+  assert.equal(css.includes(".pitalica-samo-ikona"), false);
   assert.match(css, /--skala-predavanja:\s*1\.3/);
   assert.match(css, /html\[data-mod="predavanja"\]\s*\{\s*font-size:\s*calc\(16px \* var\(--skala-predavanja\) \* var\(--skala-fonta\)\)/);
   assert.equal(css.includes("#font-kontrole { display: none; }"), false);

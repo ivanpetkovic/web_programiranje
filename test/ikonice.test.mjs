@@ -98,10 +98,15 @@ test("tabovi, traka i isečak zadržavaju natpise", () => {
 });
 
 test("pitanje, stablo, olovka i panel", () => {
-  assert.match(main, /const natpisPitalice = pi === 0 \? "Pitalica" : `Pitalica \$\{pi \+ 1\}`/);
-  assert.match(main, /pitalica-samo-ikona/);
+  assert.match(main, /omotZnaka\.className = "pitanje-znak"/);
   assert.match(main, /ikonica\("question"\)/);
-  assert.match(main, /saIkonom\(pitanjeNad, "question", natpisPitalice\)/);
+  assert.match(main, /okidac\.className = "pitanje-okidac"/);
+  assert.match(main, /ikonica\("lightbulb"\)/);
+  assert.match(main, /e\.target\.closest\("\.pojam-crta"\)/);
+  assert.equal(main.includes("natpisPitalice"), false);
+  assert.equal(main.includes("pitalica-samo-ikona"), false);
+  assert.match(css, /\.pitanje-red\.otkriva/);
+  assert.match(css, /\.pitanje-okidac/);
   assert.match(main, /saIkonom\(ponovi, "refresh-cw", "Ponovi pitanja"\)/);
   assert.match(main, /saIkonom\(otvori, otvoreno \? "check-circle" : "info", otvoreno \? "Obrazloženje je otvoreno" : "Obrazloženje"\)/);
   assert.match(main, /if \(otkriveno && opt\.ok\) return ikonica\("check-circle"\)/);
