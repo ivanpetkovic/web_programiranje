@@ -78,8 +78,8 @@ test("oblačić pojma se sklapa sekundu posle odlaska ili klika sa strane", { ti
     const pojam = await tacka("#sekcija-diskusija .pojam-crta", true);
     const skloniste = await tacka("#nav .kurs-zaglavlje");
     await na(pojam);
-    const otvoren = await sačekaj((s) => s.otvoren && s.tekst.includes("Rezervisana veza"), "otvaranje");
-    assert.match(otvoren.tekst, /veza od kraja do kraja/);
+    const otvoren = await sačekaj((s) => s.otvoren && s.tekst.includes("Put kroz više uređaja"), "otvaranje");
+    assert.match(otvoren.tekst, /komunikacioni put/);
 
     await na(skloniste);
     const odmah = await stanje();
