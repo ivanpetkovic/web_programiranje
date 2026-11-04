@@ -134,28 +134,8 @@ _Avoid_: Celina, celina upisa.
 
 ## Termini gradiva
 
-**komutacija kola**:
-Rezervisanje komunikacionog puta za vreme razgovora. Put ostaje zauzet i dok nema podataka.
-_Avoid_: Veza od kraja do kraja.
-
 **komutacija paketa**:
-Podela poruke na manje celine koje dele mrežu. Za svaki razgovor ne rezerviše se poseban komunikacioni put.
-_Avoid_: Rezervisana veza.
-
-**komunikacioni put**:
-Put kroz više uređaja. Komutacija kola ga rezerviše. Komutacija paketa ga ne drži za jedan razgovor.
-_Avoid_: Veza od kraja do kraja.
-
-**komunikaciona veza**:
-Veza između dva susedna mrežna uređaja. Prekid jedne ne briše podatke koji su već stigli.
-
-**zajednički mrežni resursi**:
-Kapacitet mreže koji više razgovora koristi naizmenično. Komutacija paketa ga ne drži praznim tokom pauze.
-_Avoid_: Rezervisan kanal.
-
-**veza između krajnjih uređaja**:
-Dogovor dva kraja, na primer pouzdan tok bajtova. Nije rezervisan komunikacioni put kroz mrežu.
-_Avoid_: Žica.
+Prenos u manjim celinama, paketima. Ruteri ih prosleđuju kroz mrežu ka odredištu.
 
 **flag day**:
 Dan kad sve mreže prelaze na isti protokol. Za Internet je to 1. januar 1983.

@@ -62,12 +62,10 @@ test("pogodak deli teme i ćuti kad glave nema", () => {
 test("termini gradiva izbegavaju kalk i javljaju se u kursu", () => {
   const trazi = (ime) => pojmovi.find((pojam) => pojam.ime === ime);
   const blockchain = trazi("blockchain");
-  const veza = trazi("veza između krajnjih uređaja");
   const token = trazi("opaque token");
   const transakcija = trazi("Transakcija");
   assert.match(blockchain.izbegava, /Knjiga na lancu/);
   assert.match(blockchain.izbegava, /lanac blokova/);
-  assert.match(veza.izbegava, /Žica/);
   assert.match(token.izbegava, /Neprozirni ključ/);
   assert.match(transakcija.izbegava, /celina upisa/);
   assert.match(trazi("flag day").izbegava, /Dan zastave/);
@@ -76,16 +74,11 @@ test("termini gradiva izbegavaju kalk i javljaju se u kursu", () => {
   assert.match(trazi("push").izbegava, /Dovod/);
   assert.match(dokument.teme[0].problem, /blockchain/);
   assert.equal(trazi("veza od kraja do kraja"), undefined);
-  for (const ime of [
-    "komutacija kola",
-    "komutacija paketa",
-    "komunikaciona veza",
-    "komunikacioni put",
-    "veza između krajnjih uređaja",
-    "zajednički mrežni resursi",
-  ]) {
-    assert.ok(trazi(ime), ime);
-    assert.equal(lekcijePojma(dokument, ime).prvi.korak >= 0, true, ime);
+  assert.equal(trazi("komutacija kola"), undefined);
+  assert.ok(trazi("komutacija paketa"));
+  assert.equal(lekcijePojma(dokument, "komutacija paketa").prvi.korak, 1);
+  for (const ime of ["komunikaciona veza", "komunikacioni put", "veza između krajnjih uređaja", "zajednički mrežni resursi"]) {
+    assert.equal(trazi(ime), undefined, ime);
   }
   assert.equal(lekcijePojma(dokument, "Žica").teme.length, 0);
 });
