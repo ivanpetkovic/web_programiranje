@@ -167,7 +167,7 @@ Podela poruke na manje celine koje dele mrežu. Za svaki razgovor ne rezerviše 
 _Avoid_: Rezervisana veza.
 
 **komunikacioni put**:
-Put kroz više uređaja. Komutacija kola ga rezerviše. Komutacija paketa ga ne drži za jedan razgovor.
+Put kojim podaci prolaze od izvornog do odredišnog uređaja kroz računarsku mrežu. Može obuhvatati više rutera i komunikacionih veza. Različiti paketi ne moraju uvek prolaziti istim putem.
 _Avoid_: Veza od kraja do kraja.
 
 **komunikaciona veza**:

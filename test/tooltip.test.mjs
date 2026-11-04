@@ -76,9 +76,9 @@ test("oblačić pojma se sklapa sekundu posle odlaska ili klika sa strane", { ti
     await strana.vrednost(`document.querySelectorAll("#nav .tema-koraci .korak-red")[1].click()`);
     await sačekajElement("#sekcija-diskusija .pojam-crta");
     const pojam = await tacka("#sekcija-diskusija .pojam-crta", true);
-    const skloniste = await tacka("#nav .kurs-zaglavlje");
+    const skloniste = await tacka("#naslov-kursa");
     await na(pojam);
-    const otvoren = await sačekaj((s) => s.otvoren && s.tekst.includes("Put kroz više uređaja"), "otvaranje");
+    const otvoren = await sačekaj((s) => s.otvoren && s.tekst.includes("od izvornog do odredišnog uređaja"), "otvaranje");
     assert.match(otvoren.tekst, /komunikacioni put/);
 
     await na(skloniste);
