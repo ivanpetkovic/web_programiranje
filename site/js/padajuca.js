@@ -27,7 +27,7 @@ export function napraviPadajucu({ dugme, panel, stavke = () => [], naOtvori, naZ
 
   dugme.addEventListener("click", () => padajuca.prebaci());
   dugme.addEventListener("keydown", (dogadjaj) => {
-    if (dogadjaj.key !== "ArrowDown" || !panel.hidden) return;
+    if (dogadjaj.key !== "ArrowDown") return;
     dogadjaj.preventDefault();
     padajuca.otvori();
     stavke()[0]?.focus();

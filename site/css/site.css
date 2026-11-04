@@ -671,6 +671,131 @@ body.uvod-otvoren #izbor-koraka { display: none; }
 .prvi-izbor .kartice-moda { margin-top: 18px; }
 .prvi-izbor .kartica-moda { height: 96px; }
 .mobil-opcije-mesto .opcije-odeljci { margin-top: 12px; }
+.beleske-glava { display: flex; align-items: center; gap: 16px; }
+.beleske-naslov { flex: 1; margin: 0; font-size: 16px; font-weight: 700; color: var(--ink); }
+.beleske-broj { font-size: 14px; color: var(--muted); white-space: nowrap; }
+.beleske-redovi { margin: 0; padding: 0; list-style: none; }
+.beleska-red {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  gap: 19px;
+  align-items: start;
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+}
+.beleska-red-ikona .ikona { width: 16px; height: 16px; }
+.beleska-red-tekst { display: grid; gap: 7px; min-width: 0; }
+.beleska-red-naslov { overflow: hidden; font-size: 15px; font-weight: 700; line-height: 20px; text-overflow: ellipsis; white-space: nowrap; }
+.beleska-red-komentar { display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 13px; line-height: 18px; color: var(--muted); }
+.beleska-red-komentar > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.beleska-red-komentar .ikona { width: 14px; height: 14px; color: var(--amber); }
+.beleske-prazno { margin: 0; color: var(--muted); font-size: 14px; }
+.beleske-sve {
+  display: flex;
+  align-items: center;
+  gap: 19px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--amber);
+  font-size: 15px;
+  font-weight: 700;
+  text-align: left;
+}
+.beleske-sve .ikona { width: 18px; height: 18px; }
+.beleske-sve-strelica { margin-left: -12px; font-size: 18px; }
+.beleska-red:hover, .beleska-red:focus-visible, .beleske-sve:hover, .beleske-sve:focus-visible {
+  background: color-mix(in srgb, var(--amber) 7%, var(--paper));
+}
+.beleske-lista button:focus-visible { outline: 2px solid var(--amber); outline-offset: -2px; }
+.sacuvaj-korak { display: inline-flex; align-items: center; gap: 0.4rem; }
+.sacuvaj-korak .ikona-slot { display: grid; }
+.sacuvaj-korak.ima-belesku { color: var(--amber); border-color: var(--amber); }
+.beleska-uredjivac {
+  position: absolute;
+  z-index: 30;
+  display: grid;
+  gap: 8px;
+  width: min(calc(100vw - 16px), 320px);
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 12px 32px rgba(28, 26, 22, 0.18);
+  font-size: 14px;
+}
+.beleska-uredjivac[hidden] { display: none; }
+.beleska-uredjivac-oznaka { font-weight: 700; }
+.beleska-uredjivac-polje, .sve-beleske-komentar {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--code);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+  min-height: 0;
+  resize: vertical;
+}
+.beleska-uredjivac-dugmad { display: flex; gap: 8px; }
+.beleska-uredjivac-dugmad button, .sve-beleske-ukloni {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+  font-weight: 600;
+}
+.beleska-uredjivac-dugmad .beleska-sacuvaj { border-color: var(--amber); background: var(--amber); color: var(--on-amber); }
+.beleska-uredjivac-dugmad .beleska-ukloni, .sve-beleske-ukloni { border-color: var(--opasnost); color: var(--opasnost); }
+.beleska-uredjivac-dugmad [hidden] { display: none; }
+.beleska-uredjivac .ikona, .sve-beleske .ikona { width: 16px; height: 16px; }
+.sve-beleske {
+  width: min(calc(100vw - 2rem), 40rem);
+  max-height: calc(100vh - 4rem);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px 24px 24px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.sve-beleske::backdrop { background: rgba(0, 0, 0, 0.45); }
+.sve-beleske-h { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.sve-beleske-h h2 { margin: 0; font-size: 20px; color: var(--naslov); }
+.sve-beleske-zatvori { width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); font-size: 20px; }
+.sve-beleske > .meta { margin: 6px 0 14px; font-size: 14px; }
+.sve-beleske-tema { margin: 18px 0 8px; font-size: 16px; color: var(--amber); }
+.sve-beleske-spisak { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.sve-beleske-stavka { display: grid; gap: 6px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; }
+.sve-beleske-glava { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.sve-beleske-korak {
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-weight: 700;
+  text-align: left;
+}
+button.sve-beleske-korak:hover { color: var(--amber); }
+.sve-beleske-nema { color: var(--muted); }
+.oznaka-nema { padding: 2px 8px; border-radius: 999px; background: color-mix(in srgb, var(--upozorenje) 14%, var(--paper)); color: var(--upozorenje); font-size: 12px; font-weight: 700; }
+.sve-beleske button:focus-visible, .beleska-uredjivac button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
 .ustanova {
   display: flex;
   gap: 0.55rem;
@@ -1897,6 +2022,24 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   .opcije-panel .palete { margin-left: 2px; margin-right: 5px; }
   .opcije-panel .kartice-moda { margin-left: -1px; margin-right: -1px; }
   .opcije-panel .dugmad-stanja { margin-right: -2px; }
+  .beleske-lista {
+    position: absolute;
+    top: 76px;
+    right: 349px;
+    z-index: 10;
+    width: 342px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--paper);
+    box-shadow: 0 18px 44px rgba(28, 26, 22, 0.16), 0 2px 6px rgba(28, 26, 22, 0.06);
+  }
+  .beleske-lista .beleske-glava { height: 49px; padding: 0 21px 0 22px; border-bottom: 1px solid var(--line); }
+  .beleske-lista .beleske-glava-ikona .ikona { width: 20px; height: 20px; color: var(--ink); }
+  .beleske-lista .beleska-red { min-height: 71px; padding: 14px 21px 12px 24px; }
+  .beleske-lista .beleske-redovi li + li { border-top: 1px solid color-mix(in srgb, var(--line) 50%, transparent); }
+  .beleske-lista .beleske-prazno { padding: 18px 22px; }
+  .beleske-lista .beleske-sve { height: 53px; padding: 0 21px 0 24px; border-top: 1px solid var(--line); }
   .traka-casa {
     display: flex;
     align-items: center;

@@ -257,12 +257,21 @@
       <p class="mobil-profil-red"><span class="oznaka" id="mobil-profil-oznaka"></span> <span id="mobil-profil-ime" class="meta"></span></p>
       <button type="button" id="mobil-profil-napredak" class="mobil-profil-dugme">Napredak kursa</button>
       <button type="button" id="mobil-profil-sacuvaj" class="mobil-profil-dugme" data-ikona="bookmark">Sačuvaj korak</button>
+      <button type="button" id="mobil-profil-beleske" class="mobil-profil-dugme" data-ikona="sticky-note">Sve beleške</button>
       <div id="mobil-opcije-mesto" class="mobil-opcije-mesto"></div>
     </div>
     <dialog id="prvi-izbor" class="prvi-izbor" aria-labelledby="prvi-izbor-naslov">
       <h2 id="prvi-izbor-naslov">Kako koristite aplikaciju?</h2>
       <p class="meta">Predavanja daju veći tekst i Diskusiju na početku teme. Samostalni rad počinje od Gradiva. Izbor kasnije menjate u Opcijama.</p>
       <div class="prvi-izbor-kartice"></div>
+    </dialog>
+    <dialog id="sve-beleske" class="sve-beleske" aria-labelledby="sve-beleske-naslov">
+      <header class="sve-beleske-h">
+        <h2 id="sve-beleske-naslov">Sve beleške</h2>
+        <button type="button" class="sve-beleske-zatvori" aria-label="Zatvori"><span aria-hidden="true">×</span></button>
+      </header>
+      <p class="meta">Komentar se čuva kad napustite polje. Beleške ostaju samo u ovom browseru.</p>
+      <div class="sve-beleske-telo"></div>
     </dialog>
     <div id="mobil-ned-sheet" class="mobil-sheet mobil-izbor-sheet mobil-ned-sheet" hidden role="dialog" aria-labelledby="mobil-ned-sheet-naslov" aria-modal="true">
       <div class="mobil-sheet-hvat" aria-hidden="true"></div>

@@ -76,7 +76,9 @@ test("tabovi, traka i isečak zadržavaju natpise", () => {
   assert.match(main, /saIkonom\(document\.querySelector\("#tab-editor"\), "code-xml", "Editor"\)/);
   assert.equal(html.includes(">Koraci<"), false);
   assert.match(main, /ikonica\("chart-column"\)/);
-  assert.match(main, /saIkonom\(sacuvajKorak, "bookmark", "Sačuvaj korak"\)/);
+  assert.match(main, /beleske\.poveziDugmeKoraka\(sacuvajKorak\)/);
+  const beleske = fs.readFileSync(new URL("../site/js/beleske.js", import.meta.url), "utf8");
+  assert.match(beleske, /slot\(ima \? "bookmark-filled" : "bookmark"\), el\("span", "", "Sačuvaj korak"\)/);
   assert.match(main, /saIkonom\(kljucnaNaslov, "lightbulb", "Ključna ideja"\)/);
   assert.match(main, /saIkonom\(naslov, "folder", fajl\.ime\)/);
   assert.match(main, /natpisKopiranja\("Kopiraj"\)/);

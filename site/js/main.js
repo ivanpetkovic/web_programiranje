@@ -25,13 +25,13 @@ import { PODRAZUMEVANI_PRIMER, pocetniFajl, primeniPrimer } from "./primer.js";
 import { praznaSesija, primeni } from "./verzija.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
+import { napraviBeleske } from "./beleske.js";
 import { jeKomentarLinije, prikazPriloga } from "./prilog.js";
 import { proveriJs } from "./provera-izvora.js";
 import { vecUFajlu } from "./stablo.js";
 import {
   napraviStanje,
   SKALE_FONTA,
-  postaviBelesku,
   postaviPaletu,
   postaviPodesavanje,
   poslednjiKorak,
@@ -225,14 +225,6 @@ function trenutniKorak() {
 
 function kljucDiskusije() {
   return `${cas}:${rezervaPoCasu.get(cas) ? "rezerva" : "glavna"}`;
-}
-
-function sacuvajTrenutniKorak() {
-  if (uvod) return;
-  const item = lecture();
-  const i = indeksKoraka();
-  lokalno.promeni((stanje) => postaviBelesku(stanje, { tema: cas, korak: i, naslov: item.steps[i].naslov, komentar: "" }));
-  renderLecture();
 }
 
 function zabeleziOtvoreno(i) {
@@ -1479,8 +1471,7 @@ function renderLecture() {
   minuta.append(document.createTextNode(`~ ${korak.minuta} min`));
   const sacuvajKorak = document.createElement("button");
   sacuvajKorak.type = "button";
-  saIkonom(sacuvajKorak, "bookmark", "Sačuvaj korak");
-  sacuvajKorak.addEventListener("click", sacuvajTrenutniKorak);
+  beleske.poveziDugmeKoraka(sacuvajKorak);
   metaKoraka.append(nivo, minuta, sacuvajKorak);
   const naslovPrikaz = document.createElement("h2");
   naslovPrikaz.append(fragmentTeksta(korak.naslov));
@@ -2813,6 +2804,32 @@ const mobilOpcije = mobilOpcijeMesto ? nacrtajOdeljke({ ...kontekstOpcija, prefi
 if (mobilOpcije) mobilOpcijeMesto.append(mobilOpcije.koren);
 const prviIzbor = napraviPrviIzbor(kontekstOpcija);
 
+function otvoriBelesku(tema, korak) {
+  if (uvod) deo = podrazumevaniDeo();
+  korakPoCasu.set(tema, korak);
+  uvod = false;
+  cas = tema;
+  sakrijPanelSelekcije();
+  if (location.hash !== `#cas-${tema}`) location.hash = `cas-${tema}`;
+  else renderLecture();
+}
+
+const beleske = napraviBeleske({
+  lokalno,
+  korakSada() {
+    const item = lecture();
+    if (uvod || !item || !item.steps.length) return null;
+    const i = Math.min(indeksKoraka(), item.steps.length - 1);
+    return { tema: cas, korak: i, naslov: item.steps[i].naslov };
+  },
+  postojiKorak: (tema, korak) => korak < (lectures.find((item) => item.n === tema)?.steps.length ?? 0),
+  naslovTeme(tema) {
+    const item = lectures.find((sada) => sada.n === tema);
+    return item ? `Tema ${tema} – ${item.title}` : `Tema ${tema}`;
+  },
+  otvoriKorak: otvoriBelesku,
+});
+
 function osveziOpcije() {
   opcije.osvezi();
   mobilOpcije?.osvezi();
@@ -2922,7 +2939,8 @@ document.querySelector("#mobil-profil-napredak")?.addEventListener("click", () =
   karticaOtvorena = true;
   prikaziMobilKarticu();
 });
-document.querySelector("#mobil-profil-sacuvaj")?.addEventListener("click", sacuvajTrenutniKorak);
+document.querySelector("#mobil-profil-sacuvaj")?.addEventListener("click", (dogadjaj) => beleske.uredjivac.otvori(dogadjaj.currentTarget));
+document.querySelector("#mobil-profil-beleske")?.addEventListener("click", () => beleske.otvoriSve());
 mobilKarticaZavesa?.addEventListener("click", zatvoriMobilKarticu);
 karticaEl?.querySelector(".mobil-kartica-hvat")?.addEventListener("click", zatvoriMobilKarticu);
 mobilZavesa?.addEventListener("click", zatvoriMobilSheetove);
