@@ -2,6 +2,76 @@
 
 Ovaj dokument opisuje raspored sajta časa, panel Opcije, beleške koraka i lokalno stanje koje sajt čuva u browseru. Specifikacije su `openspec/specs/sajt-casa`, `opcije-sajta`, `beleske-koraka` i `lokalno-stanje`. Odluka o jednom zapisu je u `docs/adr/0016-stanje-je-jedan-lokalni-zapis.md`.
 
+## Raspored
+
+Na širini većoj od 860 px strana ima tri pojasa: zaglavlje, traku časa i sadržaj koraka.
+
+### Zaglavlje
+
+Zaglavlje (`header.top`) je jedan red visok 86 px. Elementi idu sleva nadesno:
+
+| Element | Šta radi |
+| --- | --- |
+| Grb i ustanova | Ime ustanove u dva reda. Klik vodi na uvod. |
+| Razdelnik | Vertikalna linija između ustanove i kursa. |
+| `monitor-code` i naslov kursa | Naslov kursa iz `kurs.json`, u boji naglaska. |
+| Pretraga | Polje Nađi pojam, pitanje ili primer koda sa predlozima. |
+| Pomoć | Dijalog sa kratkim uputstvom. |
+| Dugme beleški | `bookmark` i `chevron-down`. Otvara spisak beleški koraka. |
+| Dugme Opcije | `settings`, Opcije i strelica koja se okreće kad je panel otvoren. |
+| Oznaka | Krug 56 px sa oznakom iz `kurs.json` (na maketi MP). |
+
+### Traka časa
+
+Odmah ispod zaglavlja je traka časa (`nav.traka-casa`, kod u `site/js/traka-casa.js`):
+
+- Izbor teme: `layers`, natpis Tema n – naslov i `chevron-down`. Lista ima Uvod i sve teme. Otvorena tema nosi `aria-current="page"`. Izbor teme otvara njen poslednji otvoren korak.
+- Izbor koraka: `chevron-left`, natpis Korak n od N – naslov sa listom svih koraka teme, `chevron-right`. Prethodni je onemogućen na prvom koraku, Sledeći na poslednjem. Promena koraka ostavlja otvoren tab.
+- Tabovi Gradivo, Diskusija i Editor.
+
+Na uvodu se vidi samo izbor teme. Liste rade i tastaturom: strelica nadole otvara listu i fokusira prvu stavku, strelice se kreću kroz listu, Enter bira, Escape zatvara i vraća fokus na dugme. Otvorena je najviše jedna padajuća lista (`site/js/padajuca.js`): otvaranje Opcija zatvara beleške i obrnuto.
+
+### Šta je otišlo iz zaglavlja
+
+| Ranije u zaglavlju | Sada |
+| --- | --- |
+| Klizač tema, natpis teme, prethodna i sledeća tema | Izbor teme u traci časa |
+| Meni palete | Odeljak Paleta u Opcijama |
+| Kontrole veličine teksta | Odeljak Veličina fonta u Opcijama |
+| Prekidač Predavanja / Samostalni rad | Odeljak Način korišćenja u Opcijama i prvi izbor režima |
+| Sačuvaj korak | Dugme u lekciji; sačuvani koraci su pod dugmetom beleški |
+
+### Jedna kolona
+
+Na 860 px i uže traka časa se ne crta. Tabovi su u glavi časa, ispod reda za navigaciju, a izbor teme i koraka ide kroz mobilnu navigaciju. Opcije su u sheetu Podešavanja (`#mobil-podesavanja`) sa iste četiri sekcije, bez mera makete.
+
+## Opcije
+
+![Panel Opcije u paleti Pesak, 1672 × 941](slike/opcije-pesak-1672.png)
+
+Maketa panela i spiska beleški je `mocks/opcije-i-beleske.png`. Snimak iznad je sajt na istom viewportu (1672 × 941) u paleti Pesak. Kod je u `site/js/opcije.js`.
+
+Panel se otvara dugmetom Opcije. Zatvaraju ga Escape, klik van panela i ponovni klik na dugme; fokus se vraća na dugme. Panel ima 330 × 539 px, vrh na 76 px i desnu ivicu 8 px od ivice prozora. Sve mere su u `px`, pa A+ i predavanja ne menjaju panel. Boje dolaze iz palete; nova su samo tri tokena po paleti: `--uspeh`, `--upozorenje` i `--opasnost`, svaki sa kontrastom bar 4.5:1 prema `--paper`.
+
+### Odeljci
+
+| Odeljak | Sadržaj |
+| --- | --- |
+| Paleta | Četiri pločice sa slikama iz `site/icons/teme/`: Plava (`mornar`), Ugalj, Pesak i Terakota. Izbor zakuca paletu, upiše je u `paleta` i ostavlja panel otvoren. Izabrana pločica ima kvačicu. |
+| Veličina fonta | Segment A− / A / A+ (`0.875`, `1`, `1.125`). Upisuje `podesavanja.font`. |
+| Način korišćenja | Kartice Predavanja (`monitor`) i Samostalni rad (`book-open-text`). Promena ostavlja isti korak. Upisuje `podesavanja.mod`. |
+| Lokalno stanje | Bedž Sačuvano lokalno, ili Nije sačuvano kad `localStorage` odbije upis. Load uvozi fajl stanja, Save preuzima `veb-programiranje-stanje.json`, Obriši progres posle potvrde briše napredak, beleške i podešavanja bez ponovnog učitavanja strane. Radne verzije ostaju. |
+
+Pogrešan fajl na Load ne menja stanje; ispod dugmadi piše da fajl nije sačuvano stanje.
+
+### Prvi izbor režima
+
+Kad `podesavanja.mod` nije izabran (prvi dolazak ili posle Obriši progres), sajt otvara dijalog Kako koristite aplikaciju? sa iste dve kartice. Izbor se upisuje i dijalog se više ne pojavljuje. Escape upisuje Predavanja. Kasnije se način menja u Opcijama.
+
+### Veličina teksta u oba režima
+
+U samostalnom radu koren strane ima `font-size: calc(16px * var(--skala-fonta))`, a u predavanjima `calc(16px * var(--skala-predavanja) * var(--skala-fonta))` sa `--skala-predavanja: 1.3`. Izbor A− / A / A+ postavlja `--skala-fonta`, pa radi u oba režima: A+ u predavanjima daje 16 × 1.3 × 1.125 px.
+
 ## Lokalno stanje
 
 Sve što sajt pamti o studentu stoji u jednom zapisu u `localStorage`, pod ključem `web-programiranje:stanje`. Kod je u `site/js/lokalno-stanje.js`. Modul ne dira DOM: skladište mu se predaje kao argument, pa se testira u Node-u (`test/lokalno-stanje.test.mjs`).

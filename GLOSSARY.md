@@ -56,6 +56,18 @@ _Avoid_: Profil, nalog.
 Koraci teme koje je student otvorio i poslednji otvoren korak. Raste sam, nije ocena.
 _Avoid_: Ocena, završeni koraci.
 
+**Traka časa**:
+Red ispod zaglavlja sa izborom teme, izborom koraka i tabovima Gradivo, Diskusija i Editor.
+_Avoid_: Klizač, meni tema.
+
+**Opcije**:
+Panel u zaglavlju za paletu, veličinu teksta, način korišćenja i lokalno stanje.
+_Avoid_: Podešavanja (to je mobilni sheet sa istim odeljcima), profil.
+
+**Način korišćenja**:
+Predavanja ili Samostalni rad. Bira se jednom, pri prvom dolasku, a menja u Opcijama.
+_Avoid_: Režim editora, verzija.
+
 **Ugrađena verzija**:
 Snimak jednog fajla na otvorenom koraku.
 _Avoid_: Režim, fajl sa diska
