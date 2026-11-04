@@ -93,7 +93,7 @@ Pravilo koje sakriva `#font-kontrole` u predavanjima i `disabled` na dugmadima n
 
 ### 6. Raspored: zaglavlje i traka časa
 
-- `header.top`: jedan red, visina 104 px, donja ivica 1 px `var(--line)`. Levo grb 48 px, ustanova u dva reda, vertikalni razdelnik, `monitor-code` u zaobljenom kvadratu 36 px sa naglaskom i naslov kursa 26 px/700 u boji naglaska. Pretraga i pomoć ostaju (spec ih traži; maketa ih ne crta) kao kompaktno polje i ikonica levo od beleški. Desno: dugme beleški (oko 52 × 52, ivica i tint naglaska, `bookmark` + `chevron-down`), dugme Opcije (oko 140 × 52, `settings`, Opcije, `chevron`), inicijali u krugu 52 px.
+- `header.top`: jedan red, visina 86 px, donja ivica 1 px `var(--line)`. Levo grb 48 px, ustanova u dva reda, vertikalni razdelnik, `monitor-code` u zaobljenom kvadratu 36 px sa naglaskom i naslov kursa 26 px/700 u boji naglaska. Pretraga i pomoć ostaju (spec ih traži; maketa ih ne crta) kao kompaktno polje i ikonica levo od beleški. Desno: dugme beleški (85 × 55, ivica i tint naglaska, `bookmark` + `chevron-down`), dugme Opcije (176 × 55, `settings`, Opcije, `chevron`), inicijali u krugu 56 px.
 - `nav.traka-casa` ispod zaglavlja, visina oko 50 px, donja ivica 1 px: izbor teme (`layers` + Tema n – naslov + `chevron-down`, padajuća lista), izbor koraka (`chevron-left`, srednje dugme Korak n od N – naslov sa listom koraka, `chevron-right`), pa tabovi. `.cas-tabovi` se premešta iz `.cas-glava` u traku; ARIA uloge tabova ostaju iste.
 - Izbor teme i koraka u traci dele logiku sa postojećim `otvoriTemu` / biračem; nova je samo forma.
 - `#mod-kontrole` napušta `#mod-mesto`; na desktopu režim je samo u Opcijama. Mobilna traka zadržava svoje kontrole teme i koraka; `#mod-kontrole` u mobilnoj traci se zamenjuje odeljkom u sheetu Podešavanja.
@@ -101,7 +101,7 @@ Pravilo koje sakriva `#font-kontrole` u predavanjima i `disabled` na dugmadima n
 
 ### 7. Opcije: mere iz makete
 
-Panel: `position: absolute`, desna ivica poravnata sa dugmetom Opcije, vrh na y 76, kutija 330 × 539, radijus 16, senka kao na maketi, pozadina `var(--panel)`. Unutrašnji okvir: levo 19, desno 18, širina sadržaja oko 293. Sve mere u `px`, ne `rem`, da A+ i predavanja ne pomeraju panel.
+Panel: `position: absolute`, desna ivica poravnata sa dugmetom Opcije, vrh na y 76, kutija 330 × 539, radijus 16, senka kao na maketi, pozadina `var(--paper)`. Unutrašnji okvir: levo 19, desno 18, širina sadržaja oko 293. Sve mere u `px`, ne `rem`, da A+ i predavanja ne pomeraju panel.
 
 | Deo (y od vrha panela) | Kutija |
 | --- | --- |
@@ -120,7 +120,7 @@ Panel: `position: absolute`, desna ivica poravnata sa dugmetom Opcije, vrh na y 
 
 Sačuvane beleške: kutija ≈ 342 × 248, levo x 981, vrh y 76, 12 px levo od Opcija. Zaglavlje liste y 14–36 (`bookmark`, Sačuvane beleške, broj desno), redovi ≈ 47 visine sa tintom na hoveru/fokusu, razdelnici 1 px, „Prikaži sve beleške →” sa `external-link` u boji naglaska na y 210–228.
 
-Boje dolaze iz tokena palete (`--amber`, `--amber-dim`, `--panel`, `--line`, `--ink`, `--muted`); nove su samo `--uspeh`, `--upozorenje` i `--opasnost` po paleti, sa kontrastom 4.5:1 prema `--panel`.
+Boje dolaze iz tokena palete (`--amber`, `--amber-dim`, `--paper`, `--line`, `--ink`, `--muted`); nove su samo `--uspeh`, `--upozorenje` i `--opasnost` po paleti, sa kontrastom 4.5:1 prema `--paper`.
 
 Provera mera: test u headless Chrome-u (`test/chrome.mjs`) otvara sajt na 1672 × 941 sa `pesak`, otvara Opcije, čita `getBoundingClientRect()` svakog dela i poredi sa tabelom (±4 px). Snimak ekrana i snimak makete idu u artefakte radi vizuelnog poređenja.
 

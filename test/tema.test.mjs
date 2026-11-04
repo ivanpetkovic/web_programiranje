@@ -6,6 +6,7 @@ const css = fs.readFileSync(new URL("../site/css/site.css", import.meta.url), "u
 const main = fs.readFileSync(new URL("../site/js/main.js", import.meta.url), "utf8");
 const html = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
 const editor = fs.readFileSync(new URL("../site/js/cm-editor.js", import.meta.url), "utf8");
+const opcije = fs.readFileSync(new URL("../site/js/opcije.js", import.meta.url), "utf8");
 
 function lin(kanal) {
   const c = kanal / 255;
@@ -145,11 +146,12 @@ test("gradivo, jedna kolona i birač", () => {
   assert.equal(html.includes('id="koraci-kontrole"'), false);
   assert.equal(main.includes("#koraci-kontrole"), false);
   assert.equal(main.includes("pill.textContent"), false);
+  const trakaCasa = html.indexOf('id="traka-casa"');
   const tabovi = html.indexOf('class="cas-tabovi"');
   const mesto = html.indexOf('id="birac-mesto"');
   const sekcija = html.indexOf('id="sekcija-koraci"');
   const navTraka = html.indexOf('id="mobil-nav-traka"');
-  assert.ok(navTraka > 0 && navTraka < tabovi && tabovi < mesto && mesto < sekcija);
+  assert.ok(trakaCasa > 0 && trakaCasa < tabovi && tabovi < navTraka && navTraka < mesto && mesto < sekcija);
   assert.equal(html.match(/id="birac-mesto"/g).length, 1);
   assert.match(main, /querySelector\("#birac-mesto"\)/);
   assert.match(main, /biracMesto\.replaceChildren\(birac\)/);
@@ -209,30 +211,37 @@ test("boje razlike prate token palete", () => {
   assert.match(css, /\.cm-linija-obrisano[^{]*\{[^}]*var\(--diff-obrisano\)/);
 });
 
-test("spisak tema zakuca paletu i ne pomera čas", () => {
-  for (const natpis of ["Plava", "Ugalj", "Pesak", "Terakota"]) {
-    assert.match(main, new RegExp(natpis));
-  }
-  assert.match(main, /return window\.matchMedia\("\(prefers-color-scheme: light\)"\)\.matches \? "pesak" : "ugalj"/);
-  const telo = main.slice(main.indexOf("function zakucajTemu"), main.indexOf("for (const [id, natpis, opis] of TEME)"));
-  for (const opis of ["Plava, sveža i smirena", "Tamna i fokusirana", "Svetla i neutralna", "Topla i prirodna"]) {
-    assert.ok(main.includes(opis), opis);
-  }
-  assert.match(main, /\/icons\/teme\/\$\{id\}\.png/);
-  assert.match(html, /data-ikona="palette"/);
-  assert.match(html, /class="tema-natpis"/);
-  const dugmeTeme = blok(css, "#tema\\s*\\{");
-  assert.match(dugmeTeme, /border-color:\s*var\(--amber\)/);
-  assert.match(dugmeTeme, /color:\s*var\(--amber\)/);
-  assert.match(css, /\.tema-opis\s*\{[^}]*color:\s*var\(--muted\)/);
-  for (const id of ["mornar", "ugalj", "pesak", "terakota"]) {
+test("pločice palete u Opcijama zakucaju paletu i ne pomeraju čas", () => {
+  for (const [id, natpis] of [["mornar", "Plava"], ["ugalj", "Ugalj"], ["pesak", "Pesak"], ["terakota", "Terakota"]]) {
+    assert.match(opcije, new RegExp(`\\["${id}", "${natpis}"\\]`));
     assert.equal(fs.existsSync(new URL(`../site/icons/teme/${id}.png`, import.meta.url)), true, id);
   }
+  assert.match(opcije, /slika\.src = `\/icons\/teme\/\$\{id\}\.png`/);
+  assert.match(opcije, /dugme\.setAttribute\("aria-label", ime\);\s*dugme\.title = ime;/);
+  assert.match(opcije, /glava\("palette", "Paleta", "Izaberite temu boja aplikacije\."/);
+  assert.match(main, /return window\.matchMedia\("\(prefers-color-scheme: light\)"\)\.matches \? "pesak" : "ugalj"/);
+  const telo = main.slice(main.indexOf("function zakucajTemu"), main.indexOf("function primeniStanje"));
   assert.match(telo, /dataset\.tema = id/);
   assert.match(telo, /postaviPaletu\(stanje, id\)/);
   assert.equal(telo.includes("otvoriTemu"), false);
   assert.equal(telo.includes("cas ="), false);
-  assert.match(telo, /if \(pogled\) osveziEditor\(\)/);
+  assert.doesNotMatch(telo, /osveziEditor/);
+  assert.equal(html.includes('class="tema-meni"'), false);
+  assert.equal(html.includes('id="tema-spisak"'), false);
+  assert.equal(css.includes(".tema-spisak"), false);
+  const aktivna = blok(css, '\\.paleta-plocica\\[aria-pressed="true"\\]\\s*\\{');
+  assert.match(aktivna, /border:\s*2px solid var\(--amber\)/);
+});
+
+test("uspeh, upozorenje i opasnost drže kontrast prema panelu", () => {
+  for (const [ime, tema] of Object.entries(palete)) {
+    for (const token of ["uspeh", "upozorenje", "opasnost"]) {
+      assert.ok(tema[token], `${ime} ${token}`);
+      assert.ok(kontrast(tema[token], tema.paper) >= 4.5, `${ime} ${token} ${kontrast(tema[token], tema.paper).toFixed(2)}`);
+    }
+  }
+  assert.match(blok(css, "\\.opcije-panel\\s*\\{"), /background:\s*var\(--paper\)/);
+  assert.match(blok(css, "\\.dugme-opasno\\s*\\{"), /color:\s*var\(--opasnost\)/);
 });
 
 test("editor prati četiri teme", () => {

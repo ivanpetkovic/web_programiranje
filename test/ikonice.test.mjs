@@ -36,6 +36,25 @@ test("ikonice Opcija i beleški postoje kao fajl i kao simbol", () => {
   assert.match(ispuna, /fill="currentColor"/);
 });
 
+test("zaglavlje u jednom redu nosi ikonice i nema klizač tema", () => {
+  const zaglavlje = html.slice(html.indexOf('<header class="top">'), html.indexOf("</header>"));
+  const redosled = ['class="ustanova"', 'class="top-razdelnik"', 'data-ikona="monitor-code"', 'id="search-form"', 'id="pomoc"', 'id="beleske-dugme"', 'id="opcije-dugme"', 'id="oznaka"'];
+  const mesta = redosled.map((deo) => zaglavlje.indexOf(deo));
+  assert.ok(mesta.every((m, i) => m > 0 && (i === 0 || m > mesta[i - 1])), JSON.stringify(mesta));
+  assert.match(zaglavlje, /id="pomoc"[^>]*data-ikona="help-circle"/);
+  assert.match(zaglavlje, /id="beleske-dugme"[\s\S]*?data-ikona="bookmark"[\s\S]*?data-ikona="chevron-down"[\s\S]*?<\/button>/);
+  assert.match(zaglavlje, /id="opcije-dugme"[\s\S]*?data-ikona="settings"[\s\S]*?<span>Opcije<\/span>[\s\S]*?data-ikona="chevron-down"/);
+  for (const staro of ['id="klizac"', 'id="natpis-teme"', 'id="prethodna-tema"', 'id="sledeca-tema"', 'id="sacuvaj-zaglavlje"', 'class="tema-meni"', 'id="font-kontrole"']) {
+    assert.equal(html.includes(staro), false, staro);
+  }
+  for (const staro of ["#klizac", "#natpis-teme", "#prethodna-tema", "#sledeca-tema", "#sacuvaj-zaglavlje", "polozajiKlizaca"]) {
+    assert.equal(main.includes(staro), false, staro);
+  }
+  const opcije = fs.readFileSync(new URL("../site/js/opcije.js", import.meta.url), "utf8");
+  assert.match(opcije, /strelicom\("chevron-up"\)/);
+  assert.match(opcije, /naZatvori: \(\) => strelicom\("chevron-down"\)/);
+});
+
 test("zaglavlje, spisak i kartica nose ikonice", () => {
   for (const ime of ["search", "chevron-left", "chevron-right", "bookmark", "help-circle", "book-open", "check-circle", "circle", "chevron-up", "chevron-down", "calendar-days", "clock"]) {
     assert.match(izvor, new RegExp(ime));
