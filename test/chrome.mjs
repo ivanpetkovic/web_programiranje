@@ -94,7 +94,17 @@ export function ugasi(dete) {
   }
 }
 
-export async function otvoriStranu(port) {
+function seme({ paleta = null, mod = "predavanja" }) {
+  const zapis = { verzija: 1, podesavanja: { mod, font: "1", stabloSklopljeno: false }, paleta };
+  return `try {
+    if (location.protocol.startsWith("http") && localStorage.getItem("web-programiranje:stanje") === null) {
+      localStorage.setItem("web-programiranje:stanje", ${JSON.stringify(JSON.stringify(zapis))});
+    }
+  } catch (e) {}`;
+}
+
+// Bez prviIzbor: true strana dobija sačuvan režim, pa dijalog prvog izbora ne zaklanja stranu.
+export async function otvoriStranu(port, { prviIzbor = false, paleta = null } = {}) {
   const bin = chromeBin();
   assert.ok(bin, "Chrome nije dostupan za proveru strane");
   const profil = mkdtempSync(path.join(os.tmpdir(), "strana-"));
@@ -155,6 +165,7 @@ export async function otvoriStranu(port) {
   const { sessionId } = await posalji("Target.attachToTarget", { targetId: meta.id, flatten: true });
   await posalji("Page.enable", {}, sessionId);
   await posalji("Runtime.enable", {}, sessionId);
+  if (!prviIzbor) await posalji("Page.addScriptToEvaluateOnNewDocument", { source: seme({ paleta }) }, sessionId);
   return {
     chrome,
     posalji(method, params) {

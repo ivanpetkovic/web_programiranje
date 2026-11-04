@@ -22,6 +22,39 @@ test("pomoćnik crta currentColor preko use i ne vuče PNG", () => {
   }
 });
 
+test("ikonice Opcija i beleški postoje kao fajl i kao simbol", () => {
+  const nove = ["settings", "a-large-small", "layers", "database", "upload", "download", "trash", "external-link", "book-open-text", "monitor-code", "sticky-note", "bookmark-filled"];
+  for (const ime of nove) {
+    const fajl = fs.readFileSync(new URL(`../site/icons/svg_currentColor/${ime}.svg`, import.meta.url), "utf8");
+    assert.match(fajl, /viewBox="0 0 24 24"/);
+    assert.match(fajl, /stroke="currentColor"/);
+    assert.match(fajl, /stroke-width="1\.75"/);
+    assert.equal(/png/i.test(fajl), false);
+    assert.match(sprite, new RegExp(`<symbol id="${ime}" viewBox="0 0 24 24"[^>]*stroke="currentColor"[^>]*stroke-width="1\\.75"`));
+  }
+  const ispuna = sprite.slice(sprite.indexOf('id="bookmark-filled"'), sprite.indexOf("</symbol>", sprite.indexOf('id="bookmark-filled"')));
+  assert.match(ispuna, /fill="currentColor"/);
+});
+
+test("zaglavlje u jednom redu nosi ikonice i nema klizač tema", () => {
+  const zaglavlje = html.slice(html.indexOf('<header class="top">'), html.indexOf("</header>"));
+  const redosled = ['class="ustanova"', 'class="top-razdelnik"', 'data-ikona="monitor-code"', 'id="search-form"', 'id="pomoc"', 'id="beleske-dugme"', 'id="opcije-dugme"', 'id="oznaka"'];
+  const mesta = redosled.map((deo) => zaglavlje.indexOf(deo));
+  assert.ok(mesta.every((m, i) => m > 0 && (i === 0 || m > mesta[i - 1])), JSON.stringify(mesta));
+  assert.match(zaglavlje, /id="pomoc"[^>]*data-ikona="help-circle"/);
+  assert.match(zaglavlje, /id="beleske-dugme"[\s\S]*?data-ikona="bookmark"[\s\S]*?data-ikona="chevron-down"[\s\S]*?<\/button>/);
+  assert.match(zaglavlje, /id="opcije-dugme"[\s\S]*?data-ikona="settings"[\s\S]*?<span>Opcije<\/span>[\s\S]*?data-ikona="chevron-down"/);
+  for (const staro of ['id="klizac"', 'id="natpis-teme"', 'id="prethodna-tema"', 'id="sledeca-tema"', 'id="sacuvaj-zaglavlje"', 'class="tema-meni"', 'id="font-kontrole"']) {
+    assert.equal(html.includes(staro), false, staro);
+  }
+  for (const staro of ["#klizac", "#natpis-teme", "#prethodna-tema", "#sledeca-tema", "#sacuvaj-zaglavlje", "polozajiKlizaca"]) {
+    assert.equal(main.includes(staro), false, staro);
+  }
+  const opcije = fs.readFileSync(new URL("../site/js/opcije.js", import.meta.url), "utf8");
+  assert.match(opcije, /strelicom\("chevron-up"\)/);
+  assert.match(opcije, /naZatvori: \(\) => strelicom\("chevron-down"\)/);
+});
+
 test("zaglavlje, spisak i kartica nose ikonice", () => {
   for (const ime of ["search", "chevron-left", "chevron-right", "bookmark", "help-circle", "book-open", "check-circle", "circle", "chevron-up", "chevron-down", "calendar-days", "clock"]) {
     assert.match(izvor, new RegExp(ime));
@@ -30,7 +63,7 @@ test("zaglavlje, spisak i kartica nose ikonice", () => {
   assert.match(html, /id="grb"/);
   assert.match(main, /dokument\.oznaka/);
   assert.match(main, /dokument\.grb/);
-  assert.match(main, /temaZavrsena\(item, mesto\) \? "check-circle" : "circle"/);
+  assert.match(main, /temaZavrsena\(item\) \? "check-circle" : "circle"/);
   assert.match(main, /otvoren \? "chevron-up" : "chevron-down"/);
   assert.equal(main.includes('kvaka.textContent'), false);
   assert.equal(main.includes("●"), false);
@@ -43,7 +76,9 @@ test("tabovi, traka i isečak zadržavaju natpise", () => {
   assert.match(main, /saIkonom\(document\.querySelector\("#tab-editor"\), "code-xml", "Editor"\)/);
   assert.equal(html.includes(">Koraci<"), false);
   assert.match(main, /ikonica\("chart-column"\)/);
-  assert.match(main, /saIkonom\(sacuvajKorak, "bookmark", "Sačuvaj korak"\)/);
+  assert.match(main, /beleske\.poveziDugmeKoraka\(sacuvajKorak\)/);
+  const beleske = fs.readFileSync(new URL("../site/js/beleske.js", import.meta.url), "utf8");
+  assert.match(beleske, /slot\(ima \? "bookmark-filled" : "bookmark"\), el\("span", "", "Sačuvaj korak"\)/);
   assert.match(main, /saIkonom\(kljucnaNaslov, "lightbulb", "Ključna ideja"\)/);
   assert.match(main, /saIkonom\(naslov, "folder", fajl\.ime\)/);
   assert.match(main, /natpisKopiranja\("Kopiraj"\)/);
@@ -74,7 +109,7 @@ test("pitanje, stablo, olovka i panel", () => {
   assert.match(html, />Fajlovi</);
   assert.match(html, /id="sklopi-stablo"[^>]*aria-expanded="true"[^>]*aria-controls="tree"[^>]*data-ikona="panel-left"/);
   assert.match(main, /classList\.toggle\("sklopljeno", sklopljeno\)/);
-  assert.match(main, /localStorage\.setItem\(STABLO_KLJUC/);
+  assert.match(main, /postaviPodesavanje\(stanje, "stabloSklopljeno", sklopljeno\)/);
   assert.match(html, /<h2>Pregled<\/h2>/);
   assert.match(html, /<p id="pregled-adresa"><\/p>/);
   assert.match(main, /adresaPregleda\(location\.origin/);

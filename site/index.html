@@ -6,14 +6,27 @@
     <title>Veb programiranje</title>
     <script>
       try {
-        var mapa = { tamna: "ugalj", svetla: "pesak", mornar: "mornar", ugalj: "ugalj", pesak: "pesak", terakota: "terakota" };
-        var tema = mapa[localStorage.getItem("tema")];
-        if (tema) document.documentElement.dataset.tema = tema;
-        var mod = localStorage.getItem("web-programiranje:mod");
-        document.documentElement.dataset.mod = mod === "samostalni" ? "samostalni" : "predavanja";
-        var skale = { "0.875": "0.875", "1": "1", "1.125": "1.125", "1.25": "1.25" };
-        var skala = skale[localStorage.getItem("web-programiranje:font")];
-        if (skala) document.documentElement.style.setProperty("--skala-fonta", skala);
+        var koren = document.documentElement;
+        var palete = { tamna: "ugalj", svetla: "pesak", mornar: "mornar", ugalj: "ugalj", pesak: "pesak", terakota: "terakota" };
+        var skale = { "0.875": "0.875", "1": "1", "1.125": "1.125", "1.25": "1.125" };
+        var zapis = null;
+        try {
+          zapis = JSON.parse(localStorage.getItem("web-programiranje:stanje") || "null");
+        } catch (e) {}
+        var paleta, mod, skala;
+        if (zapis && zapis.verzija === 1) {
+          var podesavanja = zapis.podesavanja || {};
+          paleta = zapis.paleta;
+          mod = podesavanja.mod;
+          skala = podesavanja.font;
+        } else {
+          paleta = localStorage.getItem("tema");
+          mod = localStorage.getItem("web-programiranje:mod");
+          skala = localStorage.getItem("web-programiranje:font");
+        }
+        if (palete[paleta]) koren.dataset.tema = palete[paleta];
+        koren.dataset.mod = mod === "samostalni" ? "samostalni" : "predavanja";
+        if (skale[skala]) koren.style.setProperty("--skala-fonta", skale[skala]);
       } catch (e) {}
     </script>
     <link rel="stylesheet" href="/css/site.css" />
@@ -29,7 +42,8 @@
           <small id="ustanova-red"></small>
         </span>
       </a>
-      <p id="naslov-kursa" class="brand"></p>
+      <span class="top-razdelnik" aria-hidden="true"></span>
+      <p id="naslov-kursa" class="brand"><span class="ikona-slot kurs-znak" data-ikona="monitor-code" aria-hidden="true"></span><span id="naslov-kursa-tekst"></span></p>
       <form id="search-form" class="trazi" role="search">
         <label class="sr" for="q">Nađi pojam</label>
         <span class="ikona-slot" data-ikona="search"></span>
@@ -37,35 +51,46 @@
         <kbd aria-hidden="true">⌘K</kbd>
         <ul id="typeahead" class="typeahead" role="listbox" hidden></ul>
       </form>
-      <div class="tema-klizac">
-        <p id="natpis-teme" class="meta"></p>
-        <div id="klizac" class="klizac" role="group" aria-label="Teme"></div>
-      </div>
-      <button type="button" id="prethodna-tema" aria-label="Prethodna tema" data-ikona="chevron-left"></button>
-      <button type="button" id="sledeca-tema" aria-label="Sledeća tema" data-ikona="chevron-right"></button>
-      <button type="button" id="sacuvaj-zaglavlje" aria-label="Sačuvaj korak" data-ikona="bookmark"></button>
       <button type="button" id="mobil-nav-prekidac" class="mobil-nav-prekidac" aria-label="Prikaži izbor teme i koraka" aria-expanded="true" aria-controls="mobil-nav-red" data-ikona="book-open" hidden></button>
       <button type="button" id="pomoc" aria-label="Pomoć" data-ikona="help-circle"></button>
-      <div class="tema-meni">
-        <button type="button" id="tema" aria-haspopup="listbox" aria-expanded="false" aria-controls="tema-spisak">
-          <span class="ikona-slot" data-ikona="palette"></span>
-          <span class="tema-natpis">Ugalj</span>
+      <button type="button" id="beleske-dugme" class="beleske-dugme" aria-label="Sačuvane beleške" aria-haspopup="true" aria-expanded="false" aria-controls="beleske-lista">
+        <span class="ikona-slot" data-ikona="bookmark"></span>
+        <span class="ikona-slot" data-ikona="chevron-down"></span>
+      </button>
+      <button type="button" id="opcije-dugme" class="opcije-dugme" aria-haspopup="true" aria-expanded="false" aria-controls="opcije-panel">
+        <span class="ikona-slot" data-ikona="settings"></span>
+        <span>Opcije</span>
+        <span class="ikona-slot opcije-strelica" data-ikona="chevron-down"></span>
+      </button>
+      <span id="oznaka" class="oznaka"></span>
+      <div id="beleske-lista" class="beleske-lista" role="region" aria-label="Sačuvane beleške" hidden></div>
+      <div id="opcije-panel" class="opcije-panel" role="region" aria-label="Opcije" hidden></div>
+    </header>
+    <nav id="traka-casa" class="traka-casa" aria-label="Tema i korak">
+      <div class="traka-meni izbor-teme">
+        <button type="button" id="izbor-teme" class="traka-dugme" aria-haspopup="listbox" aria-expanded="false" aria-controls="izbor-teme-lista">
+          <span class="ikona-slot" data-ikona="layers"></span>
+          <span id="izbor-teme-natpis" class="traka-natpis">Uvod</span>
           <span class="ikona-slot" data-ikona="chevron-down"></span>
         </button>
-        <ul id="tema-spisak" class="tema-spisak" role="listbox" hidden></ul>
+        <ul id="izbor-teme-lista" class="traka-lista" role="listbox" aria-label="Teme" hidden></ul>
       </div>
-      <div id="font-kontrole" class="font-kontrole">
-        <p class="mobil-podesavanja-naslov" id="font-naslov">Veličina teksta</p>
-        <div class="segment font-segment" id="font-segment" role="group" aria-label="Veličina teksta">
-          <button type="button" data-skala="0.875" aria-label="Sitniji tekst">A−</button>
-          <button type="button" data-skala="1" aria-pressed="true" aria-label="Normalan tekst">A</button>
-          <button type="button" data-skala="1.125" aria-label="Krupniji tekst">A+</button>
-          <button type="button" data-skala="1.25" aria-label="Veliki tekst">A++</button>
+      <div id="izbor-koraka" class="izbor-koraka" role="group" aria-label="Korak">
+        <button type="button" id="traka-prethodni" class="traka-dugme traka-skok" aria-label="Prethodni korak" data-ikona="chevron-left"></button>
+        <div class="traka-meni">
+          <button type="button" id="izbor-koraka-dugme" class="traka-dugme" aria-haspopup="listbox" aria-expanded="false" aria-controls="izbor-koraka-lista">
+            <span id="izbor-koraka-natpis" class="traka-natpis"></span>
+          </button>
+          <ul id="izbor-koraka-lista" class="traka-lista" role="listbox" aria-label="Koraci" hidden></ul>
         </div>
-        <p id="font-napomena" class="meta">U predavanjima je tekst veći. Ova veličina važi za samostalni rad.</p>
+        <button type="button" id="traka-sledeci" class="traka-dugme traka-skok" aria-label="Sledeći korak" data-ikona="chevron-right"></button>
       </div>
-      <span id="oznaka" class="oznaka"></span>
-    </header>
+      <div class="cas-tabovi" role="tablist" aria-label="Delovi časa">
+        <button type="button" id="tab-koraci" role="tab" aria-selected="false" aria-controls="sekcija-koraci" tabindex="-1">Gradivo</button>
+        <button type="button" id="tab-diskusija" role="tab" aria-selected="true" aria-controls="sekcija-diskusija">Diskusija</button>
+        <button type="button" id="tab-editor" role="tab" aria-selected="false" aria-controls="sekcija-editor" tabindex="-1">Editor</button>
+      </div>
+    </nav>
     <div class="okvir">
       <div class="nav-omot" id="mobil-gradivo-panel" aria-label="Gradivo i teme">
         <div class="mobil-gradivo-zaglavlje" id="mobil-gradivo-zaglavlje">
@@ -89,13 +114,6 @@
         <div class="cas-glava">
           <div id="mobil-nav-red" class="mobil-nav-red" hidden>
           <div id="mobil-nav-traka" class="mobil-nav-traka" hidden>
-            <div id="mod-kontrole" class="mod-kontrole">
-              <p class="sr">Režim</p>
-              <div class="segment mod-segment" role="group" aria-label="Režim rada">
-                <button type="button" id="mod-predavanja" aria-pressed="true">Predavanja</button>
-                <button type="button" id="mod-samostalni" aria-pressed="false">Samostalni rad</button>
-              </div>
-            </div>
             <button type="button" id="mobil-ned-pad" class="mobil-tema-dugme" aria-haspopup="dialog" aria-expanded="false" aria-controls="mobil-ned-sheet">
               <span class="ikona-slot" data-ikona="calendar-days" aria-hidden="true"></span>
               <span class="mobil-tema-tekst">
@@ -113,16 +131,10 @@
             </div>
           </div>
           </div>
-          <div class="cas-tabovi" role="tablist" aria-label="Delovi časa">
-            <button type="button" id="tab-koraci" role="tab" aria-selected="false" aria-controls="sekcija-koraci" tabindex="-1">Gradivo</button>
-            <button type="button" id="tab-diskusija" role="tab" aria-selected="true" aria-controls="sekcija-diskusija">Diskusija</button>
-            <button type="button" id="tab-editor" role="tab" aria-selected="false" aria-controls="sekcija-editor" tabindex="-1">Editor</button>
-          </div>
           <h1 id="naslov-casa"></h1>
           <div id="definicija" class="definicija" hidden></div>
           <div class="izbor-red">
             <div id="birac-mesto"></div>
-            <div id="mod-mesto"></div>
           </div>
         </div>
         <section id="sekcija-koraci" role="tabpanel" aria-labelledby="tab-koraci">
@@ -228,7 +240,8 @@
         <h2>Pomoć</h2>
         <p>Pojam iz rečnika u tekstu lekcije podvučen je isprekidanom crtom. Ista polja stoje u oblačiću i u listi pretrage.</p>
         <p>Nađi pojam otvara definiciju i svaku lekciju u kojoj se pojam ponavlja. Pitanje i primer koda otvaraju taj korak u Gradivu.</p>
-        <p>Pre tema stoji uvod: cilj, očekivanje, osnov i pregled. Uvod nije tema i nema korake. Gradivo, Diskusija i Editor su tri taba teme. Na ekranu je tačno jedan. U režimu predavanja, pri otvaranju teme podrazumevano je Diskusija — pitalice koraka za rad na času, veći tekst, i izbor teme ili koraka sklapa panel. Pitalica je samo znak pitanja. U samostalnom radu podrazumevano je Gradivo, panel ostaje otvoren, a veličina teksta se bira u Podešavanjima. Tab Gradivo daje tekst lekcije za samostalno učenje.</p>
+        <p>Pre tema stoji uvod: cilj, očekivanje, osnov i pregled. Uvod nije tema i nema korake. Gradivo, Diskusija i Editor su tri taba teme. Na ekranu je tačno jedan. U režimu predavanja, pri otvaranju teme podrazumevano je Diskusija — pitalice koraka za rad na času, veći tekst, i izbor teme ili koraka sklapa panel. Pitalica je samo znak pitanja. U samostalnom radu podrazumevano je Gradivo i panel ostaje otvoren. Tab Gradivo daje tekst lekcije za samostalno učenje.</p>
+        <p>Ispod zaglavlja je traka časa: izbor teme, izbor koraka i tabovi. Opcije u zaglavlju menjaju paletu, veličinu teksta, način korišćenja (Predavanja ili Samostalni rad) i lokalno stanje. Sačuvaj korak dodaje belešku sa komentarom; sve beleške su pod ikonicom beleški u zaglavlju. Napredak, beleške i podešavanja čuvaju se samo u ovom browseru.</p>
         <button type="submit">Zatvori</button>
       </form>
     </dialog>
@@ -244,9 +257,22 @@
       <p class="mobil-profil-red"><span class="oznaka" id="mobil-profil-oznaka"></span> <span id="mobil-profil-ime" class="meta"></span></p>
       <button type="button" id="mobil-profil-napredak" class="mobil-profil-dugme">Napredak kursa</button>
       <button type="button" id="mobil-profil-sacuvaj" class="mobil-profil-dugme" data-ikona="bookmark">Sačuvaj korak</button>
-      <h3 class="mobil-podesavanja-naslov">Tema</h3>
-      <div id="mobil-tema-mesto" class="mobil-tema-mesto"></div>
+      <button type="button" id="mobil-profil-beleske" class="mobil-profil-dugme" data-ikona="sticky-note">Sve beleške</button>
+      <div id="mobil-opcije-mesto" class="mobil-opcije-mesto"></div>
     </div>
+    <dialog id="prvi-izbor" class="prvi-izbor" aria-labelledby="prvi-izbor-naslov">
+      <h2 id="prvi-izbor-naslov">Kako koristite aplikaciju?</h2>
+      <p class="meta">Predavanja daju veći tekst i Diskusiju na početku teme. Samostalni rad počinje od Gradiva. Izbor kasnije menjate u Opcijama.</p>
+      <div class="prvi-izbor-kartice"></div>
+    </dialog>
+    <dialog id="sve-beleske" class="sve-beleske" aria-labelledby="sve-beleske-naslov">
+      <header class="sve-beleske-h">
+        <h2 id="sve-beleske-naslov">Sve beleške</h2>
+        <button type="button" class="sve-beleske-zatvori" aria-label="Zatvori"><span aria-hidden="true">×</span></button>
+      </header>
+      <p class="meta">Komentar se čuva kad napustite polje. Beleške ostaju samo u ovom browseru.</p>
+      <div class="sve-beleske-telo"></div>
+    </dialog>
     <div id="mobil-ned-sheet" class="mobil-sheet mobil-izbor-sheet mobil-ned-sheet" hidden role="dialog" aria-labelledby="mobil-ned-sheet-naslov" aria-modal="true">
       <div class="mobil-sheet-hvat" aria-hidden="true"></div>
       <header class="mobil-izbor-sheet-h">

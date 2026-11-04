@@ -17,11 +17,15 @@ test("mobil: pad teme/koraka pre tabova, footer Tema+Pretraga+Podešavanja", () 
   assert.match(html, /id="mobil-ft-pretraga"/);
   assert.match(html, /id="mobil-ft-podesavanja"/);
   assert.equal(html.includes('id="mobil-ft-profil"'), false);
+  const trakaCasa = html.indexOf('id="traka-casa"');
   const navRed = html.indexOf('id="mobil-nav-red"');
   const navTraka = html.indexOf('id="mobil-nav-traka"');
   const tabovi = html.indexOf('class="cas-tabovi"');
   const birac = html.indexOf('id="birac-mesto"');
-  assert.ok(navRed > 0 && navTraka > navRed && navTraka < tabovi && tabovi < birac);
+  assert.ok(trakaCasa > 0 && trakaCasa < tabovi && tabovi < navRed && navTraka > navRed && navTraka < birac);
+  assert.match(main, /mobilNavRed\.insertAdjacentElement\("afterend", casTabovi\)/);
+  assert.match(main, /trakaCasaEl\.append\(casTabovi\)/);
+  assert.match(css, /\.traka-casa,[\s\S]*?display: none !important/);
   assert.match(html, /id="mobil-ned-pad"/);
   assert.match(html, /id="mobil-ned-naslov"/);
   assert.match(html, /data-ikona="calendar-days"/);
@@ -71,6 +75,9 @@ function raspored() {
     nedBroj: document.querySelector("#mobil-ned-broj")?.textContent || "",
     korGlava: document.querySelector("#mobil-kor-glava")?.textContent || "",
     stavkeTeme: document.querySelectorAll("#mobil-ned-lista .mobil-izbor-naslov").length,
+    tabRoditelj: tabovi?.parentElement?.className || "",
+    tabPosleNavReda: tabovi?.previousElementSibling?.id === "mobil-nav-red",
+    trakaCasaVidljiva: getComputedStyle(document.querySelector("#traka-casa")).display !== "none",
   };
 }
 
@@ -109,6 +116,9 @@ test("mobil: meni tema sa naslovima, koraci, swipe", { timeout: 60000 }, async (
   await strana.idi(`http://127.0.0.1:${portSajta}/#cas-2`);
   await pauza(400);
   const pocetno = await strana.vrednost(`(${raspored.toString()})()`);
+  assert.equal(pocetno.tabRoditelj, "cas-glava");
+  assert.equal(pocetno.tabPosleNavReda, true);
+  assert.equal(pocetno.trakaCasaVidljiva, false);
   assert.equal(pocetno.footerStavke, 3);
   assert.equal(pocetno.tabDisplay, "flex");
   assert.ok(pocetno.navTrakaVidljiva);
@@ -156,7 +166,29 @@ test("mobil: meni tema sa naslovima, koraci, swipe", { timeout: 60000 }, async (
   await strana.vrednost(`document.querySelector("#mobil-ft-podesavanja").click()`);
   await pauza(80);
   assert.ok(await strana.vrednost(`document.body.classList.contains("mobil-profil-otvoren")`));
-  assert.ok(await strana.vrednost(`!!document.querySelector("#mobil-tema-mesto .tema-spisak-u-listi")`));
+  const sheet = await strana.vrednost(`(() => {
+    const mesto = document.querySelector("#mobil-opcije-mesto");
+    return {
+      naslovi: [...mesto.querySelectorAll(".opcije-naslov")].map((h) => h.textContent),
+      plocice: mesto.querySelectorAll(".paleta-plocica").length,
+      sirina: Math.round(mesto.querySelector(".segment-fonta").getBoundingClientRect().width),
+      sirinaSheeta: Math.round(mesto.getBoundingClientRect().width),
+      font: parseFloat(getComputedStyle(document.documentElement).fontSize),
+    };
+  })()`);
+  assert.deepEqual(sheet.naslovi, ["Paleta", "Veličina fonta", "Način korišćenja", "Lokalno stanje"]);
+  assert.equal(sheet.plocice, 4);
+  assert.equal(sheet.sirina, sheet.sirinaSheeta);
+  await strana.vrednost(`document.querySelector('#mobil-opcije-mesto [data-skala="1.125"]').click()`);
+  await pauza(60);
+  const krupnije = await strana.vrednost(`({
+    font: parseFloat(getComputedStyle(document.documentElement).fontSize),
+    pritisnuto: document.querySelector('#mobil-opcije-mesto [data-skala="1.125"]').getAttribute("aria-pressed"),
+    zapis: JSON.parse(localStorage.getItem("web-programiranje:stanje")).podesavanja.font,
+  })`);
+  assert.ok(Math.abs(krupnije.font - sheet.font * 1.125) < 0.05, JSON.stringify({ sheet, krupnije }));
+  assert.equal(krupnije.pritisnuto, "true");
+  assert.equal(krupnije.zapis, "1.125");
 
   for (const tema of TEME) {
     await strana.vrednost(`(() => { document.documentElement.dataset.tema = ${JSON.stringify(tema)}; })()`);

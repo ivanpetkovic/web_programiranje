@@ -27,6 +27,7 @@ The site MUST open on a preface before the first week when no week is in the add
 #### Scenario: Duration is not ten
 - **WHEN** the course document sets a duration other than ten and lists that many weeks
 - **THEN** the page lists that many weeks and does not add or remove weeks to reach ten
+
 ### Requirement: Korak na sajtu
 A step that names a file MUST show, in order, the step prose, the key-idea callout, and the code snippet on Gradivo. It MUST NOT show the short quiz on Gradivo. The next step MUST treat that step's file fragment as already typed. The site MUST show the file path of the fragment. A figure step MUST show the prose, the key-idea callout, and the figure on Gradivo, and MUST NOT show a code snippet, a file path, or the short quiz. A step that names no file and has no figure MUST show the prose and the key-idea callout on Gradivo, and MUST NOT show a snippet, a file path, a figure, or the short quiz. The open step's short quiz MUST appear on Diskusija with unmarked answers until the teacher opens Obrazloženje.
 
@@ -61,6 +62,7 @@ A step that names a file MUST show, in order, the step prose, the key-idea callo
 #### Scenario: Story step on Gradivo
 - **WHEN** the teacher opens Gradivo on LO
 - **THEN** the prose and the key idea are visible, and no snippet, file path, figure, or short quiz is shown
+
 ### Requirement: Dva stabla
 The editor MUST offer a Klijent tab for `client/` and a Server tab for `server/`. The Server tab MUST be absent during weeks 1, 2, 3, and 4, and MUST be present from week 5. Each visible tab MUST show that side's file tree as introduced by a step at or before the open step, the open file's path, and a place for an error. A file MUST appear when such a step first names it and MUST remain on later steps. Prepared copies MUST stay out of the tree. During week 1 the editor MUST NOT open a buffer.
 
@@ -91,6 +93,7 @@ The editor MUST offer a Klijent tab for `client/` and a Server tab for `server/`
 #### Scenario: History week opens no buffer
 - **WHEN** the teacher opens any step of week 1 on Editor
 - **THEN** no file buffer is open and the Server tab is absent
+
 ### Requirement: Čuvanje i greška fronta
 The text shown in the editor for a Klijent file MUST update the iframe without writing that file to disk and without reloading the lecture page. The shell MUST NOT execute that file in the lecture page and MUST NOT keep a previous simulated number. A server error MUST use a different sentence from a front error.
 
@@ -101,12 +104,14 @@ The text shown in the editor for a Klijent file MUST update the iframe without w
 #### Scenario: Style changes the blades
 - **WHEN** the loaded document already draws a fan and the shown stylesheet changes the blade duration, direction, or angle
 - **THEN** the iframe shows that change without a lecture-page reload
+
 ### Requirement: Server se ne izvršava u browseru
 The site MUST NOT execute a server file in the browser. The running Node process MUST be the source that speaks HTTP/1.1 without a web framework, using the per-request server files the preview has written for the active switch.
 
 #### Scenario: Back tab does not run the handler
 - **WHEN** the teacher opens a file under `server/` in the editor
 - **THEN** the browser does not run that file as the room handler
+
 ### Requirement: Šta važi posle čuvanja
 The running process MUST keep reading `server/soba.js`, `server/ventilator.js`, and `server/sesija.js` from disk on the next request, and `server/server.js`, `server/stanje.js`, and `server/baza.js` only when the process starts. While Editor is open, the preview MUST replace each of those per-request server files in the open step's tree with the text of the active Moj kod / Lekcija switch. The preview MUST NOT write `server/server.js`, `server/stanje.js`, or `server/baza.js`. When one of those files is open, the editor MUST say that the text stays in the editor and that the process reads that file only when it starts. If the process is not up, the panel MUST say so beside the editor and the network record MUST have no successful status for that request.
 
@@ -121,12 +126,14 @@ The running process MUST keep reading `server/soba.js`, `server/ventilator.js`, 
 #### Scenario: Lesson modules keep the process contract
 - **WHEN** the Lekcija side of any step from week 5 on is written for `server/soba.js`, `server/ventilator.js`, or `server/sesija.js`
 - **THEN** that file is valid JavaScript, exports what the process calls (`citaj`, `komanda`, `odbijenaKomanda`, `kljucZaUlogu`), returns `{ status, body }`, and after the last step of the course each of them has the same text as its copy in `server/prepared/`
+
 ### Requirement: Panel prati čas
 Before the server lecture, the shell MUST NOT send a room read or a command. From that lecture, the shell machine room MUST follow the live box, and a shell read control MAY send one room read. The iframe MAY send a request only when the loaded document does. The shell MUST NOT add a next-step control.
 
 #### Scenario: Early lecture has no room request
 - **WHEN** the teacher is on a lecture before the server
 - **THEN** the network record has no room-read or command request from the shell
+
 ### Requirement: Rad van toka
 The finished client files on disk MUST stay openable outside the lecture flow. From the server lecture onward the Node process MUST run the per-request server files the preview last wrote. The editor MUST show the step original or the local working copy according to the switch. Editing a client file MUST NOT change that client file on disk.
 
@@ -137,18 +144,21 @@ The finished client files on disk MUST stay openable outside the lecture flow. F
 #### Scenario: Typing stays in the browser
 - **WHEN** the teacher edits a client file in the editor
 - **THEN** that client file on disk is unchanged
+
 ### Requirement: Tastatura i smanjeno pokretanje
 Focus MUST be visible. A concept and a quiz option MUST work from the keyboard. Reduced motion MUST leave the shell fan in a position that still shows the mode, without endless rotation. The shell MUST NOT add a form that reloads the lecture page.
 
 #### Scenario: Reduced motion
 - **WHEN** the browser asks for reduced motion and the remote mode is on
 - **THEN** the shell fan shows the on position and does not rotate endlessly
+
 ### Requirement: Crtez iz dokumenta
 A figure step MUST draw the diagram or timeline from the course document, using that document's labels. The shell MUST render a path as a Mermaid flowchart and a timeline as a Mermaid timeline, from the vendored Mermaid script. The shell MUST NOT hardcode those labels.
 
 #### Scenario: Labels come from the document
 - **WHEN** the teacher opens the Web figure
 - **THEN** the figure shows the document's labels for the browser, the URL, the document, and the display
+
 ### Requirement: Pokret crteža
 A path animation MUST play once and MUST NOT loop. A timeline MUST reveal its marks in order once. Reduced motion MUST show the finished figure with every mark visible and with nothing traveling.
 
@@ -159,6 +169,7 @@ A path animation MUST play once and MUST NOT loop. A timeline MUST reveal its ma
 #### Scenario: Reduced motion is still
 - **WHEN** the browser asks for reduced motion and a figure step is open
 - **THEN** the finished figure is visible, every timeline mark is visible, and nothing travels
+
 ### Requirement: Izlazna rečenica
 The exit sentence MUST appear only on the last step of the open lecture. The page MUST NOT offer a text field for that sentence. An earlier step of that lecture MUST NOT show the sentence.
 
@@ -169,6 +180,7 @@ The exit sentence MUST appear only on the last step of the open lecture. The pag
 #### Scenario: Earlier step hides it
 - **WHEN** the teacher opens any earlier step of that lecture
 - **THEN** the exit sentence is not shown
+
 ### Requirement: Pojam se otvara i sklapa
 A glossary headword that occurs as a whole phrase in the lesson text MUST be underlined with a dashed line. Pointing at it, focusing it, or activating it MUST show a tooltip with the same glossary fields the typeahead shows. Activating that term again MUST hide the tooltip.
 
@@ -179,12 +191,14 @@ A glossary headword that occurs as a whole phrase in the lesson text MUST be und
 #### Scenario: Second click collapses
 - **WHEN** the teacher activates a term whose tooltip is open
 - **THEN** the tooltip is hidden
+
 ### Requirement: Više pojmova ostaje otvoreno
 Several glossary terms in the same lesson MUST stay dashed at the same time. Only one tooltip MUST be open.
 
 #### Scenario: Two concepts stay open
 - **WHEN** the teacher opens the tooltip of one dashed term and then opens another
 - **THEN** both terms stay dashed and only the second tooltip is visible
+
 ### Requirement: Pretraga pojmova
 Search MUST be a typeahead over the course glossary. Each result MUST show the same fields as that term's tooltip. Choosing a term MUST show its definition and MUST open every lesson in which the glossary headword occurs as a whole phrase. The search MUST NOT hide the lesson behind a filter of the open week.
 
@@ -203,36 +217,42 @@ Search MUST be a typeahead over the course glossary. Each result MUST show the s
 #### Scenario: Term with no lesson
 - **WHEN** the teacher chooses a glossary term that occurs in no lesson
 - **THEN** the definition is visible and no week is expanded for that term
+
 ### Requirement: Ponovi pitanje
 A repeat-question action MUST clear the mark and the reasons and MUST return that quiz to unmarked answers.
 
 #### Scenario: Marks disappear
 - **WHEN** the teacher repeats a quiz whose explanation is open
 - **THEN** no answer is marked and the reasons are hidden
+
 ### Requirement: Preduslov i ishod
 The course document MUST still record each week's prerequisite and outcome. The open lecture MUST show the week title and MUST NOT show a breadcrumb, an outcome line, or a prerequisite callout above the steps.
 
 #### Scenario: Header is the week title
 - **WHEN** the teacher opens a lecture
 - **THEN** the week title is visible and the page does not show a breadcrumb, the outcome sentence, or a line that begins with Preduslov:
+
 ### Requirement: Sintaksna greška ne zamenjuje izvor
 A syntax error in a server file in the editor MUST remain in the working copy and MUST NOT replace the file on disk. The next request MUST still use the file on disk.
 
 #### Scenario: Bad server file is kept out
 - **WHEN** the teacher introduces a syntax error in a server file in the editor
 - **THEN** the editor keeps that text and a following request still uses the file on disk
+
 ### Requirement: Žut korak u tamnoj temi
 In mornar and ugalj, the line that names the current step MUST be yellow (`#ffb000`) and MUST NOT use the muted note color.
 
 #### Scenario: Step is yellow on dark paper
 - **WHEN** mornar or ugalj is active and a lecture is open
 - **THEN** the step line is `#ffb000` and is not the muted note color
+
 ### Requirement: Čitljiv korak u svetloj temi
 In pesak and terakota, the line that names the current step MUST contrast with its surface at a ratio of at least 4.5:1 and MUST NOT be `#ffb000`.
 
 #### Scenario: Bright yellow is not the light-theme step
 - **WHEN** pesak or terakota is active and a lecture is open
 - **THEN** the step line contrasts with its surface at a ratio of at least 4.5:1 and is not `#ffb000`
+
 ### Requirement: Podrazumevana tema prati sistem
 When no theme is pinned, the site MUST use ugalj if the browser prefers dark or states no preference, and pesak if the browser prefers light.
 
@@ -247,8 +267,9 @@ When no theme is pinned, the site MUST use ugalj if the browser prefers dark or 
 #### Scenario: No system preference
 - **WHEN** the browser states no color-scheme preference and no theme is pinned
 - **THEN** ugalj is active
+
 ### Requirement: Nastavnik zakuca temu
-The site MUST offer a control that lists mornar, ugalj, pesak, and terakota and pins the chosen one. A pinned theme MUST apply at once, MUST override the browser preference, and MUST remain after reload. A stored pin `tamna` MUST open ugalj. A stored pin `svetla` MUST open pesak.
+The Paleta section of Opcije MUST list mornar, ugalj, pesak, and terakota and MUST pin the chosen one. A pinned theme MUST apply at once, MUST override the browser preference, and MUST remain after reload because it is kept in the local state. A stored pin `tamna` MUST open ugalj. A stored pin `svetla` MUST open pesak.
 
 #### Scenario: Pin overrides the system
 - **WHEN** the teacher pins pesak while the browser prefers dark
@@ -261,12 +282,14 @@ The site MUST offer a control that lists mornar, ugalj, pesak, and terakota and 
 #### Scenario: Old pins still open
 - **WHEN** the stored pin is `tamna` or `svetla` and the page loads
 - **THEN** `tamna` opens ugalj and `svetla` opens pesak
+
 ### Requirement: Promena teme ne pomera čas
 Choosing a theme MUST NOT reload the document and MUST NOT change the open lecture or the current step.
 
 #### Scenario: Step stays put
 - **WHEN** the teacher pins another theme while a lecture step is open
 - **THEN** the same lecture and the same step remain open
+
 ### Requirement: Beleške ostaju prigušene
 In every theme, the phase line and status lines MUST use the muted note color, MUST stay distinct from the step line, and MUST contrast with their surface at a ratio of at least 4.5:1. The exit sentence MUST use that same muted note color. The page MUST NOT show a review line.
 
@@ -281,20 +304,23 @@ In every theme, the phase line and status lines MUST use the muted note color, M
 #### Scenario: Exit sentence is a note
 - **WHEN** the last step of a lecture is open
 - **THEN** the exit sentence uses the muted note color
+
 ### Requirement: Cifre ostaju čitljive
 Temperature digits MUST contrast with the panel surface at a ratio of at least 3:1 in every theme.
 
 #### Scenario: Digits on a light panel
 - **WHEN** pesak or terakota is active
 - **THEN** the temperature digits contrast with the panel surface at a ratio of at least 3:1
+
 ### Requirement: Bunar grafikona ostaje taman
 In every theme the chart well MUST remain a dark surface so the yellow stroke already drawn on it stays visible.
 
 #### Scenario: Chart well in the light theme
 - **WHEN** pesak or terakota is active and the chart is shown
 - **THEN** the chart well is dark and the yellow stroke on it stays visible
+
 ### Requirement: Tri taba
-Below the lecture title the site MUST offer Gradivo, Diskusija, and Editor. Exactly one of those sections MUST be on screen. The title and the step selector MUST stay visible on every tab. Opening a lecture MUST show Diskusija with the open step's short quiz.
+The lesson toolbar MUST offer Gradivo, Diskusija, and Editor. Exactly one of those sections MUST be on screen. The title and the step selector MUST stay visible on every tab. Opening a lecture MUST show Diskusija with the open step's short quiz.
 
 #### Scenario: Opening shows the step quiz
 - **WHEN** the teacher opens a week
@@ -311,6 +337,11 @@ Below the lecture title the site MUST offer Gradivo, Diskusija, and Editor. Exac
 #### Scenario: Search shows the steps
 - **WHEN** the teacher chooses a glossary term while another tab is open
 - **THEN** Gradivo is the open tab and the first matching step is open
+
+#### Scenario: Tabs sit in the toolbar
+- **WHEN** a lecture is open on a desktop width
+- **THEN** Gradivo, Diskusija, and Editor are in the lesson toolbar under the header and not under the lecture title
+
 ### Requirement: Editor i pregled
 The Editor tab MUST show the file editor on the left and the preview on the right. Those two sides MUST start at equal width. The code surface MUST fill the width from the file tree to the divider. The preview MUST be an iframe of the client tree in the editor. The Gradivo section and the discussion MUST NOT be on screen. The step selector MUST stay on screen.
 
@@ -329,6 +360,7 @@ The Editor tab MUST show the file editor on the left and the preview on the righ
 #### Scenario: Empty document leaves the preview empty
 - **WHEN** the editor shows an empty `client/index.html`
 - **THEN** the iframe is blank and shows no shell heading, number, or button
+
 ### Requirement: Traka editora
 A vertical bar between the editor and the preview MUST move and MUST change their widths. The pointer and the arrow keys, while the bar has focus, MUST both move it. The bar MUST NOT hide either side.
 
@@ -343,34 +375,35 @@ A vertical bar between the editor and the preview MUST move and MUST change thei
 #### Scenario: Narrow page stacks
 - **WHEN** the lecture page is laid out in one column and Editor is open
 - **THEN** the editor is above the preview and the bar is not shown
+
 ### Requirement: Pregled ostaje trenutan
 Opening Editor MUST show the iframe of the client tree then in the editor, including a working copy stored in this browser.
 
 #### Scenario: Return shows the current room
 - **WHEN** the teacher leaves Editor and opens Editor again
 - **THEN** the iframe shows the client tree then in the editor
+
 ### Requirement: Zaglavlje školjke
-The header MUST show the institution, its mark, and the course title from the course document, plus term search, the week slider, previous week, next week, save-step, help, the initials from the document, and the control that pins the theme. The site title MUST NOT be Kontrolna soba.
+The header MUST show, from left to right, the institution and its mark, a divider, the course title from the course document beside `monitor-code`, term search, help, the Sačuvane beleške control, the Opcije control, and the initials from the document. The header MUST NOT show the week slider, previous week, next week, or the palette, text-size, and mode controls. The site title MUST NOT be Kontrolna soba.
 
 #### Scenario: Shipped title
 - **WHEN** the shipped course is open
 - **THEN** the header title is Veb programiranje and the site title is not Kontrolna soba
 
 #### Scenario: Next week
-- **WHEN** the teacher activates next week and a later week exists
-- **THEN** that later week opens
-### Requirement: Klizač tema
-The header MUST show Tema {n} od {N}, where N is the course duration and n is the open week. The slider MUST have one position per week. Only the current position MUST print its week number. The page MUST NOT show a row of the numbers 1 through N.
+- **WHEN** the teacher chooses the following week in the toolbar week picker and a later week exists
+- **THEN** that later week opens and the header itself has no next-week control
 
-#### Scenario: Only the current number is printed
-- **WHEN** week 10 of a course whose duration is 15 is open
-- **THEN** the header reads Tema 10 od 15, the slider has 15 positions, and the only week number printed on the slider is 10
+#### Scenario: Header order
+- **WHEN** a lecture is open on a desktop width
+- **THEN** the header shows the mark and institution, the course title with `monitor-code`, search, help, Sačuvane beleške, Opcije, and the initials in that order, on one row
 
-#### Scenario: Slider opens a week
-- **WHEN** the teacher chooses another position on the slider
-- **THEN** that week opens
+#### Scenario: No week controls in the header
+- **WHEN** a lecture is open on a desktop width
+- **THEN** the header has no week slider and no previous-week or next-week control
+
 ### Requirement: Sklopivi spisak tema
-The left column MUST list every week in the course document. A week MUST show its number, title, and subtitle, and MUST collapse and expand. The open week MUST be expanded and MUST list the same steps as the lesson. Choosing a step MUST open it. A week whose every step is saved MUST show a completed mark, and that mark MUST NOT be a grade.
+The left column MUST list every week in the course document. A week MUST show its number, title, and subtitle, and MUST collapse and expand. The open week MUST be expanded and MUST list the same steps as the lesson. Choosing a step MUST open it. A week whose every step has been viewed MUST show a completed mark, and that mark MUST NOT be a grade.
 
 #### Scenario: Other weeks stay collapsed
 - **WHEN** the teacher opens one week
@@ -379,16 +412,22 @@ The left column MUST list every week in the course document. A week MUST show it
 #### Scenario: Step in the list
 - **WHEN** the teacher chooses a step in the expanded week
 - **THEN** that step is the open lesson
+
+#### Scenario: Viewing every step finishes the week
+- **WHEN** the teacher has opened every step of a week
+- **THEN** that week shows the completed mark without any save action
+
 ### Requirement: Zaglavlje lekcije
-The open lesson MUST show the week title and the step selector outside the Gradivo section. It MUST NOT show a course breadcrumb or a week subtitle. The selector MUST stay on screen on Gradivo, Diskusija, and Editor. It MUST NOT show one button per step. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the Gradivo section and MUST NOT sit inside the selector.
+The open lesson MUST show the course breadcrumb, the week title, the week subtitle, and the step selector outside the Gradivo section. The selector MUST stay on screen on Gradivo, Diskusija, and Editor. The selector MUST show one circle per step. The lesson body MUST NOT show a numbered row of step buttons. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the Gradivo section and MUST NOT sit inside the selector.
 
 #### Scenario: The selector replaces a button per step
 - **WHEN** a week is open on its first step
-- **THEN** the selector reads Korak 1 od N, where N is that week's step count, and the lesson does not show N step buttons
+- **THEN** the selector reads Korak 1 od N, where N is that week's step count, shows N circles, and the lesson body does not show N numbered step buttons
 
 #### Scenario: Level comes from the document
 - **WHEN** the open step sets a level and Gradivo is open
 - **THEN** the Gradivo section shows that level outside the selector
+
 ### Requirement: Ključna ideja i isečak
 On Gradivo, the key-idea callout MUST be labeled Ključna ideja and MUST be visible without a further click. When the step has a code snippet, that snippet MUST show its title, line numbers, and a control that copies the snippet text. When the step carries the whole file, the snippet MUST show that file and mark the lines that are new against the file's previous version in the course, in their place.
 
@@ -403,6 +442,7 @@ On Gradivo, the key-idea callout MUST be labeled Ključna ideja and MUST be visi
 #### Scenario: Copy copies the snippet
 - **WHEN** the teacher uses the snippet copy control
 - **THEN** the clipboard receives the snippet text
+
 ### Requirement: Kartica napretka
 The progress card MUST show Tema {n} od {N}, the percentage n/N rounded to the nearest whole number, the open week's step count, and that week's minute budget as a label. The budget MUST NOT count down.
 
@@ -413,6 +453,7 @@ The progress card MUST show Tema {n} od {N}, the percentage n/N rounded to the n
 #### Scenario: Budget is a label
 - **WHEN** the open week declares a minute budget
 - **THEN** the card shows that budget and does not count it down
+
 ### Requirement: Školjka prati aktivnu temu
 The week list, the lesson, the key-idea callout, the snippet, and the progress card MUST follow the active theme. Gold MUST remain the accent in mornar and ugalj. Pesak and terakota MUST use their own accent.
 
@@ -431,36 +472,45 @@ The week list, the lesson, the key-idea callout, the snippet, and the progress c
 #### Scenario: Light themes keep their accent
 - **WHEN** pesak or terakota is active
 - **THEN** the accent is not `#ffb000`
+
 ### Requirement: Prečica pretrage
 Command+K and Ctrl+K MUST focus the term search.
 
 #### Scenario: Shortcut focuses search
 - **WHEN** the teacher presses Command+K or Ctrl+K
 - **THEN** the term search is focused
+
 ### Requirement: Pomoć školjke
 Help MUST open a short explanation of the dashed underline, the typeahead, and the three tabs Gradivo, Diskusija, and Editor. It MUST NOT open the editor and MUST NOT send a room request.
 
 #### Scenario: Help stays on the page
 - **WHEN** the teacher opens help
 - **THEN** that explanation is visible, the editor stays as it was, and no room request is sent
+
 ### Requirement: Sačuvan korak
-The header save control and Sačuvaj korak MUST record the current step in this browser. Loading the page again MUST restore that week and step. The record MUST NOT be a grade and MUST NOT be sent to the server.
+Loading the page with a week in the address MUST open that week's last open step from the local state. Sačuvaj korak MUST store a note for the current step in the local state and MUST NOT mark the step as done. The record MUST NOT be a grade and MUST NOT be sent to the server.
 
 #### Scenario: Reload restores the step
-- **WHEN** the teacher saves a step and loads the page again
+- **WHEN** the teacher opens a step and loads the page again
 - **THEN** that week and that step are open
+
+#### Scenario: Save is a note
+- **WHEN** the teacher activates Sačuvaj korak and saves
+- **THEN** the step has a note in Sačuvane beleške and the week's progress is unchanged by that action
+
 ### Requirement: Pitanje i primer u pretrazi
 The search placeholder MUST be Nađi pojam, pitanje ili primer koda... Choosing a quiz question or a code snippet from the typeahead MUST open the step that contains it.
 
 #### Scenario: Question opens its step
 - **WHEN** the teacher chooses a quiz question from the typeahead
 - **THEN** the step that asks that question becomes the open lesson on Gradivo
+
 ### Requirement: Birač koraka
-The selector MUST sit outside the Gradivo section and MUST stay on screen while Gradivo, Diskusija, or Editor is open. It MUST show Korak {n} od {N}, the open step's title, a previous control, Svi koraci, Sledeći, and a progress bar filled by the open step. The filled width MUST be n/N. The number of saved steps MUST NOT set that width. Choosing a step MUST keep the open tab. It MUST NOT show one button per step. The previous control MUST show only `chevron-left` and MUST be named Prethodni korak. Sledeći MUST show that word and `chevron-right`, and MUST use the theme ink as its background. Sledeći MUST NOT use the accent background. The temperature control on the panel MUST stay without that background. The page MUST NOT show the sentence Progress indicates completed steps, not just the current position.
+The selector MUST sit outside the Gradivo section and MUST stay on screen while Gradivo, Diskusija, or Editor is open. It MUST show Korak {n} od {N}, the open step's title, a previous control, Svi koraci, Sledeći, and one circle per step of the open week. It MUST NOT show a progress bar. A circle at or before the open step MUST use the theme accent, which MUST be `#ffb000` on mornar and ugalj. A later circle MUST be light gray. Saved steps MUST NOT set those colors. A circle MUST NOT print a number. Choosing a circle MUST open that step and MUST keep the open tab. The open circle MUST expose `aria-current="step"`. The previous control MUST show only `chevron-left` and MUST be named Prethodni korak. Sledeći MUST show that word and `chevron-right`, and MUST use the theme ink as its background. Sledeći MUST NOT use the accent background. The temperature control on the panel MUST stay without that background. The page MUST NOT show the sentence Progress indicates completed steps, not just the current position.
 
 #### Scenario: Step title sits under the count
 - **WHEN** a step is open
-- **THEN** the selector reads Korak {n} od {N} and that step's title, and does not show a button for every step
+- **THEN** the selector reads Korak {n} od {N} and that step's title, and shows one circle per step
 
 #### Scenario: Discussion keeps the selector
 - **WHEN** the teacher opens Diskusija
@@ -468,19 +518,27 @@ The selector MUST sit outside the Gradivo section and MUST stay on screen while 
 
 #### Scenario: Editor keeps the selector
 - **WHEN** the teacher opens Editor
-- **THEN** the selector stays on screen and the page does not show one button per step
+- **THEN** the selector stays on screen, shows one circle per step, and does not show a progress bar
 
 #### Scenario: The bar follows the open step
 - **WHEN** the open week has 12 steps and the first step is open
-- **THEN** the progress bar is filled to 1/12
+- **THEN** there is no progress bar, the first circle uses the accent, and the other 11 are light gray
 
 #### Scenario: Next advances the bar
 - **WHEN** the teacher activates Sledeći while Diskusija or Editor is open
-- **THEN** the next step of that week opens, the bar fills to the new n/N, and the same tab stays open
+- **THEN** the next step of that week opens, that step's circle uses the accent, there is no progress bar, and the same tab stays open
 
 #### Scenario: Saved steps do not fill the bar
 - **WHEN** the open week has 17 steps, three are saved, and the open step is the first
-- **THEN** the filled portion is 1/17
+- **THEN** there is no progress bar, only the first circle uses the accent, and the other 16 are light gray
+
+#### Scenario: A future circle opens that step
+- **WHEN** the teacher chooses a light-gray circle while Diskusija or Editor is open
+- **THEN** that step opens, its circle and every earlier circle use the accent, and the same tab stays open
+
+#### Scenario: The open circle matches the earlier ones
+- **WHEN** a step after the first is open
+- **THEN** the open circle uses the same accent as the earlier circles and exposes `aria-current="step"`
 
 #### Scenario: Next is not yellow
 - **WHEN** any theme is active
@@ -489,6 +547,7 @@ The selector MUST sit outside the Gradivo section and MUST stay on screen while 
 #### Scenario: Temperature control stays plain
 - **WHEN** the temperature control is visible on the panel
 - **THEN** it does not use the Sledeći background
+
 ### Requirement: Original koraka u editoru
 The editor MUST be able to show the built-in original of the open step for the open file. That text MUST be the snapshot of that path at the open step, and MUST NOT be replaced by the finished file on disk when the snapshot has text. That view MUST be read-only and MUST show line numbers and syntax coloring.
 
@@ -499,6 +558,7 @@ The editor MUST be able to show the built-in original of the open step for the o
 #### Scenario: Snapshot beats the disk file
 - **WHEN** the teacher shows the built-in version of `client/js/korak.js` on Objekat
 - **THEN** the text is that step's snapshot and is not the finished `client/js/korak.js` on disk
+
 ### Requirement: Razlika prema prethodnom originalu
 The original view MUST mark lines added since the snapshot of the same path at the immediately previous course step in green, and lines removed since that snapshot in red. The comparison MUST ignore the working copy. When that path has no snapshot at the previous step, the original MUST have no red lines and every line MUST be green. When the two snapshots are the same text, the original MUST have no green lines and no red lines.
 
@@ -517,6 +577,7 @@ The original view MUST mark lines added since the snapshot of the same path at t
 #### Scenario: Unchanged snapshot has no color
 - **WHEN** the teacher shows the built-in version of a file the open step did not change
 - **THEN** that view has no green lines and no red lines
+
 ### Requirement: Radna verzija fajla
 The editor MUST keep one working copy per file in this browser's localStorage, shared across steps, and MUST restore it after reload. Changing the step MUST leave that file's working copy on screen when one exists. Until the teacher edits a file, the editor MUST show that step's original. The working copy MUST show line numbers and syntax coloring, and MUST NOT use the original's green and red lines.
 
@@ -527,6 +588,7 @@ The editor MUST keep one working copy per file in this browser's localStorage, s
 #### Scenario: Reload keeps the working copy
 - **WHEN** the teacher edits a file and loads the page again
 - **THEN** that file's working copy is still available
+
 ### Requirement: Prekidač verzije
 The Moj kod | Lekcija segment in the file bar, different from reset, MUST switch between the working copy and the built-in original of the open step, and MUST NOT delete the working copy. Moj kod MUST show the working copy and Lekcija the built-in original, and the segment MUST mark the view on screen as pressed. The file path is the editor's header and MUST NOT carry its own version or reset button. The same switch MUST select the text written for every server file in the open step's tree.
 
@@ -537,6 +599,7 @@ The Moj kod | Lekcija segment in the file bar, different from reset, MUST switch
 #### Scenario: Toggle returns to the typed code
 - **WHEN** the teacher activates the version control while the original is on screen
 - **THEN** the editor shows the same stored working copy, and each server file that has a working copy is written from that copy
+
 ### Requirement: Četiri teme
 The lecture site MUST provide mornar, ugalj, pesak, and terakota. Mornar and ugalj MUST use a dark surface and light text. Pesak and terakota MUST use a light surface and dark text. Lecture text, borders, code blocks, and the panel chrome MUST follow the active theme.
 
@@ -555,42 +618,49 @@ The lecture site MUST provide mornar, ugalj, pesak, and terakota. Mornar and uga
 #### Scenario: Terracotta surface
 - **WHEN** terakota is active
 - **THEN** the page surface is warm and light and the lecture text is dark
+
 ### Requirement: Ikonica nasleđuje boju
 A shell icon MUST be the same-named SVG from the currentColor set and MUST paint with `currentColor`. The site MUST NOT show a shell icon from a PNG set.
 
 #### Scenario: Accent icon follows the pin
 - **WHEN** the teacher pins another theme
 - **THEN** a shell icon painted in the accent color uses that theme's accent and no PNG icon is shown
+
 ### Requirement: Ikonice zaglavlja
-Search MUST show `search`. Previous week MUST show `chevron-left`. Next week MUST show `chevron-right`. The header save control MUST show `bookmark`. Help MUST show `help-circle`. The initials MUST stay the letters from the course document. The mark MUST stay the course document mark.
+Search MUST show `search`. Help MUST show `help-circle`. The Sačuvane beleške control MUST show `bookmark` and `chevron-down`. The Opcije control MUST show `settings`. The course title MUST show `monitor-code`. The initials MUST stay the letters from the course document. The mark MUST stay the course document mark.
 
 #### Scenario: Header icons
 - **WHEN** a lecture is open
-- **THEN** search, the week controls, header save, and help show those icons, and the initials and the mark are unchanged
+- **THEN** search, help, Sačuvane beleške, Opcije, and the course title show those icons, and the initials and the mark are unchanged
+
 ### Requirement: Ikonice spiska tema
-The course head MUST show `book-open`. A week whose every step is saved MUST show `check-circle`. Any other week MUST show `circle`. An expanded week MUST show `chevron-up`. A collapsed week MUST show `chevron-down`. The completed mark MUST NOT be a grade.
+The course head MUST show `book-open`. A week whose every step has been viewed MUST show `check-circle`. Any other week MUST show `circle`. An expanded week MUST show `chevron-up`. A collapsed week MUST show `chevron-down`. The completed mark MUST NOT be a grade.
 
 #### Scenario: Open week and a finished week
-- **WHEN** one week is expanded and another week has every step saved
+- **WHEN** one week is expanded and another week has every step viewed
 - **THEN** the course head shows `book-open`, the expanded week shows `chevron-up`, the finished week shows `check-circle`, and a week that is not finished shows `circle`
+
 ### Requirement: Ikonice kartice
 The progress card MUST show `calendar-days` beside the week label, `book-open` beside the step count, and `clock` beside the minute budget. Those three labels MUST stay.
 
 #### Scenario: Card icons sit beside the labels
 - **WHEN** a week with a minute budget is open
 - **THEN** the card shows those three icons beside Tema {n} od {N}, the step count, and the minute budget
+
 ### Requirement: Ikonice tabova
 Gradivo MUST show `file-text` and the word Gradivo. Diskusija MUST show `messages-square` and the word Diskusija. Editor MUST show `code-xml` and the word Editor.
 
 #### Scenario: Tab labels stay
 - **WHEN** a lecture is open
 - **THEN** the three tabs show those icons and those words
+
 ### Requirement: Ikonice trake koraka
 When the step sets a level, the lesson MUST show `chart-column` beside that level, outside the selector. The minute label MUST show `clock`. Sačuvaj korak MUST show `bookmark` and the words Sačuvaj korak. Those three MUST NOT sit inside the selector.
 
 #### Scenario: Bar icons
 - **WHEN** the open step sets a level and a minute label
 - **THEN** the lesson shows `chart-column`, `clock`, and `bookmark` with the words Sačuvaj korak, outside the selector
+
 ### Requirement: Ikonice isečka
 The key-idea callout MUST show `lightbulb`. When the step has a snippet, the snippet title MUST show `folder`, the copy control MUST show `copy` and the word Kopiraj, and the file path MUST show `file-text` and the path text. A figure step MUST NOT show those snippet icons. A step with no snippet and no figure MUST NOT show those snippet icons.
 
@@ -605,6 +675,7 @@ The key-idea callout MUST show `lightbulb`. When the step has a snippet, the sni
 #### Scenario: Story step has no snippet chrome
 - **WHEN** the teacher opens LO on Gradivo
 - **THEN** the callout shows `lightbulb` and the snippet title, copy control, and file path are absent
+
 ### Requirement: Ikonice pitanja
 The question label MUST show `question`. Before the explanation, the chosen option MUST show `circle-dot`, every other option MUST show `circle`, and no option MUST show `check-circle`. After the explanation is open, the correct option MUST show `check-circle`.
 
@@ -615,12 +686,14 @@ The question label MUST show `question`. Before the explanation, the chosen opti
 #### Scenario: Correct option after the explanation
 - **WHEN** the teacher opens the explanation
 - **THEN** the correct option shows `check-circle`
+
 ### Requirement: Ikonice stabla
 A directory in the editor tree MUST show `folder`. A file in the editor tree MUST show `file-text`.
 
 #### Scenario: Tree icons
 - **WHEN** the teacher opens Editor and the tree lists a directory and a file
 - **THEN** the directory shows `folder` and the file shows `file-text`
+
 ### Requirement: Reset radne verzije
 The editor MUST offer a reset button for the open file, separate from the version switch. Activating it MUST replace that file's stored working copy with the built-in original of the open step and MUST show that text. It MUST NOT change the file on disk or any other file's working copy.
 
@@ -635,12 +708,14 @@ The editor MUST offer a reset button for the open file, separate from the versio
 #### Scenario: Reset while the built-in version is shown
 - **WHEN** the built-in version is on screen and the teacher activates reset
 - **THEN** the stored working copy becomes the built-in original of the open step
+
 ### Requirement: Školjka je sans
 In every theme the header, the week list, the lesson title, and the progress card MUST use a sans-serif face.
 
 #### Scenario: Shell face is sans
 - **WHEN** any theme is active
 - **THEN** the header, the week list, the lesson title, and the progress card use a sans-serif face
+
 ### Requirement: Pitalica u jednoj koloni
 The short quiz MUST lay each option on its own row at every width. A lesson wider than the single-column layout MUST NOT place two options on the same row.
 
@@ -651,6 +726,7 @@ The short quiz MUST lay each option on its own row at every width. A lesson wide
 #### Scenario: Narrow quiz stacks
 - **WHEN** the lecture page is laid out in one column and a short quiz is open
 - **THEN** the options are in one column
+
 ### Requirement: Snimak fajla na koraku
 The built-in version of a file MUST be the snapshot of course steps through the open step. A whole-file original MUST replace that file. A later fragment MUST be appended. The finished file on disk MUST NOT replace a snapshot that has text.
 
@@ -669,6 +745,7 @@ The built-in version of a file MUST be the snapshot of course steps through the 
 #### Scenario: Class enters with the step that names it
 - **WHEN** the teacher shows the built-in version of `client/js/displej.js` on the step that introduces `class Displej`
 - **THEN** the text contains `class Displej` and is not the finished file on disk
+
 ### Requirement: Vezivanje stranice
 Once `client/index.html` has a body and the snapshot contains at least one `client/js` file, that HTML snapshot MUST include a script source for each such file in introduction order and one classic inline script that binds the symbols those files declare. An HTML snapshot with no client script MUST contain no script tag.
 
@@ -687,6 +764,7 @@ Once `client/index.html` has a body and the snapshot contains at least one `clie
 #### Scenario: Canvas appears with the line
 - **WHEN** the teacher shows the built-in version of `client/index.html` on Linija
 - **THEN** the document contains a canvas of 320 by 120 and mentions `nacrtajLiniju`
+
 ### Requirement: Panel od Node teme
 The shell machine room MUST show beside the iframe from Od naivnog prenosa do HTTP-a, pa Node onward. That room is not a file from the editor. The waiting label and the cable control MUST show from Čekanje i neuspeh onward. History and the database flag MUST show from Trajno stanje i Docker onward. Periodic reading, freshness, and age MUST show from Koliko je prikaz svež onward. Roles MUST show from Ko sme da upravlja onward.
 
@@ -697,6 +775,7 @@ The shell machine room MUST show beside the iframe from Od naivnog prenosa do HT
 #### Scenario: Later weeks open their controls
 - **WHEN** the teacher opens Ko sme da upravlja
 - **THEN** roles, history, and periodic reading are visible
+
 ### Requirement: Iframe učitava klijentsko stablo
 The preview MUST be one iframe beside the shell machine room. Its document MUST be the editor text of `client/index.html` when that file is in the open step's client tree. Every other client file in that tree MUST supply the resource the document loads, using the Moj kod or Lekcija text the editor would show for that file. The shell MUST NOT paint a switch room inside the iframe. An absolute font or asset URL that the editor does not hold as text MUST stay a request to the running Node process.
 
@@ -707,18 +786,21 @@ The preview MUST be one iframe beside the shell machine room. Its document MUST 
 #### Scenario: Script runs in the iframe
 - **WHEN** the document loads a client script that is in the tree
 - **THEN** that script runs inside the iframe from the editor text
+
 ### Requirement: Dodat element se vidi
 An element the teacher adds to the client document MUST appear in the iframe. The preview MUST NOT limit the visible document to a heading, a digit, and one button.
 
 #### Scenario: Extra paragraph is visible
 - **WHEN** the teacher adds a paragraph the course snapshot did not contain
 - **THEN** the iframe shows that paragraph
+
 ### Requirement: Putanja van stabla nije disk
 A client URL in the loaded document that is not a file in the editor tree MUST NOT be filled from disk.
 
 #### Scenario: Missing stylesheet is not the finished file
 - **WHEN** `client/index.html` links `css/soba.css` and that file is not yet in the tree
 - **THEN** the iframe does not receive the finished stylesheet from disk
+
 ### Requirement: Server prati Moj kod i Lekciju
 The preview MUST send every server file in the open step's tree to `POST /api/fajl` as the whole text the Moj kod / Lekcija switch selects. The Node process MUST write that text and reload `soba.js`, `ventilator.js`, and `sesija.js` from disk. The browser MUST NOT run that file.
 
@@ -737,3 +819,51 @@ The preview MUST send every server file in the open step's tree to `POST /api/fa
 #### Scenario: Switch while a client file is open
 - **WHEN** the open file is `client/index.html` and the teacher changes Moj kod / Lekcija
 - **THEN** every server file in the tree is written from that same switch
+
+### Requirement: Širina birača
+The selector MUST be only as wide as its content and MUST NOT stretch to the lesson column. The circle row MUST grow with that week's step count and MUST NOT use a percentage of the column. The selector MUST stay within the column. Circles that do not fit on one line MUST wrap.
+
+#### Scenario: A short week stays narrow
+- **WHEN** the open week has 3 steps and the lesson column is wider than the selector
+- **THEN** the selector is narrower than the column and shows 3 circles
+
+#### Scenario: A long week wraps
+- **WHEN** the open week has 19 steps and those circles do not fit on one line
+- **THEN** the selector stays within the column and the circles wrap onto another line
+
+### Requirement: Traka časa
+Directly under the header the site MUST show one lesson toolbar with, from left to right, the week picker, the step picker, and the tabs Gradivo, Diskusija, and Editor. The toolbar MUST stay on screen on every tab. The preface MUST show the week picker and MUST NOT show the step picker or the tabs. On a single-column layout the mobile navigation row MUST take the toolbar's place.
+
+#### Scenario: Single column
+- **WHEN** the lecture page is laid out in one column
+- **THEN** the lesson toolbar is not shown and the mobile navigation row offers the week and step choice
+
+#### Scenario: Toolbar on a lecture
+- **WHEN** a lecture is open on a desktop width
+- **THEN** the row under the header shows the week picker, the step picker, and the three tabs in that order
+
+#### Scenario: Toolbar on the preface
+- **WHEN** the preface is open
+- **THEN** the row under the header shows the week picker and no step picker or tabs
+
+### Requirement: Izbor teme u traci
+The week picker MUST show `layers`, Tema {n} – {week title} truncated to one line, and `chevron-down`. Activating it MUST open a list of Uvod and every week in the course document, with the open week marked current. Choosing an entry MUST open it. The list MUST work from the keyboard.
+
+#### Scenario: Pick another week
+- **WHEN** week 3 is open and the teacher chooses week 5 in the week picker
+- **THEN** week 5 opens on its last open step and the picker reads Tema 5 – that week's title
+
+#### Scenario: Back to the preface
+- **WHEN** the teacher chooses Uvod in the week picker
+- **THEN** the preface is open
+
+### Requirement: Izbor koraka u traci
+The step picker MUST show a previous control with `chevron-left`, Korak {n} od {N} – {step title} truncated to one line, and a next control with `chevron-right`. Previous MUST be disabled on the first step and next on the last. Activating the middle MUST list every step of the open week. Choosing a step MUST keep the open tab.
+
+#### Scenario: Next from the toolbar
+- **WHEN** step 3 of 12 is open on Diskusija and the teacher activates next in the toolbar
+- **THEN** step 4 is open, the picker reads Korak 4 od 12 and that step's title, and Diskusija stays open
+
+#### Scenario: Edges are disabled
+- **WHEN** the first step of a week is open
+- **THEN** the toolbar previous control is disabled and next is enabled
