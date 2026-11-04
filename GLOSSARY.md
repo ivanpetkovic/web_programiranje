@@ -135,7 +135,7 @@ _Avoid_: Celina, celina upisa.
 ## Termini gradiva
 
 **komutacija paketa**:
-Prenos u manjim celinama, paketima. Ruteri ih prosleđuju kroz mrežu ka odredištu.
+Poruka se deli na pakete. Ruteri ih prosleđuju kroz mrežu ka odredištu. Put nije zauzet za jedan razgovor.
 
 **flag day**:
 Dan kad sve mreže prelaze na isti protokol. Za Internet je to 1. januar 1983.

@@ -52,20 +52,25 @@ test("Počeci uopštava veb, pa priča LO i zašto to nije veb", () => {
 test("Paket na Diskusiji ima priču i retorička pitanja", () => {
   const paket = dokument.teme[0].steps[1];
   assert.equal(paket.naslov, "Paket");
-  assert.match(paket.prica, /To je komutacija paketa/);
-  assert.match(paket.prica, /Ruteri prosleđuju pakete/);
+  assert.match(paket.prica, /mnogo parova/);
+  assert.equal(paket.prica.includes("komutacija paketa"), false);
   assert.equal(paket.prica.includes("komutacija kola"), false);
+  assert.match(paket.tekst, /Zato postoji komutacija paketa/);
+  assert.ok(paket.tekst.indexOf("komutacija paketa") > paket.tekst.indexOf("mnogo parova"));
+  assert.match(paket.tekst, /Put nije zauzet za jedan razgovor/);
   assert.match(paket.tekst, /ne zna šta HTTP zahtev znači/);
   assert.equal(paket.tekst.includes("komutacija kola"), false);
   assert.equal(paket.tekst.includes("Internet Protocol"), false);
-  assert.match(paket.kljucnaIdeja, /ne znači da je server izvršio HTTP zahtev/);
-  assert.match(paket.pitalice[0].odgovor, /niti da li je operacija uspešno izvršena/);
-  assert.match(paket.pitalice[1].odgovor, /pouzdan i uređen prenos bajtova/);
+  assert.match(paket.kljucnaIdeja, /Komutacija paketa deli poruku/);
+  assert.match(paket.pitalice[0].odgovor, /Zato postoji komutacija paketa/);
+  assert.match(paket.pitalice[1].odgovor, /Ono što je već stiglo ostaje/);
+  assert.match(paket.pitalice[2].odgovor, /niti da li je operacija uspešno izvršena/);
   assert.deepEqual(
     paket.pitalice.map((p) => p.pitalica),
     [
+      "Zašto ta dva računara ne drže put samo za sebe dok razmena traje?",
+      "Ako se prenos prekine pre kraja, da li je sve što je stiglo izgubljeno?",
       "Klijent pošalje HTTP zahtev serveru. TCP potvrdi da su svi bajtovi uspešno preneti. Da li to znači da je server uspešno izvršio zahtev?",
-      "Šta ako se neki paket izgubi ili paketi stignu pogrešnim redosledom?",
     ],
   );
   assert.equal(paket.pitalice.every((p) => !p.opcije && p.odgovor), true);

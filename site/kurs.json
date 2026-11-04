@@ -386,18 +386,22 @@
           "nivo": "Osnovno",
           "minuta": 5,
           "tipPrimer": "eksperiment",
-          "prica": "Internet povezuje veliki broj računara i mreža. Kada jedan računar šalje podatke drugom, podaci se prenose u manjim celinama koje nazivamo paketima. To je komutacija paketa. Ruteri prosleđuju pakete kroz mrežu prema odredištu.\n\nMeđutim, sam prenos paketa ne rešava sva pitanja. Kako znamo kome šaljemo podatke? Šta ako se neki paket izgubi ili paketi stignu pogrešnim redosledom? Kako server razume šta klijent traži?\n\nOve probleme rešavaju različiti protokoli. IP omogućava adresiranje i prosleđivanje paketa, TCP pouzdan i uređen prenos bajtova, dok HTTP definiše pravila razmene zahteva i odgovora između klijenta i servera.",
-          "tekst": "Internet povezuje veliki broj računara i mreža. Kada jedan računar šalje podatke drugom, podaci se prenose u manjim celinama koje nazivamo paketima. To je komutacija paketa. Ruteri prosleđuju pakete kroz mrežu prema odredištu.\n\nMeđutim, sam prenos paketa ne rešava sva pitanja. Kako znamo kome šaljemo podatke? Šta ako se neki paket izgubi ili paketi stignu pogrešnim redosledom? Kako server razume šta klijent traži?\n\nOve probleme rešavaju različiti protokoli. IP omogućava adresiranje i prosleđivanje paketa, TCP pouzdan i uređen prenos bajtova, dok HTTP definiše pravila razmene zahteva i odgovora između klijenta i servera.\n\nKlijent može dobiti potvrdu da su svi bajtovi HTTP zahteva preneti. To još ne znači da je server zahtev izvršio. TCP garantuje pouzdan prenos podataka, ali ne zna šta HTTP zahtev znači niti da li je operacija uspešno izvršena.",
-          "kljucnaIdeja": "TCP potvrda bajtova ne znači da je server izvršio HTTP zahtev.",
-          "pitalica": "Klijent pošalje HTTP zahtev serveru. TCP potvrdi da su svi bajtovi uspešno preneti. Da li to znači da je server uspešno izvršio zahtev?",
+          "prica": "Internet povezuje veliki broj računara i mreža. Jedan računar hoće da pošalje podatke drugom. Ne šalju sve vreme: pošalju zahtev, sačekaju odgovor, pa zastanu. U isto vreme to radi mnogo parova.",
+          "tekst": "Internet povezuje veliki broj računara i mreža. Jedan računar hoće da pošalje podatke drugom. Ne šalju sve vreme: pošalju zahtev, sačekaju odgovor, pa zastanu. U isto vreme to radi mnogo parova.\n\nNe šalju bez pauze. Put koji stoji zauzet dok niko ne šalje drugima ne služi. Mnogo razmena deli istu mrežu.\n\nZato postoji komutacija paketa. Poruka se deli na manje celine, pakete. Svaki paket nosi deo poruke i odredište. Ruteri ga prosleđuju kroz mrežu ka tom odredištu. Između dva paketa jedne razmene mogu da prođu paketi druge. Put nije zauzet za jedan razgovor.\n\nAko se prenos prekine pre kraja, ono što je već stiglo ostaje. Sledeći paket može drugim putem.\n\nSam prenos paketa ne rešava sva pitanja. Kako znamo kome šaljemo podatke? Šta ako se neki paket izgubi ili paketi stignu pogrešnim redosledom? Kako server razume šta klijent traži?\n\nOve probleme rešavaju različiti protokoli. IP omogućava adresiranje i prosleđivanje paketa, TCP pouzdan i uređen prenos bajtova, dok HTTP definiše pravila razmene zahteva i odgovora između klijenta i servera.\n\nKlijent može dobiti potvrdu da su svi bajtovi HTTP zahteva preneti. To još ne znači da je server zahtev izvršio. TCP garantuje pouzdan prenos podataka, ali ne zna šta HTTP zahtev znači niti da li je operacija uspešno izvršena.",
+          "kljucnaIdeja": "Komutacija paketa deli poruku na celine koje ruteri prosleđuju. Put nije zauzet za jedan razgovor.",
+          "pitalica": "Zašto ta dva računara ne drže put samo za sebe dok razmena traje?",
           "pitalice": [
+            {
+              "pitalica": "Zašto ta dva računara ne drže put samo za sebe dok razmena traje?",
+              "odgovor": "Ne šalju bez pauze. Put koji stoji zauzet dok niko ne šalje drugima ne služi. Mnogo razmena deli istu mrežu.\n\nZato postoji komutacija paketa. Poruka se deli na manje celine, pakete. Svaki paket nosi deo poruke i odredište. Ruteri ga prosleđuju kroz mrežu ka tom odredištu. Između dva paketa jedne razmene mogu da prođu paketi druge. Put nije zauzet za jedan razgovor."
+            },
+            {
+              "pitalica": "Ako se prenos prekine pre kraja, da li je sve što je stiglo izgubljeno?",
+              "odgovor": "Nije. Ono što je već stiglo ostaje. Sledeći paket može drugim putem. Ruteri i dalje prosleđuju svaki paket prema odredištu. Cela poruka ne drži jedan put."
+            },
             {
               "pitalica": "Klijent pošalje HTTP zahtev serveru. TCP potvrdi da su svi bajtovi uspešno preneti. Da li to znači da je server uspešno izvršio zahtev?",
               "odgovor": "Ne. TCP garantuje pouzdan prenos podataka, ali ne zna šta HTTP zahtev znači niti da li je operacija uspešno izvršena."
-            },
-            {
-              "pitalica": "Šta ako se neki paket izgubi ili paketi stignu pogrešnim redosledom?",
-              "odgovor": "Sam prenos paketa to ne rešava. TCP obezbeđuje pouzdan i uređen prenos bajtova. IP pakete samo prosleđuje ka odredištu."
             }
           ]
         },

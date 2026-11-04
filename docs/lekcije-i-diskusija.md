@@ -113,17 +113,21 @@ Odgovor, skriven dok se ne otvori ikonica: ideja je bila da se informacija poša
 
 ~5 min · bez fajla
 
-Internet povezuje veliki broj računara i mreža. Podaci idu u manjim celinama, paketima. To je komutacija paketa. Ruteri ih prosleđuju ka odredištu. IP adresira i prosleđuje, TCP predaje pouzdan tok bajtova, HTTP definiše razmenu zahteva i odgovora.
+Internet povezuje mnogo računara. Jedan hoće da pošalje podatke drugom, ali ne šalju sve vreme, a u isto vreme to radi mnogo parova.
 
-> **Ključna ideja.** TCP potvrda bajtova ne znači da je server izvršio HTTP zahtev.
+> **Ključna ideja.** Komutacija paketa deli poruku na celine koje ruteri prosleđuju. Put nije zauzet za jedan razgovor.
+
+**Pitalica.** Zašto ta dva računara ne drže put samo za sebe dok razmena traje?
+
+Odgovor, skriven dok se ne otvori ikonica: put koji stoji zauzet tokom pauze drugima ne služi. Zato postoji komutacija paketa. Poruka se deli na pakete. Svaki nosi deo poruke i odredište. Ruteri ga prosleđuju. Između dva paketa jedne razmene mogu paketi druge. Put nije zauzet za jedan razgovor.
+
+**Pitalica.** Ako se prenos prekine pre kraja, da li je sve što je stiglo izgubljeno?
+
+Odgovor, skriven dok se ne otvori ikonica: nije. Ono što je već stiglo ostaje. Sledeći paket može drugim putem.
 
 **Pitalica.** Klijent pošalje HTTP zahtev serveru. TCP potvrdi da su svi bajtovi uspešno preneti. Da li to znači da je server uspešno izvršio zahtev?
 
 Odgovor, skriven dok se ne otvori ikonica: ne. TCP garantuje pouzdan prenos podataka, ali ne zna šta HTTP zahtev znači niti da li je operacija uspešno izvršena.
-
-**Pitalica.** Šta ako se neki paket izgubi ili paketi stignu pogrešnim redosledom?
-
-Odgovor, skriven dok se ne otvori ikonica: sam prenos paketa to ne rešava. TCP obezbeđuje pouzdan i uređen prenos bajtova.
 
 <a id="n1-sloj"></a>
 
