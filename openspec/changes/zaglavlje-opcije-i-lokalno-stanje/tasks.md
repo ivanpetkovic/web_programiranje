@@ -46,9 +46,9 @@ Polazno stanje: na `main` (304314a) `npm test` daje 170/176; padaju `svi primeri
 
 ## 8. Integracija
 
-- [ ] 8.1 Pokreni `npm test` i potvrdi da su jedini padovi šest iz polaznog stanja.
-- [ ] 8.2 Pokreni `npm start` i u headless Chrome-u na 1672 × 941 i na 1440 × 900 snimi: zaglavlje i traku časa, otvorene Opcije, otvorene beleške, dijalog svih beleški i prvi izbor režima, u sve četiri palete; i na 390 × 844 sheet Podešavanja. Snimke stavi u artefakte; uporedi Opcije i beleške sa `mocks/opcije-i-beleske.png`. Potvrdi u mrežnom zapisu da nijedan zahtev ne nosi sadržaj stanja.
-- [ ] 8.3 Pokreni `openspec validate zaglavlje-opcije-i-lokalno-stanje --strict`.
+- [x] 8.1 Pokreni `npm test` i potvrdi da su jedini padovi šest iz polaznog stanja.
+- [x] 8.2 Pokreni `npm start` i u headless Chrome-u na 1672 × 941 i na 1440 × 900 snimi: zaglavlje i traku časa, otvorene Opcije, otvorene beleške, dijalog svih beleški i prvi izbor režima, u sve četiri palete; i na 390 × 844 sheet Podešavanja. Snimke stavi u artefakte; uporedi Opcije i beleške sa `mocks/opcije-i-beleske.png`. Potvrdi u mrežnom zapisu da nijedan zahtev ne nosi sadržaj stanja.
+- [x] 8.3 Pokreni `openspec validate zaglavlje-opcije-i-lokalno-stanje --strict`.
 
 ## Workflow follow-up
 
