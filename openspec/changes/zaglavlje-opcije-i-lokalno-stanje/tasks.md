@@ -21,7 +21,7 @@ Polazno stanje: na `main` (304314a) `npm test` daje 170/176; padaju `svi primeri
 
 ## 4. Ikonice
 
-- [ ] 4.1 Dodaj zasebne fajlove `settings.svg`, `a-large-small.svg`, `layers.svg`, `database.svg`, `upload.svg`, `download.svg`, `trash.svg`, `external-link.svg`, `book-open-text.svg`, `monitor-code.svg`, `sticky-note.svg` i `bookmark-filled.svg` u `site/icons/svg_currentColor/` i iste simbole u `site/icons/sprite.svg`, `viewBox="0 0 24 24"`, `stroke="currentColor"` i debljina poteza kao postojeći (`bookmark-filled` i ispunu `currentColor`). Ažuriraj `site/icons/README.md` (broj i spisak ikonica). U `test/ikonice.test.mjs` proveri da svako novo ime postoji i kao fajl i kao simbol, da nosi `currentColor` i da nema PNG. Pokreni `node --test test/ikonice.test.mjs`.
+- [x] 4.1 Dodaj zasebne fajlove `settings.svg`, `a-large-small.svg`, `layers.svg`, `database.svg`, `upload.svg`, `download.svg`, `trash.svg`, `external-link.svg`, `book-open-text.svg`, `monitor-code.svg`, `sticky-note.svg` i `bookmark-filled.svg` u `site/icons/svg_currentColor/` i iste simbole u `site/icons/sprite.svg`, `viewBox="0 0 24 24"`, `stroke="currentColor"` i debljina poteza kao postojeći (`bookmark-filled` i ispunu `currentColor`). Ažuriraj `site/icons/README.md` (broj i spisak ikonica). U `test/ikonice.test.mjs` proveri da svako novo ime postoji i kao fajl i kao simbol, da nosi `currentColor` i da nema PNG. Pokreni `node --test test/ikonice.test.mjs`.
 
 ## 5. Zaglavlje i traka časa
 

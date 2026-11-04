@@ -22,6 +22,20 @@ test("pomoćnik crta currentColor preko use i ne vuče PNG", () => {
   }
 });
 
+test("ikonice Opcija i beleški postoje kao fajl i kao simbol", () => {
+  const nove = ["settings", "a-large-small", "layers", "database", "upload", "download", "trash", "external-link", "book-open-text", "monitor-code", "sticky-note", "bookmark-filled"];
+  for (const ime of nove) {
+    const fajl = fs.readFileSync(new URL(`../site/icons/svg_currentColor/${ime}.svg`, import.meta.url), "utf8");
+    assert.match(fajl, /viewBox="0 0 24 24"/);
+    assert.match(fajl, /stroke="currentColor"/);
+    assert.match(fajl, /stroke-width="1\.75"/);
+    assert.equal(/png/i.test(fajl), false);
+    assert.match(sprite, new RegExp(`<symbol id="${ime}" viewBox="0 0 24 24"[^>]*stroke="currentColor"[^>]*stroke-width="1\\.75"`));
+  }
+  const ispuna = sprite.slice(sprite.indexOf('id="bookmark-filled"'), sprite.indexOf("</symbol>", sprite.indexOf('id="bookmark-filled"')));
+  assert.match(ispuna, /fill="currentColor"/);
+});
+
 test("zaglavlje, spisak i kartica nose ikonice", () => {
   for (const ime of ["search", "chevron-left", "chevron-right", "bookmark", "help-circle", "book-open", "check-circle", "circle", "chevron-up", "chevron-down", "calendar-days", "clock"]) {
     assert.match(izvor, new RegExp(ime));
