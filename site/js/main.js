@@ -1189,6 +1189,58 @@ function nacrtajFajl(fajl) {
   return blok;
 }
 
+function nacrtajSkokKoraka(item, i) {
+  if (!item?.steps || item.steps.length < 2) return null;
+  const nav = document.createElement("nav");
+  nav.className = "skok-koraka";
+  nav.setAttribute("aria-label", "Susedni koraci");
+  nav.append(
+    dugmeSkoka(i > 0 ? item.steps[i - 1] : null, i - 1, "nazad"),
+    dugmeSkoka(i < item.steps.length - 1 ? item.steps[i + 1] : null, i + 1, "dalje"),
+  );
+  return nav;
+}
+
+function dugmeSkoka(korak, indeks, smer) {
+  const nazad = smer === "nazad";
+  const natpis = nazad ? "Prethodni" : "Sledeći";
+  const dugme = document.createElement("button");
+  dugme.type = "button";
+  dugme.className = nazad ? "skok-koraka-dugme skok-koraka-nazad" : "skok-koraka-dugme skok-koraka-dalje";
+  dugme.disabled = !korak;
+  const tekst = document.createElement("span");
+  tekst.className = "skok-koraka-tekst";
+  const smerEl = document.createElement("span");
+  smerEl.className = "skok-koraka-smer";
+  smerEl.textContent = natpis;
+  tekst.append(smerEl);
+  if (korak) {
+    const naslov = document.createElement("span");
+    naslov.className = "skok-koraka-naslov";
+    naslov.textContent = korak.naslov;
+    tekst.append(naslov);
+    dugme.title = korak.naslov;
+    dugme.setAttribute("aria-label", `${natpis}: ${korak.naslov}`);
+  } else dugme.setAttribute("aria-label", natpis);
+  const znak = ikonica(nazad ? "chevron-left" : "chevron-right");
+  if (nazad) {
+    if (znak) dugme.append(znak);
+    dugme.append(tekst);
+  } else {
+    dugme.append(tekst);
+    if (znak) dugme.append(znak);
+  }
+  dugme.addEventListener("click", () => {
+    if (!korak) return;
+    korakPoCasu.set(cas, indeks);
+    sakrijPanelSelekcije();
+    renderLecture();
+    const smanjeno = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: smanjeno ? "auto" : "smooth" });
+  });
+  return dugme;
+}
+
 function nacrtajBirac(item, i) {
   const korak = item.steps[i];
   const birac = document.createElement("div");
@@ -1622,6 +1674,8 @@ function renderLecture() {
   }
   if (izolovan) casEl.append(izolovan);
   if (dijagram) casEl.append(dijagram);
+  const skok = nacrtajSkokKoraka(item, i);
+  if (skok) casEl.append(skok);
   diskusijaMesto.replaceChildren(nacrtajDiskusijuKoraka(item, i, korak, sirovi));
   osveziTrakuUredjivanja();
   prikaziDeo();
@@ -1923,6 +1977,8 @@ function nacrtajDiskusijuKoraka(item, i, korak, sirovi) {
     razmak.className = "diskusija-razmak";
     omot.append(razmak, nacrtajDiskusijuTeme(item));
   }
+  const skok = nacrtajSkokKoraka(item, i);
+  if (skok) omot.append(skok);
   return omot;
 }
 
