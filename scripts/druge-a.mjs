@@ -9,11 +9,11 @@ analizaPitalice:"Mreža iz 1969. rešava prenos između udaljenih računara. Iz 
 {key:"B",text:"Tada bi to već bio HTML, jer je poruka potpuna.",why:"Potpunost poruke nije oznaka dokumenta. HTML imenuje strukturu teksta, ne uspeh prijave.",ok:false}],
 analizaPitalice:"Pitanje „koliko je stiglo” skreće sa pitanja „šta taj prenos predstavlja”. Web ne nastaje dužom porukom."}],
 "1:Paket": [
-{pitalica:"Zašto se poruka uopšte seče na pakete?",opcije:[
-{key:"A",text:"Da bi jedna veza zauvek rezervisala kanal od kraja do kraja.",why:"To je suprotan model: rezervisana veza. Paket deli mrežu između više razgovora.",ok:false},
-{key:"B",text:"Da bi više razgovora delilo mrežu, a prekid jedne veze ne morao da obriše celu poruku.",why:"Paketni prenos nastaje jer trajna rezervacija kanala ne skalira. Prekid veze ne briše već prenete delove.",ok:true}],
-analizaPitalice:"Paket ne postoji da bi poruka bila kraća, nego da mreža ostane deljena. Posledica: redosled i gubitak postaju problem koji viši sloj mora da reši, ako mu je red bitan."}],
-"1:Paket ili rezervisana veza": [
+{pitalica:"Klijent pošalje HTTP zahtev serveru. TCP potvrdi da su svi bajtovi uspešno preneti. Da li to znači da je server uspešno izvršio zahtev?",opcije:[
+{key:"A",text:"Da. Pouzdan prenos bajtova i jeste uspeh operacije.",why:"TCP ne zna šta zahtev znači niti da li ga je server izvršio.",ok:false},
+{key:"B",text:"Ne. TCP garantuje prenos bajtova, ne i da je operacija izvršena.",why:"Pouzdan tok nije značenje zahteva niti uspeh operacije.",ok:true}],
+analizaPitalice:"TCP potvrda kaže da su bajtovi stigli. Ne kaže da je server razumeo zahtev niti da je operacija uspela."}],
+"1:Kasni deo": [
 {pitalica:"Zašto TCP uopšte čeka P2 ako je P3 već stigao?",opcije:[
 {key:"A",text:"Zato što aplikacija koja čita dokument ne sme da vidi rupu u bajtovima.",why:"TCP daje uređeni tok. Dokument ne zna za pakete; rupa bi bila izgubljen znak, ne „kasniji paket”.",ok:true},
 {key:"B",text:"Zato što IP zabranjuje da P3 stigne pre P2.",why:"IP ne obećava red. Čekanje je odluka TCP-a, ne svojstvo svakog paketa.",ok:false}],

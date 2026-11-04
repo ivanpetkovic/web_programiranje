@@ -74,12 +74,14 @@ test("oblačić pojma se sklapa sekundu posle odlaska ili klika sa strane", { ti
 
     await sačekajElement("#nav .tema-koraci .korak-red");
     await strana.vrednost(`document.querySelectorAll("#nav .tema-koraci .korak-red")[1].click()`);
-    await sačekajElement("#sekcija-diskusija .pojam-crta");
+    await sačekajElement("#sekcija-diskusija .odgovor-ikona");
+    await strana.vrednost(`document.querySelector("#sekcija-diskusija .odgovor-ikona").click()`);
+    await sačekajElement("#sekcija-diskusija .odgovor-tekst .pojam-crta");
     const pojam = await tacka("#sekcija-diskusija .pojam-crta", true);
     const skloniste = await tacka("#nav .kurs-zaglavlje");
     await na(pojam);
-    const otvoren = await sačekaj((s) => s.otvoren && s.tekst.includes("Put kroz više uređaja"), "otvaranje");
-    assert.match(otvoren.tekst, /komunikacioni put/);
+    const otvoren = await sačekaj((s) => s.otvoren && s.tekst.includes("Ruteri ih prosleđuju"), "otvaranje");
+    assert.match(otvoren.tekst, /komutacija paketa/);
 
     await na(skloniste);
     const odmah = await stanje();

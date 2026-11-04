@@ -113,23 +113,21 @@ Odgovor, skriven dok se ne otvori ikonica: ideja je bila da se informacija poša
 
 ~5 min · bez fajla
 
-Pri pokušaju prijave sa računara na UCLA na računar u SRI-ju, mreža nije rezervisala poseban komunikacioni put samo za ta dva računara. ARPANET je koristio prenos podataka u paketima. To je komutacija paketa: podaci se dele na manje celine, koje uz sadržaj nose i informacije potrebne da ih mreža prosledi do odredišta.
+Internet povezuje mnogo računara. Jedan hoće da pošalje podatke drugom, ali ne šalju sve vreme, a u isto vreme to radi mnogo parova.
 
-Gradivo prvo razlikuje komutaciju kola od komutacije paketa: telefonska mreža rezerviše komunikacioni put, a paketi dele zajedničke mrežne resurse. Na kraju ostaju otvorena pitanja kako paket stiže, šta ako se izgubi ili stigne van reda, i kako primalac razume poruku.
+> **Ključna ideja.** Komutacija paketa deli poruku na celine koje ruteri prosleđuju. Put nije zauzet za jedan razgovor.
 
-> **Ključna ideja.** Paketni prenos je temelj interneta na kojem je kasnije nastao HTTP; nije rana verzija samog HTTP-a.
+**Pitalica.** Zašto ta dva računara ne drže put samo za sebe dok razmena traje?
 
-**Pitalica.** Zašto deliti poruku na pakete, umesto rezervisati komunikacioni put?
+Odgovor, skriven dok se ne otvori ikonica: put koji stoji zauzet tokom pauze drugima ne služi. Zato postoji komutacija paketa. Poruka se deli na pakete. Svaki nosi deo poruke i odredište. Ruteri ga prosleđuju. Između dva paketa jedne razmene mogu paketi druge. Put nije zauzet za jedan razgovor.
 
-Odgovor, skriven dok se ne otvori ikonica: računari ne šalju podatke neprekidno. Rezervisan komunikacioni put bi tokom pauza ostajao zauzet. Paketi dele komunikacionu vezu između susednih uređaja.
+**Pitalica.** Ako se prenos prekine pre kraja, da li je sve što je stiglo izgubljeno?
 
-**Pitalica.** Šta se dešava ako se neka komunikaciona veza prekine tokom prenosa?
+Odgovor, skriven dok se ne otvori ikonica: nije. Ono što je već stiglo ostaje. Sledeći paket može drugim putem.
 
-Odgovor, skriven dok se ne otvori ikonica: prekid ne poništava podatke koji su već primljeni. Neki paketi mogu da se izgube. Sama podela na pakete ne obezbeđuje red, dolazak svih delova ni ponovno slanje. Za to su potrebni protokoli.
+**Pitalica.** Klijent pošalje HTTP zahtev serveru. TCP potvrdi da su svi bajtovi uspešno preneti. Da li to znači da je server uspešno izvršio zahtev?
 
-**Pitalica.** Kako nas ovo vodi ka HTTP-u?
-
-Odgovor, skriven dok se ne otvori ikonica: ostaju otvorena pitanja kako paket stiže, šta ako se izgubi ili stigne van reda, i kako primalac razume poruku. Nije rana verzija HTTP-a.
+Odgovor, skriven dok se ne otvori ikonica: ne. TCP garantuje pouzdan prenos podataka, ali ne zna šta HTTP zahtev znači niti da li je operacija uspešno izvršena.
 
 <a id="n1-sloj"></a>
 
@@ -139,7 +137,7 @@ Odgovor, skriven dok se ne otvori ikonica: ostaju otvorena pitanja kako paket st
 
 Gradivo drži mapu: IP prosleđuje, TCP predaje uređen tok, HTTP daje značenje. Metode, hipertekst, UDP i put od URL-a do prikaza dolaze u kasnijim koracima.
 
-Različiti protokoli rešavaju različite probleme: IP adresira i prosleđuje, TCP predaje pouzdan tok bajtova. To je veza između krajnjih uređaja. Nije rezervisan komunikacioni put. HTTP definiše značenje zahteva i odgovora.
+IP znači Internet Protocol. On definiše adresiranje i prenos paketa između povezanih mreža.
 
 > **Ključna ideja.** IP prosleđuje paket. TCP predaje uređen tok bajtova. HTTP kaže šta zahtev i odgovor znače.
 
@@ -155,25 +153,25 @@ Različiti protokoli rešavaju različite probleme: IP adresira i prosleđuje, T
 
 <a id="n1-kasni"></a>
 
-#### Korak. Paket ili rezervisana veza
+#### Korak. Kasni deo
 
 ~5 min · bez fajla
 
 Veliki fajl ide od računara A ka računaru B kao tri dela: P1, P2 i P3. P2 kasni. P3 može da stigne pre njega.
 
-> **Ključna ideja.** Ako P3 stigne pre P2, TCP i dalje predaje aplikaciji uređen tok. Fragmentacija IP-a i segmentacija TCP-a nisu isto sečenje.
+> **Ključna ideja.** Ako P3 stigne pre P2, TCP i dalje predaje aplikaciji uređen tok. Jedno čitanje ne mora da vrati celu HTTP poruku.
 
 **Pitalica.** Šta je tačno ako P3 stigne pre P2?
 
-Odgovor, skriven dok se ne otvori ikonica: aplikacija preko TCP-a ne mora da vidi P3 pre P2. To čekanje nije rezervisan kanal kroz mrežu.
+Odgovor, skriven dok se ne otvori ikonica: aplikacija preko TCP-a ne mora da vidi P3 pre P2. TCP sačeka deo koji fali i isporuči uređen tok.
 
 **Pitalica.** Zašto TCP uopšte čeka P2 ako je P3 već stigao?
 
 Odgovor, skriven dok se ne otvori ikonica: dokument ne sme da ima rupu u bajtovima. IP ne zabranjuje da P3 stigne pre P2. Čekanje je odluka TCP-a.
 
-**Pitalica.** Da li je sečenje IP datagrama isto što i sečenje TCP toka?
+**Pitalica.** Da li jedno čitanje vraća celu HTTP poruku?
 
-Odgovor, skriven dok se ne otvori ikonica: nije. Fragmentacija deli datagram. Segmentacija deli tok bajtova. Jedna HTTP poruka može da pređe kroz više segmenata.
+Odgovor, skriven dok se ne otvori ikonica: ne mora. Jedna HTTP poruka može da stigne kroz više čitanja.
 
 <a id="n1-k3"></a>
 
