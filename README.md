@@ -87,6 +87,10 @@ DATABASE_URL=postgres://kutija:kutija@127.0.0.1:5432/kontrolna npm start
 
 Pri prvom startu sa `DATABASE_URL` proces napravi tabele `ventilator` i `istorija` i ubaci početni isključen režim.
 
+### Lokalno stanje i beleške
+
+Sajt časa pamti u browseru, pod jednim ključem u `localStorage`, napredak po temi, veličinu teksta, način korišćenja (Predavanja ili Samostalni rad), paletu i beleške koraka sa komentarom. Ništa od toga ne ide na server. Opcije u zaglavlju imaju Load, Save i Obriši progres. Oblik zapisa, panel Opcije i beleške opisuje [docs/izgled-i-lokalno-stanje.md](docs/izgled-i-lokalno-stanje.md).
+
 ### Provera
 
 ```bash

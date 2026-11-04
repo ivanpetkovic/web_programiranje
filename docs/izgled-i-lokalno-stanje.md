@@ -72,6 +72,30 @@ Kad `podesavanja.mod` nije izabran (prvi dolazak ili posle Obriši progres), saj
 
 U samostalnom radu koren strane ima `font-size: calc(16px * var(--skala-fonta))`, a u predavanjima `calc(16px * var(--skala-predavanja) * var(--skala-fonta))` sa `--skala-predavanja: 1.3`. Izbor A− / A / A+ postavlja `--skala-fonta`, pa radi u oba režima: A+ u predavanjima daje 16 × 1.3 × 1.125 px.
 
+## Beleške
+
+Beleška je obeleživač jednog koraka sa kratkim komentarom, npr. šta studentu nije jasno. Svaki korak ima najviše jednu belešku. Beleška nije ocena i ne ide na server. Kod je u `site/js/beleske.js`, a beleške su polje `beleske` u lokalnom stanju.
+
+### Čuvanje
+
+Sačuvaj korak u lekciji otvara mali uređivač ispod dugmeta: polje Šta nije jasno u ovom koraku? (do 500 znakova), Sačuvaj i, kad korak već ima belešku, Ukloni. Komentar može da ostane prazan. Kad otvoren korak ima belešku, dugme pokazuje `bookmark-filled` i `aria-pressed="true"`. Escape i klik van uređivača zatvaraju ga bez izmene; Escape vraća fokus na dugme. Na jednoj koloni isti uređivač otvara Sačuvaj korak iz sheeta Podešavanja.
+
+### Spisak u zaglavlju
+
+![Spisak Sačuvane beleške u paleti Pesak, 1672 × 941](slike/beleske-pesak-1672.png)
+
+Dugme beleški u zaglavlju (`bookmark` i `chevron-down`) otvara spisak Sačuvane beleške, levo od Opcija (342 px širine, na maketi 342 × 248 sa dve beleške). Gore je broj beleški u srpskoj množini (`brojBeleski`: 1 beleška, 3 beleške, 5 beležaka, 21 beleška), ispod pet poslednjih izmenjenih (`najnovije`): `sticky-note`, Korak n – naslov u jednom redu i komentar sa `message-circle`. Bez beleški piše Nema sačuvanih beleški. Na dnu je Prikaži sve beleške sa `external-link`.
+
+Izbor beleške otvara njenu temu i korak i ostavlja otvoren tab: skok sa Editora ostaje na Editoru. Spisak radi i tastaturom: Enter na dugmetu otvara, strelice se kreću kroz redove, Enter bira, Escape zatvara i vraća fokus na dugme. Komentar se upisuje kao tekst, nikad kao HTML.
+
+### Sve beleške, izmena i brisanje
+
+Prikaži sve beleške otvara dijalog sa svim beleškama, grupisanim po temi pa po koraku (`poTemama`). Svaka beleška ima polje komentara i Ukloni. Izmena se upisuje kad polje izgubi fokus (`change`); brisanje odmah sklanja belešku iz dijaloga, iz spiska u zaglavlju i iz stanja. Escape zatvara dijalog i vraća fokus na dugme beleški. Na jednoj koloni dijalog otvara Sve beleške iz sheeta Podešavanja.
+
+### Korak koji više ne postoji
+
+Ključ beleške je par tema i indeks koraka, jer kurs nema stabilan id koraka. Kad kurs izgubi korak, beleška ostaje u dijalogu sa sačuvanim naslovom i oznakom Korak više ne postoji. Nju je moguće izmeniti ili ukloniti, ali ne otvara nijedan korak.
+
 ## Lokalno stanje
 
 Sve što sajt pamti o studentu stoji u jednom zapisu u `localStorage`, pod ključem `web-programiranje:stanje`. Kod je u `site/js/lokalno-stanje.js`. Modul ne dira DOM: skladište mu se predaje kao argument, pa se testira u Node-u (`test/lokalno-stanje.test.mjs`).
