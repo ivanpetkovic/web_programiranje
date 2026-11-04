@@ -48,6 +48,14 @@ _Avoid_: Prazan projekat, vežba.
 Studentova kopija jednog fajla u ovom browseru.
 _Avoid_: Režim
 
+**Lokalno stanje**:
+Jedan zapis sajta časa u ovom browseru: napredak teme, podešavanja, paleta i beleške. Ne ide na server i ne drži radne verzije.
+_Avoid_: Profil, nalog.
+
+**Napredak teme**:
+Koraci teme koje je student otvorio i poslednji otvoren korak. Raste sam, nije ocena.
+_Avoid_: Ocena, završeni koraci.
+
 **Ugrađena verzija**:
 Snimak jednog fajla na otvorenom koraku.
 _Avoid_: Režim, fajl sa diska

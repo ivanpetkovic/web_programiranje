@@ -1,0 +1,3 @@
+# Stanje sajta je jedan lokalni zapis
+
+Sajt časa je pamtio paletu, režim, veličinu teksta, mesto i sačuvane korake u pet nezavisnih ključeva u `localStorage`. Nije bilo izvoza ni brisanja, a „Sačuvaj korak” je značio i „završeno” i „obeleženo”. Sada je stanje jedan verzionisan zapis (`web-programiranje:stanje`) iza jednog modula sa load, save i clear. Jedan zapis se izvozi i uvozi kao jedan fajl, briše se jednom radnjom i ima jedno mesto za proveru oblika. Napredak teme raste sam kad se korak otvori i nije ocena. Beleška je obeleživač sa komentarom i ne znači da je korak završen. Ranije sačuvani koraci postaju viđeni, pa oznake završene teme ostaju. Radne verzije editora ostaju pod svojim ključem, jer su velike i imaju svoj Resetuj. Stanje se ne šalje serveru.
