@@ -115,16 +115,18 @@ test("svaka paleta drži kontrast, zlato samo na tamnima, bunar taman", () => {
 });
 
 test("zakucana tema se čita pre stilova", () => {
-  const skripta = html.indexOf('localStorage.getItem("tema")');
+  const skripta = html.indexOf('localStorage.getItem("web-programiranje:stanje")');
+  const stari = html.indexOf('localStorage.getItem("tema")');
   const stil = html.indexOf('href="/css/site.css"');
-  assert.ok(skripta > 0 && skripta < stil);
+  assert.ok(skripta > 0 && skripta < stari && stari < stil);
+  assert.match(html, /paleta = zapis\.paleta/);
   assert.match(html, /tamna:\s*"ugalj"/);
   assert.match(html, /svetla:\s*"pesak"/);
   assert.match(html, /mornar:\s*"mornar"/);
   assert.match(html, /ugalj:\s*"ugalj"/);
   assert.match(html, /pesak:\s*"pesak"/);
   assert.match(html, /terakota:\s*"terakota"/);
-  assert.match(html, /document\.documentElement\.dataset\.tema = tema/);
+  assert.match(html, /koren\.dataset\.tema = palete\[paleta\]/);
   assert.match(html, /catch\s*\(/);
 });
 
@@ -227,7 +229,7 @@ test("spisak tema zakuca paletu i ne pomera čas", () => {
     assert.equal(fs.existsSync(new URL(`../site/icons/teme/${id}.png`, import.meta.url)), true, id);
   }
   assert.match(telo, /dataset\.tema = id/);
-  assert.match(telo, /localStorage\.setItem\("tema", id\)/);
+  assert.match(telo, /postaviPaletu\(stanje, id\)/);
   assert.equal(telo.includes("otvoriTemu"), false);
   assert.equal(telo.includes("cas ="), false);
   assert.match(telo, /if \(pogled\) osveziEditor\(\)/);

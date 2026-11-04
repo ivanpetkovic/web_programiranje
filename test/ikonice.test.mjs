@@ -30,7 +30,7 @@ test("zaglavlje, spisak i kartica nose ikonice", () => {
   assert.match(html, /id="grb"/);
   assert.match(main, /dokument\.oznaka/);
   assert.match(main, /dokument\.grb/);
-  assert.match(main, /temaZavrsena\(item, mesto\) \? "check-circle" : "circle"/);
+  assert.match(main, /temaZavrsena\(item\) \? "check-circle" : "circle"/);
   assert.match(main, /otvoren \? "chevron-up" : "chevron-down"/);
   assert.equal(main.includes('kvaka.textContent'), false);
   assert.equal(main.includes("●"), false);
@@ -74,7 +74,7 @@ test("pitanje, stablo, olovka i panel", () => {
   assert.match(html, />Fajlovi</);
   assert.match(html, /id="sklopi-stablo"[^>]*aria-expanded="true"[^>]*aria-controls="tree"[^>]*data-ikona="panel-left"/);
   assert.match(main, /classList\.toggle\("sklopljeno", sklopljeno\)/);
-  assert.match(main, /localStorage\.setItem\(STABLO_KLJUC/);
+  assert.match(main, /postaviPodesavanje\(stanje, "stabloSklopljeno", sklopljeno\)/);
   assert.match(html, /<h2>Pregled<\/h2>/);
   assert.match(html, /<p id="pregled-adresa"><\/p>/);
   assert.match(main, /adresaPregleda\(location\.origin/);

@@ -140,7 +140,7 @@ html {
   font-size: calc(16px * var(--skala-fonta));
 }
 html[data-mod="predavanja"] {
-  font-size: calc(16px * var(--skala-predavanja));
+  font-size: calc(16px * var(--skala-predavanja) * var(--skala-fonta));
 }
 
 * { box-sizing: border-box; }
@@ -386,8 +386,7 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 .izbor-red :where(.birac) { max-width: 100%; }
 .izbor-red #mod-mesto { flex: 0 0 auto; }
 .font-kontrole { display: flex; align-items: center; gap: 0.4rem; }
-.top .font-kontrole .mobil-podesavanja-naslov,
-.top .font-kontrole #font-napomena {
+.top .font-kontrole .mobil-podesavanja-naslov {
   position: absolute;
   left: -999px;
   width: 1px;
@@ -400,9 +399,6 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
   border: 0;
 }
 .font-segment button { min-width: 2.15rem; font-weight: 700; }
-#font-segment button:disabled { opacity: 0.45; }
-#font-napomena { margin: 0; max-width: 28rem; }
-html[data-mod="predavanja"] .top #font-kontrole { display: none; }
 .file-layout {
   display: grid;
   grid-template-columns: 11rem minmax(0, 1fr);
@@ -1595,7 +1591,6 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   .mobil-podesavanja #font-kontrole .mobil-podesavanja-naslov { margin: 0.85rem 0 0; }
   .mobil-podesavanja #font-kontrole .segment { display: flex; width: 100%; }
   .mobil-podesavanja #font-kontrole .segment button { flex: 1; justify-content: center; }
-  .mobil-podesavanja #font-napomena { max-width: none; }
   .mobil-podesavanja h2,
   .mobil-pretraga h2 { margin: 0; font-size: 1.05rem; color: var(--naslov); }
   .mobil-podesavanja-naslov {

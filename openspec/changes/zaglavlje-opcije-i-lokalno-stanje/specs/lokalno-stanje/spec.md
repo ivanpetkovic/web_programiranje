@@ -76,7 +76,7 @@ When no state record exists, loading MUST read the earlier keys `tema`, `web-pro
 Opening a step MUST record that step as viewed for its week and MUST record it as that week's last open step. The site MUST also record the last open week. Viewing MUST NOT be a grade.
 
 #### Scenario: Reload returns to the place
-- **WHEN** the student opens step 4 of week 3 and loads the page again without a week in the address
+- **WHEN** the student opens step 4 of week 3 and loads the page again
 - **THEN** week 3 and step 4 are open
 
 #### Scenario: Each week keeps its last step

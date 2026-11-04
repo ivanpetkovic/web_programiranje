@@ -6,14 +6,27 @@
     <title>Veb programiranje</title>
     <script>
       try {
-        var mapa = { tamna: "ugalj", svetla: "pesak", mornar: "mornar", ugalj: "ugalj", pesak: "pesak", terakota: "terakota" };
-        var tema = mapa[localStorage.getItem("tema")];
-        if (tema) document.documentElement.dataset.tema = tema;
-        var mod = localStorage.getItem("web-programiranje:mod");
-        document.documentElement.dataset.mod = mod === "samostalni" ? "samostalni" : "predavanja";
-        var skale = { "0.875": "0.875", "1": "1", "1.125": "1.125", "1.25": "1.25" };
-        var skala = skale[localStorage.getItem("web-programiranje:font")];
-        if (skala) document.documentElement.style.setProperty("--skala-fonta", skala);
+        var koren = document.documentElement;
+        var palete = { tamna: "ugalj", svetla: "pesak", mornar: "mornar", ugalj: "ugalj", pesak: "pesak", terakota: "terakota" };
+        var skale = { "0.875": "0.875", "1": "1", "1.125": "1.125", "1.25": "1.125" };
+        var zapis = null;
+        try {
+          zapis = JSON.parse(localStorage.getItem("web-programiranje:stanje") || "null");
+        } catch (e) {}
+        var paleta, mod, skala;
+        if (zapis && zapis.verzija === 1) {
+          var podesavanja = zapis.podesavanja || {};
+          paleta = zapis.paleta;
+          mod = podesavanja.mod;
+          skala = podesavanja.font;
+        } else {
+          paleta = localStorage.getItem("tema");
+          mod = localStorage.getItem("web-programiranje:mod");
+          skala = localStorage.getItem("web-programiranje:font");
+        }
+        if (palete[paleta]) koren.dataset.tema = palete[paleta];
+        koren.dataset.mod = mod === "samostalni" ? "samostalni" : "predavanja";
+        if (skale[skala]) koren.style.setProperty("--skala-fonta", skale[skala]);
       } catch (e) {}
     </script>
     <link rel="stylesheet" href="/css/site.css" />
@@ -60,9 +73,7 @@
           <button type="button" data-skala="0.875" aria-label="Sitniji tekst">A−</button>
           <button type="button" data-skala="1" aria-pressed="true" aria-label="Normalan tekst">A</button>
           <button type="button" data-skala="1.125" aria-label="Krupniji tekst">A+</button>
-          <button type="button" data-skala="1.25" aria-label="Veliki tekst">A++</button>
         </div>
-        <p id="font-napomena" class="meta">U predavanjima je tekst veći. Ova veličina važi za samostalni rad.</p>
       </div>
       <span id="oznaka" class="oznaka"></span>
     </header>

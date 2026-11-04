@@ -67,7 +67,7 @@ The Paleta section of Opcije MUST list mornar, ugalj, pesak, and terakota and MU
 - **THEN** `tamna` opens ugalj and `svetla` opens pesak
 
 ### Requirement: Sačuvan korak
-Loading the page without a week in the address MUST restore the last open week and its last open step from the local state. Sačuvaj korak MUST store a note for the current step in the local state and MUST NOT mark the step as done. The record MUST NOT be a grade and MUST NOT be sent to the server.
+Loading the page with a week in the address MUST open that week's last open step from the local state. Sačuvaj korak MUST store a note for the current step in the local state and MUST NOT mark the step as done. The record MUST NOT be a grade and MUST NOT be sent to the server.
 
 #### Scenario: Reload restores the step
 - **WHEN** the teacher opens a step and loads the page again

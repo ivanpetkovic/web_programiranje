@@ -2,16 +2,15 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { adresaPregleda, popunaKoraka } from "../site/js/birac.js";
 
-test("popuna broji sačuvane korake teme, ne otvoreni indeks", () => {
-  const sacuvani = ["1:0", "1:1", "1:2", "1:1", "1:20", "2:0", "nije"];
-  const popuna = popunaKoraka(sacuvani, 1, 17);
-  assert.deepEqual(popuna, { sacuvano: 3, ukupno: 17 });
-  assert.equal(popuna.sacuvano / popuna.ukupno, 3 / 17);
+test("popuna broji viđene korake teme u opsegu", () => {
+  const popuna = popunaKoraka([0, 1, 2, 1, 20, -1, 1.5], 17);
+  assert.deepEqual(popuna, { vidjeno: 3, ukupno: 17 });
+  assert.equal(popuna.vidjeno / popuna.ukupno, 3 / 17);
 });
 
 test("prazna tema ostavlja traku praznu", () => {
-  assert.deepEqual(popunaKoraka([], 1, 17), { sacuvano: 0, ukupno: 17 });
-  assert.deepEqual(popunaKoraka(null, 1, 0), { sacuvano: 0, ukupno: 0 });
+  assert.deepEqual(popunaKoraka([], 17), { vidjeno: 0, ukupno: 17 });
+  assert.deepEqual(popunaKoraka(null, 0), { vidjeno: 0, ukupno: 0 });
 });
 
 test("adresa koristi poreklo stranice i jednu kosu crtu", () => {

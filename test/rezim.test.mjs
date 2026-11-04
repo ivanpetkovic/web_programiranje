@@ -14,8 +14,11 @@ test("predavanja i samostalni rad", () => {
   assert.match(html, /id="font-segment"/);
   assert.match(html, /data-skala="1"/);
   assert.match(html, /dataset\.mod = mod === "samostalni" \? "samostalni" : "predavanja"/);
-  assert.match(html, /web-programiranje:mod/);
-  assert.match(html, /web-programiranje:font/);
+  assert.match(html, /localStorage\.getItem\("web-programiranje:stanje"\)/);
+  assert.match(html, /zapis\.verzija === 1/);
+  assert.match(html, /mod = podesavanja\.mod/);
+  assert.match(html, /skala = podesavanja\.font/);
+  assert.match(html, /"1\.25": "1\.125"/);
   assert.match(main, /function modPredavanja\(\)/);
   assert.match(main, /function podrazumevaniDeo\(\) \{\n  return modPredavanja\(\) \? "diskusija" : "koraci";\n\}/);
   assert.match(main, /let deo = podrazumevaniDeo\(\)/);
@@ -25,8 +28,11 @@ test("predavanja i samostalni rad", () => {
   assert.match(main, /if \(!uvod && deo !== "editor"\) deo = podrazumevaniDeo\(\)/);
   assert.match(main, /pitalica-samo-ikona/);
   assert.match(css, /--skala-predavanja:\s*1\.3/);
-  assert.match(css, /html\[data-mod="predavanja"\]\s*\{\s*font-size:\s*calc\(16px \* var\(--skala-predavanja\)\)/);
-  assert.match(css, /html\[data-mod="predavanja"\] \.top #font-kontrole \{ display: none; \}/);
+  assert.match(css, /html\[data-mod="predavanja"\]\s*\{\s*font-size:\s*calc\(16px \* var\(--skala-predavanja\) \* var\(--skala-fonta\)\)/);
+  assert.equal(css.includes("#font-kontrole { display: none; }"), false);
+  assert.equal(html.includes('data-skala="1.25"'), false);
+  assert.equal(html.includes("font-napomena"), false);
+  assert.equal(main.includes("dugme.disabled = predavanja"), false);
   const traka = html.indexOf('id="mobil-nav-traka"');
   const mod = html.indexOf('id="mod-kontrole"');
   const ned = html.indexOf('id="mobil-ned-pad"');

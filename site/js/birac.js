@@ -1,16 +1,10 @@
-export function popunaKoraka(sacuvani, tema, brojKoraka) {
+export function popunaKoraka(vidjeni, brojKoraka) {
   const ukupno = Number.isInteger(brojKoraka) && brojKoraka > 0 ? brojKoraka : 0;
-  const vidjeni = new Set();
-  for (const kljuc of Array.isArray(sacuvani) ? sacuvani : []) {
-    if (typeof kljuc !== "string") continue;
-    const razmak = kljuc.indexOf(":");
-    if (razmak < 1) continue;
-    const n = Number(kljuc.slice(0, razmak));
-    const indeks = Number(kljuc.slice(razmak + 1));
-    if (n !== tema || !Number.isInteger(indeks) || indeks < 0 || indeks >= ukupno) continue;
-    vidjeni.add(indeks);
+  const uOpsegu = new Set();
+  for (const indeks of Array.isArray(vidjeni) ? vidjeni : []) {
+    if (Number.isInteger(indeks) && indeks >= 0 && indeks < ukupno) uOpsegu.add(indeks);
   }
-  return { sacuvano: vidjeni.size, ukupno };
+  return { vidjeno: uOpsegu.size, ukupno };
 }
 
 export function izborFajla(korak) {
