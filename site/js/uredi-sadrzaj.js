@@ -109,6 +109,22 @@ export function napraviEditorTeksta(pocetna, poljeOpcije, { opis }) {
     primeni(primeniVrednost) {
       primeniVrednost(nacrt);
     },
+    ponisti(primeniVrednost) {
+      nacrt = pocetni;
+      primeniVrednost(pocetni);
+    },
+  };
+}
+
+export function veziTekst(editor, upisi) {
+  return {
+    ...editor,
+    primeni() {
+      editor.primeni(upisi);
+    },
+    ponisti() {
+      editor.ponisti(upisi);
+    },
   };
 }
 
@@ -125,6 +141,10 @@ export function napraviEditorKratkog(pocetna, { opis }, primeniVrednost) {
     primeni() {
       primeniVrednost(nacrt);
     },
+    ponisti() {
+      nacrt = pocetni;
+      primeniVrednost(pocetni);
+    },
   };
 }
 
@@ -139,13 +159,13 @@ export function omotUredjivog(ctx, id, prikaz, napraviEditor, { umestoOlovke } =
     const editor = document.createElement("div");
     editor.className = "uredjivi-editor";
     const info = napraviEditor();
+    ctx.prijaviOtvoreno?.(id, info);
     editor.append(info.telo ?? info);
     const radnje = document.createElement("div");
     radnje.className = "uredi-radnje";
     radnje.append(
       dugmeRadnje("Otkaži", "uredi-otkazi", () => {
-        ctx.zatvori(id);
-        ctx.osvezi?.();
+        void ctx.otkazi?.(id);
       }),
       dugmeRadnje("Potvrdi", "uredi-potvrdi primarno", () => {
         void ctx.potvrdiIzmenu?.(info, id);
@@ -155,6 +175,7 @@ export function omotUredjivog(ctx, id, prikaz, napraviEditor, { umestoOlovke } =
     omot.append(editor);
     return omot;
   }
+  ctx.odjaviOtvoreno?.(id);
   omot.append(...[].concat(prikaz));
   const otvori = () => {
     ctx.otvori(id);
@@ -250,6 +271,11 @@ export function napraviEditorOpcija(pocetne, { opis = "odgovore" } = {}) {
     promenjeno: () => JSON.stringify(nacrt) !== pocetni,
     primeni(cilj) {
       cilj.splice(0, cilj.length, ...structuredClone(nacrt));
+    },
+    ponisti(cilj) {
+      const original = JSON.parse(pocetni);
+      nacrt.splice(0, nacrt.length, ...structuredClone(original));
+      cilj.splice(0, cilj.length, ...structuredClone(original));
     },
   };
 }
@@ -351,9 +377,10 @@ export function premestiPitanje(korak, indeks, smer) {
   return cilj;
 }
 
-export function znakStanja({ sacuvava, greska }) {
+export function znakStanja({ sacuvava, greska, nesacuvano }) {
   if (sacuvava) return { ikona: "loader", natpis: "Čuvam", vrsta: "cuva" };
   if (greska) return { ikona: "x", natpis: greska, vrsta: "greska" };
+  if (nesacuvano) return { ikona: "circle-dot", natpis: "Nije sačuvano", vrsta: "nesacuvano" };
   return { ikona: "check", natpis: "Sačuvano", vrsta: "sacuvano" };
 }
 
@@ -366,6 +393,14 @@ export function napraviStanjeUredjivanja(dokument) {
     poruka: "",
     greska: "",
     sacuvava: false,
+    nesacuvano: false,
+    otvoreni: new Map(),
+    prijaviOtvoreno(id, info) {
+      this.otvoreni.set(id, info);
+    },
+    odjaviOtvoreno(id) {
+      this.otvoreni.delete(id);
+    },
     polja,
     istorija,
     jeOtvoreno(id) {

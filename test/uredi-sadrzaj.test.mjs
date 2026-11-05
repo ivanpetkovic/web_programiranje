@@ -30,6 +30,11 @@ test("znak stanja je kvačica, loader ili crveni X", () => {
   assert.deepEqual(znakStanja({ sacuvava: false, greska: "" }), { ikona: "check", natpis: "Sačuvano", vrsta: "sacuvano" });
   assert.equal(znakStanja({ sacuvava: true, greska: "" }).ikona, "loader");
   assert.equal(znakStanja({ sacuvava: false, greska: "dokument nije kurs" }).ikona, "x");
+  assert.deepEqual(znakStanja({ sacuvava: false, greska: "", nesacuvano: true }), {
+    ikona: "circle-dot",
+    natpis: "Nije sačuvano",
+    vrsta: "nesacuvano",
+  });
   const main = fs.readFileSync(new URL("../site/js/main.js", import.meta.url), "utf8");
   assert.equal(main.includes('textContent = urediSadrzaj.poruka || "kurs.json"'), false);
   assert.match(main, /textContent = "Režim uređivanja"/);
