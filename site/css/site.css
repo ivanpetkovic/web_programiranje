@@ -1348,6 +1348,7 @@ body.nav-skriven .nav-preklop { justify-self: start; }
   height: 2rem;
 }
 .traka-uredjivanja .stanje-ikona.sacuvano { color: var(--good); }
+.traka-uredjivanja .stanje-ikona.nesacuvano { color: var(--amber); }
 .traka-uredjivanja .stanje-ikona.greska { color: var(--bad); }
 .traka-uredjivanja .stanje-ikona.cuva .ikona { animation: traka-vrti 0.9s linear infinite; }
 @media (prefers-reduced-motion: reduce) {

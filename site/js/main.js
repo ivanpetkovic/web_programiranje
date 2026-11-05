@@ -6,6 +6,7 @@ import {
   napraviEditorKratkog,
   napraviEditorOpcija,
   napraviEditorTeksta,
+  veziTekst,
   napraviStanjeUredjivanja,
   obrisiKorak,
   obrisiPitanje,
@@ -1132,6 +1133,60 @@ async function upisiKursNaServer() {
   urediSadrzaj.greska = "";
 }
 
+let redUpisa = Promise.resolve();
+let revizijaNacrta = 0;
+let tajmerNacrta = 0;
+let snimioNacrt = false;
+
+function uReduUpisa(radnja) {
+  const rezultat = redUpisa.then(radnja, radnja);
+  redUpisa = rezultat.then(() => {}, () => {});
+  return rezultat;
+}
+
+function zakaziUpisNacrta() {
+  if (!urediSadrzaj.aktivan) return;
+  revizijaNacrta += 1;
+  const revizija = revizijaNacrta;
+  urediSadrzaj.nesacuvano = true;
+  urediSadrzaj.greska = "";
+  osveziTrakuUredjivanja();
+  window.clearTimeout(tajmerNacrta);
+  tajmerNacrta = window.setTimeout(() => {
+    void uReduUpisa(() => upisiNacrte(revizija));
+  }, 250);
+}
+
+async function upisiNacrte(revizija) {
+  if (!urediSadrzaj.aktivan) return;
+  const lista = [...urediSadrzaj.otvoreni.values()];
+  const menjano = lista.some((info) => info.promenjeno?.());
+  if (!menjano && !snimioNacrt) {
+    if (revizija === revizijaNacrta) {
+      urediSadrzaj.nesacuvano = false;
+      osveziTrakuUredjivanja();
+    }
+    return;
+  }
+  if (!snimioNacrt) {
+    urediSadrzaj.istorija.zabeleziPre();
+    snimioNacrt = true;
+  }
+  for (const info of lista) info.primeni?.();
+  urediSadrzaj.sacuvava = true;
+  osveziTrakuUredjivanja();
+  try {
+    osveziLekcije();
+    await upisiKursNaServer();
+  } catch (greska) {
+    urediSadrzaj.greska = greska.message || "Greška pri čuvanju.";
+  } finally {
+    urediSadrzaj.sacuvava = false;
+    if (revizija === revizijaNacrta) urediSadrzaj.nesacuvano = Boolean(urediSadrzaj.greska);
+    osveziTrakuUredjivanja();
+  }
+}
+
 async function korakIstorije(unazad) {
   if (!urediSadrzaj.aktivan || urediSadrzaj.sacuvava) return;
   const pomereno = unazad
@@ -1151,27 +1206,71 @@ async function korakIstorije(unazad) {
   }
 }
 
+function zatvoriPolje(id) {
+  urediSadrzaj.otvoreni.delete(id);
+  urediSadrzaj.zatvori(id);
+  if (urediSadrzaj.otvoreni.size === 0) snimioNacrt = false;
+}
+
 async function potvrdiIzmenuSadrzaja(info, id) {
-  if (!urediSadrzaj.aktivan || urediSadrzaj.sacuvava) return;
-  if (!info.promenjeno?.()) {
-    urediSadrzaj.zatvori(id);
-    renderLecture();
-    return;
-  }
-  urediSadrzaj.istorija.zabeleziPre();
-  info.primeni?.();
-  urediSadrzaj.sacuvava = true;
-  osveziTrakuUredjivanja();
-  try {
-    osveziLekcije();
-    await upisiKursNaServer();
-  } catch (greska) {
-    urediSadrzaj.greska = greska.message || "Greška pri čuvanju.";
-  } finally {
-    urediSadrzaj.sacuvava = false;
-    urediSadrzaj.zatvori(id);
-    renderLecture();
-  }
+  window.clearTimeout(tajmerNacrta);
+  if (!urediSadrzaj.aktivan) return;
+  await uReduUpisa(async () => {
+    if (!info.promenjeno?.()) {
+      zatvoriPolje(id);
+      urediSadrzaj.nesacuvano = [...urediSadrzaj.otvoreni.values()].some((otvoreno) => otvoreno.promenjeno?.());
+      renderLecture();
+      return;
+    }
+    if (!snimioNacrt) {
+      urediSadrzaj.istorija.zabeleziPre();
+      snimioNacrt = true;
+    }
+    info.primeni?.();
+    urediSadrzaj.sacuvava = true;
+    osveziTrakuUredjivanja();
+    try {
+      osveziLekcije();
+      await upisiKursNaServer();
+      urediSadrzaj.nesacuvano = false;
+    } catch (greska) {
+      urediSadrzaj.greska = greska.message || "Greška pri čuvanju.";
+      urediSadrzaj.nesacuvano = true;
+    } finally {
+      urediSadrzaj.sacuvava = false;
+      zatvoriPolje(id);
+      renderLecture();
+    }
+  });
+}
+
+async function otkaziIzmenu(id) {
+  window.clearTimeout(tajmerNacrta);
+  if (!urediSadrzaj.aktivan) return;
+  await uReduUpisa(async () => {
+    const info = urediSadrzaj.otvoreni.get(id);
+    const vraceno = Boolean(info?.ponisti && (info.promenjeno?.() || snimioNacrt));
+    if (vraceno) info.ponisti();
+    zatvoriPolje(id);
+    if (!vraceno) {
+      urediSadrzaj.nesacuvano = [...urediSadrzaj.otvoreni.values()].some((otvoreno) => otvoreno.promenjeno?.());
+      renderLecture();
+      return;
+    }
+    urediSadrzaj.sacuvava = true;
+    osveziTrakuUredjivanja();
+    try {
+      osveziLekcije();
+      await upisiKursNaServer();
+      urediSadrzaj.nesacuvano = false;
+    } catch (greska) {
+      urediSadrzaj.greska = greska.message || "Greška pri čuvanju.";
+      urediSadrzaj.nesacuvano = true;
+    } finally {
+      urediSadrzaj.sacuvava = false;
+      renderLecture();
+    }
+  });
 }
 
 async function sacuvajKurs() {
@@ -1696,14 +1795,9 @@ function renderLecture() {
       { redovi: 8, placeholder: "Tekst lekcije — šta nastavnik priča na ovom koraku." },
       { opis: "tekst lekcije" }
     );
-    return {
-      ...editor,
-      primeni() {
-        editor.primeni((vrednost) => {
-          if (sirovi) sirovi.tekst = vrednost;
-        });
-      },
-    };
+    return veziTekst(editor, (vrednost) => {
+      if (sirovi) sirovi.tekst = vrednost;
+    });
   });
   const kljucna = document.createElement("aside");
   kljucna.className = "kljucna";
@@ -1721,14 +1815,9 @@ function renderLecture() {
       { redovi: 3, placeholder: "Jedna kratka ključna ideja." },
       { opis: "ključnu ideju" }
     );
-    return {
-      ...editor,
-      primeni() {
-        editor.primeni((vrednost) => {
-          if (sirovi) sirovi.kljucnaIdeja = vrednost;
-        });
-      },
-    };
+    return veziTekst(editor, (vrednost) => {
+      if (sirovi) sirovi.kljucnaIdeja = vrednost;
+    });
   });
   kljucna.append(kljucnaNaslov, kljucnaSadrzaj);
   const prikaz = prikazKoraka(korak);
@@ -1750,14 +1839,9 @@ function renderLecture() {
         { redovi: 14, kod: true, placeholder: "Isečak koda ili sadržaj fajla za ovaj korak." },
         { opis: "isečak koda" }
       );
-      return {
-        ...editor,
-        primeni() {
-          editor.primeni((vrednost) => {
-            postaviIsecakKoraka(sirovi, vrednost);
-          });
-        },
-      };
+      return veziTekst(editor, (vrednost) => {
+        postaviIsecakKoraka(sirovi, vrednost);
+      });
     });
   }
   let httpBlok = prilog.http ? nacrtajTekstBloka(prilog.http, "HTTP", "book-open") : null;
@@ -1769,14 +1853,9 @@ function renderLecture() {
         { redovi: 6, kod: true, placeholder: "HTTP zahtev ili odgovor za objašnjenje." },
         { opis: "HTTP objašnjenje" }
       );
-      return {
-        ...editor,
-        primeni() {
-          editor.primeni((vrednost) => {
-            postaviIsecakKoraka(sirovi, vrednost);
-          });
-        },
-      };
+      return veziTekst(editor, (vrednost) => {
+        postaviIsecakKoraka(sirovi, vrednost);
+      });
     });
   }
   const komandaBlok = prilog.komanda ? nacrtajTekstBloka(prilog.komanda, "Komanda") : null;
@@ -1967,6 +2046,13 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi, ukupno) {
     wrap.append(natpisPolja("Pitanje", pitanjeEditor.telo));
     if (odgovorEditor) wrap.append(natpisPolja("Odgovor", odgovorEditor.telo));
     if (opcijeEditor) wrap.append(opcijeEditor.telo);
+    const upisiPitanje = (vrednost) => {
+      izvor.pitalica = vrednost;
+    };
+    const upisiOdgovor = (vrednost) => {
+      if (vrednost) izvor.odgovor = vrednost;
+      else delete izvor.odgovor;
+    };
     return {
       telo: wrap,
       opis: "pitalicu",
@@ -1975,17 +2061,17 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi, ukupno) {
         (odgovorEditor ? odgovorEditor.promenjeno() : false) ||
         (opcijeEditor ? opcijeEditor.promenjeno() : false),
       primeni() {
-        if (retoricko) pitanjeEditor.primeni((vrednost) => {
-          izvor.pitalica = vrednost;
-        });
+        if (retoricko) pitanjeEditor.primeni(upisiPitanje);
         else pitanjeEditor.primeni();
-        if (odgovorEditor) {
-          odgovorEditor.primeni((vrednost) => {
-            if (vrednost) izvor.odgovor = vrednost;
-            else delete izvor.odgovor;
-          });
-        }
+        if (odgovorEditor) odgovorEditor.primeni(upisiOdgovor);
         if (opcijeEditor) opcijeEditor.primeni(izvor.opcije);
+        uskladiPrvuPitalicu(sirovi);
+      },
+      ponisti() {
+        if (retoricko) pitanjeEditor.ponisti(upisiPitanje);
+        else pitanjeEditor.ponisti();
+        if (odgovorEditor) odgovorEditor.ponisti(upisiOdgovor);
+        if (opcijeEditor) opcijeEditor.ponisti(izvor.opcije);
         uskladiPrvuPitalicu(sirovi);
       },
     };
@@ -2020,15 +2106,10 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi, ukupno) {
         { redovi: 5, placeholder: "Obrazloženje pitalice za nastavnika." },
         { opis: "obrazloženje pitalice" }
       );
-      return {
-        ...editor,
-        primeni() {
-          editor.primeni((vrednost) => {
-            sirovi.pitalice[pi].analizaPitalice = vrednost;
-            uskladiPrvuPitalicu(sirovi);
-          });
-        },
-      };
+      return veziTekst(editor, (vrednost) => {
+        sirovi.pitalice[pi].analizaPitalice = vrednost;
+        uskladiPrvuPitalicu(sirovi);
+      });
     });
   } else if (otvoreno && analiza) {
     analizaBlok = nacrtajTekstBloka(analiza, "Obrazloženje pitalice", "book-open");
@@ -2185,14 +2266,9 @@ function nacrtajDiskusijuTeme(item) {
         { redovi: 4, placeholder: "Problem za diskusiju teme." },
         { opis: "problem diskusije" }
       );
-      return {
-        ...editor,
-        primeni() {
-          editor.primeni((vrednost) => {
-            izvorOpcija.problem = vrednost;
-          });
-        },
-      };
+      return veziTekst(editor, (vrednost) => {
+        izvorOpcija.problem = vrednost;
+      });
     }
   );
   const options = document.createElement("div");
@@ -2232,6 +2308,9 @@ function nacrtajDiskusijuTeme(item) {
         ...editor,
         primeni() {
           editor.primeni(izvorOpcija.options);
+        },
+        ponisti() {
+          editor.ponisti(izvorOpcija.options);
         },
       };
     }
@@ -3400,11 +3479,13 @@ if (izHesha >= 1 && izHesha <= dokument.trajanjeTema) {
   cas = pocetno.tema;
 }
 async function pripremiUredjivanje() {
-  if (!jeRezimUredjivanja()) return;
   try {
-    const odgovor = await fetch("/kurs.json", { cache: "no-store" });
+    const odgovor = await fetch(`/kurs.json?sveze=${Date.now()}`, { cache: "no-store" });
     if (!odgovor.ok) return;
     const sveze = await odgovor.json();
+    for (const kljuc of Object.keys(dokument)) {
+      if (!(kljuc in sveze)) delete dokument[kljuc];
+    }
     Object.assign(dokument, sveze);
     osveziLekcije();
   } catch {
@@ -3422,14 +3503,24 @@ Promise.all([
   if (tekst) pojmovi = pojmoviIzTeksta(tekst);
   urediSadrzaj.osvezi = () => renderLecture();
   urediSadrzaj.potvrdiIzmenu = potvrdiIzmenuSadrzaja;
+  urediSadrzaj.otkazi = otkaziIzmenu;
   if (urediSadrzaj.aktivan) urediSadrzaj.istorija.osveziReferencu();
   renderLecture();
   prviIzbor.pokaziAkoTreba();
 });
 
 if (urediSadrzaj.aktivan) {
+  document.addEventListener("input", (dogadjaj) => {
+    if (!dogadjaj.target.closest(".uredjivi-editor")) return;
+    zakaziUpisNacrta();
+  });
+  document.addEventListener("change", (dogadjaj) => {
+    if (!dogadjaj.target.closest(".uredjivi-editor")) return;
+    zakaziUpisNacrta();
+  });
   window.addEventListener("keydown", (dogadjaj) => {
     if (!dogadjaj.ctrlKey && !dogadjaj.metaKey) return;
+    if (dogadjaj.target.closest("input, textarea, [contenteditable='true']")) return;
     const kljuc = dogadjaj.key.toLowerCase();
     if (kljuc === "z" && !dogadjaj.shiftKey) {
       dogadjaj.preventDefault();
