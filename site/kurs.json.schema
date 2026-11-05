@@ -67,7 +67,7 @@
     },
     "jezik": {
       "type": "string",
-      "enum": ["html", "css", "text", "javascript", "sql", "typescript"]
+      "enum": ["html", "css", "text", "javascript", "sql", "typescript", "json"]
     },
     "opcija": {
       "type": "object",

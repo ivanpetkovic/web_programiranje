@@ -2,21 +2,71 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 import {
+  dodajKorakNaKraj,
+  dodajPitanje,
   imaParametarUredjivanja,
   napraviIstoriju,
+  obrisiKorak,
+  obrisiPitanje,
   postaviIsecakKoraka,
   primeniSnapshot,
+  ubaciKorak,
+  ubaciPitanje,
+  znakStanja,
 } from "../site/js/uredi-sadrzaj.js";
 
 test("opozovi i ponovi su ikonice, a Potvrdi ne otvara prozor", () => {
   const main = fs.readFileSync(new URL("../site/js/main.js", import.meta.url), "utf8");
-  assert.match(main, /saIkonom\(unazad, "undo-2", ""\)/);
-  assert.match(main, /saIkonom\(napred, "redo-2", ""\)/);
-  assert.match(main, /setAttribute\("aria-label", "Opozovi"\)/);
-  assert.match(main, /setAttribute\("aria-label", "Ponovi"\)/);
+  assert.match(main, /dugmeTrake\("undo-2", "Opozovi"/);
+  assert.match(main, /dugmeTrake\("redo-2", "Ponovi"/);
   assert.equal(main.includes('textContent = "Opozovi"'), false);
   assert.equal(main.includes('textContent = "Ponovi"'), false);
   assert.equal(main.includes("window.confirm"), false);
+});
+
+test("znak stanja je kvačica, loader ili crveni X", () => {
+  assert.deepEqual(znakStanja({ sacuvava: false, greska: "" }), { ikona: "check", natpis: "Sačuvano", vrsta: "sacuvano" });
+  assert.equal(znakStanja({ sacuvava: true, greska: "" }).ikona, "loader");
+  assert.equal(znakStanja({ sacuvava: false, greska: "dokument nije kurs" }).ikona, "x");
+  const main = fs.readFileSync(new URL("../site/js/main.js", import.meta.url), "utf8");
+  assert.equal(main.includes('textContent = urediSadrzaj.poruka || "kurs.json"'), false);
+  assert.match(main, /dugmeTrake\("trash", "Obriši korak"/);
+  assert.match(main, /dugmeTrake\("plus", "Dodaj korak"/);
+  assert.match(main, /dugmeTrake\("list-plus", "Ubaci korak"/);
+  assert.match(main, /dugmeTrake\("trash", "Obriši pitanje"/);
+  assert.match(main, /dugmeTrake\("plus", "Dodaj pitanje"/);
+  assert.match(main, /dugmeTrake\("list-plus", "Ubaci pitanje"/);
+  assert.match(main, /znakStanja\(urediSadrzaj\)/);
+});
+
+test("korak se dodaje na kraj, ubacuje ispred tekućeg i ne briše poslednji", () => {
+  const tema = { steps: [{ naslov: "A" }, { naslov: "B" }] };
+  assert.equal(dodajKorakNaKraj(tema), 2);
+  assert.equal(tema.steps[2].naslov, "Novi korak");
+  assert.equal(ubaciKorak(tema, 1), 1);
+  assert.deepEqual(tema.steps.map((korak) => korak.naslov), ["A", "Novi korak", "B", "Novi korak"]);
+  assert.equal(obrisiKorak(tema, 1), 1);
+  assert.equal(tema.steps.length, 3);
+  const jedan = { steps: [{ naslov: "A" }] };
+  assert.equal(obrisiKorak(jedan, 0), -1);
+  assert.equal(jedan.steps.length, 1);
+});
+
+test("pitanje sa odgovorom se dodaje, ubacuje i briše", () => {
+  const korak = { naslov: "A", pitalica: "Staro?", opcije: [{ key: "A", text: "da", ok: true, why: "" }] };
+  assert.equal(dodajPitanje(korak), 1);
+  assert.equal(korak.pitalice[1].odgovor, "");
+  assert.equal(korak.pitalice[0].pitalica, "Staro?");
+  assert.equal(ubaciPitanje(korak, 0), 0);
+  assert.equal(korak.pitalica, "");
+  assert.equal(korak.opcije, undefined);
+  assert.equal(korak.pitalice[1].opcije.length, 1);
+  assert.equal(obrisiPitanje(korak, 0), 0);
+  assert.equal(korak.pitalica, "Staro?");
+  assert.equal(obrisiPitanje(korak, 0), 0);
+  assert.equal(obrisiPitanje(korak, 0), 0);
+  assert.equal(korak.pitalice, undefined);
+  assert.equal(korak.pitalica, undefined);
 });
 
 test("edit=true uključuje režim uređivanja", () => {
