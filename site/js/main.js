@@ -1044,14 +1044,20 @@ function osveziTrakuUredjivanja() {
     "Režim uređivanja — posle Potvrdi izmena se upisuje u kurs.json. Opozovi / Ponovi takođe čuvaju fajl.";
   const unazad = document.createElement("button");
   unazad.type = "button";
-  unazad.textContent = "Opozovi";
+  unazad.className = "traka-ikona";
+  unazad.setAttribute("aria-label", "Opozovi");
+  unazad.title = "Opozovi";
+  saIkonom(unazad, "undo-2", "");
   unazad.disabled = urediSadrzaj.sacuvava || !urediSadrzaj.istorija.mozeUnazad();
   unazad.addEventListener("click", () => {
     void korakIstorije(true);
   });
   const napred = document.createElement("button");
   napred.type = "button";
-  napred.textContent = "Ponovi";
+  napred.className = "traka-ikona";
+  napred.setAttribute("aria-label", "Ponovi");
+  napred.title = "Ponovi";
+  saIkonom(napred, "redo-2", "");
   napred.disabled = urediSadrzaj.sacuvava || !urediSadrzaj.istorija.mozeNapred();
   napred.addEventListener("click", () => {
     void korakIstorije(false);
@@ -1105,8 +1111,6 @@ async function potvrdiIzmenuSadrzaja(info, id) {
     renderLecture();
     return;
   }
-  const opis = info.opis || id;
-  if (!window.confirm(`Potvrditi izmenu (${opis}) i upisati u kurs.json?`)) return;
   urediSadrzaj.istorija.zabeleziPre();
   info.primeni?.();
   urediSadrzaj.sacuvava = true;

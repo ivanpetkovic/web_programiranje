@@ -24,7 +24,7 @@ test("pomoćnik crta currentColor preko use i ne vuče PNG", () => {
 });
 
 test("ikonice Opcija i beleški postoje kao fajl i kao simbol", () => {
-  const nove = ["settings", "a-large-small", "layers", "database", "upload", "download", "trash", "external-link", "book-open-text", "monitor-code", "sticky-note", "bookmark-filled"];
+  const nove = ["settings", "a-large-small", "layers", "database", "upload", "download", "trash", "external-link", "book-open-text", "monitor-code", "sticky-note", "bookmark-filled", "undo-2", "redo-2"];
   for (const ime of nove) {
     const fajl = fs.readFileSync(new URL(`../site/icons/svg_currentColor/${ime}.svg`, import.meta.url), "utf8");
     assert.match(fajl, /viewBox="0 0 24 24"/);

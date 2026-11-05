@@ -1409,6 +1409,15 @@ body.rezim-uredjivanja .uredi-potvrdi.primarno {
   cursor: pointer;
   font: inherit;
 }
+.traka-uredjivanja button.traka-ikona {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+}
+.traka-uredjivanja button.traka-ikona .ikona { width: 1.05rem; height: 1.05rem; }
 .traka-uredjivanja button:disabled { opacity: 0.45; cursor: default; }
 body.rezim-uredjivanja .kljucna-prazno { color: var(--muted); font-style: italic; }
 body.rezim-uredjivanja .isecak-knjiga header .ikona { color: var(--amber); }
