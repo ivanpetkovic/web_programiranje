@@ -128,7 +128,7 @@ export function napraviEditorKratkog(pocetna, { opis }, primeniVrednost) {
   };
 }
 
-export function omotUredjivog(ctx, id, prikaz, napraviEditor) {
+export function omotUredjivog(ctx, id, prikaz, napraviEditor, { umestoOlovke } = {}) {
   const omot = document.createElement("div");
   omot.className = "uredjivi-blok";
   if (!ctx.aktivan) {
@@ -156,12 +156,11 @@ export function omotUredjivog(ctx, id, prikaz, napraviEditor) {
     return omot;
   }
   omot.append(...[].concat(prikaz));
-  omot.append(
-    dugmeUredi(`Uredi: ${id}`, () => {
-      ctx.otvori(id);
-      ctx.osvezi?.();
-    })
-  );
+  const otvori = () => {
+    ctx.otvori(id);
+    ctx.osvezi?.();
+  };
+  omot.append(umestoOlovke ? umestoOlovke(otvori) : dugmeUredi(`Uredi: ${id}`, otvori));
   return omot;
 }
 
@@ -255,6 +254,109 @@ export function napraviEditorOpcija(pocetne, { opis = "odgovore" } = {}) {
   };
 }
 
+export function noviKorak() {
+  return { naslov: "Novi korak", tekst: "", kljucnaIdeja: "" };
+}
+
+export function praznoPitanje() {
+  return { pitalica: "", odgovor: "" };
+}
+
+export function ubaciKorak(tema, indeks) {
+  if (!tema || !Array.isArray(tema.steps)) return -1;
+  const mesto = Math.max(0, Math.min(indeks, tema.steps.length));
+  tema.steps.splice(mesto, 0, noviKorak());
+  return mesto;
+}
+
+export function dodajKorakNaKraj(tema) {
+  if (!tema?.steps) return -1;
+  return ubaciKorak(tema, tema.steps.length);
+}
+
+export function obrisiKorak(tema, indeks) {
+  if (!tema?.steps || tema.steps.length < 2 || !tema.steps[indeks]) return -1;
+  tema.steps.splice(indeks, 1);
+  return Math.min(indeks, tema.steps.length - 1);
+}
+
+export function pomeriKorak(tema, indeks, smer) {
+  if (!tema?.steps || !tema.steps[indeks]) return -1;
+  const cilj = indeks + smer;
+  if (cilj < 0 || cilj >= tema.steps.length) return -1;
+  const [korak] = tema.steps.splice(indeks, 1);
+  tema.steps.splice(cilj, 0, korak);
+  return cilj;
+}
+
+export function obezbediNizPitalica(korak) {
+  if (Array.isArray(korak.pitalice)) return korak.pitalice;
+  const imaStaro = korak.pitalica || (korak.opcije || []).length || korak.analizaPitalice;
+  if (!imaStaro) {
+    korak.pitalice = [];
+    return korak.pitalice;
+  }
+  const prva = { pitalica: korak.pitalica || "" };
+  if (Array.isArray(korak.opcije) && korak.opcije.length) prva.opcije = korak.opcije;
+  if (korak.analizaPitalice) prva.analizaPitalice = korak.analizaPitalice;
+  korak.pitalice = [prva];
+  return korak.pitalice;
+}
+
+export function uskladiPitanjaKoraka(korak) {
+  const prva = Array.isArray(korak.pitalice) ? korak.pitalice[0] : null;
+  if (!prva) {
+    delete korak.pitalice;
+    delete korak.pitalica;
+    delete korak.opcije;
+    delete korak.analizaPitalice;
+    return;
+  }
+  korak.pitalica = prva.pitalica || "";
+  if (Array.isArray(prva.opcije) && prva.opcije.length) korak.opcije = prva.opcije;
+  else delete korak.opcije;
+  if (prva.analizaPitalice) korak.analizaPitalice = prva.analizaPitalice;
+  else delete korak.analizaPitalice;
+}
+
+export function ubaciPitanje(korak, indeks) {
+  const niz = obezbediNizPitalica(korak);
+  const mesto = Math.max(0, Math.min(Number.isInteger(indeks) ? indeks : niz.length, niz.length));
+  niz.splice(mesto, 0, praznoPitanje());
+  uskladiPitanjaKoraka(korak);
+  return mesto;
+}
+
+export function dodajPitanje(korak) {
+  const niz = obezbediNizPitalica(korak);
+  return ubaciPitanje(korak, niz.length);
+}
+
+export function obrisiPitanje(korak, indeks) {
+  const niz = Array.isArray(korak.pitalice) ? korak.pitalice : obezbediNizPitalica(korak);
+  if (!niz[indeks]) return -1;
+  niz.splice(indeks, 1);
+  uskladiPitanjaKoraka(korak);
+  const ostalo = korak.pitalice?.length || 0;
+  return ostalo ? Math.min(indeks, ostalo - 1) : 0;
+}
+
+export function premestiPitanje(korak, indeks, smer) {
+  const niz = Array.isArray(korak.pitalice) ? korak.pitalice : obezbediNizPitalica(korak);
+  const cilj = indeks + smer;
+  if (!niz[indeks] || cilj < 0 || cilj >= niz.length) return -1;
+  const [stavka] = niz.splice(indeks, 1);
+  niz.splice(cilj, 0, stavka);
+  uskladiPitanjaKoraka(korak);
+  return cilj;
+}
+
+export function znakStanja({ sacuvava, greska }) {
+  if (sacuvava) return { ikona: "loader", natpis: "Čuvam", vrsta: "cuva" };
+  if (greska) return { ikona: "x", natpis: greska, vrsta: "greska" };
+  return { ikona: "check", natpis: "Sačuvano", vrsta: "sacuvano" };
+}
+
 export function napraviStanjeUredjivanja(dokument) {
   const polja = new Set();
   const istorija = napraviIstoriju(dokument);
@@ -262,6 +364,7 @@ export function napraviStanjeUredjivanja(dokument) {
     aktivan: jeRezimUredjivanja(),
     prljavo: false,
     poruka: "",
+    greska: "",
     sacuvava: false,
     polja,
     istorija,

@@ -1336,8 +1336,63 @@ body.nav-skriven .nav-preklop { justify-self: start; }
   background: color-mix(in srgb, var(--amber) 14%, var(--paper));
   border-bottom: 1px solid var(--line);
 }
-.traka-uredjivanja p { margin: 0; flex: 1 1 14rem; font-size: 0.9rem; }
-.traka-uredjivanja .stanje.prljavo { color: var(--amber); }
+.traka-uredjivanja p { margin: 0; flex: 1 1 12rem; font-size: 0.9rem; }
+.traka-uredjivanja .traka-grupa { display: inline-flex; gap: 0.35rem; align-items: center; }
+.traka-uredjivanja .traka-oznaka { font-size: 0.85rem; font-weight: 650; margin-right: 0.15rem; }
+.traka-uredjivanja .traka-razdelnik { width: 1px; align-self: stretch; background: var(--line); margin: 0.1rem 0.1rem; }
+.traka-uredjivanja .stanje-ikona {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+}
+.traka-uredjivanja .stanje-ikona.sacuvano { color: var(--good); }
+.traka-uredjivanja .stanje-ikona.greska { color: var(--bad); }
+.traka-uredjivanja .stanje-ikona.cuva .ikona { animation: traka-vrti 0.9s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .traka-uredjivanja .stanje-ikona.cuva .ikona { animation: none; }
+}
+@keyframes traka-vrti { to { transform: rotate(360deg); } }
+.meni-pitanja-omot { position: absolute; top: 0.15rem; right: 0; z-index: 6; }
+.meni-pitanja-omot .uredi-ikonica { position: static; }
+.meni-pitanja {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  right: 0;
+  z-index: 6;
+  display: grid;
+  min-width: 11.5rem;
+  padding: 0.3rem;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+.meni-pitanja.iznad { top: auto; bottom: calc(100% + 0.25rem); }
+.meni-pitanja button {
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  padding: 0.4rem 0.55rem;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.meni-pitanja button:hover,
+.meni-pitanja button:focus-visible { background: color-mix(in srgb, var(--amber) 10%, var(--paper)); }
+.meni-pitanja button:disabled { opacity: 0.4; cursor: default; }
+.meni-pitanja button.opasno { color: var(--bad); }
+.dodaj-prvo-pitanje {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  font: inherit;
+}
 .traka-uredjivanja button.primarno {
   background: var(--amber);
   color: var(--on-amber);
@@ -1409,6 +1464,15 @@ body.rezim-uredjivanja .uredi-potvrdi.primarno {
   cursor: pointer;
   font: inherit;
 }
+.traka-uredjivanja button.traka-ikona {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+}
+.traka-uredjivanja button.traka-ikona .ikona { width: 1.05rem; height: 1.05rem; }
 .traka-uredjivanja button:disabled { opacity: 0.45; cursor: default; }
 body.rezim-uredjivanja .kljucna-prazno { color: var(--muted); font-style: italic; }
 body.rezim-uredjivanja .isecak-knjiga header .ikona { color: var(--amber); }
