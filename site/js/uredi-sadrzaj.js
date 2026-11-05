@@ -280,6 +280,15 @@ export function obrisiKorak(tema, indeks) {
   return Math.min(indeks, tema.steps.length - 1);
 }
 
+export function pomeriKorak(tema, indeks, smer) {
+  if (!tema?.steps || !tema.steps[indeks]) return -1;
+  const cilj = indeks + smer;
+  if (cilj < 0 || cilj >= tema.steps.length) return -1;
+  const [korak] = tema.steps.splice(indeks, 1);
+  tema.steps.splice(cilj, 0, korak);
+  return cilj;
+}
+
 export function obezbediNizPitalica(korak) {
   if (Array.isArray(korak.pitalice)) return korak.pitalice;
   const imaStaro = korak.pitalica || (korak.opcije || []).length || korak.analizaPitalice;

@@ -9,6 +9,7 @@ import {
   napraviStanjeUredjivanja,
   obrisiKorak,
   obrisiPitanje,
+  pomeriKorak,
   omotUredjivog,
   postaviIsecakKoraka,
   sacuvajKursNaServeru,
@@ -1050,7 +1051,10 @@ function grupaTrake(natpis, dugmad) {
   grupa.className = "traka-grupa";
   grupa.setAttribute("role", "group");
   grupa.setAttribute("aria-label", natpis);
-  grupa.append(...dugmad);
+  const oznaka = document.createElement("span");
+  oznaka.className = "traka-oznaka";
+  oznaka.textContent = natpis;
+  grupa.append(oznaka, ...dugmad);
   return grupa;
 }
 
@@ -1089,10 +1093,11 @@ function osveziTrakuUredjivanja() {
   }
   trakaUredjivanja.replaceChildren();
   const natpis = document.createElement("p");
-  natpis.textContent = "Režim uređivanja. Potvrdi, opozovi i koraci upisuju kurs.json.";
+  natpis.textContent = "Režim uređivanja";
   const zauzeto = urediSadrzaj.sacuvava;
   const tema = uvod ? null : sirovaTema(cas);
   const imaKorak = Boolean(tema?.steps?.length);
+  const indeks = tema ? Math.min(indeksKoraka(), tema.steps.length - 1) : 0;
   const unazad = dugmeTrake("undo-2", "Opozovi", () => {
     void korakIstorije(true);
   }, zauzeto || !urediSadrzaj.istorija.mozeUnazad());
@@ -1100,14 +1105,20 @@ function osveziTrakuUredjivanja() {
     void korakIstorije(false);
   }, zauzeto || !urediSadrzaj.istorija.mozeNapred());
   const koraci = grupaTrake("Koraci", [
+    dugmeTrake("chevron-left", "Premesti ulevo", () => {
+      void izmeniTekuciKorak((sirova, i) => pomeriKorak(sirova, i, -1));
+    }, zauzeto || !imaKorak || indeks === 0),
+    dugmeTrake("chevron-right", "Premesti udesno", () => {
+      void izmeniTekuciKorak((sirova, i) => pomeriKorak(sirova, i, 1));
+    }, zauzeto || !imaKorak || indeks >= tema.steps.length - 1),
     dugmeTrake("trash", "Obriši korak", () => {
-      void izmeniTekuciKorak((sirova, indeks) => obrisiKorak(sirova, indeks));
+      void izmeniTekuciKorak((sirova, i) => obrisiKorak(sirova, i));
     }, zauzeto || !tema || tema.steps.length < 2),
     dugmeTrake("plus", "Dodaj korak", () => {
       void izmeniTekuciKorak((sirova) => dodajKorakNaKraj(sirova));
     }, zauzeto || !imaKorak),
     dugmeTrake("list-plus", "Ubaci korak", () => {
-      void izmeniTekuciKorak((sirova, indeks) => ubaciKorak(sirova, indeks));
+      void izmeniTekuciKorak((sirova, i) => ubaciKorak(sirova, i));
     }, zauzeto || !imaKorak),
   ]);
   trakaUredjivanja.append(natpis, unazad, napred, razdelnikTrake(), koraci, ikonaStanja());
@@ -1217,6 +1228,7 @@ function meniPitanja(pi, ukupno, otvoriEditor, korak) {
   dugme.type = "button";
   dugme.className = "uredi-ikonica";
   dugme.setAttribute("aria-label", "Opcije pitanja");
+  dugme.title = "Opcije pitanja";
   dugme.setAttribute("aria-haspopup", "menu");
   dugme.setAttribute("aria-expanded", "false");
   const znak = ikonica("ellipsis");

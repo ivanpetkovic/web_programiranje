@@ -1338,6 +1338,7 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 }
 .traka-uredjivanja p { margin: 0; flex: 1 1 12rem; font-size: 0.9rem; }
 .traka-uredjivanja .traka-grupa { display: inline-flex; gap: 0.35rem; align-items: center; }
+.traka-uredjivanja .traka-oznaka { font-size: 0.85rem; font-weight: 650; margin-right: 0.15rem; }
 .traka-uredjivanja .traka-razdelnik { width: 1px; align-self: stretch; background: var(--line); margin: 0.1rem 0.1rem; }
 .traka-uredjivanja .stanje-ikona {
   display: inline-flex;

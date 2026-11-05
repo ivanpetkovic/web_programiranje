@@ -8,6 +8,7 @@ import {
   napraviIstoriju,
   obrisiKorak,
   obrisiPitanje,
+  pomeriKorak,
   postaviIsecakKoraka,
   premestiPitanje,
   primeniSnapshot,
@@ -31,6 +32,12 @@ test("znak stanja je kvačica, loader ili crveni X", () => {
   assert.equal(znakStanja({ sacuvava: false, greska: "dokument nije kurs" }).ikona, "x");
   const main = fs.readFileSync(new URL("../site/js/main.js", import.meta.url), "utf8");
   assert.equal(main.includes('textContent = urediSadrzaj.poruka || "kurs.json"'), false);
+  assert.match(main, /textContent = "Režim uređivanja"/);
+  assert.equal(main.includes("Potvrdi, opozovi i koraci upisuju kurs.json."), false);
+  assert.match(main, /oznaka.textContent = natpis/);
+  assert.match(main, /dugmeTrake\("chevron-left", "Premesti ulevo"/);
+  assert.match(main, /dugmeTrake\("chevron-right", "Premesti udesno"/);
+  assert.match(main, /dugme\.title = natpis/);
   assert.match(main, /dugmeTrake\("trash", "Obriši korak"/);
   assert.match(main, /dugmeTrake\("plus", "Dodaj korak"/);
   assert.match(main, /dugmeTrake\("list-plus", "Ubaci korak"/);
@@ -55,6 +62,16 @@ test("pitanje se pomera gore i dole", () => {
   assert.equal(premestiPitanje(korak, 0, 1), 1);
   assert.deepEqual(korak.pitalice.map((pitanje) => pitanje.pitalica), ["C", "A", "B"]);
   assert.equal(korak.pitalica, "C");
+});
+
+test("korak se pomera ulevo i udesno", () => {
+  const tema = { steps: [{ naslov: "A" }, { naslov: "B" }, { naslov: "C" }] };
+  assert.equal(pomeriKorak(tema, 0, -1), -1);
+  assert.equal(pomeriKorak(tema, 2, 1), -1);
+  assert.equal(pomeriKorak(tema, 0, 1), 1);
+  assert.deepEqual(tema.steps.map((korak) => korak.naslov), ["B", "A", "C"]);
+  assert.equal(pomeriKorak(tema, 1, -1), 0);
+  assert.deepEqual(tema.steps.map((korak) => korak.naslov), ["A", "B", "C"]);
 });
 
 test("korak se dodaje na kraj, ubacuje ispred tekućeg i ne briše poslednji", () => {
