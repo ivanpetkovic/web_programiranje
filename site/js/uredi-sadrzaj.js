@@ -128,7 +128,7 @@ export function napraviEditorKratkog(pocetna, { opis }, primeniVrednost) {
   };
 }
 
-export function omotUredjivog(ctx, id, prikaz, napraviEditor) {
+export function omotUredjivog(ctx, id, prikaz, napraviEditor, { umestoOlovke } = {}) {
   const omot = document.createElement("div");
   omot.className = "uredjivi-blok";
   if (!ctx.aktivan) {
@@ -156,12 +156,11 @@ export function omotUredjivog(ctx, id, prikaz, napraviEditor) {
     return omot;
   }
   omot.append(...[].concat(prikaz));
-  omot.append(
-    dugmeUredi(`Uredi: ${id}`, () => {
-      ctx.otvori(id);
-      ctx.osvezi?.();
-    })
-  );
+  const otvori = () => {
+    ctx.otvori(id);
+    ctx.osvezi?.();
+  };
+  omot.append(umestoOlovke ? umestoOlovke(otvori) : dugmeUredi(`Uredi: ${id}`, otvori));
   return omot;
 }
 
@@ -331,6 +330,16 @@ export function obrisiPitanje(korak, indeks) {
   uskladiPitanjaKoraka(korak);
   const ostalo = korak.pitalice?.length || 0;
   return ostalo ? Math.min(indeks, ostalo - 1) : 0;
+}
+
+export function premestiPitanje(korak, indeks, smer) {
+  const niz = Array.isArray(korak.pitalice) ? korak.pitalice : obezbediNizPitalica(korak);
+  const cilj = indeks + smer;
+  if (!niz[indeks] || cilj < 0 || cilj >= niz.length) return -1;
+  const [stavka] = niz.splice(indeks, 1);
+  niz.splice(cilj, 0, stavka);
+  uskladiPitanjaKoraka(korak);
+  return cilj;
 }
 
 export function znakStanja({ sacuvava, greska }) {

@@ -1353,9 +1353,44 @@ body.nav-skriven .nav-preklop { justify-self: start; }
   .traka-uredjivanja .stanje-ikona.cuva .ikona { animation: none; }
 }
 @keyframes traka-vrti { to { transform: rotate(360deg); } }
-body.rezim-uredjivanja .pitalica-koraka.izabrana {
-  outline: 2px solid var(--amber);
-  border-radius: 12px;
+.meni-pitanja-omot { position: absolute; top: 0.15rem; right: 0; z-index: 6; }
+.meni-pitanja-omot .uredi-ikonica { position: static; }
+.meni-pitanja {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  right: 0;
+  z-index: 6;
+  display: grid;
+  min-width: 11.5rem;
+  padding: 0.3rem;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+.meni-pitanja.iznad { top: auto; bottom: calc(100% + 0.25rem); }
+.meni-pitanja button {
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  padding: 0.4rem 0.55rem;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.meni-pitanja button:hover,
+.meni-pitanja button:focus-visible { background: color-mix(in srgb, var(--amber) 10%, var(--paper)); }
+.meni-pitanja button:disabled { opacity: 0.4; cursor: default; }
+.meni-pitanja button.opasno { color: var(--bad); }
+.dodaj-prvo-pitanje {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  font: inherit;
 }
 .traka-uredjivanja button.primarno {
   background: var(--amber);

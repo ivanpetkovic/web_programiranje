@@ -9,6 +9,7 @@ import {
   obrisiKorak,
   obrisiPitanje,
   postaviIsecakKoraka,
+  premestiPitanje,
   primeniSnapshot,
   ubaciKorak,
   ubaciPitanje,
@@ -33,10 +34,27 @@ test("znak stanja je kvačica, loader ili crveni X", () => {
   assert.match(main, /dugmeTrake\("trash", "Obriši korak"/);
   assert.match(main, /dugmeTrake\("plus", "Dodaj korak"/);
   assert.match(main, /dugmeTrake\("list-plus", "Ubaci korak"/);
-  assert.match(main, /dugmeTrake\("trash", "Obriši pitanje"/);
-  assert.match(main, /dugmeTrake\("plus", "Dodaj pitanje"/);
-  assert.match(main, /dugmeTrake\("list-plus", "Ubaci pitanje"/);
+  assert.equal(main.includes('dugmeTrake("trash", "Obriši pitanje"'), false);
+  assert.match(main, /aria-label", "Opcije pitanja"/);
+  assert.match(main, /"Dodaj ispred"/);
+  assert.match(main, /"Dodaj posle"/);
+  assert.match(main, /"Izmeni"/);
+  assert.match(main, /"Pomeri na gore"/);
+  assert.match(main, /"Pomeri na dole"/);
+  assert.match(main, /"Obriši"/);
   assert.match(main, /znakStanja\(urediSadrzaj\)/);
+});
+
+test("pitanje se pomera gore i dole", () => {
+  const korak = { pitalice: [{ pitalica: "A", odgovor: "a" }, { pitalica: "B", odgovor: "b" }, { pitalica: "C", odgovor: "c" }] };
+  assert.equal(premestiPitanje(korak, 0, -1), -1);
+  assert.equal(premestiPitanje(korak, 2, 1), -1);
+  assert.equal(premestiPitanje(korak, 2, -1), 1);
+  assert.deepEqual(korak.pitalice.map((pitanje) => pitanje.pitalica), ["A", "C", "B"]);
+  assert.equal(korak.pitalica, "A");
+  assert.equal(premestiPitanje(korak, 0, 1), 1);
+  assert.deepEqual(korak.pitalice.map((pitanje) => pitanje.pitalica), ["C", "A", "B"]);
+  assert.equal(korak.pitalica, "C");
 });
 
 test("korak se dodaje na kraj, ubacuje ispred tekućeg i ne briše poslednji", () => {
