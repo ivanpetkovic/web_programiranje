@@ -108,7 +108,8 @@ test("pitanje, stablo, olovka i panel", () => {
   assert.match(css, /\.pitanje-red\.otkriva/);
   assert.match(css, /\.pitanje-okidac/);
   assert.match(main, /saIkonom\(ponovi, "refresh-cw", "Ponovi pitanja"\)/);
-  assert.match(main, /saIkonom\(otvori, otvoreno \? "check-circle" : "info", otvoreno \? "Obrazloženje je otvoreno" : "Obrazloženje"\)/);
+  assert.equal(main.includes("Obrazloženje je otvoreno"), false);
+  assert.match(main, /const mozeOtvoriti = retoricko \? Boolean\(odgovor\) : true/);
   assert.match(main, /if \(otkriveno && opt\.ok\) return ikonica\("check-circle"\)/);
   assert.match(main, /if \(!otkriveno && opt\.key === izabran\) return ikonica\("circle-dot"\)/);
   assert.match(main, /return ikonica\("circle"\)/);

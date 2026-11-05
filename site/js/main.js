@@ -1944,10 +1944,10 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi, ukupno) {
   }
   const retoricko = !(pitalica.opcije || []).length;
   const odgovor = pitalica.odgovor || "";
-  const mozeOdgovor = retoricko && Boolean(odgovor);
+  const mozeOtvoriti = retoricko ? Boolean(odgovor) : true;
   const red = document.createElement("div");
-  red.className = mozeOdgovor ? "pitanje-red otkriva" : "pitanje-red";
-  if (mozeOdgovor && otvoreno) red.classList.add("otvoreno");
+  red.className = mozeOtvoriti ? "pitanje-red otkriva" : "pitanje-red";
+  if (mozeOtvoriti && otvoreno) red.classList.add("otvoreno");
   const znak = ikonica("question");
   if (znak) {
     const omotZnaka = document.createElement("span");
@@ -1958,7 +1958,7 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi, ukupno) {
   }
   red.append(pitanje);
   const idOkidaca = `pitanje-okidac-${casBroj}-${i}-${pi}`;
-  if (mozeOdgovor) {
+  if (mozeOtvoriti) {
     const lampica = document.createElement("span");
     lampica.className = "odgovor-ikona";
     lampica.setAttribute("aria-hidden", "true");
@@ -1979,11 +1979,6 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi, ukupno) {
       document.getElementById(idOkidaca)?.focus();
     });
   }
-  const uputa = document.createElement("p");
-  uputa.className = "meta";
-  uputa.textContent = urediSadrzaj.aktivan
-    ? "Uređivanje: izmenite pitanje i odgovore ispod."
-    : "Izaberite odgovor. Nastavnik usmeno nadograđuje obrazloženje posle glasanja.";
   const kratke = document.createElement("div");
   kratke.className = "opcije-mreza";
   kratke.dataset.kviz = "korak";
@@ -2016,12 +2011,12 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi, ukupno) {
     const telo = document.createElement("div");
     telo.id = `odgovor-${casBroj}-${i}-${pi}`;
     telo.className = odgovor ? "odgovor-tekst" : "odgovor-tekst meta";
-    if (mozeOdgovor) red.querySelector(".pitanje-okidac")?.setAttribute("aria-controls", telo.id);
+    if (mozeOtvoriti) red.querySelector(".pitanje-okidac")?.setAttribute("aria-controls", telo.id);
     if (odgovor) telo.append(...cvoroviPasusa(odgovor));
     else telo.textContent = "Nema odgovora.";
     pitanjeUnutra.append(telo);
   }
-  if (!retoricko) pitanjeUnutra.append(uputa, kratke);
+  if (!retoricko && (otvoreno || urediSadrzaj.aktivan)) pitanjeUnutra.append(kratke);
   const pitanjeBlok = omotUredjivog(urediSadrzaj, kljucPolja(casBroj, i, `pitalica-${pi}`), pitanjeUnutra, () => {
     const wrap = document.createElement("div");
     wrap.className = "uredjivi-editor-pitalica";
@@ -2076,17 +2071,6 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi, ukupno) {
       },
     };
   }, sirovi ? { umestoOlovke: (otvori) => meniPitanja(pi, ukupno, otvori, sirovi) } : {});
-  const radnjePitanja = document.createElement("div");
-  radnjePitanja.className = "radnje-pitanja";
-  const otvori = document.createElement("button");
-  otvori.type = "button";
-  otvori.className = otvoreno ? "obrazlozenje otvoreno" : "obrazlozenje";
-  saIkonom(otvori, otvoreno ? "check-circle" : "info", otvoreno ? "Obrazloženje je otvoreno" : "Obrazloženje");
-  otvori.addEventListener("click", () => {
-    objasnjenjePoKoraku.set(kljuc, true);
-    renderLecture();
-  });
-  radnjePitanja.append(otvori);
   let analizaBlok = null;
   const analiza = pitalica.analiza || "";
   if (urediSadrzaj.aktivan && sirovi) {
@@ -2117,8 +2101,7 @@ function nacrtajJednuPitalicu(casBroj, i, pi, pitalica, sirovi, ukupno) {
   const blok = document.createElement("section");
   blok.className = "pitalica-koraka";
   blok.append(pitanjeBlok);
-  if (!retoricko) blok.append(radnjePitanja);
-  if (analizaBlok && !retoricko) blok.append(analizaBlok);
+  if (analizaBlok && !retoricko && (otvoreno || urediSadrzaj.aktivan)) blok.append(analizaBlok);
   return blok;
 }
 
