@@ -19,6 +19,23 @@ test("kurs stoji u kurs.json i kurs.json.schema, bez XML izvoza", () => {
   assert.equal(fs.existsSync(new URL("../site/js/uvoz-xml.js", import.meta.url)), false);
 });
 
+test("json je dozvoljen jezik samostalnog primera i koda pojma", () => {
+  const dokument = prazanKurs();
+  const tema = praznaTema();
+  tema.steps[0].samostalniPrimer = { jezik: "json", izolovan: true, tekst: "{}" };
+  tema.pojmoviCasa = [{
+    id: "json-schema",
+    name: "JSON Schema",
+    hint: "oblik tela",
+    body: "Opis dozvoljenog JSON tela.",
+    code: "{}",
+    codeLanguage: "json",
+  }];
+  dokument.teme = [tema];
+  dokument.trajanjeTema = 1;
+  assert.deepEqual(proveriSemu(sema, dokument).greske, []);
+});
+
 test("isporučeni kurs.json prolazi šemu", () => {
   const provera = proveriSemu(sema, kurs);
   assert.deepEqual(provera.greske, []);
