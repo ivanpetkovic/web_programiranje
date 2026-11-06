@@ -18,6 +18,14 @@ export function prikaziIzlaz(indeks, brojKoraka, izlaz) {
   return { tekst: izlaz, polje: false };
 }
 
+export function rasporedBiraca(sirina) {
+  const px = Number(sirina);
+  if (!Number.isFinite(px) || px >= 900) return "siroko";
+  if (px >= 760) return "srednje";
+  if (px >= 540) return "usko";
+  return "tesno";
+}
+
 export function adresaPregleda(poreklo, putanja) {
   const koren = String(poreklo || "").replace(/\/+$/, "");
   const put = String(putanja || "").replace(/^\/+/, "");
