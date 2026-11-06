@@ -849,7 +849,7 @@ button.sve-beleske-korak:hover { color: var(--amber); }
 }
 .ikona { width: 1.05rem; height: 1.05rem; flex: none; display: block; }
 .top > button { display: inline-flex; align-items: center; justify-content: center; }
-.cas-tabovi button, .isecak header button, .korak-traka .meta, .kljucna strong, .pitanje-blok > .meta {
+.cas-tabovi button, .isecak header button, .korak-traka .meta, .pitanje-blok > .meta {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -939,22 +939,36 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 .tema-koraci { list-style: none; margin: 0.15rem 0 0.4rem; padding: 0 0 0 0.4rem; }
 .kvacica { color: var(--amber); margin-right: 0.35rem; }
 .korak-traka { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+.kljucna,
+.highlight {
+  --highlight-razmak: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: var(--highlight-razmak);
+  border-radius: 12px;
+  padding: 0.85rem 0.9rem 0.85rem var(--highlight-razmak);
+  margin: 0.8rem 0;
+}
 .kljucna {
   background: var(--amber-dim);
   border: 1px solid var(--amber);
-  border-radius: 12px;
-  padding: 0.75rem 0.9rem;
-  margin: 0.8rem 0;
 }
-.kljucna strong { display: block; margin-bottom: 0.25rem; }
 .highlight {
   background: color-mix(in srgb, var(--paper) 82%, var(--ink));
   border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 0.75rem 0.9rem;
-  margin: 0.8rem 0;
 }
-.highlight strong { display: block; margin-bottom: 0.25rem; }
+.highlight-ikona {
+  flex: none;
+  display: grid;
+  place-items: center;
+}
+.highlight-ikona .ikona { width: 1.25rem; height: 1.25rem; }
+.highlight-sadrzaj { flex: 1; min-width: 0; }
+.kljucna strong,
+.highlight strong { display: block; margin: 0 0 0.35rem; }
+.highlight-sadrzaj:not(:has(p)) strong { margin-bottom: 0; }
+.highlight-sadrzaj p { margin: 0; }
+.highlight-sadrzaj p + p { margin-top: 0.45rem; }
 .isecak-bela pre { background: #f7f1e6; color: #1c1a16; }
 .isecak-crna pre { background: #111111; color: #f4efe4; }
 .sekcija-lekcije { position: relative; margin: 0.35rem 0; }
