@@ -1408,6 +1408,12 @@ body.rezim-uredjivanja .uredjivi-blok {
   position: relative;
   padding-right: 2.2rem;
 }
+body.rezim-uredjivanja .uredjivi-blok:has(.isecak header .uredi-ikonica) {
+  padding-right: 0;
+}
+body.rezim-uredjivanja .isecak header .uredi-ikonica {
+  position: static;
+}
 body.rezim-uredjivanja .uredi-ikonica {
   position: absolute;
   top: 0.15rem;

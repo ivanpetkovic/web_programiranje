@@ -12,7 +12,10 @@ import {
   obrisiPitanje,
   pomeriKorak,
   omotUredjivog,
+  dugmeUredi,
+  postaviDijagram,
   postaviIsecakKoraka,
+  postaviSamostalniPrimer,
   sacuvajKursNaServeru,
   ubaciKorak,
   ubaciPitanje,
@@ -1035,6 +1038,23 @@ function nacrtajTekstBloka(tekst, naslovTekst, ikona = "file-text") {
   return blok;
 }
 
+function omotTekstBloka(id, blok, pocetniTekst, opis, placeholder, upisi) {
+  if (!blok) return null;
+  return omotUredjivog(urediSadrzaj, id, blok, () => {
+    const editor = napraviEditorTeksta(
+      pocetniTekst,
+      { redovi: 8, kod: true, placeholder },
+      { opis }
+    );
+    return veziTekst(editor, upisi);
+  }, {
+    umestoOlovke(otvori) {
+      blok.querySelector("header")?.append(dugmeUredi(`Uredi: ${opis}`, otvori));
+      return null;
+    },
+  });
+}
+
 function dugmeTrake(ime, natpis, onClick, disabled) {
   const dugme = document.createElement("button");
   dugme.type = "button";
@@ -1874,11 +1894,35 @@ function renderLecture() {
     vec.textContent = ranije && !isecak ? `Već u fajlu:\n${ranije}` : "";
   }
   biracMesto.replaceChildren(birac);
-  const izolovan = !figura && !imaFajl && korak.samostalniPrimer?.tekst
-    ? nacrtajTekstBloka(korak.samostalniPrimer.tekst, "Mali eksperiment")
+  const eksperiment = sirovi?.samostalniPrimer ?? korak.samostalniPrimer;
+  const tekstEksperimenta = eksperiment?.tekst || "";
+  const prikaziEksperiment = !figura && !imaFajl && (tekstEksperimenta || (urediSadrzaj.aktivan && eksperiment));
+  const izolovan = prikaziEksperiment
+    ? omotTekstBloka(
+      kljucPolja(cas, i, "samostalniPrimer"),
+      nacrtajTekstBloka(tekstEksperimenta, "Mali eksperiment"),
+      sirovi?.samostalniPrimer?.tekst ?? tekstEksperimenta,
+      "mali eksperiment",
+      "Kod ili tekst malog eksperimenta.",
+      (vrednost) => {
+        if (sirovi) postaviSamostalniPrimer(sirovi, vrednost);
+      }
+    )
     : null;
-  const dijagram = !figura && korak.dijagram?.tekst
-    ? nacrtajTekstBloka(korak.dijagram.tekst, "Dijagram")
+  const crtez = sirovi?.dijagram ?? korak.dijagram;
+  const tekstDijagrama = crtez?.tekst || "";
+  const prikaziDijagram = !figura && (tekstDijagrama || (urediSadrzaj.aktivan && crtez));
+  const dijagram = prikaziDijagram
+    ? omotTekstBloka(
+      kljucPolja(cas, i, "dijagram"),
+      nacrtajTekstBloka(tekstDijagrama, "Dijagram"),
+      sirovi?.dijagram?.tekst ?? tekstDijagrama,
+      "dijagram",
+      "Tekstualni dijagram ovog koraka.",
+      (vrednost) => {
+        if (sirovi) postaviDijagram(sirovi, vrednost);
+      }
+    )
     : null;
   casEl.append(metaKoraka, naslovKoraka, lekcijaBlok, kljucna);
   for (const [omot, izvor] of dijagrami) void nacrtajMermaid(omot, izvor);
