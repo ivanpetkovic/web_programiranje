@@ -165,9 +165,11 @@ test("mali eksperiment i dijagram čuvaju jezik i format", () => {
 
 test("lekcija otvara olovku na malom eksperimentu i dijagramu", () => {
   const main = fs.readFileSync(new URL("../site/js/main.js", import.meta.url), "utf8");
-  assert.match(main, /kljucPolja\(cas, i, "samostalniPrimer"\)/);
-  assert.match(main, /kljucPolja\(cas, i, "dijagram"\)/);
-  assert.match(main, /postaviSamostalniPrimer\(sirovi, vrednost\)/);
-  assert.match(main, /postaviDijagram\(sirovi, vrednost\)/);
-  assert.match(main, /blok\.querySelector\("header"\)\?\.append\(dugmeUredi/);
+  assert.match(main, /aria-label", "Prevuci sekciju"/);
+  assert.match(main, /aria-label", "Opcije sekcije"/);
+  assert.match(main, /"Promeni tip"/);
+  assert.match(main, /"Ubaci ispred"/);
+  assert.match(main, /"Ubaci iza"/);
+  assert.match(main, /grip-vertical/);
+  assert.match(main, /ellipsis/);
 });

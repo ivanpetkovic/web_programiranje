@@ -964,6 +964,79 @@ body.nav-skriven .nav-preklop { justify-self: start; }
   margin: 0.8rem 0;
 }
 .kljucna strong { display: block; margin-bottom: 0.25rem; }
+.highlight {
+  background: color-mix(in srgb, var(--paper) 82%, var(--ink));
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  margin: 0.8rem 0;
+}
+.highlight strong { display: block; margin-bottom: 0.25rem; }
+.isecak-bela pre { background: #f7f1e6; color: #1c1a16; }
+.isecak-crna pre { background: #111111; color: #f4efe4; }
+.sekcija-lekcije { position: relative; margin: 0.35rem 0; }
+.sekcija-rucice,
+.sekcija-jos-omot { opacity: 0; }
+.sekcija-lekcije:hover > .sekcija-rucice,
+.sekcija-lekcije:focus-within > .sekcija-rucice,
+.sekcija-lekcije:hover > .sekcija-jos-omot,
+.sekcija-lekcije:focus-within > .sekcija-jos-omot,
+.sekcija-jos-omot:has(.meni-pitanja:not([hidden])),
+.sekcija-rucice:has(.meni-pitanja:not([hidden])) { opacity: 1; }
+.sekcija-rucice {
+  position: absolute;
+  left: -1.85rem;
+  top: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  z-index: 2;
+}
+.sekcija-rucica,
+.sekcija-plus,
+.sekcija-jos {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--muted);
+  cursor: pointer;
+}
+.sekcija-rucica { cursor: grab; }
+.sekcija-rucica:active { cursor: grabbing; }
+.sekcija-rucica .ikona,
+.sekcija-plus .ikona,
+.sekcija-jos .ikona { width: 0.95rem; height: 0.95rem; }
+.sekcija-jos-omot { position: absolute; top: 0.2rem; right: 0.25rem; z-index: 3; }
+.sekcija-meni-omot { position: relative; }
+.sekcija-lekcije.sekcija-cilj-iznad { box-shadow: inset 0 2px 0 var(--amber); }
+.sekcija-lekcije.sekcija-cilj-ispod { box-shadow: inset 0 -2px 0 var(--amber); }
+.sekcija-lekcije.sekcija-prevlaci { opacity: 0.55; }
+.sekcija-vrsta { display: flex; align-items: center; gap: 0.45rem; width: 100%; text-align: left; }
+.sekcija-vrsta .ikona { width: 1rem; height: 1rem; flex: none; }
+.sekcija-rucice .meni-pitanja { left: calc(100% + 0.25rem); top: 0; right: auto; min-width: 14rem; }
+.sekcija-jos-omot .meni-pitanja { right: 0; left: auto; min-width: 14rem; }
+.sekcija-polja { display: grid; gap: 0.45rem; }
+body.rezim-uredjivanja .sekcija-lekcije .uredjivi-blok { padding-right: 4.4rem; }
+body.rezim-uredjivanja .sekcija-lekcije .isecak header { padding-right: 2.6rem; }
+.dodaj-sekciju-omot { position: relative; display: inline-block; margin: 0.2rem 0 0.8rem; }
+.dodaj-sekciju {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  font: inherit;
+}
+.dodaj-sekciju-omot .meni-pitanja { left: 0; right: auto; min-width: 14rem; }
 .isecak { margin: 0.8rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .isecak header { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0.7rem; background: var(--paper); }
 .isecak pre { margin: 0; border-radius: 0; }

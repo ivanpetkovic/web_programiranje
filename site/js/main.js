@@ -13,9 +13,9 @@ import {
   pomeriKorak,
   omotUredjivog,
   dugmeUredi,
-  postaviDijagram,
+  poljeKratko,
+  poljeTeksta,
   postaviIsecakKoraka,
-  postaviSamostalniPrimer,
   sacuvajKursNaServeru,
   ubaciKorak,
   ubaciPitanje,
@@ -26,6 +26,18 @@ import {
   znakStanja,
 } from "./uredi-sadrzaj.js";
 import { napraviPadajucu } from "./padajuca.js";
+import {
+  VRSTE_SEKCIJE,
+  blokoviKoraka,
+  ikonaSekcije,
+  materijalizuj,
+  natpisSekcije,
+  obrisiSekciju,
+  promeniVrstuSekcije,
+  spustiSekciju,
+  ubaciSekciju,
+  uskladiNasledjenaPolja,
+} from "./blokovi-lekcije.js";
 import { natpisTeme as natpisJedneTeme, pomeriTemu, procenat, ucitajKurs } from "./model.js";
 import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./recnik.js";
 import { PORUKA, modulPoZahtevu, porukaKonzole, sklopiDokument, trajanjeLopatica, ubaciMostKonzole } from "./pregled.js";
@@ -1038,21 +1050,320 @@ function nacrtajTekstBloka(tekst, naslovTekst, ikona = "file-text") {
   return blok;
 }
 
-function omotTekstBloka(id, blok, pocetniTekst, opis, placeholder, upisi) {
-  if (!blok) return null;
-  return omotUredjivog(urediSadrzaj, id, blok, () => {
-    const editor = napraviEditorTeksta(
-      pocetniTekst,
-      { redovi: 8, kod: true, placeholder },
-      { opis }
-    );
-    return veziTekst(editor, upisi);
-  }, {
+function placeholderSekcije(blok) {
+  if (blok.vrsta === "tekst") return "Markdown: pasusi, **podebljano**, `kod`, spiskovi, ```mermaid.";
+  if (blok.vrsta === "highlight" && blok.uloga === "kljucna") return "Jedna kratka ključna ideja.";
+  if (blok.vrsta === "highlight") return "Tekst highlighta.";
+  if (blok.vrsta === "dijagram") return "Tekstualni dijagram.";
+  return "Kod ove sekcije.";
+}
+
+function editorNaslovaITeksta(blok, placeholder) {
+  let naslov = blok.naslov || "";
+  let tekst = blok.tekst || "";
+  const pocetniNaslov = naslov;
+  const pocetniTekst = tekst;
+  const omot = document.createElement("div");
+  omot.className = "sekcija-polja";
+  omot.append(
+    poljeKratko(naslov, (vrednost) => {
+      naslov = vrednost;
+    }),
+    poljeTeksta(tekst, { redovi: 4, placeholder }, (vrednost) => {
+      tekst = vrednost;
+    })
+  );
+  return {
+    telo: omot,
+    opis: natpisSekcije(blok),
+    promenjeno: () => naslov !== pocetniNaslov || tekst !== pocetniTekst,
+    primeni() {
+      blok.naslov = naslov;
+      blok.tekst = tekst;
+    },
+    ponisti() {
+      blok.naslov = pocetniNaslov;
+      blok.tekst = pocetniTekst;
+      naslov = pocetniNaslov;
+      tekst = pocetniTekst;
+    },
+  };
+}
+
+function uredjivacSekcije(sirovi, blok, vezi) {
+  if (blok.vrsta === "highlight" && blok.uloga !== "kljucna") {
+    const editor = editorNaslovaITeksta(blok, placeholderSekcije(blok));
+    const primeni = editor.primeni.bind(editor);
+    const ponisti = editor.ponisti.bind(editor);
+    editor.primeni = () => {
+      primeni();
+      vezi();
+    };
+    editor.ponisti = () => {
+      ponisti();
+      vezi();
+    };
+    return editor;
+  }
+  const kod = blok.vrsta === "kod" || blok.vrsta === "dijagram";
+  const editor = napraviEditorTeksta(
+    blok.tekst || "",
+    { redovi: blok.vrsta === "tekst" ? 8 : 6, kod, placeholder: placeholderSekcije(blok) },
+    { opis: natpisSekcije(blok) }
+  );
+  return veziTekst(editor, (vrednost) => {
+    blok.tekst = vrednost;
+    vezi();
+  });
+}
+
+function prikazTekstSekcije(blok, dijagrami, prviTekst) {
+  const prikaz = document.createElement("div");
+  prikaz.className = "lekcija-tekst";
+  if (prviTekst && !urediSadrzaj.aktivan) {
+    const gradivoUputa = document.createElement("p");
+    gradivoUputa.className = "meta gradivo-uputa";
+    gradivoUputa.textContent = "Tekst lekcije za samostalno učenje. Na času prvo tab Diskusija.";
+    prikaz.append(gradivoUputa);
+  }
+  if (blok.tekst) prikaz.append(...cvoroviProze(blok.tekst, dijagrami));
+  else if (urediSadrzaj.aktivan) {
+    const prazno = document.createElement("p");
+    prazno.className = "kljucna-prazno";
+    prazno.textContent = placeholderSekcije(blok);
+    prikaz.append(prazno);
+  }
+  return prikaz;
+}
+
+function prikazHighlighta(blok, dijagrami) {
+  const kljucna = blok.uloga === "kljucna";
+  const telo = document.createElement("div");
+  const tekst = blok.tekst || (urediSadrzaj.aktivan && kljucna ? "Upišite jednu jasnu misao koju student pamti posle ovog koraka." : "");
+  if (!blok.tekst && urediSadrzaj.aktivan) telo.className = "kljucna-prazno";
+  if (tekst) telo.append(...cvoroviProze(tekst, dijagrami));
+  else if (urediSadrzaj.aktivan) telo.textContent = placeholderSekcije(blok);
+  return telo;
+}
+
+function veziListu(sirovi, lista) {
+  return () => {
+    materijalizuj(sirovi, lista);
+    uskladiNasledjenaPolja(sirovi);
+  };
+}
+
+function stavkaSaIkonom(ikonaIme, natpis, onClick, klasa = "") {
+  const dugme = document.createElement("button");
+  dugme.type = "button";
+  dugme.setAttribute("role", "menuitem");
+  dugme.className = klasa ? `sekcija-vrsta ${klasa}` : "sekcija-vrsta";
+  saIkonom(dugme, ikonaIme, natpis);
+  dugme.addEventListener("click", (dogadjaj) => {
+    dogadjaj.stopPropagation();
+    onClick();
+  });
+  return dugme;
+}
+
+function meniVrsta(dugme, onIzbor) {
+  const panel = document.createElement("div");
+  panel.className = "meni-pitanja sekcija-meni";
+  panel.hidden = true;
+  panel.setAttribute("role", "menu");
+  const dugmad = VRSTE_SEKCIJE.map((vrsta) => stavkaSaIkonom(vrsta.ikona, vrsta.natpis, () => onIzbor(vrsta), "sekcija-vrsta"));
+  panel.append(...dugmad);
+  const omot = document.createElement("div");
+  omot.className = "sekcija-meni-omot";
+  omot.append(dugme, panel);
+  napraviPadajucu({ dugme, panel, stavke: () => dugmad });
+  return omot;
+}
+
+function teloSekcije(sirovi, blok, dijagrami, prviTekst, vezi) {
+  const id = kljucPolja(cas, indeksKoraka(), `sekcija:${blok.id}`);
+  if (blok.vrsta === "highlight") {
+    const kljucna = blok.uloga === "kljucna";
+    const okvir = document.createElement("aside");
+    okvir.className = kljucna ? "kljucna" : "highlight";
+    const naslov = document.createElement("strong");
+    saIkonom(naslov, ikonaSekcije(blok), natpisSekcije(blok));
+    const telo = prikazHighlighta(blok, dijagrami);
+    const sadrzaj = omotUredjivog(urediSadrzaj, id, telo, () => uredjivacSekcije(sirovi, blok, vezi));
+    okvir.append(naslov, sadrzaj);
+    return okvir;
+  }
+  if (blok.vrsta === "tekst") {
+    return omotUredjivog(urediSadrzaj, id, prikazTekstSekcije(blok, dijagrami, prviTekst), () => uredjivacSekcije(sirovi, blok, vezi));
+  }
+  const kartica = nacrtajTekstBloka(blok.tekst || "", natpisSekcije(blok), ikonaSekcije(blok));
+  if (blok.vrsta === "kod") kartica.classList.add(blok.pozadina === "crna" ? "isecak-crna" : "isecak-bela");
+  return omotUredjivog(urediSadrzaj, id, kartica, () => uredjivacSekcije(sirovi, blok, vezi), {
     umestoOlovke(otvori) {
-      blok.querySelector("header")?.append(dugmeUredi(`Uredi: ${opis}`, otvori));
+      kartica.querySelector("header")?.append(dugmeUredi(`Uredi: ${natpisSekcije(blok)}`, otvori));
       return null;
     },
   });
+}
+
+function veziPrevlacenje(omot, sirovi, lista, blok) {
+  omot.addEventListener("dragover", (dogadjaj) => {
+    if (!omot.dataset.vuce && !document.querySelector(".sekcija-prevlaci")) return;
+    dogadjaj.preventDefault();
+    const okvir = omot.getBoundingClientRect();
+    const iznad = dogadjaj.clientY < okvir.top + okvir.height / 2;
+    omot.classList.toggle("sekcija-cilj-iznad", iznad);
+    omot.classList.toggle("sekcija-cilj-ispod", !iznad);
+  });
+  omot.addEventListener("dragleave", (dogadjaj) => {
+    if (omot.contains(dogadjaj.relatedTarget)) return;
+    omot.classList.remove("sekcija-cilj-iznad", "sekcija-cilj-ispod");
+  });
+  omot.addEventListener("drop", (dogadjaj) => {
+    dogadjaj.preventDefault();
+    const izvor = dogadjaj.dataTransfer.getData("text/plain");
+    const iznad = omot.classList.contains("sekcija-cilj-iznad");
+    omot.classList.remove("sekcija-cilj-iznad", "sekcija-cilj-ispod");
+    void izmeniTekuciKorak((sirova, korakIndeks) => (
+      spustiSekciju(sirova, lista, izvor, blok.id, iznad) < 0 ? -1 : korakIndeks
+    ));
+  });
+}
+
+function kontroleSekcije(sirovi, lista, blok, omot) {
+  const rucice = document.createElement("div");
+  rucice.className = "sekcija-rucice";
+  const rucica = document.createElement("button");
+  rucica.type = "button";
+  rucica.className = "sekcija-rucica";
+  rucica.draggable = true;
+  rucica.setAttribute("aria-label", "Prevuci sekciju");
+  rucica.title = "Prevuci sekciju";
+  const grip = ikonica("grip-vertical");
+  if (grip) rucica.append(grip);
+  rucica.addEventListener("dragstart", (dogadjaj) => {
+    dogadjaj.dataTransfer.setData("text/plain", blok.id);
+    dogadjaj.dataTransfer.effectAllowed = "move";
+    omot.classList.add("sekcija-prevlaci");
+    dogadjaj.dataTransfer.setDragImage(omot, 24, 16);
+  });
+  rucica.addEventListener("dragend", () => {
+    omot.classList.remove("sekcija-prevlaci", "sekcija-cilj-iznad", "sekcija-cilj-ispod");
+  });
+  const plus = document.createElement("button");
+  plus.type = "button";
+  plus.className = "sekcija-plus";
+  plus.setAttribute("aria-haspopup", "menu");
+  plus.setAttribute("aria-expanded", "false");
+  plus.setAttribute("aria-label", "Ubaci sekciju ispod");
+  plus.title = "Ubaci sekciju ispod";
+  const znakPlus = ikonica("plus");
+  if (znakPlus) plus.append(znakPlus);
+  const ubaci = (vrsta) => {
+    void izmeniTekuciKorak((sirova, korakIndeks) => {
+      const id = ubaciSekciju(sirova, lista, blok.id, vrsta, "posle");
+      if (!id) return -1;
+      urediSadrzaj.otvori(kljucPolja(cas, korakIndeks, `sekcija:${id}`));
+      return korakIndeks;
+    });
+  };
+  rucice.append(rucica, meniVrsta(plus, ubaci));
+  const jos = document.createElement("button");
+  jos.type = "button";
+  jos.className = "sekcija-jos";
+  jos.setAttribute("aria-haspopup", "menu");
+  jos.setAttribute("aria-expanded", "false");
+  jos.setAttribute("aria-label", "Opcije sekcije");
+  jos.title = "Opcije sekcije";
+  const tacke = ikonica("ellipsis");
+  if (tacke) jos.append(tacke);
+  const panel = document.createElement("div");
+  panel.className = "meni-pitanja sekcija-meni";
+  panel.hidden = true;
+  panel.setAttribute("role", "menu");
+  let trenutne = [];
+  const postavi = (dugmad) => {
+    trenutne = dugmad;
+    panel.replaceChildren(...dugmad);
+  };
+  const prikaziVrste = (natpis, gde) => {
+    postavi([
+      stavkaSaIkonom("chevron-left", natpis, prikaziKoren),
+      ...VRSTE_SEKCIJE.map((vrsta) => stavkaSaIkonom(vrsta.ikona, vrsta.natpis, () => {
+        void izmeniTekuciKorak((sirova, korakIndeks) => {
+          if (gde === "tip") {
+            return promeniVrstuSekcije(sirova, lista, blok.id, vrsta) < 0 ? -1 : korakIndeks;
+          }
+          const id = ubaciSekciju(sirova, lista, blok.id, vrsta, gde);
+          if (!id) return -1;
+          urediSadrzaj.otvori(kljucPolja(cas, korakIndeks, `sekcija:${id}`));
+          return korakIndeks;
+        });
+      }, "sekcija-vrsta")),
+    ]);
+  };
+  const prikaziKoren = () => {
+    postavi([
+      stavkaSaIkonom("refresh-cw", "Promeni tip", () => prikaziVrste("Promeni tip", "tip")),
+      stavkaSaIkonom("list-plus", "Ubaci ispred", () => prikaziVrste("Ubaci ispred", "pre")),
+      stavkaSaIkonom("list-plus", "Ubaci iza", () => prikaziVrste("Ubaci iza", "posle")),
+      stavkaSaIkonom("trash", "Obriši", () => {
+        void izmeniTekuciKorak((sirova, korakIndeks) => {
+          materijalizuj(sirova, lista);
+          urediSadrzaj.zatvori(kljucPolja(cas, korakIndeks, `sekcija:${blok.id}`));
+          return obrisiSekciju(sirova, blok.id) < 0 ? -1 : korakIndeks;
+        });
+      }, "opasno"),
+    ]);
+  };
+  prikaziKoren();
+  const josOmot = document.createElement("div");
+  josOmot.className = "sekcija-jos-omot";
+  josOmot.append(jos, panel);
+  napraviPadajucu({
+    dugme: jos,
+    panel,
+    stavke: () => trenutne,
+    naOtvori: prikaziKoren,
+  });
+  return [rucice, josOmot];
+}
+
+function nacrtajSekcije(sirovi, lista, dijagrami) {
+  const vezi = veziListu(sirovi, lista);
+  let prviTekst = true;
+  return lista.map((blok) => {
+    const omot = document.createElement("div");
+    omot.className = "sekcija-lekcije";
+    omot.dataset.vrsta = blok.vrsta;
+    if (urediSadrzaj.aktivan && sirovi) {
+      const [rucice, jos] = kontroleSekcije(sirovi, lista, blok, omot);
+      omot.append(rucice, jos);
+      veziPrevlacenje(omot, sirovi, lista, blok);
+    }
+    omot.append(teloSekcije(sirovi, blok, dijagrami, prviTekst && blok.vrsta === "tekst", vezi));
+    if (blok.vrsta === "tekst") prviTekst = false;
+    return omot;
+  });
+}
+
+function meniDodajSekciju(lista) {
+  const dugme = document.createElement("button");
+  dugme.type = "button";
+  dugme.className = "dodaj-sekciju";
+  dugme.setAttribute("aria-haspopup", "menu");
+  dugme.setAttribute("aria-expanded", "false");
+  saIkonom(dugme, "plus", "Dodaj sekciju");
+  const omot = meniVrsta(dugme, (vrsta) => {
+    void izmeniTekuciKorak((sirova, korakIndeks) => {
+      const id = ubaciSekciju(sirova, lista, null, vrsta, "kraj");
+      if (!id) return -1;
+      urediSadrzaj.otvori(kljucPolja(cas, korakIndeks, `sekcija:${id}`));
+      return korakIndeks;
+    });
+  });
+  omot.classList.add("dodaj-sekciju-omot");
+  return omot;
 }
 
 function dugmeTrake(ime, natpis, onClick, disabled) {
@@ -1799,47 +2110,6 @@ function renderLecture() {
     })
   );
   const dijagrami = [];
-  const proza = cvoroviProze(korak.tekst, dijagrami);
-  const lekcijaPrikaz = document.createElement("div");
-  lekcijaPrikaz.className = "lekcija-tekst";
-  lekcijaPrikaz.append(...proza);
-  if (!urediSadrzaj.aktivan) {
-    const gradivoUputa = document.createElement("p");
-    gradivoUputa.className = "meta gradivo-uputa";
-    gradivoUputa.textContent = "Tekst lekcije za samostalno učenje. Na času prvo tab Diskusija.";
-    lekcijaPrikaz.prepend(gradivoUputa);
-  }
-  const lekcijaBlok = omotUredjivog(urediSadrzaj, kljucPolja(cas, i, "tekst"), lekcijaPrikaz, () => {
-    const editor = napraviEditorTeksta(
-      korak.tekst,
-      { redovi: 8, placeholder: "Tekst lekcije — šta nastavnik priča na ovom koraku." },
-      { opis: "tekst lekcije" }
-    );
-    return veziTekst(editor, (vrednost) => {
-      if (sirovi) sirovi.tekst = vrednost;
-    });
-  });
-  const kljucna = document.createElement("aside");
-  kljucna.className = "kljucna";
-  const kljucnaNaslov = document.createElement("strong");
-  saIkonom(kljucnaNaslov, "lightbulb", "Ključna ideja");
-  const kljucnaPrikaz = document.createElement("div");
-  const kljucnaTekst =
-    korak.kljucnaIdeja ||
-    (urediSadrzaj.aktivan ? "Upišite jednu jasnu misao koju student pamti posle ovog koraka." : "");
-  if (!korak.kljucnaIdeja && urediSadrzaj.aktivan) kljucnaPrikaz.className = "kljucna-prazno";
-  kljucnaPrikaz.append(...cvoroviProze(kljucnaTekst, dijagrami));
-  const kljucnaSadrzaj = omotUredjivog(urediSadrzaj, kljucPolja(cas, i, "kljucnaIdeja"), kljucnaPrikaz, () => {
-    const editor = napraviEditorTeksta(
-      sirovi?.kljucnaIdeja ?? "",
-      { redovi: 3, placeholder: "Jedna kratka ključna ideja." },
-      { opis: "ključnu ideju" }
-    );
-    return veziTekst(editor, (vrednost) => {
-      if (sirovi) sirovi.kljucnaIdeja = vrednost;
-    });
-  });
-  kljucna.append(kljucnaNaslov, kljucnaSadrzaj);
   const prikaz = prikazKoraka(korak);
   const figura = prikaz.mermaid ? document.createElement("div") : null;
   if (figura) {
@@ -1894,37 +2164,10 @@ function renderLecture() {
     vec.textContent = ranije && !isecak ? `Već u fajlu:\n${ranije}` : "";
   }
   biracMesto.replaceChildren(birac);
-  const eksperiment = sirovi?.samostalniPrimer ?? korak.samostalniPrimer;
-  const tekstEksperimenta = eksperiment?.tekst || "";
-  const prikaziEksperiment = !figura && !imaFajl && (tekstEksperimenta || (urediSadrzaj.aktivan && eksperiment));
-  const izolovan = prikaziEksperiment
-    ? omotTekstBloka(
-      kljucPolja(cas, i, "samostalniPrimer"),
-      nacrtajTekstBloka(tekstEksperimenta, "Mali eksperiment"),
-      sirovi?.samostalniPrimer?.tekst ?? tekstEksperimenta,
-      "mali eksperiment",
-      "Kod ili tekst malog eksperimenta.",
-      (vrednost) => {
-        if (sirovi) postaviSamostalniPrimer(sirovi, vrednost);
-      }
-    )
-    : null;
-  const crtez = sirovi?.dijagram ?? korak.dijagram;
-  const tekstDijagrama = crtez?.tekst || "";
-  const prikaziDijagram = !figura && (tekstDijagrama || (urediSadrzaj.aktivan && crtez));
-  const dijagram = prikaziDijagram
-    ? omotTekstBloka(
-      kljucPolja(cas, i, "dijagram"),
-      nacrtajTekstBloka(tekstDijagrama, "Dijagram"),
-      sirovi?.dijagram?.tekst ?? tekstDijagrama,
-      "dijagram",
-      "Tekstualni dijagram ovog koraka.",
-      (vrednost) => {
-        if (sirovi) postaviDijagram(sirovi, vrednost);
-      }
-    )
-    : null;
-  casEl.append(metaKoraka, naslovKoraka, lekcijaBlok, kljucna);
+  const lista = blokoviKoraka(sirovi || korak, { prazne: urediSadrzaj.aktivan, figura: Boolean(figura) });
+  const sekcije = nacrtajSekcije(sirovi, lista, dijagrami);
+  casEl.append(metaKoraka, naslovKoraka, ...sekcije);
+  if (urediSadrzaj.aktivan && sirovi) casEl.append(meniDodajSekciju(lista));
   for (const [omot, izvor] of dijagrami) void nacrtajMermaid(omot, izvor);
   if (figura) casEl.append(figura);
   else if (imaFajl) {
@@ -1933,8 +2176,6 @@ function renderLecture() {
     if (komandaBlok) casEl.append(komandaBlok);
     casEl.append(put, vec);
   }
-  if (izolovan) casEl.append(izolovan);
-  if (dijagram) casEl.append(dijagram);
   const skok = nacrtajSkokKoraka(item, i);
   if (skok) casEl.append(skok);
   diskusijaMesto.replaceChildren(nacrtajDiskusijuKoraka(item, i, korak, sirovi));

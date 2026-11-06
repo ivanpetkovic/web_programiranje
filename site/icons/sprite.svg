@@ -171,4 +171,22 @@
   <symbol id="loader" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
     <path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/>
   </symbol>
+  <symbol id="text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15 18H3"/><path d="M17 6H3"/><path d="M21 12H3"/>
+  </symbol>
+  <symbol id="grip-vertical" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+    <circle cx="9" cy="6" r="1.15"/><circle cx="15" cy="6" r="1.15"/>
+    <circle cx="9" cy="12" r="1.15"/><circle cx="15" cy="12" r="1.15"/>
+    <circle cx="9" cy="18" r="1.15"/><circle cx="15" cy="18" r="1.15"/>
+  </symbol>
+  <symbol id="callout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="5" width="18" height="14" rx="2"/>
+    <circle cx="8" cy="12" r="1" fill="currentColor" stroke="none"/>
+    <path d="M12 10h6"/><path d="M12 14h4"/>
+  </symbol>
+  <symbol id="workflow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="3" width="6" height="6" rx="1"/>
+    <rect x="15" y="15" width="6" height="6" rx="1"/>
+    <path d="M9 6h3a3 3 0 0 1 3 3v6"/>
+  </symbol>
 </svg>
