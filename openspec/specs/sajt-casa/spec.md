@@ -429,7 +429,7 @@ The open lesson MUST show the course breadcrumb, the week title, the week subtit
 - **THEN** the Gradivo section shows that level outside the selector
 
 ### Requirement: Ključna ideja i isečak
-On Gradivo, the key-idea callout MUST be labeled Ključna ideja and MUST be visible without a further click. When the step has a code snippet, that snippet MUST show its title, line numbers, and a control that copies the snippet text. When the step carries the whole file, the snippet MUST show that file and mark the lines that are new against the file's previous version in the course, in their place.
+On Gradivo, the key-idea callout MUST be visible without a further click and MUST show the idea text without a Ključna ideja title. When the step has a code snippet, that snippet MUST show its title, line numbers, and a control that copies the snippet text. When the step carries the whole file, the snippet MUST show that file and mark the lines that are new against the file's previous version in the course, in their place.
 
 #### Scenario: Whole-file step marks new lines in place
 - **WHEN** the teacher opens a step that adds the 405 branch inside the handler of `server/server.js`
@@ -437,7 +437,7 @@ On Gradivo, the key-idea callout MUST be labeled Ključna ideja and MUST be visi
 
 #### Scenario: Callout is already visible
 - **WHEN** the teacher opens a step on Gradivo
-- **THEN** the callout is visible and its label is Ključna ideja
+- **THEN** the callout is visible, the idea text is on screen, and the callout has no Ključna ideja title
 
 #### Scenario: Copy copies the snippet
 - **WHEN** the teacher uses the snippet copy control
@@ -666,7 +666,7 @@ The key-idea callout MUST show `lightbulb`. When the step has a snippet, the sni
 
 #### Scenario: Snippet chrome
 - **WHEN** the teacher opens a step that has a snippet on Gradivo
-- **THEN** the callout, the snippet title, the copy control, and the file path show those icons and the words Kopiraj and Ključna ideja stay
+- **THEN** the callout shows `lightbulb` without a Ključna ideja title, and the snippet title, the copy control, and the file path show those icons and the word Kopiraj
 
 #### Scenario: Figure has no snippet chrome
 - **WHEN** the teacher opens a figure step on Gradivo

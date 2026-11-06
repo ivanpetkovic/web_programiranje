@@ -1166,11 +1166,14 @@ function teloSekcije(sirovi, blok, dijagrami, prviTekst, vezi) {
     znak.className = "highlight-ikona";
     const ikona = ikonica(ikonaSekcije(blok));
     if (ikona) znak.append(ikona);
-    const naslov = document.createElement("strong");
-    naslov.textContent = natpisSekcije(blok);
     const telo = document.createElement("div");
     telo.className = "highlight-sadrzaj";
-    telo.append(naslov, omotUredjivog(urediSadrzaj, id, prikazHighlighta(blok, dijagrami), () => uredjivacSekcije(sirovi, blok, vezi)));
+    if (!kljucna) {
+      const naslov = document.createElement("strong");
+      naslov.textContent = natpisSekcije(blok);
+      telo.append(naslov);
+    }
+    telo.append(omotUredjivog(urediSadrzaj, id, prikazHighlighta(blok, dijagrami), () => uredjivacSekcije(sirovi, blok, vezi)));
     okvir.append(znak, telo);
     return okvir;
   }

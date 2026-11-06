@@ -94,7 +94,9 @@ test("tabovi, traka i isečak zadržavaju natpise", () => {
   assert.match(main, /beleske\.poveziDugmeKoraka\(sacuvajKorak\)/);
   const beleske = fs.readFileSync(new URL("../site/js/beleske.js", import.meta.url), "utf8");
   assert.match(beleske, /slot\(ima \? "bookmark-filled" : "bookmark"\), el\("span", "", "Sačuvaj korak"\)/);
-  assert.match(main, /saIkonom\(kljucnaNaslov, "lightbulb", "Ključna ideja"\)/);
+  assert.match(main, /okvir\.className = kljucna \? "kljucna" : "highlight"/);
+  assert.match(main, /if \(!kljucna\) \{\s*const naslov = document\.createElement\("strong"\);/);
+  assert.equal(main.includes('saIkonom(kljucnaNaslov, "lightbulb", "Ključna ideja")'), false);
   assert.match(main, /saIkonom\(naslov, "folder", fajl\.ime\)/);
   assert.match(main, /natpisKopiranja\("Kopiraj"\)/);
   assert.match(main, /ikonica\("file-text"\)/);
