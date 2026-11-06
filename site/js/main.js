@@ -1599,14 +1599,10 @@ function nacrtajZaglavlje() {
   document.querySelector("#ustanova-red").textContent = dokument.ustanovaRed;
   document.querySelector("#grb").src = dokument.grb;
   document.querySelector("#oznaka").textContent = dokument.oznaka;
-  const znak = document.querySelector("#kurs-znak");
-  if (!znak) return;
-  const ime = dokument.ikona || "";
-  if (znak.dataset.ikona === ime && znak.querySelector(".ikona")) return;
-  znak.dataset.ikona = ime;
-  znak.replaceChildren();
-  const crtez = ime ? ikonica(ime) : null;
-  if (crtez) znak.append(crtez);
+  const slika = document.querySelector("#kurs-slika");
+  if (!slika) return;
+  const put = dokument.slika || "";
+  if (slika.getAttribute("src") !== put) slika.src = put;
 }
 
 function stavkaUvod(naslov, telo) {

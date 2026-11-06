@@ -306,7 +306,7 @@ function panelKursa() {
         const ime = spisak.querySelector(".stavka .ime-tekst");
         if (ime) ime.textContent = vrednost || "Bez naslova";
       }, { id: "naslov-polje" }),
-      polje("Ikona", kurs.ikona, (vrednost) => { kurs.ikona = vrednost; }),
+      polje("Slika", kurs.slika, (vrednost) => { kurs.slika = vrednost; }),
       polje("Oznaka", kurs.oznaka, (vrednost) => { kurs.oznaka = vrednost; }),
       polje("Ustanova", kurs.ustanova, (vrednost) => { kurs.ustanova = vrednost; }),
       polje("Red ustanove", kurs.ustanovaRed, (vrednost) => { kurs.ustanovaRed = vrednost; }),
