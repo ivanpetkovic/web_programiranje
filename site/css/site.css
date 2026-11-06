@@ -983,10 +983,11 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 .sekcija-lekcije:focus-within > .sekcija-jos-omot,
 .sekcija-jos-omot:has(.meni-pitanja:not([hidden])),
 .sekcija-rucice:has(.meni-pitanja:not([hidden])) { opacity: 1; }
+body.rezim-uredjivanja .sekcija-lekcije { padding-left: 1.8rem; }
 .sekcija-rucice {
   position: absolute;
-  left: -1.85rem;
-  top: 0.35rem;
+  left: 0.1rem;
+  top: 0.45rem;
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
@@ -998,8 +999,8 @@ body.nav-skriven .nav-preklop { justify-self: start; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.7rem;
+  height: 1.7rem;
   padding: 0;
   border: 1px solid transparent;
   border-radius: 6px;
@@ -1007,7 +1008,7 @@ body.nav-skriven .nav-preklop { justify-self: start; }
   color: var(--muted);
   cursor: pointer;
 }
-.sekcija-rucica { cursor: grab; }
+.sekcija-rucica { cursor: grab; touch-action: none; user-select: none; }
 .sekcija-rucica:active { cursor: grabbing; }
 .sekcija-rucica .ikona,
 .sekcija-plus .ikona,

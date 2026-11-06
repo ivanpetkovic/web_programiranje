@@ -1206,27 +1206,47 @@ function teloSekcije(sirovi, blok, dijagrami, prviTekst, vezi) {
   });
 }
 
-function veziPrevlacenje(omot, sirovi, lista, blok) {
-  omot.addEventListener("dragover", (dogadjaj) => {
-    if (!omot.dataset.vuce && !document.querySelector(".sekcija-prevlaci")) return;
+function veziPrevlacenje(rucica, omot, lista, blok) {
+  rucica.addEventListener("pointerdown", (dogadjaj) => {
+    if (dogadjaj.button !== 0) return;
     dogadjaj.preventDefault();
-    const okvir = omot.getBoundingClientRect();
-    const iznad = dogadjaj.clientY < okvir.top + okvir.height / 2;
-    omot.classList.toggle("sekcija-cilj-iznad", iznad);
-    omot.classList.toggle("sekcija-cilj-ispod", !iznad);
-  });
-  omot.addEventListener("dragleave", (dogadjaj) => {
-    if (omot.contains(dogadjaj.relatedTarget)) return;
-    omot.classList.remove("sekcija-cilj-iznad", "sekcija-cilj-ispod");
-  });
-  omot.addEventListener("drop", (dogadjaj) => {
-    dogadjaj.preventDefault();
-    const izvor = dogadjaj.dataTransfer.getData("text/plain");
-    const iznad = omot.classList.contains("sekcija-cilj-iznad");
-    omot.classList.remove("sekcija-cilj-iznad", "sekcija-cilj-ispod");
-    void izmeniTekuciKorak((sirova, korakIndeks) => (
-      spustiSekciju(sirova, lista, izvor, blok.id, iznad) < 0 ? -1 : korakIndeks
-    ));
+    try { rucica.setPointerCapture(dogadjaj.pointerId); } catch { /* pokazivač nije uhvaćen */ }
+    const pocetak = dogadjaj.clientY;
+    let pomeren = false;
+    const ocisti = () => {
+      document.querySelectorAll(".sekcija-lekcije").forEach((el) => {
+        el.classList.remove("sekcija-cilj-iznad", "sekcija-cilj-ispod", "sekcija-prevlaci");
+      });
+    };
+    const pomeri = (ev) => {
+      if (Math.abs(ev.clientY - pocetak) > 3) pomeren = true;
+      ocisti();
+      omot.classList.add("sekcija-prevlaci");
+      const cilj = [...document.querySelectorAll(".sekcija-lekcije")].find((el) => {
+        if (el === omot) return false;
+        const okvir = el.getBoundingClientRect();
+        return ev.clientY >= okvir.top && ev.clientY <= okvir.bottom;
+      });
+      if (!cilj) return;
+      const okvir = cilj.getBoundingClientRect();
+      cilj.classList.add(ev.clientY < okvir.top + okvir.height / 2 ? "sekcija-cilj-iznad" : "sekcija-cilj-ispod");
+    };
+    const pusti = () => {
+      document.removeEventListener("pointermove", pomeri);
+      document.removeEventListener("pointerup", pusti);
+      document.removeEventListener("pointercancel", pusti);
+      const oznaka = document.querySelector(".sekcija-cilj-iznad, .sekcija-cilj-ispod");
+      const iznad = Boolean(oznaka?.classList.contains("sekcija-cilj-iznad"));
+      const ciljId = oznaka?.dataset.id || "";
+      ocisti();
+      if (!pomeren || !ciljId) return;
+      void izmeniTekuciKorak((tema, korakIndeks) => (
+        spustiSekciju(tema.steps[korakIndeks], lista, blok.id, ciljId, iznad) < 0 ? -1 : korakIndeks
+      ));
+    };
+    document.addEventListener("pointermove", pomeri);
+    document.addEventListener("pointerup", pusti);
+    document.addEventListener("pointercancel", pusti);
   });
 }
 
@@ -1236,20 +1256,11 @@ function kontroleSekcije(sirovi, lista, blok, omot) {
   const rucica = document.createElement("button");
   rucica.type = "button";
   rucica.className = "sekcija-rucica";
-  rucica.draggable = true;
   rucica.setAttribute("aria-label", "Prevuci sekciju");
   rucica.title = "Prevuci sekciju";
   const grip = ikonica("grip-vertical");
   if (grip) rucica.append(grip);
-  rucica.addEventListener("dragstart", (dogadjaj) => {
-    dogadjaj.dataTransfer.setData("text/plain", blok.id);
-    dogadjaj.dataTransfer.effectAllowed = "move";
-    omot.classList.add("sekcija-prevlaci");
-    dogadjaj.dataTransfer.setDragImage(omot, 24, 16);
-  });
-  rucica.addEventListener("dragend", () => {
-    omot.classList.remove("sekcija-prevlaci", "sekcija-cilj-iznad", "sekcija-cilj-ispod");
-  });
+  veziPrevlacenje(rucica, omot, lista, blok);
   const plus = document.createElement("button");
   plus.type = "button";
   plus.className = "sekcija-plus";
@@ -1260,8 +1271,8 @@ function kontroleSekcije(sirovi, lista, blok, omot) {
   const znakPlus = ikonica("plus");
   if (znakPlus) plus.append(znakPlus);
   const ubaci = (vrsta) => {
-    void izmeniTekuciKorak((sirova, korakIndeks) => {
-      const id = ubaciSekciju(sirova, lista, blok.id, vrsta, "posle");
+    void izmeniTekuciKorak((tema, korakIndeks) => {
+      const id = ubaciSekciju(tema.steps[korakIndeks], lista, blok.id, vrsta, "posle");
       if (!id) return -1;
       urediSadrzaj.otvori(kljucPolja(cas, korakIndeks, `sekcija:${id}`));
       return korakIndeks;
@@ -1290,11 +1301,12 @@ function kontroleSekcije(sirovi, lista, blok, omot) {
     postavi([
       stavkaSaIkonom("chevron-left", natpis, prikaziKoren),
       ...VRSTE_SEKCIJE.map((vrsta) => stavkaSaIkonom(vrsta.ikona, vrsta.natpis, () => {
-        void izmeniTekuciKorak((sirova, korakIndeks) => {
+        void izmeniTekuciKorak((tema, korakIndeks) => {
+          const korak = tema.steps[korakIndeks];
           if (gde === "tip") {
-            return promeniVrstuSekcije(sirova, lista, blok.id, vrsta) < 0 ? -1 : korakIndeks;
+            return promeniVrstuSekcije(korak, lista, blok.id, vrsta) < 0 ? -1 : korakIndeks;
           }
-          const id = ubaciSekciju(sirova, lista, blok.id, vrsta, gde);
+          const id = ubaciSekciju(korak, lista, blok.id, vrsta, gde);
           if (!id) return -1;
           urediSadrzaj.otvori(kljucPolja(cas, korakIndeks, `sekcija:${id}`));
           return korakIndeks;
@@ -1308,10 +1320,11 @@ function kontroleSekcije(sirovi, lista, blok, omot) {
       stavkaSaIkonom("list-plus", "Ubaci ispred", () => prikaziVrste("Ubaci ispred", "pre")),
       stavkaSaIkonom("list-plus", "Ubaci iza", () => prikaziVrste("Ubaci iza", "posle")),
       stavkaSaIkonom("trash", "Obriši", () => {
-        void izmeniTekuciKorak((sirova, korakIndeks) => {
-          materijalizuj(sirova, lista);
+        void izmeniTekuciKorak((tema, korakIndeks) => {
+          const korak = tema.steps[korakIndeks];
+          materijalizuj(korak, lista);
           urediSadrzaj.zatvori(kljucPolja(cas, korakIndeks, `sekcija:${blok.id}`));
-          return obrisiSekciju(sirova, blok.id) < 0 ? -1 : korakIndeks;
+          return obrisiSekciju(korak, blok.id) < 0 ? -1 : korakIndeks;
         });
       }, "opasno"),
     ]);
@@ -1336,10 +1349,10 @@ function nacrtajSekcije(sirovi, lista, dijagrami) {
     const omot = document.createElement("div");
     omot.className = "sekcija-lekcije";
     omot.dataset.vrsta = blok.vrsta;
+    omot.dataset.id = blok.id;
     if (urediSadrzaj.aktivan && sirovi) {
       const [rucice, jos] = kontroleSekcije(sirovi, lista, blok, omot);
       omot.append(rucice, jos);
-      veziPrevlacenje(omot, sirovi, lista, blok);
     }
     omot.append(teloSekcije(sirovi, blok, dijagrami, prviTekst && blok.vrsta === "tekst", vezi));
     if (blok.vrsta === "tekst") prviTekst = false;
@@ -1355,8 +1368,8 @@ function meniDodajSekciju(lista) {
   dugme.setAttribute("aria-expanded", "false");
   saIkonom(dugme, "plus", "Dodaj sekciju");
   const omot = meniVrsta(dugme, (vrsta) => {
-    void izmeniTekuciKorak((sirova, korakIndeks) => {
-      const id = ubaciSekciju(sirova, lista, null, vrsta, "kraj");
+    void izmeniTekuciKorak((tema, korakIndeks) => {
+      const id = ubaciSekciju(tema.steps[korakIndeks], lista, null, vrsta, "kraj");
       if (!id) return -1;
       urediSadrzaj.otvori(kljucPolja(cas, korakIndeks, `sekcija:${id}`));
       return korakIndeks;
