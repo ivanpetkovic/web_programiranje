@@ -1262,7 +1262,7 @@ function kontroleSekcije(sirovi, lista, blok, omot) {
       return korakIndeks;
     });
   };
-  rucice.append(rucica, meniVrsta(plus, ubaci));
+  rucice.append(meniVrsta(plus, ubaci), rucica);
   const jos = document.createElement("button");
   jos.type = "button";
   jos.className = "sekcija-jos";
