@@ -11,6 +11,7 @@
     "ustanovaRed": { "type": "string" },
     "ustanovaBok": { "type": "string" },
     "naslov": { "type": "string" },
+    "ikona": { "type": "string" },
     "oznaka": { "type": "string" },
     "grb": { "type": "string" },
     "trajanjeTema": { "type": "number" },

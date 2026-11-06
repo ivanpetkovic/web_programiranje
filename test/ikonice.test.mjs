@@ -48,7 +48,7 @@ test("natpis pretrage ostaje u polju i ne preklapa grb", () => {
 
 test("zaglavlje u jednom redu nosi ikonice i nema klizač tema", () => {
   const zaglavlje = html.slice(html.indexOf('<header class="top">'), html.indexOf("</header>"));
-  const redosled = ['class="ustanova"', 'class="top-razdelnik"', 'data-ikona="monitor-code"', 'id="search-form"', 'id="pomoc"', 'id="beleske-dugme"', 'id="opcije-dugme"', 'id="oznaka"'];
+  const redosled = ['class="ustanova"', 'class="top-razdelnik"', 'id="kurs-znak"', 'id="search-form"', 'id="pomoc"', 'id="beleske-dugme"', 'id="opcije-dugme"', 'id="oznaka"'];
   const mesta = redosled.map((deo) => zaglavlje.indexOf(deo));
   assert.ok(mesta.every((m, i) => m > 0 && (i === 0 || m > mesta[i - 1])), JSON.stringify(mesta));
   assert.match(zaglavlje, /id="pomoc"[^>]*data-ikona="help-circle"/);
@@ -71,8 +71,10 @@ test("zaglavlje, spisak i kartica nose ikonice", () => {
   }
   assert.match(html, /id="oznaka"/);
   assert.match(html, /id="grb"/);
+  assert.match(html, /id="kurs-znak"/);
   assert.match(main, /dokument\.oznaka/);
   assert.match(main, /dokument\.grb/);
+  assert.match(main, /dokument\.ikona/);
   assert.match(main, /temaZavrsena\(item\) \? "check-circle" : "circle"/);
   assert.match(main, /otvoren \? "chevron-up" : "chevron-down"/);
   assert.equal(main.includes('kvaka.textContent'), false);
