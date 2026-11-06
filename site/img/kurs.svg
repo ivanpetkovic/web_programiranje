@@ -1,10 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#9f6622" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round">
-  <circle cx="12" cy="5.55" r="4.35"/>
-  <path d="M7.65 5.55h8.7M12 1.2v8.7"/>
-  <path d="M12 1.2c-1.5 1.2-2.35 2.75-2.35 4.35s.85 3.15 2.35 4.35c1.5-1.2 2.35-2.75 2.35-4.35S13.5 2.4 12 1.2"/>
-  <rect x="6.35" y="11.45" width="11.3" height="6.55" rx="0.7"/>
-  <path d="M9.85 13.2 8.4 14.75 9.85 16.3"/>
-  <path d="M12.95 13.05 11.15 16.45"/>
-  <path d="M14.15 13.2 15.6 14.75 14.15 16.3"/>
-  <path d="M6.35 18 3.15 22.2h17.7L17.65 18"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-labelledby="title desc">
+  <title id="title">Web Programming</title>
+  <desc id="desc">Minimal white outline of a globe behind a laptop displaying code brackets.</desc>
+  <rect width="400" height="400" fill="#000"/>
+  <g fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Global network -->
+    <path d="M67 245 A139 139 0 1 1 333 245"/>
+    <path d="M200 62 V169"/>
+    <path d="M200 62 C148 92 121 130 117 169"/>
+    <path d="M200 62 C252 92 279 130 283 169"/>
+    <path d="M102 109 Q200 143 298 109"/>
+    <!-- Laptop screen and keyboard base -->
+    <path d="M103 191 H297 Q310 191 310 204 V323 H90 V204 Q90 191 103 191 Z"/>
+    <path d="M90 323 L58 343 Q49 348 56 355 Q59 359 68 359 H332 Q341 359 344 355 Q351 348 342 343 L310 323"/>
+    <!-- Code glyph -->
+    <path d="M167 240 L140 260 L167 280"/>
+    <path d="M233 240 L260 260 L233 280"/>
+    <path d="M213 225 L186 294"/>
+  </g>
 </svg>
