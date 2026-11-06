@@ -257,7 +257,6 @@ test("red koraka koristi ćilibar, a beleške ostaju prigušene", () => {
   assert.match(main, /Korak \$\{i \+ 1\} od \$\{item\.steps\.length\}/);
   assert.match(css, /\.korak\s*\{\s*color:\s*var\(--korak\);\s*\}/);
   assert.match(css, /\.brand\s*\{\s*color:\s*var\(--amber\)/);
-  assert.match(css, /#kartica-popuna\s*\{[^}]*background:\s*var\(--amber\)/);
   assert.equal(css.includes(".koraci-kontrole"), false);
   assert.equal(css.includes(".birac-traka"), false);
   const mesto = blok(css, "#birac-mesto\\s*\\{");
@@ -299,13 +298,13 @@ test("red koraka koristi ćilibar, a beleške ostaju prigušene", () => {
   assert.match(css, /\.meta,\s*\.starost,\s*\.log\s*\{\s*color:\s*var\(--muted\);\s*\}/);
 });
 
-test("uvod krije karticu napretka i puni širinu", () => {
-  assert.match(html, /id="kartica"/);
-  assert.match(main, /saIkonom\(document\.querySelector\("#kartica-natpis"\), "calendar-days", "Uvod"\)/);
+test("uvod puni širinu bez kartice napretka", () => {
+  assert.equal(html.includes('id="kartica"'), false);
+  assert.equal(main.includes("#kartica-natpis"), false);
+  assert.match(css, /\.okvir\s*\{[^}]*grid-template-columns:\s*17rem minmax\(0,\s*1fr\);/);
+  assert.match(css, /body\.nav-skriven \.okvir\s*\{[^}]*grid-template-columns:\s*auto minmax\(0,\s*1fr\)/);
   assert.match(css, /body\.uvod-otvoren \.okvir\s*\{[^}]*grid-template-columns:\s*17rem minmax\(0,\s*1fr\)/);
   assert.match(css, /body\.uvod-otvoren\.nav-skriven \.okvir\s*\{[^}]*grid-template-columns:\s*auto minmax\(0,\s*1fr\)/);
-  assert.match(css, /body\.uvod-otvoren #kartica\s*\{[^}]*display:\s*none/);
-  assert.match(css, /body\.uvod-otvoren \.okvir > #kartica\s*\{[^}]*display:\s*grid/);
   const uvod = blok(css, "\\.uvod\\s*\\{");
   assert.equal(uvod.includes("max-width"), false);
 });
