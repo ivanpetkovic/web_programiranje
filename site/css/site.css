@@ -1231,15 +1231,19 @@ body.rezim-uredjivanja .sekcija-lekcije .isecak header { padding-right: 2.6rem; 
   border-left: 1px solid var(--line);
 }
 .birac-navigacija > button:last-child { border-radius: 14px; }
-.birac-nazad,
-.birac-dalje {
+.birac-navigacija .birac-nazad,
+.birac-navigacija .birac-dalje {
   width: 2.55rem;
   height: 2.55rem;
   border-radius: 14px;
   display: grid;
   place-items: center;
+  justify-content: center;
   padding: 0;
+  line-height: 0;
 }
+.birac-navigacija .birac-nazad .ikona { transform: translateX(calc(100% * 0.5 / 24)); }
+.birac-navigacija .birac-dalje .ikona { transform: translateX(calc(100% * -0.5 / 24)); }
 .birac-nazad:disabled { opacity: 0.4; cursor: default; }
 .birac-navigacija .ikona { width: 1.15rem; height: 1.15rem; }
 .birac-dalje:hover:not(:disabled),
