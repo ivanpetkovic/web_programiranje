@@ -248,12 +248,31 @@ button[aria-pressed="true"] { border-color: var(--amber); color: var(--amber); }
   border-radius: 16px;
   padding: 1rem 1.1rem;
 }
-.lekcija-tekst h3 {
-  margin: 0.15rem 0 0.55rem;
-  font-size: 1.15rem;
+.lekcija-tekst :is(h2, h3, h4),
+.prica-koraka :is(h2, h3, h4),
+.odgovor-tekst :is(h2, h3, h4),
+.kljucna :is(h2, h3, h4) {
+  margin: 0.9rem 0 0.45rem;
   font-weight: 650;
   letter-spacing: -0.02em;
+  line-height: 1.3;
 }
+.lekcija-tekst :is(h2, h3, h4):first-child,
+.prica-koraka :is(h2, h3, h4):first-child,
+.odgovor-tekst :is(h2, h3, h4):first-child,
+.kljucna :is(h2, h3, h4):first-child { margin-top: 0.15rem; }
+.lekcija-tekst h2,
+.prica-koraka h2,
+.odgovor-tekst h2,
+.kljucna h2 { font-size: 1.28rem; }
+.lekcija-tekst h3,
+.prica-koraka h3,
+.odgovor-tekst h3,
+.kljucna h3 { font-size: 1.15rem; }
+.lekcija-tekst h4,
+.prica-koraka h4,
+.odgovor-tekst h4,
+.kljucna h4 { font-size: 1.05rem; }
 .lekcija-tekst ul, .lekcija-tekst ol, .odgovor-tekst ul, .odgovor-tekst ol { margin: 0.2rem 0 0.85rem; padding-left: 1.25rem; }
 .lekcija-tekst li + li, .odgovor-tekst li + li { margin-top: 0.35rem; }
 .proza-tabela { width: 100%; border-collapse: collapse; margin: 0.75rem 0 1rem; font-size: 0.95rem; }

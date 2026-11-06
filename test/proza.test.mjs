@@ -50,6 +50,40 @@ test("nezatvoren naglasak ostaje tekst", () => {
   assert.deepEqual(deloviReda("**samo"), [{ tekst: "**samo" }]);
 });
 
+test("naslov u istom bloku sa rečenicom nije običan tekst", () => {
+  const tekst = [
+    "### Hipertekst",
+    "Buš opisuje **Memex**.",
+    "",
+    "Uvod.",
+    "## Sredina",
+    "Kraj.",
+    "",
+    "- jedna",
+    "#### Posle spiska",
+    "",
+    "#v { color: red; }",
+  ].join("\n");
+  const blokovi = blokoviProze(tekst);
+  assert.equal(blokovi[0].vrsta, "naslov");
+  assert.equal(blokovi[0].nivo, 3);
+  assert.equal(blokovi[0].delovi[0].tekst, "Hipertekst");
+  assert.equal(blokovi[1].vrsta, "pasus");
+  assert.equal(blokovi[1].delovi[1].tekst, "Memex");
+  assert.equal(blokovi[1].delovi[1].jako, true);
+  assert.equal(blokovi[2].vrsta, "pasus");
+  assert.equal(blokovi[2].delovi[0].tekst, "Uvod.");
+  assert.equal(blokovi[3].vrsta, "naslov");
+  assert.equal(blokovi[3].nivo, 2);
+  assert.equal(blokovi[4].vrsta, "pasus");
+  assert.equal(blokovi[4].delovi[0].tekst, "Kraj.");
+  assert.equal(blokovi[5].vrsta, "lista");
+  assert.equal(blokovi[6].vrsta, "naslov");
+  assert.equal(blokovi[6].nivo, 4);
+  assert.equal(blokovi[7].vrsta, "pasus");
+  assert.equal(blokovi[7].delovi[0].tekst, "#v { color: red; }");
+});
+
 test("numerisani spisak i tabela ostaju posebni blokovi", () => {
   const tekst = [
     "1. URL određuje resurs.",
