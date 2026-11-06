@@ -377,8 +377,7 @@ h1, h2 { font-weight: 650; letter-spacing: -0.02em; }
 .cm-editor { width: 100%; max-width: 100%; min-height: 18rem; height: 100%; }
 .cm-scroller { overflow: auto; width: 100%; max-width: 100%; }
 body.editor-pun .okvir { grid-template-columns: 17rem minmax(0, 1fr); }
-body.editor-pun #kartica { display: none; }
-body.nav-skriven .okvir { grid-template-columns: auto minmax(0, 1fr) 16rem; }
+body.nav-skriven .okvir { grid-template-columns: auto minmax(0, 1fr); }
 body.editor-pun.nav-skriven .okvir { grid-template-columns: auto minmax(0, 1fr); }
 body.nav-skriven #nav { display: none; }
 body.editor-pun .stranica, body.editor-pun .podela, body.editor-pun .files { width: 100%; max-width: none; min-width: 0; }
@@ -414,12 +413,9 @@ pre {
 }
 body.uvod-otvoren .cas-tabovi,
 body.uvod-otvoren #birac-mesto,
-body.uvod-otvoren .procenat-red,
-body.uvod-otvoren .procenat-traka,
 body.uvod-otvoren .mobil-korak-lizac { display: none; }
 body.uvod-otvoren .okvir { grid-template-columns: 17rem minmax(0, 1fr); }
 body.uvod-otvoren.nav-skriven .okvir { grid-template-columns: auto minmax(0, 1fr); }
-body.uvod-otvoren #kartica { display: none; }
 .uvod-red {
   display: flex;
   align-items: center;
@@ -507,9 +503,6 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
   #cas.mobil-korak-napred,
   #cas.mobil-korak-unazad {
     animation: none;
-  }
-  .okvir > #kartica {
-    transition: none;
   }
   .mobil-tema-ivica {
     animation: none;
@@ -863,7 +856,6 @@ button.sve-beleske-korak:hover { color: var(--amber); }
 }
 .option { display: flex; align-items: center; gap: 0.45rem; width: 100%; }
 .isecak header span { display: inline-flex; align-items: center; gap: 0.35rem; }
-.kartica p { display: flex; align-items: center; gap: 0.4rem; }
 .trazi kbd {
   position: absolute;
   right: 0.55rem;
@@ -903,7 +895,7 @@ button.sve-beleske-korak:hover { color: var(--amber); }
 }
 .okvir {
   display: grid;
-  grid-template-columns: 17rem minmax(0, 1fr) 16rem;
+  grid-template-columns: 17rem minmax(0, 1fr);
   gap: 1rem;
   padding: 1rem 1.1rem 2rem;
   align-items: start;
@@ -945,16 +937,6 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 .tema-red[aria-current="page"], .korak-red[aria-current="page"] { background: var(--amber-dim); }
 .tema-koraci { list-style: none; margin: 0.15rem 0 0.4rem; padding: 0 0 0 0.4rem; }
 .kvacica { color: var(--amber); margin-right: 0.35rem; }
-.kartica {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 0.9rem 1rem;
-  display: grid;
-  gap: 0.45rem;
-}
-.procenat-traka { height: 0.45rem; background: var(--line); border-radius: 999px; overflow: hidden; }
-#kartica-popuna { display: block; height: 100%; background: var(--amber); width: 0; }
 .korak-traka { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
 .kljucna {
   background: var(--amber-dim);
@@ -1579,8 +1561,6 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
 
 .mobil-footer,
 .mobil-zavesa,
-.mobil-kartica-zavesa,
-.mobil-kartica-hvat,
 .mobil-nav-traka,
 .mobil-nav-red,
 .mobil-nav-prekidac,
@@ -1608,48 +1588,6 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     padding: 0 0.75rem calc(4.85rem + env(safe-area-inset-bottom, 0px));
   }
   .okvir > .stranica { order: 1; min-width: 0; }
-  body.uvod-otvoren .okvir > #kartica { display: grid; }
-  .okvir > #kartica {
-    order: 0;
-    position: fixed;
-    z-index: 11;
-    left: 0.65rem;
-    right: 0.65rem;
-    bottom: calc(4.1rem + env(safe-area-inset-bottom, 0px));
-    max-height: min(68vh, 26rem);
-    overflow: auto;
-    margin: 0;
-    border-radius: 18px;
-    box-shadow: 0 18px 48px color-mix(in srgb, var(--ink) 22%, transparent);
-    transform: translateY(calc(100% + 5rem));
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.22s ease;
-  }
-  body.mobil-kartica-otvoren #kartica {
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: auto;
-  }
-  body.mobil-kartica-otvoren #mobil-kartica-zavesa {
-    display: block;
-    position: fixed;
-    inset: 0;
-    z-index: 10;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    background: color-mix(in srgb, var(--bg) 40%, #000);
-    cursor: pointer;
-  }
-  .mobil-kartica-hvat {
-    display: block;
-    width: 2.6rem;
-    height: 0.28rem;
-    margin: 0 auto 0.55rem;
-    border-radius: 999px;
-    background: var(--line);
-  }
   .mobil-footer {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -2329,8 +2267,6 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   .traka-casa .cas-tabovi button { height: 46px; padding: 0 16px; border-radius: 12px; font-size: 14px; font-weight: 600; }
   .mobil-footer,
   .mobil-zavesa,
-  .mobil-kartica-zavesa,
-  .mobil-kartica-hvat,
   .mobil-nav-traka,
   .mobil-nav-red,
   .mobil-nav-prekidac,

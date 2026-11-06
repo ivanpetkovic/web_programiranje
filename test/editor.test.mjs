@@ -140,7 +140,7 @@ test("verzija koraka pobeđuje poslednji fajl sa diska", () => {
   assert.equal(main.includes("polazniTekst"), false);
   assert.match(main, /editor-pun/);
   assert.match(css, /body\.editor-pun \.okvir\s*\{[^}]*grid-template-columns:\s*17rem minmax\(0,\s*1fr\)/);
-  assert.match(css, /body\.editor-pun #kartica\s*\{[^}]*display:\s*none/);
+  assert.equal(html.includes('id="kartica"'), false);
   assert.equal(/body\.editor-pun #nav/.test(css), false);
 });
 

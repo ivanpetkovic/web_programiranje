@@ -81,7 +81,7 @@ function raspored() {
   };
 }
 
-test("desktop 1440: tri kolone, bez footera", { timeout: 30000 }, async (t) => {
+test("desktop 1440: dve kolone, bez footera", { timeout: 30000 }, async (t) => {
   const portSajta = await slobodanPort();
   const portChrome = await slobodanPort();
   const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
@@ -96,7 +96,7 @@ test("desktop 1440: tri kolone, bez footera", { timeout: 30000 }, async (t) => {
   await strana.idi(`http://127.0.0.1:${portSajta}/#cas-1`);
   await pauza(150);
   const desktop = await strana.vrednost(`(${raspored.toString()})()`);
-  assert.equal(desktop.kolone.split(/\s+/).filter(Boolean).length, 3);
+  assert.equal(desktop.kolone.split(/\s+/).filter(Boolean).length, 2);
   assert.equal(desktop.footerVidljiv, false);
 });
 
