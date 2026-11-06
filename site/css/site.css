@@ -519,7 +519,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 .top { flex-wrap: wrap; }
 .top-razdelnik { flex: none; width: 1px; height: 40px; background: var(--line); }
 #naslov-kursa { display: flex; align-items: center; gap: 12px; }
-.kurs-znak { display: grid; color: var(--amber); }
+.kurs-slika { display: block; width: 32px; height: 32px; object-fit: contain; }
 .traka-meni { position: relative; }
 .traka-natpis { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .traka-lista {
@@ -2032,7 +2032,7 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   }
   .trazi { display: none; }
   .top-razdelnik,
-  .kurs-znak,
+  .kurs-slika,
   .traka-casa,
   .top > .beleske-dugme,
   .top > .opcije-dugme,
@@ -2159,7 +2159,7 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   .top .ustanova small { font-size: 16px; line-height: 20px; }
   .top-razdelnik { margin: 0 22px; }
   .top #naslov-kursa { flex: none; margin: 0; font-size: 28px; line-height: 34px; white-space: nowrap; }
-  .top .kurs-znak .ikona { width: 40px; height: 40px; stroke-width: 1.5; }
+  .top .kurs-slika { width: 40px; height: 40px; }
   .top .trazi { flex: 1 1 auto; min-width: 160px; max-width: 360px; margin-left: auto; font-size: 15px; }
   .top .trazi #q { height: 42px; padding: 0 48px 0 38px; border-radius: 12px; font-size: 15px; }
   .top .trazi .ikona-slot { left: 12px; }

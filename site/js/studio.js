@@ -42,7 +42,7 @@ export function prazanKurs() {
     ustanovaRed: "",
     ustanovaBok: "",
     naslov: "Novi kurs",
-    ikona: "",
+    slika: "",
     oznaka: "",
     grb: "",
     trajanjeTema: 0,
