@@ -42,7 +42,7 @@ import { pomeriTemu, ucitajKurs } from "./model.js";
 import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./recnik.js";
 import { PORUKA, modulPoZahtevu, porukaKonzole, sklopiDokument, trajanjeLopatica, ubaciMostKonzole } from "./pregled.js";
 import { procitajRadne, serverTabVidljiv, upisiRadnu } from "./radna.js";
-import { adresaPregleda, izborFajla, popunaKoraka, prikaziIzlaz } from "./birac.js";
+import { adresaPregleda, izborFajla, popunaKoraka, prikaziIzlaz, rasporedBiraca } from "./birac.js";
 import { nacrtajFiguru } from "./crtez.js";
 import { prikazKoraka } from "./figura.js";
 import { blokoviTeksta, imaMermaid, nacrtajMermaid, osveziMermaid } from "./mermaid.js";
@@ -96,6 +96,7 @@ const koraciPanel = document.querySelector("#sekcija-koraci");
 const casEl = document.querySelector("#cas");
 const biracMesto = document.querySelector("#birac-mesto");
 const naslovCasa = document.querySelector("#naslov-casa");
+let posmatracBiraca = null;
 const diskusijaMesto = document.querySelector("#sekcija-diskusija");
 const podela = document.querySelector("#podela");
 const traka = document.querySelector("#traka");
@@ -1802,12 +1803,39 @@ function dugmeSkoka(korak, indeks, smer) {
   return dugme;
 }
 
+function vratiNaslovCasa() {
+  const glava = document.querySelector(".cas-glava");
+  const izbor = document.querySelector(".izbor-red");
+  if (!glava || !naslovCasa || naslovCasa.parentElement === glava) return;
+  glava.insertBefore(naslovCasa, izbor);
+}
+
+function ocistiBirac() {
+  posmatracBiraca?.disconnect();
+  posmatracBiraca = null;
+  vratiNaslovCasa();
+  biracMesto.replaceChildren();
+}
+
+function postaviRasporedBiraca(birac) {
+  const traka = birac.querySelector(".birac-kontrola");
+  posmatracBiraca?.disconnect();
+  posmatracBiraca = null;
+  if (!traka) return;
+  const primeni = () => {
+    const sirina = traka.getBoundingClientRect().width;
+    if (sirina < 1) return;
+    traka.dataset.raspored = rasporedBiraca(sirina);
+  };
+  posmatracBiraca = new ResizeObserver(primeni);
+  posmatracBiraca.observe(traka);
+  primeni();
+}
+
 function nacrtajBirac(item, i) {
   const korak = item.steps[i];
   const birac = document.createElement("div");
   birac.className = "birac";
-  const red = document.createElement("div");
-  red.className = "birac-red";
   const prethodni = document.createElement("button");
   prethodni.type = "button";
   prethodni.className = "birac-nazad";
@@ -1820,14 +1848,15 @@ function nacrtajBirac(item, i) {
     sakrijPanelSelekcije();
     renderLecture();
   });
-  const sredina = document.createElement("div");
+  const identitet = document.createElement("div");
+  identitet.className = "birac-identitet";
   const broj = document.createElement("p");
   broj.className = "korak";
   broj.textContent = `Korak ${i + 1} od ${item.steps.length}`;
   const naslovBiraca = document.createElement("p");
   naslovBiraca.className = "birac-naslov";
   naslovBiraca.textContent = korak.naslov;
-  sredina.append(broj, naslovBiraca);
+  identitet.append(broj, naslovBiraca);
   const akcije = document.createElement("div");
   akcije.className = "birac-akcije";
   const sviKoraci = document.createElement("button");
@@ -1882,7 +1911,8 @@ function nacrtajBirac(item, i) {
   const daljeKorak = document.createElement("button");
   daljeKorak.type = "button";
   daljeKorak.className = "sledeci-korak";
-  daljeKorak.append(document.createTextNode("Sledeći"));
+  daljeKorak.classList.add("birac-dalje");
+  daljeKorak.setAttribute("aria-label", "Sledeći korak");
   const desno = ikonica("chevron-right");
   if (desno) daljeKorak.append(desno);
   daljeKorak.disabled = i === item.steps.length - 1;
@@ -1891,8 +1921,10 @@ function nacrtajBirac(item, i) {
     sakrijPanelSelekcije();
     renderLecture();
   });
-  akcije.append(sviKoraci, meni, daljeKorak);
-  red.append(prethodni, sredina, akcije);
+  akcije.append(sviKoraci, meni);
+  const navigacija = document.createElement("div");
+  navigacija.className = "birac-navigacija";
+  navigacija.append(prethodni, daljeKorak);
   const krugovi = document.createElement("div");
   krugovi.className = "birac-krugovi";
   krugovi.setAttribute("role", "group");
@@ -1913,7 +1945,20 @@ function nacrtajBirac(item, i) {
     domacin.append(krug);
     krugovi.append(domacin);
   });
-  birac.append(red, krugovi);
+  const kruznici = document.createElement("div");
+  kruznici.className = "birac-kruznici";
+  kruznici.append(krugovi);
+  const sredina = document.createElement("div");
+  sredina.className = "birac-sredina";
+  sredina.append(kruznici, akcije);
+  const traka = document.createElement("div");
+  traka.className = "birac-kontrola";
+  traka.append(identitet, sredina, navigacija);
+  const temaOznaka = document.createElement("p");
+  temaOznaka.className = "birac-tema";
+  temaOznaka.textContent = `Tema ${item.n}`;
+  naslovCasa.textContent = item.title;
+  birac.append(temaOznaka, naslovCasa, traka);
   return birac;
 }
 
@@ -1960,7 +2005,7 @@ function nacrtajUvod() {
   const glavaKor = document.querySelector("#mobil-kor-glava");
   if (glavaKor) glavaKor.textContent = "";
   document.querySelector("#definicija").hidden = true;
-  biracMesto.replaceChildren();
+  ocistiBirac();
   casEl.replaceChildren();
   const omot = document.createElement("article");
   omot.className = "uvod";
@@ -2040,7 +2085,7 @@ function renderLecture() {
     greska.hidden = false;
     greska.textContent = provera.greska;
     nav.replaceChildren();
-    biracMesto.replaceChildren();
+    ocistiBirac();
     return;
   }
   greska.hidden = true;
@@ -2059,7 +2104,7 @@ function renderLecture() {
   nacrtajZaglavlje();
   trakaCasa.osvezi({ uvod: false, teme: lectures, cas, i, koraci: item.steps });
   popuniStalneIkonice();
-  naslovCasa.textContent = `Tema ${item.n} — ${item.title}`;
+  naslovCasa.textContent = item.title;
   osveziMobilTemu(item);
   osveziMobilNavTraka(item, i);
   const profilOznaka = document.querySelector("#mobil-profil-oznaka");
@@ -2149,6 +2194,7 @@ function renderLecture() {
     vec.textContent = ranije && !isecak ? `Već u fajlu:\n${ranije}` : "";
   }
   biracMesto.replaceChildren(birac);
+  postaviRasporedBiraca(birac);
   const lista = blokoviKoraka(sirovi || korak, { prazne: urediSadrzaj.aktivan, figura: Boolean(figura) });
   const sekcije = nacrtajSekcije(sirovi, lista, dijagrami);
   casEl.append(metaKoraka, naslovKoraka, ...sekcije);

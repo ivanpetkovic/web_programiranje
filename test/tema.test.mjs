@@ -156,7 +156,7 @@ test("gradivo, jedna kolona i birač", () => {
   assert.match(main, /querySelector\("#birac-mesto"\)/);
   assert.match(main, /biracMesto\.replaceChildren\(birac\)/);
   assert.equal(main.includes("casEl.append(birac"), false);
-  assert.match(main, /casEl\.append\(metaKoraka, naslovKoraka, lekcijaBlok, kljucna\)/);
+  assert.match(main, /casEl\.append\(metaKoraka, naslovKoraka, \.\.\.sekcije\)/);
   assert.match(css, /\.opcije-mreza\s*\{\s*display:\s*grid;\s*grid-template-columns:\s*1fr;\s*gap:\s*0\.55rem;\s*\}/);
   assert.equal(/@media\s*\(\s*min-width:\s*861px\s*\)\s*\{[^}]*\.opcije-mreza\s*\{\s*grid-template-columns:\s*1fr\s+1fr/.test(css), false);
   assert.equal(main.includes('className = "hod-koraka"'), false);
@@ -180,6 +180,16 @@ test("gradivo, jedna kolona i birač", () => {
   assert.match(main, /saIkonom\(sviKoraci, "menu", "Svi koraci"\)/);
   assert.match(main, /ikonica\("chevron-left"\)/);
   assert.match(main, /ikonica\("chevron-right"\)/);
+  const teloBiraca = main.slice(main.indexOf("function nacrtajBirac"), main.indexOf("function nacrtajZaglavlje"));
+  assert.equal(teloBiraca.includes('createTextNode("Sledeći")'), false);
+  assert.match(teloBiraca, /setAttribute\("aria-label", "Sledeći korak"\)/);
+  assert.match(teloBiraca, /className = "birac-navigacija"/);
+  assert.match(teloBiraca, /navigacija\.append\(prethodni, daljeKorak\)/);
+  assert.match(teloBiraca, /temaOznaka\.textContent = `Tema \$\{item\.n\}`/);
+  assert.match(teloBiraca, /naslovCasa\.textContent = item\.title/);
+  assert.match(css, /\.birac-kontrola\[data-raspored="srednje"\] \.birac-identitet,\s*\n\.birac-kontrola\[data-raspored="usko"\] \.birac-identitet,\s*\n\.birac-kontrola\[data-raspored="tesno"\] \.birac-identitet\s*\{[^}]*flex-direction:\s*column/);
+  assert.match(css, /\.birac-kontrola\[data-raspored="usko"\] \.birac-sredina\s*\{[^}]*flex-direction:\s*column/);
+  assert.match(css, /\.birac-kontrola\[data-raspored="tesno"\]\s*\{[^}]*"ident nav"\s*"sredina sredina"/);
   assert.equal(main.includes("Sledeći korak časa"), false);
   assert.equal(main.includes("function strelica"), false);
   assert.equal(html.includes('id="sledeci" class="hod-koraka"'), false);
@@ -263,8 +273,9 @@ test("red koraka koristi ćilibar, a beleške ostaju prigušene", () => {
   assert.match(mesto, /justify-self:\s*start/);
   assert.match(mesto, /max-width:\s*100%/);
   const birac = blok(css, "\\.birac\\s*\\{");
-  assert.match(birac, /width:\s*max-content/);
+  assert.match(birac, /width:\s*100%/);
   assert.match(birac, /max-width:\s*100%/);
+  assert.equal(birac.includes("max-content"), false);
   assert.equal(birac.includes("overflow:"), false);
   assert.equal(/\.birac-red > div:nth-child\(2\)\s*\{[^}]*flex:\s*1/.test(css), false);
   const naslov = blok(css, "\\.birac-naslov\\s*\\{");
