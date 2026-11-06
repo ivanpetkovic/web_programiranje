@@ -1,4 +1,4 @@
-# Veb programiranje
+# Web programiranje
 
 Interaktivni kurs predavanja na Elektronskom fakultetu Univerziteta u Nišu. Autor je **Ivan Petković**.
 

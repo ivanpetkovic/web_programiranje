@@ -38,7 +38,7 @@ test("adapter čita dokument i ne drži naslove", () => {
   const izvor = fs.readFileSync(new URL("../site/js/lectures.js", import.meta.url), "utf8");
   assert.equal(izvor.includes("Šta browser prikazuje"), false);
   assert.equal(izvor.includes("JavaScript opisuje stanje"), false);
-  assert.equal(dokument.naslov, "Veb programiranje");
+  assert.equal(dokument.naslov, "Web programiranje");
   assert.equal(dokument.trajanjeTema, 11);
   assert.equal(lectures.length, 11);
   assert.equal(lectures[0].title, "Zašto Web postoji: zahtevi i protokoli");

@@ -102,12 +102,12 @@ test("Opcije: paleta, font, režim, Save, Load, Obriši i bedž", { timeout: 900
   await strana.posalji("Page.setDownloadBehavior", { behavior: "allow", downloadPath: fascikla });
   await v(`document.querySelector("#opcije-panel .dugme-stanja").nextElementSibling.click()`);
   let fajlovi = [];
-  for (let i = 0; i < 40 && !fajlovi.includes("veb-programiranje-stanje.json"); i++) {
+  for (let i = 0; i < 40 && !fajlovi.includes("web-programiranje-stanje.json"); i++) {
     await pauza(50);
     fajlovi = readdirSync(fascikla);
   }
-  assert.ok(fajlovi.includes("veb-programiranje-stanje.json"), fajlovi.join(","));
-  const preuzeto = JSON.parse(readFileSync(path.join(fascikla, "veb-programiranje-stanje.json"), "utf8"));
+  assert.ok(fajlovi.includes("web-programiranje-stanje.json"), fajlovi.join(","));
+  const preuzeto = JSON.parse(readFileSync(path.join(fascikla, "web-programiranje-stanje.json"), "utf8"));
   assert.deepEqual(preuzeto, JSON.parse(await v(`localStorage.getItem("${KLJUC}")`)));
 
   const zapisPre = await v(`localStorage.getItem("${KLJUC}")`);

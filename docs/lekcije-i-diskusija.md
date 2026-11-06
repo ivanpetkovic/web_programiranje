@@ -1,4 +1,4 @@
-# Veb programiranje — lekcije i diskusija
+# Web programiranje — lekcije i diskusija
 
 Ovaj izvoz je stariji tok. Revidirani kurs je u `site/kurs.json`.
 
@@ -95,15 +95,15 @@ Budžet razgovora je jedan za celu nedelju, oko 35 minuta, ne za svaku pitalicu 
 
 ~5 min · bez fajla
 
-Šta čini veb, i kako smo do njega došli? 29. oktobra 1969, oko 22:30, sa UCLA ka SRI kreće prijava. Na drugoj mašini dovoljno je LOG: ona sama dopiše IN. Stignu L i O. Na G mašina padne. Oko sat vremena kasnije ista prijava prođe: stignu L, O i G. Ideja je bila da se informacija pošalje na udaljeni računar.
+Šta čini web, i kako smo do njega došli? 29. oktobra 1969, oko 22:30, sa UCLA ka SRI kreće prijava. Na drugoj mašini dovoljno je LOG: ona sama dopiše IN. Stignu L i O. Na G mašina padne. Oko sat vremena kasnije ista prijava prođe: stignu L, O i G. Ideja je bila da se informacija pošalje na udaljeni računar.
 
-> **Ključna ideja.** Ideja je bila da se informacija pošalje na udaljeni računar. Veb traži dokument na lokaciji.
+> **Ključna ideja.** Ideja je bila da se informacija pošalje na udaljeni računar. Web traži dokument na lokaciji.
 
-**Pitalica.** Šta čini veb, i kako smo do njega došli?
+**Pitalica.** Šta čini web, i kako smo do njega došli?
 
-Odgovor, skriven dok se ne otvori ikonica: veb čine dokumenti na drugom računaru i veza kojom jedan vodi na drugi. Prijava iz 1969. šalje komandu programu. Tu staje.
+Odgovor, skriven dok se ne otvori ikonica: web čine dokumenti na drugom računaru i veza kojom jedan vodi na drugi. Prijava iz 1969. šalje komandu programu. Tu staje.
 
-**Pitalica.** Zašto prijava LO još nije veb?
+**Pitalica.** Zašto prijava LO još nije web?
 
 Odgovor, skriven dok se ne otvori ikonica: ideja je bila da se informacija pošalje na udaljeni računar. Udaljeni računar se ne otvara. Dokument mora da ima lokaciju.
 
@@ -143,7 +143,7 @@ Različiti protokoli rešavaju različite probleme: IP adresira i prosleđuje, T
 
 > **Ključna ideja.** IP prosleđuje paket. TCP predaje uređen tok bajtova. HTTP kaže šta zahtev i odgovor znače.
 
-**Pitalica.** Šta nam još nedostaje da bismo otvorili veb stranicu?
+**Pitalica.** Šta nam još nedostaje da bismo otvorili web stranicu?
 
 **Pitalica.** Šta je IP u nazivu TCP/IP?
 
@@ -151,7 +151,7 @@ Različiti protokoli rešavaju različite probleme: IP adresira i prosleđuje, T
 
 **Pitalica.** Ako TCP pouzdano prenosi podatke, zašto nam je potreban HTTP?
 
-**Pitalica.** Šta onda čini veb?
+**Pitalica.** Šta onda čini web?
 
 <a id="n1-kasni"></a>
 
@@ -228,7 +228,7 @@ Vanevar Buš (Vannevar Bush) još 1945. godine opisuje **Memex**, zamišljeni ur
 
 Osnovni mehanizam je **hiperlink (veza)**, element na koji korisnik može da klikne kako bi otvorio drugi dokument ili određeni deo istog dokumenta.
 
-Na vebu se to ostvaruje kombinacijom dve tehnologije:
+Na webu se to ostvaruje kombinacijom dve tehnologije:
 
 - **URL** određuje adresu resursa na koji veza upućuje.
 - **HTML** pomoću elementa `<a>` definiše vezu i omogućava korisniku da je prati.
@@ -414,7 +414,7 @@ Ko je autor ako čitalac sme da menja stranicu? DiNucci 1999. kuje ime Web 2.0. 
 
 ~6 min · bez fajla
 
-Zašto mapa ne učita novi dokument kad je povučeš? Garrett februara 2005. imenuje obrazac. Gmail i Google Maps ostave dokument na mestu, a zahtev promeni deo. Veb aplikacija nije prezentacioni sajt.
+Zašto mapa ne učita novi dokument kad je povučeš? Garrett februara 2005. imenuje obrazac. Gmail i Google Maps ostave dokument na mestu, a zahtev promeni deo. Web aplikacija nije prezentacioni sajt.
 
 > **Ključna ideja.** Dokument ostaje. Zahtev menja deo, ne celu stranu.
 
@@ -562,7 +562,7 @@ JavaScript je žig. ECMA-262 zove jezik ECMAScript. ES3, ES5 i ES6 su godine.
 
 **Ajax.** zahtev koji menja deo dokumenta
 
-Dokument ostaje. Zahtev promeni deo. To je veb aplikacija, ne prezentacioni sajt.
+Dokument ostaje. Zahtev promeni deo. To je web aplikacija, ne prezentacioni sajt.
 
 ```text
 dokument ostaje

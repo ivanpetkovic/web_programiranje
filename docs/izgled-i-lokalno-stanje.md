@@ -60,7 +60,7 @@ Panel se otvara dugmetom Opcije. Zatvaraju ga Escape, klik van panela i ponovni 
 | Paleta | Četiri pločice sa slikama iz `site/icons/teme/`: Plava (`mornar`), Ugalj, Pesak i Terakota. Izbor zakuca paletu, upiše je u `paleta` i ostavlja panel otvoren. Izabrana pločica ima kvačicu. |
 | Veličina fonta | Segment A− / A / A+ (`0.875`, `1`, `1.125`). Upisuje `podesavanja.font`. |
 | Način korišćenja | Kartice Predavanja (`monitor`) i Samostalni rad (`book-open-text`). Promena ostavlja isti korak. Upisuje `podesavanja.mod`. |
-| Lokalno stanje | Bedž Sačuvano lokalno, ili Nije sačuvano kad `localStorage` odbije upis. Load uvozi fajl stanja, Save preuzima `veb-programiranje-stanje.json`, Obriši progres posle potvrde briše napredak, beleške i podešavanja bez ponovnog učitavanja strane. Radne verzije ostaju. |
+| Lokalno stanje | Bedž Sačuvano lokalno, ili Nije sačuvano kad `localStorage` odbije upis. Load uvozi fajl stanja, Save preuzima `web-programiranje-stanje.json`, Obriši progres posle potvrde briše napredak, beleške i podešavanja bez ponovnog učitavanja strane. Radne verzije ostaju. |
 
 Pogrešan fajl na Load ne menja stanje; ispod dugmadi piše da fajl nije sačuvano stanje.
 
@@ -141,7 +141,7 @@ Izmene su čiste funkcije koje vraćaju novo stanje: `zabeleziKorak`, `zabeleziU
 
 ### Izvoz i uvoz
 
-`izveziStanje(stanje)` vraća isti zapis kao JSON tekst. Save u Opcijama preuzima ga kao `veb-programiranje-stanje.json`. `uveziStanje(tekst)` proverava fajl kao zapis iz skladišta. Ako fajl nije JSON ili nema `verzija: 1`, stanje se ne menja i Opcije kažu da fajl nije sačuvano stanje. Ništa iz fajla se ne izvršava. Komentari idu na stranu kao tekst, ne kao HTML.
+`izveziStanje(stanje)` vraća isti zapis kao JSON tekst. Save u Opcijama preuzima ga kao `web-programiranje-stanje.json`. `uveziStanje(tekst)` proverava fajl kao zapis iz skladišta. Ako fajl nije JSON ili nema `verzija: 1`, stanje se ne menja i Opcije kažu da fajl nije sačuvano stanje. Ništa iz fajla se ne izvršava. Komentari idu na stranu kao tekst, ne kao HTML.
 
 Ništa iz stanja ne ide na server.
 

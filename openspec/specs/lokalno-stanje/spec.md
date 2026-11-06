@@ -84,11 +84,11 @@ Opening a step MUST record that step as viewed for its week and MUST record it a
 - **THEN** step 4 of week 3 is open
 
 ### Requirement: Izvoz stanja u fajl
-Save MUST download the current state record as a JSON file named `veb-programiranje-stanje.json`. The file MUST NOT contain the editor's working copies.
+Save MUST download the current state record as a JSON file named `web-programiranje-stanje.json`. The file MUST NOT contain the editor's working copies.
 
 #### Scenario: Download
 - **WHEN** the student activates Save in Opcije
-- **THEN** the browser downloads `veb-programiranje-stanje.json` and its content is the same record that localStorage holds
+- **THEN** the browser downloads `web-programiranje-stanje.json` and its content is the same record that localStorage holds
 
 ### Requirement: Uvoz stanja iz fajla
 Load MUST let the student pick a JSON file, validate it like a stored record, replace the state with it, apply palette, mode, and text size at once, and save it. A file that is not a state record MUST leave the state unchanged and MUST show a message.

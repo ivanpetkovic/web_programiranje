@@ -2,7 +2,7 @@
   "ustanova": "Elektronski fakultet",
   "ustanovaRed": "Univerzitet u Nišu",
   "ustanovaBok": "Elektronski fakultet, Niš",
-  "naslov": "Veb programiranje",
+  "naslov": "Web programiranje",
   "oznaka": "MP",
   "grb": "/img/elfak_logo.png",
   "trajanjeTema": 11,
@@ -14,7 +14,7 @@
     "naslov": "Pre prve teme",
     "cilj": "Predmet prati jednu radnju Kontrolne sobe od browsera, preko Node procesa, do PostgreSQL baze. Panel ima temperaturu i jedan ventilator. Nema stvarnog hardvera. Posle kursa student razlikuje prikaz od stanja, obrazloži grešku, izostanak odgovora i ponovljeni zahtev, i kaže šta sme da veruje ekranu, a šta mora da proveri server.",
     "ocekivanje": [
-      "Preduslov je objektno programiranje, algoritmi i SQL. Prethodni veb kurs nije potreban.",
+      "Preduslov je objektno programiranje, algoritmi i SQL. Prethodni web kurs nije potreban.",
       "Na času se bira odgovor pre obrazloženja. Tab Gradivo je tekst za posle časa.",
       "Primer je HTML, CSS i JavaScript u browseru, Node modul http i PostgreSQL. React, Express i Next.js ostaju orijentacija, ne kod koji se piše.",
       "Predavanje drži demonstraciju i diskusiju. Šira tema kaže koji problem rešava, i staje tu."
@@ -23,7 +23,7 @@
       {
         "naziv": "Stanford CS193X",
         "veza": "https://web.stanford.edu/class/cs193x/lectures.html",
-        "recenica": "Web Programming Fundamentals, proleće 2023. Red ide od HTML-a i JavaScripta ka DOM-u, fetch-u, Node serveru i bazi. Preduslov je programiranje, ne prethodni veb."
+        "recenica": "Web Programming Fundamentals, proleće 2023. Red ide od HTML-a i JavaScripta ka DOM-u, fetch-u, Node serveru i bazi. Preduslov je programiranje, ne prethodni web."
       },
       {
         "naziv": "Stanford CS142",
@@ -347,7 +347,7 @@
           "id": "ajax",
           "name": "Ajax",
           "hint": "zahtev koji menja deo dokumenta",
-          "body": "Dokument ostaje. Zahtev promeni deo. To je veb aplikacija, ne prezentacioni sajt.",
+          "body": "Dokument ostaje. Zahtev promeni deo. To je web aplikacija, ne prezentacioni sajt.",
           "code": "dokument ostaje\nzahtev menja deo",
           "codeLanguage": "text"
         },
@@ -366,17 +366,17 @@
           "nivo": "Osnovno",
           "minuta": 5,
           "tipPrimer": "eksperiment",
-          "prica": "Šta čini veb, i kako smo do njega došli? 29. oktobra 1969, oko 22:30, sa UCLA ka SRI kreće prijava. Na drugoj mašini dovoljno je LOG: ona sama dopiše IN. Stignu L i O. Na G mašina padne. Oko sat vremena kasnije ista prijava prođe: stignu L, O i G. Ideja je bila da se informacija pošalje na udaljeni računar.",
-          "tekst": "Veb čine dokumenti do kojih se dolazi na drugom računaru, i veza kojom jedan dokument vodi na drugi. Do toga se nije došlo odjednom.\n\n29. oktobra 1969. dva računara prvi put razmene prijavu. Ideja je bila da se informacija pošalje na udaljeni računar. Prvi pokušaj padne na G, posle L i O. Oko sat kasnije stignu L, O i G, a mašina na drugom kraju sama dopiše IN. Komanda je stigla do programa na drugom računaru.\n\nTa komanda je išla komunikacionim putem. Komunikacioni put je put kojim podaci prolaze od izvornog do odredišnog uređaja kroz računarsku mrežu. Može obuhvatati više rutera i komunikacionih veza. Različiti paketi ne moraju uvek prolaziti istim putem.\n\nTo još nije veb. Prijava ne otvara udaljeni računar. Ne stavlja dokument na lokaciju. Da bi jedan dokument vodio na drugi, dokument mora da ima lokaciju. Veza je ta lokacija.",
-          "kljucnaIdeja": "Ideja je bila da se informacija pošalje na udaljeni računar. Veb traži dokument na lokaciji.",
-          "pitalica": "Šta čini veb, i kako smo do njega došli?",
+          "prica": "Šta čini web, i kako smo do njega došli? 29. oktobra 1969, oko 22:30, sa UCLA ka SRI kreće prijava. Na drugoj mašini dovoljno je LOG: ona sama dopiše IN. Stignu L i O. Na G mašina padne. Oko sat vremena kasnije ista prijava prođe: stignu L, O i G. Ideja je bila da se informacija pošalje na udaljeni računar.",
+          "tekst": "Web čine dokumenti do kojih se dolazi na drugom računaru, i veza kojom jedan dokument vodi na drugi. Do toga se nije došlo odjednom.\n\n29. oktobra 1969. dva računara prvi put razmene prijavu. Ideja je bila da se informacija pošalje na udaljeni računar. Prvi pokušaj padne na G, posle L i O. Oko sat kasnije stignu L, O i G, a mašina na drugom kraju sama dopiše IN. Komanda je stigla do programa na drugom računaru.\n\nTa komanda je išla komunikacionim putem. Komunikacioni put je put kojim podaci prolaze od izvornog do odredišnog uređaja kroz računarsku mrežu. Može obuhvatati više rutera i komunikacionih veza. Različiti paketi ne moraju uvek prolaziti istim putem.\n\nTo još nije web. Prijava ne otvara udaljeni računar. Ne stavlja dokument na lokaciju. Da bi jedan dokument vodio na drugi, dokument mora da ima lokaciju. Veza je ta lokacija.",
+          "kljucnaIdeja": "Ideja je bila da se informacija pošalje na udaljeni računar. Web traži dokument na lokaciji.",
+          "pitalica": "Šta čini web, i kako smo do njega došli?",
           "pitalice": [
             {
-              "pitalica": "Šta čini veb, i kako smo do njega došli?",
-              "odgovor": "Veb čine dokumenti na drugom računaru i veza kojom jedan vodi na drugi. Put počinje pokušajem da se informacija pošalje na udaljeni računar. Prijava iz 1969. to i radi: šalje komandu programu. Tu staje."
+              "pitalica": "Šta čini web, i kako smo do njega došli?",
+              "odgovor": "Web čine dokumenti na drugom računaru i veza kojom jedan vodi na drugi. Put počinje pokušajem da se informacija pošalje na udaljeni računar. Prijava iz 1969. to i radi: šalje komandu programu. Tu staje."
             },
             {
-              "pitalica": "Zašto prijava LO još nije veb?",
+              "pitalica": "Zašto prijava LO još nije web?",
               "odgovor": "Ideja je bila da se informacija pošalje na udaljeni računar. Udaljeni računar se ne otvara. Nema dokumenta na lokaciji. Dokument mora da ima lokaciju. Veza je lokacija drugog dokumenta."
             }
           ]
@@ -413,10 +413,10 @@
           "prica": "Različiti protokoli rešavaju različite probleme: IP obezbeđuje adresiranje i prosleđivanje paketa, TCP pouzdan i uređen prenos bajtova, a HTTP definiše značenje zahteva i odgovora.",
           "tekst": "Znamo da se podaci kroz Internet prenose u paketima. Ali, sama podela podataka na pakete nije dovoljna da bi dva udaljena računara mogla uspešno da komuniciraju.\n\n### Kako mreža zna gde treba da pošalje paket?\n\nZamislimo da računar u Nišu šalje podatke serveru u Londonu. Između njih se nalazi više rutera, a svaki od njih prosleđuje veliki broj paketa različitih korisnika.\n\n### Kako ruter zna kome treba da prosledi određeni paket?\n\nPotreban nam je sistem adresiranja. Svaki paket mora da sadrži informaciju o tome odakle dolazi i kome je namenjen.\n\nTu ulogu ima **IP (Internet Protocol)**. On definiše IP adrese i način na koji se paketi prosleđuju kroz međusobno povezane mreže. IP paket sadrži izvornu i odredišnu IP adresu. Kada paket stigne do rutera, ruter proverava odredišnu adresu i na osnovu svoje tabele rutiranja odlučuje kome će ga sledeće proslediti.\n\nPošiljalac ne mora unapred da poznaje sve rutere kroz koje će paket proći. Svaki ruter donosi odluku o sledećem koraku na putu do odredišta. IP, međutim, ne garantuje da će paket zaista stići.\n\n### Kako sastaviti podatke ako paketi stignu različitim redosledom?\n\nRačunar šalje veću količinu podataka, podeljenu na tri dela:\n\nA → B → C\n\nMeđutim, zbog različitog trajanja prenosa, delovi na odredište stižu ovim redosledom:\n\nB → C → A\n\nKako primalac može da rekonstruiše originalni redosled podataka?\n\nJedno rešenje je da delovi podataka imaju redne brojeve. Tako primalac može da utvrdi njihov originalni redosled, nezavisno od redosleda pristizanja.\n\nUpravo takav mehanizam koristi **TCP (Transmission Control Protocol)**.\n\nTCP numeriše bajtove u toku podataka. Kada se podaci prenose u više TCP segmenata, redni brojevi omogućavaju primaocu da ih sastavi u ispravan redosled.\n\nNa primer, pojednostavljeno:\n\nDeo | Pozicije bajtova\nA | 0–999\nB | 1000–1999\nC | 2000–2999\n\nČak i ako deo B stigne pre dela A, primalac zna gde njegovi bajtovi pripadaju.\n\nVažno: TCP aplikaciji pruža uređen tok bajtova, a ne niz zasebnih poruka. Zato TCP sam po sebi ne određuje gde se jedna aplikativna poruka završava, a sledeća počinje.\n\n### Šta ako neki deo podataka uopšte ne stigne?\n\nPonovo šaljemo delove A, B i C. Ovog puta na odredište stižu samo A i C. Deo B se izgubio tokom prenosa.\n\nKako primalac može da dobije podatke koji nedostaju? Da li je dovoljno da samo pravilno poređa ono što je stiglo?\n\nNije. Redni brojevi omogućavaju da se prepozna nedostatak podataka, ali sami ne mogu da nadoknade izgubljene bajtove. Potreban je i mehanizam potvrđivanja prijema i ponovnog slanja.\n\nTCP koristi potvrde prijema (acknowledgments) kako bi pošiljalac mogao da prati koji su podaci primljeni. Ako utvrdi da neki podaci nisu uspešno preneti, može ponovo da ih pošalje.\n\nPrimalac zatim sastavlja tok bajtova u ispravnom redosledu. Ako isti podaci stignu više puta, TCP prepoznaje duplikate i ne predaje ih aplikaciji više puta. Zahvaljujući ovim mehanizmima, TCP aplikaciji pruža pouzdan i uređen tok bajtova. Ipak, to ne znači da će prenos uvek uspeti. Ako se komunikacija ne može nastaviti, veza može biti prekinuta i aplikacija mora da obradi neuspeh.\n\n### Šta smo rešili?\n\nSada možemo da razlikujemo uloge dva protokola:\n\n- IP omogućava adresiranje i prosleđivanje paketa kroz mrežu.\n- TCP omogućava pouzdan i uređen prenos bajtova između krajnjih procesa.\n\nAli ostaje još jedno pitanje: ako svi bajtovi uspešno stignu do servera, kako server zna šta oni znače?",
           "kljucnaIdeja": "IP prosleđuje paket. TCP predaje uređen tok bajtova. HTTP kaže šta zahtev i odgovor znače.",
-          "pitalica": "Šta nam još nedostaje da bismo otvorili veb stranicu?",
+          "pitalica": "Šta nam još nedostaje da bismo otvorili web stranicu?",
           "pitalice": [
             {
-              "pitalica": "Šta nam još nedostaje da bismo otvorili veb stranicu?",
+              "pitalica": "Šta nam još nedostaje da bismo otvorili web stranicu?",
               "odgovor": "Različiti protokoli rešavaju različite probleme: IP obezbeđuje adresiranje i prosleđivanje paketa, TCP pouzdan i uređen prenos bajtova, a HTTP definiše značenje zahteva i odgovora.\n\nPaketi mogu da putuju kroz mrežu. Ostaju tri problema: kako proslediti paket do odredišta, kako pouzdano preneti sve podatke i kako dogovoriti šta poslati zahtev i dobijeni odgovor znače.\n\nU internetu ove zadatke razdvajamo između protokola. Za početak posmatramo HTTP/1.1 preko TCP-a i IP-a."
             },
             {
@@ -432,8 +432,8 @@
               "odgovor": "Pouzdan prenos ne objašnjava značenje podataka. HTTP — Hypertext Transfer Protocol — definiše šta zahtev i odgovor znače između klijenta i servera.\n\nMetode, statusi i zaglavlja su taj dogovor. Nisu posao IP-a ni TCP-a."
             },
             {
-              "pitalica": "Šta onda čini veb?",
-              "odgovor": "Veb je sistem resursa koje možemo da identifikujemo, povezujemo i kojima možemo da pristupamo.\n\nPitanje | Osnovni pojam | Uloga\nKom resursu pristupamo? | URL | Identifikuje resurs i daje informacije za pristup\nKako ga tražimo i dobijamo odgovor? | HTTP | Definiše razmenu između klijenta i servera\nKako je sadržaj predstavljen? | predstavljanje | Resurs može biti HTML, slika ili skup podataka\n\nHipertekst, sam dogovor HTTP-a i put od URL-a do prikaza dolaze redom, posle ove mape."
+              "pitalica": "Šta onda čini web?",
+              "odgovor": "Web je sistem resursa koje možemo da identifikujemo, povezujemo i kojima možemo da pristupamo.\n\nPitanje | Osnovni pojam | Uloga\nKom resursu pristupamo? | URL | Identifikuje resurs i daje informacije za pristup\nKako ga tražimo i dobijamo odgovor? | HTTP | Definiše razmenu između klijenta i servera\nKako je sadržaj predstavljen? | predstavljanje | Resurs može biti HTML, slika ili skup podataka\n\nHipertekst, sam dogovor HTTP-a i put od URL-a do prikaza dolaze redom, posle ove mape."
             }
           ]
         },
@@ -484,8 +484,8 @@
           "nivo": "Osnovno",
           "minuta": 5,
           "tipPrimer": "eksperiment",
-          "tekst": "Knjigu obično čitamo redom, od jedne stranice ka sledećoj. Ali šta ako želimo da pratimo ideje i njihove međusobne veze, umesto unapred određenog redosleda stranica?\n\nVanevar Buš (Vannevar Bush) još 1945. godine opisuje **Memex**, zamišljeni uređaj koji omogućava povezivanje i pronalaženje informacija putem asocijacija. Ted Nelson 1965. uvodi pojam **hipertekst**, označavajući tekst čiji su delovi međusobno povezani i koji se može istraživati nelinearno.\n\n**Hipertekst** omogućava čitaocu da sam bira put kroz informacije. Umesto da prati strogo određen redosled, može da prelazi između povezanih dokumenata i tema.\n\nOsnovni mehanizam je **hiperlink (veza)**, element na koji korisnik može da klikne kako bi otvorio drugi dokument ili određeni deo istog dokumenta.\n\nBerners-Lee u CERN-u, marta 1989, predlaže povezane dokumente. Šef dopisuje „vague but exciting”.  Tako nastaje **World Wide Web**, mreža međusobno povezanih dokumenata u kojoj korisnik sam odlučuje kojim putem će istraživati informacije.\n\nWeb je jedna usluga na Internetu, ne sam Internet. CERN-ov problem bio je povezivanje informacija između heterogenih računara i timova. Web je rešio pristup međusobno povezanim dokumentima preko postojećeg Interneta, umesto da izmišlja novu mrežnu infrastrukturu.\n\nNa Webu se to ostvaruje kombinacijom dve tehnologije:\n\n- **URL** određuje adresu resursa na koji veza upućuje.\n- **HTML** pomoću elementa `<a>` definiše vezu i omogućava korisniku da je prati.\n\n",
-          "kljucnaIdeja": "Veza vodi na drugi tekst, ne na sledeći broj stranice.",
+          "tekst": "Knjigu obično čitamo redom, od jedne stranice ka sledećoj. Ali šta ako želimo da pratimo ideje i njihove međusobne veze, umesto unapred određenog redosleda stranica?\n\nVanevar Buš (Vannevar Bush) još 1945. godine opisuje **Memex**, zamišljeni uređaj koji omogućava povezivanje i pronalaženje informacija putem asocijacija. Ted Nelson 1965. uvodi pojam **hipertekst**, označavajući tekst čiji su delovi međusobno povezani i koji se može istraživati nelinearno.\n\n**Hipertekst** omogućava čitaocu da sam bira put kroz informacije. Umesto da prati strogo određen redosled, može da prelazi između povezanih dokumenata i tema.\n\n\nBerners-Lee u CERN-u, marta 1989, predlaže povezane dokumente. Osnovni mehanizam je **hiperlink (veza)**, element na koji korisnik može da klikne kako bi otvorio drugi dokument ili određeni deo istog dokumenta. Tako nastaje **World Wide Web**, mreža međusobno povezanih dokumenata u kojoj korisnik sam odlučuje kojim putem će istraživati informacije.\n\nWeb je jedna usluga na Internetu, ne sam Internet. CERN-ov problem bio je povezivanje informacija između heterogenih računara i timova. Web je rešio pristup međusobno povezanim dokumentima preko postojećeg Interneta, umesto da izmišlja novu mrežnu infrastrukturu.\n\nNa Webu se to ostvaruje kombinacijom dve tehnologije:\n\n- **URL** određuje adresu resursa na koji veza upućuje.\n- **HTML** pomoću elementa `<a>` definiše vezu i omogućava korisniku da je prati.\n\n",
+          "kljucnaIdeja": "HTTP definiše zahtev, odgovor, metode, zaglavlja i status.",
           "figura": {
             "vrsta": "put",
             "cvorovi": [
@@ -726,7 +726,7 @@
           "nivo": "Primena",
           "minuta": 4,
           "tipPrimer": "eksperiment",
-          "tekst": "Student unosi URL. Koje stvari moraju da se dese pre prikaza? Pri poseti HTTPS URL-u slede razdvojeni koraci: DNS pronalazi adresu, transport uspostavlja komunikaciju, TLS štiti vezu, HTTP traži resurs, a browser parsira i prikazuje odgovor. Greška u jednom koraku ne dokazuje grešku u drugim.",
+          "tekst": "Zamislimo da korisnik otvori browser, unese adresu neke web stranice i pritisne Enter.\n\n### Šta sve mora da se dogodi da bi se stranica pojavila na ekranu?\n\nNa prvi pogled deluje jednostavno: browser zatraži stranicu, server je pošalje i browser je prikaže. Međutim, iza toga se krije nekoliko različitih problema koje treba rešiti.\n\n### 1. Kako browser zna kom računaru da se obrati?\n\nURL sadrži naziv domena, ali računari za komunikaciju preko Interneta koriste IP adrese.\n\nBrowser zato mora da sazna IP adresu servera. U tome mu pomaže DNS (Domain Name System), koji omogućava pronalaženje IP adrese na osnovu naziva domena. Ako je adresa već poznata, novo DNS pretraživanje možda neće biti potrebno.\n\n### 2. Kako browser uspostavlja komunikaciju sa serverom?\n\nKada zna IP adresu, browser može da uspostavi TCP vezu sa serverom. TCP omogućava pouzdan prenos bajtova između browsera i servera.\n\nAli TCP ne zna šta je web stranica, niti šta browser želi da dobije. On samo prenosi podatke.\n\n### 3. Kako server zna koju stranicu korisnik želi?\n\nBrowser šalje HTTP zahtev. U njemu navodi koji resurs traži, na primer:\n\n```\nGET /index.html HTTP/1.1\nHost: www.example.com\n```\n\nServer obrađuje zahtev i vraća HTTP odgovor, koji sadrži status, zaglavlja i, kada je primenljivo, sadržaj.\n\nAko je zahtev uspešan, odgovor može sadržati HTML dokument. Ako tražena stranica ne postoji, server može vratiti status 404 Not Found.\n\n### 4. Da li je primanje HTML dokumenta dovoljno da se stranica prikaže?\n\nNe. HTML je opis strukture dokumenta, a ne gotova slika.\n\nBrowser obrađuje HTML, izgrađuje strukturu dokumenta (DOM), primenjuje CSS pravila, izračunava raspored elemenata i iscrtava stranicu na ekranu.\n\nAko dokument koristi slike, CSS ili JavaScript iz zasebnih datoteka, browser mora da preuzme i te resurse. Zato prikaz jedne stranice često zahteva više HTTP zahteva.\n\n### Šta ako nešto pođe naopako?\n\nGreška u jednom koraku ne znači da su svi ostali koraci neuspešni.\n\nNa primer:\n\nAko DNS ne može da pronađe IP adresu, browser možda neće znati kome da pošalje zahtev.\n\nAko TCP veza ne može da se uspostavi, browser ne može da razmeni HTTP poruke sa serverom.\n\nAko server odgovori sa 404 Not Found, komunikacija je uspela, ali traženi resurs nije pronađen.\n\nAko HTML stigne, ali CSS datoteka ne može da se preuzme, stranica se može prikazati bez očekivanog izgleda.",
           "kljucnaIdeja": "DNS, uspostavljanje veze, zaštita HTTPS-a, HTTP i HTML imaju različite uloge.",
           "samostalniPrimer": {
             "jezik": "text",

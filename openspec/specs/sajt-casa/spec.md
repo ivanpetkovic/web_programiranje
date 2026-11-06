@@ -388,7 +388,7 @@ The header MUST show, from left to right, the institution and its mark, a divide
 
 #### Scenario: Shipped title
 - **WHEN** the shipped course is open
-- **THEN** the header title is Veb programiranje and the site title is not Kontrolna soba
+- **THEN** the header title is Web programiranje and the site title is not Kontrolna soba
 
 #### Scenario: Next week
 - **WHEN** the teacher chooses the following week in the toolbar week picker and a later week exists

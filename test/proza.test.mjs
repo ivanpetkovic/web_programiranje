@@ -13,7 +13,7 @@ test("naslov, podebljano, kod i spisak ostaju posebni blokovi", () => {
     "",
     "Buš opisuje **Memex**, a Nelson **hipertekst**.",
     "",
-    "Na vebu:",
+    "Na webu:",
     "",
     "- **URL** određuje adresu.",
     "- **HTML** pomoću elementa `<a>` definiše vezu.",
@@ -30,7 +30,7 @@ test("naslov, podebljano, kod i spisak ostaju posebni blokovi", () => {
         { tekst: "." },
       ],
     },
-    { vrsta: "pasus", delovi: [{ tekst: "Na vebu:" }] },
+    { vrsta: "pasus", delovi: [{ tekst: "Na webu:" }] },
     {
       vrsta: "lista",
       stavke: [

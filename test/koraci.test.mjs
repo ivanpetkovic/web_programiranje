@@ -25,10 +25,10 @@ test("uvod stoji pre tema i nije tema", () => {
   assert.match(dokument.uvod.napomenaOsnova, /tempo/);
 });
 
-test("Počeci uopštava veb, pa priča LO i zašto to nije veb", () => {
+test("Počeci uopštava web, pa priča LO i zašto to nije web", () => {
   const lo = dokument.teme[0].steps[0];
   assert.equal(lo.naslov, "Počeci");
-  assert.match(lo.prica, /Šta čini veb/);
+  assert.match(lo.prica, /Šta čini web/);
   assert.match(lo.prica, /sat vremena kasnije/);
   assert.match(lo.prica, /informacija pošalje na udaljeni računar/);
   assert.match(lo.tekst, /Komunikacioni put je put kojim podaci prolaze od izvornog do odredišnog uređaja/);
@@ -36,7 +36,7 @@ test("Počeci uopštava veb, pa priča LO i zašto to nije veb", () => {
   assert.match(lo.tekst, /Različiti paketi ne moraju uvek prolaziti istim putem/);
   assert.match(lo.tekst, /dokument mora da ima lokaciju/);
   assert.match(lo.tekst, /ne otvara udaljeni računar/);
-  assert.match(lo.tekst, /To još nije veb/);
+  assert.match(lo.tekst, /To još nije web/);
   assert.equal(lo.tekst.includes("otvara tuđi"), false);
   assert.match(lo.pitalice[0].odgovor, /dokumenti na drugom računaru/);
   assert.match(lo.pitalice[1].odgovor, /Udaljeni računar se ne otvara/);
@@ -44,8 +44,8 @@ test("Počeci uopštava veb, pa priča LO i zašto to nije veb", () => {
   assert.deepEqual(
     lo.pitalice.map((p) => p.pitalica),
     [
-      "Šta čini veb, i kako smo do njega došli?",
-      "Zašto prijava LO još nije veb?",
+      "Šta čini web, i kako smo do njega došli?",
+      "Zašto prijava LO još nije web?",
     ],
   );
   assert.equal(lo.pitalice.every((p) => !p.opcije && p.odgovor), true);
@@ -168,7 +168,7 @@ test("TCP i UDP poredi zakasneli kadar sa bajtom dokumenta", () => {
       "Šta radimo sa zakasnelim kadrom?",
       "Zašto kadar sme da se odbaci, a bajt dokumenta ne?",
       "Ako se izgubi deo podataka tokom video-poziva, da li ga uvek treba ponovo poslati?",
-      "Ako HTTP/3 koristi UDP, da li to znači da veb stranica može da stigne nepotpuna?",
+      "Ako HTTP/3 koristi UDP, da li to znači da web stranica može da stigne nepotpuna?",
     ],
   );
   assert.match(korak.pitalice[0].odgovor, /Kadar sme da se odbaci/);

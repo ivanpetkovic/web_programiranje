@@ -19,7 +19,7 @@ export const NACINI = [
   ["samostalni", "Samostalni rad", "book-open-text"],
 ];
 
-export const IME_FAJLA_STANJA = "veb-programiranje-stanje.json";
+export const IME_FAJLA_STANJA = "web-programiranje-stanje.json";
 
 function el(oznaka, klasa, tekst) {
   const cvor = document.createElement(oznaka);
