@@ -9,7 +9,9 @@ import {
   obrisiKorak,
   obrisiPitanje,
   pomeriKorak,
+  postaviDijagram,
   postaviIsecakKoraka,
+  postaviSamostalniPrimer,
   premestiPitanje,
   primeniSnapshot,
   ubaciKorak,
@@ -140,4 +142,34 @@ test("postaviIsecakKoraka usklađuje delic i original", () => {
   assert.equal(korak.isecak, "novo");
   assert.equal(korak.delic, "novo");
   assert.equal(korak.original, "novo\n");
+});
+
+test("mali eksperiment i dijagram čuvaju jezik i format", () => {
+  const korak = {
+    samostalniPrimer: { jezik: "js", izolovan: true, tekst: "const a = 1" },
+    dijagram: { format: "text", tekst: "A --> B" },
+  };
+  postaviSamostalniPrimer(korak, "const b = 2");
+  postaviDijagram(korak, "A --> C");
+  assert.equal(korak.samostalniPrimer.jezik, "js");
+  assert.equal(korak.samostalniPrimer.izolovan, true);
+  assert.equal(korak.samostalniPrimer.tekst, "const b = 2");
+  assert.equal(korak.dijagram.format, "text");
+  assert.equal(korak.dijagram.tekst, "A --> C");
+  const prazan = {};
+  postaviSamostalniPrimer(prazan, "GET /");
+  postaviDijagram(prazan, "A --> B");
+  assert.deepEqual(prazan.samostalniPrimer, { jezik: "text", izolovan: true, tekst: "GET /" });
+  assert.deepEqual(prazan.dijagram, { format: "text", tekst: "A --> B" });
+});
+
+test("lekcija otvara olovku na malom eksperimentu i dijagramu", () => {
+  const main = fs.readFileSync(new URL("../site/js/main.js", import.meta.url), "utf8");
+  assert.match(main, /aria-label", "Prevuci sekciju"/);
+  assert.match(main, /aria-label", "Opcije sekcije"/);
+  assert.match(main, /"Promeni tip"/);
+  assert.match(main, /"Ubaci ispred"/);
+  assert.match(main, /"Ubaci iza"/);
+  assert.match(main, /grip-vertical/);
+  assert.match(main, /ellipsis/);
 });

@@ -260,6 +260,21 @@
         "vrsta": { "type": "string", "enum": ["predvidi", "ispravi-gresku"] }
       }
     },
+    "blokLekcije": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "vrsta", "tekst"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "vrsta": { "type": "string", "enum": ["tekst", "highlight", "kod", "dijagram"] },
+        "tekst": { "type": "string" },
+        "uloga": { "type": "string", "enum": ["kljucna", "obicna"] },
+        "naslov": { "type": "string" },
+        "pozadina": { "type": "string", "enum": ["bela", "crna"] },
+        "jezik": { "$ref": "#/$defs/jezik" },
+        "veza": { "type": "string", "enum": ["samostalniPrimer", "dijagram"] }
+      }
+    },
     "korak": {
       "type": "object",
       "additionalProperties": false,
@@ -293,7 +308,11 @@
         "originalJezik": { "$ref": "#/$defs/jezik" },
         "figura": { "$ref": "#/$defs/figura" },
         "dijagram": { "$ref": "#/$defs/dijagram" },
-        "samostalniPrimer": { "$ref": "#/$defs/samostalniPrimer" }
+        "samostalniPrimer": { "$ref": "#/$defs/samostalniPrimer" },
+        "blokovi": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/blokLekcije" }
+        }
       }
     },
     "tema": {

@@ -43,6 +43,7 @@ export function mapirajKorak(korak) {
     tipPrimer: korak.tipPrimer,
     samostalniPrimer: korak.samostalniPrimer,
     dijagram: korak.dijagram,
+    blokovi: korak.blokovi,
     analiza: prva.analiza,
   };
 }

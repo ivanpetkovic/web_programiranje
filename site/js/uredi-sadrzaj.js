@@ -181,7 +181,8 @@ export function omotUredjivog(ctx, id, prikaz, napraviEditor, { umestoOlovke } =
     ctx.otvori(id);
     ctx.osvezi?.();
   };
-  omot.append(umestoOlovke ? umestoOlovke(otvori) : dugmeUredi(`Uredi: ${id}`, otvori));
+  const kontrola = umestoOlovke ? umestoOlovke(otvori) : dugmeUredi(`Uredi: ${id}`, otvori);
+  if (kontrola) omot.append(kontrola);
   return omot;
 }
 
@@ -191,6 +192,22 @@ export function postaviIsecakKoraka(korak, tekst) {
   if (typeof korak.original === "string") {
     korak.original = tekst.endsWith("\n") ? tekst : `${tekst}\n`;
   }
+}
+
+export function postaviSamostalniPrimer(korak, tekst) {
+  if (!korak.samostalniPrimer || typeof korak.samostalniPrimer !== "object") {
+    korak.samostalniPrimer = { jezik: "text", izolovan: true, tekst };
+    return;
+  }
+  korak.samostalniPrimer.tekst = tekst;
+}
+
+export function postaviDijagram(korak, tekst) {
+  if (!korak.dijagram || typeof korak.dijagram !== "object") {
+    korak.dijagram = { format: "text", tekst };
+    return;
+  }
+  korak.dijagram.tekst = tekst;
 }
 
 export function napraviUredjivacOpcija(opcije, { onStruktura } = {}) {

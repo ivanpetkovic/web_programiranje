@@ -1,3 +1,5 @@
+import { tekstSekcija } from "./blokovi-lekcije.js";
+
 const GLAVA = /^\*\*(.+?)\*\*:\s*$/;
 const IZBEJAVA = /^_Avoid_:\s*(.*)$/;
 
@@ -63,7 +65,7 @@ function tekstKoraka(korak) {
       return [p.pitalica, opcije].filter(Boolean).join("\n");
     })
     .join("\n");
-  return [korak.tekst, korak.kljucnaIdeja, pitalice, korak.isecak, korak.delic].filter(Boolean).join("\n");
+  return [korak.tekst, korak.kljucnaIdeja, pitalice, korak.isecak, korak.delic, tekstSekcija(korak)].filter(Boolean).join("\n");
 }
 
 export function lekcijePojma(kurs, glava) {
