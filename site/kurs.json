@@ -411,54 +411,29 @@
           "minuta": 5,
           "tipPrimer": "eksperiment",
           "prica": "Različiti protokoli rešavaju različite probleme: IP obezbeđuje adresiranje i prosleđivanje paketa, TCP pouzdan i uređen prenos bajtova, a HTTP definiše značenje zahteva i odgovora.",
-          "tekst": "Znamo da se podaci kroz Internet prenose u paketima. Ali, sama podela podataka na pakete nije dovoljna da bi dva udaljena računara mogla uspešno da komuniciraju.\n\n### Kako mreža zna gde treba da pošalje paket?\n\nZamislimo da računar u Nišu šalje podatke serveru u Londonu. Između njih se nalazi više rutera, a svaki od njih prosleđuje veliki broj paketa različitih korisnika.\n\n### Kako ruter zna kome treba da prosledi određeni paket?\n\nPotreban nam je sistem adresiranja. Svaki paket mora da sadrži informaciju o tome odakle dolazi i kome je namenjen.\n\nTu ulogu ima **IP (Internet Protocol)**. On definiše IP adrese i način na koji se paketi prosleđuju kroz međusobno povezane mreže. IP paket sadrži izvornu i odredišnu IP adresu. Kada paket stigne do rutera, ruter proverava odredišnu adresu i na osnovu svoje tabele rutiranja odlučuje kome će ga sledeće proslediti.\n\nPošiljalac ne mora unapred da poznaje sve rutere kroz koje će paket proći. Svaki ruter donosi odluku o sledećem koraku na putu do odredišta. IP, međutim, ne garantuje da će paket zaista stići.\n\n### Kako sastaviti podatke ako paketi stignu različitim redosledom?\n\nRačunar šalje veću količinu podataka, podeljenu na tri dela:\n\nA → B → C\n\nMeđutim, zbog različitog trajanja prenosa, delovi na odredište stižu ovim redosledom:\n\nB → C → A\n\nKako primalac može da rekonstruiše originalni redosled podataka?\n\nJedno rešenje je da delovi podataka imaju redne brojeve. Tako primalac može da utvrdi njihov originalni redosled, nezavisno od redosleda pristizanja.\n\nUpravo takav mehanizam koristi **TCP (Transmission Control Protocol)**.\n\nTCP numeriše bajtove u toku podataka. Kada se podaci prenose u više TCP segmenata, redni brojevi omogućavaju primaocu da ih sastavi u ispravan redosled.\n\nNa primer, pojednostavljeno:\n\nDeo | Pozicije bajtova\nA | 0–999\nB | 1000–1999\nC | 2000–2999\n\nČak i ako deo B stigne pre dela A, primalac zna gde njegovi bajtovi pripadaju.\n\nVažno: TCP aplikaciji pruža uređen tok bajtova, a ne niz zasebnih poruka. Zato TCP sam po sebi ne određuje gde se jedna aplikativna poruka završava, a sledeća počinje.\n\n### Šta ako neki deo podataka uopšte ne stigne?\n\nPonovo šaljemo delove A, B i C. Ovog puta na odredište stižu samo A i C. Deo B se izgubio tokom prenosa.\n\nKako primalac može da dobije podatke koji nedostaju? Da li je dovoljno da samo pravilno poređa ono što je stiglo?\n\nNije. Redni brojevi omogućavaju da se prepozna nedostatak podataka, ali sami ne mogu da nadoknade izgubljene bajtove. Potreban je i mehanizam potvrđivanja prijema i ponovnog slanja.\n\nTCP koristi potvrde prijema (acknowledgments) kako bi pošiljalac mogao da prati koji su podaci primljeni. Ako utvrdi da neki podaci nisu uspešno preneti, može ponovo da ih pošalje.\n\nPrimalac zatim sastavlja tok bajtova u ispravnom redosledu. Ako isti podaci stignu više puta, TCP prepoznaje duplikate i ne predaje ih aplikaciji više puta. Zahvaljujući ovim mehanizmima, TCP aplikaciji pruža pouzdan i uređen tok bajtova. To je veza između krajnjih uređaja. Nije rezervisan komunikacioni put. Ipak, to ne znači da će prenos uvek uspeti. Ako se komunikacija ne može nastaviti, veza može biti prekinuta i aplikacija mora da obradi neuspeh.\n\n### Šta smo rešili?\n\nSada možemo da razlikujemo uloge dva protokola:\n\n- IP omogućava adresiranje i prosleđivanje paketa kroz mrežu.\n- TCP omogućava pouzdan i uređen prenos bajtova između krajnjih procesa.\n\nAli ostaje još jedno pitanje: ako svi bajtovi uspešno stignu do servera, kako server zna šta oni znače?",
+          "tekst": "Znamo da se podaci kroz Internet prenose u paketima. Ali, sama podela podataka na pakete nije dovoljna da bi dva udaljena računara mogla uspešno da komuniciraju.\n\n### Kako mreža zna gde treba da pošalje paket?\n\nZamislimo da računar u Nišu šalje podatke serveru u Londonu. Između njih se nalazi više rutera, a svaki od njih prosleđuje veliki broj paketa različitih korisnika.\n\n### Kako ruter zna kome treba da prosledi određeni paket?\n\nPotreban nam je sistem adresiranja. Svaki paket mora da sadrži informaciju o tome odakle dolazi i kome je namenjen.\n\nTu ulogu ima **IP (Internet Protocol)**. On definiše IP adrese i način na koji se paketi prosleđuju kroz međusobno povezane mreže. IP paket sadrži izvornu i odredišnu IP adresu. Kada paket stigne do rutera, ruter proverava odredišnu adresu i na osnovu svoje tabele rutiranja odlučuje kome će ga sledeće proslediti.\n\nPošiljalac ne mora unapred da poznaje sve rutere kroz koje će paket proći. Svaki ruter donosi odluku o sledećem koraku na putu do odredišta. IP, međutim, ne garantuje da će paket zaista stići.\n\n### Kako sastaviti podatke ako paketi stignu različitim redosledom?\n\nRačunar šalje veću količinu podataka, podeljenu na tri dela:\n\nA → B → C\n\nMeđutim, zbog različitog trajanja prenosa, delovi na odredište stižu ovim redosledom:\n\nB → C → A\n\nKako primalac može da rekonstruiše originalni redosled podataka?\n\nJedno rešenje je da delovi podataka imaju redne brojeve. Tako primalac može da utvrdi njihov originalni redosled, nezavisno od redosleda pristizanja.\n\nUpravo takav mehanizam koristi **TCP (Transmission Control Protocol)**.\n\nTCP numeriše bajtove u toku podataka. Kada se podaci prenose u više TCP segmenata, redni brojevi omogućavaju primaocu da ih sastavi u ispravan redosled.\n\nNa primer, pojednostavljeno:\n\nDeo | Pozicije bajtova\nA | 0–999\nB | 1000–1999\nC | 2000–2999\n\nČak i ako deo B stigne pre dela A, primalac zna gde njegovi bajtovi pripadaju.\n\nVažno: TCP aplikaciji pruža uređen tok bajtova, a ne niz zasebnih poruka. Zato TCP sam po sebi ne određuje gde se jedna aplikativna poruka završava, a sledeća počinje.\n\n### Šta ako neki deo podataka uopšte ne stigne?\n\nPonovo šaljemo delove A, B i C. Ovog puta na odredište stižu samo A i C. Deo B se izgubio tokom prenosa.\n\nKako primalac može da dobije podatke koji nedostaju? Da li je dovoljno da samo pravilno poređa ono što je stiglo?\n\nNije. Redni brojevi omogućavaju da se prepozna nedostatak podataka, ali sami ne mogu da nadoknade izgubljene bajtove. Potreban je i mehanizam potvrđivanja prijema i ponovnog slanja.\n\nTCP koristi potvrde prijema (acknowledgments) kako bi pošiljalac mogao da prati koji su podaci primljeni. Ako utvrdi da neki podaci nisu uspešno preneti, može ponovo da ih pošalje.\n\nPrimalac zatim sastavlja tok bajtova u ispravnom redosledu. Ako isti podaci stignu više puta, TCP prepoznaje duplikate i ne predaje ih aplikaciji više puta. Zahvaljujući ovim mehanizmima, TCP aplikaciji pruža pouzdan i uređen tok bajtova. Ipak, to ne znači da će prenos uvek uspeti. Ako se komunikacija ne može nastaviti, veza može biti prekinuta i aplikacija mora da obradi neuspeh.\n\n### Šta smo rešili?\n\nSada možemo da razlikujemo uloge dva protokola:\n\n- IP omogućava adresiranje i prosleđivanje paketa kroz mrežu.\n- TCP omogućava pouzdan i uređen prenos bajtova između krajnjih procesa.\n\nAli ostaje još jedno pitanje: ako svi bajtovi uspešno stignu do servera, kako server zna šta oni znače?",
           "kljucnaIdeja": "IP prosleđuje paket. TCP predaje uređen tok bajtova. HTTP kaže šta zahtev i odgovor znače.",
-          "pitalica": "Kako mreža zna gde treba da pošalje paket?",
+          "pitalica": "Šta nam još nedostaje da bismo otvorili veb stranicu?",
           "pitalice": [
             {
-              "pitalica": "Kako mreža zna gde treba da pošalje paket?",
-              "odgovor": "Potreban je sistem adresiranja. Svaki paket mora da kaže odakle dolazi i kome je namenjen. To radi IP, Internet Protocol: definiše IP adrese i način na koji se paketi prosleđuju kroz međusobno povezane mreže.\n\nIP paket nosi izvornu i odredišnu IP adresu. Ruter gleda odredišnu adresu i po tabeli rutiranja bira kome će paket sledeće proslediti. Pošiljalac ne mora unapred da poznaje sve rutere na putu. Svaki ruter odlučuje samo sledeći korak.\n\nIP ne garantuje da će paket zaista stići."
+              "pitalica": "Šta nam još nedostaje da bismo otvorili veb stranicu?",
+              "odgovor": "Različiti protokoli rešavaju različite probleme: IP obezbeđuje adresiranje i prosleđivanje paketa, TCP pouzdan i uređen prenos bajtova, a HTTP definiše značenje zahteva i odgovora.\n\nPaketi mogu da putuju kroz mrežu. Ostaju tri problema: kako proslediti paket do odredišta, kako pouzdano preneti sve podatke i kako dogovoriti šta poslati zahtev i dobijeni odgovor znače.\n\nU internetu ove zadatke razdvajamo između protokola. Za početak posmatramo HTTP/1.1 preko TCP-a i IP-a."
             },
             {
-              "pitalica": "Kako sastaviti podatke ako paketi stignu različitim redosledom?",
-              "odgovor": "Delovi dobijaju redne brojeve, pa primalac zna originalni redosled bez obzira kojim su redom stigli. TCP numeriše bajtove u toku. Kad podaci idu u više segmenata, ti brojevi kažu gde svaki deo pripada.\n\nAko deo B stigne pre dela A, primalac i dalje zna da bajtovi 1000–1999 stoje iza 0–999.\n\nTCP aplikaciji predaje uređen tok bajtova, a ne niz zasebnih poruka. Sam ne kaže gde se jedna aplikativna poruka završava, a sledeća počinje."
+              "pitalica": "Šta je IP u nazivu TCP/IP?",
+              "odgovor": "IP znači Internet Protocol. On definiše adresiranje i prenos paketa između povezanih mreža. IP paket sadrži izvornu i odredišnu IP adresu. Ruteri koriste odredišnu adresu i svoje tabele rutiranja da odrede kome će paket sledeće proslediti.\n\nPošiljalac zato ne mora unapred da poznaje svaki ruter na putu. Paket se prosleđuje korak po korak do odredišta.\n\nIP ne garantuje da će paket stići, da će stići samo jednom ili da će paketi stići redom kojim su poslati. Sam ne šalje izgubljene podatke ponovo.\n\nNaziv TCP/IP potiče od dva važna protokola, ali se često koristi za celu porodicu internet protokola. To ne znači da svaka komunikacija preko IP-a koristi TCP."
             },
             {
-              "pitalica": "Šta ako neki deo podataka uopšte ne stigne?",
-              "odgovor": "Redni brojevi otkrivaju da podatak fali, ali ga ne vraćaju. TCP koristi potvrde prijema da pošiljalac vidi šta je primljeno. Ako neki podaci nisu preneti, može da ih pošalje ponovo.\n\nPrimalac zatim slaže tok u ispravnom redosledu. Ako isti podaci stignu više puta, TCP prepoznaje duplikate i ne predaje ih aplikaciji ponovo.\n\nTako aplikacija dobija pouzdan i uređen tok bajtova. To je veza između krajnjih uređaja. Nije rezervisan komunikacioni put. Prenos ipak ne uspeva uvek. Ako se komunikacija ne može nastaviti, veza se prekida i aplikacija mora da obradi neuspeh."
+              "pitalica": "Ako IP može da izgubi paket, kako ipak dobijamo potpun dokument?",
+              "odgovor": "TCP — Transmission Control Protocol — aplikacijama pruža pouzdan tok bajtova u ispravnom redosledu. To je veza između krajnjih uređaja. Nije rezervisan komunikacioni put. Koristi redne brojeve, potvrde prijema i ponovno slanje. Primaocu omogućava da poređa primljene delove i ukloni duplikate.\n\nAko se veza ne može nastaviti, aplikacija dobija grešku. Šta program vidi kad jedan deo zakasni, sledi."
             },
             {
-              "pitalica": "Šta su IP i TCP rešili, a šta ostaje?",
-              "odgovor": "IP omogućava adresiranje i prosleđivanje paketa kroz mrežu. TCP omogućava pouzdan i uređen prenos bajtova između krajnjih procesa.\n\nAko svi bajtovi stignu do servera, i dalje ostaje pitanje kako server zna šta oni znače. To značenje nije posao IP-a ni TCP-a. HTTP definiše šta zahtev i odgovor znače."
-            }
-          ]
-        },
-        {
-          "naslov": "Paket ili rezervisana veza",
-          "nivo": "Primena",
-          "minuta": 5,
-          "tipPrimer": "eksperiment",
-          "prica": "Veliki fajl ide od računara A ka računaru B kao tri dela: P1, P2 i P3. P2 kasni. P3 može da stigne pre njega.",
-          "tekst": "Veliki fajl ide od računara A ka računaru B kao tri dela: P1, P2 i P3. P2 kasni. P3 može da stigne pre njega.\n\nProgram koji čita fajl ne vidi redosled dolaska. TCP na prijemnoj strani čeka deo koji fali i predaje uređen tok. Ako P3 stigne pre P2, aplikacija preko TCP-a ne mora da vidi P3 prvo. To čekanje nije rezervisan kanal kroz mrežu: krajnji računari pamte red bajtova, a veze i dalje dele sa drugima.\n\nRupa u tom toku bila bi izgubljen znak, ne kasniji paket.\n\nDva sečenja nisu ista operacija. IP fragmentacija deli jedan datagram kad ne staje u sledeću vezu. TCP segmentacija deli tok bajtova na segmente koje veza može da ponese. Fragment nije segment. Jedna HTTP poruka može da pređe kroz više segmenata, a jedno čitanje iz veze ne mora da vrati celu poruku.",
-          "kljucnaIdeja": "Ako P3 stigne pre P2, TCP i dalje predaje aplikaciji uređen tok. Fragmentacija IP-a i segmentacija TCP-a nisu isto sečenje.",
-          "samostalniPrimer": {
-            "jezik": "text",
-            "izolovan": true,
-            "tekst": "A → [P1][P2][P3] → B\nP2 kasni; P3 može stići pre njega\nTCP isporučuje aplikaciji uređen tok"
-          },
-          "pitalica": "Šta je tačno ako P3 stigne pre P2?",
-          "pitalice": [
-            {
-              "pitalica": "Šta je tačno ako P3 stigne pre P2?",
-              "odgovor": "Aplikacija preko TCP-a ne mora da vidi P3 pre P2. TCP sačeka deo koji fali i isporuči uređen tok.\n\nTo čekanje nije rezervisan kanal kroz mrežu. Krajnji računari pamte red bajtova, a veze i dalje dele sa drugima."
+              "pitalica": "Ako TCP pouzdano prenosi podatke, zašto nam je potreban HTTP?",
+              "odgovor": "Pouzdan prenos ne objašnjava značenje podataka. HTTP — Hypertext Transfer Protocol — definiše šta zahtev i odgovor znače između klijenta i servera.\n\nMetode, statusi i zaglavlja su taj dogovor. Nisu posao IP-a ni TCP-a."
             },
             {
-              "pitalica": "Zašto TCP uopšte čeka P2 ako je P3 već stigao?",
-              "odgovor": "Aplikacija koja čita dokument ne sme da vidi rupu u bajtovima. Rupa bi bila izgubljen znak, ne kasniji paket.\n\nČekanje je odluka TCP-a. IP ne zabranjuje da P3 stigne pre P2."
-            },
-            {
-              "pitalica": "Da li je sečenje IP datagrama isto što i sečenje TCP toka?",
-              "odgovor": "Nije. IP fragmentacija deli datagram koji ne staje u sledeću vezu. TCP segmentacija deli tok bajtova na segmente. Fragment nije segment.\n\nJedna HTTP poruka može da pređe kroz više segmenata. Jedno čitanje iz veze ne mora da vrati celu poruku."
+              "pitalica": "Šta onda čini veb?",
+              "odgovor": "Veb je sistem resursa koje možemo da identifikujemo, povezujemo i kojima možemo da pristupamo.\n\nPitanje | Osnovni pojam | Uloga\nKom resursu pristupamo? | URL | Identifikuje resurs i daje informacije za pristup\nKako ga tražimo i dobijamo odgovor? | HTTP | Definiše razmenu između klijenta i servera\nKako je sadržaj predstavljen? | predstavljanje | Resurs može biti HTML, slika ili skup podataka\n\nHipertekst, sam dogovor HTTP-a i put od URL-a do prikaza dolaze redom, posle ove mape."
             }
           ]
         },
@@ -468,7 +443,7 @@
           "minuta": 5,
           "tipPrimer": "eksperiment",
           "prica": "Kadar filma zakasni. Dokument koji čeka bajt i dalje stoji. Glas, slika i igra ne čekaju.",
-          "tekst": "Kadar filma zakasni. Dokument koji čeka bajt i dalje stoji. Glas, slika i igra ne čekaju.\n\nUDP nema ugrađenu potvrdu, ponovno slanje ni garanciju redosleda. Aplikacija sme da preskoči zakasneli kadar, jer slika koja zakasni više nije ovaj trenutak. Dokument ne sme da izgubi bajt. TCP čuva tok bajtova dokumenta dok veza radi, ili prijavi da se veza prekinula.\n\nTCP i UDP nisu brži i sporiji internet. Nastaju jer različite aplikacije različito trpe gubitak. Ista mreža ne znači isto pravilo.\n\nHTTP/1.1 i HTTP/2 koriste TCP. HTTP/3 koristi QUIC preko UDP-a. QUIC predaje pouzdan tok. Sam UDP tu pouzdanost nema.",
+          "tekst": "Da li je važnije da svi podaci stignu ili da stignu na vreme?\n\nZamislimo dva slučaja. U prvom preuzimamo dokument sa servera, a u drugom učestvujemo u video-pozivu.\n\nAko se tokom preuzimanja dokumenta izgubi deo podataka, moramo da ga dobijemo ponovo. Dokument mora biti potpun i ispravan, čak i ako to znači da ćemo malo duže čekati.\n\nKod video-poziva situacija je drugačija. Ako deo slike stigne prekasno, možda više nema smisla prikazivati ga. Razgovor se već nastavio, pa je korisnije preskočiti zakasneli kadar nego zaustaviti prikaz i čekati ga.\n\nKako omogućiti aplikacijama da različito postupaju sa izgubljenim ili zakasnelim podacima?\n\nZa to postoje različiti transportni protokoli:\n\nTCP (Transmission Control Protocol) obezbeđuje pouzdan i uređen tok bajtova. Koristi potvrde prijema i ponovno slanje kako bi nadoknadio izgubljene podatke. Ako neki podaci nedostaju, kasniji bajtovi ne mogu biti predati aplikaciji preko tog toka dok se praznina ne popuni. Ako prenos ne može da se nastavi, veza se prekida.\n\nUDP (User Datagram Protocol) prenosi nezavisne poruke, odnosno datagrame, bez ugrađene garancije isporuke, redosleda ili ponovnog slanja. Aplikacija sama odlučuje kako će postupiti sa izgubljenim ili zakasnelim podacima. Može ih preskočiti, ali može i sama implementirati mehanizam pouzdanog prenosa.\n\nTo ne znači da je UDP jednostavno brži TCP. Razlika je u garancijama koje protokoli pružaju, a ne u tome koji je uvek brži.\n\nVažno je i da izbor UDP-a ne znači odustajanje od pouzdanosti. Na primer, HTTP/1.1 i HTTP/2 koriste TCP, dok HTTP/3 koristi QUIC preko UDP-a. QUIC sam obezbeđuje pouzdan i uređen prenos podataka unutar svojih tokova.\n\nKljučna ideja\n\nTCP obezbeđuje pouzdan i uređen tok bajtova. UDP prenosi datagrame bez garancije njihove isporuke i redosleda. Aplikacija bira način komunikacije prema svojim potrebama.",
           "kljucnaIdeja": "TCP čuva svaki bajt dokumenta. UDP ne garantuje isporuku svakog paketa.",
           "figura": {
             "vrsta": "put",
@@ -500,11 +475,16 @@
           ]
         },
         {
-          "naslov": "Hipertekst",
+          "naslov": "HTTP: Od pouzdanog prenosa do Weba",
+          "tekst": "\n\nPitalica 1: Ako TCP pouzdano prenosi podatke, zašto nam je potreban još jedan protokol?\n\nZamislimo da klijent šalje serveru podatke i da TCP obezbedi njihov ispravan prenos.\n\nServer je primio sve bajtove, ali kako zna da li klijent želi da pročita temperaturu, promeni stanje ventilatora ili zatraži HTML dokument?\n\nDa li TCP može da odgovori na to pitanje?\n\nObjašnjenje\n\nNe može. TCP prenosi bajtove, ali ne određuje njihovo značenje.\n\nKlijent i server zato moraju da se dogovore o formatu poruka i pravilima njihove razmene.\n\nZa Web tu ulogu ima HTTP (Hypertext Transfer Protocol).\n\nHTTP definiše strukturu zahteva i odgovora, uključujući metode, zaglavlja i statusne kodove.\n\nNa primer, klijent može da pošalje:\n\nGET /api/soba HTTP/1.1\nHost: localhost:8787\n\nOvim zahtevom klijent traži podatke o sobi. Server može da odgovori:\n\nHTTP/1.1 200 OK\nContent-Type: application/json\n\n{\"temperatura\":24}\n\nHTTP omogućava klijentu i serveru da razumeju šta se zahteva, kako je odgovor predstavljen i kakav je ishod obrade zahteva.\n\nZa početak ćemo koristiti HTTP/1.1 preko TCP-a i IP-a.\n\nPitalica 2: Da li je HTTP dovoljan da bismo imali Web?\n\nSada znamo kako da pošaljemo zahtev i dobijemo odgovor. Ali kako određujemo kojem dokumentu ili drugom resursu želimo da pristupimo? I kako browser zna šta je dobio?\n\nObjašnjenje\n\nWeb se zasniva na nekoliko ideja koje zajedno omogućavaju pristup povezanim resursima.\n\nPitanje\n\nPojam\n\nUloga\n\nKojem resursu pristupamo?\n\nURL\n\nIdentifikuje resurs i pruža informacije potrebne za pristup\n\nKako tražimo resurs i dobijamo odgovor?\n\nHTTP\n\nDefiniše razmenu zahteva i odgovora\n\nKako je sadržaj predstavljen?\n\nReprezentacija resursa\n\nOdgovor može sadržati HTML, sliku, JSON ili druge podatke\n\nNa primer, kada browser zatraži HTML dokument, HTTP omogućava njegovo preuzimanje, a browser zatim obrađuje HTML da bi prikazao stranicu.\n\nKako su nastali hipertekst, URL, HTML i sam Web, i koje su probleme rešili, razmotrićemo u narednim koracima.",
+          "kljucnaIdeja": ""
+        },
+        {
+          "naslov": "Hipertekst: od stranice do stranice, putem linkova",
           "nivo": "Osnovno",
           "minuta": 5,
           "tipPrimer": "eksperiment",
-          "tekst": "### Hipertekst: od linearnog čitanja do mreže povezanih informacija\n\nKnjigu obično čitamo redom, od jedne stranice ka sledećoj. Ali šta ako želimo da pratimo ideje i njihove međusobne veze, umesto unapred određenog redosleda stranica?\n\nVanevar Buš (Vannevar Bush) još 1945. godine opisuje **Memex**, zamišljeni uređaj koji omogućava povezivanje i pronalaženje informacija putem asocijacija. Ted Nelson 1965. uvodi pojam **hipertekst**, označavajući tekst čiji su delovi međusobno povezani i koji se može istraživati nelinearno.\n\n**Hipertekst** omogućava čitaocu da sam bira put kroz informacije. Umesto da prati strogo određen redosled, može da prelazi između povezanih dokumenata i tema.\n\nOsnovni mehanizam je **hiperlink (veza)**, element na koji korisnik može da klikne kako bi otvorio drugi dokument ili određeni deo istog dokumenta.\n\nNa vebu se to ostvaruje kombinacijom dve tehnologije:\n\n- **URL** određuje adresu resursa na koji veza upućuje.\n- **HTML** pomoću elementa `<a>` definiše vezu i omogućava korisniku da je prati.\n\nTako nastaje **World Wide Web**, mreža međusobno povezanih dokumenata u kojoj korisnik sam odlučuje kojim putem će istraživati informacije.",
+          "tekst": "Knjigu obično čitamo redom, od jedne stranice ka sledećoj. Ali šta ako želimo da pratimo ideje i njihove međusobne veze, umesto unapred određenog redosleda stranica?\n\nVanevar Buš (Vannevar Bush) još 1945. godine opisuje **Memex**, zamišljeni uređaj koji omogućava povezivanje i pronalaženje informacija putem asocijacija. Ted Nelson 1965. uvodi pojam **hipertekst**, označavajući tekst čiji su delovi međusobno povezani i koji se može istraživati nelinearno.\n\n**Hipertekst** omogućava čitaocu da sam bira put kroz informacije. Umesto da prati strogo određen redosled, može da prelazi između povezanih dokumenata i tema.\n\nOsnovni mehanizam je **hiperlink (veza)**, element na koji korisnik može da klikne kako bi otvorio drugi dokument ili određeni deo istog dokumenta.\n\nBerners-Lee u CERN-u, marta 1989, predlaže povezane dokumente. Šef dopisuje „vague but exciting”.  Tako nastaje **World Wide Web**, mreža međusobno povezanih dokumenata u kojoj korisnik sam odlučuje kojim putem će istraživati informacije.\n\nWeb je jedna usluga na Internetu, ne sam Internet. CERN-ov problem bio je povezivanje informacija između heterogenih računara i timova. Web je rešio pristup međusobno povezanim dokumentima preko postojećeg Interneta, umesto da izmišlja novu mrežnu infrastrukturu.\n\nNa Webu se to ostvaruje kombinacijom dve tehnologije:\n\n- **URL** određuje adresu resursa na koji veza upućuje.\n- **HTML** pomoću elementa `<a>` definiše vezu i omogućava korisniku da je prati.\n\n",
           "kljucnaIdeja": "Veza vodi na drugi tekst, ne na sledeći broj stranice.",
           "figura": {
             "vrsta": "put",
@@ -575,86 +555,6 @@
                 }
               ],
               "analizaPitalice": "Ako veza ostane „sledeći broj”, Web ne rešava problem razbacanih dokumenata. URL postoji da bi odredište bilo imenovano, ne poredano."
-            }
-          ]
-        },
-        {
-          "naslov": "Predlog",
-          "nivo": "Osnovno",
-          "minuta": 5,
-          "tipPrimer": "eksperiment",
-          "tekst": "Zašto je laboratoriji fizike uopšte trebalo ovo? Berners-Lee u CERN-u, marta 1989, predlaže povezane dokumente. Šef dopisuje „vague but exciting”. Web je jedna usluga na Internetu, ne sam Internet. CERN-ov problem bio je povezivanje informacija između heterogenih računara i timova. Web je rešio pristup međusobno povezanim dokumentima preko postojećeg Interneta, umesto da izmišlja novu mrežnu infrastrukturu.",
-          "kljucnaIdeja": "Web je usluga. Internet je mreža ispod nje.",
-          "pitalica": "Šta je Web u odnosu na Internet?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Web jeste cela mreža.",
-              "why": "Mreža već radi pre predloga iz 1989. CERN-ov problem bio je povezivanje informacija između heterogenih računara i timova.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Web je jedna usluga na Internetu.",
-              "why": "Predlog rešava dokumente laboratorije, ne kablove. CERN-ov problem bio je povezivanje informacija između heterogenih računara i timova. Web je rešio pristup međusobno povezanim dokumentima preko postojećeg Interneta, umesto da izmišlja novu mrežnu infrastrukturu.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "CERN-ov problem bio je povezivanje informacija između heterogenih računara i timova. Web je rešio pristup međusobno povezanim dokumentima preko postojećeg Interneta, umesto da izmišlja novu mrežnu infrastrukturu.",
-          "pitalice": [
-            {
-              "pitalica": "Šta je Web u odnosu na Internet?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Web jeste cela mreža.",
-                  "why": "Mreža već radi pre predloga iz 1989. CERN-ov problem bio je povezivanje informacija između heterogenih računara i timova.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Web je jedna usluga na Internetu.",
-                  "why": "Predlog rešava dokumente laboratorije, ne kablove. CERN-ov problem bio je povezivanje informacija između heterogenih računara i timova. Web je rešio pristup međusobno povezanim dokumentima preko postojećeg Interneta, umesto da izmišlja novu mrežnu infrastrukturu.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "CERN-ov problem bio je povezivanje informacija između heterogenih računara i timova. Web je rešio pristup međusobno povezanim dokumentima preko postojećeg Interneta, umesto da izmišlja novu mrežnu infrastrukturu."
-            },
-            {
-              "pitalica": "Zašto je Web napravljen povrh Interneta, a ne kao nova mreža?",
-              "opcije": [
-                {
-                  "key": "B",
-                  "text": "Zato što je problem bio povezivanje dokumenata, a prenos između računara je već postojao.",
-                  "why": "CERN-ov problem nije bio izum novog kabla. Web je usluga: dokument po adresi, preko mreže koja već prenosi bajtove.",
-                  "ok": true
-                },
-                {
-                  "key": "A",
-                  "text": "Zato što su Internet i Web isto, samo noviji naziv.",
-                  "why": "Isto ime u govoru ne briše sloj. Bez Interneta Web nema kuda, ali Internet bez URL-a i dokumenta nije Web.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "Student koji izjednači reči ne ume da kaže gde je greška: u imenu, u vezi ili u dokumentu. Nova usluga ne zahteva novu mrežu."
-            },
-            {
-              "pitalica": "Šta stranica iz 1991. već jeste, a Gmail još nije?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Hipertekstni dokument dovežen po URL-u, ne mreža i ne aplikacija.",
-                  "why": "Ista reč „web” pokriva četiri stvari. Stranica iz 1991. je samo prva od njih.",
-                  "ok": true
-                },
-                {
-                  "key": "B",
-                  "text": "Aplikacija, jer se nešto već vidi u browseru.",
-                  "why": "Prikaz dokumenta nije aplikacija. Aplikacija nastaje kad zahtev menja deo, a dokument ostaje.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "Ovo je isto pitanje kao diskusija teme, svedeno na korak. Nastavnik može da ga preskoči ako diskusija teme već stoji na kraju."
             }
           ]
         },
@@ -822,68 +722,6 @@
           ]
         },
         {
-          "naslov": "Rat browsera",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "eksperiment",
-          "tekst": "Šta se desi stranici kad svaki browser izmisli svoju oznaku? Netscape i Internet Explorer ratuju. Jedan ima blink, drugi marquee. Stranica piše „best viewed in” i puca u drugom browseru. Standard načas izgubi, pa opet postane potreban. Kada se stranica oslanja na proširenje jednog browsera, drugi browser može ignorisati deo prikaza ili ponašanja. Interoperabilni standardi smanjuju vezanost za jednog proizvođača; današnji HTML održava WHATWG kao Living Standard.",
-          "kljucnaIdeja": "Privatna oznaka radi samo tamo gde je izmišljena.",
-          "pitalica": "Zašto stranica puca u drugom browseru?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Zato što W3C zabrani oba browsera.",
-              "why": "Puca oznaka koju drugi browser ne poznaje. Kada se stranica oslanja na proširenje jednog browsera, drugi browser može ignorisati deo prikaza ili ponašanja.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Stranica puca jer browseri izmišljaju svoje oznake.",
-              "why": "blink i marquee nisu isti jezik. Stranica traži jedan od njih. Kada se stranica oslanja na proširenje jednog browsera, drugi browser može ignorisati deo prikaza ili ponašanja. Interoperabilni standardi smanjuju vezanost za jednog proizvođača; današnji HTML održava WHATWG kao Living Standard.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "Kada se stranica oslanja na proširenje jednog browsera, drugi browser može ignorisati deo prikaza ili ponašanja. Interoperabilni standardi smanjuju vezanost za jednog proizvođača; današnji HTML održava WHATWG kao Living Standard.",
-          "pitalice": [
-            {
-              "pitalica": "Zašto stranica puca u drugom browseru?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Zato što W3C zabrani oba browsera.",
-                  "why": "Puca oznaka koju drugi browser ne poznaje. Kada se stranica oslanja na proširenje jednog browsera, drugi browser može ignorisati deo prikaza ili ponašanja.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Stranica puca jer browseri izmišljaju svoje oznake.",
-                  "why": "blink i marquee nisu isti jezik. Stranica traži jedan od njih. Kada se stranica oslanja na proširenje jednog browsera, drugi browser može ignorisati deo prikaza ili ponašanja. Interoperabilni standardi smanjuju vezanost za jednog proizvođača; današnji HTML održava WHATWG kao Living Standard.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Kada se stranica oslanja na proširenje jednog browsera, drugi browser može ignorisati deo prikaza ili ponašanja. Interoperabilni standardi smanjuju vezanost za jednog proizvođača; današnji HTML održava WHATWG kao Living Standard."
-            },
-            {
-              "pitalica": "Zašto privatna oznaka jednog browsera ne preživi u drugom?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Zato što značenje oznake nije privatna reč jedne firme.",
-                  "why": "Standard nastaje da bi isti dokument imao isto značenje kod više proizvođača.",
-                  "ok": true
-                },
-                {
-                  "key": "B",
-                  "text": "Zato što je mreža između njih drugačija.",
-                  "why": "Stranica puca i kad je mreža ista. Puca dogovor o značenju oznake.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "Iz „kod mene radi” ne sledi da dokument važi. W3C i kasnije WHATWG postoje zbog te pukotine, ne zbog lepšeg izgleda."
-            }
-          ]
-        },
-        {
           "naslov": "Od URL-a do prikaza",
           "nivo": "Primena",
           "minuta": 4,
@@ -959,86 +797,6 @@
                 }
               ],
               "analizaPitalice": "Put od URL-a do prikaza postoji da bi se greška locirala. DNS ne preuzima dokument, TLS ga ne parsira, HTTP ne crta piksele."
-            }
-          ]
-        },
-        {
-          "naslov": "Ajax",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "eksperiment",
-          "tekst": "Zašto mapa ne učita novi dokument kad je povučeš? Garrett februara 2005. imenuje obrazac. Gmail i Google Maps ostave dokument na mestu, a zahtev promeni deo. Veb aplikacija nije prezentacioni sajt. Ajax nije novi mrežni protokol, već način da JavaScript pošalje zahtev bez zamene celog dokumenta. Danas se najčešće koristi fetch; dobijeni podaci sami po sebi ne menjaju DOM dok aplikacija ne osveži prikaz.",
-          "kljucnaIdeja": "Dokument ostaje. Zahtev menja deo, ne celu stranu.",
-          "pitalica": "Šta Ajax uradi stranici?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Zameni ceo dokument novim fajlom.",
-              "why": "Mapa se vuče bez nove strane. Ajax nije novi mrežni protokol, već način da JavaScript pošalje zahtev bez zamene celog dokumenta.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Dokument ostaje, a zahtev menja deo.",
-              "why": "Gmail i Maps ne učitavaju novu stranu za svaki pokret. Ajax nije novi mrežni protokol, već način da JavaScript pošalje zahtev bez zamene celog dokumenta. Danas se najčešće koristi fetch; dobijeni podaci sami po sebi ne menjaju DOM dok aplikacija ne osveži prikaz.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "Ajax nije novi mrežni protokol, već način da JavaScript pošalje zahtev bez zamene celog dokumenta. Danas se najčešće koristi fetch; dobijeni podaci sami po sebi ne menjaju DOM dok aplikacija ne osveži prikaz.",
-          "pitalice": [
-            {
-              "pitalica": "Šta Ajax uradi stranici?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Zameni ceo dokument novim fajlom.",
-                  "why": "Mapa se vuče bez nove strane. Ajax nije novi mrežni protokol, već način da JavaScript pošalje zahtev bez zamene celog dokumenta.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Dokument ostaje, a zahtev menja deo.",
-                  "why": "Gmail i Maps ne učitavaju novu stranu za svaki pokret. Ajax nije novi mrežni protokol, već način da JavaScript pošalje zahtev bez zamene celog dokumenta. Danas se najčešće koristi fetch; dobijeni podaci sami po sebi ne menjaju DOM dok aplikacija ne osveži prikaz.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Ajax nije novi mrežni protokol, već način da JavaScript pošalje zahtev bez zamene celog dokumenta. Danas se najčešće koristi fetch; dobijeni podaci sami po sebi ne menjaju DOM dok aplikacija ne osveži prikaz."
-            },
-            {
-              "pitalica": "Zašto Ajax nije novi mrežni protokol?",
-              "opcije": [
-                {
-                  "key": "B",
-                  "text": "Zato što Ajax zamenjuje TCP.",
-                  "why": "TCP i dalje nosi bajtove. Ajax ne uvodi novi transport.",
-                  "ok": false
-                },
-                {
-                  "key": "A",
-                  "text": "Zato što je i dalje HTTP zahtev; novo je to što dokument ostaje, a menja se deo.",
-                  "why": "Potreba je nastala jer zamena cele strane gubi ono što korisnik već gleda. Protokol prenosa nije zamenjen.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Dobijeni podaci sami ne menjaju prikaz. Aplikacija mora da osveži deo. Iz „stigao je odgovor” ne sledi da je ekran već nov."
-            },
-            {
-              "pitalica": "Šta Ajax ne rešava sam?",
-              "opcije": [
-                {
-                  "key": "B",
-                  "text": "Da li je broj na ekranu svež i da li komanda jeste izvršena.",
-                  "why": "Zahtev koji menja deo i dalje može da donese star podatak ili da ne dobije potvrdu efekta.",
-                  "ok": true
-                },
-                {
-                  "key": "A",
-                  "text": "Da li browser ume da pošalje zahtev bez zamene dokumenta.",
-                  "why": "To Ajax upravo ume. Sledeći problemi su svežina i dokaz efekta, ne sam zahtev.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "Ova pitalica najavljuje kasnije teme, a ne uvodi ih. Na času se staje na granici: dokument ostaje."
             }
           ]
         },

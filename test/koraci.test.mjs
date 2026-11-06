@@ -152,11 +152,11 @@ test("Paket ili rezervisana veza gleda kasni deo, ne ponavlja slojeve", () => {
 });
 
 test("TCP i UDP poredi zakasneli kadar sa bajtom dokumenta", () => {
-  const korak = dokument.teme[0].steps[4];
+  const korak = dokument.teme[0].steps.find((korak) => korak.naslov === "TCP i UDP");
   assert.equal(korak.naslov, "TCP i UDP");
   assert.match(korak.prica, /Kadar filma zakasni/);
   assert.match(korak.prica, /ne čekaju/);
-  assert.match(korak.tekst, /nema ugrađenu potvrdu/);
+  assert.match(korak.tekst, /bez ugrađene garancije/);
   assert.match(korak.tekst, /HTTP\/3 koristi QUIC/);
   assert.equal(korak.tekst.includes("ventilator"), false);
   assert.equal(korak.tekst.includes("Šta radimo sa zakasnelim kadrom?"), false);
@@ -167,10 +167,15 @@ test("TCP i UDP poredi zakasneli kadar sa bajtom dokumenta", () => {
     [
       "Šta radimo sa zakasnelim kadrom?",
       "Zašto kadar sme da se odbaci, a bajt dokumenta ne?",
+      "Ako se izgubi deo podataka tokom video-poziva, da li ga uvek treba ponovo poslati?",
+      "Ako HTTP/3 koristi UDP, da li to znači da veb stranica može da stigne nepotpuna?",
     ],
   );
   assert.match(korak.pitalice[0].odgovor, /Kadar sme da se odbaci/);
   assert.match(korak.pitalice[1].odgovor, /više nije ovaj trenutak/);
+  assert.match(korak.pitalice[2].odgovor, /Odluku donosi aplikacija, a ne UDP/);
+  assert.match(korak.pitalice[3].odgovor, /QUIC preko UDP-a/);
+  assert.match(korak.pitalice[3].odgovor, /Sam UDP tu pouzdanost nema/);
   assert.equal(korak.pitalice.every((p) => !p.opcije && p.odgovor), true);
   assert.equal("opcije" in korak, false);
 });
