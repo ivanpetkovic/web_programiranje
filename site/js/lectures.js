@@ -3,6 +3,14 @@ import kurs from "../kurs.json" with { type: "json" };
 export const dokument = kurs;
 
 export function listaPitalica(korak) {
+  if (Array.isArray(korak?.diskusija)) {
+    return korak.diskusija.filter((blok) => blok?.vrsta === "pitanje").map((blok) => ({
+      pitalica: blok.tekst || "",
+      opcije: blok.oblik === "izbor" ? blok.opcije || [] : [],
+      odgovor: blok.oblik === "izbor" ? "" : blok.odgovor || "",
+      analiza: blok.analiza || "",
+    }));
+  }
   const izNiza = Array.isArray(korak.pitalice) ? korak.pitalice.filter((p) => p && (p.pitalica || (p.opcije || []).length)) : [];
   const izvor = izNiza.length
     ? izNiza
@@ -44,6 +52,7 @@ export function mapirajKorak(korak) {
     samostalniPrimer: korak.samostalniPrimer,
     dijagram: korak.dijagram,
     blokovi: korak.blokovi,
+    diskusija: korak.diskusija,
     analiza: prva.analiza,
   };
 }

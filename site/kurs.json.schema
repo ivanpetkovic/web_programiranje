@@ -266,13 +266,21 @@
       "required": ["id", "vrsta", "tekst"],
       "properties": {
         "id": { "type": "string", "minLength": 1 },
-        "vrsta": { "type": "string", "enum": ["tekst", "highlight", "kod", "dijagram"] },
+        "vrsta": { "type": "string", "enum": ["tekst", "highlight", "kod", "dijagram", "pitanje"] },
         "tekst": { "type": "string" },
         "uloga": { "type": "string", "enum": ["kljucna", "obicna"] },
         "naslov": { "type": "string" },
         "pozadina": { "type": "string", "enum": ["bela", "crna"] },
         "jezik": { "$ref": "#/$defs/jezik" },
-        "veza": { "type": "string", "enum": ["samostalniPrimer", "dijagram"] }
+        "veza": { "type": "string", "enum": ["samostalniPrimer", "dijagram", "prica"] },
+        "oblik": { "type": "string", "enum": ["tekst", "izbor"] },
+        "odgovor": { "type": "string" },
+        "analiza": { "type": "string" },
+        "opcije": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/opcija" }
+        }
       }
     },
     "korak": {
@@ -310,6 +318,10 @@
         "dijagram": { "$ref": "#/$defs/dijagram" },
         "samostalniPrimer": { "$ref": "#/$defs/samostalniPrimer" },
         "blokovi": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/blokLekcije" }
+        },
+        "diskusija": {
           "type": "array",
           "items": { "$ref": "#/$defs/blokLekcije" }
         }

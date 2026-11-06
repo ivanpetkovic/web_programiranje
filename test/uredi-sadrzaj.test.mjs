@@ -49,13 +49,13 @@ test("znak stanja je kvačica, loader ili crveni X", () => {
   assert.match(main, /dugmeTrake\("plus", "Dodaj korak"/);
   assert.match(main, /dugmeTrake\("list-plus", "Ubaci korak"/);
   assert.equal(main.includes('dugmeTrake("trash", "Obriši pitanje"'), false);
-  assert.match(main, /aria-label", "Opcije pitanja"/);
-  assert.match(main, /"Dodaj ispred"/);
-  assert.match(main, /"Dodaj posle"/);
-  assert.match(main, /"Izmeni"/);
-  assert.match(main, /"Pomeri na gore"/);
-  assert.match(main, /"Pomeri na dole"/);
+  assert.match(main, /aria-label", "Opcije sekcije"/);
+  assert.match(main, /stavkaSaIkonom\("pencil", "Uredi"/);
+  assert.match(main, /"Promeni tip"/);
+  assert.match(main, /"Ubaci ispred"/);
+  assert.match(main, /"Ubaci iza"/);
   assert.match(main, /"Obriši"/);
+  assert.equal(main.includes('aria-label", "Opcije pitanja"'), false);
   assert.match(main, /znakStanja\(urediSadrzaj\)/);
 });
 

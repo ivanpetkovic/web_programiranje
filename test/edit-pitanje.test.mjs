@@ -25,9 +25,9 @@ test("izmena pitanja ostaje posle reload-a kad kvačica kaže sačuvano", { time
   await strana.idi(adresa);
   await pauza(400);
   const odmah = await strana.vrednost(`(async () => {
-    const blok = document.querySelectorAll(".pitalica-koraka")[1];
-    blok.querySelector('[aria-label="Opcije pitanja"]').click();
-    [...blok.querySelectorAll('[role="menuitem"]')].find((dugme) => dugme.textContent === "Izmeni").click();
+    const blok = [...document.querySelectorAll(".sekcija-lekcije")].filter((el) => el.dataset.vrsta === "pitanje")[1];
+    blok.querySelector('[aria-label="Opcije sekcije"]').click();
+    [...blok.querySelectorAll('[role="menuitem"]')].find((dugme) => dugme.textContent === "Uredi").click();
     await new Promise((resolve) => setTimeout(resolve, 40));
     const polja = [...document.querySelectorAll(".uredjivi-editor-pitalica textarea")];
     polja[0].value = ${JSON.stringify(marker)};
