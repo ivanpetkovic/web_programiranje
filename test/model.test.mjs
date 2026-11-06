@@ -40,6 +40,10 @@ test("adapter čita dokument i ne drži naslove", () => {
   assert.equal(izvor.includes("JavaScript opisuje stanje"), false);
   assert.equal(dokument.naslov, "Web programiranje");
   assert.equal(dokument.slika, "/img/kurs.svg");
+  const znak = fs.readFileSync(new URL("../site/img/kurs.svg", import.meta.url), "utf8");
+  assert.match(znak, /<circle /);
+  assert.match(znak, /<rect /);
+  assert.equal(znak.includes("M8 21h8"), false);
   assert.equal(dokument.ustanova, "Elektronski fakultet");
   assert.equal(dokument.ustanovaRed, "Univerzitet u Nišu");
   assert.equal(dokument.grb, "/img/elfak_logo.png");
