@@ -842,7 +842,7 @@ button.sve-beleske-korak:hover { color: var(--amber); }
   text-decoration: none;
   min-width: 12rem;
 }
-.ustanova strong { display: block; color: var(--ink); font-size: 0.92rem; }
+.ustanova strong { display: block; color: var(--ink); font-size: calc(0.92rem * 0.8); }
 .ustanova small { display: block; color: var(--muted); }
 .ustanova img { width: 48px; height: 48px; object-fit: contain; border-radius: 50%; }
 .trazi { position: relative; flex: 1; min-width: 16rem; display: flex; align-items: center; }
@@ -872,6 +872,7 @@ button.sve-beleske-korak:hover { color: var(--amber); }
   border-radius: 6px;
   padding: 0.05rem 0.35rem;
   font-size: 0.75rem;
+  pointer-events: none;
 }
 .typeahead {
   position: absolute;
@@ -2151,7 +2152,7 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   #naslov-kursa.brand {
     grid-area: naslov;
     margin: 0;
-    font-size: 0.98rem;
+    font-size: calc(0.98rem * 0.8);
     line-height: 1.25;
     justify-self: start;
     align-self: center;
@@ -2225,6 +2226,7 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
 
 @media (min-width: 861px) {
   .top {
+    --trazi-skupljeno: 78px;
     position: relative;
     z-index: 9;
     flex-wrap: nowrap;
@@ -2235,16 +2237,35 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   }
   .top .ustanova { min-width: 0; gap: 14px; flex: none; }
   .top .ustanova img { width: 58px; height: 58px; }
-  .top .ustanova strong { font-size: 20px; line-height: 24px; font-weight: 700; }
-  .top .ustanova small { font-size: 16px; line-height: 20px; }
+  .top .ustanova strong { font-size: calc(20px * 0.8); line-height: calc(24px * 0.8); font-weight: 700; }
+  .top .ustanova small { font-size: calc(16px * 0.8); line-height: calc(20px * 0.8); }
   .top-razdelnik { margin: 0 22px; }
-  .top #naslov-kursa { flex: none; margin: 0; font-size: 28px; line-height: 34px; white-space: nowrap; }
+  .top #naslov-kursa { flex: none; margin: 0; font-size: calc(28px * 0.8); line-height: calc(34px * 0.8); white-space: nowrap; }
   .top .kurs-slika { width: 40px; height: 40px; }
-  .top .trazi { flex: 1 1 auto; min-width: 160px; max-width: 360px; margin-left: auto; font-size: 15px; }
+  .top .trazi {
+    flex: 1 1 auto;
+    min-width: 160px;
+    max-width: 360px;
+    margin-left: auto;
+    font-size: 15px;
+    transition: min-width 0.18s ease, max-width 0.18s ease;
+  }
+  .top .trazi:not(:focus-within):not(:has(#q:not(:placeholder-shown))) {
+    min-width: var(--trazi-skupljeno);
+    max-width: var(--trazi-skupljeno);
+  }
+  .top .trazi:not(:focus-within):not(:has(#q:not(:placeholder-shown))) #q {
+    padding: 0 42px 0 32px;
+    cursor: pointer;
+  }
+  .top .trazi:not(:focus-within):not(:has(#q:not(:placeholder-shown))) #q::placeholder { color: transparent; }
   .top .trazi #q { height: 42px; padding: 0 48px 0 38px; border-radius: 12px; font-size: 15px; }
   .top .trazi .ikona-slot { left: 12px; }
   .top .trazi .ikona { width: 18px; height: 18px; }
   .top .trazi kbd { right: 10px; font-size: 12px; }
+  @media (prefers-reduced-motion: reduce) {
+    .top .trazi { transition: none; }
+  }
   .top > #pomoc { flex: none; width: 44px; height: 44px; margin-left: 14px; padding: 0; border-radius: 12px; }
   .top > #pomoc .ikona { width: 22px; height: 22px; }
   .beleske-dugme, .opcije-dugme {

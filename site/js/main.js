@@ -3301,8 +3301,12 @@ q.addEventListener("keydown", (event) => {
     stavke.forEach((dugme, indeks) => dugme.setAttribute("aria-selected", String(indeks === typeaheadIndeks)));
     stavke[typeaheadIndeks].scrollIntoView({ block: "nearest" });
   } else if (event.key === "Escape") {
-    typeahead.hidden = true;
-    q.setAttribute("aria-expanded", "false");
+    if (!typeahead.hidden) {
+      typeahead.hidden = true;
+      q.setAttribute("aria-expanded", "false");
+    } else {
+      q.blur();
+    }
   }
 });
 
