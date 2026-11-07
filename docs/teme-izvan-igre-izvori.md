@@ -2,7 +2,7 @@
 
 Provera: 16. oktobar 2026. Poređenje konkretnih izvođenja: Stanford CS193X i CS142 (2023), MIT web.lab (2025). Ovo nije zahtev da lokalni kurs preuzme sve njihove teme. Klasifikacija pokrivenosti i preporuke u nastavku predstavljaju našu nastavnu procenu.
 
-Polazni primer pri nastanku analize bila je potezna slagalica. Naknadno je izabrana Kontrolna soba; [glavni plan](../web_programiranje_interaktivni_kurs_predlog.md) mapira sve navedene teme na predavanja. Izvori i poređenje ispod ostaju relevantni, dok ocene odnosa prema igri opisuju raniji kandidat.
+Polazni primer pri nastanku analize bila je potezna slagalica. Naknadno je izabrana Kontrolna soba. Nastavni okvir je u [docs/kurs.md](kurs.md). Tekst tema je `site/kurs.json`. Izvori i poređenje ispod ostaju relevantni, dok ocene odnosa prema igri opisuju raniji kandidat.
 
 ## Jezgro koje primer prirodno pokriva
 

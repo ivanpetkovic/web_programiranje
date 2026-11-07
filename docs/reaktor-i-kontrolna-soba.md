@@ -1,6 +1,6 @@
 # Reaktor i Kontrolna soba kao primeri za predavanja
 
-Status: izabrana je Kontrolna soba. Poređenje sa Reaktorom je sačuvano kao obrazloženje izbora; važeći raspored je u [glavnom planu](../web_programiranje_interaktivni_kurs_predlog.md). Ovo nije plan vežbi. Predavanja traju 10 × 90 minuta. Studenti znaju OOP, algoritme i SQL; strukture podataka uče paralelno. Koriste se vanilla HTML/CSS/JS i Node.js bez Express-a, React-a ili Next.js-a. PostgreSQL radi u Dockeru; za vezu Node-a i baze potreban je drajver.
+Status: izabrana je Kontrolna soba. Poređenje sa Reaktorom je sačuvano kao obrazloženje izbora. Nastavni okvir je u [docs/kurs.md](kurs.md). [Stari plan](../web_programiranje_interaktivni_kurs_predlog.md) nije merodavan raspored. Ovo nije plan vežbi. Predavanja traju 10 × 90 minuta. Studenti znaju OOP, algoritme i SQL; strukture podataka uče paralelno. Koriste se vanilla HTML/CSS/JS i Node.js bez Express-a, React-a ili Next.js-a. PostgreSQL radi u Dockeru; za vezu Node-a i baze potreban je drajver.
 
 ## Zajednički nastavni princip
 

@@ -1,6 +1,6 @@
 # Analiza i predlog postepenog kursa Web programiranje
 
-Status: istorijska analiza i radne verzije predloga, 16. oktobar 2026. Izabrana je Kontrolna soba; važeći razrađeni raspored je u [glavnom planu](../web_programiranje_interaktivni_kurs_predlog.md). Kritika ispod odnosi se na [arhivirani izvorni dokument](izvorni-plan-103-slajda.md). Otvorene odluke i primeri sa beleškama u ovom dokumentu predstavljaju ranije faze razgovora, ne aktuelne zahteve.
+Status: istorijska analiza i radne verzije predloga, 16. oktobar 2026. Izabrana je Kontrolna soba. Nastavni okvir je u [docs/kurs.md](kurs.md). [Stari plan](../web_programiranje_interaktivni_kurs_predlog.md) nije merodavan raspored. Kritika ispod odnosi se na [arhivirani izvorni dokument](izvorni-plan-103-slajda.md). Otvorene odluke i primeri sa beleškama u ovom dokumentu predstavljaju ranije faze razgovora, ne aktuelne zahteve.
 
 ## Zaključak
 

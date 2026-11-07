@@ -1,6 +1,6 @@
 # Predlog povezujuće aplikacije: 2D igra
 
-Status: arhiva ranijih kandidata. Izabrana je Kontrolna soba; videti [razradu](reaktor-i-kontrolna-soba.md) i [važeći plan](../web_programiranje_interaktivni_kurs_predlog.md). Okvir je 12 predavanja po 90 minuta, bez planiranja vežbi, uz PostgreSQL u Dockeru.
+Status: arhiva ranijih kandidata. Izabrana je Kontrolna soba; videti [razradu](reaktor-i-kontrolna-soba.md). Nastavni okvir je u [docs/kurs.md](kurs.md). [Stari plan od deset časova](../web_programiranje_interaktivni_kurs_predlog.md) nije merodavan. Okvir je 12 predavanja po 90 minuta, bez planiranja vežbi, uz PostgreSQL u Dockeru.
 
 Naknadno preciziranje: cilj je demonstracija koncepata, pitalice i obrazloženje odluka. Aplikacija daje poznat kontekst; njeno pisanje radi se na vežbama. Koriste se vanilla JS i Node.js bez framework-a. Sve identifikovane teme van primera kratko se predstavljaju. Detaljno poređenje druga dva kandidata je u [Reaktor i Kontrolna soba](reaktor-i-kontrolna-soba.md); preporuka „Poslednji signal” ispod predstavlja raniji predlog, a izbor ostaje otvoren.
 

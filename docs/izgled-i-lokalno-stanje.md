@@ -1,6 +1,6 @@
 # Izgled sajta časa i lokalno stanje
 
-Ovaj dokument opisuje raspored sajta časa, panel Opcije, beleške koraka i lokalno stanje koje sajt čuva u browseru. Specifikacije su `openspec/specs/sajt-casa`, `opcije-sajta`, `beleske-koraka` i `lokalno-stanje`. Odluka o jednom zapisu je u `docs/adr/0016-stanje-je-jedan-lokalni-zapis.md`.
+Ovaj dokument opisuje raspored sajta časa, panel Opcije, beleške koraka i lokalno stanje koje sajt čuva u browseru. Šta ljuska radi, ukratko, je u [platforma.md](platforma.md). Odluka o jednom zapisu je u `docs/adr/0016-stanje-je-jedan-lokalni-zapis.md`.
 
 ## Raspored
 
