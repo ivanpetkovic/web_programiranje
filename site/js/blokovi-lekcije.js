@@ -3,7 +3,13 @@ const VRSTE_GRADIVA = [
   { vrsta: "highlight", natpis: "Highlight", ikona: "callout", polja: { uloga: "obicna", naslov: "Napomena" } },
   { vrsta: "highlight", natpis: "Ključna ideja", ikona: "lightbulb", polja: { uloga: "kljucna" } },
   { vrsta: "kod", natpis: "Kod", ikona: "code-xml", polja: { naslov: "Kod", jezik: "text" } },
-  { vrsta: "dijagram", natpis: "Dijagram", ikona: "workflow", polja: { naslov: "Dijagram" } },
+  {
+    vrsta: "mermaid",
+    natpis: "Dijagram",
+    ikona: "workflow",
+    polja: { naslov: "Dijagram", tekst: "flowchart LR\n  A[Početak] --> B[Kraj]" },
+  },
+  { vrsta: "dijagram", natpis: "Tekstualni dijagram", ikona: "file-text", polja: { naslov: "Tekstualni dijagram" } },
 ];
 
 export const VRSTE_SEKCIJE = VRSTE_GRADIVA;
@@ -273,7 +279,8 @@ export function natpisSekcije(blok) {
   if (blok.vrsta === "highlight" && blok.uloga === "kljucna") return "Ključna ideja";
   if (blok.vrsta === "highlight") return blok.naslov || "Highlight";
   if (blok.vrsta === "kod") return blok.naslov || "Kod";
-  if (blok.vrsta === "dijagram") return blok.naslov || "Dijagram";
+  if (blok.vrsta === "mermaid") return blok.naslov || "Dijagram";
+  if (blok.vrsta === "dijagram") return blok.naslov || "Tekstualni dijagram";
   return "Tekst";
 }
 
@@ -284,7 +291,8 @@ export function ikonaSekcije(blok) {
   if (blok.vrsta === "highlight" && blok.uloga === "kljucna") return "lightbulb";
   if (blok.vrsta === "highlight") return "callout";
   if (blok.vrsta === "kod") return "code-xml";
-  if (blok.vrsta === "dijagram") return "workflow";
+  if (blok.vrsta === "mermaid") return "workflow";
+  if (blok.vrsta === "dijagram") return "file-text";
   return "text";
 }
 

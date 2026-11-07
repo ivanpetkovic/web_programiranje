@@ -92,6 +92,19 @@
         <button type="button" id="tab-diskusija" role="tab" aria-selected="true" aria-controls="sekcija-diskusija">Diskusija</button>
         <button type="button" id="tab-editor" role="tab" aria-selected="false" aria-controls="sekcija-editor" tabindex="-1">Editor</button>
       </div>
+      <div id="izvoz-omot" class="izvoz-omot traka-meni">
+        <button type="button" id="izvoz-dugme" class="izvoz-dugme" aria-haspopup="menu" aria-expanded="false" aria-controls="izvoz-meni">
+          <span class="ikona-slot" data-ikona="download"></span>
+          <span>Izvoz</span>
+          <span class="ikona-slot" data-ikona="chevron-down"></span>
+        </button>
+        <div id="izvoz-meni" class="meni-pitanja izvoz-meni" role="menu" hidden>
+          <button type="button" role="menuitem" data-izvoz="korak-md">Korak u Markdown</button>
+          <button type="button" role="menuitem" data-izvoz="korak-pdf">Korak u PDF</button>
+          <button type="button" role="menuitem" data-izvoz="tema-md">Tema u Markdown</button>
+          <button type="button" role="menuitem" data-izvoz="tema-pdf">Tema u PDF</button>
+        </div>
+      </div>
     </nav>
     <div class="okvir">
       <div class="nav-omot" id="mobil-gradivo-panel" aria-label="Gradivo i teme">

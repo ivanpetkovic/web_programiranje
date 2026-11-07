@@ -44,6 +44,16 @@ import { adresaPregleda, izborFajla, popunaKoraka, prikaziIzlaz, rasporedBiraca 
 import { nacrtajFiguru } from "./crtez.js";
 import { prikazKoraka } from "./figura.js";
 import { blokoviTeksta, imaMermaid, nacrtajMermaid, osveziMermaid } from "./mermaid.js";
+import {
+  htmlKoraka,
+  htmlTeme,
+  imeIzvoza,
+  izvorMermaida,
+  markdownKoraka,
+  markdownTeme,
+  preuzmiTekst,
+  stampajHtml,
+} from "./izvoz.js";
 import { blokoviProze } from "./proza.js";
 import { potez, praznoStanje, prikaz as prikazDiskusije } from "./diskusija.js";
 import { PODRAZUMEVANI_PRIMER, pocetniFajl, primeniPrimer } from "./primer.js";
@@ -1011,6 +1021,27 @@ function odaberiPredlog(stavka) {
   otvoriTemu(stavka.tema, stavka.korak);
 }
 
+function prikazMermaida(blok, dijagrami) {
+  const kartica = document.createElement("figure");
+  kartica.className = "isecak isecak-mermaid";
+  const glava = document.createElement("header");
+  const naslov = document.createElement("span");
+  saIkonom(naslov, ikonaSekcije(blok), natpisSekcije(blok));
+  glava.append(naslov);
+  const figura = document.createElement("div");
+  figura.className = "figura figura-mermaid";
+  const izvor = izvorMermaida(blok.tekst);
+  if (izvor.trim()) dijagrami.push([figura, izvor]);
+  else {
+    const prazno = document.createElement("p");
+    prazno.className = "meta";
+    prazno.textContent = placeholderSekcije(blok);
+    figura.append(prazno);
+  }
+  kartica.append(glava, figura);
+  return kartica;
+}
+
 function nacrtajTekstBloka(tekst, naslovTekst, ikona = "file-text") {
   const blok = document.createElement("section");
   blok.className = ikona === "book-open" ? "isecak isecak-knjiga" : "isecak";
@@ -1030,6 +1061,7 @@ function placeholderSekcije(blok) {
   if (blok.vrsta === "highlight" && blok.uloga === "kljucna") return "Jedna kratka ključna ideja.";
   if (blok.vrsta === "highlight") return "Tekst highlighta.";
   if (blok.vrsta === "dijagram") return "Tekstualni dijagram.";
+  if (blok.vrsta === "mermaid") return "Mermaid izvor, na primer flowchart LR.";
   return "Kod ove sekcije.";
 }
 
@@ -1162,7 +1194,7 @@ function uredjivacSekcije(sirovi, blok, vezi) {
     };
     return editor;
   }
-  const kod = blok.vrsta === "kod" || blok.vrsta === "dijagram";
+  const kod = blok.vrsta === "kod" || blok.vrsta === "dijagram" || blok.vrsta === "mermaid";
   const editor = napraviEditorTeksta(
     blok.tekst || "",
     { redovi: blok.vrsta === "tekst" ? 8 : 6, kod, placeholder: placeholderSekcije(blok) },
@@ -1377,6 +1409,9 @@ function teloSekcije(sirovi, blok, dijagrami, prviTekst, vezi, prefiks) {
   }
   if (blok.vrsta === "tekst") {
     return omotUredjivog(urediSadrzaj, id, prikazTekstSekcije(blok, dijagrami, prviTekst), () => uredjivacSekcije(sirovi, blok, vezi), bezOlovke());
+  }
+  if (blok.vrsta === "mermaid") {
+    return omotUredjivog(urediSadrzaj, id, prikazMermaida(blok, dijagrami), () => uredjivacSekcije(sirovi, blok, vezi), bezOlovke());
   }
   const kartica = nacrtajTekstBloka(blok.tekst || "", natpisSekcije(blok), ikonaSekcije(blok));
   if (blok.vrsta === "kod") {
@@ -2286,6 +2321,7 @@ function renderLecture() {
   }
   greska.hidden = true;
   document.body.classList.toggle("uvod-otvoren", uvod);
+  osveziIzvoz();
   if (uvod) {
     zabeleziOtvoreno(0);
     nacrtajUvod();
@@ -3323,11 +3359,49 @@ const casGlava = document.querySelector(".cas-glava");
 
 function postaviTabove() {
   if (!casTabovi) return;
+  const izvoz = document.querySelector("#izvoz-omot");
   if (usko()) {
     if (casTabovi.parentElement !== casGlava) mobilNavRed.insertAdjacentElement("afterend", casTabovi);
-  } else if (casTabovi.parentElement !== trakaCasaEl) {
-    trakaCasaEl.append(casTabovi);
+    if (izvoz && izvoz.parentElement !== casGlava) document.querySelector("#definicija")?.before(izvoz);
+  } else {
+    if (casTabovi.parentElement !== trakaCasaEl) trakaCasaEl.append(casTabovi);
+    if (izvoz && izvoz.parentElement !== trakaCasaEl) trakaCasaEl.append(izvoz);
   }
+}
+
+function osveziIzvoz() {
+  const naUvodu = uvod;
+  const dugme = document.querySelector("#izvoz-dugme");
+  if (dugme) dugme.disabled = naUvodu;
+  for (const stavka of document.querySelectorAll("#izvoz-meni [data-izvoz]")) stavka.disabled = naUvodu;
+}
+
+async function izvrsiIzvoz(vrsta) {
+  if (uvod) return;
+  const tema = sirovaTema(cas);
+  const korak = siroviKorak(cas, indeksKoraka());
+  if (!tema || !korak) return;
+  if (vrsta === "korak-md") preuzmiTekst(imeIzvoza(korak.naslov, "md"), markdownKoraka(korak));
+  else if (vrsta === "tema-md") preuzmiTekst(imeIzvoza(tema.naslov, "md"), markdownTeme(tema));
+  else if (vrsta === "korak-pdf") await stampajHtml(htmlKoraka(korak));
+  else if (vrsta === "tema-pdf") await stampajHtml(htmlTeme(tema));
+}
+
+function poveziIzvoz() {
+  const dugme = document.querySelector("#izvoz-dugme");
+  const panel = document.querySelector("#izvoz-meni");
+  if (!dugme || !panel) return;
+  const pad = napraviPadajucu({
+    dugme,
+    panel,
+    stavke: () => [...panel.querySelectorAll("[role='menuitem']:not(:disabled)")],
+  });
+  panel.addEventListener("click", (dogadjaj) => {
+    const stavka = dogadjaj.target.closest("[data-izvoz]");
+    if (!stavka || stavka.disabled) return;
+    pad.zatvori(false);
+    void izvrsiIzvoz(stavka.dataset.izvoz);
+  });
 }
 
 const trakaCasa = napraviTrakuCasa({
@@ -3445,6 +3519,7 @@ function osveziOpcije() {
 }
 
 postaviTabove();
+poveziIzvoz();
 osveziOpcije();
 
 window.addEventListener("hashchange", () => {
