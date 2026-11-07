@@ -7,6 +7,8 @@ import {
   blokoviKoraka,
   diskusijaKoraka,
   dodajSekciju,
+  naslovKoda,
+  natpisSekcije,
   nasledjeniBlokovi,
   obrisiSekciju,
   pomeriSekciju,
@@ -36,9 +38,15 @@ test("prva dodata sekcija preuzima tekst, ključnu ideju, kod i dijagram", () =>
   assert.equal(korak.blokovi[2].pozadina, undefined);
   assert.equal(korak.blokovi[2].veza, "samostalniPrimer");
   assert.equal(korak.blokovi[2].jezik, "text");
+  assert.equal(korak.blokovi[2].naslov, undefined);
+  assert.equal(naslovKoda(korak.blokovi[2]), "");
   assert.equal(korak.blokovi.at(-1).id, id);
   assert.equal(korak.blokovi.at(-1).pozadina, undefined);
-  assert.equal(korak.blokovi.at(-1).naslov, "Kod");
+  assert.equal(korak.blokovi.at(-1).naslov, undefined);
+  assert.equal(natpisSekcije(korak.blokovi.at(-1)), "Kod");
+  assert.equal(naslovKoda({ vrsta: "kod", naslov: "Mali eksperiment" }), "");
+  assert.equal(naslovKoda({ vrsta: "kod", naslov: "Zahtev" }), "Zahtev");
+  assert.equal(natpisSekcije({ vrsta: "kod", naslov: "Zahtev" }), "Zahtev");
   assert.equal(korak.tekst, "HTTP uvodi granicu.");
   assert.equal(korak.kljucnaIdeja, "HTTP definiše zahtev.");
 });

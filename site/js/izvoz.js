@@ -1,4 +1,4 @@
-import { blokoviKoraka, diskusijaKoraka } from "./blokovi-lekcije.js";
+import { blokoviKoraka, diskusijaKoraka, naslovKoda } from "./blokovi-lekcije.js";
 import { blokoviTeksta } from "./mermaid.js";
 import { blokoviProze } from "./proza.js";
 
@@ -79,7 +79,7 @@ function deoBloka(blok) {
   }
   if (blok.vrsta === "kod") {
     if (!imaTekst(blok.tekst)) return null;
-    return { vrsta: "kod", naslov: blok.naslov || "", jezik: blok.jezik || "", tekst: blok.tekst };
+    return { vrsta: "kod", naslov: naslovKoda(blok), jezik: blok.jezik || "", tekst: blok.tekst };
   }
   if (blok.vrsta === "mermaid") {
     const izvor = izvorMermaida(blok.tekst);

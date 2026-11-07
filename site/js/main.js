@@ -28,6 +28,7 @@ import {
   diskusijaKoraka,
   ikonaSekcije,
   materijalizuj,
+  naslovKoda,
   natpisSekcije,
   obrisiSekciju,
   promeniVrstuSekcije,
@@ -1178,6 +1179,47 @@ function editorNaslovaITeksta(blok, placeholder) {
   };
 }
 
+function uredjivacKoda(blok, vezi) {
+  const sacuvan = String(blok.naslov || "");
+  let naslov = naslovKoda(blok);
+  let tekst = blok.tekst || "";
+  const pocetniNaslov = naslov;
+  const pocetniTekst = tekst;
+  const naslovPolje = poljeKratko(naslov, (vrednost) => {
+    naslov = vrednost;
+  });
+  naslovPolje.placeholder = "Naslov, nije obavezan";
+  naslovPolje.setAttribute("aria-label", "Naslov koda");
+  const kodPolje = poljeTeksta(tekst, { redovi: 6, kod: true, placeholder: placeholderSekcije(blok) }, (vrednost) => {
+    tekst = vrednost;
+  });
+  const omot = document.createElement("div");
+  omot.className = "sekcija-polja";
+  omot.append(natpisPolja("Naslov", naslovPolje), kodPolje);
+  return {
+    telo: omot,
+    opis: "Kod",
+    promenjeno: () => naslov !== pocetniNaslov || tekst !== pocetniTekst,
+    primeni() {
+      const cist = naslov.trim();
+      if (cist && cist !== "Mali eksperiment") blok.naslov = cist;
+      else delete blok.naslov;
+      blok.tekst = tekst;
+      vezi();
+    },
+    ponisti() {
+      naslov = pocetniNaslov;
+      tekst = pocetniTekst;
+      naslovPolje.value = pocetniNaslov;
+      kodPolje.value = pocetniTekst;
+      if (sacuvan.trim()) blok.naslov = sacuvan;
+      else delete blok.naslov;
+      blok.tekst = pocetniTekst;
+      vezi();
+    },
+  };
+}
+
 function uredjivacSekcije(sirovi, blok, vezi) {
   if (blok.vrsta === "pitanje") return uredjivacPitanja(blok, vezi);
   if (blok.vrsta === "highlight" && blok.uloga !== "kljucna") {
@@ -1194,7 +1236,8 @@ function uredjivacSekcije(sirovi, blok, vezi) {
     };
     return editor;
   }
-  const kod = blok.vrsta === "kod" || blok.vrsta === "dijagram" || blok.vrsta === "mermaid";
+  if (blok.vrsta === "kod") return uredjivacKoda(blok, vezi);
+  const kod = blok.vrsta === "dijagram" || blok.vrsta === "mermaid";
   const editor = napraviEditorTeksta(
     blok.tekst || "",
     { redovi: blok.vrsta === "tekst" ? 8 : 6, kod, placeholder: placeholderSekcije(blok) },
@@ -1413,7 +1456,13 @@ function teloSekcije(sirovi, blok, dijagrami, prviTekst, vezi, prefiks) {
   if (blok.vrsta === "mermaid") {
     return omotUredjivog(urediSadrzaj, id, prikazMermaida(blok, dijagrami), () => uredjivacSekcije(sirovi, blok, vezi), bezOlovke());
   }
-  const kartica = nacrtajTekstBloka(blok.tekst || "", natpisSekcije(blok), ikonaSekcije(blok));
+  const natpis = blok.vrsta === "kod" ? naslovKoda(blok) : natpisSekcije(blok);
+  const kartica = nacrtajTekstBloka(blok.tekst || "", natpis, ikonaSekcije(blok));
+  if (blok.vrsta === "kod" && !natpis) {
+    const znak = kartica.querySelector("header span");
+    znak?.setAttribute("role", "img");
+    znak?.setAttribute("aria-label", "Kod");
+  }
   if (blok.vrsta === "kod") {
     const boja = document.createElement("div");
     boja.className = "isecak-akcije";

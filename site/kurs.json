@@ -511,7 +511,6 @@
               "id": "st8faoz8s",
               "vrsta": "kod",
               "tekst": "GET /api/soba HTTP/1.1\nHost: localhost:8787",
-              "naslov": "Kod",
               "jezik": "text"
             },
             {
@@ -523,7 +522,6 @@
               "id": "s6an3iyqe",
               "vrsta": "kod",
               "tekst": "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\"temperatura\":24}",
-              "naslov": "Kod",
               "jezik": "text"
             },
             {
