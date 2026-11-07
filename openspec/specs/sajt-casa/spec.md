@@ -418,7 +418,7 @@ The left column MUST list every week in the course document. A week MUST show it
 - **THEN** that week shows the completed mark without any save action
 
 ### Requirement: Zaglavlje lekcije
-The open lesson MUST show the course breadcrumb, the week title, the week subtitle, and the step selector outside the Gradivo section. The selector MUST stay on screen on Gradivo, Diskusija, and Editor. The selector MUST show one circle per step. The lesson body MUST NOT show a numbered row of step buttons. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the Gradivo section and MUST NOT sit inside the selector.
+The open lesson MUST show the week title and the step selector outside the Gradivo section. It MUST NOT show a course breadcrumb, an outcome line, or a prerequisite callout above the steps. The selector MUST stay on screen on Gradivo, Diskusija, and Editor. The selector MUST show one circle per step. The lesson body MUST NOT show a numbered row of step buttons. The level, when the document sets one, the minute label, and Sačuvaj korak MUST stay in the Gradivo section and MUST NOT sit inside the selector.
 
 #### Scenario: The selector replaces a button per step
 - **WHEN** a week is open on its first step
@@ -443,27 +443,27 @@ On Gradivo, the key-idea callout MUST be visible without a further click and MUS
 - **WHEN** the teacher uses the snippet copy control
 - **THEN** the clipboard receives the snippet text
 
-### Requirement: Kartica napretka
-The progress card MUST show Tema {n} od {N}, the percentage n/N rounded to the nearest whole number, the open week's step count, and that week's minute budget as a label. The budget MUST NOT count down.
+### Requirement: Nema kartice napretka
+The page MUST NOT show a progress card with Tema {n} od {N}, a percentage, the open week's step count, and that week's minute budget. The minute budget MUST stay a label on the open step and MUST NOT count down. Viewed steps MUST stay in the local state and in the week list, not in a side card.
 
-#### Scenario: Share follows the duration
-- **WHEN** week 10 of a course whose duration is 15 is open
-- **THEN** the card shows Tema 10 od 15 and 67 percent
+#### Scenario: No side card
+- **WHEN** any week is open
+- **THEN** the page has no progress card
 
 #### Scenario: Budget is a label
-- **WHEN** the open week declares a minute budget
-- **THEN** the card shows that budget and does not count it down
+- **WHEN** the open step declares a minute label
+- **THEN** that label is on the step and does not count down
 
 ### Requirement: Školjka prati aktivnu temu
-The week list, the lesson, the key-idea callout, the snippet, and the progress card MUST follow the active theme. Gold MUST remain the accent in mornar and ugalj. Pesak and terakota MUST use their own accent.
+The week list, the lesson, the key-idea callout, and the snippet MUST follow the active theme. Gold MUST remain the accent in mornar and ugalj. Pesak and terakota MUST use their own accent. The progress card MUST NOT be on screen.
 
 #### Scenario: Regions follow the pinned theme
 - **WHEN** the teacher pins another theme
-- **THEN** the week list, the lesson, and the progress card use that theme and the open step stays put
+- **THEN** the week list and the lesson use that theme and the open step stays put
 
 #### Scenario: Both themes keep the shell
 - **WHEN** any of the four themes is active
-- **THEN** the week list, the lesson, and the progress card are all visible
+- **THEN** the week list and the lesson are visible and the progress card is not
 
 #### Scenario: Gold stays on the dark themes
 - **WHEN** mornar or ugalj is active
@@ -474,11 +474,15 @@ The week list, the lesson, the key-idea callout, the snippet, and the progress c
 - **THEN** the accent is not `#ffb000`
 
 ### Requirement: Prečica pretrage
-Command+K and Ctrl+K MUST focus the term search.
+Command+K and Ctrl+K MUST focus the term search. On a desktop width the search MUST stay collapsed to the search icon and the shortcut mark until it is focused or the field is not empty. Focusing it or typing MUST widen the field. The placeholder MUST stay Nađi pojam, pitanje ili primer koda...
 
 #### Scenario: Shortcut focuses search
 - **WHEN** the teacher presses Command+K or Ctrl+K
-- **THEN** the term search is focused
+- **THEN** the term search is focused and the field is wide enough to show the placeholder
+
+#### Scenario: Idle search is a magnifier
+- **WHEN** a lecture is open on a desktop width and the search has no focus and no text
+- **THEN** the search shows the search icon and the shortcut mark, and the placeholder is not painted
 
 ### Requirement: Pomoć školjke
 Help MUST open a short explanation of the dashed underline, the typeahead, and the three tabs Gradivo, Diskusija, and Editor. It MUST NOT open the editor and MUST NOT send a room request.
@@ -506,7 +510,7 @@ The search placeholder MUST be Nađi pojam, pitanje ili primer koda... Choosing 
 - **THEN** the step that asks that question becomes the open lesson on Gradivo
 
 ### Requirement: Birač koraka
-The selector MUST sit outside the Gradivo section and MUST stay on screen while Gradivo, Diskusija, or Editor is open. It MUST show Korak {n} od {N}, the open step's title, a previous control, Svi koraci, Sledeći, and one circle per step of the open week. It MUST NOT show a progress bar. A circle at or before the open step MUST use the theme accent, which MUST be `#ffb000` on mornar and ugalj. A later circle MUST be light gray. Saved steps MUST NOT set those colors. A circle MUST NOT print a number. Choosing a circle MUST open that step and MUST keep the open tab. The open circle MUST expose `aria-current="step"`. The previous control MUST show only `chevron-left` and MUST be named Prethodni korak. Sledeći MUST show that word and `chevron-right`, and MUST use the theme ink as its background. Sledeći MUST NOT use the accent background. The temperature control on the panel MUST stay without that background. The page MUST NOT show the sentence Progress indicates completed steps, not just the current position.
+The selector MUST sit outside the Gradivo section and MUST stay on screen while Gradivo, Diskusija, or Editor is open. It MUST show Korak {n} od {N}, the open step's title, a previous control, Svi koraci, a next control, and one circle per step of the open week. It MUST NOT show a progress bar. A circle at or before the open step MUST use the theme accent, which MUST be `#ffb000` on mornar and ugalj. A later circle MUST be light gray. Saved steps MUST NOT set those colors. A circle MUST NOT print a number. Choosing a circle MUST open that step and MUST keep the open tab. The open circle MUST expose `aria-current="step"`. The previous control MUST show only `chevron-left` and MUST be named Prethodni korak. Sledeći MUST show only `chevron-right`, MUST be named Sledeći korak, and MUST NOT show the visible word Sledeći. It MUST use the theme ink as its background and MUST NOT use the accent background. The temperature control on the panel MUST stay without that background. The page MUST NOT show the sentence Progress indicates completed steps, not just the current position.
 
 #### Scenario: Step title sits under the count
 - **WHEN** a step is open
@@ -641,11 +645,11 @@ The course head MUST show `book-open`. A week whose every step has been viewed M
 - **THEN** the course head shows `book-open`, the expanded week shows `chevron-up`, the finished week shows `check-circle`, and a week that is not finished shows `circle`
 
 ### Requirement: Ikonice kartice
-The progress card MUST show `calendar-days` beside the week label, `book-open` beside the step count, and `clock` beside the minute budget. Those three labels MUST stay.
+The page MUST NOT show a progress card, so it MUST NOT show `calendar-days`, `book-open`, and `clock` as a trio beside Tema {n} od {N}, a step count, and a minute budget. `clock` MUST still sit beside the minute label on the step. `calendar-days` MAY sit on the mobile week control.
 
-#### Scenario: Card icons sit beside the labels
-- **WHEN** a week with a minute budget is open
-- **THEN** the card shows those three icons beside Tema {n} od {N}, the step count, and the minute budget
+#### Scenario: No card icons
+- **WHEN** a week with a minute label is open
+- **THEN** there is no progress card and the minute label on the step shows `clock`
 
 ### Requirement: Ikonice tabova
 Gradivo MUST show `file-text` and the word Gradivo. Diskusija MUST show `messages-square` and the word Diskusija. Editor MUST show `code-xml` and the word Editor.
@@ -710,11 +714,11 @@ The editor MUST offer a reset button for the open file, separate from the versio
 - **THEN** the stored working copy becomes the built-in original of the open step
 
 ### Requirement: Školjka je sans
-In every theme the header, the week list, the lesson title, and the progress card MUST use a sans-serif face.
+In every theme the header, the week list, and the lesson title MUST use a sans-serif face.
 
 #### Scenario: Shell face is sans
 - **WHEN** any theme is active
-- **THEN** the header, the week list, the lesson title, and the progress card use a sans-serif face
+- **THEN** the header, the week list, and the lesson title use a sans-serif face
 
 ### Requirement: Pitalica u jednoj koloni
 The short quiz MUST lay each option on its own row at every width. A lesson wider than the single-column layout MUST NOT place two options on the same row.
@@ -821,14 +825,14 @@ The preview MUST send every server file in the open step's tree to `POST /api/fa
 - **THEN** every server file in the tree is written from that same switch
 
 ### Requirement: Širina birača
-The selector MUST be only as wide as its content and MUST NOT stretch to the lesson column. The circle row MUST grow with that week's step count and MUST NOT use a percentage of the column. The selector MUST stay within the column. Circles that do not fit on one line MUST wrap.
+The selector MUST span the lesson column. It MUST NOT stay only as wide as its controls. At a control width of 900px or more the row MUST stay on one line. From 760px up to 900px the step title MUST sit under the step count. From 540px up to 760px the circles MUST stack with the step actions. Below 540px the identity, the previous and next controls, and the circles MUST stack. Circles that do not fit on one line MUST wrap. The selector MUST stay within the column.
 
-#### Scenario: A short week stays narrow
-- **WHEN** the open week has 3 steps and the lesson column is wider than the selector
-- **THEN** the selector is narrower than the column and shows 3 circles
+#### Scenario: A wide column is one row
+- **WHEN** the selector's control is at least 900px wide
+- **THEN** the selector fills the lesson column and the control row is one line
 
 #### Scenario: A long week wraps
-- **WHEN** the open week has 19 steps and those circles do not fit on one line
+- **WHEN** the open week has 15 steps and those circles do not fit on one line
 - **THEN** the selector stays within the column and the circles wrap onto another line
 
 ### Requirement: Traka časa

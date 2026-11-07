@@ -22,7 +22,7 @@ On open, the studio MUST read the course document with `GET /kurs.json` and show
 
 #### Scenario: Shipped course opens
 - **WHEN** the studio loads the shipped `kurs.json`
-- **THEN** it shows that course's weeks in order, and the first step of the first week is titled LO
+- **THEN** it shows that course's weeks in order, and the first step title is the title stored in the document
 
 ### Requirement: Trajanje prati teme
 The studio MUST treat the duration as the number of weeks. When a loaded document's duration differs from that count, the studio MUST set the duration to the count before any save and MUST tell the teacher it was aligned.

@@ -1,10 +1,10 @@
 # Izgled sajta časa i lokalno stanje
 
-Ovaj dokument opisuje raspored sajta časa, panel Opcije, beleške koraka i lokalno stanje koje sajt čuva u browseru. Specifikacije su `openspec/specs/sajt-casa`, `opcije-sajta`, `beleske-koraka` i `lokalno-stanje`. Odluka o jednom zapisu je u `docs/adr/0016-stanje-je-jedan-lokalni-zapis.md`.
+Ovaj dokument opisuje raspored sajta časa, panel Opcije, beleške koraka i lokalno stanje koje sajt čuva u browseru. Šta ljuska radi, ukratko, je u [platforma.md](platforma.md). Odluka o jednom zapisu je u `docs/adr/0016-stanje-je-jedan-lokalni-zapis.md`.
 
 ## Raspored
 
-Na širini većoj od 860 px strana ima tri pojasa: zaglavlje, traku časa i sadržaj koraka.
+Na širini većoj od 860 px strana ima zaglavlje, traku časa i sadržaj. Sadržaj je dve kolone: levo spisak tema (`nav`, oko 17 rem), desno otvorena tema. Desne kartice napretka nema.
 
 ### Zaglavlje
 
@@ -15,7 +15,7 @@ Zaglavlje (`header.top`) je jedan red visok 86 px. Elementi idu sleva nadesno:
 | Grb i ustanova | Ime ustanove u dva reda. Klik vodi na uvod. |
 | Razdelnik | Vertikalna linija između ustanove i kursa. |
 | Slika i naslov kursa | `slika` i `naslov` iz `kurs.json`. Isporučeni kurs pokazuje `/img/kurs.svg` i naslov Web programiranje, u boji naglaska. |
-| Pretraga | Polje Nađi pojam, pitanje ili primer koda sa predlozima. |
+| Pretraga | Sklopljena lupa sa oznakom ⌘K. Polje se raširi na fokus ili kad u njemu ima upita. Placeholder je Nađi pojam, pitanje ili primer koda. Prečica je Command+K ili Ctrl+K. |
 | Pomoć | Dijalog sa kratkim uputstvom. |
 | Dugme beleški | `bookmark` i `chevron-down`. Otvara spisak beleški koraka. |
 | Dugme Opcije | `settings`, Opcije i strelica koja se okreće kad je panel otvoren. |
@@ -40,10 +40,21 @@ Na uvodu se vidi samo izbor teme. Liste rade i tastaturom: strelica nadole otvar
 | Kontrole veličine teksta | Odeljak Veličina fonta u Opcijama |
 | Prekidač Predavanja / Samostalni rad | Odeljak Način korišćenja u Opcijama i prvi izbor režima |
 | Sačuvaj korak | Dugme u lekciji; sačuvani koraci su pod dugmetom beleški |
+| Desna kartica napretka (Tema n od N, procenat, budžet minuta) | Nema je. Minuta ostaje oznaka na koraku. Napredak je u lokalnom stanju i u levom spisku, ne u kartici |
 
 ### Jedna kolona
 
 Na 860 px i uže traka časa se ne crta. Tabovi su u glavi časa, ispod reda za navigaciju, a izbor teme i koraka ide kroz mobilnu navigaciju. Opcije su u sheetu Podešavanja (`#mobil-podesavanja`) sa iste četiri sekcije, bez mera makete.
+
+### Birač u glavi časa
+
+Ispod naslova teme, izvan Gradiva, stoji birač pune širine kolone. Čita Korak n od N i naslov koraka, ima po jedan krug po koraku, Svi koraci, i strelice Prethodni korak i Sledeći korak. Strelica nema reč Sledeći na sebi. Sledeći ima pozadinu boje mastila. Krug ne nosi broj. Izbor kruga ostavlja otvoren tab.
+
+Raspored zavisi od širine same kontrole: od 900 px jedan red, od 760 px naslov ide ispod broja koraka, od 540 px krugovi idu uz akcije, ispod 540 px identitet, strelice i krugovi se slažu. Krugovi koji ne stanu prelamaju se u novi red.
+
+### Pozadina koda
+
+Na bloku koda su Bela i Crna. Izbor upisuje `podesavanja.pozadinaKoda` i važi za sve blokove koda, ne samo za otvoreni. Nije odeljak u Opcijama. Podrazumevano je bela. Inline skripta u `<head>` postavlja `data-pozadina-koda` pre prvog crtanja.
 
 ## Opcije
 

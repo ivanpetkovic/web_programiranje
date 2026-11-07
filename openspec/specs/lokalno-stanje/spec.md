@@ -7,7 +7,7 @@ Lokalno stanje je jedan zapis sajta časa u ovom browseru: napredak po temi, pod
 ## Requirements
 
 ### Requirement: Jedan zapis stanja
-The lecture site MUST keep its local state as one versioned JSON record under the localStorage key `web-programiranje:stanje`. The record MUST hold progress per week, settings (text size, work mode, collapsed editor tree), the pinned palette, and step notes. The editor's working copies MUST stay outside that record, under their own key.
+The lecture site MUST keep its local state as one versioned JSON record under the localStorage key `web-programiranje:stanje`. The record MUST hold progress per week, settings (text size, work mode, collapsed editor tree, code background), the pinned palette, and step notes. The code background MUST be `bela` or `crna`, MUST default to `bela`, and MUST apply to every code block. The editor's working copies MUST stay outside that record, under their own key.
 
 #### Scenario: One key holds the state
 - **WHEN** the student opens a step, pins a palette, changes the text size, and adds a note
@@ -55,7 +55,7 @@ Clearing MUST remove the state record and return the site to the default state w
 - **THEN** the state record is unchanged
 
 ### Requirement: Stanje važi pre prvog crtanja
-The palette, the work mode, and the text size from the state record MUST be applied before the page is first painted, so the page does not flash another palette or size.
+The palette, the work mode, the text size, and the code background from the state record MUST be applied before the page is first painted, so the page does not flash another palette, size, or code background.
 
 #### Scenario: Pinned palette on load
 - **WHEN** the record pins mornar and the page loads in a browser that prefers light
