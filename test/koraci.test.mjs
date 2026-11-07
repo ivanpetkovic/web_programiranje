@@ -151,6 +151,24 @@ test("Paket ili rezervisana veza gleda kasni deo, ne ponavlja slojeve", () => {
   assert.equal("opcije" in korak, false);
 });
 
+test("HTTP korak drži dve pitalice na Diskusiji", () => {
+  const korak = dokument.teme[0].steps.find((stavka) => stavka.naslov === "HTTP: Od pouzdanog prenosa do Weba");
+  assert.equal(korak.pitalica, korak.pitalice[0].pitalica);
+  assert.deepEqual(
+    korak.pitalice.map((p) => p.pitalica),
+    [
+      "Ako TCP pouzdano prenosi podatke, zašto nam je potreban još jedan protokol?",
+      "Da li je HTTP dovoljan da bismo imali Web?",
+    ],
+  );
+  assert.equal(korak.pitalice.every((p) => !p.opcije && p.odgovor), true);
+  assert.match(korak.pitalice[0].odgovor, /ne određuje njihovo značenje/);
+  assert.match(korak.pitalice[0].odgovor, /HTTP definiše strukturu zahteva i odgovora/);
+  assert.match(korak.pitalice[1].odgovor, /^Ne\./);
+  assert.match(korak.pitalice[1].odgovor, /URL identifikuje resurs/);
+  assert.match(korak.pitalice[1].odgovor, /Reprezentacija/);
+});
+
 test("TCP i UDP poredi zakasneli kadar sa bajtom dokumenta", () => {
   const korak = dokument.teme[0].steps.find((korak) => korak.naslov === "TCP i UDP");
   assert.equal(korak.naslov, "TCP i UDP");
