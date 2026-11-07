@@ -477,8 +477,56 @@
         },
         {
           "naslov": "HTTP: Od pouzdanog prenosa do Weba",
-          "tekst": "\n\nPitalica 1: Ako TCP pouzdano prenosi podatke, zašto nam je potreban još jedan protokol?\n\nZamislimo da klijent šalje serveru podatke i da TCP obezbedi njihov ispravan prenos.\n\nServer je primio sve bajtove, ali kako zna da li klijent želi da pročita temperaturu, promeni stanje ventilatora ili zatraži HTML dokument?\n\nDa li TCP može da odgovori na to pitanje?\n\nObjašnjenje\n\nNe može. TCP prenosi bajtove, ali ne određuje njihovo značenje.\n\nKlijent i server zato moraju da se dogovore o formatu poruka i pravilima njihove razmene.\n\nZa Web tu ulogu ima HTTP (Hypertext Transfer Protocol).\n\nHTTP definiše strukturu zahteva i odgovora, uključujući metode, zaglavlja i statusne kodove.\n\nNa primer, klijent može da pošalje:\n\nGET /api/soba HTTP/1.1\nHost: localhost:8787\n\nOvim zahtevom klijent traži podatke o sobi. Server može da odgovori:\n\nHTTP/1.1 200 OK\nContent-Type: application/json\n\n{\"temperatura\":24}\n\nHTTP omogućava klijentu i serveru da razumeju šta se zahteva, kako je odgovor predstavljen i kakav je ishod obrade zahteva.\n\nZa početak ćemo koristiti HTTP/1.1 preko TCP-a i IP-a.\n\nPitalica 2: Da li je HTTP dovoljan da bismo imali Web?\n\nSada znamo kako da pošaljemo zahtev i dobijemo odgovor. Ali kako određujemo kojem dokumentu ili drugom resursu želimo da pristupimo? I kako browser zna šta je dobio?\n\nObjašnjenje\n\nWeb se zasniva na nekoliko ideja koje zajedno omogućavaju pristup povezanim resursima.\n\nPitanje\n\nPojam\n\nUloga\n\nKojem resursu pristupamo?\n\nURL\n\nIdentifikuje resurs i pruža informacije potrebne za pristup\n\nKako tražimo resurs i dobijamo odgovor?\n\nHTTP\n\nDefiniše razmenu zahteva i odgovora\n\nKako je sadržaj predstavljen?\n\nReprezentacija resursa\n\nOdgovor može sadržati HTML, sliku, JSON ili druge podatke\n\nNa primer, kada browser zatraži HTML dokument, HTTP omogućava njegovo preuzimanje, a browser zatim obrađuje HTML da bi prikazao stranicu.\n\nKako su nastali hipertekst, URL, HTML i sam Web, i koje su probleme rešili, razmotrićemo u narednim koracima.",
-          "kljucnaIdeja": ""
+          "tekst": "### Ako TCP pouzdano prenosi podatke, zašto nam je potreban još jedan protokol?\n\nZamislimo da klijent šalje serveru podatke i da TCP obezbedi njihov ispravan prenos. Server je primio sve bajtove, ali kako zna da li klijent želi da pročita temperaturu, promeni stanje ventilatora ili zatraži HTML dokument? Da li TCP može da odgovori na to pitanje?\n\nNe može. TCP prenosi bajtove, ali ne određuje njihovo značenje. Klijent i server zato moraju da se dogovore o formatu poruka i pravilima njihove razmene. Za Web tu ulogu ima HTTP (Hypertext Transfer Protocol).\n",
+          "kljucnaIdeja": "HTTP definiše strukturu zahteva i odgovora, uključujući metode, zaglavlja i statusne kodove.",
+          "blokovi": [
+            {
+              "id": "nasledje:tekst",
+              "vrsta": "tekst",
+              "tekst": "### Ako TCP pouzdano prenosi podatke, zašto nam je potreban još jedan protokol?\n\nZamislimo da klijent šalje serveru podatke i da TCP obezbedi njihov ispravan prenos. Server je primio sve bajtove, ali kako zna da li klijent želi da pročita temperaturu, promeni stanje ventilatora ili zatraži HTML dokument? Da li TCP može da odgovori na to pitanje?\n\nNe može. TCP prenosi bajtove, ali ne određuje njihovo značenje. Klijent i server zato moraju da se dogovore o formatu poruka i pravilima njihove razmene. Za Web tu ulogu ima HTTP (Hypertext Transfer Protocol).\n"
+            },
+            {
+              "id": "nasledje:kljucna",
+              "vrsta": "highlight",
+              "uloga": "kljucna",
+              "tekst": "HTTP definiše strukturu zahteva i odgovora, uključujući metode, zaglavlja i statusne kodove."
+            },
+            {
+              "id": "s51melw3u",
+              "vrsta": "tekst",
+              "tekst": "Na primer, klijent može da pošalje:"
+            },
+            {
+              "id": "st8faoz8s",
+              "vrsta": "kod",
+              "tekst": "GET /api/soba HTTP/1.1\nHost: localhost:8787",
+              "naslov": "Kod",
+              "jezik": "text"
+            },
+            {
+              "id": "szx4f0c3e",
+              "vrsta": "tekst",
+              "tekst": "Ovim zahtevom klijent traži podatke o sobi. Server može da odgovori:"
+            },
+            {
+              "id": "s6an3iyqe",
+              "vrsta": "kod",
+              "tekst": "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\"temperatura\":24}",
+              "naslov": "Kod",
+              "jezik": "text"
+            },
+            {
+              "id": "svvg27vlg",
+              "vrsta": "tekst",
+              "tekst": "HTTP omogućava klijentu i serveru da razumeju šta se zahteva, kako je odgovor predstavljen i kakav je ishod obrade zahteva. Za početak ćemo koristiti HTTP/1.1 preko TCP-a i IP-a.\n\n### Da li je HTTP dovoljan da bismo imali Web?\n\nSada znamo kako da pošaljemo zahtev i dobijemo odgovor. Ali kako određujemo kojem dokumentu ili drugom resursu želimo da pristupimo? I kako browser zna šta je dobio?\n\nWeb se zasniva na nekoliko ideja koje zajedno omogućavaju pristup povezanim resursima.\n\nPitanje |  Pojam | Uloga\nKojem resursu pristupamo? | URL | Identifikuje resurs i pruža informacije potrebne za pristup\nKako tražimo resurs i dobijamo odgovor? | HTTP | Definiše razmenu zahteva i odgovora\nKako je sadržaj predstavljen? | Reprezentacija resursa | Odgovor može sadržati HTML, sliku, JSON ili druge podatke\n\nNa primer, kada browser zatraži HTML dokument, HTTP omogućava njegovo preuzimanje, a browser zatim obrađuje HTML da bi prikazao stranicu.\n\nKako su nastali hipertekst, URL, HTML i sam Web, i koje su probleme rešili, razmotrićemo u narednim koracima."
+            },
+            {
+              "id": "s9i76ba50",
+              "vrsta": "dijagram",
+              "tekst": "Browser ── HTTP zahtev ──▶ server\nBrowser ◀─ HTTP odgovor ─── server",
+              "naslov": "Dijagram"
+            }
+          ]
         },
         {
           "naslov": "Hipertekst: od stranice do stranice, putem linkova",
@@ -556,107 +604,6 @@
                 }
               ],
               "analizaPitalice": "Ako veza ostane „sledeći broj”, Web ne rešava problem razbacanih dokumenata. URL postoji da bi odredište bilo imenovano, ne poredano."
-            }
-          ]
-        },
-        {
-          "naslov": "HTTP kao dogovor",
-          "nivo": "Primena",
-          "minuta": 5,
-          "tipPrimer": "eksperiment",
-          "tekst": "Mreža može preneti bajtove, ali ne razume šta znači „daj dokument”. TCP isporučuje bajtove, ali ne određuje šta znači red GET / ili zašto se šalje status 404. HTTP uvodi granicu zahteva, metode, putanje, zaglavlja, reprezentacije resursa i semantiku odgovora.",
-          "kljucnaIdeja": "HTTP definiše zahtev, odgovor, metode, zaglavlja i status.",
-          "samostalniPrimer": {
-            "jezik": "text",
-            "izolovan": true,
-            "tekst": "GET / HTTP/1.1\nHost: example.test\n\nHTTP/1.1 200 OK\nContent-Type: text/html"
-          },
-          "dijagram": {
-            "format": "text",
-            "tekst": "Browser ── HTTP zahtev ──▶ server\nBrowser ◀─ HTTP odgovor ─── server"
-          },
-          "pitalica": "Koji sloj daje značenje zahtevu GET /?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "IP",
-              "why": "IP adresira i prenosi pakete, ali ne interpretira GET. TCP isporučuje bajtove, ali ne određuje šta znači red GET / ili zašto se šalje status 404.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "TCP",
-              "why": "TCP daje tok, ne zna šta je dokument. TCP isporučuje bajtove, ali ne određuje šta znači red GET / ili zašto se šalje status 404.",
-              "ok": false
-            },
-            {
-              "key": "C",
-              "text": "HTTP",
-              "why": "HTTP kaže šta resurs i metod znače i kako izgleda odgovor. TCP isporučuje bajtove, ali ne određuje šta znači red GET / ili zašto se šalje status 404. HTTP uvodi granicu zahteva, metode, putanje, zaglavlja, reprezentacije resursa i semantiku odgovora.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "TCP isporučuje bajtove, ali ne određuje šta znači red GET / ili zašto se šalje status 404. HTTP uvodi granicu zahteva, metode, putanje, zaglavlja, reprezentacije resursa i semantiku odgovora.",
-          "pitalice": [
-            {
-              "pitalica": "Koji sloj daje značenje zahtevu GET /?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "IP",
-                  "why": "IP adresira i prenosi pakete, ali ne interpretira GET. TCP isporučuje bajtove, ali ne određuje šta znači red GET / ili zašto se šalje status 404.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "TCP",
-                  "why": "TCP daje tok, ne zna šta je dokument. TCP isporučuje bajtove, ali ne određuje šta znači red GET / ili zašto se šalje status 404.",
-                  "ok": false
-                },
-                {
-                  "key": "C",
-                  "text": "HTTP",
-                  "why": "HTTP kaže šta resurs i metod znače i kako izgleda odgovor. TCP isporučuje bajtove, ali ne određuje šta znači red GET / ili zašto se šalje status 404. HTTP uvodi granicu zahteva, metode, putanje, zaglavlja, reprezentacije resursa i semantiku odgovora.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "TCP isporučuje bajtove, ali ne određuje šta znači red GET / ili zašto se šalje status 404. HTTP uvodi granicu zahteva, metode, putanje, zaglavlja, reprezentacije resursa i semantiku odgovora."
-            },
-            {
-              "pitalica": "Zašto TCP nije dovoljan da se kaže šta znači GET /?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Zato što GET / ne može da se pošalje preko TCP-a.",
-                  "why": "Može. Bajti prolaze. Nedostaje dogovor šta ti bajti znače.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Zato što TCP vidi samo tok bajtova, ne granicu zahteva, metod ni status.",
-                  "why": "HTTP nastaje da bi dve strane imale zajedničko značenje: šta se traži i kako se odgovor tumači.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Bez HTTP-a uspešan TCP i dalje ne zna da li je resurs nađen. Status 404 je smisao, ne svojstvo kabla."
-            },
-            {
-              "pitalica": "Šta status 200 sam po sebi ne kaže?",
-              "opcije": [
-                {
-                  "key": "B",
-                  "text": "Da je odgovor uopšte stigao.",
-                  "why": "200 jeste stigao odgovor. To nije sporno. Sporno je šta iz njega sme da se zaključi o sobi.",
-                  "ok": false
-                },
-                {
-                  "key": "A",
-                  "text": "Da je ventilator fizički promenio stanje.",
-                  "why": "Status opisuje HTTP odgovor. Efekat na uređaju traži poseban model potvrde.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Ova pitalica priprema kasnije časove: 200, 4xx i 5xx nisu isto, i nijedan sam ne dokazuje fizički efekat."
             }
           ]
         },
