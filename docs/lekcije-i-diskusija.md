@@ -1,12 +1,12 @@
 # Web programiranje — lekcije i diskusija
 
-Ovaj izvoz je stariji tok. Revidirani kurs je u `site/kurs.json`.
+Ovo je arhiva starijeg izvoza. Nije nastavni tok iz `site/kurs.json`. Naslovi, broj koraka i red „nedelja” ovde ne važe. Merodavan kurs je `site/kurs.json`.
 
 Elektronski fakultet, Univerzitet u Nišu. Oznaka MP.
 
 Jedanaest nedelja, svaka po 90 minuta. Povezujući primer je kontrolna soba. Do pete nedelje panel živi u browseru, u `client/`. Od pete nedelje sluša Node proces iz `server/server.js`, a soba mašina stoji pored panela. Od osme nedelje režim i istorija ostaju u PostgreSQL-u. Nema stvarnog hardvera.
 
-Ovaj fajl je nastavni tok iz `site/kurs.json`. Na sajtu časa iste dve celine stoje kao tabovi Gradivo i Diskusija. Ovde su **Lekcije** i **Diskusija**.
+Tekst ispod je snimak pre revizije kursa. Na sajtu časa dve celine stoje kao tabovi Gradivo i Diskusija. Ovde su **Lekcije** i **Diskusija**.
 
 Obrazloženje je ovde otvoreno, da nastavnik ima ključ. Na projektoru odgovor ostaje neoznačen dok se obrazloženje ne otkrije. Opcija koja drži nosi reč **drži** uz razlog. Redosled opcija je isti kao na sajtu.
 

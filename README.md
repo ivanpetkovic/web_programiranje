@@ -2,7 +2,7 @@
 
 Interaktivni kurs predavanja na Elektronskom fakultetu Univerziteta u Nišu. Autor je **Ivan Petković**.
 
-Deset časova po 90 minuta. Povezujući primer je kontrolna soba: jedan panel, temperatura i jedan ventilator. Nema stvarnog hardvera. Student prati jednu radnju od browsera, preko Node procesa, do PostgreSQL baze.
+Jedanaest tema po 90 minuta. Povezujući primer je kontrolna soba: jedan panel, temperatura i jedan ventilator. Nema stvarnog hardvera. Student prati jednu radnju od browsera, preko Node procesa, do PostgreSQL baze.
 
 Jezik kursa je srpski. Primer je vanilla: HTML, CSS i JavaScript u browseru, Node.js modul `http` na serveru, PostgreSQL u Dockeru. React, Express i Next.js ostaju mapa oblasti, a ne deo primera.
 
@@ -32,26 +32,27 @@ Jedna nastavna sekvenca ide ovim redom:
 
 Pogrešno obrazloženje se ne prekida odmah. Traži se pretpostavka koja ga drži, pa se proveri primerom. Pitanje ne traži sintaksu koja još nije pokazana.
 
-Sajt časa (`site/`) otvara jednu temu. Korak koji menja fajl pokazuje redom tekst, ključnu ideju, isečak i kratku pitalicu. Isečak je delić koji se prekuca, ne cela tema. Odgovori pitalice ostaju neoznačeni dok se obrazloženje ne otkrije.
+Sajt časa (`site/`) otvara jednu temu. Na Gradivu korak pokazuje tekst, ključnu ideju bez tog natpisa, pa isečak ili crtež. Isečak je delić koji se prekuca, ne cela tema. Kratka pitalica je na Diskusiji. Odgovori ostaju neoznačeni dok se obrazloženje ne otkrije.
 
-Panel raste sa časom. Do četvrte teme živi u browseru, u `client/`. Od četvrte sluša Node proces iz `server/server.js`, bez web okvira. Od sedme teme režim ventilatora i istorija komandi ostaju u bazi. Kucanje u editoru sajta ne menja fajlove na disku: isti `client/` i `server/` nastavnik prekucava i u svom editoru.
+Panel raste sa časom. Do pete teme živi u browseru, u `client/`. Od pete sluša Node proces iz `server/server.js`, bez web okvira. Od osme teme režim ventilatora i istorija komandi ostaju u bazi. Kucanje u editoru sajta ne menja fajlove na disku: isti `client/` i `server/` nastavnik prekucava i u svom editoru.
 
 ## Časovi
 
 | Tema | Naslov | Šta ostaje posle časa |
 | --- | --- | --- |
-| 1 | Šta browser prikazuje | Dokument, prikaz i merenje nisu ista stvar. |
-| 2 | JavaScript opisuje stanje | Objekat drži temperaturu. Ekran je još ne crta. |
-| 3 | Događaji povezuju korisnika | Klik menja stanje. Poseban kod crta prikaz. |
-| 4 | Od naivnog prenosa do HTTP-a, pa Node | Jedan zahtev i jedan odgovor. Kutija drži temperaturu. |
-| 5 | Čekanje i neuspeh | Čekanje, podatak i greška. 200 nije 500, a 500 nije ugašen port. |
-| 6 | Komande i ponavljanje | Željeno stanje, provera tela i smisao ponavljanja. |
-| 7 | Trajno stanje i Docker | Režim i istorija su jedna transakcija. |
-| 8 | Koliko je prikaz svež | Displej čuva poslednje čitanje. Takt ga ne pomera. |
-| 9 | Ko sme da upravlja | Cookie nosi ključ. Kutija drži ulogu. |
-| 10 | Ceo sistem | Ekran „uključeno” nije dokaz upisa. Ćutanje nije ni dokaz ni opovrgavanje. |
+| 1 | Zašto Web postoji: zahtevi i protokoli | Web je usluga na Internetu. Stranica je dokument. `server/` još nema fajlove. |
+| 2 | Browser: HTML, CSS i prikaz | Dokument, prikaz i merenje nisu ista stvar. |
+| 3 | JavaScript: vrednosti, objekti i prototipovi | Objekat drži temperaturu. Ekran je još ne crta. |
+| 4 | DOM, događaji i prikaz stanja | Klik menja stanje. Poseban kod crta prikaz. |
+| 5 | Od mrežnog prenosa do HTTP-a i Node.js-a | Jedan zahtev i jedan odgovor. Kutija drži temperaturu. |
+| 6 | Asinhronost, event loop i neuspeh | Čekanje, podatak i greška. 200 nije 500, a 500 nije ugašen port. |
+| 7 | API komande, validacija i idempotentnost | Željeno stanje, provera tela i smisao ponavljanja. |
+| 8 | PostgreSQL, transakcije i Docker | Režim i istorija su jedna transakcija. |
+| 9 | Svežina podataka, periodično čitanje i push | Displej čuva poslednje čitanje. Takt ga ne pomera. |
+| 10 | Bezbednost, sesije i prava pristupa | Cookie nosi ključ. Kutija drži ulogu. |
+| 11 | Ceo sistem, dijagnostika i LLM | Ekran „uključeno” nije dokaz upisa. Ćutanje nije ni dokaz ni opovrgavanje. |
 
-Razrada vremena, pitalica i preglednih tema je u `web_programiranje_interaktivni_kurs_predlog.md`. Telo koje sajt čita je `site/kurs.json`. Pojmovi su u `GLOSSARY.md`.
+Telo koje sajt čita je `site/kurs.json` (`trajanjeTema` je 11). Pojmovi su u `GLOSSARY.md`. `web_programiranje_interaktivni_kurs_predlog.md` je raniji plan od deset časova i nije merodavan raspored. Odluke su u `docs/adr/`. Raspored sajta i lokalno stanje opisuje [docs/izgled-i-lokalno-stanje.md](docs/izgled-i-lokalno-stanje.md).
 
 ## Instalacija i pokretanje
 
@@ -89,7 +90,7 @@ Pri prvom startu sa `DATABASE_URL` proces napravi tabele `ventilator` i `istorij
 
 ### Lokalno stanje i beleške
 
-Sajt časa pamti u browseru, pod jednim ključem u `localStorage`, napredak po temi, veličinu teksta, način korišćenja (Predavanja ili Samostalni rad), paletu i beleške koraka sa komentarom. Ništa od toga ne ide na server. Opcije u zaglavlju imaju Load, Save i Obriši progres. Oblik zapisa, panel Opcije i beleške opisuje [docs/izgled-i-lokalno-stanje.md](docs/izgled-i-lokalno-stanje.md).
+Sajt časa pamti u browseru, pod jednim ključem u `localStorage`, napredak po temi, veličinu teksta, način korišćenja (Predavanja ili Samostalni rad), paletu, belu ili crnu pozadinu blokova koda i beleške koraka sa komentarom. Ništa od toga ne ide na server. Opcije u zaglavlju imaju Load, Save i Obriši progres. Pozadina koda bira se na bloku i važi za sve blokove. Oblik zapisa, panel Opcije i beleške opisuje [docs/izgled-i-lokalno-stanje.md](docs/izgled-i-lokalno-stanje.md).
 
 ### Provera
 

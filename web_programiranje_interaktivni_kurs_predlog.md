@@ -1,6 +1,8 @@
 # Web programiranje: Kontrolna soba
 
-Razrađen plan 10 časova predavanja po 90 minuta: ukupno 900 minuta, odnosno 15 sati. Usvojeni okvir: postepenost, osnove pre pitanja, Kontrolna soba kao povezujući primer, vanilla tehnologije. Vežbe i ocenjivanje nisu predmet ovog plana.
+Ovo je raniji plan od deset časova. Isporučeni kurs ima jedanaest tema i stoji u `site/kurs.json`. Staklenik i dugme „Sledeći korak” na panelu nisu deo isporuke. Okvir ispod (postepenost, osnove pre pitanja, Kontrolna soba, vanilla tehnologije) i dalje drži kurs.
+
+Razrađen plan 10 časova predavanja po 90 minuta: ukupno 900 minuta, odnosno 15 sati. Vežbe i ocenjivanje nisu predmet ovog plana.
 
 ## Cilj i predznanje
 
