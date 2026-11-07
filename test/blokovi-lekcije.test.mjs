@@ -2,8 +2,10 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 import {
+  VRSTE_DISKUSIJE,
   VRSTE_SEKCIJE,
   blokoviKoraka,
+  diskusijaKoraka,
   dodajSekciju,
   nasledjeniBlokovi,
   obrisiSekciju,
@@ -11,8 +13,10 @@ import {
   promeniVrstuSekcije,
   spustiSekciju,
   ubaciSekciju,
+  uskladiDiskusiju,
   uskladiNasledjenaPolja,
 } from "../site/js/blokovi-lekcije.js";
+import { listaPitalica } from "../site/js/lectures.js";
 import { proveriSemu } from "../site/js/sema.js";
 import { prazanKurs, praznaTema } from "../site/js/studio.js";
 
@@ -125,6 +129,65 @@ test("šema prima niz sekcija lekcije", () => {
     { id: "c2", vrsta: "kod", pozadina: "bela", naslov: "Kod", jezik: "text", tekst: "GET /" },
     { id: "d1", vrsta: "dijagram", naslov: "Dijagram", tekst: "A --> B" },
   ];
+  dokument.teme = [tema];
+  dokument.trajanjeTema = 1;
+  assert.deepEqual(proveriSemu(sema, dokument).greske, []);
+});
+
+test("diskusija se sklapa iz priče i oba oblika pitanja", () => {
+  const izbor = [
+    { key: "A", text: "Ne", ok: false, why: "zato" },
+    { key: "B", text: "Da", ok: true, why: "jer" },
+  ];
+  const korak = {
+    naslov: "Korak",
+    prica: "Priča koraka.",
+    pitalica: "Prvo?",
+    opcije: izbor,
+    analizaPitalice: "Razlog.",
+    pitalice: [
+      { pitalica: "Prvo?", opcije: izbor, analizaPitalice: "Razlog." },
+      { pitalica: "Drugo?", odgovor: "Tekst odgovora." },
+    ],
+  };
+  const blokovi = diskusijaKoraka(korak);
+  assert.deepEqual(
+    blokovi.map((blok) => [blok.vrsta, blok.oblik || blok.veza]),
+    [
+      ["tekst", "prica"],
+      ["pitanje", "izbor"],
+      ["pitanje", "tekst"],
+    ]
+  );
+  assert.equal(blokovi[2].odgovor, "Tekst odgovora.");
+  assert.equal(blokovi[1].analiza, "Razlog.");
+  assert.notEqual(blokovi[1].opcije, izbor);
+
+  const kod = VRSTE_DISKUSIJE.find((vrsta) => vrsta.natpis === "Kod");
+  const id = ubaciSekciju(korak, blokovi, blokovi[1].id, kod, "posle", "diskusija");
+  assert.equal(korak.diskusija.find((blok) => blok.id === id).vrsta, "kod");
+  assert.deepEqual(korak.pitalice.map((pitanje) => pitanje.pitalica), ["Prvo?", "Drugo?"]);
+  assert.equal(korak.prica, "Priča koraka.");
+  assert.equal(korak.pitalica, "Prvo?");
+  assert.equal(korak.opcije[1].ok, true);
+
+  const tekst = VRSTE_DISKUSIJE.find((vrsta) => vrsta.natpis === "Pitanje, tekst");
+  promeniVrstuSekcije(korak, korak.diskusija, blokovi[1].id, tekst, "diskusija");
+  const pretvoreno = korak.diskusija.find((blok) => blok.id === blokovi[1].id);
+  assert.equal(pretvoreno.oblik, "tekst");
+  assert.equal(pretvoreno.tekst, "Prvo?");
+  assert.equal(pretvoreno.analiza, "Razlog.");
+  assert.equal(korak.opcije, undefined);
+  assert.equal(korak.analizaPitalice, "Razlog.");
+
+  obrisiSekciju(korak, "nasledje:prica", "diskusija");
+  assert.equal(korak.prica, undefined);
+  uskladiDiskusiju(korak);
+  assert.equal(listaPitalica(korak).map((pitanje) => pitanje.pitalica).join("|"), "Prvo?|Drugo?");
+
+  const dokument = prazanKurs();
+  const tema = praznaTema();
+  tema.steps[0] = korak;
   dokument.teme = [tema];
   dokument.trajanjeTema = 1;
   assert.deepEqual(proveriSemu(sema, dokument).greske, []);

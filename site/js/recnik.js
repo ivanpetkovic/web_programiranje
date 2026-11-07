@@ -51,6 +51,13 @@ function celaRec(tekst, glava) {
 }
 
 function nizPitalica(korak) {
+  if (Array.isArray(korak.diskusija)) {
+    return korak.diskusija.filter((blok) => blok?.vrsta === "pitanje").map((blok) => ({
+      pitalica: blok.tekst || "",
+      opcije: blok.oblik === "izbor" ? blok.opcije || [] : [],
+      odgovor: blok.odgovor || "",
+    }));
+  }
   if (Array.isArray(korak.pitalice) && korak.pitalice.length) return korak.pitalice;
   if (korak.pitalica || (korak.opcije || []).length) {
     return [{ pitalica: korak.pitalica, opcije: korak.opcije }];

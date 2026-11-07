@@ -985,12 +985,13 @@ html[data-pozadina-koda="crna"] .sekcija-lekcije[data-vrsta="kod"] .isecak pre {
 .sekcija-lekcije { position: relative; margin: 0.35rem 0; }
 .sekcija-rucice,
 .sekcija-jos-omot { opacity: 0; }
+.sekcija-jos-omot { pointer-events: none; }
 .sekcija-lekcije:hover > .sekcija-rucice,
 .sekcija-lekcije:focus-within > .sekcija-rucice,
-.sekcija-lekcije:hover > .sekcija-jos-omot,
-.sekcija-lekcije:focus-within > .sekcija-jos-omot,
+.sekcija-lekcije:hover > .sekcija-akcije .sekcija-jos-omot,
+.sekcija-lekcije:focus-within > .sekcija-akcije .sekcija-jos-omot,
 .sekcija-jos-omot:has(.meni-pitanja:not([hidden])),
-.sekcija-rucice:has(.meni-pitanja:not([hidden])) { opacity: 1; }
+.sekcija-rucice:has(.meni-pitanja:not([hidden])) { opacity: 1; pointer-events: auto; }
 body.rezim-uredjivanja .sekcija-lekcije { padding-left: calc(0.1rem + 1.7rem + 0.15rem + 1.7rem); }
 .sekcija-rucice {
   position: absolute;
@@ -1010,6 +1011,10 @@ body.rezim-uredjivanja .sekcija-lekcije { padding-left: calc(0.1rem + 1.7rem + 0
 .sekcija-lekcije:has(> .uredjivi-blok > .isecak) > .sekcija-rucice {
   /* Poklapa se sa gornjim paddingom zaglavlja isečka (0.4rem). */
   top: calc(0.4rem + (1.45em - 1.7rem) / 2);
+}
+.sekcija-lekcije:has(> .uredjivi-blok > .pitanje-blok) > .sekcija-rucice {
+  /* Poklapa se sa gornjom marginom pitanja (1rem). */
+  top: calc(1rem + (1.45em - 1.7rem) / 2);
 }
 .sekcija-rucica,
 .sekcija-plus,
@@ -1031,6 +1036,16 @@ body.rezim-uredjivanja .sekcija-lekcije { padding-left: calc(0.1rem + 1.7rem + 0
 .sekcija-rucica .ikona,
 .sekcija-plus .ikona,
 .sekcija-jos .ikona { width: 0.95rem; height: 0.95rem; }
+.sekcija-akcije {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.25rem;
+  z-index: 3;
+  display: flex;
+  gap: 0.15rem;
+  align-items: flex-start;
+}
+.sekcija-akcije .sekcija-jos-omot { position: relative; top: auto; right: auto; }
 .sekcija-jos-omot { position: absolute; top: 0.2rem; right: 0.25rem; z-index: 3; }
 .sekcija-meni-omot { position: static; }
 .sekcija-lekcije.sekcija-cilj-iznad { box-shadow: inset 0 2px 0 var(--amber); }
@@ -1041,8 +1056,8 @@ body.rezim-uredjivanja .sekcija-lekcije { padding-left: calc(0.1rem + 1.7rem + 0
 .sekcija-rucice .meni-pitanja { left: calc(100% + 0.25rem); top: 0; right: auto; min-width: 14rem; }
 .sekcija-jos-omot .meni-pitanja { right: 0; left: auto; min-width: 14rem; }
 .sekcija-polja { display: grid; gap: 0.45rem; }
-body.rezim-uredjivanja .sekcija-lekcije .uredjivi-blok { padding-right: 4.4rem; }
-body.rezim-uredjivanja .sekcija-lekcije .isecak header { padding-right: 2.6rem; }
+body.rezim-uredjivanja .sekcija-lekcije .uredjivi-blok { padding-right: 4.2rem; }
+body.rezim-uredjivanja .sekcija-lekcije .isecak header { padding-right: 0.4rem; }
 .dodaj-sekciju-omot { position: relative; display: inline-block; margin: 0.2rem 0 0.8rem; }
 .dodaj-sekciju {
   display: inline-flex;
@@ -1634,6 +1649,9 @@ body.rezim-uredjivanja .uredjivi-blok:has(.isecak header .uredi-ikonica) {
   padding-right: 0;
 }
 body.rezim-uredjivanja .isecak header .uredi-ikonica {
+  position: static;
+}
+body.rezim-uredjivanja .sekcija-akcije .uredi-ikonica {
   position: static;
 }
 body.rezim-uredjivanja .uredi-ikonica {
