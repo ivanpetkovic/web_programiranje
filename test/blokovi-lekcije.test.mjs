@@ -4,9 +4,11 @@ import test from "node:test";
 import {
   VRSTE_DISKUSIJE,
   VRSTE_SEKCIJE,
+  blokFajla,
   blokoviKoraka,
   diskusijaKoraka,
   dodajSekciju,
+  materijalizuj,
   naslovKoda,
   natpisSekcije,
   nasledjeniBlokovi,
@@ -108,6 +110,53 @@ test("prevlačenje, promena tipa i ubacivanje čuvaju tekst", () => {
   assert.equal(pretvoren.uloga, "obicna");
   assert.equal(pretvoren.tekst, "GET /");
   assert.equal(korak.samostalniPrimer.tekst, "GET /");
+});
+
+test("doprinos fajla je sekcija koda i prati delic", () => {
+  const korak = {
+    naslov: "Izvršavanje",
+    putanja: "client/lekcije/01-izvrsavanje.js",
+    isecakJezik: "javascript",
+    delic: "// Izrazi\n2 + 3\n",
+    original: "ne diraj\n",
+    blokovi: [
+      { id: "t", vrsta: "tekst", tekst: "Uvod" },
+      { id: "c", vrsta: "kod", naslov: "Izrazi", jezik: "javascript", tekst: "2 + 3" },
+    ],
+  };
+  const lista = blokoviKoraka(korak);
+  const fajl = lista.at(-1);
+  assert.equal(fajl.veza, "fajl");
+  assert.equal(fajl.vrsta, "kod");
+  assert.equal(fajl.naslov, "01-izvrsavanje.js");
+  assert.equal(fajl.jezik, "javascript");
+  assert.equal(fajl.tekst, "// Izrazi\n2 + 3\n");
+  assert.equal(korak.blokovi.some((blok) => blok.veza === "fajl"), false);
+  assert.equal(blokoviKoraka(korak).filter((blok) => blok.veza === "fajl").length, 1);
+  materijalizuj(korak, lista);
+  assert.equal(blokFajla({ putanja: "client/a.js", isecak: "x", delic: "x", isecakJezik: "javascript" }).naslov, "a.js");
+  const crtez = {
+    putanja: "client/a.js",
+    delic: "// x\n",
+    isecakJezik: "javascript",
+    blokovi: [{ id: "t", vrsta: "tekst", tekst: "A" }],
+  };
+  assert.equal(blokoviKoraka(crtez, { figura: true }).some((blok) => blok.veza === "fajl"), false);
+  assert.equal(blokoviKoraka(crtez).at(-1).naslov, "a.js");
+  fajl.tekst = "console.log(1);\n";
+  uskladiNasledjenaPolja(korak);
+  assert.equal(korak.delic, "console.log(1);\n");
+  assert.equal(korak.isecak, undefined);
+  assert.equal(korak.original, "ne diraj\n");
+  obrisiSekciju(korak, "fajl");
+  assert.equal(korak.delic, "");
+  assert.equal(blokoviKoraka(korak).some((blok) => blok.veza === "fajl"), false);
+  const dokument = prazanKurs();
+  const tema = praznaTema();
+  tema.steps[0].blokovi = [{ id: "fajl", vrsta: "kod", naslov: "a.js", jezik: "javascript", veza: "fajl", tekst: "1" }];
+  dokument.teme = [tema];
+  dokument.trajanjeTema = 1;
+  assert.deepEqual(proveriSemu(sema, dokument).greske, []);
 });
 
 test("meni ima jedan blok koda, bez tamne i svetle verzije", () => {

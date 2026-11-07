@@ -81,7 +81,7 @@ test("LO nema crtež, Hipertekst crta vezu, Stranica otvara index", () => {
   const stranicaKorak = prikazKoraka(stranica.find((korak) => korak.naslov === "Stranica"));
   assert.equal(stranicaKorak.mermaid, null);
   assert.equal(stranicaKorak.putanja, "client/index.html");
-  assert.match(main, /putanjaKoraka\.id = "putanja-koraka"/);
+  assert.equal(main.includes("putanja-koraka"), false);
   assert.match(main, /if \(figura\) casEl\.append\(figura\)/);
   assert.match(main, /nacrtajFiguru\(figura, korak\.figura\)/);
   assert.match(crtez, /import \{ crtajSvg \} from "\.\/mermaid\.js"/);

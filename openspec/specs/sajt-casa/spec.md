@@ -428,20 +428,20 @@ The open lesson MUST show the week title and the step selector outside the Gradi
 - **WHEN** the open step sets a level and Gradivo is open
 - **THEN** the Gradivo section shows that level outside the selector
 
-### Requirement: Ključna ideja i isečak
-On Gradivo, the key-idea callout MUST be visible without a further click and MUST show the idea text without a Ključna ideja title. When the step has a code snippet, that snippet MUST show its title, line numbers, and a control that copies the snippet text. When the step carries the whole file, the snippet MUST show that file and mark the lines that are new against the file's previous version in the course, in their place.
+### Requirement: Ključna ideja i kod fajla
+On Gradivo, the key-idea callout MUST be visible without a further click and MUST show the idea text without a Ključna ideja title. When the step contributes text to a file, that contribution MUST be an ordinary code section: the same section as any other code block, with the file name as its title. It MUST NOT be a separate file card with line numbers, a copy control, or a path line. Markdown export MUST emit that section as a fenced code block. The editor MUST still show the built file with line numbers and the diff against the previous snapshot.
 
-#### Scenario: Whole-file step marks new lines in place
-- **WHEN** the teacher opens a step that adds the 405 branch inside the handler of `server/server.js`
-- **THEN** the snippet shows the whole file and only the lines of that branch are marked, between the 404 branch and `listen`
+#### Scenario: File contribution is a code section
+- **WHEN** the teacher opens Šta je JavaScript i kako se izvršava? on Gradivo
+- **THEN** the file text is a code section titled `01-izvrsavanje.js`, with the same background switch as other code sections, and the page has no copy control and no Fajl path line
+
+#### Scenario: Markdown export uses the code section
+- **WHEN** the teacher exports that step as Markdown
+- **THEN** the file text is a fenced code block under the file name, with no separate delic block
 
 #### Scenario: Callout is already visible
 - **WHEN** the teacher opens a step on Gradivo
 - **THEN** the callout is visible, the idea text is on screen, and the callout has no Ključna ideja title
-
-#### Scenario: Copy copies the snippet
-- **WHEN** the teacher uses the snippet copy control
-- **THEN** the clipboard receives the snippet text
 
 ### Requirement: Nema kartice napretka
 The page MUST NOT show a progress card with Tema {n} od {N}, a percentage, the open week's step count, and that week's minute budget. The minute budget MUST stay a label on the open step and MUST NOT count down. Viewed steps MUST stay in the local state and in the week list, not in a side card.
@@ -666,19 +666,19 @@ When the step sets a level, the lesson MUST show `chart-column` beside that leve
 - **THEN** the lesson shows `chart-column`, `clock`, and `bookmark` with the words Sačuvaj korak, outside the selector
 
 ### Requirement: Ikonice isečka
-The key-idea callout MUST show `lightbulb`. When the step has a snippet, the snippet title MUST show `folder`, the copy control MUST show `copy` and the word Kopiraj, and the file path MUST show `file-text` and the path text. A figure step MUST NOT show those snippet icons. A step with no snippet and no figure MUST NOT show those snippet icons.
+The key-idea callout MUST show `lightbulb`. A file contribution on Gradivo MUST use the code-section icon `code-xml` and MUST NOT show `folder`, the word Kopiraj, or a path line. A figure step MUST NOT show a file code section. A step with no file contribution and no figure MUST NOT show a file code section.
 
-#### Scenario: Snippet chrome
-- **WHEN** the teacher opens a step that has a snippet on Gradivo
-- **THEN** the callout shows `lightbulb` without a Ključna ideja title, and the snippet title, the copy control, and the file path show those icons and the word Kopiraj
+#### Scenario: File section uses the code icon
+- **WHEN** the teacher opens a step that contributes a file on Gradivo
+- **THEN** the callout shows `lightbulb` without a Ključna ideja title, and the file section shows `code-xml` without Kopiraj and without a path line
 
 #### Scenario: Figure has no snippet chrome
 - **WHEN** the teacher opens a figure step on Gradivo
-- **THEN** the callout shows `lightbulb` and the snippet title, copy control, and file path are absent
+- **THEN** the callout shows `lightbulb` and there is no file code section
 
 #### Scenario: Story step has no snippet chrome
 - **WHEN** the teacher opens LO on Gradivo
-- **THEN** the callout shows `lightbulb` and the snippet title, copy control, and file path are absent
+- **THEN** the callout shows `lightbulb` and there is no file code section
 
 ### Requirement: Ikonice pitanja
 The question label MUST show `question`. Before the explanation, the chosen option MUST show `circle-dot`, every other option MUST show `circle`, and no option MUST show `check-circle`. After the explanation is open, the correct option MUST show `check-circle`.

@@ -62,9 +62,7 @@ import { praznaSesija, primeni } from "./verzija.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
 import { napraviBeleske } from "./beleske.js";
-import { jeKomentarLinije, prikazPriloga } from "./prilog.js";
-import { proveriJs } from "./provera-izvora.js";
-import { vecUFajlu } from "./stablo.js";
+import { prikazPriloga } from "./prilog.js";
 import {
   napraviStanje,
   SKALE_FONTA,
@@ -394,15 +392,6 @@ function crtajNav() {
     });
     nav.append(lista);
   }
-}
-
-function vecUkucano(item, doIndeksa, putanja) {
-  let pocetak = 0;
-  for (const cas of lectures) {
-    if (cas === item) break;
-    pocetak += cas.steps.length;
-  }
-  return vecUFajlu(kursKoraci(), pocetak, pocetak + doIndeksa, putanja);
 }
 
 function prikaziDeo() {
@@ -1979,58 +1968,6 @@ function izmeniTekuciKorak(primeni) {
 }
 
 
-function nacrtajFajl(fajl) {
-  const blok = document.createElement("section");
-  blok.className = "isecak";
-  const glava = document.createElement("header");
-  const naslov = document.createElement("span");
-  saIkonom(naslov, "folder", fajl.ime);
-  const kopiraj = document.createElement("button");
-  kopiraj.type = "button";
-  const natpisKopiranja = (tekst) => saIkonom(kopiraj, "copy", tekst);
-  natpisKopiranja("Kopiraj");
-  kopiraj.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(fajl.linije.map((linija) => linija.tekst).join("\n"));
-      natpisKopiranja("Kopirano");
-    } catch {
-      natpisKopiranja("Kopiraj");
-    }
-  });
-  glava.append(naslov, kopiraj);
-  const pre = document.createElement("pre");
-  for (const [indeks, linija] of fajl.linije.entries()) {
-    const komentarLinija = jeKomentarLinije(linija.tekst);
-    const red = document.createElement("span");
-    red.className = linija.tip === "dodato" && !komentarLinija ? "red novo" : "red";
-    const brojReda = document.createElement("span");
-    brojReda.className = "br";
-    brojReda.textContent = String(indeks + 1);
-    const telo = document.createElement("span");
-    const taraba = linija.tekst.indexOf("#");
-    if (komentarLinija || taraba >= 0) {
-      const od = komentarLinija ? 0 : taraba;
-      if (od > 0) telo.append(document.createTextNode(linija.tekst.slice(0, od)));
-      const komentar = document.createElement("span");
-      komentar.className = "komentar";
-      komentar.textContent = linija.tekst.slice(od);
-      telo.append(komentar);
-    } else telo.textContent = linija.tekst;
-    red.append(brojReda, telo, document.createTextNode("\n"));
-    pre.append(red);
-  }
-  blok.append(glava, pre);
-  const tekst = fajl.linije.map((linija) => linija.tekst).join("\n");
-  const greska = String(fajl.putanja || "").endsWith(".js") ? proveriJs(tekst) : "";
-  if (greska) {
-    const poruka = document.createElement("p");
-    poruka.className = "err";
-    poruka.textContent = greska;
-    blok.append(poruka);
-  }
-  return blok;
-}
-
 function nacrtajSkokKoraka(item, i) {
   if (!item?.steps || item.steps.length < 2) return null;
   const nav = document.createElement("nav");
@@ -2428,23 +2365,7 @@ function renderLecture() {
     nacrtajFiguru(figura, korak.figura);
   }
   const imaFajl = !figura && Boolean(korak.putanja);
-  const ranije = imaFajl ? vecUkucano(item, i, prikaz.putanja) : "";
-  const prilog = imaFajl ? prikazPriloga(korak, ranije) : { fajl: null, komanda: "", http: "" };
-  const imaRedove = prilog.fajl && prilog.fajl.linije.some((linija) => linija.tekst !== "");
-  let isecak = imaRedove ? nacrtajFajl(prilog.fajl) : null;
-  if (isecak && sirovi) {
-    const prikazIsecaka = isecak;
-    isecak = omotUredjivog(urediSadrzaj, kljucPolja(cas, i, "isecak"), prikazIsecaka, () => {
-      const editor = napraviEditorTeksta(
-        sirovi.isecak ?? "",
-        { redovi: 14, kod: true, placeholder: "Isečak koda ili sadržaj fajla za ovaj korak." },
-        { opis: "isečak koda" }
-      );
-      return veziTekst(editor, (vrednost) => {
-        postaviIsecakKoraka(sirovi, vrednost);
-      });
-    });
-  }
+  const prilog = imaFajl ? prikazPriloga(korak, "") : { fajl: null, komanda: "", http: "" };
   let httpBlok = prilog.http ? nacrtajTekstBloka(prilog.http, "HTTP", "book-open") : null;
   if (httpBlok && sirovi) {
     const prikazHttp = httpBlok;
@@ -2460,20 +2381,6 @@ function renderLecture() {
     });
   }
   const komandaBlok = prilog.komanda ? nacrtajTekstBloka(prilog.komanda, "Komanda") : null;
-  const put = imaFajl ? document.createElement("p") : null;
-  const vec = imaFajl ? document.createElement("pre") : null;
-  if (put) {
-    put.className = "meta";
-    const putanjaKoraka = document.createElement("span");
-    putanjaKoraka.id = "putanja-koraka";
-    putanjaKoraka.textContent = prikaz.putanja;
-    const fajl = ikonica("file-text");
-    if (fajl) put.append(fajl);
-    put.append(document.createTextNode("Fajl: "), putanjaKoraka);
-    vec.className = "vec";
-    vec.hidden = !ranije || Boolean(isecak);
-    vec.textContent = ranije && !isecak ? `Već u fajlu:\n${ranije}` : "";
-  }
   biracMesto.replaceChildren(birac);
   postaviRasporedBiraca(birac);
   const lista = blokoviKoraka(sirovi || korak, { prazne: urediSadrzaj.aktivan, figura: Boolean(figura) });
@@ -2483,10 +2390,8 @@ function renderLecture() {
   for (const [omot, izvor] of dijagrami) void nacrtajMermaid(omot, izvor);
   if (figura) casEl.append(figura);
   else if (imaFajl) {
-    if (isecak) casEl.append(isecak);
     if (httpBlok) casEl.append(httpBlok);
     if (komandaBlok) casEl.append(komandaBlok);
-    casEl.append(put, vec);
   }
   const skok = nacrtajSkokKoraka(item, i);
   if (skok) casEl.append(skok);

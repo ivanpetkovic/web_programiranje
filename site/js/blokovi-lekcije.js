@@ -1,3 +1,7 @@
+import { dodatakPrikaza, imeFajla } from "./prilog.js";
+
+const JEZICI = new Set(["html", "css", "text", "javascript", "json", "sql", "typescript"]);
+
 const VRSTE_GRADIVA = [
   { vrsta: "tekst", natpis: "Tekst", ikona: "text", polja: {} },
   { vrsta: "highlight", natpis: "Highlight", ikona: "callout", polja: { uloga: "obicna", naslov: "Napomena" } },
@@ -81,13 +85,56 @@ export function nasledjeniBlokovi(korak) {
   return sastaviBlokove(korak, { prazne: true });
 }
 
+function jezikFajla(korak) {
+  const zadat = String(korak?.isecakJezik || "").trim();
+  if (JEZICI.has(zadat)) return zadat;
+  const ime = imeFajla(korak?.putanja);
+  const ekstenzija = ime.includes(".") ? ime.split(".").pop().toLowerCase() : "";
+  const poEkstenziji = {
+    html: "html",
+    css: "css",
+    js: "javascript",
+    mjs: "javascript",
+    cjs: "javascript",
+    ts: "typescript",
+    json: "json",
+    sql: "sql",
+  };
+  return poEkstenziji[ekstenzija] || "text";
+}
+
+export function blokFajla(korak) {
+  if (!korak?.putanja) return null;
+  const tekst = String(dodatakPrikaza(korak) ?? "");
+  if (!tekst.trim()) return null;
+  const blok = {
+    id: "fajl",
+    vrsta: "kod",
+    jezik: jezikFajla(korak),
+    veza: "fajl",
+    tekst,
+  };
+  const naslov = imeFajla(korak.putanja);
+  if (naslov) blok.naslov = naslov;
+  return blok;
+}
+
+function saBlokomFajla(korak, blokovi, opcije) {
+  if (opcije.fajl === false || opcije.figura) return blokovi;
+  if (blokovi.some((blok) => blok?.veza === "fajl")) return blokovi;
+  const fajl = blokFajla(korak);
+  if (!fajl) return blokovi;
+  if (blokovi.some((blok) => blok?.vrsta === "kod" && String(blok.tekst ?? "") === fajl.tekst)) return blokovi;
+  return [...blokovi, fajl];
+}
+
 export function blokoviKoraka(korak, opcije = {}) {
-  if (Array.isArray(korak?.blokovi)) return korak.blokovi;
-  return sastaviBlokove(korak, {
+  if (Array.isArray(korak?.blokovi)) return saBlokomFajla(korak, korak.blokovi, opcije);
+  return saBlokomFajla(korak, sastaviBlokove(korak, {
     id: (kljuc) => `nasledje:${kljuc}`,
     prazne: false,
     ...opcije,
-  });
+  }), opcije);
 }
 
 function izvorPitalica(korak) {
@@ -139,6 +186,8 @@ export function materijalizuj(korak, prikazani, polje = "blokovi") {
   if (!korak) return [];
   if (!Array.isArray(korak[polje])) {
     korak[polje] = prikazani || (polje === "diskusija" ? diskusijaKoraka(korak) : blokoviKoraka(korak, { prazne: true }));
+  } else if (prikazani && prikazani !== korak[polje] && prikazani.some((blok) => blok?.veza === "fajl")) {
+    korak[polje] = prikazani;
   }
   return korak[polje];
 }
@@ -152,6 +201,11 @@ export function uskladiNasledjenaPolja(korak) {
   for (const blok of korak.blokovi) {
     if (blok.veza === "samostalniPrimer" && korak.samostalniPrimer) korak.samostalniPrimer.tekst = blok.tekst || "";
     if (blok.veza === "dijagram" && korak.dijagram) korak.dijagram.tekst = blok.tekst || "";
+    if (blok.veza === "fajl") {
+      const tekst = blok.tekst || "";
+      if (typeof korak.delic === "string") korak.delic = tekst;
+      if (typeof korak.isecak === "string") korak.isecak = tekst;
+    }
   }
 }
 
@@ -224,7 +278,7 @@ export function promeniVrstuSekcije(korak, prikazani, id, vrsta, polje = "blokov
   for (const kljuc of Object.keys(blok)) delete blok[kljuc];
   Object.assign(blok, noviBlok(vrsta), { id, tekst });
   if (naslov && blok.vrsta === "highlight" && blok.uloga !== "kljucna") blok.naslov = naslov;
-  if (veza === "samostalniPrimer" && blok.vrsta === "kod") blok.veza = veza;
+  if ((veza === "samostalniPrimer" || veza === "fajl") && blok.vrsta === "kod") blok.veza = veza;
   if (veza === "dijagram" && blok.vrsta === "dijagram") blok.veza = veza;
   if (veza === "prica" && blok.vrsta === "tekst") blok.veza = veza;
   if (blok.vrsta === "pitanje" && analiza) blok.analiza = analiza;
@@ -266,7 +320,11 @@ export function obrisiSekciju(korak, id, polje = "blokovi") {
   if (!Array.isArray(niz)) return -1;
   const indeks = niz.findIndex((blok) => blok.id === id);
   if (indeks < 0) return -1;
-  niz.splice(indeks, 1);
+  const [obrisan] = niz.splice(indeks, 1);
+  if (obrisan?.veza === "fajl") {
+    if (typeof korak.delic === "string") korak.delic = "";
+    if (typeof korak.isecak === "string") korak.isecak = "";
+  }
   uskladiPolje(korak, polje);
   return Math.min(indeks, Math.max(0, niz.length - 1));
 }
