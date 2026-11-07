@@ -203,7 +203,7 @@ test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
   const naslovi = [
     "Zašto Web postoji: zahtevi i protokoli",
     "Browser: HTML, CSS i prikaz",
-    "JavaScript: vrednosti, objekti i prototipovi",
+    "JavaScript, jezik, objekti i model izvršavanja",
     "DOM, događaji i prikaz stanja",
     "Od mrežnog prenosa do HTTP-a i Node.js-a",
     "Asinhronost, event loop i neuspeh",
@@ -219,8 +219,9 @@ test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
     assert.ok(cas.steps.length >= 10 && cas.steps.length <= 22, `čas ${cas.n}: ${cas.steps.length}`);
     for (const korak of cas.steps) {
       assert.ok(korak.primer);
-      assert.ok(korak.pitalica);
       assert.ok(korak.objasnjenje);
+      const diskusijaPrazna = Array.isArray(korak.diskusija) && korak.diskusija.length === 0;
+      if (!diskusijaPrazna) assert.ok(korak.pitalica);
       if (korak.opcije.length) {
         assert.ok(korak.opcije.length >= 2);
         assert.equal(korak.opcije.filter((opcija) => opcija.ok).length, 1);
@@ -234,6 +235,51 @@ test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
       assert.ok(korak.delic);
     }
   });
+});
+
+test("tema jezika ima 15 koraka, praznu diskusiju i fajl po koraku", () => {
+  const tema = dokument.teme[2];
+  const cas = lectures[2];
+  assert.equal(tema.naslov, "JavaScript, jezik, objekti i model izvršavanja");
+  assert.equal(tema.steps.length, 15);
+  assert.equal(tema.steps.reduce((zbir, korak) => zbir + korak.minuta, 0), 55);
+  assert.match(tema.izlaz, /okruženju/);
+  const naslovi = [
+    "Šta je JavaScript i kako se izvršava?",
+    "Vrednosti, tipovi podataka i promenljive",
+    "Objekti, svojstva, reference i mutacija",
+    "Izrazi, operatori i poređenja",
+    "Kontrola toka programa",
+    "Funkcije kao vrednosti",
+    "Nizovi i obrada kolekcija",
+    "Destrukturiranje i savremena sintaksa",
+    "Opseg važenja i leksičko okruženje",
+    "Execution context, call stack i hoisting",
+    "Closure: kako funkcija zadržava pristup svom okruženju",
+    "Metode objekata i this",
+    "Prototipi, prototipski lanac i klase",
+    "Greške, izuzeci i debagovanje",
+    "Moduli, JSON i priprema za Web",
+  ];
+  assert.deepEqual(tema.steps.map((korak) => korak.naslov), naslovi);
+  tema.steps.forEach((korak, i) => {
+    assert.deepEqual(korak.diskusija, []);
+    assert.equal(korak.pitalice, undefined);
+    assert.match(korak.putanja, /^client\/lekcije\/\d{2}-/);
+    assert.match(korak.delic, new RegExp(`^// ${korak.naslov}`));
+    assert.equal(korak.blokovi.some((blok) => blok.vrsta === "highlight" && blok.uloga === "kljucna"), true);
+    assert.equal(korak.blokovi.some((blok) => blok.vrsta === "kod"), true);
+    assert.equal(cas.steps[i].putanja, korak.putanja);
+    assert.equal(cas.steps[i].delic, korak.delic);
+  });
+  assert.match(tema.steps[1].delic, /\/\/ const x = 5;/);
+  assert.match(tema.steps[6].tekst, /map\(\)/);
+  assert.match(tema.steps[6].delic, /brojevi\.map/);
+  assert.match(tema.steps[14].delic, /export function saberi/);
+  assert.match(tema.steps[14].delic, /JSON\.parse/);
+  assert.match(tema.steps[14].delic, /\/\/ import \{ saberi, PI \}/);
+  const moduli = tema.steps[14].blokovi.find((blok) => blok.naslov === "main.js");
+  assert.match(moduli.tekst, /import \{ saberi, PI \}/);
 });
 
 test("čas istorije nema Node, čas stranice ima client/index.html", () => {
@@ -409,9 +455,16 @@ test("nema preglednog spiska ni naslova Osvrt", () => {
 
 test("svaki korak nosi pitalice redom, prva ostaje postojeća", () => {
   let saDrugom = 0;
+  let bezDiskusije = 0;
   const kljucevi = { A: 0, B: 0 };
   for (const tema of dokument.teme) {
     for (const korak of tema.steps) {
+      if (Array.isArray(korak.diskusija) && korak.diskusija.length === 0) {
+        assert.equal(korak.pitalice, undefined, korak.naslov);
+        assert.equal(korak.pitalica, undefined, korak.naslov);
+        bezDiskusije += 1;
+        continue;
+      }
       assert.ok(Array.isArray(korak.pitalice) && korak.pitalice.length >= 2, korak.naslov);
       assert.equal(korak.pitalice[0].pitalica, korak.pitalica);
       assert.equal(korak.pitalice[0].analizaPitalice || "", korak.analizaPitalice || "");
@@ -435,7 +488,8 @@ test("svaki korak nosi pitalice redom, prva ostaje postojeća", () => {
       }
     }
   }
-  assert.equal(saDrugom, dokument.teme.reduce((n, t) => n + t.steps.length, 0));
+  assert.equal(bezDiskusije, dokument.teme[2].steps.length);
+  assert.equal(saDrugom, dokument.teme.reduce((n, t) => n + t.steps.length, 0) - bezDiskusije);
   assert.ok(kljucevi.A > 40 && kljucevi.B > 40);
 });
 
