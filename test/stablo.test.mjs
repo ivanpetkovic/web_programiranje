@@ -41,29 +41,32 @@ test("semantika je skup delića dokumenta, bez skripti", () => {
   assert.equal(html.includes("soba mašina"), false);
 });
 
-test("objekat dodaje korak.js sa sobom, bez kasnijeg koraka", () => {
-  const stablo = stabloDo(koraci, indeks("Objekat"));
+test("prvi korak jezika dodaje svoj fajl, bez kasnijeg i bez korak.js", () => {
+  const stablo = stabloDo(koraci, indeks("Šta je JavaScript i kako se izvršava?"));
   const html = stablo.verzije["client/index.html"];
-  const js = stablo.verzije["client/js/korak.js"];
-  assert.ok(fajloviStrane(stablo, "client").includes("js/korak.js"));
-  assert.equal(fajloviStrane(stablo, "client").includes("js/niz.js"), false);
-  assert.match(js, /const soba = \{ temperatura: 24, zeljeno: false \}/);
-  assert.equal(js.includes("function korak"), false);
+  const js = stablo.verzije["client/lekcije/01-izvrsavanje.js"];
+  assert.ok(fajloviStrane(stablo, "client").includes("lekcije/01-izvrsavanje.js"));
+  assert.equal(fajloviStrane(stablo, "client").includes("lekcije/02-vrednosti.js"), false);
+  assert.equal(fajloviStrane(stablo, "client").includes("js/korak.js"), false);
+  assert.match(js, /console\.log\(2 \+ 3\)/);
+  assert.equal(js.includes("JSON.parse"), false);
   assert.notEqual(js.trim(), diskKorak.trim());
   assert.equal(html.includes("<script"), false);
   assert.equal(html.includes("new Displej"), false);
   assert.notEqual(html.trim(), diskHtml.trim());
 });
 
-test("svaki sledeći korak istog fajla ima svoju verziju", () => {
-  const rano = stabloDo(koraci, indeks("Objekat")).verzije["client/js/korak.js"];
-  const kasno = stabloDo(koraci, indeks("Delta")).verzije["client/js/korak.js"];
-  const kraj = stabloDo(koraci, koraci.length - 1).verzije["client/js/korak.js"];
-  assert.match(kasno, /function korak/);
-  assert.match(kasno, /^let delta = 1;\n/);
-  assert.equal(kasno.includes("const soba"), false);
-  assert.notEqual(rano, kasno);
-  assert.notEqual(kasno, kraj);
+test("koraci jezika drže odvojene fajlove", () => {
+  const rano = stabloDo(koraci, indeks("Šta je JavaScript i kako se izvršava?")).verzije["client/lekcije/01-izvrsavanje.js"];
+  const nizovi = stabloDo(koraci, indeks("Nizovi i obrada kolekcija"));
+  const moduli = stabloDo(koraci, indeks("Moduli, JSON i priprema za Web"));
+  assert.equal(fajloviStrane(nizovi, "client").includes("lekcije/07-nizovi.js"), true);
+  assert.equal(fajloviStrane(nizovi, "client").includes("lekcije/15-moduli.js"), false);
+  assert.match(nizovi.verzije["client/lekcije/07-nizovi.js"], /brojevi\.map/);
+  assert.match(moduli.verzije["client/lekcije/15-moduli.js"], /JSON\.parse/);
+  assert.equal(moduli.verzije["client/lekcije/07-nizovi.js"].includes("JSON.parse"), false);
+  assert.notEqual(rano, nizovi.verzije["client/lekcije/07-nizovi.js"]);
+  assert.equal(fajloviStrane(moduli, "client").includes("js/korak.js"), false);
 });
 
 test("prekidač drži crtaj u svojim fajlovima", () => {

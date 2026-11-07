@@ -138,10 +138,10 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
 
     await strana.vrednost(`location.hash = "cas-3"`);
     await strana.vrednost(`document.querySelector('#tab-editor').click()`);
-    await strana.vrednost(klikNaKorak("filter"));
-    await strana.vrednost(klikNaFajl("js/niz.js"));
+    await strana.vrednost(klikNaKorak("Nizovi i obrada kolekcija"));
+    await strana.vrednost(klikNaFajl("lekcije/07-nizovi.js"));
     const posleNiza = await sačekaj(
-      (s) => s.putanja === "client/js/niz.js" && s.tekst.includes("function iznadPraga"),
+      (s) => s.putanja === "client/lekcije/07-nizovi.js" && s.tekst.includes("brojevi.map"),
     );
     assert.equal(posleNiza.tekst.includes("<!DOCTYPE html>"), false);
     assert.equal(posleNiza.tekst.includes("letter-spacing"), false);
@@ -185,8 +185,9 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
     strana = await otvoriStranu(portChrome);
     await strana.idi(`http://127.0.0.1:${portSajta}/#cas-3`);
     const kurs = JSON.parse(readFileSync(path.join(koren, "site/kurs.json"), "utf8"));
-    const filterKorak = kurs.teme[2].steps.find((korak) => korak.naslov === "filter");
-    const filter = (filterKorak.original || filterKorak.delic).trim();
+    const nizKorak = kurs.teme[2].steps.find((korak) => korak.naslov === "Nizovi i obrada kolekcija");
+    const filter = "brojevi.map";
+    assert.match(nizKorak.delic, /brojevi\.map/);
 
     async function ekran() {
       return strana.vrednost(`(${stanjeEditora.toString()})()`);
@@ -206,18 +207,18 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
     }
 
     await strana.vrednost(`document.querySelector('#tab-editor').click()`);
-    await strana.vrednost(klikNaFajl("js/korak.js"));
+    await strana.vrednost(klikNaFajl("lekcije/01-izvrsavanje.js"));
     const otvorenKorak = await sačekaj(
-      (s) => s.spreman && s.putanja === "client/js/korak.js" && s.tekst.startsWith("const soba = {"),
+      (s) => s.spreman && s.putanja === "client/lekcije/01-izvrsavanje.js" && s.tekst.includes("console.log(2 + 3)"),
     );
-    assert.equal(otvorenKorak.otvoren, "js/korak.js");
+    assert.equal(otvorenKorak.otvoren, "lekcije/01-izvrsavanje.js");
 
-    await korak("filter");
+    await korak("Nizovi i obrada kolekcija");
     const poslePrvogKoraka = await sačekaj(
-      (s) => s.putanja === "client/js/niz.js" && s.tekst.includes(filter),
+      (s) => s.putanja === "client/lekcije/07-nizovi.js" && s.tekst.includes(filter),
     );
-    assert.equal(poslePrvogKoraka.otvoren, "js/niz.js");
-    assert.equal(poslePrvogKoraka.tekst.includes("const soba = {"), false);
+    assert.equal(poslePrvogKoraka.otvoren, "lekcije/07-nizovi.js");
+    assert.equal(poslePrvogKoraka.tekst.includes("console.log(2 + 3)"), false);
 
     await strana.vrednost(klikNaFajl("index.html"));
     const drugiFajl = await sačekaj(
@@ -226,15 +227,26 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
     assert.equal(drugiFajl.otvoren, "index.html");
     assert.equal(drugiFajl.tekst.includes(filter), false);
 
-    await korak("Tip");
-    const posleDrugogKoraka = await sačekaj(
-      (s) => s.putanja === "client/js/korak.js" && s.tekst.includes('24 === "24"'),
-    );
-    assert.equal(posleDrugogKoraka.otvoren, "js/korak.js");
-    assert.equal(posleDrugogKoraka.tekst.includes('24 === "24"'), true);
-    assert.equal(posleDrugogKoraka.tekst.startsWith("let delta = 1;"), false);
+    await korak("Moduli, JSON i priprema za Web");
+    const posleDrugogKoraka = await (async () => {
+      const kraj = Date.now() + 5000;
+      let poslednje;
+      while (Date.now() < kraj) {
+        poslednje = await strana.vrednost(`(() => {
+          window.scrollTo(0, document.body.scrollHeight);
+          document.querySelector("#editor")?.scrollIntoView({ block: "end" });
+          return (${stanjeEditora.toString()})();
+        })()`);
+        if (poslednje.putanja === "client/lekcije/15-moduli.js" && poslednje.tekst.includes("JSON.parse")) return poslednje;
+        await pauza(40);
+      }
+      throw new Error(`editor nije stigao: ${JSON.stringify(poslednje)}`);
+    })();
+    assert.equal(posleDrugogKoraka.otvoren, "lekcije/15-moduli.js");
+    assert.equal(posleDrugogKoraka.tekst.includes("JSON.parse"), true);
+    assert.equal(posleDrugogKoraka.tekst.includes("console.log(2 + 3)"), false);
     assert.equal(posleDrugogKoraka.tekst.includes("naslov je h1"), false);
-    assert.equal(posleDrugogKoraka.tekst.includes(filter), false);
+    assert.equal(posleDrugogKoraka.tekst.includes("brojevi.map"), false);
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
     throw greska;

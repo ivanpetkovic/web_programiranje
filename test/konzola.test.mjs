@@ -227,10 +227,10 @@ test("konzola ispod pregleda hvata ispis i greške", { timeout: 45000 }, async (
 
   const mapa = JSON.stringify({ "client/index.html": STRANICA, "client/js/korak.js": KORAK });
   await strana.vrednost(`localStorage.setItem("radnaVerzija", ${JSON.stringify(mapa)})`);
-  await strana.idi(`http://127.0.0.1:${portSajta}/?konzola=1#cas-3`);
+  await strana.idi(`http://127.0.0.1:${portSajta}/?konzola=1#cas-4`);
   await strana.vrednost(`document.querySelector("#tab-editor").click()`);
   await strana.vrednost(`(() => {
-    const dugme = [...document.querySelectorAll("#birac-meni button")].find((b) => b.textContent.endsWith(" Objekat"));
+    const dugme = [...document.querySelectorAll("#birac-meni button")].find((b) => b.textContent.endsWith(" Stanje"));
     if (!dugme) throw new Error("nema koraka");
     dugme.click();
   })()`);
