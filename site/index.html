@@ -13,12 +13,13 @@
         try {
           zapis = JSON.parse(localStorage.getItem("web-programiranje:stanje") || "null");
         } catch (e) {}
-        var paleta, mod, skala;
+        var paleta, mod, skala, pozadinaKoda;
         if (zapis && zapis.verzija === 1) {
           var podesavanja = zapis.podesavanja || {};
           paleta = zapis.paleta;
           mod = podesavanja.mod;
           skala = podesavanja.font;
+          pozadinaKoda = podesavanja.pozadinaKoda;
         } else {
           paleta = localStorage.getItem("tema");
           mod = localStorage.getItem("web-programiranje:mod");
@@ -26,6 +27,7 @@
         }
         if (palete[paleta]) koren.dataset.tema = palete[paleta];
         koren.dataset.mod = mod === "samostalni" ? "samostalni" : "predavanja";
+        koren.dataset.pozadinaKoda = pozadinaKoda === "crna" ? "crna" : "bela";
         if (skale[skala]) koren.style.setProperty("--skala-fonta", skale[skala]);
       } catch (e) {}
     </script>

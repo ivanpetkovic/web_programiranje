@@ -1181,13 +1181,50 @@ function teloSekcije(sirovi, blok, dijagrami, prviTekst, vezi) {
     return omotUredjivog(urediSadrzaj, id, prikazTekstSekcije(blok, dijagrami, prviTekst), () => uredjivacSekcije(sirovi, blok, vezi));
   }
   const kartica = nacrtajTekstBloka(blok.tekst || "", natpisSekcije(blok), ikonaSekcije(blok));
-  if (blok.vrsta === "kod") kartica.classList.add(blok.pozadina === "crna" ? "isecak-crna" : "isecak-bela");
+  const akcije = document.createElement("div");
+  akcije.className = "isecak-akcije";
+  if (blok.vrsta === "kod") akcije.append(prekidacPozadineKoda());
+  kartica.querySelector("header")?.append(akcije);
   return omotUredjivog(urediSadrzaj, id, kartica, () => uredjivacSekcije(sirovi, blok, vezi), {
     umestoOlovke(otvori) {
-      kartica.querySelector("header")?.append(dugmeUredi(`Uredi: ${natpisSekcije(blok)}`, otvori));
+      akcije.append(dugmeUredi(`Uredi: ${natpisSekcije(blok)}`, otvori));
       return null;
     },
   });
+}
+
+function pozadinaKoda() {
+  return lokalno.stanje().podesavanja.pozadinaKoda === "crna" ? "crna" : "bela";
+}
+
+function postaviPozadinuKoda(vrednost) {
+  const sledeca = vrednost === "crna" ? "crna" : "bela";
+  document.documentElement.dataset.pozadinaKoda = sledeca;
+  if (lokalno.stanje().podesavanja.pozadinaKoda !== sledeca) {
+    lokalno.promeni((stanje) => postaviPodesavanje(stanje, "pozadinaKoda", sledeca));
+  }
+  for (const dugme of document.querySelectorAll(".kod-boja button")) {
+    dugme.setAttribute("aria-pressed", String(dugme.dataset.pozadina === sledeca));
+  }
+}
+
+function prekidacPozadineKoda() {
+  const grupa = document.createElement("div");
+  grupa.className = "kod-boja";
+  grupa.setAttribute("role", "group");
+  grupa.setAttribute("aria-label", "Pozadina koda");
+  const sada = pozadinaKoda();
+  for (const [vrednost, natpis] of [["bela", "Bela"], ["crna", "Crna"]]) {
+    const dugme = document.createElement("button");
+    dugme.type = "button";
+    dugme.dataset.pozadina = vrednost;
+    dugme.textContent = natpis;
+    dugme.setAttribute("aria-label", `${natpis} pozadina`);
+    dugme.setAttribute("aria-pressed", String(sada === vrednost));
+    dugme.addEventListener("click", () => postaviPozadinuKoda(vrednost));
+    grupa.append(dugme);
+  }
+  return grupa;
 }
 
 function veziPrevlacenje(rucica, omot, lista, blok) {
@@ -3240,6 +3277,7 @@ function postaviStablo(sklopljeno) {
 }
 
 postaviStablo(lokalno.stanje().podesavanja.stabloSklopljeno);
+document.documentElement.dataset.pozadinaKoda = lokalno.stanje().podesavanja.pozadinaKoda === "crna" ? "crna" : "bela";
 
 dugmeStabla.addEventListener("click", () => {
   const sklopljeno = dugmeStabla.getAttribute("aria-expanded") === "true";
@@ -3404,6 +3442,7 @@ function primeniStanje() {
   else delete koren.dataset.tema;
   koren.dataset.mod = stanje.podesavanja.mod === "samostalni" ? "samostalni" : "predavanja";
   koren.style.setProperty("--skala-fonta", stanje.podesavanja.font);
+  koren.dataset.pozadinaKoda = stanje.podesavanja.pozadinaKoda === "crna" ? "crna" : "bela";
   postaviStablo(stanje.podesavanja.stabloSklopljeno);
   korakPoCasu.clear();
   deo = podrazumevaniDeo();

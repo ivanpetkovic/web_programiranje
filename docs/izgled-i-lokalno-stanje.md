@@ -107,7 +107,7 @@ Sve što sajt pamti o studentu stoji u jednom zapisu u `localStorage`, pod klju�
   "verzija": 1,
   "mesto": { "tema": 3, "uvod": false },
   "napredak": { "3": { "vidjeni": [0, 1, 2], "poslednji": 2 } },
-  "podesavanja": { "mod": "predavanja", "font": "1", "stabloSklopljeno": false },
+  "podesavanja": { "mod": "predavanja", "font": "1", "stabloSklopljeno": false, "pozadinaKoda": "bela" },
   "paleta": "pesak",
   "beleske": [
     { "tema": 3, "korak": 2, "naslov": "Primitivna vrednost i referenca", "komentar": "Razlika u čuvanju u memoriji", "izmenjeno": "2026-11-04T08:00:00.000Z" }
@@ -123,6 +123,7 @@ Sve što sajt pamti o studentu stoji u jednom zapisu u `localStorage`, pod klju�
 | `podesavanja.mod` | `predavanja`, `samostalni` ili `null`. `null` znači da način korišćenja još nije izabran. |
 | `podesavanja.font` | Veličina teksta: `"0.875"` (A−), `"1"` (A) ili `"1.125"` (A+). |
 | `podesavanja.stabloSklopljeno` | Da li je stablo fajlova u editoru sklopljeno. |
+| `podesavanja.pozadinaKoda` | Pozadina bloka koda: `bela` ili `crna`. Važi za sve blokove koda. Podrazumevano je `bela`. |
 | `paleta` | `mornar`, `ugalj`, `pesak`, `terakota` ili `null` (prati sistem). |
 | `beleske` | Jedna beleška po paru tema i korak: naslov koraka u trenutku čuvanja, komentar do 500 znakova i vreme izmene. |
 
@@ -147,7 +148,7 @@ Ništa iz stanja ne ide na server.
 
 ### Stanje pre prvog crtanja
 
-Inline skripta u `<head>` čita isti zapis pre učitavanja modula i odmah postavlja `data-tema`, `data-mod` i `--skala-fonta`. Zato se pri učitavanju ne vidi pogrešna paleta. Kad zapisa nema, skripta čita stare ključeve. Prenos i brisanje radi samo modul.
+Inline skripta u `<head>` čita isti zapis pre učitavanja modula i odmah postavlja `data-tema`, `data-mod`, `data-pozadina-koda` i `--skala-fonta`. Zato se pri učitavanju ne vidi pogrešna paleta ni pogrešna pozadina koda. Kad zapisa nema, skripta čita stare ključeve, a pozadina koda ostaje bela. Prenos i brisanje radi samo modul.
 
 ### Prenos starih ključeva
 
