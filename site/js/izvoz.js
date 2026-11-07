@@ -306,6 +306,15 @@ ${telo}
 <script src="/vendor/mermaid/mermaid.js"></script>
 <script>
   const cvorovi = [...document.querySelectorAll(".figura-mermaid")];
+  function javiSpremnost() {
+    const poruka = { izvoz: "spreman" };
+    try {
+      const cilj = location.origin && location.origin !== "null" ? location.origin : "*";
+      window.parent.postMessage(poruka, cilj);
+    } catch (greska) {
+      window.parent.postMessage(poruka, "*");
+    }
+  }
   async function crtaj() {
     try {
       if (window.mermaid && cvorovi.length) {
@@ -323,7 +332,7 @@ ${telo}
         }
       }
     } finally {
-      window.parent.postMessage({ izvoz: "spreman" }, location.origin);
+      javiSpremnost();
     }
   }
   crtaj();

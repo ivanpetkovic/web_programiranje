@@ -80,6 +80,12 @@ test("nezatvorena ograda u tekstu ne lomi markdown fajl", () => {
   assert.match(md, /\\`/);
 });
 
+test("pdf html ne šalje spremnost na nevažeće poreklo srcdoc okvira", () => {
+  const html = htmlTeme({ naslov: "Veza", steps: [] });
+  assert.equal(html.includes('postMessage({ izvoz: "spreman" }, location.origin)'), false);
+  assert.match(html, /location\.origin !== "null" \? location\.origin : "\*"/);
+});
+
 test("tema spaja korake u jedan markdown i pdf html", () => {
   const tema = {
     naslov: "Veza",
