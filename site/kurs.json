@@ -537,6 +537,62 @@
               "tekst": "Browser ── HTTP zahtev ──▶ server\nBrowser ◀─ HTTP odgovor ─── server",
               "naslov": "Dijagram"
             }
+          ],
+          "diskusija": [
+            {
+              "id": "svveg2ptu",
+              "vrsta": "pitanje",
+              "tekst": "",
+              "oblik": "izbor",
+              "opcije": [
+                {
+                  "key": "A",
+                  "text": "",
+                  "ok": false,
+                  "why": ""
+                },
+                {
+                  "key": "B",
+                  "text": "",
+                  "ok": true,
+                  "why": ""
+                }
+              ]
+            }
+          ],
+          "pitalice": [
+            {
+              "pitalica": "",
+              "opcije": [
+                {
+                  "key": "A",
+                  "text": "",
+                  "ok": false,
+                  "why": ""
+                },
+                {
+                  "key": "B",
+                  "text": "",
+                  "ok": true,
+                  "why": ""
+                }
+              ]
+            }
+          ],
+          "pitalica": "",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "",
+              "ok": false,
+              "why": ""
+            },
+            {
+              "key": "B",
+              "text": "",
+              "ok": true,
+              "why": ""
+            }
           ]
         },
         {
@@ -545,7 +601,7 @@
           "minuta": 5,
           "tipPrimer": "eksperiment",
           "tekst": "Knjigu obično čitamo redom, od jedne stranice ka sledećoj. Ali šta ako želimo da pratimo ideje i njihove međusobne veze, umesto unapred određenog redosleda stranica?\n\nVanevar Buš (Vannevar Bush) još 1945. godine opisuje **Memex**, zamišljeni uređaj koji omogućava povezivanje i pronalaženje informacija putem asocijacija. Ted Nelson 1965. uvodi pojam **hipertekst**, označavajući tekst čiji su delovi međusobno povezani i koji se može istraživati nelinearno.\n\n**Hipertekst** omogućava čitaocu da sam bira put kroz informacije. Umesto da prati strogo određen redosled, može da prelazi između povezanih dokumenata i tema.\n\n\nBerners-Lee u CERN-u, marta 1989, predlaže povezane dokumente. Osnovni mehanizam je **hiperlink (veza)**, element na koji korisnik može da klikne kako bi otvorio drugi dokument ili određeni deo istog dokumenta. Tako nastaje **World Wide Web**, mreža međusobno povezanih dokumenata u kojoj korisnik sam odlučuje kojim putem će istraživati informacije.\n\nWeb je jedna usluga na Internetu, ne sam Internet. CERN-ov problem bio je povezivanje informacija između heterogenih računara i timova. Web je rešio pristup međusobno povezanim dokumentima preko postojećeg Interneta, umesto da izmišlja novu mrežnu infrastrukturu.\n\nNa Webu se to ostvaruje kombinacijom dve tehnologije:\n\n- **URL** određuje adresu resursa na koji veza upućuje.\n- **HTML** pomoću elementa `<a>` definiše vezu i omogućava korisniku da je prati.\n\n",
-          "kljucnaIdeja": "HTTP definiše zahtev, odgovor, metode, zaglavlja i status.",
+          "kljucnaIdeja": "",
           "figura": {
             "vrsta": "put",
             "cvorovi": [
@@ -616,67 +672,12 @@
               ],
               "analizaPitalice": "Ako veza ostane „sledeći broj”, Web ne rešava problem razbacanih dokumenata. URL postoji da bi odredište bilo imenovano, ne poredano."
             }
-          ]
-        },
-        {
-          "naslov": "HTML",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "eksperiment",
-          "tekst": "Zašto oznake koje čovek može da otkuca, a ne binarni raspored strane? 1991. izlazi prva javna stranica. Rane oznake nose strukturu: naslov, veza, spisak. Ne nose boju. HTML opisuje strukturu i značenje sadržaja: naslov, pasus, link i listu. Browser oblikuje prikaz, dok CSS kasnije omogućava odvojena pravila izgleda; semantika ostaje važna i kad se stil potpuno zameni.",
-          "kljucnaIdeja": "Rana oznaka kaže šta je deo teksta, ne kako je ofarban.",
-          "pitalica": "Šta rana HTML oznaka imenuje?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Boju i tačan raspored piksela.",
-              "why": "Boja stiže kasnije. Prva stranica je struktura. HTML opisuje strukturu i značenje sadržaja: naslov, pasus, link i listu.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Rani HTML imenuje strukturu, ne boju.",
-              "why": "Naslov, veza i spisak su uloge dela teksta. HTML opisuje strukturu i značenje sadržaja: naslov, pasus, link i listu. Browser oblikuje prikaz, dok CSS kasnije omogućava odvojena pravila izgleda; semantika ostaje važna i kad se stil potpuno zameni.",
-              "ok": true
-            }
           ],
-          "analizaPitalice": "HTML opisuje strukturu i značenje sadržaja: naslov, pasus, link i listu. Browser oblikuje prikaz, dok CSS kasnije omogućava odvojena pravila izgleda; semantika ostaje važna i kad se stil potpuno zameni.",
-          "pitalice": [
+          "blokovi": [
             {
-              "pitalica": "Šta rana HTML oznaka imenuje?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Boju i tačan raspored piksela.",
-                  "why": "Boja stiže kasnije. Prva stranica je struktura. HTML opisuje strukturu i značenje sadržaja: naslov, pasus, link i listu.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Rani HTML imenuje strukturu, ne boju.",
-                  "why": "Naslov, veza i spisak su uloge dela teksta. HTML opisuje strukturu i značenje sadržaja: naslov, pasus, link i listu. Browser oblikuje prikaz, dok CSS kasnije omogućava odvojena pravila izgleda; semantika ostaje važna i kad se stil potpuno zameni.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "HTML opisuje strukturu i značenje sadržaja: naslov, pasus, link i listu. Browser oblikuje prikaz, dok CSS kasnije omogućava odvojena pravila izgleda; semantika ostaje važna i kad se stil potpuno zameni."
-            },
-            {
-              "pitalica": "Zašto rana oznaka imenuje ulogu dela teksta, a ne boju?",
-              "opcije": [
-                {
-                  "key": "B",
-                  "text": "Zato što izgled može da se zameni, a naslov mora da ostane naslov.",
-                  "why": "HTML nastaje da bi dokument imao značenje i kad se prikaz promeni. Boja nije razlog oznake.",
-                  "ok": true
-                },
-                {
-                  "key": "A",
-                  "text": "Zato što browser iz 1991. nije umeo da prikaže boju, pa boja nije postojala kao ideja.",
-                  "why": "Ograničenje prikaza nije razlog semantike. Semantika ostaje i kad boja postoji.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "Ako student ofarba naslov i zaključi da je time promenio dokument, pomešao je sloj. CSS kasnije postoji baš da bi izgled izašao iz oznake."
+              "id": "nasledje:tekst",
+              "vrsta": "tekst",
+              "tekst": "Knjigu obično čitamo redom, od jedne stranice ka sledećoj. Ali šta ako želimo da pratimo ideje i njihove međusobne veze, umesto unapred određenog redosleda stranica?\n\nVanevar Buš (Vannevar Bush) još 1945. godine opisuje **Memex**, zamišljeni uređaj koji omogućava povezivanje i pronalaženje informacija putem asocijacija. Ted Nelson 1965. uvodi pojam **hipertekst**, označavajući tekst čiji su delovi međusobno povezani i koji se može istraživati nelinearno.\n\n**Hipertekst** omogućava čitaocu da sam bira put kroz informacije. Umesto da prati strogo određen redosled, može da prelazi između povezanih dokumenata i tema.\n\n\nBerners-Lee u CERN-u, marta 1989, predlaže povezane dokumente. Osnovni mehanizam je **hiperlink (veza)**, element na koji korisnik može da klikne kako bi otvorio drugi dokument ili određeni deo istog dokumenta. Tako nastaje **World Wide Web**, mreža međusobno povezanih dokumenata u kojoj korisnik sam odlučuje kojim putem će istraživati informacije.\n\nWeb je jedna usluga na Internetu, ne sam Internet. CERN-ov problem bio je povezivanje informacija između heterogenih računara i timova. Web je rešio pristup međusobno povezanim dokumentima preko postojećeg Interneta, umesto da izmišlja novu mrežnu infrastrukturu.\n\nNa Webu se to ostvaruje kombinacijom dve tehnologije:\n\n- **URL** određuje adresu resursa na koji veza upućuje.\n- **HTML** pomoću elementa `<a>` definiše vezu i omogućava korisniku da je prati.\n\n"
             }
           ]
         },
@@ -756,98 +757,6 @@
                 }
               ],
               "analizaPitalice": "Put od URL-a do prikaza postoji da bi se greška locirala. DNS ne preuzima dokument, TLS ga ne parsira, HTTP ne crta piksele."
-            }
-          ]
-        },
-        {
-          "naslov": "Dokument",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "eksperiment",
-          "tekst": "Šta od ove teme sledeća stranica još nema? Imaće dokument. Još nema jezik u stranici, zahtev koji menja deo, ni server. server/ je i dalje prazan. Početna Kontrolna soba sadrži samo dokument sa brojem 24. To nije živo očitavanje: kada se promeni temperatura na serveru, statički tekst ostaje isti. Iz ove razlike proizlazi potreba za stanjem i komunikacijom u narednim temama.",
-          "kljucnaIdeja": "Sledeća tema piše dokument. Ostalo čeka svoje časove.",
-          "figura": {
-            "vrsta": "linija",
-            "pokret": "redom",
-            "oznake": [
-              {
-                "godina": "1969",
-                "natpis": "Paket"
-              },
-              {
-                "godina": "1989",
-                "natpis": "Predlog"
-              },
-              {
-                "godina": "1995",
-                "natpis": "Jezik"
-              },
-              {
-                "godina": "2005",
-                "natpis": "Ajax"
-              },
-              {
-                "godina": "2008",
-                "natpis": "Ledger"
-              },
-              {
-                "godina": "sledeća",
-                "natpis": "Dokument"
-              }
-            ]
-          },
-          "pitalica": "Šta sledeća tema piše?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Server, jezik i Ajax odjednom.",
-              "why": "To su kasniji časovi. server/ je prazan. Početna Kontrolna soba sadrži samo dokument sa brojem 24.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Sledeća tema piše dokument.",
-              "why": "Jezik, delimičan zahtev i server još nisu na stranici. Početna Kontrolna soba sadrži samo dokument sa brojem 24. To nije živo očitavanje: kada se promeni temperatura na serveru, statički tekst ostaje isti. Iz ove razlike proizlazi potreba za stanjem i komunikacijom u narednim temama.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "Početna Kontrolna soba sadrži samo dokument sa brojem 24. To nije živo očitavanje: kada se promeni temperatura na serveru, statički tekst ostaje isti. Iz ove razlike proizlazi potreba za stanjem i komunikacijom u narednim temama.",
-          "pitalice": [
-            {
-              "pitalica": "Šta sledeća tema piše?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Server, jezik i Ajax odjednom.",
-                  "why": "To su kasniji časovi. server/ je prazan. Početna Kontrolna soba sadrži samo dokument sa brojem 24.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Sledeća tema piše dokument.",
-                  "why": "Jezik, delimičan zahtev i server još nisu na stranici. Početna Kontrolna soba sadrži samo dokument sa brojem 24. To nije živo očitavanje: kada se promeni temperatura na serveru, statički tekst ostaje isti. Iz ove razlike proizlazi potreba za stanjem i komunikacijom u narednim temama.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Početna Kontrolna soba sadrži samo dokument sa brojem 24. To nije živo očitavanje: kada se promeni temperatura na serveru, statički tekst ostaje isti. Iz ove razlike proizlazi potreba za stanjem i komunikacijom u narednim temama."
-            },
-            {
-              "pitalica": "Zašto sledeća tema počinje od dokumenta, a ne od servera?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Zato što 24 na početku još nije merenje, nego tekst. Server nema šta da „osveži” dok prikaz nije odvojen od tog teksta.",
-                  "why": "Potreba za stanjem i komunikacijom vidi se tek kad statički broj ostane isti iako se soba promenila.",
-                  "ok": true
-                },
-                {
-                  "key": "B",
-                  "text": "Zato što server ne može da postoji pre HTML fajla na disku klijenta.",
-                  "why": "Server može da postoji. Kurs ga odlaže da bi se videlo šta dokument sam ne ume.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "Ako se server, jezik i Ajax otvore odjednom, ne vidi se rupa koju svaki od njih zatvara. Dokument sa brojem 24 je ta rupa."
             }
           ]
         }
