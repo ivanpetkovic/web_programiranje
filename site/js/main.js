@@ -1455,7 +1455,7 @@ function kontroleSekcije(sirovi, lista, blok, omot, { polje, vrste, prefiks }) {
       return korakIndeks;
     });
   };
-  rucice.append(rucica, meniVrsta(plus, ubaci, vrste));
+  rucice.append(meniVrsta(plus, ubaci, vrste), rucica);
   const jos = document.createElement("button");
   jos.type = "button";
   jos.className = "sekcija-jos";
