@@ -29,15 +29,16 @@ test("prva dodata sekcija preuzima tekst, ključnu ideju, kod i dijagram", () =>
     samostalniPrimer: { jezik: "text", izolovan: true, tekst: "GET / HTTP/1.1" },
     dijagram: { format: "text", tekst: "Browser --> server" },
   };
-  const id = dodajSekciju(korak, VRSTE_SEKCIJE.find((vrsta) => vrsta.natpis === "Kod, crna pozadina"));
+  const id = dodajSekciju(korak, VRSTE_SEKCIJE.find((vrsta) => vrsta.natpis === "Kod"));
   assert.equal(korak.blokovi.length, 5);
   assert.deepEqual(korak.blokovi.map((blok) => blok.vrsta), ["tekst", "highlight", "kod", "dijagram", "kod"]);
   assert.equal(korak.blokovi[1].uloga, "kljucna");
-  assert.equal(korak.blokovi[2].pozadina, "bela");
+  assert.equal(korak.blokovi[2].pozadina, undefined);
   assert.equal(korak.blokovi[2].veza, "samostalniPrimer");
   assert.equal(korak.blokovi[2].jezik, "text");
   assert.equal(korak.blokovi.at(-1).id, id);
-  assert.equal(korak.blokovi.at(-1).pozadina, "crna");
+  assert.equal(korak.blokovi.at(-1).pozadina, undefined);
+  assert.equal(korak.blokovi.at(-1).naslov, "Kod");
   assert.equal(korak.tekst, "HTTP uvodi granicu.");
   assert.equal(korak.kljucnaIdeja, "HTTP definiše zahtev.");
 });
@@ -85,10 +86,10 @@ test("prevlačenje, promena tipa i ubacivanje čuvaju tekst", () => {
     samostalniPrimer: { jezik: "text", izolovan: true, tekst: "GET /" },
   };
   const lista = blokoviKoraka(korak, { prazne: true });
-  const kod = VRSTE_SEKCIJE.find((vrsta) => vrsta.natpis === "Kod, crna pozadina");
+  const kod = VRSTE_SEKCIJE.find((vrsta) => vrsta.natpis === "Kod");
   const id = ubaciSekciju(korak, lista, "nasledje:tekst", kod, "pre");
   assert.equal(korak.blokovi[0].id, id);
-  assert.equal(korak.blokovi[0].pozadina, "crna");
+  assert.equal(korak.blokovi[0].pozadina, undefined);
   assert.equal(korak.blokovi[1].tekst, "Pasus");
   assert.equal(spustiSekciju(korak, korak.blokovi, id, "nasledje:kljucna", false), 2);
   assert.equal(korak.blokovi[2].id, id);
@@ -99,6 +100,22 @@ test("prevlačenje, promena tipa i ubacivanje čuvaju tekst", () => {
   assert.equal(pretvoren.uloga, "obicna");
   assert.equal(pretvoren.tekst, "GET /");
   assert.equal(korak.samostalniPrimer.tekst, "GET /");
+});
+
+test("meni ima jedan blok koda, bez tamne i svetle verzije", () => {
+  const kod = VRSTE_SEKCIJE.filter((vrsta) => vrsta.vrsta === "kod");
+  assert.equal(kod.length, 1);
+  assert.equal(kod[0].natpis, "Kod");
+  assert.equal("pozadina" in kod[0].polja, false);
+  const main = fs.readFileSync(new URL("../site/js/main.js", import.meta.url), "utf8");
+  const css = fs.readFileSync(new URL("../site/css/site.css", import.meta.url), "utf8");
+  const html = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
+  assert.equal(main.includes("isecak-crna"), false);
+  assert.equal(main.includes("isecak-bela"), false);
+  assert.match(main, /postaviPodesavanje\(stanje, "pozadinaKoda", sledeca\)/);
+  assert.match(css, /html\[data-pozadina-koda="crna"\]/);
+  assert.equal(css.includes(".isecak-crna"), false);
+  assert.match(html, /dataset\.pozadinaKoda = pozadinaKoda === "crna" \? "crna" : "bela"/);
 });
 
 test("šema prima niz sekcija lekcije", () => {
@@ -146,7 +163,7 @@ test("diskusija se sklapa iz priče i oba oblika pitanja", () => {
   assert.equal(blokovi[1].analiza, "Razlog.");
   assert.notEqual(blokovi[1].opcije, izbor);
 
-  const kod = VRSTE_DISKUSIJE.find((vrsta) => vrsta.natpis === "Kod, bela pozadina");
+  const kod = VRSTE_DISKUSIJE.find((vrsta) => vrsta.natpis === "Kod");
   const id = ubaciSekciju(korak, blokovi, blokovi[1].id, kod, "posle", "diskusija");
   assert.equal(korak.diskusija.find((blok) => blok.id === id).vrsta, "kod");
   assert.deepEqual(korak.pitalice.map((pitanje) => pitanje.pitalica), ["Prvo?", "Drugo?"]);

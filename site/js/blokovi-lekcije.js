@@ -2,8 +2,7 @@ const VRSTE_GRADIVA = [
   { vrsta: "tekst", natpis: "Tekst", ikona: "text", polja: {} },
   { vrsta: "highlight", natpis: "Highlight", ikona: "callout", polja: { uloga: "obicna", naslov: "Napomena" } },
   { vrsta: "highlight", natpis: "Ključna ideja", ikona: "lightbulb", polja: { uloga: "kljucna" } },
-  { vrsta: "kod", natpis: "Kod, bela pozadina", ikona: "code-xml", polja: { pozadina: "bela", naslov: "Kod", jezik: "text" } },
-  { vrsta: "kod", natpis: "Kod, crna pozadina", ikona: "code-xml", polja: { pozadina: "crna", naslov: "Kod", jezik: "text" } },
+  { vrsta: "kod", natpis: "Kod", ikona: "code-xml", polja: { naslov: "Kod", jezik: "text" } },
   { vrsta: "dijagram", natpis: "Dijagram", ikona: "workflow", polja: { naslov: "Dijagram" } },
 ];
 
@@ -54,7 +53,6 @@ export function sastaviBlokove(korak, { id = null, prazne = true, figura = false
     blokovi.push({
       id: oznaka(id, "kod"),
       vrsta: "kod",
-      pozadina: "bela",
       naslov: "Mali eksperiment",
       jezik: primer.jezik || "text",
       veza: "samostalniPrimer",

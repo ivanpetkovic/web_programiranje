@@ -38,6 +38,7 @@ test("prazno skladište daje podrazumevano stanje", () => {
   assert.equal(stanje.paleta, null);
   assert.equal(stanje.podesavanja.mod, null);
   assert.equal(stanje.podesavanja.font, "1");
+  assert.equal(stanje.podesavanja.pozadinaKoda, "bela");
   assert.deepEqual(stanje.napredak, {});
   assert.deepEqual(stanje.beleske, []);
 });
@@ -51,7 +52,7 @@ test("jedno loše polje pada na podrazumevano, ispravna ostaju", () => {
   const zapis = {
     verzija: 1,
     paleta: "ljubicasta",
-    podesavanja: { mod: "samostalni", font: "3", stabloSklopljeno: "da" },
+    podesavanja: { mod: "samostalni", font: "3", stabloSklopljeno: "da", pozadinaKoda: "siva" },
     beleske: [{ tema: 3, korak: 2, naslov: "Primitivna vrednost", komentar: "Razlika", izmenjeno: "2026-11-04T08:00:00.000Z" }, { tema: 0 }],
   };
   const stanje = ucitajStanje(memorija({ [KLJUC_STANJA]: JSON.stringify(zapis) }));
@@ -59,8 +60,19 @@ test("jedno loše polje pada na podrazumevano, ispravna ostaju", () => {
   assert.equal(stanje.podesavanja.mod, "samostalni");
   assert.equal(stanje.podesavanja.font, "1");
   assert.equal(stanje.podesavanja.stabloSklopljeno, false);
+  assert.equal(stanje.podesavanja.pozadinaKoda, "bela");
   assert.equal(stanje.beleske.length, 1);
   assert.equal(stanje.beleske[0].komentar, "Razlika");
+});
+
+test("pozadina koda pamti belu ili crnu", () => {
+  assert.equal(podrazumevanoStanje().podesavanja.pozadinaKoda, "bela");
+  const crna = postaviPodesavanje(podrazumevanoStanje(), "pozadinaKoda", "crna");
+  assert.equal(crna.podesavanja.pozadinaKoda, "crna");
+  assert.equal(postaviPodesavanje(crna, "pozadinaKoda", "plava").podesavanja.pozadinaKoda, "bela");
+  const uvoz = uveziStanje(izveziStanje(crna));
+  assert.equal(uvoz.ok, true);
+  assert.equal(uvoz.stanje.podesavanja.pozadinaKoda, "crna");
 });
 
 test("komentar se seče na 500 znakova", () => {

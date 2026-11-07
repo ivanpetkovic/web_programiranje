@@ -977,8 +977,11 @@ body.nav-skriven .nav-preklop { justify-self: start; }
 .highlight-sadrzaj:not(:has(p)) strong { margin-bottom: 0; }
 .highlight-sadrzaj p { margin: 0; }
 .highlight-sadrzaj p + p { margin-top: 0.45rem; }
-.isecak-bela pre { background: #f7f1e6; color: #1c1a16; }
-.isecak-crna pre { background: #111111; color: #f4efe4; }
+.sekcija-lekcije[data-vrsta="kod"] .isecak pre { background: #f7f1e6; color: #1c1a16; }
+html[data-pozadina-koda="crna"] .sekcija-lekcije[data-vrsta="kod"] .isecak pre { background: #111111; color: #f4efe4; }
+.kod-boja { display: inline-flex; gap: 0.25rem; }
+.kod-boja button { padding: 0.15rem 0.5rem; font: inherit; font-size: 0.8rem; }
+.isecak-akcije { display: inline-flex; align-items: center; gap: 0.35rem; }
 .sekcija-lekcije { position: relative; margin: 0.35rem 0; }
 .sekcija-rucice,
 .sekcija-jos-omot { opacity: 0; }
