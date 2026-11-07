@@ -2,7 +2,7 @@ const VRSTE_GRADIVA = [
   { vrsta: "tekst", natpis: "Tekst", ikona: "text", polja: {} },
   { vrsta: "highlight", natpis: "Highlight", ikona: "callout", polja: { uloga: "obicna", naslov: "Napomena" } },
   { vrsta: "highlight", natpis: "Ključna ideja", ikona: "lightbulb", polja: { uloga: "kljucna" } },
-  { vrsta: "kod", natpis: "Kod", ikona: "code-xml", polja: { naslov: "Kod", jezik: "text" } },
+  { vrsta: "kod", natpis: "Kod", ikona: "code-xml", polja: { jezik: "text" } },
   {
     vrsta: "mermaid",
     natpis: "Dijagram",
@@ -59,7 +59,6 @@ export function sastaviBlokove(korak, { id = null, prazne = true, figura = false
     blokovi.push({
       id: oznaka(id, "kod"),
       vrsta: "kod",
-      naslov: "Mali eksperiment",
       jezik: primer.jezik || "text",
       veza: "samostalniPrimer",
       tekst: primer.tekst || "",
@@ -272,13 +271,19 @@ export function obrisiSekciju(korak, id, polje = "blokovi") {
   return Math.min(indeks, Math.max(0, niz.length - 1));
 }
 
+export function naslovKoda(blok) {
+  const naslov = String(blok?.naslov || "").trim();
+  if (!naslov || naslov === "Mali eksperiment") return "";
+  return naslov;
+}
+
 export function natpisSekcije(blok) {
   if (!blok) return "";
   if (blok.vrsta === "pitanje" && blok.oblik === "izbor") return "Pitanje, izbor";
   if (blok.vrsta === "pitanje") return "Pitanje, tekst";
   if (blok.vrsta === "highlight" && blok.uloga === "kljucna") return "Ključna ideja";
   if (blok.vrsta === "highlight") return blok.naslov || "Highlight";
-  if (blok.vrsta === "kod") return blok.naslov || "Kod";
+  if (blok.vrsta === "kod") return naslovKoda(blok) || "Kod";
   if (blok.vrsta === "mermaid") return blok.naslov || "Dijagram";
   if (blok.vrsta === "dijagram") return blok.naslov || "Tekstualni dijagram";
   return "Tekst";

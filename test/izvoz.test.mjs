@@ -70,6 +70,22 @@ test("korak od blokova je ispravan markdown, a dijagram je mermaid ograda", () =
   assert.match(html, /src="\/vendor\/mermaid\/mermaid\.js"/);
 });
 
+test("kod bez naslova ne nosi natpis Mali eksperiment", () => {
+  const korak = {
+    naslov: "Korak",
+    blokovi: [{ id: "c", vrsta: "kod", naslov: "Mali eksperiment", jezik: "text", tekst: "GET /" }],
+  };
+  const md = markdownKoraka(korak);
+  assert.equal(md.includes("Mali eksperiment"), false);
+  assert.match(md, /```text\nGET \/\n```/);
+  assert.equal(htmlKoraka(korak).includes("Mali eksperiment"), false);
+  const saNaslovom = markdownKoraka({
+    naslov: "Korak",
+    blokovi: [{ id: "c", vrsta: "kod", naslov: "Zahtev", jezik: "text", tekst: "GET /" }],
+  });
+  assert.match(saNaslovom, /\*\*Zahtev\*\*/);
+});
+
 test("nezatvorena ograda u tekstu ne lomi markdown fajl", () => {
   const korak = {
     naslov: "Korak",
