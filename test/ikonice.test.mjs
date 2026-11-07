@@ -97,8 +97,11 @@ test("tabovi, traka i isečak zadržavaju natpise", () => {
   assert.match(main, /okvir\.className = kljucna \? "kljucna" : "highlight"/);
   assert.match(main, /if \(!kljucna\) \{\s*const naslov = document\.createElement\("strong"\);/);
   assert.equal(main.includes('saIkonom(kljucnaNaslov, "lightbulb", "Ključna ideja")'), false);
-  assert.match(main, /saIkonom\(naslov, "folder", fajl\.ime\)/);
-  assert.match(main, /natpisKopiranja\("Kopiraj"\)/);
+  assert.equal(main.includes('saIkonom(naslov, "folder", fajl.ime)'), false);
+  assert.equal(main.includes('natpisKopiranja("Kopiraj")'), false);
+  assert.equal(main.includes("putanja-koraka"), false);
+  assert.equal(main.includes("function nacrtajFajl"), false);
+  assert.match(main, /blokoviKoraka\(sirovi \|\| korak/);
   assert.match(main, /ikonica\("file-text"\)/);
   assert.match(main, /ikonica\("chevron-left"\)/);
   assert.match(main, /ikonica\("chevron-right"\)/);
