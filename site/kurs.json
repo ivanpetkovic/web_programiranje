@@ -479,6 +479,17 @@
           "naslov": "HTTP: Od pouzdanog prenosa do Weba",
           "tekst": "### Ako TCP pouzdano prenosi podatke, zašto nam je potreban još jedan protokol?\n\nZamislimo da klijent šalje serveru podatke i da TCP obezbedi njihov ispravan prenos. Server je primio sve bajtove, ali kako zna da li klijent želi da pročita temperaturu, promeni stanje ventilatora ili zatraži HTML dokument? Da li TCP može da odgovori na to pitanje?\n\nNe može. TCP prenosi bajtove, ali ne određuje njihovo značenje. Klijent i server zato moraju da se dogovore o formatu poruka i pravilima njihove razmene. Za Web tu ulogu ima HTTP (Hypertext Transfer Protocol).\n",
           "kljucnaIdeja": "HTTP definiše strukturu zahteva i odgovora, uključujući metode, zaglavlja i statusne kodove.",
+          "pitalica": "Ako TCP pouzdano prenosi podatke, zašto nam je potreban još jedan protokol?",
+          "pitalice": [
+            {
+              "pitalica": "Ako TCP pouzdano prenosi podatke, zašto nam je potreban još jedan protokol?",
+              "odgovor": "Zato što TCP prenosi bajtove, ali ne određuje njihovo značenje. Server je primio sve bajtove, ali i dalje ne zna da li klijent želi da pročita temperaturu, promeni stanje ventilatora ili zatraži HTML dokument. Klijent i server zato moraju da se dogovore o formatu poruka i pravilima njihove razmene. Za Web tu ulogu ima HTTP. HTTP definiše strukturu zahteva i odgovora, uključujući metode, zaglavlja i statusne kodove."
+            },
+            {
+              "pitalica": "Da li je HTTP dovoljan da bismo imali Web?",
+              "odgovor": "Ne. Web se zasniva na nekoliko ideja koje zajedno omogućavaju pristup povezanim resursima. URL identifikuje resurs i daje informacije potrebne za pristup. HTTP definiše razmenu zahteva i odgovora. Reprezentacija kaže kako je sadržaj predstavljen: odgovor može sadržati HTML, sliku, JSON ili druge podatke. Kada browser zatraži HTML dokument, HTTP omogućava njegovo preuzimanje, a browser zatim obrađuje HTML da bi prikazao stranicu."
+            }
+          ],
           "blokovi": [
             {
               "id": "nasledje:tekst",
