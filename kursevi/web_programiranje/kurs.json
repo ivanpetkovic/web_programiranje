@@ -4003,7 +4003,7 @@
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "eksperiment",
-          "tekst": "Kada se isti postupak ponavlja ili predstavlja zasebnu logičku celinu, izdvajamo ga u funkciju.\n\nFunkcija prima argumente, izvršava određeni kod i može vratiti rezultat.\n\n### Deklaracija i pozivanje funkcije\n\n`broj` je parametar funkcije, dok je `5` argument prilikom pozivanja.\n\n`return` završava izvršavanje funkcije i vraća vrednost pozivaocu. Ako funkcija ne izvrši `return` sa vrednošću, njen rezultat je `undefined`.\n\nParametri mogu imati podrazumevane vrednosti.\n\n### Različiti načini definisanja funkcija\n\nJavaScript podržava više oblika zapisivanja funkcija.\n\nDeklaracija funkcije:\n\nFunkcijski izraz:\n\nArrow funkcija:\n\nOva tri oblika mogu dati isti rezultat, ali nisu u potpunosti ekvivalentna.\n\nRazlikuju se po pravilima dostupnosti pre deklaracije, ponašanju `this` i nekim drugim karakteristikama. Te razlike razjasnićemo u koracima o hoistingu i metodama objekata.\n\n### Funkcije su vrednosti\n\nU JavaScriptu funkcije su objekti koji mogu da se pozivaju. Funkcija se može dodeliti promenljivoj, proslediti drugoj funkciji ili vratiti kao rezultat funkcije.\n\nPromenljivoj `operacija` nismo dodelili rezultat funkcije, već samu funkciju.\n\nRazlika između `dupliraj` i `dupliraj()` je ključna:\n\n- `dupliraj` predstavlja vrednost funkcije.\n- `dupliraj()` predstavlja poziv funkcije.\n\n### Callback funkcije\n\nKada funkciju prosledimo drugoj funkciji da je ova pozove, govorimo o callback funkciji.\n\nFunkcija `primeni` ne mora unapred da zna koju operaciju treba izvršiti. Ona dobija ponašanje kao argument.\n\nOvaj koncept je važan za obradu nizova, događaje i kasnije asinhrono programiranje.\n\nFunkciji se argumenti prosleđuju po vrednosti. Kada je argument objekat, prosleđena vrednost je referenca na isti objekat. Zbog toga funkcija može menjati svojstva tog objekta, ali ponovno dodeljivanje njenom parametru ne menja promenljivu pozivaoca.",
+          "tekst": "Kada se isti postupak ponavlja ili predstavlja zasebnu logičku celinu, izdvajamo ga u funkciju.\n\nFunkcija prima argumente, izvršava određeni kod i može vratiti rezultat.\n\n### Deklaracija i pozivanje funkcije\n\n`broj` je parametar funkcije, dok je `5` argument prilikom pozivanja.\n\n`return` završava izvršavanje funkcije i vraća vrednost pozivaocu. Ako funkcija ne izvrši `return` sa vrednošću, njen rezultat je `undefined`.\n\nParametri mogu imati podrazumevane vrednosti.\n\n### Različiti načini definisanja funkcija\n\nJavaScript podržava više oblika zapisivanja funkcija.\n\nDeklaracija funkcije:\n\nFunkcijski izraz:\n\nArrow funkcija:\n\nTermin lambda funkcija često se koristi za anonimnu funkciju, odnosno funkciju napisanu kao izraz bez eksplicitnog imena. JavaScript omogućava takve funkcije pomoću funkcijskog izraza i arrow sintakse (`=>`).\n\nArrow funkcija nije samo kraći zapis obične funkcije: razlikuje se po načinu određivanja `this`, dostupnosti `arguments` i mogućnosti upotrebe kao konstruktora.\n\nOva tri oblika mogu dati isti rezultat, ali nisu u potpunosti ekvivalentna.\n\nRazlikuju se po pravilima dostupnosti pre deklaracije, ponašanju `this` i nekim drugim karakteristikama. Te razlike razjasnićemo u koracima o hoistingu i metodama objekata.\n\n### Funkcije su vrednosti\n\nU JavaScriptu funkcije su objekti koji mogu da se pozivaju. Funkcija se može dodeliti promenljivoj, proslediti drugoj funkciji ili vratiti kao rezultat funkcije.\n\nPromenljivoj `operacija` nismo dodelili rezultat funkcije, već samu funkciju.\n\nRazlika između `dupliraj` i `dupliraj()` je ključna:\n\n- `dupliraj` predstavlja vrednost funkcije.\n- `dupliraj()` predstavlja poziv funkcije.\n\n### Callback funkcije\n\nKada funkciju prosledimo drugoj funkciji da je ova pozove, govorimo o callback funkciji.\n\nFunkcija `primeni` ne mora unapred da zna koju operaciju treba izvršiti. Ona dobija ponašanje kao argument.\n\nOvaj koncept je važan za obradu nizova, događaje i kasnije asinhrono programiranje.\n\nFunkciji se argumenti prosleđuju po vrednosti. Kada je argument objekat, prosleđena vrednost je referenca na isti objekat. Zbog toga funkcija može menjati svojstva tog objekta, ali ponovno dodeljivanje njenom parametru ne menja promenljivu pozivaoca.",
           "kljucnaIdeja": "Funkcija nije samo imenovani blok koda. Ona je vrednost kojom program može upravljati, što omogućava fleksibilno kombinovanje ponašanja.",
           "blokovi": [
             {
@@ -4069,7 +4069,7 @@
             {
               "id": "k06b11",
               "vrsta": "tekst",
-              "tekst": "Ova tri oblika mogu dati isti rezultat, ali nisu u potpunosti ekvivalentna.\n\nRazlikuju se po pravilima dostupnosti pre deklaracije, ponašanju `this` i nekim drugim karakteristikama. Te razlike razjasnićemo u koracima o hoistingu i metodama objekata."
+              "tekst": "Termin lambda funkcija često se koristi za anonimnu funkciju, odnosno funkciju napisanu kao izraz bez eksplicitnog imena. JavaScript omogućava takve funkcije pomoću funkcijskog izraza i arrow sintakse (`=>`).\n\nArrow funkcija nije samo kraći zapis obične funkcije: razlikuje se po načinu određivanja `this`, dostupnosti `arguments` i mogućnosti upotrebe kao konstruktora.\n\nOva tri oblika mogu dati isti rezultat, ali nisu u potpunosti ekvivalentna.\n\nRazlikuju se po pravilima dostupnosti pre deklaracije, ponašanju `this` i nekim drugim karakteristikama. Te razlike razjasnićemo u koracima o hoistingu i metodama objekata."
             },
             {
               "id": "k06b12",
@@ -4152,10 +4152,19 @@
               "dodatniOdgovor": "Zato što arrow funkcija nema sopstveni `this` i ne može se koristiti kao konstruktor pomoću `new`. Njena semantika nije potpuno ista kao semantika obične funkcije."
             },
             {
+              "id": "k06q5",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "6.3. Da li treba napraviti razliku između lambda funkcije i arrow funkcije?\n\n```javascript\n// Anonimni funkcijski izraz\nconst kvadrat1 = function(x) {\n  return x * x;\n};\n\n// Arrow funkcija\nconst kvadrat2 = x => x * x;\n```",
+              "odgovor": "Da, ali kao terminološku razliku, ne kao dva različita tipa funkcija u JavaScriptu.\n\nLambda funkcija je opštiji pojam iz programiranja, povezan sa lambda računom. U praksi se često koristi kao naziv za anonimnu funkciju.\n\nArrow funkcija je konkretna JavaScript sintaksa (`=>`) za definisanje funkcija, sa posebnim pravilima ponašanja.",
+              "dodatno": "Da li je anonimni funkcijski izraz ujedno i arrow funkcija?",
+              "dodatniOdgovor": "Nije. Oba zapisa mogu biti bez imena, ali samo zapis sa `=>` jeste arrow funkcija. Ona nema sopstveni `this` ni `arguments` i ne može da se pozove pomoću `new`."
+            },
+            {
               "id": "k06q3",
               "vrsta": "pitanje",
               "oblik": "izbor",
-              "tekst": "6.3. Da li je funkcija vrednost ili samo deo sintakse?\n\n```javascript\nfunction dupliraj(x) {\n  return x * 2;\n}\n\nconst a = dupliraj;\nconst b = dupliraj(5);\n```\n\nŠta sadrže `a` i `b`?",
+              "tekst": "6.4. Da li je funkcija vrednost ili samo deo sintakse?\n\n```javascript\nfunction dupliraj(x) {\n  return x * 2;\n}\n\nconst a = dupliraj;\nconst b = dupliraj(5);\n```\n\nŠta sadrže `a` i `b`?",
               "opcije": [
                 {
                   "key": "A",
@@ -4184,7 +4193,7 @@
               "id": "k06q4",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "6.4. Kako jedna funkcija može da odlučuje koju drugu funkciju će izvršiti?\n\n```javascript\nfunction primeni(x, operacija) {\n  return operacija(x);\n}\n\nconst rezultat = primeni(5, x => x * 3);\n```\n\nŠta će biti rezultat i čemu služi argument `operacija`?",
+              "tekst": "6.5. Kako jedna funkcija može da odlučuje koju drugu funkciju će izvršiti?\n\n```javascript\nfunction primeni(x, operacija) {\n  return operacija(x);\n}\n\nconst rezultat = primeni(5, x => x * 3);\n```\n\nŠta će biti rezultat i čemu služi argument `operacija`?",
               "odgovor": "Rezultat je `15`.\n\n`operacija` je parametar koji prima funkciju. Funkcija `primeni` poziva prosleđenu funkciju sa argumentom `x`.\n\nOvakva funkcija prosleđena drugoj funkciji naziva se callback.",
               "dodatno": "Ako funkciji prosledimo objekat, može li ona da promeni njegovo svojstvo?",
               "dodatniOdgovor": "Može. Argument se prosleđuje po vrednosti, ali kada je ta vrednost referenca na objekat, funkcija može menjati isti objekat koji vidi pozivalac. Ponovna dodela parametru unutar funkcije, međutim, ne menja promenljivu pozivaoca."
@@ -4220,7 +4229,11 @@
               "odgovor": "Da. Sve tri vraćaju `16`.\n\nMeđutim, to ne znači da se potpuno isto ponašaju. Razlikuju se u pravilima dostupnosti pre deklaracije, ponašanju `this` i drugim detaljima."
             },
             {
-              "pitalica": "6.3. Da li je funkcija vrednost ili samo deo sintakse?\n\n```javascript\nfunction dupliraj(x) {\n  return x * 2;\n}\n\nconst a = dupliraj;\nconst b = dupliraj(5);\n```\n\nŠta sadrže `a` i `b`?",
+              "pitalica": "6.3. Da li treba napraviti razliku između lambda funkcije i arrow funkcije?\n\n```javascript\n// Anonimni funkcijski izraz\nconst kvadrat1 = function(x) {\n  return x * x;\n};\n\n// Arrow funkcija\nconst kvadrat2 = x => x * x;\n```",
+              "odgovor": "Da, ali kao terminološku razliku, ne kao dva različita tipa funkcija u JavaScriptu.\n\nLambda funkcija je opštiji pojam iz programiranja, povezan sa lambda računom. U praksi se često koristi kao naziv za anonimnu funkciju.\n\nArrow funkcija je konkretna JavaScript sintaksa (`=>`) za definisanje funkcija, sa posebnim pravilima ponašanja."
+            },
+            {
+              "pitalica": "6.4. Da li je funkcija vrednost ili samo deo sintakse?\n\n```javascript\nfunction dupliraj(x) {\n  return x * 2;\n}\n\nconst a = dupliraj;\nconst b = dupliraj(5);\n```\n\nŠta sadrže `a` i `b`?",
               "opcije": [
                 {
                   "key": "A",
@@ -4244,7 +4257,7 @@
               "analizaPitalice": "Odgovor: B.\n\n`dupliraj` označava samu funkciju. `dupliraj(5)` označava njeno pozivanje i vraćenu vrednost.\n\nJavaScript tretira funkcije kao vrednosti: mogu se čuvati u promenljivima, prosleđivati kao argumenti i vraćati iz drugih funkcija."
             },
             {
-              "pitalica": "6.4. Kako jedna funkcija može da odlučuje koju drugu funkciju će izvršiti?\n\n```javascript\nfunction primeni(x, operacija) {\n  return operacija(x);\n}\n\nconst rezultat = primeni(5, x => x * 3);\n```\n\nŠta će biti rezultat i čemu služi argument `operacija`?",
+              "pitalica": "6.5. Kako jedna funkcija može da odlučuje koju drugu funkciju će izvršiti?\n\n```javascript\nfunction primeni(x, operacija) {\n  return operacija(x);\n}\n\nconst rezultat = primeni(5, x => x * 3);\n```\n\nŠta će biti rezultat i čemu služi argument `operacija`?",
               "odgovor": "Rezultat je `15`.\n\n`operacija` je parametar koji prima funkciju. Funkcija `primeni` poziva prosleđenu funkciju sa argumentom `x`.\n\nOvakva funkcija prosleđena drugoj funkciji naziva se callback."
             }
           ],
