@@ -508,8 +508,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 }
 .top { flex-wrap: wrap; }
 .top-razdelnik { flex: none; width: 1px; height: 40px; background: var(--line); }
-#naslov-kursa { display: flex; align-items: center; gap: 12px; }
-.kurs-slika { display: block; width: 32px; height: 32px; object-fit: contain; }
+#naslov-kursa { margin: 0; }
 .traka-meni { position: relative; }
 .izvoz-omot { position: relative; flex: none; }
 .izvoz-dugme {
@@ -2585,7 +2584,6 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   }
   .trazi { display: none; }
   .top-razdelnik,
-  .kurs-slika,
   .traka-casa,
   .top > .beleske-dugme,
   .top > .opcije-dugme,
@@ -2713,7 +2711,6 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   .top .ustanova small { font-size: calc(16px * 0.8); line-height: calc(20px * 0.8); }
   .top-razdelnik { margin: 0 22px; }
   .top #naslov-kursa { flex: none; margin: 0; font-size: calc(28px * 0.8); line-height: calc(34px * 0.8); white-space: nowrap; }
-  .top .kurs-slika { width: 40px; height: 40px; }
   .top .trazi {
     flex: 1 1 auto;
     min-width: 160px;

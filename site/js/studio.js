@@ -42,7 +42,6 @@ export function prazanKurs() {
     ustanovaRed: "",
     ustanovaBok: "",
     naslov: "Novi kurs",
-    slika: "",
     oznaka: "",
     grb: "",
     trajanjeTema: 0,
@@ -314,6 +313,7 @@ function uskladiStareKljuceve(kurs) {
     kurs.trajanjeTema = kurs.trajanjeNedelja;
     delete kurs.trajanjeNedelja;
   }
+  delete kurs.slika;
 }
 
 function ogranicen(indeks, duzina) {

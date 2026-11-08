@@ -14,7 +14,7 @@ Zaglavlje (`header.top`) je jedan red visok 86 px. Elementi idu sleva nadesno:
 | --- | --- |
 | Grb i ustanova | Ime ustanove u dva reda. Klik vodi na uvod. |
 | Razdelnik | Vertikalna linija između ustanove i kursa. |
-| Slika i naslov kursa | `slika` i `naslov` iz `kurs.json`. Isporučeni kurs pokazuje `/img/kurs.png` i naslov Web programiranje, u boji naglaska. |
+| Naslov kursa | `naslov` iz `kurs.json`. Isporučeni kurs pokazuje Web programiranje, u boji naglaska. Zaglavlje nema ikonicu pored naslova. |
 | Pretraga | Sklopljena lupa sa oznakom ⌘K. Polje se raširi na fokus ili kad u njemu ima upita. Placeholder je Nađi pojam, pitanje ili primer koda. Prečica je Command+K ili Ctrl+K. |
 | Pomoć | Dijalog sa kratkim uputstvom. |
 | Dugme beleški | `bookmark` i `chevron-down`. Otvara spisak beleški koraka. |

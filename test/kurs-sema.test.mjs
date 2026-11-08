@@ -45,6 +45,13 @@ test("isporučeni kurs.json prolazi šemu", () => {
   assert.equal(spremiTekst(procitan.kurs), json);
 });
 
+test("stara slika kursa se odbacuje pri čitanju", () => {
+  const procitan = procitajTekst(JSON.stringify({ ...prazanKurs(), slika: "/img/kurs.png" }));
+  assert.equal(procitan.ok, true);
+  assert.equal("slika" in procitan.kurs, false);
+  assert.equal(spremiTekst(procitan.kurs).includes('"slika"'), false);
+});
+
 test("prazan kurs i nova tema prolaze istu šemu", () => {
   const prazan = procitajTekst(spremiTekst(prazanKurs()));
   assert.equal(prazan.ok, true);

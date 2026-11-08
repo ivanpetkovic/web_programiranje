@@ -33,6 +33,7 @@ test("strana čita kurs.json, šalje PUT i drži nacrt studio:kurs", () => {
   assert.equal(strana.includes("kurs.xml"), false);
   assert.match(strana, /fetch\("\/kurs\.json\.schema"/);
   assert.match(strana, /postaviSemuKursa/);
+  assert.equal(strana.includes('polje("Slika"'), false);
   assert.equal(preuzmi.includes("/api/kurs"), false);
 
   const ucitaj = strana.slice(strana.indexOf("async function ucitajFajl"), strana.indexOf("function procitajNacrt"));
