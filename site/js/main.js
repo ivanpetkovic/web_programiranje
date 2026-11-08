@@ -1578,7 +1578,7 @@ function prikazPitanja(blok) {
     pitanjeUnutra.append(telo);
   }
   const vidi = otvoreno || urediSadrzaj.aktivan;
-  if (izbor) {
+  if (izbor && vidi) {
     const kratke = document.createElement("div");
     kratke.className = "opcije-mreza";
     kratke.dataset.kviz = "korak";
