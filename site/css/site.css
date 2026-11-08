@@ -969,6 +969,7 @@ body.nav-skriven .nav-preklop { justify-self: start; }
   border: 0;
   border-radius: 10px;
 }
+.korak-red { font-size: 0.875rem; }
 .tema-red { display: flex; align-items: center; gap: 0.45rem; }
 .tema-red > span { flex: 1; }
 .tema-red .ikona, .dir .ikona { color: var(--amber); }
