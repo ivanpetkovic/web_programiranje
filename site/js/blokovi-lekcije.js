@@ -1,3 +1,4 @@
+import { mermaidFigura } from "./figura.js";
 import { dodatakPrikaza, imeFajla } from "./prilog.js";
 
 const JEZICI = new Set(["html", "css", "text", "javascript", "json", "sql", "typescript"]);
@@ -128,13 +129,37 @@ function saBlokomFajla(korak, blokovi, opcije) {
   return [...blokovi, fajl];
 }
 
+function blokFigure(korak) {
+  const figura = korak?.figura;
+  if (!figura || typeof figura !== "object") return null;
+  const tekst = mermaidFigura(figura);
+  if (!tekst.trim()) return null;
+  return {
+    id: "figura",
+    vrsta: "mermaid",
+    naslov: "Dijagram",
+    veza: "figura",
+    tekst,
+  };
+}
+
+function saBlokomFigure(korak, blokovi) {
+  if (blokovi.some((blok) => blok?.veza === "figura")) return blokovi;
+  const figura = blokFigure(korak);
+  if (!figura) return blokovi;
+  return [...blokovi, figura];
+}
+
 export function blokoviKoraka(korak, opcije = {}) {
-  if (Array.isArray(korak?.blokovi)) return saBlokomFajla(korak, korak.blokovi, opcije);
-  return saBlokomFajla(korak, sastaviBlokove(korak, {
-    id: (kljuc) => `nasledje:${kljuc}`,
-    prazne: false,
-    ...opcije,
-  }), opcije);
+  const saFigurom = korak?.figura ? { ...opcije, figura: true } : opcije;
+  const osnovni = Array.isArray(korak?.blokovi)
+    ? saBlokomFajla(korak, korak.blokovi, saFigurom)
+    : saBlokomFajla(korak, sastaviBlokove(korak, {
+      id: (kljuc) => `nasledje:${kljuc}`,
+      prazne: false,
+      ...saFigurom,
+    }), saFigurom);
+  return saBlokomFigure(korak, osnovni);
 }
 
 function izvorPitalica(korak) {
@@ -186,7 +211,11 @@ export function materijalizuj(korak, prikazani, polje = "blokovi") {
   if (!korak) return [];
   if (!Array.isArray(korak[polje])) {
     korak[polje] = prikazani || (polje === "diskusija" ? diskusijaKoraka(korak) : blokoviKoraka(korak, { prazne: true }));
-  } else if (prikazani && prikazani !== korak[polje] && prikazani.some((blok) => blok?.veza === "fajl")) {
+  } else if (
+    prikazani &&
+    prikazani !== korak[polje] &&
+    prikazani.some((blok) => blok?.veza === "fajl" || blok?.veza === "figura")
+  ) {
     korak[polje] = prikazani;
   }
   return korak[polje];
@@ -280,6 +309,8 @@ export function promeniVrstuSekcije(korak, prikazani, id, vrsta, polje = "blokov
   if (naslov && blok.vrsta === "highlight" && blok.uloga !== "kljucna") blok.naslov = naslov;
   if ((veza === "samostalniPrimer" || veza === "fajl") && blok.vrsta === "kod") blok.veza = veza;
   if (veza === "dijagram" && blok.vrsta === "dijagram") blok.veza = veza;
+  if (veza === "figura" && blok.vrsta === "mermaid") blok.veza = veza;
+  else if (veza === "figura") delete korak.figura;
   if (veza === "prica" && blok.vrsta === "tekst") blok.veza = veza;
   if (blok.vrsta === "pitanje" && analiza) blok.analiza = analiza;
   if (blok.vrsta === "pitanje" && blok.oblik !== "izbor" && odgovor) blok.odgovor = odgovor;
@@ -325,6 +356,7 @@ export function obrisiSekciju(korak, id, polje = "blokovi") {
     if (typeof korak.delic === "string") korak.delic = "";
     if (typeof korak.isecak === "string") korak.isecak = "";
   }
+  if (obrisan?.veza === "figura") delete korak.figura;
   uskladiPolje(korak, polje);
   return Math.min(indeks, Math.max(0, niz.length - 1));
 }
