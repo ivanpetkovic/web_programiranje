@@ -29,7 +29,7 @@ The site MUST open on a preface before the first week when no week is in the add
 - **THEN** the page lists that many weeks and does not add or remove weeks to reach ten
 
 ### Requirement: Korak na sajtu
-A step that names a file MUST show, in order, the step prose, the key-idea callout, and the code snippet on Gradivo. It MUST NOT show the short quiz on Gradivo. The next step MUST treat that step's file fragment as already typed. The site MUST show the file path of the fragment. A figure step MUST show the prose, the key-idea callout, and the figure on Gradivo, and MUST NOT show a code snippet, a file path, or the short quiz. A step that names no file and has no figure MUST show the prose and the key-idea callout on Gradivo, and MUST NOT show a snippet, a file path, a figure, or the short quiz. The open step's short quiz MUST appear on Diskusija with unmarked answers until the teacher opens Obrazloženje.
+A step that names a file MUST show, in order, the step prose, the key-idea callout, and the code snippet on Gradivo. It MUST NOT show the short quiz on Gradivo. The next step MUST treat that step's file fragment as already typed. The site MUST show the file path of the fragment. A figure step MUST show the prose, the key-idea callout, and the figure on Gradivo, and MUST NOT show a code snippet, a file path, or the short quiz. A step that names no file and has no figure MUST show the prose and the key-idea callout on Gradivo, and MUST NOT show a snippet, a file path, a figure, or the short quiz. The open step's short quiz MUST appear on Diskusija, and its answers MUST stay hidden until the teacher opens the question.
 
 #### Scenario: Gradivo has no step quiz
 - **WHEN** the teacher opens Gradivo on a step
@@ -37,7 +37,7 @@ A step that names a file MUST show, in order, the step prose, the key-idea callo
 
 #### Scenario: Diskusija carries the step quiz
 - **WHEN** the teacher opens Diskusija on a step
-- **THEN** the short quiz for that step is visible with unmarked answers until Obrazloženje is opened
+- **THEN** the short quiz question for that step is visible and its answers are not
 
 #### Scenario: The first step can open with a story
 - **WHEN** a step names a story and the teacher opens Diskusija
@@ -57,7 +57,7 @@ A step that names a file MUST show, in order, the step prose, the key-idea callo
 
 #### Scenario: Short quiz stays closed on Diskusija
 - **WHEN** the teacher opens Diskusija on a step
-- **THEN** no quiz answer is marked correct until the teacher opens Obrazloženje
+- **THEN** no quiz answer is on screen
 
 #### Scenario: Story step on Gradivo
 - **WHEN** the teacher opens Gradivo on LO
@@ -219,11 +219,11 @@ Search MUST be a typeahead over the course glossary. Each result MUST show the s
 - **THEN** the definition is visible and no week is expanded for that term
 
 ### Requirement: Ponovi pitanje
-A repeat-question action MUST clear the mark and the reasons and MUST return that quiz to unmarked answers.
+A repeat-question action MUST hide the answers again and MUST clear any mark and any reasons.
 
 #### Scenario: Marks disappear
-- **WHEN** the teacher repeats a quiz whose explanation is open
-- **THEN** no answer is marked and the reasons are hidden
+- **WHEN** the teacher repeats a quiz whose answer is open
+- **THEN** no answer is on screen
 
 ### Requirement: Preduslov i ishod
 The course document MUST still record each week's prerequisite and outcome. The open lecture MUST show the week title and MUST NOT show a breadcrumb, an outcome line, or a prerequisite callout above the steps.
@@ -324,7 +324,7 @@ The lesson toolbar MUST offer Gradivo, Diskusija, and Editor. Exactly one of tho
 
 #### Scenario: Opening shows the step quiz
 - **WHEN** the teacher opens a week
-- **THEN** Diskusija is the open tab and the open step's short quiz is visible with unmarked answers
+- **THEN** Diskusija is the open tab, the open step's question is visible, and its answers are not
 
 #### Scenario: Discussion replaces the steps
 - **WHEN** the teacher opens Diskusija

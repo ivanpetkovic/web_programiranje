@@ -24,7 +24,7 @@ Gradivo pokazuje tekst koraka, ključnu ideju bez tog natpisa, pa isečak ili cr
 
 ### Diskusija
 
-Diskusija drži kratku pitalicu otvorenog koraka. Odgovori su neoznačeni dok se obrazloženje ne otkrije. Na poslednjem koraku teme, ispod pitalice koraka, stoji diskusija cele teme.
+Diskusija drži kratku pitalicu otvorenog koraka. Pitanje i primer su na ekranu. Odgovori su sakriveni dok se red pitanja ne otvori. Na poslednjem koraku teme, ispod pitalice koraka, stoji diskusija cele teme.
 
 Faze te diskusije idu redom: Izbor, Poređenje, Pretpostavke, Analiza, Ponovni izbor. Do Analize sajt ne otkriva koji odgovor drži. Rezerva je zatvorena dok je nastavnik ne otvori. Glas se ne skuplja sa laptopova i ne pamti se posle učitavanja. Izlazna rečenica poslednjeg koraka nema polje za upis.
 
