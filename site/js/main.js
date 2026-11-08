@@ -3296,6 +3296,88 @@ q.addEventListener("keydown", (event) => {
   }
 });
 
+function skrolujTekst(smer) {
+  const koren = document.scrollingElement || document.documentElement;
+  const korak = window.innerHeight / 2;
+  const max = Math.max(0, koren.scrollHeight - koren.clientHeight);
+  koren.scrollTop = Math.min(max, Math.max(0, koren.scrollTop + smer * korak));
+}
+
+function pomeriKorakTasterom(smer) {
+  if (uvod) return;
+  const item = lecture();
+  if (!item?.steps.length) return;
+  const i = Math.min(indeksKoraka(), item.steps.length - 1);
+  const sledeci = i + smer;
+  if (sledeci < 0 || sledeci >= item.steps.length) return;
+  korakPoCasu.set(cas, sledeci);
+  sakrijPanelSelekcije();
+  renderLecture();
+}
+
+function pomeriTemuTasterom(smer) {
+  if (uvod) {
+    if (smer > 0) otvoriTemu(1);
+    return;
+  }
+  if (smer < 0 && cas <= 1) {
+    otvoriUvod();
+    return;
+  }
+  const sledeca = pomeriTemu(cas, smer, dokument.trajanjeTema);
+  if (sledeca !== cas) otvoriTemu(sledeca);
+}
+
+function otvoriDeoTasterom(ime) {
+  if (uvod || deo === ime) return;
+  otvoriDeo(ime);
+}
+
+function tasterUnosa(cilj) {
+  if (document.querySelector("dialog[open]")) return true;
+  if (!(cilj instanceof Element)) return false;
+  return Boolean(cilj.closest("input, textarea, select, [contenteditable='true'], .cm-editor, [role='listbox'], [role='menu']"));
+}
+
+window.addEventListener("keydown", (event) => {
+  if (event.altKey || event.ctrlKey || event.metaKey || event.isComposing) return;
+  if (tasterUnosa(event.target)) return;
+  const slovo = event.key.length === 1 ? event.key.toLowerCase() : "";
+  if (!slovo) return;
+  if (event.shiftKey) {
+    if (slovo === "j") {
+      event.preventDefault();
+      pomeriTemuTasterom(1);
+    } else if (slovo === "k") {
+      event.preventDefault();
+      pomeriTemuTasterom(-1);
+    }
+    return;
+  }
+  if (slovo === "j") {
+    event.preventDefault();
+    skrolujTekst(1);
+  } else if (slovo === "k") {
+    event.preventDefault();
+    skrolujTekst(-1);
+  } else if (slovo === "h") {
+    event.preventDefault();
+    pomeriKorakTasterom(-1);
+  } else if (slovo === "l") {
+    event.preventDefault();
+    pomeriKorakTasterom(1);
+  } else if (slovo === "u") {
+    event.preventDefault();
+    otvoriDeoTasterom("koraci");
+  } else if (slovo === "i") {
+    event.preventDefault();
+    otvoriDeoTasterom("diskusija");
+  } else if (slovo === "o") {
+    event.preventDefault();
+    otvoriDeoTasterom("editor");
+  }
+});
+
 window.addEventListener("keydown", (event) => {
   if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
     event.preventDefault();
