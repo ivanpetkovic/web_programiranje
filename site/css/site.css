@@ -1455,11 +1455,6 @@ body.rezim-uredjivanja .sekcija-lekcije .isecak header { padding-right: 0.4rem; 
   line-height: 1.45;
 }
 html[data-pozadina-koda="crna"] .pitanje-kod { background: #111111; color: #f4efe4; }
-.pitanje-dodatno {
-  margin-top: 0.85rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--line);
-}
 .obrazlozenje-tekst { margin-top: 0.75rem; }
 .pitanje-red.otkriva .pojam-crta { pointer-events: auto; }
 .pitanje-okidac {

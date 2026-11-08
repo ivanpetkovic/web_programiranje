@@ -1653,12 +1653,16 @@ function prikazPitanja(blok) {
 function prikazDodatnog(blok, kljuc) {
   const kljucDodatnog = `${kljuc}:dodatno`;
   const otvoreno = objasnjenjePoKoraku.get(kljucDodatnog) === true;
-  const vidi = otvoreno || urediSadrzaj.aktivan;
+  const odgovor = blok.dodatniOdgovor || "";
+  const { naslov, telo: teloPitanja } = podeliPitanje(blok.dodatno);
   const omot = document.createElement("div");
-  omot.className = "pitanje-dodatno";
+  omot.className = "pitanje-blok";
+  const pitanje = document.createElement("h3");
+  if (naslov) pitanje.append(cvorDelova(deloviReda(naslov)));
+  const mozeOtvoriti = Boolean(odgovor);
   const red = document.createElement("div");
-  red.className = "pitanje-red otkriva";
-  if (otvoreno) red.classList.add("otvoreno");
+  red.className = mozeOtvoriti ? "pitanje-red otkriva" : "pitanje-red";
+  if (mozeOtvoriti && otvoreno) red.classList.add("otvoreno");
   const znak = ikonica("question");
   if (znak) {
     const omotZnaka = document.createElement("span");
@@ -1667,44 +1671,45 @@ function prikazDodatnog(blok, kljuc) {
     omotZnaka.append(znak);
     red.append(omotZnaka);
   }
-  const naslov = document.createElement("h3");
-  naslov.textContent = "Dodatno pitanje";
-  red.append(naslov);
+  red.append(pitanje);
   const domId = domIdPitanja(blok, "dodatno");
-  const lampica = document.createElement("span");
-  lampica.className = "odgovor-ikona";
-  lampica.setAttribute("aria-hidden", "true");
-  const sijalica = ikonica("lightbulb");
-  if (sijalica) lampica.append(sijalica);
-  red.append(lampica);
-  const okidac = document.createElement("button");
-  okidac.type = "button";
-  okidac.id = domId;
-  okidac.className = "pitanje-okidac";
-  okidac.setAttribute("aria-expanded", String(otvoreno));
-  okidac.setAttribute("aria-label", otvoreno ? "Sakrij dodatni odgovor" : "Prikaži dodatni odgovor");
-  red.append(okidac);
-  red.addEventListener("click", (e) => {
-    if (e.target.closest(".pojam-crta")) return;
-    objasnjenjePoKoraku.set(kljucDodatnog, !otvoreno);
-    renderLecture();
-    document.getElementById(domId)?.focus();
-  });
+  if (mozeOtvoriti) {
+    const lampica = document.createElement("span");
+    lampica.className = "odgovor-ikona";
+    lampica.setAttribute("aria-hidden", "true");
+    const sijalica = ikonica("lightbulb");
+    if (sijalica) lampica.append(sijalica);
+    red.append(lampica);
+    const okidac = document.createElement("button");
+    okidac.type = "button";
+    okidac.id = domId;
+    okidac.className = "pitanje-okidac";
+    okidac.setAttribute("aria-expanded", String(otvoreno));
+    okidac.setAttribute("aria-label", otvoreno ? "Sakrij odgovor" : "Prikaži odgovor");
+    red.append(okidac);
+    red.addEventListener("click", (e) => {
+      if (e.target.closest(".pojam-crta")) return;
+      if (otvoreno) objasnjenjePoKoraku.delete(kljucDodatnog);
+      else objasnjenjePoKoraku.set(kljucDodatnog, true);
+      renderLecture();
+      document.getElementById(domId)?.focus();
+    });
+  }
   omot.append(red);
-  const pitanje = document.createElement("div");
-  pitanje.className = "pitanje-telo";
-  pitanje.append(...cvoroviSaOgradama(blok.dodatno));
-  omot.append(pitanje);
-  if (vidi) {
+  if (teloPitanja) {
+    const telo = document.createElement("div");
+    telo.className = "pitanje-telo";
+    telo.append(...cvoroviSaOgradama(teloPitanja));
+    omot.append(telo);
+  }
+  const vidiOdgovor = otvoreno || urediSadrzaj.aktivan;
+  if (vidiOdgovor) {
     const telo = document.createElement("div");
     telo.id = `odgovor-${domId}`;
-    telo.className = "odgovor-tekst";
-    okidac.setAttribute("aria-controls", telo.id);
-    if (blok.dodatniOdgovor) telo.append(...cvoroviSaOgradama(blok.dodatniOdgovor));
-    else {
-      telo.classList.add("meta");
-      telo.textContent = "Nema odgovora.";
-    }
+    telo.className = odgovor ? "odgovor-tekst" : "odgovor-tekst meta";
+    red.querySelector(".pitanje-okidac")?.setAttribute("aria-controls", telo.id);
+    if (odgovor) telo.append(...cvoroviSaOgradama(odgovor));
+    else telo.textContent = "Nema odgovora.";
     omot.append(telo);
   }
   return omot;
