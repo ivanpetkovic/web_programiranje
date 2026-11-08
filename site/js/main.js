@@ -268,11 +268,6 @@ function zabeleziOtvoreno(i) {
   lokalno.promeni((sada) => zabeleziKorak(sada, cas, i));
 }
 
-function temaZavrsena(item) {
-  const vidjeni = vidjeniKoraci(lokalno.stanje(), item.n);
-  return item.steps.every((_, i) => vidjeni.includes(i));
-}
-
 function otvoriUvod() {
   uvod = true;
   if (location.hash !== "#uvod") location.hash = "uvod";
@@ -316,49 +311,159 @@ function paintNav() {
   if (odmak !== null && posle !== null) nav.scrollTop += posle - odmak;
 }
 
+const BEDZ_TEME = {
+  1: { ikona: "layers" },
+  2: { prozor: true },
+  3: { tekst: "JS", pun: true },
+  4: { ikona: "monitor" },
+  5: { ikona: "server" },
+  6: { ikona: "clock" },
+  7: { tekst: "API" },
+  8: { ikona: "database" },
+  9: { ikona: "refresh-cw" },
+  10: { ikona: "user-round" },
+  11: { ikona: "lightbulb" },
+};
+
+function ikonicaProzora() {
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("class", "ikona");
+  svg.setAttribute("viewBox", "0 0 40 40");
+  svg.setAttribute("aria-hidden", "true");
+  const deo = (ime, atributi) => {
+    const el = document.createElementNS(NS, ime);
+    for (const [kljuc, vrednost] of Object.entries(atributi)) el.setAttribute(kljuc, vrednost);
+    return el;
+  };
+  svg.append(
+    deo("rect", { x: "1.4", y: "1.4", width: "37.2", height: "37.2", rx: "7", fill: "none", stroke: "currentColor", "stroke-width": "1.9" }),
+    deo("path", { d: "M1.4 12.2h37.2", fill: "none", stroke: "currentColor", "stroke-width": "1.9" }),
+    deo("circle", { cx: "6.4", cy: "6.8", r: "1.15", fill: "currentColor" }),
+    deo("circle", { cx: "10.5", cy: "6.8", r: "1.15", fill: "currentColor" }),
+    deo("circle", { cx: "14.6", cy: "6.8", r: "1.15", fill: "currentColor" }),
+    deo("path", {
+      d: "M14.6 19.2 10.4 24l4.2 4.8M22.2 17.6 18.6 29.2M25.4 19.2 29.6 24l-4.2 4.8",
+      fill: "none",
+      stroke: "currentColor",
+      "stroke-width": "2.05",
+      "stroke-linecap": "round",
+      "stroke-linejoin": "round",
+    }),
+  );
+  return svg;
+}
+
+function bedzTeme(n) {
+  const opis = BEDZ_TEME[n] || { ikona: "book-open" };
+  const bedz = document.createElement("span");
+  bedz.className = "tema-bedz";
+  bedz.setAttribute("aria-hidden", "true");
+  if (opis.prozor) {
+    bedz.classList.add("tema-bedz-prozor");
+    bedz.append(ikonicaProzora());
+    return bedz;
+  }
+  if (opis.tekst) {
+    bedz.classList.add("tema-bedz-slova");
+    if (opis.pun) bedz.classList.add("tema-bedz-pun");
+    bedz.textContent = opis.tekst;
+    return bedz;
+  }
+  const znak = ikonica(opis.ikona);
+  if (znak) bedz.append(znak);
+  return bedz;
+}
+
+function statusKrug(gotova, tekuca) {
+  const status = document.createElement("span");
+  status.className = "tema-status";
+  status.setAttribute("aria-hidden", "true");
+  if (gotova) {
+    status.classList.add("tema-status-gotova");
+    const kvacica = ikonica("check");
+    if (kvacica) status.append(kvacica);
+  } else if (tekuca) status.classList.add("tema-status-tekuca");
+  return status;
+}
+
+function napredakTeme(gotovo, ukupno) {
+  const omot = document.createElement("span");
+  omot.className = "tema-napredak";
+  const traka = document.createElement("span");
+  traka.className = "tema-traka";
+  traka.setAttribute("aria-hidden", "true");
+  const pun = document.createElement("span");
+  pun.className = "tema-traka-pun";
+  const udeo = ukupno ? gotovo / ukupno : 0;
+  pun.style.width = `${Math.round(udeo * 1000) / 10}%`;
+  traka.append(pun);
+  const broj = document.createElement("span");
+  broj.className = "tema-napredak-broj";
+  broj.textContent = ukupno && gotovo === ukupno ? "100%" : `${gotovo}/${ukupno}`;
+  omot.append(traka, broj);
+  return omot;
+}
+
+function strelaTeme(otvoren, ime) {
+  const omot = document.createElement("span");
+  omot.className = "tema-strela";
+  omot.setAttribute("aria-hidden", "true");
+  const znak = ikonica(ime || (otvoren ? "chevron-up" : "chevron-down"));
+  if (znak) omot.append(znak);
+  return omot;
+}
+
+function teloTeme(naslov, podnaslov) {
+  const telo = document.createElement("span");
+  telo.className = "tema-telo";
+  const ime = document.createElement("span");
+  ime.className = "tema-naslov";
+  ime.textContent = naslov;
+  telo.append(ime);
+  if (podnaslov) {
+    const pod = document.createElement("small");
+    pod.textContent = podnaslov;
+    telo.append(pod);
+  }
+  return telo;
+}
+
 function crtajNav() {
   const provera = ucitajKurs(dokument);
   nav.replaceChildren();
   if (!provera.ok) return;
-  const glava = document.createElement("div");
-  glava.className = "kurs-zaglavlje";
-  const kursNaslov = document.createElement("strong");
-  kursNaslov.textContent = dokument.naslov;
-  const bok = document.createElement("span");
-  bok.className = "meta";
-  bok.textContent = dokument.ustanovaBok;
-  const knjiga = ikonica("book-open");
-  const tekstKursa = document.createElement("span");
-  tekstKursa.append(kursNaslov, bok);
-  if (knjiga) glava.append(knjiga);
-  glava.append(tekstKursa);
-  nav.append(glava);
   const uvodDugme = document.createElement("button");
   uvodDugme.type = "button";
   uvodDugme.className = "uvod-red";
-  uvodDugme.textContent = "Uvod";
-  if (uvod) uvodDugme.setAttribute("aria-current", "page");
+  if (uvod) {
+    uvodDugme.setAttribute("aria-current", "page");
+    uvodDugme.classList.add("tema-aktivna");
+  }
+  uvodDugme.append(teloTeme("Uvod", "Pre prve teme"), statusKrug(false, uvod), bedzTeme(0), strelaTeme(false, "chevron-right"));
   uvodDugme.addEventListener("click", () => otvoriUvod());
   nav.append(uvodDugme);
   for (const item of lectures) {
     const otvoren = !uvod && (item.n === cas || otvoreneTeme.has(item.n));
+    const aktivna = !uvod && item.n === cas;
+    const vidjeni = vidjeniKoraci(lokalno.stanje(), item.n).filter((i) => i < item.steps.length);
+    const zavrsena = item.steps.length > 0 && vidjeni.length === item.steps.length;
     const dugme = document.createElement("button");
     dugme.type = "button";
     dugme.className = "tema-red";
+    if (aktivna) dugme.classList.add("tema-aktivna");
+    if (zavrsena) dugme.classList.add("tema-gotova");
+    if (otvoren) dugme.classList.add("tema-otvorena");
     dugme.dataset.n = String(item.n);
-    if (!uvod && item.n === cas) dugme.setAttribute("aria-current", "page");
+    if (aktivna) dugme.setAttribute("aria-current", "page");
     dugme.setAttribute("aria-expanded", String(otvoren));
-    const kvaka = ikonica(temaZavrsena(item) ? "check-circle" : "circle");
-    const ime = document.createElement("span");
-    ime.textContent = `Tema ${item.n} — ${item.title}`;
-    const pod = document.createElement("small");
-    pod.textContent = item.podnaslov;
-    const tekst = document.createElement("span");
-    tekst.append(ime, pod);
-    const strela = ikonica(otvoren ? "chevron-up" : "chevron-down");
-    if (kvaka) dugme.append(kvaka);
-    dugme.append(tekst);
-    if (strela) dugme.append(strela);
+    dugme.append(
+      teloTeme(`Tema ${item.n} — ${item.title}`, item.podnaslov),
+      statusKrug(zavrsena, aktivna && !zavrsena),
+      bedzTeme(item.n),
+      strelaTeme(otvoren),
+      napredakTeme(vidjeni.length, item.steps.length),
+    );
     dugme.addEventListener("click", () => {
       if (uvod) {
         otvoriTemu(item.n);
@@ -379,7 +484,26 @@ function crtajNav() {
       const korakDugme = document.createElement("button");
       korakDugme.type = "button";
       korakDugme.className = "korak-red";
-      korakDugme.textContent = `${ki + 1} ${korak.naslov}`;
+      const natpis = document.createElement("span");
+      natpis.className = "korak-natpis";
+      const broj = document.createElement("span");
+      broj.className = "korak-broj";
+      broj.textContent = String(ki + 1);
+      natpis.append(broj, document.createTextNode(` ${korak.naslov}`));
+      const znak = document.createElement("span");
+      znak.className = "korak-znak";
+      znak.setAttribute("aria-hidden", "true");
+      if (vidjeni.includes(ki)) {
+        korakDugme.classList.add("korak-vidjen");
+        const kvacica = ikonica("check");
+        if (kvacica) znak.append(kvacica);
+      }
+      const strela = document.createElement("span");
+      strela.className = "korak-strela";
+      strela.setAttribute("aria-hidden", "true");
+      const desno = ikonica("chevron-right");
+      if (desno) strela.append(desno);
+      korakDugme.append(natpis, znak, strela);
       if (item.n === cas && ki === indeksKoraka()) korakDugme.setAttribute("aria-current", "page");
       korakDugme.addEventListener("click", () => {
         sidroNava = item.n;
