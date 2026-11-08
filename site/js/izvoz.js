@@ -1,97 +1,15 @@
 import { blokoviKoraka, diskusijaKoraka, naslovKoda } from "./blokovi-lekcije.js";
+import { blokOd } from "./blokovi/index.js";
+import { izvorMermaida } from "./blokovi/mermaid.js";
+import { imaTekst, jedanRed, zastitiOgrade } from "./blokovi/md.js";
 import { blokoviTeksta } from "./mermaid.js";
 import { blokoviProze } from "./proza.js";
 
-export function izvorMermaida(tekst) {
-  const sirovo = String(tekst ?? "").trim();
-  if (!sirovo) return "";
-  if (!sirovo.includes("```")) return sirovo;
-  const izvori = blokoviTeksta(sirovo).filter((blok) => blok.vrsta === "mermaid").map((blok) => blok.izvor);
-  return izvori.length ? izvori.join("\n") : sirovo;
-}
-
-function jedanRed(tekst) {
-  return String(tekst ?? "").replace(/\s+/g, " ").trim();
-}
-
-function ogradeUravnotezene(tekst) {
-  let otvorena = null;
-  for (const linija of String(tekst ?? "").split("\n")) {
-    const poklapanje = /^[ \t]{0,3}(`{3,})([^`]*)$/.exec(linija);
-    if (!poklapanje) continue;
-    if (!otvorena) {
-      otvorena = poklapanje[1].length;
-      continue;
-    }
-    if (poklapanje[1].length >= otvorena && poklapanje[2].trim() === "") otvorena = null;
-  }
-  return otvorena === null;
-}
-
-function zastitiOgrade(tekst, uvek = false) {
-  const izvor = String(tekst ?? "");
-  if (!uvek && ogradeUravnotezene(izvor)) return izvor;
-  return izvor
-    .split("\n")
-    .map((linija) => (/^[ \t]{0,3}`{3,}/.test(linija) ? linija.replace(/^([ \t]{0,3})`/, "$1\\`") : linija))
-    .join("\n");
-}
-
-function jezikOgrade(jezik) {
-  const cist = String(jezik || "").trim();
-  return /^[A-Za-z0-9_+-]+$/.test(cist) ? cist : "";
-}
-
-function ograda(jezik, tekst) {
-  const telo = String(tekst ?? "").replace(/\n+$/, "");
-  let duzina = 3;
-  for (const poklapanje of telo.matchAll(/`{3,}/g)) duzina = Math.max(duzina, poklapanje[0].length + 1);
-  const crta = "`".repeat(duzina);
-  return `${crta}${jezikOgrade(jezik)}\n${telo}\n${crta}`;
-}
-
-function citat(naslov, tekst) {
-  const linije = [];
-  if (naslov) linije.push(`**${naslov.replace(/\*/g, "")}**`, "");
-  linije.push(...zastitiOgrade(tekst, true).replace(/\n+$/, "").split("\n"));
-  return linije.map((linija) => (linija.length ? `> ${linija}` : ">")).join("\n");
-}
-
-function imaTekst(vrednost) {
-  return Boolean(String(vrednost ?? "").trim());
-}
-
-function pitanjeImaSadrzaj(blok) {
-  if (imaTekst(blok.tekst) || imaTekst(blok.odgovor) || imaTekst(blok.analiza)) return true;
-  return (blok.opcije || []).some((opcija) => imaTekst(opcija.text) || imaTekst(opcija.why));
-}
+export { izvorMermaida };
 
 function deoBloka(blok) {
-  if (!blok) return null;
-  if (blok.vrsta === "tekst") {
-    if (!imaTekst(blok.tekst)) return null;
-    return { vrsta: "proza", tekst: blok.tekst };
-  }
-  if (blok.vrsta === "highlight") {
-    if (!imaTekst(blok.tekst)) return null;
-    const naslov = blok.uloga === "kljucna" ? "Ključna ideja" : blok.naslov || "Napomena";
-    return { vrsta: "citat", naslov, tekst: blok.tekst };
-  }
-  if (blok.vrsta === "kod") {
-    if (!imaTekst(blok.tekst)) return null;
-    return { vrsta: "kod", naslov: naslovKoda(blok), jezik: blok.jezik || "", tekst: blok.tekst };
-  }
-  if (blok.vrsta === "mermaid") {
-    const izvor = izvorMermaida(blok.tekst);
-    if (!izvor.trim()) return null;
-    return { vrsta: "mermaid", naslov: blok.naslov || "Dijagram", tekst: izvor };
-  }
-  if (blok.vrsta === "dijagram") {
-    if (!imaTekst(blok.tekst)) return null;
-    return { vrsta: "kod", naslov: blok.naslov || "Tekstualni dijagram", jezik: "text", tekst: blok.tekst };
-  }
-  if (blok.vrsta === "pitanje" && pitanjeImaSadrzaj(blok)) return { vrsta: "pitanje", blok };
-  return null;
+  if (!blok || !blokOd(blok).izvoz().trim()) return null;
+  return { vrsta: "blok", blok };
 }
 
 function dokumentKoraka(korak) {
@@ -116,43 +34,9 @@ function dokumentTeme(tema) {
   };
 }
 
-function markdownPitanja(blok) {
-  const delovi = ["**Pitanje**", "", zastitiOgrade(blok.tekst || "").trim()];
-  if (blok.oblik === "izbor") {
-    const opcije = Array.isArray(blok.opcije) ? blok.opcije : [];
-    if (opcije.length) {
-      delovi.push(
-        "",
-        ...opcije.map((opcija) => {
-          const tacan = opcija.ok ? " *(tačan odgovor)*" : "";
-          return `- ${jedanRed(opcija.key)}. ${jedanRed(opcija.text)}${tacan}`;
-        }),
-      );
-    }
-    const zasto = opcije
-      .filter((opcija) => imaTekst(opcija.why))
-      .map((opcija) => `> - **${jedanRed(opcija.key)}.** ${jedanRed(opcija.why)}`);
-    if (zasto.length) delovi.push("", "> **Zašto**", ">", ...zasto);
-  } else if (imaTekst(blok.odgovor)) {
-    delovi.push("", "**Odgovor**", "", zastitiOgrade(blok.odgovor).trim());
-  }
-  if (imaTekst(blok.analiza)) delovi.push("", citat("Obrazloženje", blok.analiza));
-  return delovi.join("\n");
-}
-
 function markdownDela(deo) {
   if (deo.vrsta === "naslov") return `${"#".repeat(deo.nivo)} ${deo.tekst}`;
-  if (deo.vrsta === "proza") return zastitiOgrade(deo.tekst).replace(/^\n+/, "").replace(/\s+$/, "");
-  if (deo.vrsta === "citat") return citat(deo.naslov, deo.tekst);
-  if (deo.vrsta === "kod") {
-    const telo = ograda(deo.jezik, deo.tekst);
-    return deo.naslov ? `**${deo.naslov.replace(/\*/g, "")}**\n\n${telo}` : telo;
-  }
-  if (deo.vrsta === "mermaid") {
-    const telo = ograda("mermaid", deo.tekst);
-    return deo.naslov ? `**${deo.naslov.replace(/\*/g, "")}**\n\n${telo}` : telo;
-  }
-  if (deo.vrsta === "pitanje") return markdownPitanja(deo.blok);
+  if (deo.vrsta === "blok") return blokOd(deo.blok).izvoz();
   return "";
 }
 
@@ -238,13 +122,37 @@ function htmlProze(tekst) {
   }).join("\n");
 }
 
+function htmlNaslovBloka(naslov) {
+  return naslov ? `<p><strong>${escapeHtml(naslov)}</strong></p>` : "";
+}
+
+function htmlBloka(blok) {
+  if (blok.vrsta === "tekst") return htmlProze(blok.tekst);
+  if (blok.vrsta === "highlight") {
+    const naslov = blok.uloga === "kljucna" ? "Ključna ideja" : blok.naslov || "Napomena";
+    return `<blockquote><p><strong>${escapeHtml(naslov)}</strong></p>${htmlProze(blok.tekst)}</blockquote>`;
+  }
+  if (blok.vrsta === "kod") {
+    return `${htmlNaslovBloka(naslovKoda(blok))}<pre><code>${escapeHtml(blok.tekst)}</code></pre>`;
+  }
+  if (blok.vrsta === "dijagram") {
+    return `${htmlNaslovBloka(blok.naslov || "Tekstualni dijagram")}<pre><code>${escapeHtml(blok.tekst)}</code></pre>`;
+  }
+  if (blok.vrsta === "mermaid") {
+    const izvor = izvorMermaida(blok.tekst);
+    return `${htmlNaslovBloka(blok.naslov || "Dijagram")}<div class="figura-mermaid">${escapeHtml(izvor)}</div>`;
+  }
+  if (blok.vrsta === "pitanje") return htmlPitanja(blok);
+  return "";
+}
+
 function htmlPitanja(blok) {
   const delovi = [`<p><strong>Pitanje</strong></p>`, htmlProze(blok.tekst || "")];
   if (blok.oblik === "izbor") {
     const opcije = Array.isArray(blok.opcije) ? blok.opcije : [];
     if (opcije.length) {
       delovi.push(`<ul>${opcije.map((opcija) => {
-        const tacan = opcija.ok ? " <em>(tačan odgovor)</em>" : "";
+        const tacan = opcija.ok ? " ✓" : "";
         return `<li>${escapeHtml(jedanRed(opcija.key))}. ${escapeHtml(jedanRed(opcija.text))}${tacan}</li>`;
       }).join("")}</ul>`);
     }
@@ -266,17 +174,7 @@ function htmlDela(deo) {
     const nivo = Math.min(6, deo.nivo);
     return `<h${nivo}>${escapeHtml(deo.tekst)}</h${nivo}>`;
   }
-  if (deo.vrsta === "proza") return htmlProze(deo.tekst);
-  if (deo.vrsta === "citat") return `<blockquote><p><strong>${escapeHtml(deo.naslov)}</strong></p>${htmlProze(deo.tekst)}</blockquote>`;
-  if (deo.vrsta === "kod") {
-    const naslov = deo.naslov ? `<p><strong>${escapeHtml(deo.naslov)}</strong></p>` : "";
-    return `${naslov}<pre><code>${escapeHtml(deo.tekst)}</code></pre>`;
-  }
-  if (deo.vrsta === "mermaid") {
-    const naslov = deo.naslov ? `<p><strong>${escapeHtml(deo.naslov)}</strong></p>` : "";
-    return `${naslov}<div class="figura-mermaid">${escapeHtml(deo.tekst)}</div>`;
-  }
-  if (deo.vrsta === "pitanje") return htmlPitanja(deo.blok);
+  if (deo.vrsta === "blok") return htmlBloka(deo.blok);
   return "";
 }
 
