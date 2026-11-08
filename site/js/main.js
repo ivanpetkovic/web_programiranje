@@ -1,5 +1,5 @@
 import { napraviPogled, postaviPogled } from "./cm-editor.js";
-import { dokument, lectures, osveziLekcije, sirovaTema, siroviKorak } from "./lectures.js";
+import { dokument, lectures, osveziLekcije, putanjaAseta, sirovaTema, siroviKorak } from "./lectures.js";
 import {
   jeRezimUredjivanja,
   kljucPolja,
@@ -312,66 +312,48 @@ function paintNav() {
   if (odmak !== null && posle !== null) nav.scrollTop += posle - odmak;
 }
 
-const BEDZ_TEME = {
-  1: { ikona: "layers" },
-  2: { prozor: true },
-  3: { tekst: "JS", pun: true },
-  4: { ikona: "monitor" },
-  5: { ikona: "server" },
-  6: { ikona: "clock" },
-  7: { tekst: "API" },
-  8: { ikona: "database" },
-  9: { ikona: "refresh-cw" },
-  10: { ikona: "user-round" },
-  11: { ikona: "lightbulb" },
-};
+const kesSvg = new Map();
 
-function ikonicaProzora() {
-  const NS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("class", "ikona");
-  svg.setAttribute("viewBox", "0 0 40 40");
-  svg.setAttribute("aria-hidden", "true");
-  const deo = (ime, atributi) => {
-    const el = document.createElementNS(NS, ime);
-    for (const [kljuc, vrednost] of Object.entries(atributi)) el.setAttribute(kljuc, vrednost);
-    return el;
-  };
-  svg.append(
-    deo("rect", { x: "1.4", y: "1.4", width: "37.2", height: "37.2", rx: "7", fill: "none", stroke: "currentColor", "stroke-width": "1.9" }),
-    deo("path", { d: "M1.4 12.2h37.2", fill: "none", stroke: "currentColor", "stroke-width": "1.9" }),
-    deo("circle", { cx: "6.4", cy: "6.8", r: "1.15", fill: "currentColor" }),
-    deo("circle", { cx: "10.5", cy: "6.8", r: "1.15", fill: "currentColor" }),
-    deo("circle", { cx: "14.6", cy: "6.8", r: "1.15", fill: "currentColor" }),
-    deo("path", {
-      d: "M14.6 19.2 10.4 24l4.2 4.8M22.2 17.6 18.6 29.2M25.4 19.2 29.6 24l-4.2 4.8",
-      fill: "none",
-      stroke: "currentColor",
-      "stroke-width": "2.05",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-    }),
-  );
-  return svg;
+function prikaziSliku(bedz, put) {
+  const src = putanjaAseta(put);
+  if (!/\.svg(?:$|\?)/i.test(put)) {
+    const img = document.createElement("img");
+    img.alt = "";
+    img.src = src;
+    bedz.append(img);
+    return;
+  }
+  const spreman = kesSvg.get(src);
+  if (spreman) {
+    bedz.append(spreman.cloneNode(true));
+    return;
+  }
+  fetch(src)
+    .then((odgovor) => {
+      if (!odgovor.ok) throw new Error("svg");
+      return odgovor.text();
+    })
+    .then((tekst) => {
+      const svg = new DOMParser().parseFromString(tekst, "image/svg+xml").documentElement;
+      if (svg.localName !== "svg" || svg.querySelector("parsererror, script")) return;
+      svg.setAttribute("class", "ikona");
+      svg.setAttribute("aria-hidden", "true");
+      kesSvg.set(src, svg);
+      if (bedz.isConnected) bedz.replaceChildren(svg.cloneNode(true));
+    })
+    .catch(() => {});
 }
 
-function bedzTeme(n) {
-  const opis = BEDZ_TEME[n] || { ikona: "book-open" };
+function bedzTeme(izvor) {
   const bedz = document.createElement("span");
   bedz.className = "tema-bedz";
   bedz.setAttribute("aria-hidden", "true");
-  if (opis.prozor) {
-    bedz.classList.add("tema-bedz-prozor");
-    bedz.append(ikonicaProzora());
+  if (izvor?.slika) {
+    bedz.classList.add("tema-bedz-slika");
+    prikaziSliku(bedz, izvor.slika);
     return bedz;
   }
-  if (opis.tekst) {
-    bedz.classList.add("tema-bedz-slova");
-    if (opis.pun) bedz.classList.add("tema-bedz-pun");
-    bedz.textContent = opis.tekst;
-    return bedz;
-  }
-  const znak = ikonica(opis.ikona);
+  const znak = ikonica(izvor?.ikona || "book-open");
   if (znak) bedz.append(znak);
   return bedz;
 }
@@ -441,7 +423,7 @@ function crtajNav() {
     uvodDugme.setAttribute("aria-current", "page");
     uvodDugme.classList.add("tema-aktivna");
   }
-  uvodDugme.append(teloTeme("Uvod", "Pre prve teme"), statusKrug(false, uvod), bedzTeme(0), strelaTeme(false, "chevron-right"));
+  uvodDugme.append(teloTeme("Uvod", "Pre prve teme"), statusKrug(false, uvod), bedzTeme(dokument.uvod), strelaTeme(false, "chevron-right"));
   uvodDugme.addEventListener("click", () => otvoriUvod());
   nav.append(uvodDugme);
   for (const item of lectures) {
@@ -461,7 +443,7 @@ function crtajNav() {
     dugme.append(
       teloTeme(`Tema ${item.n} — ${item.title}`, item.podnaslov),
       statusKrug(zavrsena, aktivna && !zavrsena),
-      bedzTeme(item.n),
+      bedzTeme(item),
       strelaTeme(otvoren),
       napredakTeme(vidjeni.length, item.steps.length),
     );
@@ -2483,11 +2465,12 @@ function nacrtajZaglavlje() {
   document.querySelector("#naslov-kursa-tekst").textContent = dokument.naslov;
   document.querySelector("#ustanova").textContent = dokument.ustanova;
   document.querySelector("#ustanova-red").textContent = dokument.ustanovaRed;
-  document.querySelector("#grb").src = dokument.grb;
+  const grb = putanjaAseta(dokument.grb);
+  if (grb) document.querySelector("#grb").src = grb;
   document.querySelector("#oznaka").textContent = dokument.oznaka;
   const slika = document.querySelector("#kurs-slika");
   if (!slika) return;
-  const put = dokument.slika || "";
+  const put = putanjaAseta(dokument.slika);
   if (slika.getAttribute("src") !== put) slika.src = put;
 }
 

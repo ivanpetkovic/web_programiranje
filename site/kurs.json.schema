@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "kurs.json.schema",
   "title": "Kurs",
-  "description": "Dokument koji čas i studio čitaju iz site/kurs.json.",
+  "description": "Dokument koji čas i studio čitaju. Isporučeni kurs je kursevi/web_programiranje/kurs.json. Putanja slike bez kose crte na početku je relativna u odnosu na folder kursa.",
   "type": "object",
   "additionalProperties": false,
   "required": ["naslov", "trajanjeTema", "teme"],
@@ -43,6 +43,8 @@
       "required": ["naslov", "cilj", "ocekivanje", "osnov"],
       "properties": {
         "naslov": { "type": "string" },
+        "ikona": { "type": "string" },
+        "slika": { "type": "string" },
         "cilj": { "type": "string" },
         "ocekivanje": {
           "type": "array",
@@ -333,6 +335,8 @@
       "required": ["naslov", "steps"],
       "properties": {
         "naslov": { "type": "string" },
+        "ikona": { "type": "string" },
+        "slika": { "type": "string" },
         "podnaslov": { "type": "string" },
         "ishod": { "type": "string" },
         "minuta": { "type": "number" },

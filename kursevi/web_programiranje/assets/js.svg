@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <rect width="40" height="40" rx="10" style="fill: var(--nav-zlato-bedz)"/>
+  <text x="20" y="21" text-anchor="middle" dominant-baseline="central" fill="#1a1408" font-family="inherit" font-size="17" font-weight="800" letter-spacing="-0.04em">JS</text>
+</svg>

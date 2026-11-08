@@ -10,7 +10,7 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const tsc = path.join(path.dirname(require.resolve("typescript/package.json")), "bin", "tsc");
 const chromeBin = process.env.CHROME_BIN || "/opt/google/chrome/chrome";
-const kurs = JSON.parse(fs.readFileSync(new URL("../site/kurs.json", import.meta.url), "utf8"));
+const kurs = JSON.parse(fs.readFileSync(new URL("../kursevi/web_programiranje/kurs.json", import.meta.url), "utf8"));
 
 function sviPrimeri() {
   return kurs.teme.flatMap((tema, i) =>

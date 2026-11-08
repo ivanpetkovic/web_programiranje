@@ -4,7 +4,7 @@ import test from "node:test";
 import { cekajHttp, koren, otvoriStranu, pauza, pokreni, slobodanPort, ugasi } from "./chrome.mjs";
 import path from "node:path";
 
-const kurs = path.join(koren, "site/kurs.json");
+const kurs = path.join(koren, "kursevi/web_programiranje/kurs.json");
 const marker = "PITANJE-POSLE-RELOADA-2743";
 
 test("izmena pitanja ostaje posle reload-a kad kvačica kaže sačuvano", { timeout: 40000 }, async (t) => {

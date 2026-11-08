@@ -3,9 +3,9 @@
   "ustanovaRed": "Univerzitet u Nišu",
   "ustanovaBok": "Elektronski fakultet, Niš",
   "naslov": "Web programiranje",
-  "slika": "/img/kurs.png",
+  "slika": "assets/kurs.png",
   "oznaka": "MP",
-  "grb": "/img/elfak_logo.png",
+  "grb": "assets/elfak_logo.png",
   "trajanjeTema": 11,
   "verzija": "4.1",
   "revizija": "4.1-provera-izvrsavanja",
@@ -13,6 +13,7 @@
   "ciljnaGrupa": "3. godina studija računarstva",
   "uvod": {
     "naslov": "Pre prve teme",
+    "ikona": "book-open",
     "cilj": "Predmet prati jednu radnju Kontrolne sobe od browsera, preko Node procesa, do PostgreSQL baze. Panel ima temperaturu i jedan ventilator. Nema stvarnog hardvera. Posle kursa student razlikuje prikaz od stanja, obrazloži grešku, izostanak odgovora i ponovljeni zahtev, i kaže šta sme da veruje ekranu, a šta mora da proveri server.",
     "ocekivanje": [
       "Preduslov je objektno programiranje, algoritmi i SQL. Prethodni web kurs nije potreban.",
@@ -236,6 +237,7 @@
   "teme": [
     {
       "naslov": "Zašto Web postoji: zahtevi i protokoli",
+      "ikona": "layers",
       "podnaslov": "Web je usluga na Internetu. Stranica je dokument. server/ još nema fajlove.",
       "ishod": "Web je usluga na Internetu. Stranica je dokument. server/ još nema fajlove.",
       "minuta": 90,
@@ -479,15 +481,24 @@
           "naslov": "HTTP: Od pouzdanog prenosa do Weba",
           "tekst": "### Ako TCP pouzdano prenosi podatke, zašto nam je potreban još jedan protokol?\n\nZamislimo da klijent šalje serveru podatke i da TCP obezbedi njihov ispravan prenos. Server je primio sve bajtove, ali kako zna da li klijent želi da pročita temperaturu, promeni stanje ventilatora ili zatraži HTML dokument? Da li TCP može da odgovori na to pitanje?\n\nNe može. TCP prenosi bajtove, ali ne određuje njihovo značenje. Klijent i server zato moraju da se dogovore o formatu poruka i pravilima njihove razmene. Za Web tu ulogu ima HTTP (Hypertext Transfer Protocol).\n",
           "kljucnaIdeja": "HTTP definiše strukturu zahteva i odgovora, uključujući metode, zaglavlja i statusne kodove.",
-          "pitalica": "Ako TCP pouzdano prenosi podatke, zašto nam je potreban još jedan protokol?",
+          "pitalica": "",
           "pitalice": [
             {
-              "pitalica": "Ako TCP pouzdano prenosi podatke, zašto nam je potreban još jedan protokol?",
-              "odgovor": "Zato što TCP prenosi bajtove, ali ne određuje njihovo značenje. Server je primio sve bajtove, ali i dalje ne zna da li klijent želi da pročita temperaturu, promeni stanje ventilatora ili zatraži HTML dokument. Klijent i server zato moraju da se dogovore o formatu poruka i pravilima njihove razmene. Za Web tu ulogu ima HTTP. HTTP definiše strukturu zahteva i odgovora, uključujući metode, zaglavlja i statusne kodove."
-            },
-            {
-              "pitalica": "Da li je HTTP dovoljan da bismo imali Web?",
-              "odgovor": "Ne. Web se zasniva na nekoliko ideja koje zajedno omogućavaju pristup povezanim resursima. URL identifikuje resurs i daje informacije potrebne za pristup. HTTP definiše razmenu zahteva i odgovora. Reprezentacija kaže kako je sadržaj predstavljen: odgovor može sadržati HTML, sliku, JSON ili druge podatke. Kada browser zatraži HTML dokument, HTTP omogućava njegovo preuzimanje, a browser zatim obrađuje HTML da bi prikazao stranicu."
+              "pitalica": "",
+              "opcije": [
+                {
+                  "key": "A",
+                  "text": "",
+                  "ok": false,
+                  "why": ""
+                },
+                {
+                  "key": "B",
+                  "text": "",
+                  "ok": true,
+                  "why": ""
+                }
+              ]
             }
           ],
           "blokovi": [
@@ -558,26 +569,6 @@
               ]
             }
           ],
-          "pitalice": [
-            {
-              "pitalica": "",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "",
-                  "ok": false,
-                  "why": ""
-                },
-                {
-                  "key": "B",
-                  "text": "",
-                  "ok": true,
-                  "why": ""
-                }
-              ]
-            }
-          ],
-          "pitalica": "",
           "opcije": [
             {
               "key": "A",
@@ -1066,6 +1057,7 @@
     },
     {
       "naslov": "Browser: HTML, CSS i prikaz",
+      "slika": "assets/prozor.svg",
       "podnaslov": "Dokument, prikaz i merenje nisu ista stvar.",
       "ishod": "Dokument, prikaz i merenje nisu ista stvar.",
       "minuta": 90,
@@ -2689,6 +2681,7 @@
     },
     {
       "naslov": "JavaScript, jezik, objekti i model izvršavanja",
+      "slika": "assets/js.svg",
       "podnaslov": "Kako JavaScript predstavlja podatke, izvršava program i organizuje kod.",
       "ishod": "Kako JavaScript predstavlja podatke, izvršava program i organizuje kod.",
       "minuta": 90,
@@ -6914,6 +6907,7 @@
     },
     {
       "naslov": "DOM, događaji i prikaz stanja",
+      "ikona": "monitor",
       "podnaslov": "Klik menja stanje. Poseban kod crta prikaz.",
       "ishod": "Klik menja stanje. Poseban kod crta prikaz.",
       "minuta": 90,
@@ -8126,6 +8120,7 @@
     },
     {
       "naslov": "Od mrežnog prenosa do HTTP-a i Node.js-a",
+      "ikona": "server",
       "podnaslov": "Jedan zahtev i jedan odgovor. Kutija drži temperaturu.",
       "ishod": "Jedan zahtev i jedan odgovor. Kutija drži temperaturu.",
       "minuta": 90,
@@ -9697,6 +9692,7 @@
     },
     {
       "naslov": "Asinhronost, event loop i neuspeh",
+      "ikona": "clock",
       "podnaslov": "Čekanje, podatak i greška. 200 nije 500, a 500 nije ugašen port.",
       "ishod": "Čekanje, podatak i greška. 200 nije 500, a 500 nije ugašen port.",
       "minuta": 90,
@@ -11087,6 +11083,7 @@
     },
     {
       "naslov": "API komande, validacija i idempotentnost",
+      "slika": "assets/api.svg",
       "podnaslov": "Željeno stanje, provera tela i smisao ponavljanja.",
       "ishod": "Željeno stanje, provera tela i smisao ponavljanja.",
       "minuta": 90,
@@ -12670,6 +12667,7 @@
     },
     {
       "naslov": "PostgreSQL, transakcije i Docker",
+      "ikona": "database",
       "podnaslov": "Režim i istorija su jedna transakcija.",
       "ishod": "Režim i istorija su jedna transakcija.",
       "minuta": 90,
@@ -14087,6 +14085,7 @@
     },
     {
       "naslov": "Svežina podataka, periodično čitanje i push",
+      "ikona": "refresh-cw",
       "podnaslov": "Displej čuva poslednje čitanje. Takt ga ne pomera.",
       "ishod": "Displej čuva poslednje čitanje. Takt ga ne pomera.",
       "minuta": 90,
@@ -15488,6 +15487,7 @@
     },
     {
       "naslov": "Bezbednost, sesije i prava pristupa",
+      "ikona": "user-round",
       "podnaslov": "Cookie nosi ključ. Kutija drži ulogu.",
       "ishod": "Cookie nosi ključ. Kutija drži ulogu.",
       "minuta": 90,
@@ -16905,6 +16905,7 @@
     },
     {
       "naslov": "Ceo sistem, dijagnostika i LLM",
+      "ikona": "lightbulb",
       "podnaslov": "Ekran „uključeno” nije dokaz upisa. Ćutanje nije ni dokaz ni opovrgavanje.",
       "ishod": "Ekran „uključeno” nije dokaz upisa. Ćutanje nije ni dokaz ni opovrgavanje.",
       "minuta": 90,

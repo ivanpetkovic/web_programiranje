@@ -1153,28 +1153,16 @@ body.nav-skriven .kurs-zaglavlje { padding: 0; gap: 0; }
   color: var(--nav-bedz);
 }
 .tema-bedz .ikona { width: 20px; height: 20px; }
-.tema-bedz-prozor {
+.tema-bedz-slika {
   border: 0;
   background: transparent;
-  color: #243044;
 }
-.tema-bedz-prozor .ikona { width: 2.5rem; height: 2.5rem; }
-.tema-bedz-slova {
-  font-size: 0.68rem;
-  font-weight: 750;
-  letter-spacing: -0.03em;
-  line-height: 1;
+.tema-bedz-slika .ikona,
+.tema-bedz-slika img {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: contain;
 }
-.tema-bedz-pun {
-  border-color: transparent;
-  background: var(--nav-zlato-bedz);
-  color: #1a1408;
-  font-size: 1.05rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-}
-html[data-tema="ugalj"] .tema-bedz-prozor,
-html[data-tema="mornar"] .tema-bedz-prozor { color: var(--nav-bedz); }
 .tema-strela {
   width: 1.875rem;
   height: 1.875rem;

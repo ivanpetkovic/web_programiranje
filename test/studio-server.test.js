@@ -37,10 +37,11 @@ test("upis kursa ide preko privremenog fajla", () => {
   assert.match(server, /\.kurs-studio\.tmp/);
   assert.match(server, /renameSync\(privremeno, KURS\)/);
   assert.match(server, /KURS_DATOTEKA/);
+  assert.match(server, /"web_programiranje", "kurs.json"/);
 });
 
 test("dokument kursa poznaje isporučeni kurs.json", () => {
-  const kurs = JSON.parse(fs.readFileSync(path.join(KORENI, "site", "kurs.json"), "utf8"));
+  const kurs = JSON.parse(fs.readFileSync(path.join(KORENI, "kursevi", "web_programiranje", "kurs.json"), "utf8"));
   assert.equal(dokumentJeKurs(kurs), true);
   assert.equal(dokumentJeKurs({ trajanjeTema: 1, teme: [] }), false);
   assert.equal(dokumentJeKurs({ trajanjeTema: 1, teme: [{ steps: [null] }] }), false);

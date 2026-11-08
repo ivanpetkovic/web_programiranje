@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Mehanizam pitalice na sajtu časa. Tekst pitanja i odgovora je `site/kurs.json`. Ova specifikacija ne imenuje pitanja tema.
+Mehanizam pitalice na sajtu časa. Tekst pitanja i odgovora je `kursevi/web_programiranje/kurs.json`. Ova specifikacija ne imenuje pitanja tema.
 
 ## Requirements
 

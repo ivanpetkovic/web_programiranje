@@ -1,6 +1,6 @@
 # Kurs
 
-Nastavni okvir predmeta. Tekst tema, koraka i pitalica je `site/kurs.json`. Ovaj fajl ne ponavlja taj sadržaj.
+Nastavni okvir predmeta. Tekst tema, koraka i pitalica je `kursevi/web_programiranje/kurs.json`. Ovaj fajl ne ponavlja taj sadržaj.
 
 ## Cilj
 

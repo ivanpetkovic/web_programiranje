@@ -337,6 +337,14 @@ function panelTeme(indeks) {
         tema.naslov = vrednost;
         osveziNatpisTeme(indeks, vrednost);
       }, { id: "naslov-polje" }),
+      polje("Ikona", tema.ikona || "", (vrednost) => {
+        if (vrednost) tema.ikona = vrednost;
+        else delete tema.ikona;
+      }),
+      polje("Slika", tema.slika || "", (vrednost) => {
+        if (vrednost) tema.slika = vrednost;
+        else delete tema.slika;
+      }),
       polje("Podnaslov", tema.podnaslov, (vrednost) => { tema.podnaslov = vrednost; }, { visered: true, redovi: 2 }),
       polje("Ishod", tema.ishod, (vrednost) => { tema.ishod = vrednost; }, { visered: true, redovi: 2 }),
       polje("Minuta", tema.minuta, (vrednost) => { tema.minuta = vrednost; }, { tip: "number" }),

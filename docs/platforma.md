@@ -1,6 +1,6 @@
 # Platforma sajta časa
 
-Sajt časa je ljuska za jedan dokument kursa. Tekst tema je `site/kurs.json`. Ovaj fajl opisuje šta ljuska radi. Nastavni cilj i povezujući primer su u [kurs.md](kurs.md). Raspored zaglavlja, Opcija i oblik lokalnog zapisa su u [izgled-i-lokalno-stanje.md](izgled-i-lokalno-stanje.md).
+Sajt časa je ljuska za jedan dokument kursa. Tekst tema je `kursevi/web_programiranje/kurs.json`. Ovaj fajl opisuje šta ljuska radi. Nastavni cilj i povezujući primer su u [kurs.md](kurs.md). Raspored zaglavlja, Opcija i oblik lokalnog zapisa su u [izgled-i-lokalno-stanje.md](izgled-i-lokalno-stanje.md).
 
 Ako se ovaj opis i sajt raziđu, važi sajt i testovi. OpenSpec u `openspec/specs/` je ugovor ljuske samo tamo gde se sa njima slaže. Ne drži sadržaj kursa.
 
@@ -40,7 +40,7 @@ Pregled je iframe klijentskog stabla. Izmena klijentskog fajla menja iframe i ne
 
 Ljuska čita jedan JSON. Naslov teme, koraci, proza, pitalice i ishod dolaze iz njega. Ljuska ne drži drugi primerak tog teksta. `trajanjeTema` mora da bude jednako broju tema. Ako nije, sajt prijavi grešku i ne dodaje niti izbacuje temu.
 
-`?edit=true` uključuje uređivanje na stranici časa. Izmena se upisuje u dokument, a kvačica znači da je `PUT /api/kurs` sačuvao `site/kurs.json`. Opozovi i ponovi drže lokalnu istoriju te sesije.
+`?edit=true` uključuje uređivanje na stranici časa. Izmena se upisuje u dokument, a kvačica znači da je `PUT /api/kurs` sačuvao `kursevi/web_programiranje/kurs.json`. Opozovi i ponovi drže lokalnu istoriju te sesije.
 
 `/studio` je posebna strana za isti dokument: lista tema i koraka, dodavanje, redosled, učitavanje drugog JSON-a i čuvanje. Studio poravna trajanje sa brojem tema pre upisa.
 

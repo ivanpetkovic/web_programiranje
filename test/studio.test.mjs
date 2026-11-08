@@ -20,7 +20,7 @@ import {
   vrstaKoraka,
 } from "../site/js/studio.js";
 
-const izvor = fs.readFileSync(new URL("../site/kurs.json", import.meta.url), "utf8");
+const izvor = fs.readFileSync(new URL("../kursevi/web_programiranje/kurs.json", import.meta.url), "utf8");
 
 function kursOdJedne() {
   return procitajTekst(JSON.stringify({

@@ -2,7 +2,7 @@
 
 Sajt časa za predavanja na Elektronskom fakultetu Univerziteta u Nišu. Autor kursa je **Ivan Petković**.
 
-Tekst tema, koraka i pitalica je `site/kurs.json`. Cilj kursa, način objašnjavanja i povezujući primer su u [docs/kurs.md](docs/kurs.md). Šta ljuska radi je u [docs/platforma.md](docs/platforma.md).
+Tekst tema, koraka i pitalica je `kursevi/web_programiranje/kurs.json`. Cilj kursa, način objašnjavanja i povezujući primer su u [docs/kurs.md](docs/kurs.md). Šta ljuska radi je u [docs/platforma.md](docs/platforma.md).
 
 ## Instalacija i pokretanje
 
@@ -51,7 +51,8 @@ npm test
 ## Gde je šta
 
 ```text
-site/          sajt časa; kurs je site/kurs.json
+site/          sajt časa
+kursevi/web_programiranje/   kurs.json i asseti tog kursa
 client/        panel koji browser učitava
 server/        Node proces, modul http, bez Express-a
 test/          provere ljuske, editora i ugovora API-ja

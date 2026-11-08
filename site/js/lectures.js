@@ -1,4 +1,12 @@
-import kurs from "../kurs.json" with { type: "json" };
+import kurs from "../../kursevi/web_programiranje/kurs.json" with { type: "json" };
+
+const KOREN_KURSA = new URL("../../kursevi/web_programiranje/", import.meta.url);
+
+export function putanjaAseta(put) {
+  if (!put) return "";
+  if (/^(?:[a-z][a-z0-9+.-]*:|\/)/i.test(put)) return put;
+  return new URL(put, KOREN_KURSA).href;
+}
 
 export const dokument = kurs;
 
@@ -61,6 +69,8 @@ function napraviLekcije(doc) {
   return doc.teme.map((tema, i) => ({
     n: i + 1,
     title: tema.naslov,
+    ikona: tema.ikona || "",
+    slika: tema.slika || "",
     outcome: tema.ishod,
     podnaslov: tema.podnaslov,
     minuta: tema.minuta,

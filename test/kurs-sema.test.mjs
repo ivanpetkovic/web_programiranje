@@ -5,11 +5,12 @@ import { proveriSemu } from "../site/js/sema.js";
 import { prazanKurs, praznaTema, procitajTekst, spremiTekst } from "../site/js/studio.js";
 
 const sema = JSON.parse(fs.readFileSync(new URL("../site/kurs.json.schema", import.meta.url), "utf8"));
-const json = fs.readFileSync(new URL("../site/kurs.json", import.meta.url), "utf8");
+const json = fs.readFileSync(new URL("../kursevi/web_programiranje/kurs.json", import.meta.url), "utf8");
 const kurs = JSON.parse(json);
 
 test("kurs stoji u kurs.json i kurs.json.schema, bez XML izvoza", () => {
-  assert.equal(fs.existsSync(new URL("../site/kurs.json", import.meta.url)), true);
+  assert.equal(fs.existsSync(new URL("../kursevi/web_programiranje/kurs.json", import.meta.url)), true);
+  assert.equal(fs.existsSync(new URL("../site/kurs.json", import.meta.url)), false);
   assert.equal(fs.existsSync(new URL("../site/kurs.json.schema", import.meta.url)), true);
   assert.equal(sema.$id, "kurs.json.schema");
   assert.equal(fs.existsSync(new URL("../izvoz/kurs.xml", import.meta.url)), false);
