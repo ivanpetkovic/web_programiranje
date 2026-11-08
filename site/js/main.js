@@ -14,7 +14,6 @@ import {
   dugmeUredi,
   poljeKratko,
   poljeTeksta,
-  postaviIsecakKoraka,
   sacuvajKursNaServeru,
   ubaciKorak,
   dodajKorakNaKraj,
@@ -62,7 +61,6 @@ import { praznaSesija, primeni } from "./verzija.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
 import { napraviBeleske } from "./beleske.js";
-import { prikazPriloga } from "./prilog.js";
 import {
   napraviStanje,
   SKALE_FONTA,
@@ -2362,23 +2360,6 @@ function renderLecture() {
   );
   const dijagrami = [];
   const imaFiguru = Boolean(korak.figura);
-  const imaFajl = !imaFiguru && Boolean(korak.putanja);
-  const prilog = imaFajl ? prikazPriloga(korak, "") : { fajl: null, komanda: "", http: "" };
-  let httpBlok = prilog.http ? nacrtajTekstBloka(prilog.http, "HTTP", "book-open") : null;
-  if (httpBlok && sirovi) {
-    const prikazHttp = httpBlok;
-    httpBlok = omotUredjivog(urediSadrzaj, kljucPolja(cas, i, "http"), prikazHttp, () => {
-      const editor = napraviEditorTeksta(
-        prilog.http,
-        { redovi: 6, kod: true, placeholder: "HTTP zahtev ili odgovor za objašnjenje." },
-        { opis: "HTTP objašnjenje" }
-      );
-      return veziTekst(editor, (vrednost) => {
-        postaviIsecakKoraka(sirovi, vrednost);
-      });
-    });
-  }
-  const komandaBlok = prilog.komanda ? nacrtajTekstBloka(prilog.komanda, "Komanda") : null;
   biracMesto.replaceChildren(birac);
   postaviRasporedBiraca(birac);
   const izvorKoraka = sirovi || korak;
@@ -2387,10 +2368,6 @@ function renderLecture() {
   casEl.append(metaKoraka, naslovKoraka, ...sekcije);
   if (urediSadrzaj.aktivan && sirovi) casEl.append(meniDodajSekciju(lista));
   for (const [omot, izvor] of dijagrami) void nacrtajMermaid(omot, izvor);
-  if (imaFajl) {
-    if (httpBlok) casEl.append(httpBlok);
-    if (komandaBlok) casEl.append(komandaBlok);
-  }
   const skok = nacrtajSkokKoraka(item, i);
   if (skok) casEl.append(skok);
   diskusijaMesto.replaceChildren(nacrtajDiskusijuKoraka(item, i, korak, sirovi));

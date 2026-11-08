@@ -272,7 +272,7 @@
         "naslov": { "type": "string" },
         "pozadina": { "type": "string", "enum": ["bela", "crna"] },
         "jezik": { "$ref": "#/$defs/jezik" },
-        "veza": { "type": "string", "enum": ["samostalniPrimer", "dijagram", "prica", "fajl", "figura"] },
+        "veza": { "type": "string", "enum": ["samostalniPrimer", "dijagram", "prica", "fajl", "figura", "http", "komanda"] },
         "oblik": { "type": "string", "enum": ["tekst", "izbor"] },
         "odgovor": { "type": "string" },
         "analiza": { "type": "string" },

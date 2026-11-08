@@ -1,5 +1,5 @@
 import { mermaidFigura } from "./figura.js";
-import { dodatakPrikaza, imeFajla } from "./prilog.js";
+import { dodatakPrikaza, httpKoraka, imeFajla, komandaKoraka } from "./prilog.js";
 
 const JEZICI = new Set(["html", "css", "text", "javascript", "json", "sql", "typescript"]);
 
@@ -150,6 +150,25 @@ function saBlokomFigure(korak, blokovi) {
   return [...blokovi, figura];
 }
 
+function blokPriloga(id, naslov, veza, tekst) {
+  const telo = String(tekst || "").trim();
+  if (!telo) return null;
+  return { id, vrsta: "kod", naslov, jezik: "text", veza, tekst: telo };
+}
+
+function saPrilozima(korak, blokovi, opcije) {
+  if (opcije.fajl === false || opcije.figura || !korak?.putanja) return blokovi;
+  let lista = blokovi;
+  const dodaj = (blok) => {
+    if (!blok) return;
+    const vec = lista.some((stavka) => stavka?.veza === blok.veza || (stavka?.vrsta === "kod" && String(stavka.tekst ?? "").trim() === blok.tekst));
+    if (!vec) lista = [...lista, blok];
+  };
+  dodaj(blokPriloga("http", "HTTP", "http", httpKoraka(korak)));
+  dodaj(blokPriloga("komanda", "Komanda", "komanda", komandaKoraka(korak)));
+  return lista;
+}
+
 export function blokoviKoraka(korak, opcije = {}) {
   const saFigurom = korak?.figura ? { ...opcije, figura: true } : opcije;
   const osnovni = Array.isArray(korak?.blokovi)
@@ -159,7 +178,7 @@ export function blokoviKoraka(korak, opcije = {}) {
       prazne: false,
       ...saFigurom,
     }), saFigurom);
-  return saBlokomFigure(korak, osnovni);
+  return saBlokomFigure(korak, saPrilozima(korak, osnovni, saFigurom));
 }
 
 function izvorPitalica(korak) {
@@ -214,7 +233,7 @@ export function materijalizuj(korak, prikazani, polje = "blokovi") {
   } else if (
     prikazani &&
     prikazani !== korak[polje] &&
-    prikazani.some((blok) => blok?.veza === "fajl" || blok?.veza === "figura")
+    prikazani.some((blok) => blok?.veza === "fajl" || blok?.veza === "figura" || blok?.veza === "http" || blok?.veza === "komanda")
   ) {
     korak[polje] = prikazani;
   }
@@ -230,10 +249,16 @@ export function uskladiNasledjenaPolja(korak) {
   for (const blok of korak.blokovi) {
     if (blok.veza === "samostalniPrimer" && korak.samostalniPrimer) korak.samostalniPrimer.tekst = blok.tekst || "";
     if (blok.veza === "dijagram" && korak.dijagram) korak.dijagram.tekst = blok.tekst || "";
-    if (blok.veza === "fajl") {
+    if (blok.veza === "fajl" || blok.veza === "http" || blok.veza === "komanda") {
       const tekst = blok.tekst || "";
-      if (typeof korak.delic === "string") korak.delic = tekst;
-      if (typeof korak.isecak === "string") korak.isecak = tekst;
+      if (blok.veza === "fajl") {
+        if (typeof korak.delic === "string") korak.delic = tekst;
+        if (typeof korak.isecak === "string") korak.isecak = tekst;
+      } else {
+        korak.isecak = tekst;
+        if (typeof korak.delic === "string") korak.delic = tekst;
+        if (typeof korak.original === "string") korak.original = tekst.endsWith("\n") ? tekst : `${tekst}\n`;
+      }
     }
   }
 }
@@ -311,6 +336,11 @@ export function promeniVrstuSekcije(korak, prikazani, id, vrsta, polje = "blokov
   if (veza === "dijagram" && blok.vrsta === "dijagram") blok.veza = veza;
   if (veza === "figura" && blok.vrsta === "mermaid") blok.veza = veza;
   else if (veza === "figura") delete korak.figura;
+  if ((veza === "http" || veza === "komanda") && blok.vrsta === "kod") blok.veza = veza;
+  else if (veza === "http" || veza === "komanda") {
+    korak.isecak = "";
+    if (typeof korak.delic === "string") korak.delic = "";
+  }
   if (veza === "prica" && blok.vrsta === "tekst") blok.veza = veza;
   if (blok.vrsta === "pitanje" && analiza) blok.analiza = analiza;
   if (blok.vrsta === "pitanje" && blok.oblik !== "izbor" && odgovor) blok.odgovor = odgovor;
@@ -357,6 +387,10 @@ export function obrisiSekciju(korak, id, polje = "blokovi") {
     if (typeof korak.isecak === "string") korak.isecak = "";
   }
   if (obrisan?.veza === "figura") delete korak.figura;
+  if (obrisan?.veza === "http" || obrisan?.veza === "komanda") {
+    korak.isecak = "";
+    if (typeof korak.delic === "string") korak.delic = "";
+  }
   uskladiPolje(korak, polje);
   return Math.min(indeks, Math.max(0, niz.length - 1));
 }
