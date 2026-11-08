@@ -175,6 +175,61 @@ test("meni ima jedan blok koda, bez tamne i svetle verzije", () => {
   assert.match(html, /dataset\.pozadinaKoda = pozadinaKoda === "crna" \? "crna" : "bela"/);
 });
 
+test("crtež koraka je dijagram blok u gradivu", () => {
+  const korak = {
+    naslov: "Hipertekst",
+    tekst: "URL određuje adresu.",
+    kljucnaIdeja: "",
+    figura: {
+      vrsta: "put",
+      cvorovi: [
+        { id: "tekst", natpis: "Tekst" },
+        { id: "veza", natpis: "Veza" },
+        { id: "drugi", natpis: "Drugi tekst" },
+      ],
+    },
+  };
+  const lista = blokoviKoraka(korak);
+  const dijagram = lista.at(-1);
+  assert.equal(dijagram.vrsta, "mermaid");
+  assert.equal(dijagram.veza, "figura");
+  assert.equal(dijagram.naslov, "Dijagram");
+  assert.match(dijagram.tekst, /"Tekst"/);
+  assert.match(dijagram.tekst, /"Veza"/);
+  assert.match(dijagram.tekst, /"Drugi tekst"/);
+  assert.equal(lista.filter((blok) => blok.veza === "figura").length, 1);
+  assert.equal(lista.some((blok) => blok.veza === "fajl"), false);
+  const saBlokovima = {
+    ...korak,
+    blokovi: [{ id: "t", vrsta: "tekst", tekst: "Već sekcija." }],
+  };
+  const ublokovima = blokoviKoraka(saBlokovima);
+  assert.equal(ublokovima.at(-1).veza, "figura");
+  assert.equal(ublokovima.filter((blok) => blok.vrsta === "mermaid").length, 1);
+  materijalizuj(saBlokovima, ublokovima);
+  assert.equal(saBlokovima.blokovi.at(-1).id, "figura");
+  const kod = VRSTE_SEKCIJE.find((vrsta) => vrsta.natpis === "Kod");
+  promeniVrstuSekcije(saBlokovima, saBlokovima.blokovi, "figura", kod);
+  assert.equal(saBlokovima.figura, undefined);
+  assert.equal(blokoviKoraka(saBlokovima).some((blok) => blok.veza === "figura"), false);
+  const ponovo = {
+    tekst: "A",
+    figura: { vrsta: "put", cvorovi: [{ id: "a", natpis: "A" }, { id: "b", natpis: "B" }] },
+  };
+  const prikaz = blokoviKoraka(ponovo, { prazne: true });
+  materijalizuj(ponovo, prikaz);
+  obrisiSekciju(ponovo, "figura");
+  assert.equal(ponovo.figura, undefined);
+  assert.equal(blokoviKoraka(ponovo).some((blok) => blok.veza === "figura"), false);
+  const dokument = prazanKurs();
+  const tema = praznaTema();
+  tema.steps[0].blokovi = [{ id: "figura", vrsta: "mermaid", naslov: "Dijagram", veza: "figura", tekst: "flowchart LR\n  A-->B" }];
+  tema.steps[0].figura = { vrsta: "put", cvorovi: [{ id: "a", natpis: "A" }] };
+  dokument.teme = [tema];
+  dokument.trajanjeTema = 1;
+  assert.deepEqual(proveriSemu(sema, dokument).greske, []);
+});
+
 test("šema prima niz sekcija lekcije", () => {
   const dokument = prazanKurs();
   const tema = praznaTema();

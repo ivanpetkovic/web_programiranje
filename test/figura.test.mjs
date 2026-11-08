@@ -73,7 +73,7 @@ test("LO nema crtež, Hipertekst crta vezu, Stranica otvara index", () => {
   const lo = prikazKoraka(istorija[0]);
   assert.equal(lo.mermaid, null);
   assert.equal(lo.putanja, null);
-  const veza = prikazKoraka(istorija.find((korak) => korak.naslov === "Hipertekst"));
+  const veza = prikazKoraka(istorija.find((korak) => korak.figura?.cvorovi?.some((cvor) => cvor.natpis === "Drugi tekst")));
   assert.match(veza.mermaid, /"Veza"/);
   assert.match(veza.mermaid, /"Drugi tekst"/);
   assert.equal(veza.putanja, null);
@@ -82,8 +82,9 @@ test("LO nema crtež, Hipertekst crta vezu, Stranica otvara index", () => {
   assert.equal(stranicaKorak.mermaid, null);
   assert.equal(stranicaKorak.putanja, "client/index.html");
   assert.equal(main.includes("putanja-koraka"), false);
-  assert.match(main, /if \(figura\) casEl\.append\(figura\)/);
-  assert.match(main, /nacrtajFiguru\(figura, korak\.figura\)/);
+  assert.equal(main.includes("casEl.append(figura)"), false);
+  assert.match(main, /nacrtajFiguru\(figura, crtez\)/);
+  assert.match(main, /crtez: izvorKoraka\.figura/);
   assert.match(crtez, /import \{ crtajSvg \} from "\.\/mermaid\.js"/);
   assert.equal(crtez.includes("/vendor/mermaid/"), false);
   assert.equal(fs.existsSync(new URL("../site/vendor/mermaid/mermaid.min.js", import.meta.url)), false);

@@ -14,7 +14,6 @@ import {
   dugmeUredi,
   poljeKratko,
   poljeTeksta,
-  postaviIsecakKoraka,
   sacuvajKursNaServeru,
   ubaciKorak,
   dodajKorakNaKraj,
@@ -43,7 +42,7 @@ import { PORUKA, modulPoZahtevu, porukaKonzole, sklopiDokument, trajanjeLopatica
 import { procitajRadne, serverTabVidljiv, upisiRadnu } from "./radna.js";
 import { adresaPregleda, izborFajla, popunaKoraka, prikaziIzlaz, rasporedBiraca } from "./birac.js";
 import { nacrtajFiguru } from "./crtez.js";
-import { prikazKoraka } from "./figura.js";
+import { mermaidFigura } from "./figura.js";
 import { blokoviTeksta, imaMermaid, nacrtajMermaid, osveziMermaid } from "./mermaid.js";
 import {
   htmlKoraka,
@@ -62,7 +61,6 @@ import { praznaSesija, primeni } from "./verzija.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
 import { napraviBeleske } from "./beleske.js";
-import { prikazPriloga } from "./prilog.js";
 import {
   napraviStanje,
   SKALE_FONTA,
@@ -1011,7 +1009,7 @@ function odaberiPredlog(stavka) {
   otvoriTemu(stavka.tema, stavka.korak);
 }
 
-function prikazMermaida(blok, dijagrami) {
+function prikazMermaida(blok, dijagrami, crtez) {
   const kartica = document.createElement("figure");
   kartica.className = "isecak isecak-mermaid";
   const glava = document.createElement("header");
@@ -1021,7 +1019,9 @@ function prikazMermaida(blok, dijagrami) {
   const figura = document.createElement("div");
   figura.className = "figura figura-mermaid";
   const izvor = izvorMermaida(blok.tekst);
-  if (izvor.trim()) dijagrami.push([figura, izvor]);
+  const crtezOdgovara = crtez && blok.veza === "figura" && izvor.trim() === mermaidFigura(crtez).trim();
+  if (crtezOdgovara) void nacrtajFiguru(figura, crtez);
+  else if (izvor.trim()) dijagrami.push([figura, izvor]);
   else {
     const prazno = document.createElement("p");
     prazno.className = "meta";
@@ -1415,7 +1415,7 @@ function prikazPitanja(blok) {
   return pitanjeUnutra;
 }
 
-function teloSekcije(sirovi, blok, dijagrami, prviTekst, vezi, prefiks) {
+function teloSekcije(sirovi, blok, dijagrami, prviTekst, vezi, prefiks, crtez) {
   const id = kljucBloka(prefiks, blok);
   if (blok.vrsta === "pitanje") {
     return omotUredjivog(urediSadrzaj, id, prikazPitanja(blok), () => uredjivacSekcije(sirovi, blok, vezi), bezOlovke());
@@ -1443,7 +1443,7 @@ function teloSekcije(sirovi, blok, dijagrami, prviTekst, vezi, prefiks) {
     return omotUredjivog(urediSadrzaj, id, prikazTekstSekcije(blok, dijagrami, prviTekst), () => uredjivacSekcije(sirovi, blok, vezi), bezOlovke());
   }
   if (blok.vrsta === "mermaid") {
-    return omotUredjivog(urediSadrzaj, id, prikazMermaida(blok, dijagrami), () => uredjivacSekcije(sirovi, blok, vezi), bezOlovke());
+    return omotUredjivog(urediSadrzaj, id, prikazMermaida(blok, dijagrami, crtez), () => uredjivacSekcije(sirovi, blok, vezi), bezOlovke());
   }
   const natpis = blok.vrsta === "kod" ? naslovKoda(blok) : natpisSekcije(blok);
   const kartica = nacrtajTekstBloka(blok.tekst || "", natpis, ikonaSekcije(blok));
@@ -1644,6 +1644,7 @@ function nacrtajSekcije(sirovi, lista, dijagrami, opcije = {}) {
   const vrste = opcije.vrste || VRSTE_SEKCIJE;
   const prefiks = opcije.prefiks || "sekcija";
   const uputa = opcije.uputa !== false;
+  const crtez = opcije.crtez;
   const vezi = veziListu(sirovi, lista, polje);
   let prviTekst = true;
   return lista.map((blok) => {
@@ -1657,7 +1658,7 @@ function nacrtajSekcije(sirovi, lista, dijagrami, opcije = {}) {
       omot.append(rucice, akcije);
     }
     const prvi = uputa && prviTekst && blok.vrsta === "tekst" && blok.veza !== "prica";
-    omot.append(teloSekcije(sirovi, blok, dijagrami, prvi, vezi, prefiks));
+    omot.append(teloSekcije(sirovi, blok, dijagrami, prvi, vezi, prefiks, crtez));
     if (blok.vrsta === "tekst") prviTekst = false;
     return omot;
   });
@@ -2358,41 +2359,15 @@ function renderLecture() {
     })
   );
   const dijagrami = [];
-  const prikaz = prikazKoraka(korak);
-  const figura = prikaz.mermaid ? document.createElement("div") : null;
-  if (figura) {
-    figura.className = "figura";
-    nacrtajFiguru(figura, korak.figura);
-  }
-  const imaFajl = !figura && Boolean(korak.putanja);
-  const prilog = imaFajl ? prikazPriloga(korak, "") : { fajl: null, komanda: "", http: "" };
-  let httpBlok = prilog.http ? nacrtajTekstBloka(prilog.http, "HTTP", "book-open") : null;
-  if (httpBlok && sirovi) {
-    const prikazHttp = httpBlok;
-    httpBlok = omotUredjivog(urediSadrzaj, kljucPolja(cas, i, "http"), prikazHttp, () => {
-      const editor = napraviEditorTeksta(
-        prilog.http,
-        { redovi: 6, kod: true, placeholder: "HTTP zahtev ili odgovor za objašnjenje." },
-        { opis: "HTTP objašnjenje" }
-      );
-      return veziTekst(editor, (vrednost) => {
-        postaviIsecakKoraka(sirovi, vrednost);
-      });
-    });
-  }
-  const komandaBlok = prilog.komanda ? nacrtajTekstBloka(prilog.komanda, "Komanda") : null;
+  const imaFiguru = Boolean(korak.figura);
   biracMesto.replaceChildren(birac);
   postaviRasporedBiraca(birac);
-  const lista = blokoviKoraka(sirovi || korak, { prazne: urediSadrzaj.aktivan, figura: Boolean(figura) });
-  const sekcije = nacrtajSekcije(sirovi, lista, dijagrami);
+  const izvorKoraka = sirovi || korak;
+  const lista = blokoviKoraka(izvorKoraka, { prazne: urediSadrzaj.aktivan, figura: imaFiguru });
+  const sekcije = nacrtajSekcije(sirovi, lista, dijagrami, { crtez: izvorKoraka.figura });
   casEl.append(metaKoraka, naslovKoraka, ...sekcije);
   if (urediSadrzaj.aktivan && sirovi) casEl.append(meniDodajSekciju(lista));
   for (const [omot, izvor] of dijagrami) void nacrtajMermaid(omot, izvor);
-  if (figura) casEl.append(figura);
-  else if (imaFajl) {
-    if (httpBlok) casEl.append(httpBlok);
-    if (komandaBlok) casEl.append(komandaBlok);
-  }
   const skok = nacrtajSkokKoraka(item, i);
   if (skok) casEl.append(skok);
   diskusijaMesto.replaceChildren(nacrtajDiskusijuKoraka(item, i, korak, sirovi));
