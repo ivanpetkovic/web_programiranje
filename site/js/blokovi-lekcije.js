@@ -1,40 +1,15 @@
 import { mermaidFigura } from "./figura.js";
 import { dodatakPrikaza, httpKoraka, imeFajla, komandaKoraka } from "./prilog.js";
 
+export {
+  ikonaSekcije,
+  naslovKoda,
+  natpisSekcije,
+  VRSTE_DISKUSIJE,
+  VRSTE_SEKCIJE,
+} from "./blokovi/index.js";
+
 const JEZICI = new Set(["html", "css", "text", "javascript", "json", "sql", "typescript"]);
-
-const VRSTE_GRADIVA = [
-  { vrsta: "tekst", natpis: "Tekst", ikona: "text", polja: {} },
-  { vrsta: "highlight", natpis: "Highlight", ikona: "callout", polja: { uloga: "obicna", naslov: "Napomena" } },
-  { vrsta: "highlight", natpis: "Ključna ideja", ikona: "lightbulb", polja: { uloga: "kljucna" } },
-  { vrsta: "kod", natpis: "Kod", ikona: "code-xml", polja: { jezik: "text" } },
-  {
-    vrsta: "mermaid",
-    natpis: "Dijagram",
-    ikona: "workflow",
-    polja: { naslov: "Dijagram", tekst: "flowchart LR\n  A[Početak] --> B[Kraj]" },
-  },
-  { vrsta: "dijagram", natpis: "Tekstualni dijagram", ikona: "file-text", polja: { naslov: "Tekstualni dijagram" } },
-];
-
-export const VRSTE_SEKCIJE = VRSTE_GRADIVA;
-
-export const VRSTE_DISKUSIJE = [
-  ...VRSTE_GRADIVA,
-  { vrsta: "pitanje", natpis: "Pitanje, tekst", ikona: "message-circle", polja: { oblik: "tekst" } },
-  {
-    vrsta: "pitanje",
-    natpis: "Pitanje, izbor",
-    ikona: "circle-dot",
-    polja: {
-      oblik: "izbor",
-      opcije: [
-        { key: "A", text: "", ok: false, why: "" },
-        { key: "B", text: "", ok: true, why: "" },
-      ],
-    },
-  },
-];
 
 export function noviIdSekcije() {
   return `s${Math.random().toString(36).slice(2, 10)}`;
@@ -393,36 +368,6 @@ export function obrisiSekciju(korak, id, polje = "blokovi") {
   }
   uskladiPolje(korak, polje);
   return Math.min(indeks, Math.max(0, niz.length - 1));
-}
-
-export function naslovKoda(blok) {
-  const naslov = String(blok?.naslov || "").trim();
-  if (!naslov || naslov === "Mali eksperiment") return "";
-  return naslov;
-}
-
-export function natpisSekcije(blok) {
-  if (!blok) return "";
-  if (blok.vrsta === "pitanje" && blok.oblik === "izbor") return "Pitanje, izbor";
-  if (blok.vrsta === "pitanje") return "Pitanje, tekst";
-  if (blok.vrsta === "highlight" && blok.uloga === "kljucna") return "Ključna ideja";
-  if (blok.vrsta === "highlight") return blok.naslov || "Highlight";
-  if (blok.vrsta === "kod") return naslovKoda(blok) || "Kod";
-  if (blok.vrsta === "mermaid") return blok.naslov || "Dijagram";
-  if (blok.vrsta === "dijagram") return blok.naslov || "Tekstualni dijagram";
-  return "Tekst";
-}
-
-export function ikonaSekcije(blok) {
-  if (!blok) return "text";
-  if (blok.vrsta === "pitanje" && blok.oblik === "izbor") return "circle-dot";
-  if (blok.vrsta === "pitanje") return "message-circle";
-  if (blok.vrsta === "highlight" && blok.uloga === "kljucna") return "lightbulb";
-  if (blok.vrsta === "highlight") return "callout";
-  if (blok.vrsta === "kod") return "code-xml";
-  if (blok.vrsta === "mermaid") return "workflow";
-  if (blok.vrsta === "dijagram") return "file-text";
-  return "text";
 }
 
 export function tekstSekcija(korak) {

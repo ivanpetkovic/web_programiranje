@@ -61,7 +61,7 @@ test("korak od blokova je ispravan markdown, a dijagram je mermaid ograda", () =
   assert.match(md, /\*\*Ključna ideja\*\*/);
   assert.match(md, /````text\nGET \/ HTTP\/1\.1\n```\nHost: localhost\n````/);
   assert.match(md, /```mermaid\nflowchart LR\n  Browser --> Server\n```/);
-  assert.match(md, /\*\(tačan odgovor\)\*/);
+  assert.match(md, /- B\. Browser ✓/);
   assert.match(md, /Priča koraka\./);
   const html = htmlKoraka(korak);
   assert.match(html, /<h1>Zahtev i odgovor<\/h1>/);
