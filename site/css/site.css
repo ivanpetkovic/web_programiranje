@@ -1432,15 +1432,7 @@ body.rezim-uredjivanja .sekcija-lekcije .isecak header { padding-right: 0.4rem; 
 .pitanje-red .odgovor-ikona .ikona { width: 1.25rem; height: 1.25rem; }
 .pitanje-red.otkriva h3,
 .pitanje-red.otkriva .pitanje-znak,
-.pitanje-red.otkriva .odgovor-ikona,
-.pitanje-red.otkriva .pitanje-minuta { position: relative; z-index: 1; pointer-events: none; }
-.pitanje-minuta {
-  flex: none;
-  margin-top: 0.2rem;
-  color: var(--muted);
-  font-size: 0.85rem;
-  white-space: nowrap;
-}
+.pitanje-red.otkriva .odgovor-ikona { position: relative; z-index: 1; pointer-events: none; }
 .pitanje-telo { margin: 0.45rem 0 0.15rem; }
 .pitanje-telo p { margin: 0.35rem 0; }
 .pitanje-kod {

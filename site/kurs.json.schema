@@ -278,6 +278,8 @@
         "oblik": { "type": "string", "enum": ["tekst", "izbor"] },
         "odgovor": { "type": "string" },
         "analiza": { "type": "string" },
+        "dodatno": { "type": "string" },
+        "dodatniOdgovor": { "type": "string" },
         "opcije": {
           "type": "array",
           "minItems": 2,

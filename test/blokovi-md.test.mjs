@@ -66,10 +66,9 @@ test("svaka vrsta bloka uvozi sopstveni markdown", () => {
     ...tekst,
     dodatno: "Da li veza ostaje otvorena?",
     dodatniOdgovor: "Ne, ako niko ne šalje.\n\n```javascript\nveza.end();\n```",
-    minuta: 3,
   };
   assert.deepEqual(krug(Pitanje, saDodatnim), saDodatnim);
-  assert.match(new Pitanje(saDodatnim).izvoz(), /> \*\*Trajanje\*\*\n>\n> 3/);
+  assert.equal(new Pitanje(saDodatnim).izvoz().includes("Trajanje"), false);
 });
 
 test("blok iz markdowna bira klasu po obliku", () => {

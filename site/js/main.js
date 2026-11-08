@@ -1264,11 +1264,6 @@ function uredjivacPitanja(blok, vezi) {
     { redovi: 4, placeholder: "Odgovor na dodatno pitanje." },
     { opis: "odgovor na dodatno" }
   );
-  const minuta = napraviEditorKratkog(blok.minuta ? String(blok.minuta) : "", { opis: "trajanje" }, (vrednost) => {
-    const broj = Number(String(vrednost).trim());
-    if (Number.isInteger(broj) && broj > 0) blok.minuta = broj;
-    else delete blok.minuta;
-  });
   const wrap = document.createElement("div");
   wrap.className = "uredjivi-editor-pitalica";
   wrap.append(natpisPolja("Pitanje", pitanje.telo));
@@ -1277,7 +1272,6 @@ function uredjivacPitanja(blok, vezi) {
   wrap.append(natpisPolja("Obrazloženje", analiza.telo));
   wrap.append(natpisPolja("Dodatno pitanje", dodatno.telo));
   wrap.append(natpisPolja("Odgovor na dodatno", dodatniOdgovor.telo));
-  wrap.append(natpisPolja("Trajanje, minuti", minuta.telo));
   const upisiPitanje = (vrednost) => {
     blok.tekst = vrednost;
   };
@@ -1294,8 +1288,7 @@ function uredjivacPitanja(blok, vezi) {
       (opcije ? opcije.promenjeno() : false) ||
       analiza.promenjeno() ||
       dodatno.promenjeno() ||
-      dodatniOdgovor.promenjeno() ||
-      minuta.promenjeno(),
+      dodatniOdgovor.promenjeno(),
     primeni() {
       pitanje.primeni(upisiPitanje);
       if (odgovor) odgovor.primeni(upisiOdgovor);
@@ -1306,7 +1299,6 @@ function uredjivacPitanja(blok, vezi) {
       analiza.primeni(upisiAnalizu);
       dodatno.primeni(upisiDodatno);
       dodatniOdgovor.primeni(upisiDodatniOdgovor);
-      minuta.primeni();
       vezi();
     },
     ponisti() {
@@ -1319,7 +1311,6 @@ function uredjivacPitanja(blok, vezi) {
       analiza.ponisti(upisiAnalizu);
       dodatno.ponisti(upisiDodatno);
       dodatniOdgovor.ponisti(upisiDodatniOdgovor);
-      minuta.ponisti();
       vezi();
     },
   };
@@ -1553,12 +1544,6 @@ function prikazPitanja(blok) {
     red.append(omotZnaka);
   }
   red.append(pitanje);
-  if (Number.isInteger(blok.minuta) && blok.minuta > 0) {
-    const minuta = document.createElement("span");
-    minuta.className = "pitanje-minuta";
-    minuta.textContent = `${blok.minuta} min`;
-    red.append(minuta);
-  }
   const domId = domIdPitanja(blok);
   if (mozeOtvoriti) {
     const lampica = document.createElement("span");

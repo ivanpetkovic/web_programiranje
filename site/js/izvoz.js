@@ -172,9 +172,6 @@ function htmlPitanja(blok) {
   if (imaTekst(blok.dodatniOdgovor)) {
     delovi.push(`<blockquote><p><strong>Odgovor na dodatno</strong></p>${htmlProze(blok.dodatniOdgovor)}</blockquote>`);
   }
-  if (Number.isInteger(blok.minuta) && blok.minuta > 0) {
-    delovi.push(`<blockquote><p><strong>Trajanje</strong></p><p>${blok.minuta} min</p></blockquote>`);
-  }
   return delovi.filter(Boolean).join("\n");
 }
 

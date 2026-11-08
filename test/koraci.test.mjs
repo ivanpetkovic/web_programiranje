@@ -263,11 +263,10 @@ test("tema jezika ima 15 koraka, diskusiju po koraku i fajl po koraku", () => {
   ];
   assert.deepEqual(tema.steps.map((korak) => korak.naslov), naslovi);
   const ocekivano = [3, 3, 4, 4, 3, 4, 5, 3, 4, 4, 3, 3, 4, 3, 4];
-  const minute = [8, 10, 12, 12, 8, 12, 18, 10, 12, 16, 12, 12, 14, 10, 14];
   tema.steps.forEach((korak, i) => {
     const pitanja = korak.diskusija.filter((blok) => blok.vrsta === "pitanje");
     assert.equal(pitanja.length, ocekivano[i], korak.naslov);
-    assert.equal(pitanja.reduce((zbir, blok) => zbir + blok.minuta, 0), minute[i], korak.naslov);
+    assert.equal(pitanja.some((blok) => Object.hasOwn(blok, "minuta")), false, korak.naslov);
     assert.equal(korak.pitalice.length, pitanja.length);
     for (const blok of pitanja) {
       assert.ok(blok.dodatno, blok.id);
