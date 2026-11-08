@@ -72,7 +72,7 @@ test("markdown pitanja nosi oznake po kojima se čita izbor ili tekst", () => {
   });
   assert.match(izbor, /\*\*Pitanje\*\*\n\nKo šalje zahtev\?/);
   assert.match(izbor, /- A\. Server/);
-  assert.match(izbor, /- B\. Browser \*\(tačan odgovor\)\*/);
+  assert.match(izbor, /- B\. Browser ✓/);
   assert.match(izbor, /> - \*\*B\.\*\* Browser otvara vezu\./);
   assert.match(izbor, /\*\*Obrazloženje\*\*/);
 
@@ -89,7 +89,7 @@ test("markdown pitanja nosi oznake po kojima se čita izbor ili tekst", () => {
   });
   assert.match(tekst, /\*\*Pitanje\*\*\n\nZašto paket\?/);
   assert.match(tekst, /\*\*Odgovor\*\*\n\nDa veza ne stoji prazna\./);
-  assert.equal(tekst.includes("*(tačan odgovor)*"), false);
+  assert.equal(tekst.includes("✓"), false);
 });
 
 test("HTTP i komanda su kod blokovi gradiva", () => {
