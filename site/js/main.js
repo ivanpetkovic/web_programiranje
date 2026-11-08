@@ -135,6 +135,7 @@ const konzolaPrazno = document.querySelector("#pregled-konzola-prazno");
 const konzolaTelo = document.querySelector(".pregled-konzola-telo");
 const otvoreniPojmovi = new Set();
 const otvoreneTeme = new Set();
+const sklopljeneTeme = new Set();
 const izborKoraka = new Map();
 const lokalno = napraviStanje(localStorage);
 const urediSadrzaj = napraviStanjeUredjivanja(dokument);
@@ -275,12 +276,21 @@ function otvoriUvod() {
   else renderLecture();
 }
 
+function rasklopiTemu(n) {
+  sklopljeneTeme.delete(n);
+}
+
+function temaRasklopljena(n) {
+  return otvoreneTeme.has(n) || (n === cas && !sklopljeneTeme.has(n));
+}
+
 function otvoriTemu(n, korak) {
   if (n < 1 || n > dokument.trajanjeTema) return;
   if (korak !== undefined) korakPoCasu.set(n, korak);
   if (uvod || n !== cas) deo = podrazumevaniDeo();
   uvod = false;
   cas = n;
+  rasklopiTemu(n);
   sakrijPanelSelekcije();
   if (location.hash !== `#cas-${n}`) location.hash = `cas-${n}`;
   else renderLecture();
@@ -427,7 +437,7 @@ function crtajNav() {
   uvodDugme.addEventListener("click", () => otvoriUvod());
   nav.append(uvodDugme);
   for (const item of lectures) {
-    const otvoren = !uvod && (item.n === cas || otvoreneTeme.has(item.n));
+    const otvoren = !uvod && temaRasklopljena(item.n);
     const aktivna = !uvod && item.n === cas;
     const vidjeni = vidjeniKoraci(lokalno.stanje(), item.n).filter((i) => i < item.steps.length);
     const zavrsena = item.steps.length > 0 && vidjeni.length === item.steps.length;
@@ -452,9 +462,13 @@ function crtajNav() {
         otvoriTemu(item.n);
         return;
       }
-      if (item.n === cas) return;
-      if (otvoreneTeme.has(item.n)) otvoreneTeme.delete(item.n);
-      else otvoreneTeme.add(item.n);
+      if (temaRasklopljena(item.n)) {
+        otvoreneTeme.delete(item.n);
+        if (item.n === cas) sklopljeneTeme.add(item.n);
+      } else {
+        sklopljeneTeme.delete(item.n);
+        otvoreneTeme.add(item.n);
+      }
       sidroNava = item.n;
       paintNav();
     });
@@ -3786,6 +3800,7 @@ function otvoriBelesku(tema, korak) {
   korakPoCasu.set(tema, korak);
   uvod = false;
   cas = tema;
+  rasklopiTemu(tema);
   sakrijPanelSelekcije();
   if (location.hash !== `#cas-${tema}`) location.hash = `cas-${tema}`;
   else renderLecture();
@@ -3830,6 +3845,7 @@ window.addEventListener("hashchange", () => {
     }
     uvod = false;
     cas = n;
+    rasklopiTemu(n);
     renderLecture();
   }
 });
