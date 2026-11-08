@@ -42,6 +42,9 @@ export class Pitanje extends Blok {
     let tekst = "";
     let odgovor = "";
     let analiza = "";
+    let dodatno = "";
+    let dodatniOdgovor = "";
+    let trajanje = "";
     let oblik = "tekst";
     let opcije = [];
     let zasto = new Map();
@@ -50,6 +53,9 @@ export class Pitanje extends Blok {
         const { naslov, telo } = naslovITelo(skiniCitat(grupa));
         if (naslov === "Zašto") zasto = razloziZasto(telo);
         else if (naslov === "Obrazloženje") analiza = odzastitiOgrade(telo);
+        else if (naslov === "Dodatno") dodatno = odzastitiOgrade(telo);
+        else if (naslov === "Odgovor na dodatno") dodatniOdgovor = odzastitiOgrade(telo);
+        else if (naslov === "Trajanje") trajanje = telo.trim();
         continue;
       }
       let telo = grupa.trim().replace(/^\*\*Pitanje\*\*\s*/, "").trim();
@@ -76,12 +82,23 @@ export class Pitanje extends Blok {
       podaci.opcije = opcije.map((opcija) => ({ ...opcija, why: zasto.get(opcija.key) || "" }));
     } else if (odgovor) podaci.odgovor = odgovor;
     if (analiza) podaci.analiza = analiza;
+    if (dodatno) podaci.dodatno = dodatno;
+    if (dodatniOdgovor) podaci.dodatniOdgovor = dodatniOdgovor;
+    const minuta = Number(trajanje);
+    if (Number.isInteger(minuta) && minuta > 0) podaci.minuta = minuta;
     return new this(podaci);
   }
 
   imaSadrzaj() {
     const blok = this.podaci;
-    if (imaTekst(blok.tekst) || imaTekst(blok.odgovor) || imaTekst(blok.analiza)) return true;
+    if (
+      imaTekst(blok.tekst) ||
+      imaTekst(blok.odgovor) ||
+      imaTekst(blok.analiza) ||
+      imaTekst(blok.dodatno) ||
+      imaTekst(blok.dodatniOdgovor) ||
+      (Number.isInteger(blok.minuta) && blok.minuta > 0)
+    ) return true;
     return (blok.opcije || []).some((opcija) => imaTekst(opcija.text) || imaTekst(opcija.why));
   }
 
@@ -108,6 +125,9 @@ export class Pitanje extends Blok {
       delovi.push("", "**Odgovor**", "", zastitiOgrade(blok.odgovor).trim());
     }
     if (imaTekst(blok.analiza)) delovi.push("", citat("Obrazloženje", blok.analiza));
+    if (imaTekst(blok.dodatno)) delovi.push("", citat("Dodatno", blok.dodatno));
+    if (imaTekst(blok.dodatniOdgovor)) delovi.push("", citat("Odgovor na dodatno", blok.dodatniOdgovor));
+    if (Number.isInteger(blok.minuta) && blok.minuta > 0) delovi.push("", citat("Trajanje", String(blok.minuta)));
     return delovi.join("\n");
   }
 
