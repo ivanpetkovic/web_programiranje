@@ -42,6 +42,7 @@ import { deloviReda } from "./proza.js";
 import { PORUKA, modulPoZahtevu, porukaKonzole, sklopiDokument, trajanjeLopatica, ubaciMostKonzole } from "./pregled.js";
 import { procitajRadne, serverTabVidljiv, upisiRadnu } from "./radna.js";
 import { adresaPregleda, izborFajla, popunaKoraka, prikaziIzlaz, rasporedBiraca } from "./birac.js";
+import { dopunaMesta, procitajMesto, sastaviMesto } from "./adresa.js";
 import { nacrtajFiguru } from "./crtez.js";
 import { mermaidFigura } from "./figura.js";
 import { blokoviTeksta, imaMermaid, nacrtajMermaid, osveziMermaid } from "./mermaid.js";
@@ -168,6 +169,15 @@ function sakrijPanelSelekcije() {
 let cas = 1;
 let uvod = false;
 let deo = podrazumevaniDeo();
+const blokPoMestu = new Map();
+let fajlIzAdrese = "";
+let drzaniFajl = "";
+let fokusIzAdrese = null;
+let cekajFokus = false;
+let stranicaSpremna = false;
+let izHasha = false;
+let poslednjaNavigacija = null;
+let pisemAdresu = false;
 let navOtvoren = true;
 let profilOtvoren = false;
 let pretragaOtvorena = false;
@@ -250,6 +260,167 @@ function indeksKoraka() {
   return item && poslednji < item.steps.length ? poslednji : 0;
 }
 
+function trenutniIndeks() {
+  const item = lecture();
+  if (!item?.steps.length) return 0;
+  return Math.min(Math.max(0, indeksKoraka()), item.steps.length - 1);
+}
+
+function mestoBloka(indeks = trenutniIndeks(), ime = deo) {
+  return `${cas}:${indeks}:${ime}`;
+}
+
+function trenutniFajl() {
+  if (drzaniFajl) return drzaniFajl;
+  if (primerAktivan()) return stanjePrimera.otvoreno ? `primeri/${stanjePrimera.id}/${stanjePrimera.otvoreno}` : "";
+  const put = sesija.otvoreno[sesija.strana];
+  return put ? `${sesija.strana}/${put}` : "";
+}
+
+function trenutnoMesto() {
+  if (uvod) return { uvod: true };
+  const korak = trenutniIndeks();
+  const blok = deo === "editor" ? null : blokPoMestu.get(mestoBloka(korak, deo)) || null;
+  const fajl = deo === "editor" ? trenutniFajl() || null : null;
+  return { uvod: false, cas, korak, deo, blok, fajl };
+}
+
+function hashOdgovara(hash, mesto) {
+  return JSON.stringify(procitajMesto(hash)) === JSON.stringify(procitajMesto(sastaviMesto(mesto)));
+}
+
+function kljucNavigacije(mesto) {
+  if (mesto.uvod) return "uvod";
+  const fajl = mesto.deo === "editor" ? mesto.fajl || "" : "";
+  return `${mesto.cas}:${mesto.korak}:${mesto.deo}:${fajl}`;
+}
+
+function uskladiAdresu() {
+  if (pisemAdresu) return;
+  const mesto = trenutnoMesto();
+  const hash = sastaviMesto(mesto);
+  const nav = kljucNavigacije(mesto);
+  const navigacija = poslednjaNavigacija !== null && poslednjaNavigacija !== nav;
+  poslednjaNavigacija = nav;
+  if (hashOdgovara(location.hash, mesto)) return;
+  const url = `${location.pathname}${location.search}${hash}`;
+  pisemAdresu = true;
+  try {
+    if (navigacija && !dopunaMesta(location.hash, mesto)) history.pushState(null, "", url);
+    else history.replaceState(null, "", url);
+  } finally {
+    pisemAdresu = false;
+  }
+}
+
+function zapamtiBlok(blok) {
+  if (!blok || uvod || deo === "editor") return;
+  const id = blok.dataset.id;
+  if (!id) return;
+  const sekcija = blok.closest("#sekcija-koraci, #sekcija-diskusija");
+  if (!sekcija) return;
+  const ime = sekcija.id === "sekcija-diskusija" ? "diskusija" : "koraci";
+  if (ime !== deo) return;
+  const kljuc = mestoBloka(trenutniIndeks(), ime);
+  if (blokPoMestu.get(kljuc) === id) return;
+  blokPoMestu.set(kljuc, id);
+  cekajFokus = false;
+  fokusIzAdrese = null;
+  uskladiAdresu();
+}
+
+function fokusirajBlok(id) {
+  const koren = deo === "diskusija" ? diskusijaMesto : deo === "koraci" ? koraciPanel : null;
+  if (!koren || !id) return false;
+  const blok = koren.querySelector(`.sekcija-lekcije[data-id="${CSS.escape(id)}"]`);
+  if (!blok) return false;
+  if (!blok.hasAttribute("tabindex")) blok.tabIndex = -1;
+  blok.scrollIntoView({ block: "nearest" });
+  blok.focus({ preventScroll: true });
+  return true;
+}
+
+function vratiFokusBloka() {
+  if (!fokusIzAdrese || uvod || fokusIzAdrese.deo !== deo) {
+    fokusIzAdrese = null;
+    return;
+  }
+  const id = fokusIzAdrese.blok;
+  fokusIzAdrese = null;
+  if (!fokusirajBlok(id)) blokPoMestu.delete(mestoBloka());
+}
+
+function primeniFajlIzAdrese(putanja) {
+  if (!putanja || deo !== "editor") return;
+  if (putanja.startsWith("primeri/")) {
+    const delovi = putanja.split("/");
+    const id = delovi[1];
+    const relativan = delovi.slice(2).join("/");
+    if (!id) return;
+    drzaniFajl = putanja;
+    void izaberiPrimer(id).then(() => {
+      drzaniFajl = "";
+      if (deo === "editor" && relativan && stanjePrimera?.putanje?.includes(relativen) && stanjePrimera.otvoreno !== relativan) {
+        primeniDogadaj({ tip: "otvori", put: relativan });
+      }
+      uskladiAdresu();
+    });
+    return;
+  }
+  const kosa = putanja.indexOf("/");
+  if (kosa <= 0) return;
+  const side = putanja.slice(0, kosa);
+  const put = putanja.slice(kosa + 1);
+  if (side !== "client" && side !== "server") return;
+  if (side === "server" && !serverTabVidljiv(cas)) return;
+  if (sesija.strana !== side) primeniDogadaj({ tip: "strana", strana: side });
+  if (sesija.otvoreno[sesija.strana] !== put) primeniDogadaj({ tip: "otvori", put });
+}
+
+function primeniHash() {
+  const adresa = procitajMesto(location.hash);
+  if (adresa.vrsta === "prazno" || adresa.vrsta === "nepoznato") return false;
+  if (adresa.vrsta === "uvod") {
+    uvod = true;
+    fokusIzAdrese = null;
+    fajlIzAdrese = "";
+    cekajFokus = false;
+    return true;
+  }
+  if (adresa.cas < 1 || adresa.cas > dokument.trajanjeTema) return false;
+  const promenaTeme = uvod || adresa.cas !== cas;
+  uvod = false;
+  cas = adresa.cas;
+  rasklopiTemu(cas);
+  if (adresa.korak != null) {
+    const item = lecture();
+    const max = item?.steps.length ? item.steps.length - 1 : 0;
+    korakPoCasu.set(cas, Math.max(0, Math.min(adresa.korak, max)));
+  }
+  if (adresa.deo) deo = adresa.deo;
+  else if (promenaTeme) deo = podrazumevaniDeo();
+  const indeks = trenutniIndeks();
+  if (adresa.blok && deo !== "editor") {
+    blokPoMestu.set(mestoBloka(indeks, deo), adresa.blok);
+    fokusIzAdrese = { deo, blok: adresa.blok };
+    cekajFokus = true;
+  } else {
+    fokusIzAdrese = null;
+    cekajFokus = false;
+  }
+  fajlIzAdrese = deo === "editor" && adresa.fajl ? adresa.fajl : "";
+  if (promenaTeme) sakrijPanelSelekcije();
+  return true;
+}
+
+function naHash() {
+  if (pisemAdresu) return;
+  if (hashOdgovara(location.hash, trenutnoMesto())) return;
+  if (!primeniHash()) return;
+  izHasha = true;
+  renderLecture();
+}
+
 function trenutniKorak() {
   const item = lecture();
   if (!item || !item.steps.length) return null;
@@ -273,8 +444,9 @@ function zabeleziOtvoreno(i) {
 
 function otvoriUvod() {
   uvod = true;
-  if (location.hash !== "#uvod") location.hash = "uvod";
-  else renderLecture();
+  cekajFokus = false;
+  fokusIzAdrese = null;
+  renderLecture();
 }
 
 function rasklopiTemu(n) {
@@ -293,8 +465,9 @@ function otvoriTemu(n, korak) {
   cas = n;
   rasklopiTemu(n);
   sakrijPanelSelekcije();
-  if (location.hash !== `#cas-${n}`) location.hash = `cas-${n}`;
-  else renderLecture();
+  cekajFokus = false;
+  fokusIzAdrese = null;
+  renderLecture();
 }
 
 function redTeme(n) {
@@ -528,8 +701,11 @@ function prikaziDeo() {
 
 function otvoriDeo(ime) {
   deo = ime;
+  cekajFokus = false;
+  fokusIzAdrese = null;
   if (usko()) zatvoriMobilSheetove();
   prikaziDeo();
+  uskladiAdresu();
 }
 
 function usko() {
@@ -2624,6 +2800,10 @@ function renderLecture() {
   if (uvod) {
     zabeleziOtvoreno(0);
     nacrtajUvod();
+    const ovaJeAdresa = izHasha;
+    izHasha = false;
+    if (!ovaJeAdresa) cekajFokus = false;
+    uskladiAdresu();
     return;
   }
   const item = lecture();
@@ -2687,6 +2867,11 @@ function renderLecture() {
   prikaziDeo();
   paintNav();
   fitPanel();
+  const ovaJeAdresa = izHasha;
+  izHasha = false;
+  if (stranicaSpremna && cekajFokus && ovaJeAdresa) vratiFokusBloka();
+  else if (!ovaJeAdresa) cekajFokus = false;
+  uskladiAdresu();
   if (animKoraka && usko()) {
     casEl.classList.remove("mobil-korak-unazad", "mobil-korak-napred");
     casEl.classList.add(animKoraka < 0 ? "mobil-korak-unazad" : "mobil-korak-napred");
@@ -2935,6 +3120,11 @@ function fitPanel() {
   starost.hidden = cas < 9;
   osveziDugmePrimera();
   primeniDogadaj({ tip: "fokus", putanja: izborFajla(trenutniKorak()), kljuc: `${cas}:${indeksKoraka()}` });
+  if (fajlIzAdrese && deo === "editor") {
+    const trazeni = fajlIzAdrese;
+    fajlIzAdrese = "";
+    primeniFajlIzAdrese(trazeni);
+  }
   if (cas < 9) zaustaviPeriodicno();
   if (cas >= 5 && !dovod) connectDovod();
   uskladiKutiju();
@@ -3045,7 +3235,10 @@ function renderNode(node, otvoren) {
     button.dataset.put = file.put;
     button.setAttribute("aria-current", file.put === otvoren ? "true" : "false");
     button.addEventListener("click", () => {
+      cekajFokus = false;
+      fokusIzAdrese = null;
       primeniDogadaj({ tip: "otvori", put: file.put });
+      uskladiAdresu();
     });
     li.append(button);
     ul.append(li);
@@ -3301,6 +3494,7 @@ async function izaberiPrimer(id) {
     stanjePrimera = null;
     osveziDugmePrimera();
     primeniDogadaj({ tip: sesija.verzija === "ugradjena" ? "ugradjena" : "radna" });
+    uskladiAdresu();
     return;
   }
   const token = ++primerZahtev;
@@ -3331,6 +3525,7 @@ async function izaberiPrimer(id) {
   stanjePrimera = rezultat.stanje;
   sacuvaniPrimeri.set(id, stanjePrimera);
   nacrtajPrikaz(rezultat, true, { tip: stanjePrimera.verzija });
+  uskladiAdresu();
 }
 
 async function preklopiMeniPrimera() {
@@ -3479,11 +3674,17 @@ document.querySelector("#ses-ne").addEventListener("click", () => chooseSession(
 
 tabFront.addEventListener("click", () => {
   if (sesija.strana === "client") return;
+  cekajFokus = false;
+  fokusIzAdrese = null;
   primeniDogadaj({ tip: "strana", strana: "client" });
+  uskladiAdresu();
 });
 tabBack.addEventListener("click", () => {
   if (sesija.strana === "server") return;
+  cekajFokus = false;
+  fokusIzAdrese = null;
   primeniDogadaj({ tip: "strana", strana: "server" });
+  uskladiAdresu();
 });
 
 const dugmeStabla = document.querySelector("#sklopi-stablo");
@@ -3818,8 +4019,9 @@ function otvoriBelesku(tema, korak) {
   cas = tema;
   rasklopiTemu(tema);
   sakrijPanelSelekcije();
-  if (location.hash !== `#cas-${tema}`) location.hash = `cas-${tema}`;
-  else renderLecture();
+  cekajFokus = false;
+  fokusIzAdrese = null;
+  renderLecture();
 }
 
 const beleske = napraviBeleske({
@@ -3847,23 +4049,13 @@ postaviTabove();
 poveziIzvoz();
 osveziOpcije();
 
-window.addEventListener("hashchange", () => {
-  if (location.hash === "#uvod") {
-    uvod = true;
-    renderLecture();
-    return;
-  }
-  const n = Number((location.hash.match(/cas-(\d+)/) || [])[1]);
-  if (n >= 1 && n <= dokument.trajanjeTema) {
-    if (uvod || n !== cas) {
-      deo = podrazumevaniDeo();
-      sakrijPanelSelekcije();
-    }
-    uvod = false;
-    cas = n;
-    rasklopiTemu(n);
-    renderLecture();
-  }
+window.addEventListener("hashchange", naHash);
+window.addEventListener("popstate", naHash);
+document.addEventListener("focusin", (event) => {
+  zapamtiBlok(event.target.closest?.(".sekcija-lekcije"));
+});
+document.addEventListener("pointerdown", (event) => {
+  zapamtiBlok(event.target.closest?.(".sekcija-lekcije"));
 });
 
 for (const ime of ["koraci", "diskusija", "editor"]) {
@@ -3881,7 +4073,10 @@ function otvoriMobilGradivo() {
   zatvoriMobilPretragu();
   zatvoriMobilPadMenije();
   deo = "koraci";
+  cekajFokus = false;
+  fokusIzAdrese = null;
   prikaziDeo();
+  uskladiAdresu();
   navOtvoren = true;
   prikaziNav();
 }
@@ -4141,15 +4336,13 @@ vezniPovuciNadoleIzborSheet(mobilNedSheet, zatvoriMobilIzborSheetove);
 vezniPovuciNadoleIzborSheet(mobilKorSheet, zatvoriMobilIzborSheetove);
 
 const pocetno = lokalno.stanje().mesto;
-const izHesha = Number((location.hash.match(/cas-(\d+)/) || [])[1]);
-if (izHesha >= 1 && izHesha <= dokument.trajanjeTema) {
-  uvod = false;
-  cas = izHesha;
-} else if (location.hash === "#uvod" || !location.hash) {
-  uvod = true;
-} else if (pocetno.tema >= 1 && pocetno.tema <= dokument.trajanjeTema) {
-  uvod = false;
-  cas = pocetno.tema;
+const pocetnaAdresa = procitajMesto(location.hash);
+if (!primeniHash()) {
+  if (pocetnaAdresa.vrsta === "uvod" || pocetnaAdresa.vrsta === "prazno") uvod = true;
+  else if (pocetno.tema >= 1 && pocetno.tema <= dokument.trajanjeTema) {
+    uvod = false;
+    cas = pocetno.tema;
+  }
 }
 async function pripremiUredjivanje() {
   try {
@@ -4174,10 +4367,12 @@ Promise.all([
   pripremiUredjivanje(),
 ]).then(([tekst]) => {
   if (tekst) pojmovi = pojmoviIzTeksta(tekst);
+  stranicaSpremna = true;
   urediSadrzaj.osvezi = () => renderLecture();
   urediSadrzaj.potvrdiIzmenu = potvrdiIzmenuSadrzaja;
   urediSadrzaj.otkazi = otkaziIzmenu;
   if (urediSadrzaj.aktivan) urediSadrzaj.istorija.osveziReferencu();
+  izHasha = cekajFokus;
   renderLecture();
   prviIzbor.pokaziAkoTreba();
 });
@@ -4206,5 +4401,5 @@ if (urediSadrzaj.aktivan) {
     }
   });
 }
-if (!location.hash) location.hash = uvod ? "uvod" : `cas-${cas}`;
-else window.dispatchEvent(new Event("hashchange"));
+izHasha = cekajFokus;
+renderLecture();

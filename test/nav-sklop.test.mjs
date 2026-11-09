@@ -40,16 +40,16 @@ test("tema otvorena hešom može da se sklopi", { timeout: 30000 }, async (t) =>
     throw new Error(`tema ${broj} nije stigla: ${JSON.stringify(poslednje)}`);
   }
 
-  const otvorena = await sačekaj(3, (s) => s.otvorena && s.koraci && s.hash === "#cas-3");
+  const otvorena = await sačekaj(3, (s) => s.otvorena && s.koraci && s.hash.startsWith("#cas-3/"));
   assert.equal(otvorena.aktivna, true);
 
   await strana.vrednost(`document.querySelector("#nav .tema-red[data-n='3']").click()`);
   const sklopljena = await sačekaj(3, (s) => !s.otvorena && !s.koraci);
-  assert.equal(sklopljena.hash, "#cas-3");
+  assert.match(sklopljena.hash, /^#cas-3\//);
   assert.equal(sklopljena.aktivna, true, "sklopljena tema ostaje otvoren čas");
   assert.match(sklopljena.naslov, /^Tema 3/);
 
   await strana.vrednost(`document.querySelector("#nav .tema-red[data-n='3']").click()`);
   const ponovo = await sačekaj(3, (s) => s.otvorena && s.koraci);
-  assert.equal(ponovo.hash, "#cas-3");
+  assert.match(ponovo.hash, /^#cas-3\//);
 });
