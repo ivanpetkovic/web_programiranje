@@ -48,6 +48,18 @@ test("rečnik nosi nastavni model, a ne rekvizit povezujućeg primera", () => {
   for (const pojam of pojmovi) {
     assert.doesNotMatch(`${pojam.ime} ${pojam.definicija} ${pojam.izbegava}`, zabranjeno, pojam.ime);
   }
+  const autentifikacija = pojmovi.find((pojam) => pojam.ime === "Autentifikacija");
+  const autorizacija = pojmovi.find((pojam) => pojam.ime === "Autorizacija");
+  assert.equal(autentifikacija.definicija, "Utvrđen identitet strane koja šalje zahtev.");
+  assert.match(autentifikacija.izbegava, /Autorizacija/);
+  assert.match(autentifikacija.izbegava, /CORS/);
+  assert.equal(
+    autorizacija.definicija,
+    "Dozvola da predstavljeni identitet izvrši zahtev. Odluka je na serveru, ne na prikazu."
+  );
+  assert.equal(autorizacija.izbegava, "Autentifikacija.");
+  assert.equal(lekcijePojma(dokument, "Autentifikacija").prvi.korak >= 0, true);
+  assert.equal(lekcijePojma(dokument, "Autorizacija").prvi.korak >= 0, true);
 });
 
 test("Alati browsera dolaze iz GLOSSARY.md, a alat van browsera nije taj pojam", () => {

@@ -165,6 +165,14 @@ _Avoid_: Kredencijal.
 Ključ sesije koji browser nosi, a ne čita. Server po njemu nađe ulogu.
 _Avoid_: Neprozirni ključ.
 
+**Autentifikacija**:
+Utvrđen identitet strane koja šalje zahtev.
+_Avoid_: Autorizacija, prijava, nalog, lozinka, CORS.
+
+**Autorizacija**:
+Dozvola da predstavljeni identitet izvrši zahtev. Odluka je na serveru, ne na prikazu.
+_Avoid_: Autentifikacija.
+
 **klijent**:
 Deo koji browser učita. Na času je tab Klijent.
 _Avoid_: Front.
