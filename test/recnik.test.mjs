@@ -12,23 +12,54 @@ test("rečnik je uz kurs", () => {
   assert.equal(fs.existsSync(new URL("../kursevi/web_programiranje/GLOSSARY.md", import.meta.url)), true);
 });
 
-test("Kontrolna soba i Čitanje nose definiciju iz rečnika", () => {
-  const soba = pojmovi.find((pojam) => pojam.ime === "Kontrolna soba");
-  const citanje = pojmovi.find((pojam) => pojam.ime === "Čitanje");
-  assert.equal(soba.definicija, "Povezujući primer kursa. Čine je soba prekidača i, od uvođenja servera, soba mašina.");
-  assert.match(soba.izbegava, /nerazdvojena prostorija/);
-  assert.equal(
-    citanje.definicija,
-    "Odgovor kutije koji nosi temperaturu i režim. HTTP 200 je uspeh. HTTP 500 znači da ventilator nije priključen, i iz tog odgovora displej sobe prekidača ne dobija broj."
-  );
-  assert.equal(citanje.izbegava, "Komanda.");
-  assert.deepEqual(poljaPojma(soba), {
-    ime: "Kontrolna soba",
-    definicija: soba.definicija,
-    izbegava: soba.izbegava,
+test("rečnik nosi nastavni model, a ne rekvizit povezujućeg primera", () => {
+  const tema = pojmovi.find((pojam) => pojam.ime === "Tema");
+  assert.equal(tema.definicija, "Jedna celina kursa: naslov, ishod i koraci jednog predavanja.");
+  assert.equal(tema.izbegava, "Nedelja");
+  assert.deepEqual(poljaPojma(tema), {
+    ime: "Tema",
+    definicija: tema.definicija,
+    izbegava: tema.izbegava,
   });
-  assert.equal(pojmovi.some((pojam) => pojam.ime === "Jezik kursa" || pojam.ime === "Kontrolna soba"), true);
-  assert.equal(pojmovi.some((pojam) => pojam.ime === "Jezik kursa"), false);
+  assert.equal(pojmovi.some((pojam) => pojam.ime === "Jezik kursa" || pojam.ime === "Stanje"), false);
+  const rekvizit = [
+    "Kontrolna soba",
+    "Soba prekidača",
+    "Soba mašina",
+    "Kutija",
+    "Takt",
+    "Prekidač",
+    "Režim",
+    "Priključen",
+    "Čitanje",
+    "Komanda",
+    "Periodično čitanje",
+    "Displej sobe mašina",
+    "Displej",
+    "Sesija",
+    "Transakcija",
+    "Posmatrač",
+    "Operater",
+  ];
+  const zabranjeno = /kutij|ventilator|kontroln|displej|prekidač|temperatur/i;
+  for (const ime of rekvizit) {
+    assert.equal(pojmovi.some((pojam) => pojam.ime === ime), false, ime);
+  }
+  for (const pojam of pojmovi) {
+    assert.doesNotMatch(`${pojam.ime} ${pojam.definicija} ${pojam.izbegava}`, zabranjeno, pojam.ime);
+  }
+  const autentifikacija = pojmovi.find((pojam) => pojam.ime === "Autentifikacija");
+  const autorizacija = pojmovi.find((pojam) => pojam.ime === "Autorizacija");
+  assert.equal(autentifikacija.definicija, "Utvrđen identitet strane koja šalje zahtev.");
+  assert.match(autentifikacija.izbegava, /Autorizacija/);
+  assert.match(autentifikacija.izbegava, /CORS/);
+  assert.equal(
+    autorizacija.definicija,
+    "Dozvola da predstavljeni identitet izvrši zahtev. Odluka je na serveru, ne na prikazu."
+  );
+  assert.equal(autorizacija.izbegava, "Autentifikacija.");
+  assert.equal(lekcijePojma(dokument, "Autentifikacija").prvi.korak >= 0, true);
+  assert.equal(lekcijePojma(dokument, "Autorizacija").prvi.korak >= 0, true);
 });
 
 test("Alati browsera dolaze iz GLOSSARY.md, a alat van browsera nije taj pojam", () => {
@@ -69,12 +100,11 @@ test("termini gradiva izbegavaju kalk i javljaju se u kursu", () => {
   const blockchain = trazi("blockchain");
   const veza = trazi("veza između krajnjih uređaja");
   const token = trazi("opaque token");
-  const transakcija = trazi("Transakcija");
   assert.match(blockchain.izbegava, /Knjiga na lancu/);
   assert.match(blockchain.izbegava, /lanac blokova/);
   assert.match(veza.izbegava, /Žica/);
   assert.match(token.izbegava, /Neprozirni ključ/);
-  assert.match(transakcija.izbegava, /celina upisa/);
+  assert.match(token.definicija, /Server po njemu nađe ulogu/);
   assert.match(trazi("flag day").izbegava, /Dan zastave/);
   assert.match(trazi("cookie").izbegava, /Kolačić/);
   assert.match(trazi("cache").izbegava, /Keš/);

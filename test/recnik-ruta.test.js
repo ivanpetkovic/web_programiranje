@@ -49,7 +49,9 @@ test("rečnik je sirov spisak, a soba i dalje vraća očitavanje", async () => {
     });
     const spisak = await zahtev("GET", "/recnik");
     assert.equal(spisak.status, 200);
-    assert.match(spisak.body, /\*\*Kontrolna soba\*\*/);
+    assert.match(spisak.body, /\*\*Tema\*\*/);
+    assert.doesNotMatch(spisak.body, /\*\*Kontrolna soba\*\*/);
+    assert.doesNotMatch(spisak.body, /\*\*Čitanje\*\*/);
     assert.doesNotMatch(spisak.body, /\*\*push\*\*/);
     const soba = await zahtev("GET", "/api/soba");
     assert.equal(soba.status, 200);
