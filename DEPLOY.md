@@ -8,7 +8,7 @@ Javna adresa (posle uključenog Pages-a u repo podešavanjima):
 
 **https://ivanpetkovic.github.io/web_programiranje/**
 
-Šta radi na Pages-u: čitanje časova (ugrađeni `kurs.json`), teme, pojmovnik (`GLOSSARY.md` kao `/pojmovnik`), ikonice.
+Šta radi na Pages-u: čitanje časova (ugrađeni `kurs.json`), teme, rečnik (`kursevi/web_programiranje/GLOSSARY.md` kao `/pojmovnik`), ikonice.
 
 Šta **ne** radi bez Node servera: `/api/*` (editor koji piše na disk, pregled sa Node modulima, primeri sa servera, sesija, baza). Za punu kontrolnu sobu koristi `npm start` ili Render ispod.
 

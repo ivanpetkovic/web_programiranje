@@ -48,7 +48,7 @@ Ljuska čita jedan JSON. Naslov teme, koraci, proza, pitalice i ishod dolaze iz 
 
 Zaglavlje drži ustanovu, sliku i naslov kursa iz dokumenta, pretragu, pomoć, beleške, Opcije i oznaku iz dokumenta.
 
-Pretraga je sklopljena lupa dok nema fokusa ni upita. Placeholder je Nađi pojam, pitanje ili primer koda. Command+K i Ctrl+K je fokusiraju. Izbor pitanja ili isečka otvara korak koji ga sadrži. Izbor pojma pokazuje odrednicu iz `GLOSSARY.md`.
+Pretraga je sklopljena lupa dok nema fokusa ni upita. Placeholder je Nađi pojam, pitanje ili primer koda. Command+K i Ctrl+K je fokusiraju. Izbor pitanja ili isečka otvara korak koji ga sadrži. Izbor pojma pokazuje odrednicu iz `kursevi/web_programiranje/GLOSSARY.md`.
 
 Pomoć je kratko uputstvo i ne otvara editor.
 
@@ -62,7 +62,7 @@ Jedan zapis u `localStorage`, ključ `web-programiranje:stanje`. Drži mesto, na
 
 ## Rečnik i primeri
 
-`GLOSSARY.md` je rečnik. Sajt ga servira na `/recnik`. Pojam u tekstu časa dobija isprekidanu liniju i oblačić sa istim poljima kao pretraga.
+`kursevi/web_programiranje/GLOSSARY.md` je rečnik kursa. Sajt ga servira na `/recnik`. Pojam u tekstu časa dobija isprekidanu liniju i oblačić sa istim poljima kao pretraga.
 
 `primeri/` su samostalni primeri u editoru. Svaki podfolder ima `primer.json` sa natpisom. Kontrolna soba nije taj folder. Ona je podrazumevano stablo `client/` i `server/`.
 

@@ -4,8 +4,13 @@ import test from "node:test";
 import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "../site/js/recnik.js";
 import { dokument } from "../site/js/lectures.js";
 
-const markdown = fs.readFileSync(new URL("../GLOSSARY.md", import.meta.url), "utf8");
+const markdown = fs.readFileSync(new URL("../kursevi/web_programiranje/GLOSSARY.md", import.meta.url), "utf8");
 const pojmovi = pojmoviIzTeksta(markdown);
+
+test("rečnik je uz kurs", () => {
+  assert.equal(fs.existsSync(new URL("../GLOSSARY.md", import.meta.url)), false);
+  assert.equal(fs.existsSync(new URL("../kursevi/web_programiranje/GLOSSARY.md", import.meta.url)), true);
+});
 
 test("Kontrolna soba i Čitanje nose definiciju iz rečnika", () => {
   const soba = pojmovi.find((pojam) => pojam.ime === "Kontrolna soba");
@@ -73,7 +78,7 @@ test("termini gradiva izbegavaju kalk i javljaju se u kursu", () => {
   assert.match(trazi("flag day").izbegava, /Dan zastave/);
   assert.match(trazi("cookie").izbegava, /Kolačić/);
   assert.match(trazi("cache").izbegava, /Keš/);
-  assert.match(trazi("push").izbegava, /Dovod/);
+  assert.equal(trazi("push"), undefined);
   assert.equal(
     trazi("komunikacioni put").definicija,
     "Put kojim podaci prolaze od izvornog do odredišnog uređaja kroz računarsku mrežu. Može obuhvatati više rutera i komunikacionih veza. Različiti paketi ne moraju uvek prolaziti istim putem."
