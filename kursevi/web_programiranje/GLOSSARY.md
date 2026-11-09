@@ -238,6 +238,14 @@ Uloga koja sme da pregleda stanje kontrolne sobe, ali ne i da upravlja ventilato
 **Operater**:
 Uloga koja sme da pregleda stanje i izdaje dozvoljene komande uređajima.
 
+**JavaScript engine**:
+Program koji izvršava JavaScript. U Chrome-u i Node.js-u to je V8, u Firefox-u SpiderMonkey. Okruženje, browser ili Node.js, dodaje API-je koje engine ne daje.
+_Avoid_: Motor, JVM.
+
+**Hoisting**:
+Posledica prvog koraka pri stvaranju konteksta izvršavanja. JavaScript engine tada upiše deklaracije tog konteksta. U sledećem koraku izvršava naredbe i dodele. `var` je u prvom koraku `undefined`, deklaracija funkcije je već funkcija, a `let` i `const` još ne smeju da se čitaju.
+_Avoid_: Premeštanje teksta na početak datoteke. Interpreter nije ime prvog koraka.
+
 **opciono ulančavanje**:
 Nastavak pristupnog lanca samo kad leva vrednost nije `null` ni `undefined`. Operator je `?.`. Engleski naziv je optional chaining.
 _Avoid_: Opciono lančanje.
