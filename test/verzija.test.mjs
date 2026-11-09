@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { lectures } from "../site/js/lectures.js";
 import { praznaSesija, primeni } from "../site/js/verzija.js";
 
 const koraci = [
@@ -89,6 +90,68 @@ test("fajl servera pre pete teme ne otvara karticu Server", () => {
   const rezultat = primeni(praznaSesija(), { tip: "fokus", putanja: "server/soba.js", kljuc: "1:1" }, kontekst(1, 1));
   assert.equal(rezultat.sesija.strana, "client");
   assert.equal(rezultat.sesija.verzija, "ugradjena");
+});
+
+test("moj kod koji učitava lokalni skript vidi taj fajl pre koraka koji ga uvodi", () => {
+  const koraci = lectures.flatMap((cas) => cas.steps);
+  const indeks = koraci.findIndex((korak) => korak.naslov === "Destrukturiranje i savremena sintaksa");
+  const html = [
+    "<!DOCTYPE html>",
+    '<html lang="sr">',
+    "</html>",
+    "",
+    "<head>",
+    '<meta charset="utf-8">',
+    "<title>Soba</title>",
+    "</head>",
+    "",
+    "<h1>Soba prekidača</h1>",
+    "",
+    '<p class="digit">24</p>',
+    "",
+    "<button class='ukljuci' type=\"button\">Uključi</button>",
+    '<script src="js/korak.js"></script>',
+    '<script src="./js/nema.js"></script>',
+    '<script src="../server/soba.js"></script>',
+    '<script src="https://primer.test/tudj.js"></script>',
+    '<script src="/js/korak.js"></script>',
+  ].join("\n");
+  const kontekst = { koraci, indeks, tema: 3 };
+  const sesija = praznaSesija({
+    "client/index.html": html,
+    "client/js/korak.js": "let delta = 1;\n",
+    "client/../tajna.js": "ne",
+  });
+  const rezultat = primeni(sesija, { tip: "fokus", putanja: "client/index.html", kljuc: "3:7" }, kontekst);
+  assert.equal(rezultat.prikaz.fajlovi.includes("lekcije/08-sintaksa.js"), true);
+  assert.equal(rezultat.prikaz.fajlovi.includes("lekcije/09-opseg.js"), false);
+  assert.equal(rezultat.prikaz.fajlovi.includes("js/korak.js"), true);
+  assert.equal(rezultat.prikaz.fajlovi.includes("js/nema.js"), true);
+  assert.equal(rezultat.prikaz.fajlovi.includes("../server/soba.js"), false);
+  assert.equal(rezultat.prikaz.fajlovi.includes("server/soba.js"), false);
+  assert.equal(rezultat.prikaz.fajlovi.filter((put) => put === "js/korak.js").length, 1);
+  assert.equal(rezultat.prikaz.klijent["client/js/korak.js"], "let delta = 1;\n");
+  assert.equal(rezultat.prikaz.klijent["client/js/nema.js"], "");
+  const otvoren = primeni(rezultat.sesija, { tip: "otvori", put: "js/korak.js" }, kontekst);
+  assert.equal(otvoren.sesija.otvoreno.client, "js/korak.js");
+  assert.equal(otvoren.prikaz.editor.putanja, "client/js/korak.js");
+  assert.equal(otvoren.prikaz.editor.tekst, "let delta = 1;\n");
+  assert.equal(otvoren.prikaz.editor.samoCitaj, false);
+  const lekcija = primeni(rezultat.sesija, { tip: "ugradjena" }, kontekst);
+  assert.equal(lekcija.prikaz.fajlovi.includes("js/korak.js"), false);
+  assert.equal(lekcija.prikaz.klijent["client/js/korak.js"], undefined);
+});
+
+test("kucanje script oznake odmah dodaje fajl u stablo", () => {
+  const unos = primeni(
+    praznaSesija(),
+    { tip: "fokus", putanja: "client/index.html", kljuc: "1:0" },
+    kontekst(0, 1),
+  );
+  const posle = primeni(unos.sesija, { tip: "unos", tekst: '<script src="js/korak.js"></script>' }, kontekst(0, 1));
+  assert.equal(posle.prikaz.fajlovi.includes("js/korak.js"), true);
+  assert.equal(posle.prikaz.klijent["client/js/korak.js"], "");
+  assert.equal(posle.prikaz.editor.tekst, '<script src="js/korak.js"></script>');
 });
 
 test("promena strane bira radnu verziju", () => {

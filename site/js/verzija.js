@@ -51,6 +51,91 @@ function fokus(sesija, dogadaj, tema) {
   return sledeca;
 }
 
+function dekodiraj(vrednost) {
+  try {
+    return decodeURIComponent(vrednost);
+  } catch {
+    return vrednost;
+  }
+}
+
+function bezbednaRelativna(put) {
+  if (!put || put.length > 240 || put.startsWith("/") || put.includes("\\") || put.includes("\0")) return false;
+  const delovi = put.split("/");
+  if (delovi.some((deo) => !deo || deo === "." || deo === ".." || deo === "prepared" || deo === "node_modules")) return false;
+  return /\.(?:js|mjs|cjs|css|html?|svg)$/i.test(put);
+}
+
+function lokalnaPutanja(od, vrednost) {
+  let cist = String(vrednost ?? "").trim();
+  const upit = cist.search(/[?#]/);
+  if (upit >= 0) cist = cist.slice(0, upit).trim();
+  if (!cist || /^(?:[a-z][a-z0-9+.-]*:|\/\/|\/)/i.test(cist)) return "";
+  const baza = od.includes("/") ? od.split("/").slice(0, -1) : [];
+  for (const sirov of cist.split("/")) {
+    const deo = dekodiraj(sirov);
+    if (!deo || deo === ".") continue;
+    if (deo === "..") {
+      if (!baza.length) return "";
+      baza.pop();
+      continue;
+    }
+    baza.push(deo);
+  }
+  const put = baza.join("/");
+  return bezbednaRelativna(put) ? put : "";
+}
+
+function referenceIz(tekst, od) {
+  const izlaz = [];
+  const re = /\b(?:src|href)\s*=\s*(["'])([^"']+)\1/gi;
+  for (const pogodak of String(tekst ?? "").matchAll(re)) {
+    const put = lokalnaPutanja(od, pogodak[2]);
+    if (put) izlaz.push(put);
+  }
+  return izlaz;
+}
+
+function tekstFajla(stablo, sesija, relativna) {
+  const putanja = `${sesija.strana}/${relativna}`;
+  return tekstPrikaza({
+    putanja,
+    original: stablo.verzije[putanja] || "",
+    radne: sesija.radne,
+    verzija: sesija.verzija,
+    binarni: BINARNI.test(putanja),
+  }).tekst;
+}
+
+function dopuniFajlove(fajlovi, stablo, sesija) {
+  const red = [...fajlovi];
+  const ima = new Set(red);
+  const dodaj = (rel) => {
+    if (!bezbednaRelativna(rel) || ima.has(rel)) return;
+    ima.add(rel);
+    red.push(rel);
+  };
+  if (sesija.strana === "client") {
+    for (let i = 0; i < red.length; i += 1) {
+      if (!/\.html?$/i.test(red[i])) continue;
+      for (const ref of referenceIz(tekstFajla(stablo, sesija, red[i]), red[i])) dodaj(ref);
+    }
+    if (sesija.verzija === "radna") {
+      const prefiks = "client/";
+      for (const putanja of Object.keys(sesija.radne || {})) {
+        if (putanja.startsWith(prefiks)) dodaj(putanja.slice(prefiks.length));
+      }
+    }
+  }
+  return red;
+}
+
+function klijentskiFajlovi(stablo, sesija) {
+  const osnovni = fajloviStrane(stablo, "client");
+  if (!osnovni.length) return [];
+  return dopuniFajlove(osnovni, stablo, { ...sesija, strana: "client" });
+}
+
 function uskladi(sesija, kontekst) {
   const sledeca = kopija(sesija);
   if (!serverTabVidljiv(kontekst.tema) && sledeca.strana === "server") {
@@ -58,8 +143,9 @@ function uskladi(sesija, kontekst) {
     sledeca.kljucFokusa = "";
   }
   const stablo = stabloDo(kontekst.koraci, kontekst.indeks);
-  const fajlovi = fajloviStrane(stablo, sledeca.strana);
+  let fajlovi = fajloviStrane(stablo, sledeca.strana);
   if (!fajlovi.length) return { sesija: sledeca, fajlovi, stablo };
+  fajlovi = dopuniFajlove(fajlovi, stablo, sledeca);
   if (!fajlovi.includes(sledeca.otvoreno[sledeca.strana])) {
     const korak = kontekst.koraci[kontekst.indeks];
     const putanja = korak && typeof korak.putanja === "string" ? korak.putanja : "";
@@ -94,11 +180,11 @@ function prikazEditora(sesija, kontekst, stablo, dogadaj) {
 
 function mapaKlijenta(stablo, sesija) {
   const mapa = {};
-  for (const [putanja, original] of Object.entries(stablo.verzije)) {
-    if (!putanja.startsWith("client/")) continue;
+  for (const rel of klijentskiFajlovi(stablo, sesija)) {
+    const putanja = `client/${rel}`;
     mapa[putanja] = tekstPrikaza({
       putanja,
-      original: original || "",
+      original: stablo.verzije[putanja] || "",
       radne: sesija.radne,
       verzija: sesija.verzija,
       binarni: BINARNI.test(putanja),
