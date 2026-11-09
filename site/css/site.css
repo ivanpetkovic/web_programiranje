@@ -1512,6 +1512,21 @@ html[data-pozadina-koda="crna"] .pitanje-kod { background: #111111; color: #f4ef
 .ponovi-pitanje:hover { filter: brightness(1.08); }
 .figura { margin: 0.8rem 0; overflow-x: auto; }
 .figura-mermaid svg { max-width: 100%; height: auto; }
+#sekcija-koraci { min-width: 0; }
+.isecak-struktura { max-width: 100%; }
+.isecak-struktura .figura {
+  margin: 0;
+  padding: 0.85rem 0.9rem 1rem;
+  background: #f7f4ee;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.figura-struktura {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.figura-struktura svg { display: block; height: auto; max-width: none; }
 .figura-crtez.ceka { min-height: 4.5rem; }
 .figura-crtez svg { width: 100%; height: auto; display: block; margin: 0 auto; }
 .figura-crtez svg text, .figura-crtez svg tspan { fill: var(--ink) !important; font-family: inherit !important; }

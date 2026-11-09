@@ -45,6 +45,7 @@ import { adresaPregleda, izborFajla, popunaKoraka, prikaziIzlaz, rasporedBiraca 
 import { nacrtajFiguru } from "./crtez.js";
 import { mermaidFigura } from "./figura.js";
 import { blokoviTeksta, imaMermaid, nacrtajMermaid, osveziMermaid } from "./mermaid.js";
+import { modelStrukture, svgStrukture } from "./struktura-crtez.js";
 import {
   htmlKoraka,
   htmlTeme,
@@ -1172,6 +1173,27 @@ function odaberiPredlog(stavka) {
   otvoriTemu(stavka.tema, stavka.korak);
 }
 
+function prikazStrukture(blok) {
+  const kartica = document.createElement("figure");
+  kartica.className = "isecak isecak-struktura";
+  const glava = document.createElement("header");
+  const naslov = document.createElement("span");
+  saIkonom(naslov, ikonaSekcije(blok), natpisSekcije(blok));
+  glava.append(naslov);
+  const figura = document.createElement("div");
+  figura.className = "figura figura-struktura";
+  try {
+    figura.innerHTML = svgStrukture(modelStrukture(blok.tekst));
+  } catch {
+    const prazno = document.createElement("p");
+    prazno.className = "meta";
+    prazno.textContent = "Dijagram se ne crta.";
+    figura.append(prazno);
+  }
+  kartica.append(glava, figura);
+  return kartica;
+}
+
 function prikazMermaida(blok, dijagrami, crtez) {
   const kartica = document.createElement("figure");
   kartica.className = "isecak isecak-mermaid";
@@ -1215,6 +1237,7 @@ function placeholderSekcije(blok) {
   if (blok.vrsta === "highlight") return "Tekst highlighta.";
   if (blok.vrsta === "dijagram") return "Tekstualni dijagram.";
   if (blok.vrsta === "mermaid") return "Mermaid izvor, na primer flowchart LR.";
+  if (blok.vrsta === "struktura") return "JSON crteža: kod, okviri i lifo.";
   return "Kod ove sekcije.";
 }
 
@@ -1406,7 +1429,7 @@ function uredjivacSekcije(sirovi, blok, vezi) {
     return editor;
   }
   if (blok.vrsta === "kod") return uredjivacKoda(blok, vezi);
-  const kod = blok.vrsta === "dijagram" || blok.vrsta === "mermaid";
+  const kod = blok.vrsta === "dijagram" || blok.vrsta === "mermaid" || blok.vrsta === "struktura";
   const editor = napraviEditorTeksta(
     blok.tekst || "",
     { redovi: blok.vrsta === "tekst" ? 8 : 6, kod, placeholder: placeholderSekcije(blok) },
@@ -1729,6 +1752,9 @@ function teloSekcije(sirovi, blok, dijagrami, prviTekst, vezi, prefiks, crtez) {
   }
   if (blok.vrsta === "mermaid") {
     return omotUredjivog(urediSadrzaj, id, prikazMermaida(blok, dijagrami, crtez), () => uredjivacSekcije(sirovi, blok, vezi), bezOlovke());
+  }
+  if (blok.vrsta === "struktura") {
+    return omotUredjivog(urediSadrzaj, id, prikazStrukture(blok), () => uredjivacSekcije(sirovi, blok, vezi), bezOlovke());
   }
   const natpis = blok.vrsta === "kod" ? naslovKoda(blok) : natpisSekcije(blok);
   const kartica = nacrtajTekstBloka(blok.tekst || "", natpis, ikonaSekcije(blok));

@@ -116,14 +116,14 @@ test("opseg važenja i opseg izvršavanja nose engleske nazive", () => {
   assert.match(stek.izbegava, /callstack/);
   const opseg = dokument.teme[2].steps[8];
   const kontekst = dokument.teme[2].steps[9];
-  const izvori = [...opseg.blokovi, ...kontekst.blokovi].filter((blok) => blok.vrsta === "mermaid");
+  const izvori = [...opseg.blokovi, ...kontekst.blokovi].filter((blok) => blok.vrsta === "struktura");
   assert.deepEqual(izvori.map((blok) => blok.naslov), [
     "Leksička okruženja prikazi i pozovi",
     "Stek poziva i leksička okruženja",
     "Opseg važenja i opseg izvršavanja",
   ]);
   assert.match(izvori[0].tekst, /okruženje prikazi/);
-  assert.match(izvori[1].tekst, /Stek poziva/);
+  assert.match(izvori[1].tekst, /"lifo": true/);
   assert.match(izvori[1].tekst, /spolja/);
   assert.match(izvori[2].tekst, /Opseg izvršavanja/);
   assert.equal(lekcijePojma(dokument, "stek poziva").prvi.tema, 3);
