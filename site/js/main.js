@@ -1641,14 +1641,14 @@ function prikazDodatnog(blok, kljuc) {
   const odgovor = blok.dodatniOdgovor || "";
   const { naslov, telo: teloPitanja } = podeliPitanje(blok.dodatno);
   const omot = document.createElement("div");
-  omot.className = "pitanje-blok";
+  omot.className = "pitanje-blok pitanje-dodatno";
   const pitanje = document.createElement("h3");
   if (naslov) pitanje.append(cvorDelova(deloviReda(naslov)));
   const mozeOtvoriti = Boolean(odgovor);
   const red = document.createElement("div");
   red.className = mozeOtvoriti ? "pitanje-red otkriva" : "pitanje-red";
   if (mozeOtvoriti && otvoreno) red.classList.add("otvoreno");
-  const znak = ikonica("question");
+  const znak = ikonica("question-plus");
   if (znak) {
     const omotZnaka = document.createElement("span");
     omotZnaka.className = "pitanje-znak";

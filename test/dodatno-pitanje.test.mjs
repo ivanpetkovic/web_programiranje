@@ -17,6 +17,9 @@ function stanjeDodatnog() {
     odgovor: diskusija.innerText.includes(odgovorTekst),
     otvoreno: dugme?.getAttribute("aria-expanded") || "",
     natpis: dugme?.getAttribute("aria-label") || "",
+    znakGlavnog: document.getElementById("pitanje-okidac-3-0-k01q1")?.closest(".pitanje-red")?.querySelector("use")?.getAttribute("href") || "",
+    znakDodatnog: dugme?.closest(".pitanje-red")?.querySelector("use")?.getAttribute("href") || "",
+    uvuceno: dugme?.closest(".pitanje-dodatno") != null,
   };
 }
 
@@ -67,6 +70,9 @@ test("dodatno pitanje je obično pitanje sa sakrivenim odgovorom", { timeout: 30
   assert.equal(zatvoren.imaNatpis, false);
   assert.equal(zatvoren.odgovor, false);
   assert.equal(zatvoren.natpis, "Prikaži odgovor");
+  assert.equal(zatvoren.znakGlavnog, "#question");
+  assert.equal(zatvoren.znakDodatnog, "#question-plus");
+  assert.equal(zatvoren.uvuceno, true);
   await snimi("dodatno-pitanje-sakriveno");
 
   await strana.vrednost(`document.getElementById("pitanje-dodatno-3-0-k01q1").click()`);

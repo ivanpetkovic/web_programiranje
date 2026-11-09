@@ -1420,6 +1420,11 @@ body.rezim-uredjivanja .sekcija-lekcije .isecak header { padding-right: 0.4rem; 
 .isecak .red.novo .br { color: var(--muted); }
 .isecak .red.novo { background: color-mix(in srgb, var(--diff-dodato) 16%, transparent); }
 .pitanje-blok { margin-top: 1rem; }
+.pitanje-dodatno {
+  margin: 0.85rem 0 0.15rem 0.2rem;
+  padding-left: 0.85rem;
+  border-left: 2px solid color-mix(in srgb, var(--amber) 45%, var(--line));
+}
 .pitanje-red { position: relative; display: flex; align-items: flex-start; gap: 0.55rem; }
 .pitanje-red h3 { margin: 0; flex: 1; min-width: 0; }
 .pitanje-znak {
