@@ -28,7 +28,8 @@ test("predavanja i samostalni rad", () => {
   assert.match(main, /function podrazumevaniDeo\(\) \{\n  return modPredavanja\(\) \? "diskusija" : "koraci";\n\}/);
   assert.match(main, /let deo = podrazumevaniDeo\(\)/);
   assert.match(main, /function sakrijPanelSelekcije\(\) \{\n  if \(!modPredavanja\(\)\) return;/);
-  assert.match(main, /sakrijPanelSelekcije\(\);\n  if \(location\.hash !== `#cas-\$\{n\}`\)/);
+  assert.match(main, /sakrijPanelSelekcije\(\);\n  cekajFokus = false;\n  fokusIzAdrese = null;\n  renderLecture\(\)/);
+  assert.match(main, /function uskladiAdresu\(\)/);
   assert.match(main, /if \(modPredavanja\(\)\) zatvoriMobilIzborSheetove\(\)/);
   assert.match(main, /if \(!uvod && deo !== "editor"\) deo = podrazumevaniDeo\(\)/);
   assert.equal(main.includes("pitalica-samo-ikona"), false);
