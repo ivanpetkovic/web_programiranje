@@ -4,13 +4,14 @@ import { Highlight } from "./highlight.js";
 import { Kod, naslovKoda } from "./kod.js";
 import { Mermaid } from "./mermaid.js";
 import { Pitanje } from "./pitanje.js";
+import { Struktura } from "./struktura.js";
 import { Tekst } from "./tekst.js";
 
-const GRADIVO = [Tekst, Highlight, Kod, Mermaid, Dijagram];
+const GRADIVO = [Tekst, Highlight, Kod, Mermaid, Dijagram, Struktura];
 const SVE = [...GRADIVO, Pitanje];
-const REDOSLED_UVOZA = [Pitanje, Highlight, Mermaid, Dijagram, Kod];
+const REDOSLED_UVOZA = [Pitanje, Highlight, Mermaid, Struktura, Dijagram, Kod];
 
-export { Blok, Dijagram, Highlight, Kod, Mermaid, Pitanje, Tekst, naslovKoda };
+export { Blok, Dijagram, Highlight, Kod, Mermaid, Pitanje, Struktura, Tekst, naslovKoda };
 
 export const VRSTE_SEKCIJE = GRADIVO.flatMap((klasa) => klasa.meni());
 export const VRSTE_DISKUSIJE = SVE.flatMap((klasa) => klasa.meni());

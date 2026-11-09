@@ -99,6 +99,37 @@ test("termini gradiva izbegavaju kalk i javljaju se u kursu", () => {
   assert.equal(lekcijePojma(dokument, "Žica").teme.length, 0);
 });
 
+test("opseg važenja i opseg izvršavanja nose engleske nazive", () => {
+  const trazi = (ime) => pojmovi.find((pojam) => pojam.ime === ime);
+  const vazenje = trazi("opseg važenja");
+  const izvrsavanje = trazi("opseg izvršavanja");
+  assert.match(vazenje.definicija, /scope/);
+  assert.match(vazenje.izbegava, /Scope of validity/);
+  assert.match(izvrsavanje.definicija, /opseg važenja/i);
+  assert.match(izvrsavanje.definicija, /execution scope/);
+  assert.match(izvrsavanje.izbegava, /Kontekst izvršavanja/);
+  assert.match(izvrsavanje.izbegava, /execution context/);
+  assert.equal(lekcijePojma(dokument, "opseg važenja").prvi.korak >= 0, true);
+  const stek = trazi("stek poziva");
+  assert.match(stek.definicija, /call stack/);
+  assert.match(stek.izbegava, /Pozivni stek/);
+  assert.match(stek.izbegava, /callstack/);
+  const opseg = dokument.teme[2].steps[8];
+  const kontekst = dokument.teme[2].steps[9];
+  const izvori = [...opseg.blokovi, ...kontekst.blokovi].filter((blok) => blok.vrsta === "struktura");
+  assert.deepEqual(izvori.map((blok) => blok.naslov), [
+    "Leksička okruženja prikazi i pozovi",
+    "Stek poziva i leksička okruženja",
+    "Opseg važenja i opseg izvršavanja",
+  ]);
+  assert.match(izvori[0].tekst, /okruženje prikazi/);
+  assert.match(izvori[1].tekst, /"lifo": true/);
+  assert.match(izvori[1].tekst, /spolja/);
+  assert.match(izvori[2].tekst, /Opseg izvršavanja/);
+  assert.equal(lekcijePojma(dokument, "stek poziva").prvi.tema, 3);
+  assert.equal(lekcijePojma(dokument, "opseg izvršavanja").prvi.tema, 3);
+});
+
 test("pitanje koje počinje upitom vraća svoj korak", () => {
   const kurs = {
     teme: [

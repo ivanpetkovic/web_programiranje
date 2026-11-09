@@ -249,3 +249,15 @@ _Avoid_: Premeštanje teksta na početak datoteke. Interpreter nije ime prvog ko
 **opciono ulančavanje**:
 Nastavak pristupnog lanca samo kad leva vrednost nije `null` ni `undefined`. Operator je `?.`. Engleski naziv je optional chaining.
 _Avoid_: Opciono lančanje.
+
+**opseg važenja**:
+Deo programa u kome je deklaracija dostupna. Engleski naziv je scope.
+_Avoid_: Scope of validity.
+
+**opseg izvršavanja**:
+Opseg važenja u kome se deo koda trenutno izvršava. Engleski naziv je execution scope.
+_Avoid_: Kontekst izvršavanja, execution context.
+
+**stek poziva**:
+Spisak aktivnih poziva. Poslednji dodat prvi se završava. Engleski naziv je call stack.
+_Avoid_: Pozivni stek, callstack.
