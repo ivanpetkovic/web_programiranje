@@ -5284,8 +5284,8 @@
           "nivo": "Primena",
           "minuta": 4,
           "tipPrimer": "eksperiment",
-          "tekst": "Do sada smo posmatrali kako je kod napisan i gde su promenljive dostupne. Na primeru `prikazi` i `pozovi` stek poziva pokazuje ko je koga pozvao, a leksički lanac pokazuje gde se traži ime. Sada gledamo isti mehanizam dok se pozivi ugnezde, i šta engine priprema pre naredbi.\n\n### Kontekst izvršavanja\n\nKontekst izvršavanja (execution context) predstavlja informacije koje JavaScript koristi dok izvršava određeni deo programa.\n\nKada pozovemo funkciju, nastaje novi kontekst izvršavanja. On, između ostalog, obuhvata leksičko okruženje potrebno za pristup promenljivama. Kontekst obuhvata i dostupne promenljive, njihove veze i vrednost `this`, u skladu sa vrstom i načinom izvršavanja koda.\n\nPri pokretanju programa nastaje odgovarajući kontekst izvršavanja. Kada se pozove funkcija, za taj poziv formira se novi kontekst.\n\nPrilikom izvršavanja dolazi do sledećeg:\n\n1. Pokreće se izvršavanje glavnog programa.\n2. Poziva se `izracunaj(3)` i nastaje kontekst za taj poziv.\n3. Funkcija `izracunaj` poziva `kvadrat(3)`.\n4. Nastaje novi kontekst za `kvadrat`.\n5. `kvadrat` vraća `9`, pa se njen kontekst uklanja sa steka.\n6. `izracunaj` vraća `10`, pa se izvršavanje nastavlja u glavnom programu.\n\n### Call stack\n\nStek poziva (call stack) prati aktivne pozive funkcija.\n\nStek funkcioniše po principu LIFO (Last In, First Out): poslednji poziv dodat na stek prvi se završava.\n\nStek poziva pokazuje koji je poziv aktivan. Leksički lanac i dalje ide tamo gde je funkcija napisana. Zato okruženje funkcije `kvadrat` ne vidi `a` i `rezultat`, iako `izracunaj` stoji na steku ispod njega.\n\nBoja vezuje deo koda i okvir na steku poziva. U okviru je leksičko okruženje tog poziva. Za `kvadrat` i za `izracunaj` spolja je globalno okruženje. Okruženje poziva `izracunaj` drži `a`.\n\nKada se funkcija završi, njen kontekst se uklanja sa steka i nastavlja se prethodno izvršavanje.\n\nAko funkcije neprekidno pozivaju nove funkcije bez završetka, stek može da se popuni. To se često dešava kod neispravne rekurzije i izaziva grešku prekoračenja steka.\n\n### Hoisting: priprema deklaracija\n\nPri stvaranju konteksta izvršavanja JavaScript engine prolazi kroz kod tog konteksta u dva koraka.\n\n1. Priprema deklaracija. Engine upisuje sva imena iz tog koda.\n2. Izvršavanje naredbi, redom odozgo nadole. Dodela i ostale naredbe rade se u ovom koraku, na liniji na kojoj su napisane.\n\nHoisting je naziv za posledice prvog koraka. Izvorni kod se pri tome ne premešta na početak datoteke.\n\nJavaScript engine je program koji izvršava jezik: V8 u Chrome-u i Node.js-u, SpiderMonkey u Firefox-u. JVM izvršava Java bajtkod. Interpreter, gde ga engine koristi, izvršava naredbe drugog koraka. Prvi korak je upis imena u kontekst.\n\nDva koraka važe za jedan kontekst. Telo funkcije ulazi u njih tek kad se ta funkcija pozove. `var` unutar bloka upisuje se u kontekst funkcije ili glavnog programa. `let` i `const` upisuju se kad izvršavanje uđe u njihov blok.\n\nDeklaracije funkcija dostupne su i pre svog mesta u izvornom kodu.\n\nU prvom koraku `var` upiše ime i vrednost `undefined`. Dodela ostaje za drugi korak.\n\n`let` i `const` dobijaju ime u pripremi svog opsega. Drugi korak ih inicijalizuje na liniji deklaracije. Do tada pristup nije dozvoljen.\n\nPeriod od početka opsega do inicijalizacije promenljive naziva se Temporal Dead Zone (TDZ).\n\nZato izraz „`let` i `const` se ne hoistuju” nije potpuno precizan. Njihove deklaracije učestvuju u pripremi okruženja, ali im se ne može pristupiti pre inicijalizacije.\n\nFunkcijski izrazi zavise od načina deklaracije promenljive kojoj su dodeljeni.\n\nOvde je `kvadrat` promenljiva deklarisana pomoću `const`, a ne deklaracija funkcije.\n\n### Veza između opsega i konteksta izvršavanja\n\nOpseg važenja govori gde je određena promenljiva dostupna, dok kontekst izvršavanja opisuje stanje u kome se kod trenutno izvršava.\n\nJedna funkcija može biti pozvana mnogo puta. Svaki poziv ima sopstveni kontekst izvršavanja, iako svi pozivi koriste istu definiciju funkcije i ista pravila leksičkog opsega.\n\nOpseg izvršavanja je opseg važenja koji važi dok se taj deo koda izvršava. Dok radi `kvadrat(3)`, opseg izvršavanja obuhvata `x` i imena iz globalnog opsega. `a` i `rezultat` stoje u opsegu funkcije `izracunaj`.",
-          "kljucnaIdeja": "Pri stvaranju konteksta JavaScript engine prvo upiše deklaracije, pa izvršava naredbe i dodele. Svaki poziv funkcije dobija sopstveni kontekst, a stek poziva određuje koja je funkcija trenutno aktivna i gde se izvršavanje nastavlja.",
+          "tekst": "Do sada smo posmatrali kako je kod napisan i gde su promenljive dostupne. Na primeru `prikazi` i `pozovi` stek poziva pokazuje ko je koga pozvao, a leksički lanac pokazuje gde se traži ime. Sada gledamo isti mehanizam dok se pozivi ugnezde, i šta engine priprema pre naredbi.\n\n### Kontekst izvršavanja\n\nKontekst izvršavanja (execution context) predstavlja informacije koje JavaScript koristi dok izvršava određeni deo programa.\n\nKada pozovemo funkciju, nastaje novi kontekst izvršavanja. On, između ostalog, obuhvata leksičko okruženje potrebno za pristup promenljivama. Kontekst obuhvata i dostupne promenljive, njihove veze i vrednost `this`, u skladu sa vrstom i načinom izvršavanja koda.\n\nPri pokretanju programa nastaje odgovarajući kontekst izvršavanja. Kada se pozove funkcija, za taj poziv formira se novi kontekst.\n\nPrilikom izvršavanja dolazi do sledećeg:\n\n1. Pokreće se izvršavanje glavnog programa.\n2. Poziva se `izracunaj(3)` i nastaje kontekst za taj poziv.\n3. Funkcija `izracunaj` poziva `kvadrat(3)`.\n4. Nastaje novi kontekst za `kvadrat`.\n5. `kvadrat` vraća `9`, pa se njen kontekst uklanja sa steka.\n6. `izracunaj` vraća `10`, pa se izvršavanje nastavlja u glavnom programu.\n\n### Call stack\n\nStek poziva (call stack) prati aktivne pozive funkcija.\n\nStek funkcioniše po principu LIFO (Last In, First Out): poslednji poziv dodat na stek prvi se završava.\n\nStek poziva pokazuje koji je poziv aktivan. Leksički lanac i dalje ide tamo gde je funkcija napisana. Zato okruženje funkcije `kvadrat` ne vidi `a` i `rezultat`, iako `izracunaj` stoji na steku ispod njega.\n\nBoja vezuje deo koda i okvir na steku poziva. U okviru je leksičko okruženje tog poziva. Za `kvadrat` i za `izracunaj` spolja je globalno okruženje. Okruženje poziva `izracunaj` drži `a`.\n\nKada se funkcija završi, njen kontekst se uklanja sa steka i nastavlja se prethodno izvršavanje.\n\nAko funkcije neprekidno pozivaju nove funkcije bez završetka, stek može da se popuni. To se često dešava kod neispravne rekurzije i izaziva grešku prekoračenja steka.\n\n### Hoisting: dva prolaza\n\nPri stvaranju konteksta izvršavanja JavaScript engine prolazi kroz kod tog konteksta u dva prolaza.\n\n1. Prolaz definicija. Engine pročita deklaracije i upiše imena. Deklaracija funkcije u ovom prolazu dobija celu funkciju, pa je poziv moguć i pre reda u kome je napisana. Dodela vrednosti se ovde ne izvršava.\n2. Prolaz izvršenja. Naredbe idu redom odozgo nadole. Dodela, poziv i ostale naredbe rade se u ovom prolazu, na liniji na kojoj su napisane. Funkcijski izraz je dodela, pa funkcija nastaje tek ovde.\n\nHoisting je naziv za posledice prvog prolaza. Izvorni kod se pri tome ne premešta na početak datoteke.\n\nJavaScript engine je program koji izvršava jezik: V8 u Chrome-u i Node.js-u, SpiderMonkey u Firefox-u. JVM izvršava Java bajtkod. Interpreter, gde ga engine koristi, izvršava naredbe prolaza izvršenja. Prvi prolaz je upis imena u kontekst.\n\nDva prolaza važe za jedan kontekst. Telo funkcije ulazi u njih tek kad se ta funkcija pozove. `var` unutar bloka upisuje se u kontekst funkcije ili glavnog programa. `let` i `const` upisuju se kad izvršavanje uđe u njihov blok.\n\nDeklaracije funkcija dostupne su i pre svog mesta u izvornom kodu.\n\nU prvom prolazu `var` upiše ime i vrednost `undefined`. Dodela ostaje za prolaz izvršenja.\n\n`let` i `const` dobijaju ime u pripremi svog opsega. Prolaz izvršenja ih inicijalizuje na liniji deklaracije. Do tada pristup nije dozvoljen.\n\nPeriod od početka opsega do inicijalizacije promenljive naziva se Temporal Dead Zone (TDZ).\n\nZato izraz „`let` i `const` se ne hoistuju” nije potpuno precizan. Njihove deklaracije učestvuju u pripremi okruženja, ali im se ne može pristupiti pre inicijalizacije.\n\nFunkcijski izraz nije deklaracija funkcije. U prolazu definicija upiše se samo ime promenljive. Sama funkcija nastaje u prolazu izvršenja, kada izvršavanje stigne do dodele. Zato poziv pre te linije ne vidi funkciju.\n\nFunkcijski izraz zavisi i od načina deklaracije promenljive kojoj je dodeljen.\n\nOvde je `kvadrat` promenljiva deklarisana pomoću `const`, a ne deklaracija funkcije. Isto važi za `const kvadrat = function(x) { return x * x; }`. Ime je u prvom prolazu u temporal dead zone. Funkcija nastaje tek u prolazu izvršenja.\n\n### Veza između opsega i konteksta izvršavanja\n\nOpseg važenja govori gde je određena promenljiva dostupna, dok kontekst izvršavanja opisuje stanje u kome se kod trenutno izvršava.\n\nJedna funkcija može biti pozvana mnogo puta. Svaki poziv ima sopstveni kontekst izvršavanja, iako svi pozivi koriste istu definiciju funkcije i ista pravila leksičkog opsega.\n\nOpseg izvršavanja je opseg važenja koji važi dok se taj deo koda izvršava. Dok radi `kvadrat(3)`, opseg izvršavanja obuhvata `x` i imena iz globalnog opsega. `a` i `rezultat` stoje u opsegu funkcije `izracunaj`.",
+          "kljucnaIdeja": "JavaScript engine prvo pročita definicije, pa u prolazu izvršenja izvršava naredbe i dodele. Funkcijski izraz postaje pozivljiv tek kad izvršavanje stigne do dodele. Svaki poziv funkcije dobija sopstveni kontekst, a stek poziva određuje koja je funkcija trenutno aktivna i gde se izvršavanje nastavlja.",
           "blokovi": [
             {
               "id": "k10b1",
@@ -5323,7 +5323,7 @@
             {
               "id": "k10b7",
               "vrsta": "tekst",
-              "tekst": "### Hoisting: priprema deklaracija\n\nPri stvaranju konteksta izvršavanja JavaScript engine prolazi kroz kod tog konteksta u dva koraka.\n\n1. Priprema deklaracija. Engine upisuje sva imena iz tog koda.\n2. Izvršavanje naredbi, redom odozgo nadole. Dodela i ostale naredbe rade se u ovom koraku, na liniji na kojoj su napisane.\n\nHoisting je naziv za posledice prvog koraka. Izvorni kod se pri tome ne premešta na početak datoteke.\n\nJavaScript engine je program koji izvršava jezik: V8 u Chrome-u i Node.js-u, SpiderMonkey u Firefox-u. JVM izvršava Java bajtkod. Interpreter, gde ga engine koristi, izvršava naredbe drugog koraka. Prvi korak je upis imena u kontekst.\n\nDva koraka važe za jedan kontekst. Telo funkcije ulazi u njih tek kad se ta funkcija pozove. `var` unutar bloka upisuje se u kontekst funkcije ili glavnog programa. `let` i `const` upisuju se kad izvršavanje uđe u njihov blok.\n\nDeklaracije funkcija dostupne su i pre svog mesta u izvornom kodu."
+              "tekst": "### Hoisting: dva prolaza\n\nPri stvaranju konteksta izvršavanja JavaScript engine prolazi kroz kod tog konteksta u dva prolaza.\n\n1. Prolaz definicija. Engine pročita deklaracije i upiše imena. Deklaracija funkcije u ovom prolazu dobija celu funkciju, pa je poziv moguć i pre reda u kome je napisana. Dodela vrednosti se ovde ne izvršava.\n2. Prolaz izvršenja. Naredbe idu redom odozgo nadole. Dodela, poziv i ostale naredbe rade se u ovom prolazu, na liniji na kojoj su napisane. Funkcijski izraz je dodela, pa funkcija nastaje tek ovde.\n\nHoisting je naziv za posledice prvog prolaza. Izvorni kod se pri tome ne premešta na početak datoteke.\n\nJavaScript engine je program koji izvršava jezik: V8 u Chrome-u i Node.js-u, SpiderMonkey u Firefox-u. JVM izvršava Java bajtkod. Interpreter, gde ga engine koristi, izvršava naredbe prolaza izvršenja. Prvi prolaz je upis imena u kontekst.\n\nDva prolaza važe za jedan kontekst. Telo funkcije ulazi u njih tek kad se ta funkcija pozove. `var` unutar bloka upisuje se u kontekst funkcije ili glavnog programa. `let` i `const` upisuju se kad izvršavanje uđe u njihov blok.\n\nDeklaracije funkcija dostupne su i pre svog mesta u izvornom kodu."
             },
             {
               "id": "k10b8",
@@ -5335,7 +5335,7 @@
             {
               "id": "k10b9",
               "vrsta": "tekst",
-              "tekst": "U prvom koraku `var` upiše ime i vrednost `undefined`. Dodela ostaje za drugi korak."
+              "tekst": "U prvom prolazu `var` upiše ime i vrednost `undefined`. Dodela ostaje za prolaz izvršenja."
             },
             {
               "id": "k10b10",
@@ -5347,7 +5347,7 @@
             {
               "id": "k10b11",
               "vrsta": "tekst",
-              "tekst": "`let` i `const` dobijaju ime u pripremi svog opsega. Drugi korak ih inicijalizuje na liniji deklaracije. Do tada pristup nije dozvoljen."
+              "tekst": "`let` i `const` dobijaju ime u pripremi svog opsega. Prolaz izvršenja ih inicijalizuje na liniji deklaracije. Do tada pristup nije dozvoljen."
             },
             {
               "id": "k10b12",
@@ -5359,7 +5359,7 @@
             {
               "id": "k10b13",
               "vrsta": "tekst",
-              "tekst": "Period od početka opsega do inicijalizacije promenljive naziva se Temporal Dead Zone (TDZ).\n\nZato izraz „`let` i `const` se ne hoistuju” nije potpuno precizan. Njihove deklaracije učestvuju u pripremi okruženja, ali im se ne može pristupiti pre inicijalizacije.\n\nFunkcijski izrazi zavise od načina deklaracije promenljive kojoj su dodeljeni."
+              "tekst": "Period od početka opsega do inicijalizacije promenljive naziva se Temporal Dead Zone (TDZ).\n\nZato izraz „`let` i `const` se ne hoistuju” nije potpuno precizan. Njihove deklaracije učestvuju u pripremi okruženja, ali im se ne može pristupiti pre inicijalizacije.\n\nFunkcijski izraz nije deklaracija funkcije. U prolazu definicija upiše se samo ime promenljive. Sama funkcija nastaje u prolazu izvršenja, kada izvršavanje stigne do dodele. Zato poziv pre te linije ne vidi funkciju.\n\nFunkcijski izraz zavisi i od načina deklaracije promenljive kojoj je dodeljen."
             },
             {
               "id": "k10b14",
@@ -5371,7 +5371,7 @@
             {
               "id": "k10b15",
               "vrsta": "tekst",
-              "tekst": "Ovde je `kvadrat` promenljiva deklarisana pomoću `const`, a ne deklaracija funkcije."
+              "tekst": "Ovde je `kvadrat` promenljiva deklarisana pomoću `const`, a ne deklaracija funkcije. Isto važi za `const kvadrat = function(x) { return x * x; }`. Ime je u prvom prolazu u temporal dead zone. Funkcija nastaje tek u prolazu izvršenja."
             },
             {
               "id": "k10b16",
@@ -5388,7 +5388,7 @@
               "id": "k10b17",
               "vrsta": "highlight",
               "uloga": "kljucna",
-              "tekst": "Pri stvaranju konteksta JavaScript engine prvo upiše deklaracije, pa izvršava naredbe i dodele. Svaki poziv funkcije dobija sopstveni kontekst, a stek poziva određuje koja je funkcija trenutno aktivna i gde se izvršavanje nastavlja."
+              "tekst": "JavaScript engine prvo pročita definicije, pa u prolazu izvršenja izvršava naredbe i dodele. Funkcijski izraz postaje pozivljiv tek kad izvršavanje stigne do dodele. Svaki poziv funkcije dobija sopstveni kontekst, a stek poziva određuje koja je funkcija trenutno aktivna i gde se izvršavanje nastavlja."
             }
           ],
           "diskusija": [
@@ -5426,16 +5426,16 @@
                   "why": "Ovo ponašanje pripada deklaraciji funkcije, ne deklaraciji pomoću `var`."
                 }
               ],
-              "analiza": "Odgovor: B.\n\nJavaScript engine u prvom koraku upiše deklaraciju funkcije, pa u drugom izvršava naredbe. Zato je `saberi` dostupna pre reda u kome je napisana.\n\nOvo ponašanje je deo mehanizma koji se naziva hoisting.",
+              "analiza": "Odgovor: B.\n\nJavaScript engine u prolazu definicija upiše deklaraciju funkcije, pa u prolazu izvršenja izvršava naredbe. Zato je `saberi` dostupna pre reda u kome je napisana.\n\nOvo ponašanje je deo mehanizma koji se naziva hoisting.",
               "dodatno": "Da li JavaScript stvarno premešta tekst funkcije na početak datoteke?",
-              "dodatniOdgovor": "Ne. Hoisting imenuje posledice prvog koraka: JavaScript engine pri stvaranju konteksta upiše deklaracije, pa u drugom koraku izvršava naredbe i dodele. Izvorni kod ostaje na svom mestu."
+              "dodatniOdgovor": "Ne. Hoisting imenuje posledice prolaza definicija: JavaScript engine pri stvaranju konteksta upiše deklaracije, pa u prolazu izvršenja izvršava naredbe i dodele. Izvorni kod ostaje na svom mestu."
             },
             {
               "id": "k10q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
               "tekst": "10.3. Zašto `var` vraća `undefined`, dok `let` izaziva grešku?\n\n```javascript\nconsole.log(a);\nvar a = 10;\n```\n\n```javascript\nconsole.log(b);\nlet b = 10;\n```\n\nKako se razlikuju rezultati?",
-              "odgovor": "Prvi kod ispisuje `undefined`, a drugi izaziva `ReferenceError`.\n\nU prvom koraku `var` dobija `undefined`, a `let` samo ime kome se još ne sme pristupiti. Dodela `10` dešava se u drugom koraku, na liniji na kojoj je napisana. Period do te inicijalizacije naziva se Temporal Dead Zone (TDZ).",
+              "odgovor": "Prvi kod ispisuje `undefined`, a drugi izaziva `ReferenceError`.\n\nU prolazu definicija `var` dobija `undefined`, a `let` samo ime kome se još ne sme pristupiti. Dodela `10` dešava se u prolazu izvršenja, na liniji na kojoj je napisana. Period do te inicijalizacije naziva se Temporal Dead Zone (TDZ).",
               "dodatno": "Da li je tačno reći da se `let` i `const` uopšte ne hoistuju?",
               "dodatniOdgovor": "To je neprecizno. Njihove deklaracije učestvuju u pripremi leksičkog okruženja, ali se njihovim vrednostima ne može pristupiti pre inicijalizacije."
             },
@@ -5467,6 +5467,35 @@
               "analiza": "Odgovor: B.\n\nJedna definicija funkcije može se pozvati više puta, ali svaki poziv ima sopstveni kontekst izvršavanja i lokalne vrednosti.\n\nZbog toga su rezultati `a = 3` i `b = 11`.",
               "dodatno": "Šta se događa ako funkcija neprestano poziva samu sebe, a nijedan poziv se ne završava?",
               "dodatniOdgovor": "Na stek se dodaju novi pozivi dok se ne prekorači raspoloživi kapacitet, što obično izaziva grešku `RangeError` zbog prekoračenja steka. Ovo je čest problem kod rekurzije bez ispravnog uslova završetka."
+            },
+            {
+              "id": "k10q5",
+              "vrsta": "pitanje",
+              "oblik": "izbor",
+              "tekst": "10.5. Zašto ovaj poziv ne radi, iako je funkcija napisana u istoj datoteci?\n\n```javascript\nconsole.log(kvadrat(3));\n\nconst kvadrat = function(x) {\n  return x * x;\n};\n```",
+              "opcije": [
+                {
+                  "key": "A",
+                  "text": "Rezultat je `9`, jer se funkcija priprema pre izvršavanja.",
+                  "ok": false,
+                  "why": "To važi za deklaraciju funkcije. Funkcijski izraz je dodela, a dodela čeka prolaz izvršenja."
+                },
+                {
+                  "key": "B",
+                  "text": "Nastaje `ReferenceError`.",
+                  "ok": true,
+                  "why": "Ime `kvadrat` je u prvom prolazu samo rezervisano. Funkcija nastaje na liniji dodele."
+                },
+                {
+                  "key": "C",
+                  "text": "Ispisuje se `undefined`.",
+                  "ok": false,
+                  "why": "`undefined` bi bio rezultat čitanja `var` pre dodele. `const` pre inicijalizacije daje grešku."
+                }
+              ],
+              "analiza": "Odgovor: B.\n\nU prolazu definicija engine upiše ime `kvadrat`, ali funkciju još ne dodeli. `const` do linije dodele stoji u temporal dead zone, pa poziv daje `ReferenceError`.\n\nFunkcijski izraz je dodela. Dodela se izvršava u prolazu izvršenja, na liniji na kojoj je napisana. Deklaracija `function kvadrat` bila bi pozivljiva već posle prvog prolaza. Ovde `kvadrat` nije deklaracija funkcije.",
+              "dodatno": "Šta bi bilo da je umesto `const` napisano `var kvadrat = function(x) { return x * x; }`?",
+              "dodatniOdgovor": "Prolaz definicija bi upisao `kvadrat` kao `undefined`. Poziv `kvadrat(3)` ne bi bio `ReferenceError`, već `TypeError`, jer se `undefined` ne može pozvati. Funkcija se i dalje dodeljuje tek u prolazu izvršenja."
             }
           ],
           "pitalice": [
@@ -5496,11 +5525,11 @@
                   "why": "Ovo ponašanje pripada deklaraciji funkcije, ne deklaraciji pomoću `var`."
                 }
               ],
-              "analizaPitalice": "Odgovor: B.\n\nJavaScript engine u prvom koraku upiše deklaraciju funkcije, pa u drugom izvršava naredbe. Zato je `saberi` dostupna pre reda u kome je napisana.\n\nOvo ponašanje je deo mehanizma koji se naziva hoisting."
+              "analizaPitalice": "Odgovor: B.\n\nJavaScript engine u prolazu definicija upiše deklaraciju funkcije, pa u prolazu izvršenja izvršava naredbe. Zato je `saberi` dostupna pre reda u kome je napisana.\n\nOvo ponašanje je deo mehanizma koji se naziva hoisting."
             },
             {
               "pitalica": "10.3. Zašto `var` vraća `undefined`, dok `let` izaziva grešku?\n\n```javascript\nconsole.log(a);\nvar a = 10;\n```\n\n```javascript\nconsole.log(b);\nlet b = 10;\n```\n\nKako se razlikuju rezultati?",
-              "odgovor": "Prvi kod ispisuje `undefined`, a drugi izaziva `ReferenceError`.\n\nU prvom koraku `var` dobija `undefined`, a `let` samo ime kome se još ne sme pristupiti. Dodela `10` dešava se u drugom koraku, na liniji na kojoj je napisana. Period do te inicijalizacije naziva se Temporal Dead Zone (TDZ)."
+              "odgovor": "Prvi kod ispisuje `undefined`, a drugi izaziva `ReferenceError`.\n\nU prolazu definicija `var` dobija `undefined`, a `let` samo ime kome se još ne sme pristupiti. Dodela `10` dešava se u prolazu izvršenja, na liniji na kojoj je napisana. Period do te inicijalizacije naziva se Temporal Dead Zone (TDZ)."
             },
             {
               "pitalica": "10.4. Da li svaki poziv funkcije koristi iste lokalne promenljive?\n\n```javascript\nfunction saberi(x) {\n  const rezultat = x + 1;\n  return rezultat;\n}\n\nconst a = saberi(2);\nconst b = saberi(10);\n```\n\nDa li oba poziva dele promenljive `x` i `rezultat`?",
@@ -5525,6 +5554,30 @@
                 }
               ],
               "analizaPitalice": "Odgovor: B.\n\nJedna definicija funkcije može se pozvati više puta, ali svaki poziv ima sopstveni kontekst izvršavanja i lokalne vrednosti.\n\nZbog toga su rezultati `a = 3` i `b = 11`."
+            },
+            {
+              "pitalica": "10.5. Zašto ovaj poziv ne radi, iako je funkcija napisana u istoj datoteci?\n\n```javascript\nconsole.log(kvadrat(3));\n\nconst kvadrat = function(x) {\n  return x * x;\n};\n```",
+              "opcije": [
+                {
+                  "key": "A",
+                  "text": "Rezultat je `9`, jer se funkcija priprema pre izvršavanja.",
+                  "ok": false,
+                  "why": "To važi za deklaraciju funkcije. Funkcijski izraz je dodela, a dodela čeka prolaz izvršenja."
+                },
+                {
+                  "key": "B",
+                  "text": "Nastaje `ReferenceError`.",
+                  "ok": true,
+                  "why": "Ime `kvadrat` je u prvom prolazu samo rezervisano. Funkcija nastaje na liniji dodele."
+                },
+                {
+                  "key": "C",
+                  "text": "Ispisuje se `undefined`.",
+                  "ok": false,
+                  "why": "`undefined` bi bio rezultat čitanja `var` pre dodele. `const` pre inicijalizacije daje grešku."
+                }
+              ],
+              "analizaPitalice": "Odgovor: B.\n\nU prolazu definicija engine upiše ime `kvadrat`, ali funkciju još ne dodeli. `const` do linije dodele stoji u temporal dead zone, pa poziv daje `ReferenceError`.\n\nFunkcijski izraz je dodela. Dodela se izvršava u prolazu izvršenja, na liniji na kojoj je napisana. Deklaracija `function kvadrat` bila bi pozivljiva već posle prvog prolaza. Ovde `kvadrat` nije deklaracija funkcije."
             }
           ],
           "pitalica": "10.1. Kako JavaScript zna gde da nastavi izvršavanje kada se funkcija završi?\n\n```javascript\nfunction kvadrat(x) {\n  return x * x;\n}\n\nfunction izracunaj(x) {\n  return kvadrat(x) + 1;\n}\n\nconsole.log(izracunaj(3));\n```\n\nKojim redosledom se pozivaju i završavaju funkcije?"
@@ -5532,7 +5585,7 @@
           "putanja": "client/lekcije/10-kontekst.js",
           "isecakNaslov": "Execution context, call stack i hoisting",
           "isecakJezik": "javascript",
-          "delic": "// Execution context, call stack i hoisting\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n// Pri stvaranju konteksta JavaScript engine prvo upiše deklaracije, pa izvršava naredbe i dodele.\n\n// Ugneždeni pozivi\nfunction kvadrat(x) {\n  return x * x;\n}\n\nfunction izracunaj(a) {\n  const rezultat = kvadrat(a);\n  return rezultat + 1;\n}\n\nconsole.log(izracunaj(3)); // 10\n\n// Deklaracija funkcije pre poziva\nconsole.log(saberi(2, 3)); // 5\n\nfunction saberi(a, b) {\n  return a + b;\n}\n\n// var pre dodele\nconsole.log(broj); // undefined\n\nvar broj = 10;\n\n// Temporal Dead Zone\n// console.log(broj); // ReferenceError\n//\n// let broj = 10;\n\n// const i funkcijski izraz\n// console.log(kvadrat(3)); // ReferenceError\n//\n// const kvadrat = x => x * x;\n"
+          "delic": "// Execution context, call stack i hoisting\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n// Pri stvaranju konteksta JavaScript engine prvo upiše deklaracije, pa izvršava naredbe i dodele.\n\n// Ugneždeni pozivi\nfunction kvadrat(x) {\n  return x * x;\n}\n\nfunction izracunaj(a) {\n  const rezultat = kvadrat(a);\n  return rezultat + 1;\n}\n\nconsole.log(izracunaj(3)); // 10\n\n// Deklaracija funkcije pre poziva\nconsole.log(saberi(2, 3)); // 5\n\nfunction saberi(a, b) {\n  return a + b;\n}\n\n// var pre dodele\nconsole.log(broj); // undefined\n\nvar broj = 10;\n\n// Temporal Dead Zone\n// console.log(broj); // ReferenceError\n//\n// let broj = 10;\n\n// const i funkcijski izraz\n// Prvi prolaz upiše ime. Funkcija nastaje tek u prolazu izvršenja.\n// console.log(kvadrat(3)); // ReferenceError\n//\n// const kvadrat = x => x * x;\n"
         },
         {
           "naslov": "Closure: kako funkcija zadržava pristup svom okruženju",

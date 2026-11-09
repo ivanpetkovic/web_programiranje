@@ -185,8 +185,8 @@ Program koji izvršava JavaScript. U Chrome-u i Node.js-u to je V8, u Firefox-u 
 _Avoid_: Motor, JVM.
 
 **Hoisting**:
-Posledica prvog koraka pri stvaranju konteksta izvršavanja. JavaScript engine tada upiše deklaracije tog konteksta. U sledećem koraku izvršava naredbe i dodele. `var` je u prvom koraku `undefined`, deklaracija funkcije je već funkcija, a `let` i `const` još ne smeju da se čitaju.
-_Avoid_: Premeštanje teksta na početak datoteke. Interpreter nije ime prvog koraka.
+Posledica prolaza definicija pri stvaranju konteksta izvršavanja. JavaScript engine tada pročita definicije i upiše deklaracije tog konteksta. U prolazu izvršenja izvršava naredbe i dodele. `var` je u prvom prolazu `undefined`, deklaracija funkcije je već funkcija, a `let` i `const` još ne smeju da se čitaju. Funkcijski izraz nije deklaracija funkcije: ime se upiše u prolazu definicija, a funkcija nastaje tek kad izvršavanje stigne do dodele.
+_Avoid_: Premeštanje teksta na početak datoteke. Interpreter nije ime prolaza definicija.
 
 **opciono ulančavanje**:
 Nastavak pristupnog lanca samo kad leva vrednost nije `null` ni `undefined`. Operator je `?.`. Engleski naziv je optional chaining.
