@@ -4961,7 +4961,7 @@
           "nivo": "Primena",
           "minuta": 4,
           "tipPrimer": "eksperiment",
-          "tekst": "### II. Kako JavaScript izvršava program\n\nKada program sadrži više funkcija i blokova koda, postaje važno odrediti odakle je neka promenljiva dostupna.\n\nOpseg važenja (scope) određuje u kom delu programa se može pristupiti određenoj deklaraciji.\n\n### Globalni, funkcijski i blokovski opseg\n\nGlobalne promenljive nalaze se izvan funkcija i blokova. Funkcijske promenljive dostupne su unutar funkcije, dok se blokovski opseg odnosi na deo koda omeđen vitičastim zagradama.\n\nPromenljiva deklarisana pomoću `let` ili `const` pripada najbližem odgovarajućem bloku.\n\nZa razliku od njih, `var` ima funkcijski, a ne blokovski opseg.\n\nZbog ovakvog ponašanja, u savremenom JavaScript kodu prednost imaju `let` i `const`.\n\n### Leksički opseg\n\nJavaScript koristi leksički opseg (lexical scoping).\n\nTo znači da je spoljašnji opseg funkcije određen mestom na kome je funkcija definisana u izvornom kodu, a ne mestom sa kog se poziva.\n\nFunkcija `prikazi` pristupa promenljivoj `x` iz opsega u kome je definisana.\n\nNe koristi lokalnu promenljivu funkcije `pozovi`, iako je pozvana iz nje.\n\nTo svojstvo ima velike posledice za ponašanje funkcija.\n\n### Shadowing\n\nU unutrašnjem opsegu moguće je deklarisati promenljivu sa istim imenom kao u spoljašnjem opsegu.\n\nUnutrašnja deklaracija zaklanja spoljašnju. Taj mehanizam se naziva shadowing.\n\n### Leksičko okruženje\n\nZa razumevanje opsega važno je uvesti pojam leksičkog okruženja (lexical environment).\n\nPojednostavljeno, leksičko okruženje sadrži veze između identifikatora i njihovih vrednosti, kao i vezu prema spoljašnjem okruženju.\n\nKada JavaScript traži promenljivu, prvo proverava trenutno okruženje. Ako je tamo ne pronađe, nastavlja pretragu u spoljašnjem okruženju.\n\nFunkcija `unutrasnja` može da koristi `poruka` zato što je definisana u opsegu koji obuhvata tu promenljivu.",
+          "tekst": "### II. Kako JavaScript izvršava program\n\nKada program sadrži više funkcija i blokova koda, postaje važno odrediti odakle je neka promenljiva dostupna.\n\nOpseg važenja (scope) određuje u kom delu programa se može pristupiti određenoj deklaraciji.\n\n### Globalni, funkcijski i blokovski opseg\n\nGlobalne promenljive nalaze se izvan funkcija i blokova. Funkcijske promenljive dostupne su unutar funkcije, dok se blokovski opseg odnosi na deo koda omeđen vitičastim zagradama.\n\nPromenljiva deklarisana pomoću `let` ili `const` pripada najbližem odgovarajućem bloku.\n\nZa razliku od njih, `var` ima funkcijski, a ne blokovski opseg.\n\nZbog ovakvog ponašanja, u savremenom JavaScript kodu prednost imaju `let` i `const`.\n\n### Leksički opseg\n\nJavaScript koristi leksički opseg (lexical scoping).\n\nTo znači da je spoljašnji opseg funkcije određen mestom na kome je funkcija definisana u izvornom kodu, a ne mestom sa kog se poziva.\n\nFunkcija `prikazi` pristupa promenljivoj `x` iz opsega u kome je definisana.\n\nNe koristi lokalnu promenljivu funkcije `pozovi`, iako je pozvana iz nje.\n\nTo svojstvo ima velike posledice za ponašanje funkcija.\n\n### Shadowing\n\nU unutrašnjem opsegu moguće je deklarisati promenljivu sa istim imenom kao u spoljašnjem opsegu.\n\nUnutrašnja deklaracija zaklanja spoljašnju. Taj mehanizam se naziva shadowing.\n\n### Leksičko okruženje\n\nZa razumevanje opsega važno je uvesti pojam leksičkog okruženja (lexical environment).\n\nPojednostavljeno, leksičko okruženje sadrži veze između identifikatora i njihovih vrednosti, kao i vezu prema spoljašnjem okruženju.\n\nKada JavaScript traži promenljivu, prvo proverava trenutno okruženje. Ako je tamo ne pronađe, nastavlja pretragu u spoljašnjem okruženju.\n\nFunkcija `unutrasnja` može da koristi `poruka` zato što je definisana u opsegu koji obuhvata tu promenljivu.\n\nDok `prikazi` čita `x`, pretraga kreće iz leksičkog okruženja funkcije `prikazi` i ide spolja u globalno okruženje. Tamo je `x` jednako `10`. Okruženje funkcije `pozovi` drži drugo `x`, jednako `20`.",
           "kljucnaIdeja": "Vidljivost promenljivih određuje struktura izvornog koda. Funkcija koristi leksičko okruženje u kome je definisana, a ne lokalne promenljive funkcije koja je poziva.",
           "blokovi": [
             {
@@ -5048,6 +5048,17 @@
               "id": "k09b15",
               "vrsta": "tekst",
               "tekst": "Funkcija `unutrasnja` može da koristi `poruka` zato što je definisana u opsegu koji obuhvata tu promenljivu."
+            },
+            {
+              "id": "k09b17",
+              "vrsta": "tekst",
+              "tekst": "Dok `prikazi` čita `x`, pretraga kreće iz leksičkog okruženja funkcije `prikazi` i ide spolja u globalno okruženje. Tamo je `x` jednako `10`. Okruženje funkcije `pozovi` drži drugo `x`, jednako `20`."
+            },
+            {
+              "id": "k09b18",
+              "vrsta": "mermaid",
+              "naslov": "Leksička okruženja prikazi i pozovi",
+              "tekst": "flowchart TB\n  prikazi[\"okruženje prikazi\"]\n  pozovi[\"okruženje pozovi<br/>x = 20\"]\n  globalno[\"globalno okruženje<br/>x = 10\"]\n  prikazi -->|spolja| globalno\n  pozovi -->|spolja| globalno"
             },
             {
               "id": "k09b16",
@@ -5231,8 +5242,8 @@
           "nivo": "Primena",
           "minuta": 4,
           "tipPrimer": "eksperiment",
-          "tekst": "Do sada smo posmatrali kako je kod napisan i gde su promenljive dostupne. Sada treba objasniti šta se dešava tokom njegovog izvršavanja.\n\n### Execution context\n\nExecution context, odnosno kontekst izvršavanja, predstavlja stanje neophodno da JavaScript izvršava određeni deo programa.\n\nKontekst obuhvata informacije o dostupnim promenljivama i njihovim vezama, leksičkom okruženju i vrednosti `this`, u skladu sa vrstom i načinom izvršavanja koda.\n\nPri pokretanju programa nastaje odgovarajući kontekst izvršavanja. Kada se pozove funkcija, za taj poziv formira se novi kontekst.\n\nPrilikom izvršavanja dolazi do sledećeg:\n\n1. Pokreće se izvršavanje glavnog programa.\n2. Poziva se `izracunaj(3)` i nastaje kontekst za taj poziv.\n3. Funkcija `izracunaj` poziva `kvadrat(3)`.\n4. Nastaje novi kontekst za `kvadrat`.\n5. `kvadrat` vraća `9`, pa se njen kontekst uklanja sa steka.\n6. `izracunaj` vraća `10`, pa se izvršavanje nastavlja u glavnom programu.\n\n### Call stack\n\nJavaScript prati aktivne pozive funkcija pomoću steka poziva (call stack).\n\nStek funkcioniše po principu LIFO (Last In, First Out): poslednji poziv dodat na stek prvi se završava.\n\nKada se funkcija završi, njen kontekst se uklanja sa steka i nastavlja se prethodno izvršavanje.\n\nAko funkcije neprekidno pozivaju nove funkcije bez završetka, stek može da se popuni. To se često dešava kod neispravne rekurzije i izaziva grešku prekoračenja steka.\n\n### Hoisting: priprema deklaracija\n\nPre nego što se izvrše naredbe u određenom kontekstu, JavaScript priprema odgovarajuće deklaracije.\n\nPosledice ovog mehanizma često se opisuju terminom hoisting.\n\nTo ne znači da JavaScript fizički premešta naredbe na početak datoteke.\n\nDeklaracije funkcija dostupne su i pre svog mesta u izvornom kodu.\n\nKod `var`, deklaracija je pripremljena i promenljiva inicijalizovana vrednošću `undefined` pre izvršavanja odgovarajuće naredbe dodele.\n\nNasuprot tome, promenljive deklarisane pomoću `let` i `const` postoje u svom opsegu pre izvršavanja deklaracije, ali nisu inicijalizovane tako da im se može pristupiti.\n\nPeriod od početka opsega do inicijalizacije promenljive naziva se Temporal Dead Zone (TDZ).\n\nZato izraz „`let` i `const` se ne hoistuju” nije potpuno precizan. Njihove deklaracije učestvuju u pripremi okruženja, ali im se ne može pristupiti pre inicijalizacije.\n\nFunkcijski izrazi zavise od načina deklaracije promenljive kojoj su dodeljeni.\n\nOvde je `kvadrat` promenljiva deklarisana pomoću `const`, a ne deklaracija funkcije.\n\n### Veza između opsega i konteksta izvršavanja\n\nOpseg važenja govori gde je određena promenljiva dostupna, dok kontekst izvršavanja opisuje stanje u kome se kod trenutno izvršava.\n\nJedna funkcija može biti pozvana mnogo puta. Svaki poziv ima sopstveni kontekst izvršavanja, iako svi pozivi koriste istu definiciju funkcije i ista pravila leksičkog opsega.",
-          "kljucnaIdeja": "JavaScript priprema deklaracije pre izvršavanja naredbi, svaki poziv funkcije dobija sopstveni kontekst, a call stack određuje koja je funkcija trenutno aktivna i gde se izvršavanje nastavlja.",
+          "tekst": "Do sada smo posmatrali kako je kod napisan i gde su promenljive dostupne. Sada treba objasniti šta se dešava tokom njegovog izvršavanja.\n\n### Execution context\n\nExecution context, odnosno kontekst izvršavanja, predstavlja stanje neophodno da JavaScript izvršava određeni deo programa.\n\nKontekst obuhvata informacije o dostupnim promenljivama i njihovim vezama, leksičkom okruženju i vrednosti `this`, u skladu sa vrstom i načinom izvršavanja koda.\n\nPri pokretanju programa nastaje odgovarajući kontekst izvršavanja. Kada se pozove funkcija, za taj poziv formira se novi kontekst.\n\nPrilikom izvršavanja dolazi do sledećeg:\n\n1. Pokreće se izvršavanje glavnog programa.\n2. Poziva se `izracunaj(3)` i nastaje kontekst za taj poziv.\n3. Funkcija `izracunaj` poziva `kvadrat(3)`.\n4. Nastaje novi kontekst za `kvadrat`.\n5. `kvadrat` vraća `9`, pa se njen kontekst uklanja sa steka.\n6. `izracunaj` vraća `10`, pa se izvršavanje nastavlja u glavnom programu.\n\n### Call stack\n\nStek poziva (call stack) prati aktivne pozive funkcija.\n\nStek funkcioniše po principu LIFO (Last In, First Out): poslednji poziv dodat na stek prvi se završava.\n\nSvaki okvir steka poziva pokazuje na svoje leksičko okruženje. Strelica `spolja` vodi tamo gde je funkcija napisana. Za `kvadrat` to je globalno okruženje. Okruženje poziva `izracunaj` drži `a`.\n\nKada se funkcija završi, njen kontekst se uklanja sa steka i nastavlja se prethodno izvršavanje.\n\nAko funkcije neprekidno pozivaju nove funkcije bez završetka, stek može da se popuni. To se često dešava kod neispravne rekurzije i izaziva grešku prekoračenja steka.\n\n### Hoisting: priprema deklaracija\n\nPre nego što se izvrše naredbe u određenom kontekstu, JavaScript priprema odgovarajuće deklaracije.\n\nPosledice ovog mehanizma često se opisuju terminom hoisting.\n\nTo ne znači da JavaScript fizički premešta naredbe na početak datoteke.\n\nDeklaracije funkcija dostupne su i pre svog mesta u izvornom kodu.\n\nKod `var`, deklaracija je pripremljena i promenljiva inicijalizovana vrednošću `undefined` pre izvršavanja odgovarajuće naredbe dodele.\n\nNasuprot tome, promenljive deklarisane pomoću `let` i `const` postoje u svom opsegu pre izvršavanja deklaracije, ali nisu inicijalizovane tako da im se može pristupiti.\n\nPeriod od početka opsega do inicijalizacije promenljive naziva se Temporal Dead Zone (TDZ).\n\nZato izraz „`let` i `const` se ne hoistuju” nije potpuno precizan. Njihove deklaracije učestvuju u pripremi okruženja, ali im se ne može pristupiti pre inicijalizacije.\n\nFunkcijski izrazi zavise od načina deklaracije promenljive kojoj su dodeljeni.\n\nOvde je `kvadrat` promenljiva deklarisana pomoću `const`, a ne deklaracija funkcije.\n\n### Veza između opsega i konteksta izvršavanja\n\nOpseg važenja govori gde je određena promenljiva dostupna, dok kontekst izvršavanja opisuje stanje u kome se kod trenutno izvršava.\n\nJedna funkcija može biti pozvana mnogo puta. Svaki poziv ima sopstveni kontekst izvršavanja, iako svi pozivi koriste istu definiciju funkcije i ista pravila leksičkog opsega.\n\nOpseg izvršavanja je opseg važenja koji važi dok se taj deo koda izvršava. Dok radi `kvadrat(3)`, opseg izvršavanja obuhvata `x` i imena iz globalnog opsega. `a` i `rezultat` stoje u opsegu funkcije `izracunaj`.",
+          "kljucnaIdeja": "JavaScript priprema deklaracije pre izvršavanja naredbi, svaki poziv funkcije dobija sopstveni kontekst, a stek poziva određuje koja je funkcija trenutno aktivna i gde se izvršavanje nastavlja.",
           "blokovi": [
             {
               "id": "k10b1",
@@ -5254,18 +5265,18 @@
             {
               "id": "k10b4",
               "vrsta": "tekst",
-              "tekst": "### Call stack\n\nJavaScript prati aktivne pozive funkcija pomoću steka poziva (call stack).\n\nStek funkcioniše po principu LIFO (Last In, First Out): poslednji poziv dodat na stek prvi se završava."
+              "tekst": "### Call stack\n\nStek poziva (call stack) prati aktivne pozive funkcija.\n\nStek funkcioniše po principu LIFO (Last In, First Out): poslednji poziv dodat na stek prvi se završava."
             },
             {
               "id": "k10b5",
-              "vrsta": "dijagram",
-              "naslov": "Stek tokom kvadrat(3)",
-              "tekst": "kvadrat(3)\n  trenutno se izvršava\n\nizracunaj(3)\n  čeka rezultat funkcije kvadrat\n\nglavni program\n  dno steka"
+              "vrsta": "mermaid",
+              "naslov": "Stek poziva i leksička okruženja",
+              "tekst": "flowchart TB\n  vrh[\"Stek poziva, vrh<br/>kvadrat(3)<br/>okruženje: x = 3\"] -->|spolja| okg[\"globalno leksičko okruženje<br/>kvadrat i izracunaj\"]\n  sredina[\"na steku ispod<br/>izracunaj(3)<br/>okruženje: a = 3\"] -->|spolja| okg\n  dno[\"dno steka poziva<br/>glavni program\"] --> okg\n  vrh --> sredina\n  sredina --> dno"
             },
             {
               "id": "k10b6",
               "vrsta": "tekst",
-              "tekst": "Kada se funkcija završi, njen kontekst se uklanja sa steka i nastavlja se prethodno izvršavanje.\n\nAko funkcije neprekidno pozivaju nove funkcije bez završetka, stek može da se popuni. To se često dešava kod neispravne rekurzije i izaziva grešku prekoračenja steka."
+              "tekst": "Svaki okvir steka poziva pokazuje na svoje leksičko okruženje. Strelica `spolja` vodi tamo gde je funkcija napisana. Za `kvadrat` to je globalno okruženje. Okruženje poziva `izracunaj` drži `a`.\n\nKada se funkcija završi, njen kontekst se uklanja sa steka i nastavlja se prethodno izvršavanje.\n\nAko funkcije neprekidno pozivaju nove funkcije bez završetka, stek može da se popuni. To se često dešava kod neispravne rekurzije i izaziva grešku prekoračenja steka."
             },
             {
               "id": "k10b7",
@@ -5323,13 +5334,19 @@
             {
               "id": "k10b16",
               "vrsta": "tekst",
-              "tekst": "### Veza između opsega i konteksta izvršavanja\n\nOpseg važenja govori gde je određena promenljiva dostupna, dok kontekst izvršavanja opisuje stanje u kome se kod trenutno izvršava.\n\nJedna funkcija može biti pozvana mnogo puta. Svaki poziv ima sopstveni kontekst izvršavanja, iako svi pozivi koriste istu definiciju funkcije i ista pravila leksičkog opsega."
+              "tekst": "### Veza između opsega i konteksta izvršavanja\n\nOpseg važenja govori gde je određena promenljiva dostupna, dok kontekst izvršavanja opisuje stanje u kome se kod trenutno izvršava.\n\nJedna funkcija može biti pozvana mnogo puta. Svaki poziv ima sopstveni kontekst izvršavanja, iako svi pozivi koriste istu definiciju funkcije i ista pravila leksičkog opsega.\n\nOpseg izvršavanja je opseg važenja koji važi dok se taj deo koda izvršava. Dok radi `kvadrat(3)`, opseg izvršavanja obuhvata `x` i imena iz globalnog opsega. `a` i `rezultat` stoje u opsegu funkcije `izracunaj`."
+            },
+            {
+              "id": "k10b18",
+              "vrsta": "mermaid",
+              "naslov": "Opseg važenja i opseg izvršavanja",
+              "tekst": "flowchart TB\n  subgraph mapa [\"Opseg važenja\"]\n    direction TB\n    vk[\"opseg kvadrat<br/>x\"] --> vg[\"globalni opseg<br/>kvadrat, izracunaj\"]\n    vi[\"opseg izracunaj<br/>a, rezultat\"] --> vg\n  end\n  subgraph sad [\"Opseg izvršavanja<br/>dok radi kvadrat(3)\"]\n    direction TB\n    ak[\"x = 3\"] -->|spolja| ag[\"globalna imena\"]\n  end\n  mapa -.->|u tom trenutku| sad"
             },
             {
               "id": "k10b17",
               "vrsta": "highlight",
               "uloga": "kljucna",
-              "tekst": "JavaScript priprema deklaracije pre izvršavanja naredbi, svaki poziv funkcije dobija sopstveni kontekst, a call stack određuje koja je funkcija trenutno aktivna i gde se izvršavanje nastavlja."
+              "tekst": "JavaScript priprema deklaracije pre izvršavanja naredbi, svaki poziv funkcije dobija sopstveni kontekst, a stek poziva određuje koja je funkcija trenutno aktivna i gde se izvršavanje nastavlja."
             }
           ],
           "diskusija": [

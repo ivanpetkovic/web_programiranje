@@ -110,6 +110,24 @@ test("opseg važenja i opseg izvršavanja nose engleske nazive", () => {
   assert.match(izvrsavanje.izbegava, /Kontekst izvršavanja/);
   assert.match(izvrsavanje.izbegava, /execution context/);
   assert.equal(lekcijePojma(dokument, "opseg važenja").prvi.korak >= 0, true);
+  const stek = trazi("stek poziva");
+  assert.match(stek.definicija, /call stack/);
+  assert.match(stek.izbegava, /Pozivni stek/);
+  assert.match(stek.izbegava, /callstack/);
+  const opseg = dokument.teme[2].steps[8];
+  const kontekst = dokument.teme[2].steps[9];
+  const izvori = [...opseg.blokovi, ...kontekst.blokovi].filter((blok) => blok.vrsta === "mermaid");
+  assert.deepEqual(izvori.map((blok) => blok.naslov), [
+    "Leksička okruženja prikazi i pozovi",
+    "Stek poziva i leksička okruženja",
+    "Opseg važenja i opseg izvršavanja",
+  ]);
+  assert.match(izvori[0].tekst, /okruženje prikazi/);
+  assert.match(izvori[1].tekst, /Stek poziva/);
+  assert.match(izvori[1].tekst, /spolja/);
+  assert.match(izvori[2].tekst, /Opseg izvršavanja/);
+  assert.equal(lekcijePojma(dokument, "stek poziva").prvi.tema, 3);
+  assert.equal(lekcijePojma(dokument, "opseg izvršavanja").prvi.tema, 3);
 });
 
 test("pitanje koje počinje upitom vraća svoj korak", () => {

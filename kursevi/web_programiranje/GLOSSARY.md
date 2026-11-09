@@ -249,3 +249,7 @@ _Avoid_: Scope of validity.
 **opseg izvršavanja**:
 Opseg važenja u kome se deo koda trenutno izvršava. Engleski naziv je execution scope.
 _Avoid_: Kontekst izvršavanja, execution context.
+
+**stek poziva**:
+Spisak aktivnih poziva. Poslednji dodat prvi se završava. Engleski naziv je call stack.
+_Avoid_: Pozivni stek, callstack.
