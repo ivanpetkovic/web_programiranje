@@ -6,7 +6,7 @@ function stanjeAdrese() {
   const tab = document.querySelector(".cas-tabovi [aria-selected='true']");
   const blok = document.activeElement?.closest?.(".sekcija-lekcije");
   return {
-    hash: location.hash,
+    hash: location.pathname,
     tab: tab?.id || "",
     korak: (document.querySelector("#izbor-koraka-natpis")?.textContent || "").trim(),
     putanja: (document.querySelector("#putanja")?.textContent || "").trim(),
@@ -40,13 +40,13 @@ test("adresa prati korak, diskusiju, blok i fajl u editoru", { timeout: 60000 },
   }
 
   await strana.idi(`http://127.0.0.1:${portSajta}/#cas-2`);
-  let sada = await sačekaj((s) => s.hash === "#cas-2/k/1/deo/diskusija" && s.tab === "tab-diskusija" && /^Korak 1 od /.test(s.korak), "čas 2");
+  let sada = await sačekaj((s) => s.hash === "/tema/2/k/1/deo/diskusija" && s.tab === "tab-diskusija" && /^Korak 1 od /.test(s.korak), "čas 2");
 
   await strana.vrednost(`document.querySelector("#traka-sledeci").click()`);
-  sada = await sačekaj((s) => s.hash === "#cas-2/k/2/deo/diskusija" && /^Korak 2 od /.test(s.korak), "sledeći korak");
+  sada = await sačekaj((s) => s.hash === "/tema/2/k/2/deo/diskusija" && /^Korak 2 od /.test(s.korak), "sledeći korak");
 
   await strana.vrednost(`history.back()`);
-  sada = await sačekaj((s) => s.hash === "#cas-2/k/1/deo/diskusija" && /^Korak 1 od /.test(s.korak), "nazad na prvi korak");
+  sada = await sačekaj((s) => s.hash === "/tema/2/k/1/deo/diskusija" && /^Korak 1 od /.test(s.korak), "nazad na prvi korak");
 
   const blokId = await strana.vrednost(`(() => {
     const blok = document.querySelector("#sekcija-diskusija .sekcija-lekcije");
@@ -61,18 +61,18 @@ test("adresa prati korak, diskusiju, blok i fajl u editoru", { timeout: 60000 },
     const blok = s.hash.split("/blok/")[1] || "";
     let dekodiran = blok;
     try { dekodiran = decodeURIComponent(blok); } catch { /* ostaje kako jeste */ }
-    return s.hash.startsWith("#cas-2/k/1/deo/diskusija/blok/") && dekodiran === blokId;
+    return s.hash.startsWith("/tema/2/k/1/deo/diskusija/blok/") && dekodiran === blokId;
   }, "fokus bloka");
   const adresaBloka = sada.hash;
 
   await strana.vrednost(`location.hash = "uvod"`);
-  await sačekaj((s) => s.hash === "#uvod" && s.uvod, "uvod");
+  await sačekaj((s) => s.hash === "/uvod" && s.uvod, "uvod");
 
-  await strana.idi(`http://127.0.0.1:${portSajta}/?ponovo=blok${adresaBloka}`);
+  await strana.idi(`http://127.0.0.1:${portSajta}${adresaBloka}?ponovo=blok`);
   sada = await sačekaj((s) => s.hash === adresaBloka && s.blok === blokId && s.tab === "tab-diskusija", "adresa vraća blok");
 
-  await strana.idi(`http://127.0.0.1:${portSajta}/#cas-2/k/9/deo/editor`);
-  sada = await sačekaj((s) => s.hash.startsWith("#cas-2/k/9/deo/editor/fajl/") && s.tab === "tab-editor" && s.putanja.startsWith("client/"), "editor");
+  await strana.idi(`http://127.0.0.1:${portSajta}/tema/2/k/9/deo/editor`);
+  sada = await sačekaj((s) => s.hash.startsWith("/tema/2/k/9/deo/editor/fajl/") && s.tab === "tab-editor" && s.putanja.startsWith("client/"), "editor");
   const prviFajl = sada.putanja;
   assert.match(sada.hash, new RegExp(`/fajl/${prviFajl.split("/").map(encodeURIComponent).join("/")}$`));
 
@@ -88,7 +88,7 @@ test("adresa prati korak, diskusiju, blok i fajl u editoru", { timeout: 60000 },
   assert.match(sada.hash, new RegExp(`/fajl/${sada.putanja.split("/").map(encodeURIComponent).join("/")}$`));
   const adresaFajla = sada.hash;
 
-  await strana.idi(`http://127.0.0.1:${portSajta}/?ponovo=fajl${adresaFajla}`);
+  await strana.idi(`http://127.0.0.1:${portSajta}${adresaFajla}?ponovo=fajl`);
   sada = await sačekaj((s) => s.hash === adresaFajla && s.putanja !== prviFajl && s.tab === "tab-editor" && /^Korak 9 od /.test(s.korak), "adresa vraća fajl");
   assert.equal(sada.putanja.split("/").map(encodeURIComponent).join("/"), sada.hash.split("/fajl/")[1]);
 });
