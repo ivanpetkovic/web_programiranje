@@ -153,7 +153,7 @@ test("mobil: meni tema sa naslovima, koraci, swipe", { timeout: 60000 }, async (
   await strana.vrednost(`document.querySelector("#mobil-ft-pretraga").click()`);
   await pauza(60);
 
-  const pre = await strana.vrednost(`location.hash`);
+  const pre = await strana.vrednost(`location.pathname`);
   await strana.vrednost(`(() => {
     const el = document.querySelector("#mobil-nav-traka");
     const dodir = (x, y) => new Touch({ identifier: 1, target: el, clientX: x, clientY: y });
@@ -161,7 +161,7 @@ test("mobil: meni tema sa naslovima, koraci, swipe", { timeout: 60000 }, async (
     el.dispatchEvent(new TouchEvent("touchend", { bubbles: true, touches: [], changedTouches: [dodir(80, 120)] }));
   })()`);
   await pauza(180);
-  assert.notEqual(await strana.vrednost(`location.hash`), pre);
+  assert.notEqual(await strana.vrednost(`location.pathname`), pre);
 
   await strana.vrednost(`document.querySelector("#mobil-ft-podesavanja").click()`);
   await pauza(80);

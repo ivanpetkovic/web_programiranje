@@ -12,7 +12,7 @@ export class Kod extends Blok {
 
   static prepoznaje(markdown) {
     const ogradaBloka = procitajOgradu(markdown);
-    return Boolean(ogradaBloka) && ogradaBloka.jezik !== "mermaid";
+    return Boolean(ogradaBloka) && ogradaBloka.jezik !== "mermaid" && ogradaBloka.jezik !== "struktura";
   }
 
   static uvoz(markdown) {

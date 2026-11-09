@@ -48,7 +48,8 @@ function copyTree(src, dest, { rewrite = false } = {}) {
 rimraf(outDir);
 copyTree(path.join(root, "site"), outDir, { rewrite: true });
 copyTree(path.join(root, "client"), path.join(outDir, "client"), { rewrite: true });
-fs.copyFileSync(path.join(root, "GLOSSARY.md"), path.join(outDir, "pojmovnik"));
+fs.copyFileSync(path.join(root, "kursevi", "web_programiranje", "GLOSSARY.md"), path.join(outDir, "pojmovnik"));
+fs.copyFileSync(path.join(outDir, "index.html"), path.join(outDir, "404.html"));
 fs.writeFileSync(path.join(outDir, ".nojekyll"), "");
 
 console.log(`GitHub Pages artifact: ${outDir} (base ${base})`);

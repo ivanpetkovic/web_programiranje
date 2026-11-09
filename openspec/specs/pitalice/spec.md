@@ -2,20 +2,24 @@
 
 ## Purpose
 
-Mehanizam pitalice na sajtu časa. Tekst pitanja i odgovora je `site/kurs.json`. Ova specifikacija ne imenuje pitanja tema.
+Mehanizam pitalice na sajtu časa. Tekst pitanja i odgovora je `kursevi/web_programiranje/kurs.json`. Ova specifikacija ne imenuje pitanja tema.
 
 ## Requirements
 
 ### Requirement: Kratka pitalica je na Diskusiji
-The short quiz of the open step MUST appear on Diskusija. Gradivo MUST NOT show it. Answers MUST stay unmarked until the teacher opens Obrazloženje.
+The short quiz of the open step MUST appear on Diskusija. Gradivo MUST NOT show it. The question and its example MUST stay on screen. Its answers MUST stay hidden until the teacher opens that question. Opening a choice question MUST show its options, mark the one that holds, and show the explanation.
 
 #### Scenario: Gradivo has no step quiz
 - **WHEN** the teacher opens Gradivo on a step
 - **THEN** the short quiz is not on screen
 
-#### Scenario: Answers stay unmarked
-- **WHEN** the teacher opens Diskusija and has not opened Obrazloženje
-- **THEN** no quiz answer is marked correct
+#### Scenario: Answers stay hidden
+- **WHEN** the teacher opens Diskusija and has not opened a question
+- **THEN** no quiz answer is on screen
+
+#### Scenario: Opening a question reveals its answer
+- **WHEN** the teacher opens a question on Diskusija
+- **THEN** that question's answer is visible
 
 ### Requirement: Diskusija cele teme
 The long discussion MUST appear on the last step of the open week, on Diskusija, after that step's short quiz. Its phases MUST be Izbor, Poređenje, Pretpostavke, Analiza, and Ponovni izbor, in that order. Before Analiza the page MUST NOT reveal which option holds. The site MUST NOT store a vote. The reserve MUST stay closed until the teacher opens it.

@@ -1,5 +1,5 @@
 import { napraviPogled, postaviPogled } from "./cm-editor.js";
-import { dokument, lectures, osveziLekcije, sirovaTema, siroviKorak } from "./lectures.js";
+import { dokument, lectures, osveziLekcije, putanjaAseta, sirovaTema, siroviKorak } from "./lectures.js";
 import {
   jeRezimUredjivanja,
   kljucPolja,
@@ -38,12 +38,15 @@ import {
 } from "./blokovi-lekcije.js";
 import { pomeriTemu, ucitajKurs } from "./model.js";
 import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./recnik.js";
+import { deloviReda } from "./proza.js";
 import { PORUKA, modulPoZahtevu, porukaKonzole, sklopiDokument, trajanjeLopatica, ubaciMostKonzole } from "./pregled.js";
 import { procitajRadne, serverTabVidljiv, upisiRadnu } from "./radna.js";
 import { adresaPregleda, izborFajla, popunaKoraka, prikaziIzlaz, rasporedBiraca } from "./birac.js";
+import { dopunaMesta, procitajMesto, sastaviMesto } from "./adresa.js";
 import { nacrtajFiguru } from "./crtez.js";
 import { mermaidFigura } from "./figura.js";
 import { blokoviTeksta, imaMermaid, nacrtajMermaid, osveziMermaid } from "./mermaid.js";
+import { modelStrukture, svgStrukture } from "./struktura-crtez.js";
 import {
   htmlKoraka,
   htmlTeme,
@@ -134,6 +137,7 @@ const konzolaPrazno = document.querySelector("#pregled-konzola-prazno");
 const konzolaTelo = document.querySelector(".pregled-konzola-telo");
 const otvoreniPojmovi = new Set();
 const otvoreneTeme = new Set();
+const sklopljeneTeme = new Set();
 const izborKoraka = new Map();
 const lokalno = napraviStanje(localStorage);
 const urediSadrzaj = napraviStanjeUredjivanja(dokument);
@@ -165,6 +169,15 @@ function sakrijPanelSelekcije() {
 let cas = 1;
 let uvod = false;
 let deo = podrazumevaniDeo();
+const blokPoMestu = new Map();
+let fajlIzAdrese = "";
+let drzaniFajl = "";
+let fokusIzAdrese = null;
+let cekajFokus = false;
+let stranicaSpremna = false;
+let izHasha = false;
+let poslednjaNavigacija = null;
+let pisemAdresu = false;
 let navOtvoren = true;
 let profilOtvoren = false;
 let pretragaOtvorena = false;
@@ -247,6 +260,195 @@ function indeksKoraka() {
   return item && poslednji < item.steps.length ? poslednji : 0;
 }
 
+function trenutniIndeks() {
+  const item = lecture();
+  if (!item?.steps.length) return 0;
+  return Math.min(Math.max(0, indeksKoraka()), item.steps.length - 1);
+}
+
+function mestoBloka(indeks = trenutniIndeks(), ime = deo) {
+  return `${cas}:${indeks}:${ime}`;
+}
+
+function trenutniFajl() {
+  if (drzaniFajl) return drzaniFajl;
+  if (primerAktivan()) return stanjePrimera.otvoreno ? `primeri/${stanjePrimera.id}/${stanjePrimera.otvoreno}` : "";
+  const put = sesija.otvoreno[sesija.strana];
+  return put ? `${sesija.strana}/${put}` : "";
+}
+
+function trenutnoMesto() {
+  if (uvod) return { uvod: true };
+  const korak = trenutniIndeks();
+  const blok = deo === "editor" ? null : blokPoMestu.get(mestoBloka(korak, deo)) || null;
+  const fajl = deo === "editor" ? trenutniFajl() || null : null;
+  return { uvod: false, cas, korak, deo, blok, fajl };
+}
+
+function hashOdgovara(hash, mesto) {
+  return JSON.stringify(procitajMesto(hash)) === JSON.stringify(procitajMesto(sastaviMesto(mesto)));
+}
+
+function korenSajta() {
+  const put = new URL("../", import.meta.url).pathname;
+  if (put === `/`) return "";
+  return put.endsWith(`/`) ? put.slice(0, -1) : put;
+}
+
+function relativnaPutanja() {
+  const koren = korenSajta();
+  const put = location.pathname;
+  if (koren && (put === koren || put.startsWith(`${koren}/`))) return put.slice(koren.length) || `/`;
+  return put || `/`;
+}
+
+function hesJeMesto() {
+  const mesto = procitajMesto(location.hash);
+  return mesto.vrsta === "cas" || mesto.vrsta === "uvod";
+}
+
+function zapisAdrese() {
+  if (location.hash && hesJeMesto()) return location.hash;
+  return relativnaPutanja();
+}
+
+function kljucNavigacije(mesto) {
+  if (mesto.uvod) return "uvod";
+  const fajl = mesto.deo === "editor" ? mesto.fajl || "" : "";
+  return `${mesto.cas}:${mesto.korak}:${mesto.deo}:${fajl}`;
+}
+
+function uskladiAdresu() {
+  if (pisemAdresu) return;
+  const mesto = trenutnoMesto();
+  const put = sastaviMesto(mesto);
+  const nav = kljucNavigacije(mesto);
+  const navigacija = poslednjaNavigacija !== null && poslednjaNavigacija !== nav;
+  poslednjaNavigacija = nav;
+  if (!hesJeMesto() && hashOdgovara(relativnaPutanja(), mesto)) return;
+  const url = `${korenSajta()}${put}${location.search}${hesJeMesto() ? "" : location.hash}`;
+  pisemAdresu = true;
+  try {
+    if (navigacija && !dopunaMesta(zapisAdrese(), mesto)) history.pushState(null, "", url);
+    else history.replaceState(null, "", url);
+  } finally {
+    pisemAdresu = false;
+  }
+}
+
+function zapamtiBlok(blok) {
+  if (!blok || uvod || deo === "editor") return;
+  const id = blok.dataset.id;
+  if (!id) return;
+  const sekcija = blok.closest("#sekcija-koraci, #sekcija-diskusija");
+  if (!sekcija) return;
+  const ime = sekcija.id === "sekcija-diskusija" ? "diskusija" : "koraci";
+  if (ime !== deo) return;
+  const kljuc = mestoBloka(trenutniIndeks(), ime);
+  if (blokPoMestu.get(kljuc) === id) return;
+  blokPoMestu.set(kljuc, id);
+  cekajFokus = false;
+  fokusIzAdrese = null;
+  uskladiAdresu();
+}
+
+function fokusirajBlok(id) {
+  const koren = deo === "diskusija" ? diskusijaMesto : deo === "koraci" ? koraciPanel : null;
+  if (!koren || !id) return false;
+  const blok = koren.querySelector(`.sekcija-lekcije[data-id="${CSS.escape(id)}"]`);
+  if (!blok) return false;
+  if (!blok.hasAttribute("tabindex")) blok.tabIndex = -1;
+  blok.scrollIntoView({ block: "nearest" });
+  blok.focus({ preventScroll: true });
+  return true;
+}
+
+function vratiFokusBloka() {
+  if (!fokusIzAdrese || uvod || fokusIzAdrese.deo !== deo) {
+    fokusIzAdrese = null;
+    return;
+  }
+  const id = fokusIzAdrese.blok;
+  fokusIzAdrese = null;
+  if (!fokusirajBlok(id)) blokPoMestu.delete(mestoBloka());
+}
+
+function primeniFajlIzAdrese(putanja) {
+  if (!putanja || deo !== "editor") return;
+  if (putanja.startsWith("primeri/")) {
+    const delovi = putanja.split("/");
+    const id = delovi[1];
+    const relativan = delovi.slice(2).join("/");
+    if (!id) return;
+    drzaniFajl = putanja;
+    void izaberiPrimer(id).then(() => {
+      drzaniFajl = "";
+      if (deo === "editor" && relativan && stanjePrimera?.putanje?.includes(relativen) && stanjePrimera.otvoreno !== relativan) {
+        primeniDogadaj({ tip: "otvori", put: relativan });
+      }
+      uskladiAdresu();
+    });
+    return;
+  }
+  const kosa = putanja.indexOf("/");
+  if (kosa <= 0) return;
+  const side = putanja.slice(0, kosa);
+  const put = putanja.slice(kosa + 1);
+  if (side !== "client" && side !== "server") return;
+  if (side === "server" && !serverTabVidljiv(cas)) return;
+  if (sesija.strana !== side) primeniDogadaj({ tip: "strana", strana: side });
+  if (sesija.otvoreno[sesija.strana] !== put) primeniDogadaj({ tip: "otvori", put });
+}
+
+function primeniHash() {
+  const adresa = procitajMesto(zapisAdrese());
+  if (adresa.vrsta === "prazno" || adresa.vrsta === "nepoznato") return false;
+  if (adresa.vrsta === "uvod") {
+    uvod = true;
+    fokusIzAdrese = null;
+    fajlIzAdrese = "";
+    cekajFokus = false;
+    return true;
+  }
+  if (adresa.cas < 1 || adresa.cas > dokument.trajanjeTema) return false;
+  const promenaTeme = uvod || adresa.cas !== cas;
+  uvod = false;
+  cas = adresa.cas;
+  rasklopiTemu(cas);
+  if (adresa.korak != null) {
+    const item = lecture();
+    const max = item?.steps.length ? item.steps.length - 1 : 0;
+    korakPoCasu.set(cas, Math.max(0, Math.min(adresa.korak, max)));
+  }
+  if (adresa.deo) deo = adresa.deo;
+  else if (promenaTeme) deo = podrazumevaniDeo();
+  const indeks = trenutniIndeks();
+  if (adresa.blok && deo !== "editor") {
+    blokPoMestu.set(mestoBloka(indeks, deo), adresa.blok);
+    fokusIzAdrese = { deo, blok: adresa.blok };
+    cekajFokus = true;
+  } else {
+    fokusIzAdrese = null;
+    cekajFokus = false;
+  }
+  fajlIzAdrese = deo === "editor" && adresa.fajl ? adresa.fajl : "";
+  if (promenaTeme) sakrijPanelSelekcije();
+  return true;
+}
+
+function naHash() {
+  if (pisemAdresu) return;
+  if (location.hash && !hesJeMesto()) return;
+  if (!location.hash && hashOdgovara(relativnaPutanja(), trenutnoMesto())) return;
+  if (hesJeMesto() && hashOdgovara(location.hash, trenutnoMesto())) {
+    uskladiAdresu();
+    return;
+  }
+  if (!primeniHash()) return;
+  izHasha = true;
+  renderLecture();
+}
+
 function trenutniKorak() {
   const item = lecture();
   if (!item || !item.steps.length) return null;
@@ -270,8 +472,17 @@ function zabeleziOtvoreno(i) {
 
 function otvoriUvod() {
   uvod = true;
-  if (location.hash !== "#uvod") location.hash = "uvod";
-  else renderLecture();
+  cekajFokus = false;
+  fokusIzAdrese = null;
+  renderLecture();
+}
+
+function rasklopiTemu(n) {
+  sklopljeneTeme.delete(n);
+}
+
+function temaRasklopljena(n) {
+  return otvoreneTeme.has(n) || (n === cas && !sklopljeneTeme.has(n));
 }
 
 function otvoriTemu(n, korak) {
@@ -280,9 +491,11 @@ function otvoriTemu(n, korak) {
   if (uvod || n !== cas) deo = podrazumevaniDeo();
   uvod = false;
   cas = n;
+  rasklopiTemu(n);
   sakrijPanelSelekcije();
-  if (location.hash !== `#cas-${n}`) location.hash = `cas-${n}`;
-  else renderLecture();
+  cekajFokus = false;
+  fokusIzAdrese = null;
+  renderLecture();
 }
 
 function redTeme(n) {
@@ -311,66 +524,48 @@ function paintNav() {
   if (odmak !== null && posle !== null) nav.scrollTop += posle - odmak;
 }
 
-const BEDZ_TEME = {
-  1: { ikona: "layers" },
-  2: { prozor: true },
-  3: { tekst: "JS", pun: true },
-  4: { ikona: "monitor" },
-  5: { ikona: "server" },
-  6: { ikona: "clock" },
-  7: { tekst: "API" },
-  8: { ikona: "database" },
-  9: { ikona: "refresh-cw" },
-  10: { ikona: "user-round" },
-  11: { ikona: "lightbulb" },
-};
+const kesSvg = new Map();
 
-function ikonicaProzora() {
-  const NS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("class", "ikona");
-  svg.setAttribute("viewBox", "0 0 40 40");
-  svg.setAttribute("aria-hidden", "true");
-  const deo = (ime, atributi) => {
-    const el = document.createElementNS(NS, ime);
-    for (const [kljuc, vrednost] of Object.entries(atributi)) el.setAttribute(kljuc, vrednost);
-    return el;
-  };
-  svg.append(
-    deo("rect", { x: "1.4", y: "1.4", width: "37.2", height: "37.2", rx: "7", fill: "none", stroke: "currentColor", "stroke-width": "1.9" }),
-    deo("path", { d: "M1.4 12.2h37.2", fill: "none", stroke: "currentColor", "stroke-width": "1.9" }),
-    deo("circle", { cx: "6.4", cy: "6.8", r: "1.15", fill: "currentColor" }),
-    deo("circle", { cx: "10.5", cy: "6.8", r: "1.15", fill: "currentColor" }),
-    deo("circle", { cx: "14.6", cy: "6.8", r: "1.15", fill: "currentColor" }),
-    deo("path", {
-      d: "M14.6 19.2 10.4 24l4.2 4.8M22.2 17.6 18.6 29.2M25.4 19.2 29.6 24l-4.2 4.8",
-      fill: "none",
-      stroke: "currentColor",
-      "stroke-width": "2.05",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-    }),
-  );
-  return svg;
+function prikaziSliku(bedz, put) {
+  const src = putanjaAseta(put);
+  if (!/\.svg(?:$|\?)/i.test(put)) {
+    const img = document.createElement("img");
+    img.alt = "";
+    img.src = src;
+    bedz.append(img);
+    return;
+  }
+  const spreman = kesSvg.get(src);
+  if (spreman) {
+    bedz.append(spreman.cloneNode(true));
+    return;
+  }
+  fetch(src)
+    .then((odgovor) => {
+      if (!odgovor.ok) throw new Error("svg");
+      return odgovor.text();
+    })
+    .then((tekst) => {
+      const svg = new DOMParser().parseFromString(tekst, "image/svg+xml").documentElement;
+      if (svg.localName !== "svg" || svg.querySelector("parsererror, script")) return;
+      svg.setAttribute("class", "ikona");
+      svg.setAttribute("aria-hidden", "true");
+      kesSvg.set(src, svg);
+      if (bedz.isConnected) bedz.replaceChildren(svg.cloneNode(true));
+    })
+    .catch(() => {});
 }
 
-function bedzTeme(n) {
-  const opis = BEDZ_TEME[n] || { ikona: "book-open" };
+function bedzTeme(izvor) {
   const bedz = document.createElement("span");
   bedz.className = "tema-bedz";
   bedz.setAttribute("aria-hidden", "true");
-  if (opis.prozor) {
-    bedz.classList.add("tema-bedz-prozor");
-    bedz.append(ikonicaProzora());
+  if (izvor?.slika) {
+    bedz.classList.add("tema-bedz-slika");
+    prikaziSliku(bedz, izvor.slika);
     return bedz;
   }
-  if (opis.tekst) {
-    bedz.classList.add("tema-bedz-slova");
-    if (opis.pun) bedz.classList.add("tema-bedz-pun");
-    bedz.textContent = opis.tekst;
-    return bedz;
-  }
-  const znak = ikonica(opis.ikona);
+  const znak = ikonica(izvor?.ikona || "book-open");
   if (znak) bedz.append(znak);
   return bedz;
 }
@@ -440,11 +635,11 @@ function crtajNav() {
     uvodDugme.setAttribute("aria-current", "page");
     uvodDugme.classList.add("tema-aktivna");
   }
-  uvodDugme.append(teloTeme("Uvod", "Pre prve teme"), statusKrug(false, uvod), bedzTeme(0), strelaTeme(false, "chevron-right"));
+  uvodDugme.append(teloTeme("Uvod", "Pre prve teme"), statusKrug(false, uvod), bedzTeme(dokument.uvod), strelaTeme(false, "chevron-right"));
   uvodDugme.addEventListener("click", () => otvoriUvod());
   nav.append(uvodDugme);
   for (const item of lectures) {
-    const otvoren = !uvod && (item.n === cas || otvoreneTeme.has(item.n));
+    const otvoren = !uvod && temaRasklopljena(item.n);
     const aktivna = !uvod && item.n === cas;
     const vidjeni = vidjeniKoraci(lokalno.stanje(), item.n).filter((i) => i < item.steps.length);
     const zavrsena = item.steps.length > 0 && vidjeni.length === item.steps.length;
@@ -460,7 +655,7 @@ function crtajNav() {
     dugme.append(
       teloTeme(`Tema ${item.n} — ${item.title}`, item.podnaslov),
       statusKrug(zavrsena, aktivna && !zavrsena),
-      bedzTeme(item.n),
+      bedzTeme(item),
       strelaTeme(otvoren),
       napredakTeme(vidjeni.length, item.steps.length),
     );
@@ -469,9 +664,13 @@ function crtajNav() {
         otvoriTemu(item.n);
         return;
       }
-      if (item.n === cas) return;
-      if (otvoreneTeme.has(item.n)) otvoreneTeme.delete(item.n);
-      else otvoreneTeme.add(item.n);
+      if (temaRasklopljena(item.n)) {
+        otvoreneTeme.delete(item.n);
+        if (item.n === cas) sklopljeneTeme.add(item.n);
+      } else {
+        sklopljeneTeme.delete(item.n);
+        otvoreneTeme.add(item.n);
+      }
       sidroNava = item.n;
       paintNav();
     });
@@ -530,8 +729,11 @@ function prikaziDeo() {
 
 function otvoriDeo(ime) {
   deo = ime;
+  cekajFokus = false;
+  fokusIzAdrese = null;
   if (usko()) zatvoriMobilSheetove();
   prikaziDeo();
+  uskladiAdresu();
 }
 
 function usko() {
@@ -958,6 +1160,48 @@ function cvorDelova(delovi) {
   return frag;
 }
 
+function cvoroviSaOgradama(tekst) {
+  const linije = String(tekst || "").split("\n");
+  const cvorovi = [];
+  let proza = [];
+  let kod = null;
+  const isprazniProzu = () => {
+    const telo = proza.join("\n").trim();
+    proza = [];
+    if (telo) cvorovi.push(...cvoroviPasusa(telo));
+  };
+  for (const linija of linije) {
+    if (kod) {
+      if (/^```\s*$/.test(linija)) {
+        const pre = document.createElement("pre");
+        pre.className = "pitanje-kod";
+        const code = document.createElement("code");
+        code.textContent = kod.join("\n");
+        pre.append(code);
+        cvorovi.push(pre);
+        kod = null;
+      } else kod.push(linija);
+      continue;
+    }
+    if (/^```[A-Za-z0-9_+-]*\s*$/.test(linija)) {
+      isprazniProzu();
+      kod = [];
+      continue;
+    }
+    proza.push(linija);
+  }
+  if (kod) proza.push("```", ...kod);
+  isprazniProzu();
+  return cvorovi;
+}
+
+function podeliPitanje(tekst) {
+  const izvor = String(tekst || "").replace(/\s+$/, "");
+  const prelom = izvor.indexOf("\n\n");
+  if (prelom < 0) return { naslov: izvor.trim(), telo: "" };
+  return { naslov: izvor.slice(0, prelom).trim(), telo: izvor.slice(prelom + 2).trim() };
+}
+
 function cvoroviPasusa(tekst) {
   const izvor = tekst || "";
   const blokovi = blokoviProze(izvor);
@@ -1133,6 +1377,27 @@ function odaberiPredlog(stavka) {
   otvoriTemu(stavka.tema, stavka.korak);
 }
 
+function prikazStrukture(blok) {
+  const kartica = document.createElement("figure");
+  kartica.className = "isecak isecak-struktura";
+  const glava = document.createElement("header");
+  const naslov = document.createElement("span");
+  saIkonom(naslov, ikonaSekcije(blok), natpisSekcije(blok));
+  glava.append(naslov);
+  const figura = document.createElement("div");
+  figura.className = "figura figura-struktura";
+  try {
+    figura.innerHTML = svgStrukture(modelStrukture(blok.tekst));
+  } catch {
+    const prazno = document.createElement("p");
+    prazno.className = "meta";
+    prazno.textContent = "Dijagram se ne crta.";
+    figura.append(prazno);
+  }
+  kartica.append(glava, figura);
+  return kartica;
+}
+
 function prikazMermaida(blok, dijagrami, crtez) {
   const kartica = document.createElement("figure");
   kartica.className = "isecak isecak-mermaid";
@@ -1176,6 +1441,7 @@ function placeholderSekcije(blok) {
   if (blok.vrsta === "highlight") return "Tekst highlighta.";
   if (blok.vrsta === "dijagram") return "Tekstualni dijagram.";
   if (blok.vrsta === "mermaid") return "Mermaid izvor, na primer flowchart LR.";
+  if (blok.vrsta === "struktura") return "JSON crteža: kod, okviri i lifo.";
   return "Kod ove sekcije.";
 }
 
@@ -1186,13 +1452,18 @@ function prazneOpcije() {
   ];
 }
 
+function upisiAkoIma(blok, kljuc, vrednost) {
+  if (String(vrednost || "").trim()) blok[kljuc] = vrednost;
+  else delete blok[kljuc];
+}
+
 function uredjivacPitanja(blok, vezi) {
   const izbor = blok.oblik === "izbor";
-  const pitanje = izbor
-    ? napraviEditorKratkog(blok.tekst || "", { opis: "tekst pitanja" }, (vrednost) => {
-        blok.tekst = vrednost;
-      })
-    : napraviEditorTeksta(blok.tekst || "", { redovi: 3, placeholder: "Pitanje" }, { opis: "tekst pitanja" });
+  const pitanje = napraviEditorTeksta(
+    blok.tekst || "",
+    { redovi: izbor ? 6 : 4, placeholder: "Pitanje" },
+    { opis: "tekst pitanja" }
+  );
   const odgovor = izbor
     ? null
     : napraviEditorTeksta(
@@ -1210,23 +1481,31 @@ function uredjivacPitanja(blok, vezi) {
     { redovi: 4, placeholder: "Obrazloženje pitalice za nastavnika." },
     { opis: "obrazloženje" }
   );
+  const dodatno = napraviEditorTeksta(
+    blok.dodatno || "",
+    { redovi: 3, placeholder: "Dodatno pitanje, posle glavnog objašnjenja." },
+    { opis: "dodatno pitanje" }
+  );
+  const dodatniOdgovor = napraviEditorTeksta(
+    blok.dodatniOdgovor || "",
+    { redovi: 4, placeholder: "Odgovor na dodatno pitanje." },
+    { opis: "odgovor na dodatno" }
+  );
   const wrap = document.createElement("div");
   wrap.className = "uredjivi-editor-pitalica";
   wrap.append(natpisPolja("Pitanje", pitanje.telo));
   if (odgovor) wrap.append(natpisPolja("Odgovor", odgovor.telo));
   if (opcije) wrap.append(opcije.telo);
   wrap.append(natpisPolja("Obrazloženje", analiza.telo));
+  wrap.append(natpisPolja("Dodatno pitanje", dodatno.telo));
+  wrap.append(natpisPolja("Odgovor na dodatno", dodatniOdgovor.telo));
   const upisiPitanje = (vrednost) => {
     blok.tekst = vrednost;
   };
-  const upisiOdgovor = (vrednost) => {
-    if (vrednost) blok.odgovor = vrednost;
-    else delete blok.odgovor;
-  };
-  const upisiAnalizu = (vrednost) => {
-    if (vrednost) blok.analiza = vrednost;
-    else delete blok.analiza;
-  };
+  const upisiOdgovor = (vrednost) => upisiAkoIma(blok, "odgovor", vrednost);
+  const upisiAnalizu = (vrednost) => upisiAkoIma(blok, "analiza", vrednost);
+  const upisiDodatno = (vrednost) => upisiAkoIma(blok, "dodatno", vrednost);
+  const upisiDodatniOdgovor = (vrednost) => upisiAkoIma(blok, "dodatniOdgovor", vrednost);
   return {
     telo: wrap,
     opis: natpisSekcije(blok),
@@ -1234,27 +1513,31 @@ function uredjivacPitanja(blok, vezi) {
       pitanje.promenjeno() ||
       (odgovor ? odgovor.promenjeno() : false) ||
       (opcije ? opcije.promenjeno() : false) ||
-      analiza.promenjeno(),
+      analiza.promenjeno() ||
+      dodatno.promenjeno() ||
+      dodatniOdgovor.promenjeno(),
     primeni() {
-      if (izbor) pitanje.primeni();
-      else pitanje.primeni(upisiPitanje);
+      pitanje.primeni(upisiPitanje);
       if (odgovor) odgovor.primeni(upisiOdgovor);
       if (opcije) {
         if (!Array.isArray(blok.opcije)) blok.opcije = [];
         opcije.primeni(blok.opcije);
       }
       analiza.primeni(upisiAnalizu);
+      dodatno.primeni(upisiDodatno);
+      dodatniOdgovor.primeni(upisiDodatniOdgovor);
       vezi();
     },
     ponisti() {
-      if (izbor) pitanje.ponisti();
-      else pitanje.ponisti(upisiPitanje);
+      pitanje.ponisti(upisiPitanje);
       if (odgovor) odgovor.ponisti(upisiOdgovor);
       if (opcije) {
         if (!Array.isArray(blok.opcije)) blok.opcije = [];
         opcije.ponisti(blok.opcije);
       }
       analiza.ponisti(upisiAnalizu);
+      dodatno.ponisti(upisiDodatno);
+      dodatniOdgovor.ponisti(upisiDodatniOdgovor);
       vezi();
     },
   };
@@ -1350,7 +1633,7 @@ function uredjivacSekcije(sirovi, blok, vezi) {
     return editor;
   }
   if (blok.vrsta === "kod") return uredjivacKoda(blok, vezi);
-  const kod = blok.vrsta === "dijagram" || blok.vrsta === "mermaid";
+  const kod = blok.vrsta === "dijagram" || blok.vrsta === "mermaid" || blok.vrsta === "struktura";
   const editor = napraviEditorTeksta(
     blok.tekst || "",
     { redovi: blok.vrsta === "tekst" ? 8 : 6, kod, placeholder: placeholderSekcije(blok) },
@@ -1438,22 +1721,44 @@ function idPitanja(blok) {
   return `${cas}:${indeksKoraka()}:${blok.id}`;
 }
 
+function natpisOpcije(tekst) {
+  const frag = document.createDocumentFragment();
+  for (const deo of deloviReda(tekst)) {
+    if (deo.kod) {
+      const kod = document.createElement("code");
+      kod.textContent = deo.tekst;
+      frag.append(kod);
+    } else if (deo.jako) {
+      const jako = document.createElement("strong");
+      jako.textContent = deo.tekst;
+      frag.append(jako);
+    } else frag.append(document.createTextNode(deo.tekst));
+  }
+  return frag;
+}
+
+function domIdPitanja(blok, sufiks) {
+  const osnova = `${cas}-${indeksKoraka()}-${String(blok.id).replace(/[^a-z0-9_-]/gi, "-")}`;
+  return sufiks ? `pitanje-${sufiks}-${osnova}` : `pitanje-okidac-${osnova}`;
+}
+
 function prikazPitanja(blok) {
   const kljuc = idPitanja(blok);
   const otvoreno = objasnjenjePoKoraku.get(kljuc) === true;
   const izbor = blok.oblik === "izbor";
   const odgovor = blok.odgovor || "";
+  const { naslov, telo: teloPitanja } = podeliPitanje(blok.tekst);
   const pitanjeUnutra = document.createElement("section");
   pitanjeUnutra.className = "pitanje-blok";
   const pitanje = document.createElement("h3");
-  if (blok.tekst) pitanje.append(fragmentTeksta(blok.tekst));
+  if (naslov) pitanje.append(fragmentTeksta(naslov));
   else if (urediSadrzaj.aktivan) {
     const prazno = document.createElement("span");
     prazno.className = "meta";
     prazno.textContent = "Novo pitanje";
     pitanje.append(prazno);
   }
-  const mozeOtvoriti = izbor ? true : Boolean(odgovor);
+  const mozeOtvoriti = izbor ? true : Boolean(odgovor || blok.analiza);
   const red = document.createElement("div");
   red.className = mozeOtvoriti ? "pitanje-red otkriva" : "pitanje-red";
   if (mozeOtvoriti && otvoreno) red.classList.add("otvoreno");
@@ -1466,7 +1771,7 @@ function prikazPitanja(blok) {
     red.append(omotZnaka);
   }
   red.append(pitanje);
-  const domId = `pitanje-okidac-${cas}-${indeksKoraka()}-${String(blok.id).replace(/[^a-z0-9_-]/gi, "-")}`;
+  const domId = domIdPitanja(blok);
   if (mozeOtvoriti) {
     const lampica = document.createElement("span");
     lampica.className = "odgovor-ikona";
@@ -1483,22 +1788,22 @@ function prikazPitanja(blok) {
     red.append(okidac);
     red.addEventListener("click", (e) => {
       if (e.target.closest(".pojam-crta")) return;
-      objasnjenjePoKoraku.set(kljuc, !otvoreno);
+      if (otvoreno) {
+        objasnjenjePoKoraku.delete(kljuc);
+        objasnjenjePoKoraku.delete(`${kljuc}:dodatno`);
+      } else objasnjenjePoKoraku.set(kljuc, true);
       renderLecture();
       document.getElementById(domId)?.focus();
     });
   }
   pitanjeUnutra.append(red);
-  const vidi = otvoreno || urediSadrzaj.aktivan;
-  if (!izbor && vidi) {
+  if (teloPitanja) {
     const telo = document.createElement("div");
-    telo.id = `odgovor-${domId}`;
-    telo.className = odgovor ? "odgovor-tekst" : "odgovor-tekst meta";
-    if (mozeOtvoriti) red.querySelector(".pitanje-okidac")?.setAttribute("aria-controls", telo.id);
-    if (odgovor) telo.append(...cvoroviPasusa(odgovor));
-    else telo.textContent = "Nema odgovora.";
+    telo.className = "pitanje-telo";
+    telo.append(...cvoroviSaOgradama(teloPitanja));
     pitanjeUnutra.append(telo);
   }
+  const vidi = otvoreno || urediSadrzaj.aktivan;
   if (izbor && vidi) {
     const kratke = document.createElement("div");
     kratke.className = "opcije-mreza";
@@ -1511,7 +1816,9 @@ function prikazPitanja(blok) {
       button.dataset.key = opt.key;
       const znakOdgovora = ikonaOdgovora(otvoreno, izabran, opt);
       if (znakOdgovora) button.append(znakOdgovora);
-      button.append(document.createTextNode(`${opt.key}. ${opt.text}`));
+      const natpis = document.createElement("span");
+      natpis.append(document.createTextNode(`${opt.key}. `), natpisOpcije(opt.text));
+      button.append(natpis);
       if (opt.key === izabran) button.classList.add("izabrano");
       if (otvoreno && opt.ok) button.classList.add("holds");
       if (otvoreno) {
@@ -1527,16 +1834,97 @@ function prikazPitanja(blok) {
       kratke.append(button);
     }
     pitanjeUnutra.append(kratke);
-    if (blok.analiza) {
-      pitanjeUnutra.append(nacrtajTekstBloka(blok.analiza, "Obrazloženje pitalice", "book-open"));
-    } else if (urediSadrzaj.aktivan) {
-      const prazno = document.createElement("p");
-      prazno.className = "meta";
-      prazno.textContent = "Nema obrazloženja — dodajte ga kroz Uredi.";
-      pitanjeUnutra.append(prazno);
-    }
   }
+  if (!izbor && vidi) {
+    const telo = document.createElement("div");
+    telo.id = `odgovor-${domId}`;
+    telo.className = odgovor ? "odgovor-tekst" : "odgovor-tekst meta";
+    if (mozeOtvoriti) red.querySelector(".pitanje-okidac")?.setAttribute("aria-controls", telo.id);
+    if (odgovor) telo.append(...cvoroviSaOgradama(odgovor));
+    else telo.textContent = "Nema odgovora.";
+    pitanjeUnutra.append(telo);
+  }
+  if (vidi && blok.analiza) {
+    const okvir = document.createElement("div");
+    okvir.className = "odgovor-tekst obrazlozenje-tekst";
+    const natpis = document.createElement("p");
+    natpis.className = "meta";
+    natpis.textContent = "Obrazloženje";
+    okvir.append(natpis, ...cvoroviSaOgradama(blok.analiza));
+    pitanjeUnutra.append(okvir);
+  } else if (izbor && vidi && urediSadrzaj.aktivan) {
+    const prazno = document.createElement("p");
+    prazno.className = "meta";
+    prazno.textContent = "Nema obrazloženja — dodajte ga kroz Uredi.";
+    pitanjeUnutra.append(prazno);
+  }
+  if (vidi && blok.dodatno) pitanjeUnutra.append(prikazDodatnog(blok, kljuc));
   return pitanjeUnutra;
+}
+
+function prikazDodatnog(blok, kljuc) {
+  const kljucDodatnog = `${kljuc}:dodatno`;
+  const otvoreno = objasnjenjePoKoraku.get(kljucDodatnog) === true;
+  const odgovor = blok.dodatniOdgovor || "";
+  const { naslov, telo: teloPitanja } = podeliPitanje(blok.dodatno);
+  const omot = document.createElement("div");
+  omot.className = "pitanje-blok pitanje-dodatno";
+  const pitanje = document.createElement("h3");
+  if (naslov) pitanje.append(cvorDelova(deloviReda(naslov)));
+  const mozeOtvoriti = Boolean(odgovor);
+  const red = document.createElement("div");
+  red.className = mozeOtvoriti ? "pitanje-red otkriva" : "pitanje-red";
+  if (mozeOtvoriti && otvoreno) red.classList.add("otvoreno");
+  const znak = ikonica("question-plus");
+  if (znak) {
+    const omotZnaka = document.createElement("span");
+    omotZnaka.className = "pitanje-znak";
+    omotZnaka.setAttribute("aria-hidden", "true");
+    omotZnaka.append(znak);
+    red.append(omotZnaka);
+  }
+  red.append(pitanje);
+  const domId = domIdPitanja(blok, "dodatno");
+  if (mozeOtvoriti) {
+    const lampica = document.createElement("span");
+    lampica.className = "odgovor-ikona";
+    lampica.setAttribute("aria-hidden", "true");
+    const sijalica = ikonica("lightbulb");
+    if (sijalica) lampica.append(sijalica);
+    red.append(lampica);
+    const okidac = document.createElement("button");
+    okidac.type = "button";
+    okidac.id = domId;
+    okidac.className = "pitanje-okidac";
+    okidac.setAttribute("aria-expanded", String(otvoreno));
+    okidac.setAttribute("aria-label", otvoreno ? "Sakrij odgovor" : "Prikaži odgovor");
+    red.append(okidac);
+    red.addEventListener("click", (e) => {
+      if (e.target.closest(".pojam-crta")) return;
+      if (otvoreno) objasnjenjePoKoraku.delete(kljucDodatnog);
+      else objasnjenjePoKoraku.set(kljucDodatnog, true);
+      renderLecture();
+      document.getElementById(domId)?.focus();
+    });
+  }
+  omot.append(red);
+  if (teloPitanja) {
+    const telo = document.createElement("div");
+    telo.className = "pitanje-telo";
+    telo.append(...cvoroviSaOgradama(teloPitanja));
+    omot.append(telo);
+  }
+  const vidiOdgovor = otvoreno || urediSadrzaj.aktivan;
+  if (vidiOdgovor) {
+    const telo = document.createElement("div");
+    telo.id = `odgovor-${domId}`;
+    telo.className = odgovor ? "odgovor-tekst" : "odgovor-tekst meta";
+    red.querySelector(".pitanje-okidac")?.setAttribute("aria-controls", telo.id);
+    if (odgovor) telo.append(...cvoroviSaOgradama(odgovor));
+    else telo.textContent = "Nema odgovora.";
+    omot.append(telo);
+  }
+  return omot;
 }
 
 function teloSekcije(sirovi, blok, dijagrami, prviTekst, vezi, prefiks, crtez) {
@@ -1568,6 +1956,9 @@ function teloSekcije(sirovi, blok, dijagrami, prviTekst, vezi, prefiks, crtez) {
   }
   if (blok.vrsta === "mermaid") {
     return omotUredjivog(urediSadrzaj, id, prikazMermaida(blok, dijagrami, crtez), () => uredjivacSekcije(sirovi, blok, vezi), bezOlovke());
+  }
+  if (blok.vrsta === "struktura") {
+    return omotUredjivog(urediSadrzaj, id, prikazStrukture(blok), () => uredjivacSekcije(sirovi, blok, vezi), bezOlovke());
   }
   const natpis = blok.vrsta === "kod" ? naslovKoda(blok) : natpisSekcije(blok);
   const kartica = nacrtajTekstBloka(blok.tekst || "", natpis, ikonaSekcije(blok));
@@ -2308,7 +2699,8 @@ function nacrtajZaglavlje() {
   document.querySelector("#naslov-kursa").textContent = dokument.naslov;
   document.querySelector("#ustanova").textContent = dokument.ustanova;
   document.querySelector("#ustanova-red").textContent = dokument.ustanovaRed;
-  document.querySelector("#grb").src = dokument.grb;
+  const grb = putanjaAseta(dokument.grb);
+  if (grb) document.querySelector("#grb").src = grb;
   document.querySelector("#oznaka").textContent = dokument.oznaka;
 }
 
@@ -2432,6 +2824,10 @@ function renderLecture() {
   if (uvod) {
     zabeleziOtvoreno(0);
     nacrtajUvod();
+    const ovaJeAdresa = izHasha;
+    izHasha = false;
+    if (!ovaJeAdresa) cekajFokus = false;
+    uskladiAdresu();
     return;
   }
   const item = lecture();
@@ -2495,6 +2891,11 @@ function renderLecture() {
   prikaziDeo();
   paintNav();
   fitPanel();
+  const ovaJeAdresa = izHasha;
+  izHasha = false;
+  if (stranicaSpremna && cekajFokus && ovaJeAdresa) vratiFokusBloka();
+  else if (!ovaJeAdresa) cekajFokus = false;
+  uskladiAdresu();
   if (animKoraka && usko()) {
     casEl.classList.remove("mobil-korak-unazad", "mobil-korak-napred");
     casEl.classList.add(animKoraka < 0 ? "mobil-korak-unazad" : "mobil-korak-napred");
@@ -2569,9 +2970,10 @@ function nacrtajDiskusijuKoraka(item, i, korak, sirovi) {
     ponovi.className = "ponovi-pitanje";
     saIkonom(ponovi, "refresh-cw", "Ponovi pitanja");
     ponovi.addEventListener("click", () => {
-      for (const pitanje of pitanja) {
+      for (const pitanje of lista.filter((blok) => blok.vrsta === "pitanje")) {
         const kljuc = `${cas}:${i}:${pitanje.id}`;
         objasnjenjePoKoraku.delete(kljuc);
+        objasnjenjePoKoraku.delete(`${kljuc}:dodatno`);
         izborKoraka.delete(kljuc);
       }
       renderLecture();
@@ -2742,6 +3144,11 @@ function fitPanel() {
   starost.hidden = cas < 9;
   osveziDugmePrimera();
   primeniDogadaj({ tip: "fokus", putanja: izborFajla(trenutniKorak()), kljuc: `${cas}:${indeksKoraka()}` });
+  if (fajlIzAdrese && deo === "editor") {
+    const trazeni = fajlIzAdrese;
+    fajlIzAdrese = "";
+    primeniFajlIzAdrese(trazeni);
+  }
   if (cas < 9) zaustaviPeriodicno();
   if (cas >= 5 && !dovod) connectDovod();
   uskladiKutiju();
@@ -2852,7 +3259,10 @@ function renderNode(node, otvoren) {
     button.dataset.put = file.put;
     button.setAttribute("aria-current", file.put === otvoren ? "true" : "false");
     button.addEventListener("click", () => {
+      cekajFokus = false;
+      fokusIzAdrese = null;
       primeniDogadaj({ tip: "otvori", put: file.put });
+      uskladiAdresu();
     });
     li.append(button);
     ul.append(li);
@@ -3108,6 +3518,7 @@ async function izaberiPrimer(id) {
     stanjePrimera = null;
     osveziDugmePrimera();
     primeniDogadaj({ tip: sesija.verzija === "ugradjena" ? "ugradjena" : "radna" });
+    uskladiAdresu();
     return;
   }
   const token = ++primerZahtev;
@@ -3138,6 +3549,7 @@ async function izaberiPrimer(id) {
   stanjePrimera = rezultat.stanje;
   sacuvaniPrimeri.set(id, stanjePrimera);
   nacrtajPrikaz(rezultat, true, { tip: stanjePrimera.verzija });
+  uskladiAdresu();
 }
 
 async function preklopiMeniPrimera() {
@@ -3286,11 +3698,17 @@ document.querySelector("#ses-ne").addEventListener("click", () => chooseSession(
 
 tabFront.addEventListener("click", () => {
   if (sesija.strana === "client") return;
+  cekajFokus = false;
+  fokusIzAdrese = null;
   primeniDogadaj({ tip: "strana", strana: "client" });
+  uskladiAdresu();
 });
 tabBack.addEventListener("click", () => {
   if (sesija.strana === "server") return;
+  cekajFokus = false;
+  fokusIzAdrese = null;
   primeniDogadaj({ tip: "strana", strana: "server" });
+  uskladiAdresu();
 });
 
 const dugmeStabla = document.querySelector("#sklopi-stablo");
@@ -3623,9 +4041,11 @@ function otvoriBelesku(tema, korak) {
   korakPoCasu.set(tema, korak);
   uvod = false;
   cas = tema;
+  rasklopiTemu(tema);
   sakrijPanelSelekcije();
-  if (location.hash !== `#cas-${tema}`) location.hash = `cas-${tema}`;
-  else renderLecture();
+  cekajFokus = false;
+  fokusIzAdrese = null;
+  renderLecture();
 }
 
 const beleske = napraviBeleske({
@@ -3653,22 +4073,19 @@ postaviTabove();
 poveziIzvoz();
 osveziOpcije();
 
-window.addEventListener("hashchange", () => {
-  if (location.hash === "#uvod") {
-    uvod = true;
-    renderLecture();
-    return;
-  }
-  const n = Number((location.hash.match(/cas-(\d+)/) || [])[1]);
-  if (n >= 1 && n <= dokument.trajanjeTema) {
-    if (uvod || n !== cas) {
-      deo = podrazumevaniDeo();
-      sakrijPanelSelekcije();
-    }
-    uvod = false;
-    cas = n;
-    renderLecture();
-  }
+document.querySelector("a.ustanova")?.addEventListener("click", (dogadjaj) => {
+  if (dogadjaj.button !== 0 || dogadjaj.metaKey || dogadjaj.ctrlKey || dogadjaj.shiftKey || dogadjaj.altKey) return;
+  dogadjaj.preventDefault();
+  otvoriUvod();
+});
+
+window.addEventListener("hashchange", naHash);
+window.addEventListener("popstate", naHash);
+document.addEventListener("focusin", (event) => {
+  zapamtiBlok(event.target.closest?.(".sekcija-lekcije"));
+});
+document.addEventListener("pointerdown", (event) => {
+  zapamtiBlok(event.target.closest?.(".sekcija-lekcije"));
 });
 
 for (const ime of ["koraci", "diskusija", "editor"]) {
@@ -3686,7 +4103,10 @@ function otvoriMobilGradivo() {
   zatvoriMobilPretragu();
   zatvoriMobilPadMenije();
   deo = "koraci";
+  cekajFokus = false;
+  fokusIzAdrese = null;
   prikaziDeo();
+  uskladiAdresu();
   navOtvoren = true;
   prikaziNav();
 }
@@ -3946,15 +4366,13 @@ vezniPovuciNadoleIzborSheet(mobilNedSheet, zatvoriMobilIzborSheetove);
 vezniPovuciNadoleIzborSheet(mobilKorSheet, zatvoriMobilIzborSheetove);
 
 const pocetno = lokalno.stanje().mesto;
-const izHesha = Number((location.hash.match(/cas-(\d+)/) || [])[1]);
-if (izHesha >= 1 && izHesha <= dokument.trajanjeTema) {
-  uvod = false;
-  cas = izHesha;
-} else if (location.hash === "#uvod" || !location.hash) {
-  uvod = true;
-} else if (pocetno.tema >= 1 && pocetno.tema <= dokument.trajanjeTema) {
-  uvod = false;
-  cas = pocetno.tema;
+const pocetnaAdresa = procitajMesto(zapisAdrese());
+if (!primeniHash()) {
+  if (pocetnaAdresa.vrsta === "uvod" || pocetnaAdresa.vrsta === "prazno") uvod = true;
+  else if (pocetno.tema >= 1 && pocetno.tema <= dokument.trajanjeTema) {
+    uvod = false;
+    cas = pocetno.tema;
+  }
 }
 async function pripremiUredjivanje() {
   try {
@@ -3979,10 +4397,12 @@ Promise.all([
   pripremiUredjivanje(),
 ]).then(([tekst]) => {
   if (tekst) pojmovi = pojmoviIzTeksta(tekst);
+  stranicaSpremna = true;
   urediSadrzaj.osvezi = () => renderLecture();
   urediSadrzaj.potvrdiIzmenu = potvrdiIzmenuSadrzaja;
   urediSadrzaj.otkazi = otkaziIzmenu;
   if (urediSadrzaj.aktivan) urediSadrzaj.istorija.osveziReferencu();
+  izHasha = cekajFokus;
   renderLecture();
   prviIzbor.pokaziAkoTreba();
 });
@@ -4011,5 +4431,5 @@ if (urediSadrzaj.aktivan) {
     }
   });
 }
-if (!location.hash) location.hash = uvod ? "uvod" : `cas-${cas}`;
-else window.dispatchEvent(new Event("hashchange"));
+izHasha = cekajFokus;
+renderLecture();

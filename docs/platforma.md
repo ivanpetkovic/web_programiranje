@@ -1,6 +1,6 @@
 # Platforma sajta časa
 
-Sajt časa je ljuska za jedan dokument kursa. Tekst tema je `site/kurs.json`. Ovaj fajl opisuje šta ljuska radi. Nastavni cilj i povezujući primer su u [kurs.md](kurs.md). Raspored zaglavlja, Opcija i oblik lokalnog zapisa su u [izgled-i-lokalno-stanje.md](izgled-i-lokalno-stanje.md).
+Sajt časa je ljuska za jedan dokument kursa. Tekst tema je `kursevi/web_programiranje/kurs.json`. Ovaj fajl opisuje šta ljuska radi. Nastavni cilj i povezujući primer su u [kurs.md](kurs.md). Raspored zaglavlja, Opcija i oblik lokalnog zapisa su u [izgled-i-lokalno-stanje.md](izgled-i-lokalno-stanje.md).
 
 Ako se ovaj opis i sajt raziđu, važi sajt i testovi. OpenSpec u `openspec/specs/` je ugovor ljuske samo tamo gde se sa njima slaže. Ne drži sadržaj kursa.
 
@@ -24,7 +24,7 @@ Gradivo pokazuje tekst koraka, ključnu ideju bez tog natpisa, pa isečak ili cr
 
 ### Diskusija
 
-Diskusija drži kratku pitalicu otvorenog koraka. Odgovori su neoznačeni dok se obrazloženje ne otkrije. Na poslednjem koraku teme, ispod pitalice koraka, stoji diskusija cele teme.
+Diskusija drži kratku pitalicu otvorenog koraka. Pitanje i primer su na ekranu. Odgovori su sakriveni dok se red pitanja ne otvori. Na poslednjem koraku teme, ispod pitalice koraka, stoji diskusija cele teme.
 
 Faze te diskusije idu redom: Izbor, Poređenje, Pretpostavke, Analiza, Ponovni izbor. Do Analize sajt ne otkriva koji odgovor drži. Rezerva je zatvorena dok je nastavnik ne otvori. Glas se ne skuplja sa laptopova i ne pamti se posle učitavanja. Izlazna rečenica poslednjeg koraka nema polje za upis.
 
@@ -40,7 +40,7 @@ Pregled je iframe klijentskog stabla. Izmena klijentskog fajla menja iframe i ne
 
 Ljuska čita jedan JSON. Naslov teme, koraci, proza, pitalice i ishod dolaze iz njega. Ljuska ne drži drugi primerak tog teksta. `trajanjeTema` mora da bude jednako broju tema. Ako nije, sajt prijavi grešku i ne dodaje niti izbacuje temu.
 
-`?edit=true` uključuje uređivanje na stranici časa. Izmena se upisuje u dokument, a kvačica znači da je `PUT /api/kurs` sačuvao `site/kurs.json`. Opozovi i ponovi drže lokalnu istoriju te sesije.
+`?edit=true` uključuje uređivanje na stranici časa. Izmena se upisuje u dokument, a kvačica znači da je `PUT /api/kurs` sačuvao `kursevi/web_programiranje/kurs.json`. Opozovi i ponovi drže lokalnu istoriju te sesije.
 
 `/studio` je posebna strana za isti dokument: lista tema i koraka, dodavanje, redosled, učitavanje drugog JSON-a i čuvanje. Studio poravna trajanje sa brojem tema pre upisa.
 
@@ -48,7 +48,7 @@ Ljuska čita jedan JSON. Naslov teme, koraci, proza, pitalice i ishod dolaze iz 
 
 Zaglavlje drži ustanovu, sliku i naslov kursa iz dokumenta, pretragu, pomoć, beleške, Opcije i oznaku iz dokumenta.
 
-Pretraga je sklopljena lupa dok nema fokusa ni upita. Placeholder je Nađi pojam, pitanje ili primer koda. Command+K i Ctrl+K je fokusiraju. Izbor pitanja ili isečka otvara korak koji ga sadrži. Izbor pojma pokazuje odrednicu iz `GLOSSARY.md`.
+Pretraga je sklopljena lupa dok nema fokusa ni upita. Placeholder je Nađi pojam, pitanje ili primer koda. Command+K i Ctrl+K je fokusiraju. Izbor pitanja ili isečka otvara korak koji ga sadrži. Izbor pojma pokazuje odrednicu iz `kursevi/web_programiranje/GLOSSARY.md`.
 
 Pomoć je kratko uputstvo i ne otvara editor.
 
@@ -62,7 +62,7 @@ Jedan zapis u `localStorage`, ključ `web-programiranje:stanje`. Drži mesto, na
 
 ## Rečnik i primeri
 
-`GLOSSARY.md` je rečnik. Sajt ga servira na `/recnik`. Pojam u tekstu časa dobija isprekidanu liniju i oblačić sa istim poljima kao pretraga.
+`kursevi/web_programiranje/GLOSSARY.md` je rečnik kursa. Sajt ga servira na `/recnik`. Pojam u tekstu časa dobija isprekidanu liniju i oblačić sa istim poljima kao pretraga.
 
 `primeri/` su samostalni primeri u editoru. Svaki podfolder ima `primer.json` sa natpisom. Kontrolna soba nije taj folder. Ona je podrazumevano stablo `client/` i `server/`.
 

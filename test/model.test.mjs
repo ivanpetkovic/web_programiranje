@@ -39,12 +39,35 @@ test("adapter čita dokument i ne drži naslove", () => {
   assert.equal(izvor.includes("Šta browser prikazuje"), false);
   assert.equal(izvor.includes("JavaScript opisuje stanje"), false);
   assert.equal(dokument.naslov, "Web programiranje");
-  assert.equal(dokument.slika, "/img/kurs.png");
-  const znak = fs.readFileSync(new URL("../site/img/kurs.png", import.meta.url));
+  assert.equal(dokument.slika, "assets/kurs.png");
+  const znak = fs.readFileSync(new URL("../kursevi/web_programiranje/assets/kurs.png", import.meta.url));
   assert.equal(znak.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
+  assert.equal(fs.existsSync(new URL("../kursevi/web_programiranje/assets/elfak_logo.png", import.meta.url)), true);
   assert.equal(dokument.ustanova, "Elektronski fakultet");
   assert.equal(dokument.ustanovaRed, "Univerzitet u Nišu");
-  assert.equal(dokument.grb, "/img/elfak_logo.png");
+  assert.equal(dokument.grb, "assets/elfak_logo.png");
+  assert.equal(dokument.uvod.ikona, "book-open");
+  const znakovi = [
+    ["ikona", "layers"],
+    ["slika", "assets/prozor.svg"],
+    ["slika", "assets/js.svg"],
+    ["ikona", "monitor"],
+    ["ikona", "server"],
+    ["ikona", "clock"],
+    ["slika", "assets/api.svg"],
+    ["ikona", "database"],
+    ["ikona", "refresh-cw"],
+    ["ikona", "user-round"],
+    ["ikona", "lightbulb"],
+  ];
+  dokument.teme.forEach((tema, i) => {
+    const [kljuc, vrednost] = znakovi[i];
+    assert.equal(tema[kljuc], vrednost, tema.naslov);
+    assert.equal(Boolean(tema.ikona && tema.slika), false, tema.naslov);
+    if (kljuc === "slika") assert.equal(fs.existsSync(new URL(`../kursevi/web_programiranje/${vrednost}`, import.meta.url)), true);
+  });
+  assert.equal(lectures[1].slika, "assets/prozor.svg");
+  assert.equal(lectures[0].ikona, "layers");
   assert.equal(dokument.trajanjeTema, 11);
   assert.equal(lectures.length, 11);
   assert.equal(lectures[0].title, "Zašto Web postoji: zahtevi i protokoli");

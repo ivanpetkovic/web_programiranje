@@ -33,7 +33,7 @@ function stanjeTrake() {
   };
   const tab = document.querySelector('.cas-tabovi [aria-selected="true"]');
   return {
-    hash: location.hash,
+    hash: location.pathname,
     tema: tekst("#izbor-teme-natpis"),
     korak: tekst("#izbor-koraka-natpis"),
     tab: tab?.id || "",
@@ -67,7 +67,7 @@ test("traka časa u browseru: izbor teme, Sledeći, krajevi i uvod", { timeout: 
   await strana.vrednost(`location.hash = "cas-3"`);
   await pauza(200);
   let sada = await citaj();
-  assert.equal(sada.hash, "#cas-3");
+  assert.match(sada.hash, /^\/tema\/3\//);
   assert.match(sada.tema, /^Tema 3 – /);
   assert.equal(sada.tabUTraci, "traka-casa");
 
@@ -79,7 +79,7 @@ test("traka časa u browseru: izbor teme, Sledeći, krajevi i uvod", { timeout: 
   await strana.vrednost(`[...document.querySelectorAll("#izbor-teme-lista button")].find((b) => b.textContent.startsWith("Tema 5 – ")).click()`);
   await pauza(200);
   sada = await citaj();
-  assert.equal(sada.hash, "#cas-5");
+  assert.match(sada.hash, /^\/tema\/5\//);
   assert.match(sada.tema, /^Tema 5 – /);
   assert.match(sada.korak, /^Korak 3 od \d+ – /);
   assert.equal(await strana.vrednost(`document.querySelector("#izbor-teme-lista").hidden`), true);
@@ -107,7 +107,7 @@ test("traka časa u browseru: izbor teme, Sledeći, krajevi i uvod", { timeout: 
   await strana.vrednost(`document.querySelector("#izbor-teme-lista button").click()`);
   await pauza(200);
   sada = await citaj();
-  assert.equal(sada.hash, "#uvod");
+  assert.equal(sada.hash, "/uvod");
   assert.equal(sada.tema, "Uvod");
   assert.equal(sada.izborKoraka, false);
   assert.equal(sada.tabovi, false);
@@ -121,5 +121,5 @@ test("traka časa u browseru: izbor teme, Sledeći, krajevi i uvod", { timeout: 
   await strana.posalji("Input.dispatchKeyEvent", { type: "keyDown", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13, text: "\r" });
   await strana.posalji("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
   await pauza(200);
-  assert.equal(await strana.vrednost(`location.hash`), "#cas-1");
+  assert.match(await strana.vrednost(`location.pathname`), /^\/tema\/1\//);
 });

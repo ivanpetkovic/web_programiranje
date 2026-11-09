@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Tekst tema, koraka i pitalica je `site/kurs.json`. Ova specifikacija ne opisuje sadržaj kursa. Opisuje samo odnos ljuske i dokumenta. Ponašanje stranice je u `sajt-casa`.
+Tekst tema, koraka i pitalica je `kursevi/web_programiranje/kurs.json`. Ova specifikacija ne opisuje sadržaj kursa. Opisuje samo odnos ljuske i dokumenta. Ponašanje stranice je u `sajt-casa`.
 
 ## Requirements
 

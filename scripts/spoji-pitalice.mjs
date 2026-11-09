@@ -1,5 +1,5 @@
 import fs from "fs";
-import kurs from "../site/kurs.json" with { type: "json" };
+import kurs from "../kursevi/web_programiranje/kurs.json" with { type: "json" };
 import { drugeA } from "./druge-a.mjs";
 import { drugeB } from "./druge-b.mjs";
 import { drugeC } from "./druge-c.mjs";
@@ -47,5 +47,5 @@ for (const [ti, tema] of kurs.teme.entries()) {
 const visak = Object.keys(druge).filter((k) => !vidjeno.has(k));
 if (visak.length) throw new Error(`višak: ${visak.join(", ")}`);
 
-fs.writeFileSync(new URL("../site/kurs.json", import.meta.url), `${JSON.stringify(kurs, null, 2)}\n`);
+fs.writeFileSync(new URL("../kursevi/web_programiranje/kurs.json", import.meta.url), `${JSON.stringify(kurs, null, 2)}\n`);
 console.log(`upisano ${indeks} dodatnih pitalica na ${vidjeno.size} koraka`);

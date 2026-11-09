@@ -217,6 +217,7 @@ export function materijalizuj(korak, prikazani, polje = "blokovi") {
 
 export function uskladiNasledjenaPolja(korak) {
   if (!korak || !Array.isArray(korak.blokovi)) return;
+  for (const blok of korak.blokovi) delete blok.minuta;
   const tekst = korak.blokovi.find((blok) => blok.vrsta === "tekst");
   korak.tekst = tekst?.tekst || "";
   const kljucna = korak.blokovi.find((blok) => blok.vrsta === "highlight" && blok.uloga === "kljucna");
@@ -240,6 +241,7 @@ export function uskladiNasledjenaPolja(korak) {
 
 export function uskladiDiskusiju(korak) {
   if (!korak || !Array.isArray(korak.diskusija)) return;
+  for (const blok of korak.diskusija) delete blok.minuta;
   const prica = korak.diskusija.find((blok) => blok.vrsta === "tekst" && blok.veza === "prica");
   if (prica?.tekst) korak.prica = prica.tekst;
   else delete korak.prica;

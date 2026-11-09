@@ -1152,28 +1152,16 @@ body.nav-skriven .kurs-zaglavlje { padding: 0; gap: 0; }
   color: var(--nav-bedz);
 }
 .tema-bedz .ikona { width: 20px; height: 20px; }
-.tema-bedz-prozor {
+.tema-bedz-slika {
   border: 0;
   background: transparent;
-  color: #243044;
 }
-.tema-bedz-prozor .ikona { width: 2.5rem; height: 2.5rem; }
-.tema-bedz-slova {
-  font-size: 0.68rem;
-  font-weight: 750;
-  letter-spacing: -0.03em;
-  line-height: 1;
+.tema-bedz-slika .ikona,
+.tema-bedz-slika img {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: contain;
 }
-.tema-bedz-pun {
-  border-color: transparent;
-  background: var(--nav-zlato-bedz);
-  color: #1a1408;
-  font-size: 1.05rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-}
-html[data-tema="ugalj"] .tema-bedz-prozor,
-html[data-tema="mornar"] .tema-bedz-prozor { color: var(--nav-bedz); }
 .tema-strela {
   width: 1.875rem;
   height: 1.875rem;
@@ -1431,6 +1419,11 @@ body.rezim-uredjivanja .sekcija-lekcije .isecak header { padding-right: 0.4rem; 
 .isecak .red.novo .br { color: var(--muted); }
 .isecak .red.novo { background: color-mix(in srgb, var(--diff-dodato) 16%, transparent); }
 .pitanje-blok { margin-top: 1rem; }
+.pitanje-dodatno {
+  margin: 0.85rem 0 0.15rem 0.2rem;
+  padding-left: 0.85rem;
+  border-left: 2px solid color-mix(in srgb, var(--amber) 45%, var(--line));
+}
 .pitanje-red { position: relative; display: flex; align-items: flex-start; gap: 0.55rem; }
 .pitanje-red h3 { margin: 0; flex: 1; min-width: 0; }
 .pitanje-znak {
@@ -1444,6 +1437,21 @@ body.rezim-uredjivanja .sekcija-lekcije .isecak header { padding-right: 0.4rem; 
 .pitanje-red.otkriva h3,
 .pitanje-red.otkriva .pitanje-znak,
 .pitanje-red.otkriva .odgovor-ikona { position: relative; z-index: 1; pointer-events: none; }
+.pitanje-telo { margin: 0.45rem 0 0.15rem; }
+.pitanje-telo p { margin: 0.35rem 0; }
+.pitanje-kod {
+  margin: 0.55rem 0;
+  padding: 0.75rem 0.9rem;
+  overflow: auto;
+  border-radius: 10px;
+  background: #f7f1e6;
+  color: #1c1a16;
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+html[data-pozadina-koda="crna"] .pitanje-kod { background: #111111; color: #f4efe4; }
+.obrazlozenje-tekst { margin-top: 0.75rem; }
 .pitanje-red.otkriva .pojam-crta { pointer-events: auto; }
 .pitanje-okidac {
   position: absolute;
@@ -1503,6 +1511,21 @@ body.rezim-uredjivanja .sekcija-lekcije .isecak header { padding-right: 0.4rem; 
 .ponovi-pitanje:hover { filter: brightness(1.08); }
 .figura { margin: 0.8rem 0; overflow-x: auto; }
 .figura-mermaid svg { max-width: 100%; height: auto; }
+#sekcija-koraci { min-width: 0; }
+.isecak-struktura { max-width: 100%; }
+.isecak-struktura .figura {
+  margin: 0;
+  padding: 0.85rem 0.9rem 1rem;
+  background: #f7f4ee;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.figura-struktura {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.figura-struktura svg { display: block; height: auto; max-width: none; }
 .figura-crtez.ceka { min-height: 4.5rem; }
 .figura-crtez svg { width: 100%; height: auto; display: block; margin: 0 auto; }
 .figura-crtez svg text, .figura-crtez svg tspan { fill: var(--ink) !important; font-family: inherit !important; }
@@ -1528,6 +1551,9 @@ body.rezim-uredjivanja .sekcija-lekcije .isecak header { padding-right: 0.4rem; 
 }
 @keyframes figura-redom { to { opacity: 1; } }
 .opcije-mreza { display: grid; grid-template-columns: 1fr; gap: 0.55rem; }
+.opcije-mreza .option { flex-wrap: wrap; align-items: flex-start; }
+.opcije-mreza .option > span { flex: 1; }
+.opcije-mreza .option .why { flex-basis: 100%; margin-left: 1.7rem; }
 .birac {
   display: flex;
   flex-direction: column;

@@ -93,7 +93,7 @@ test("Opcije: paleta, font, režim, Save, Load, Obriši i bedž", { timeout: 900
   await v(`document.querySelector("#opcije-samostalni").click()`);
   await pauza(80);
   assert.equal(await v(`document.documentElement.dataset.mod`), "samostalni");
-  assert.equal(await v(`location.hash`), "#cas-3");
+  assert.match(await v(`location.pathname`), /^\/tema\/3\//);
   assert.equal(await v(`document.querySelector("#izbor-koraka-natpis").textContent`), korak);
   assert.equal(await v(`document.querySelector("#opcije-samostalni").getAttribute("aria-pressed")`), "true");
   assert.equal(await v(`document.querySelector("#mod-kontrole")`), null);

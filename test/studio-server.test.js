@@ -5,7 +5,7 @@ const os = require("node:os");
 const path = require("node:path");
 const { spawn } = require("node:child_process");
 const test = require("node:test");
-const { dokumentJeKurs } = require("../server/kurs");
+const { dokumentJeKurs, skiniMinuteBlokova } = require("../server/kurs");
 
 const KORENI = path.join(__dirname, "..");
 const PORT = 8807;
@@ -37,13 +37,35 @@ test("upis kursa ide preko privremenog fajla", () => {
   assert.match(server, /\.kurs-studio\.tmp/);
   assert.match(server, /renameSync\(privremeno, KURS\)/);
   assert.match(server, /KURS_DATOTEKA/);
+  assert.match(server, /"web_programiranje", "kurs.json"/);
 });
 
 test("dokument kursa poznaje isporučeni kurs.json", () => {
-  const kurs = JSON.parse(fs.readFileSync(path.join(KORENI, "site", "kurs.json"), "utf8"));
+  const kurs = JSON.parse(fs.readFileSync(path.join(KORENI, "kursevi", "web_programiranje", "kurs.json"), "utf8"));
   assert.equal(dokumentJeKurs(kurs), true);
   assert.equal(dokumentJeKurs({ trajanjeTema: 1, teme: [] }), false);
   assert.equal(dokumentJeKurs({ trajanjeTema: 1, teme: [{ steps: [null] }] }), false);
+});
+
+test("čuvanje skida minute sa pitanja, a ostavlja minute koraka", () => {
+  const kurs = {
+    naslov: "Proba",
+    trajanjeTema: 1,
+    teme: [{
+      naslov: "Jedna",
+      minuta: 90,
+      steps: [{
+        naslov: "Korak",
+        minuta: 4,
+        diskusija: [{ id: "q", vrsta: "pitanje", tekst: "A", minuta: 3, dodatno: "Još?" }],
+      }],
+    }],
+  };
+  skiniMinuteBlokova(kurs);
+  assert.equal(kurs.teme[0].minuta, 90);
+  assert.equal(kurs.teme[0].steps[0].minuta, 4);
+  assert.equal(Object.hasOwn(kurs.teme[0].steps[0].diskusija[0], "minuta"), false);
+  assert.equal(dokumentJeKurs(kurs), true);
 });
 
 test("čuvanje kursa piše JSON i odbija dokument koji čas ne bi učitao", async () => {

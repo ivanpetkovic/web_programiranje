@@ -1,6 +1,7 @@
 import { blokoviKoraka, diskusijaKoraka, naslovKoda } from "./blokovi-lekcije.js";
 import { blokOd } from "./blokovi/index.js";
 import { izvorMermaida } from "./blokovi/mermaid.js";
+import { modelStrukture, svgStrukture } from "./struktura-crtez.js";
 import { imaTekst, jedanRed, zastitiOgrade } from "./blokovi/md.js";
 import { blokoviTeksta } from "./mermaid.js";
 import { blokoviProze } from "./proza.js";
@@ -142,6 +143,13 @@ function htmlBloka(blok) {
     const izvor = izvorMermaida(blok.tekst);
     return `${htmlNaslovBloka(blok.naslov || "Dijagram")}<div class="figura-mermaid">${escapeHtml(izvor)}</div>`;
   }
+  if (blok.vrsta === "struktura") {
+    let crtez = "<p>Dijagram se ne crta.</p>";
+    try {
+      crtez = svgStrukture(modelStrukture(blok.tekst));
+    } catch { /* izvor nije crtež */ }
+    return `${htmlNaslovBloka(blok.naslov || "Strukturni dijagram")}<div class="figura-struktura">${crtez}</div>`;
+  }
   if (blok.vrsta === "pitanje") return htmlPitanja(blok);
   return "";
 }
@@ -165,6 +173,12 @@ function htmlPitanja(blok) {
   }
   if (imaTekst(blok.analiza)) {
     delovi.push(`<blockquote><p><strong>Obrazloženje</strong></p>${htmlProze(blok.analiza)}</blockquote>`);
+  }
+  if (imaTekst(blok.dodatno)) {
+    delovi.push(`<blockquote><p><strong>Dodatno</strong></p>${htmlProze(blok.dodatno)}</blockquote>`);
+  }
+  if (imaTekst(blok.dodatniOdgovor)) {
+    delovi.push(`<blockquote><p><strong>Odgovor na dodatno</strong></p>${htmlProze(blok.dodatniOdgovor)}</blockquote>`);
   }
   return delovi.filter(Boolean).join("\n");
 }

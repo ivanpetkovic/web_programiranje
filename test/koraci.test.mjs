@@ -237,7 +237,7 @@ test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
   });
 });
 
-test("tema jezika ima 15 koraka, praznu diskusiju i fajl po koraku", () => {
+test("tema jezika ima 15 koraka, diskusiju po koraku i fajl po koraku", () => {
   const tema = dokument.teme[2];
   const cas = lectures[2];
   assert.equal(tema.naslov, "JavaScript, jezik, objekti i model izvršavanja");
@@ -262,9 +262,18 @@ test("tema jezika ima 15 koraka, praznu diskusiju i fajl po koraku", () => {
     "Moduli, JSON i priprema za Web",
   ];
   assert.deepEqual(tema.steps.map((korak) => korak.naslov), naslovi);
+  const ocekivano = [3, 3, 4, 4, 3, 7, 5, 3, 4, 5, 3, 3, 4, 3, 4];
   tema.steps.forEach((korak, i) => {
-    assert.deepEqual(korak.diskusija, []);
-    assert.equal(korak.pitalice, undefined);
+    const pitanja = korak.diskusija.filter((blok) => blok.vrsta === "pitanje");
+    assert.equal(pitanja.length, ocekivano[i], korak.naslov);
+    assert.equal(pitanja.some((blok) => Object.hasOwn(blok, "minuta")), false, korak.naslov);
+    assert.equal(korak.pitalice.length, pitanja.length);
+    for (const blok of pitanja) {
+      assert.ok(blok.dodatno, blok.id);
+      assert.ok(blok.dodatniOdgovor, blok.id);
+      if (blok.oblik === "izbor") assert.equal(blok.opcije.filter((opcija) => opcija.ok).length, 1);
+      else assert.ok(blok.odgovor, blok.id);
+    }
     assert.match(korak.putanja, /^client\/lekcije\/\d{2}-/);
     assert.match(korak.delic, new RegExp(`^// ${korak.naslov}`));
     assert.equal(korak.blokovi.some((blok) => blok.vrsta === "highlight" && blok.uloga === "kljucna"), true);
@@ -273,7 +282,11 @@ test("tema jezika ima 15 koraka, praznu diskusiju i fajl po koraku", () => {
     assert.equal(cas.steps[i].delic, korak.delic);
   });
   assert.match(tema.steps[1].delic, /\/\/ const x = 5;/);
+  assert.match(tema.steps[5].tekst, /### Funkcije višeg reda/);
+  assert.match(tema.steps[5].tekst, /Callback je funkcija koja se prosleđuje/);
+  assert.match(tema.steps[5].delic, /function napraviMnozenje/);
   assert.match(tema.steps[6].tekst, /map\(\)/);
+  assert.match(tema.steps[6].tekst, /funkcija višeg reda/);
   assert.match(tema.steps[6].delic, /brojevi\.map/);
   assert.match(tema.steps[14].delic, /export function saberi/);
   assert.match(tema.steps[14].delic, /JSON\.parse/);
@@ -488,7 +501,7 @@ test("svaki korak nosi pitalice redom, prva ostaje postojeća", () => {
       }
     }
   }
-  assert.equal(bezDiskusije, dokument.teme[2].steps.length);
+  assert.equal(bezDiskusije, 0);
   assert.equal(saDrugom, dokument.teme.reduce((n, t) => n + t.steps.length, 0) - bezDiskusije);
   assert.ok(kljucevi.A > 40 && kljucevi.B > 40);
 });

@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const { state, dovodi, trenutnoStanje, objaviStanje } = require("./stanje");
 const { pripremiBazu, dohvatiBazu } = require("./baza");
-const { dokumentJeKurs } = require("./kurs");
+const { dokumentJeKurs, skiniMinuteBlokova } = require("./kurs");
 const { spisakPrimera, ucitajPrimer } = require("./primeri");
 
 const PODRAZUMEVANI_PORT = 8787;
@@ -14,9 +14,11 @@ const GRANICA_IZVORA = 200000;
 const NAJDUZA_PUTANJA = 200;
 const PORT = Number(process.env.PORT) || PODRAZUMEVANI_PORT;
 const SAJT = path.join(__dirname, "..", "site");
+const KURSEVI = path.join(__dirname, "..", "kursevi");
 const KURS = process.env.KURS_DATOTEKA
   ? path.resolve(process.env.KURS_DATOTEKA)
-  : path.join(SAJT, "kurs.json");
+  : path.join(KURSEVI, "web_programiranje", "kurs.json");
+const RECENIK = path.join(path.dirname(KURS), "GLOSSARY.md");
 const KLIJENT = path.join(__dirname, "..", "client");
 const PRIMERI = path.join(__dirname, "..", "primeri");
 const FONT = path.join(KLIJENT, "assets", "fonts", "digital-7", "digital-7 (mono).ttf");
@@ -357,7 +359,7 @@ function stranicaKlijenta(odgovor, url) {
 }
 
 function recnik(odgovor) {
-  fs.readFile(path.join(__dirname, "..", "GLOSSARY.md"), (greska, sadrzaj) => {
+  fs.readFile(RECENIK, (greska, sadrzaj) => {
     if (greska) {
       odgovor.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
       odgovor.end("nema");
@@ -376,12 +378,46 @@ async function sacuvajKurs(zahtev, odgovor) {
   } catch {
     return posaljiJson(odgovor, 400, { greska: "neispravan json" });
   }
+  skiniMinuteBlokova(kurs);
   if (!dokumentJeKurs(kurs)) return posaljiJson(odgovor, 400, { greska: "dokument nije kurs" });
   const telo = `${JSON.stringify(kurs, null, 2)}\n`;
   const privremeno = path.join(path.dirname(KURS), ".kurs-studio.tmp");
   fs.writeFileSync(privremeno, telo);
   fs.renameSync(privremeno, KURS);
   return posaljiJson(odgovor, 200, { ok: true });
+}
+
+function stranicaKurseva(odgovor, url) {
+  let relativna;
+  try {
+    relativna = decodeURIComponent(url.pathname.slice("/kursevi/".length));
+  } catch {
+    odgovor.writeHead(400);
+    odgovor.end();
+    return;
+  }
+  if (!putanjaJeBezbedna(relativna)) {
+    odgovor.writeHead(403);
+    odgovor.end();
+    return;
+  }
+  if (relativna.split("/").some((deo) => deo.startsWith("."))) {
+    odgovor.writeHead(404);
+    odgovor.end();
+    return;
+  }
+  const fajl = path.join(KURSEVI, path.normalize(relativna));
+  const nazad = path.relative(KURSEVI, fajl);
+  if (nazad.startsWith("..") || path.isAbsolute(nazad)) {
+    odgovor.writeHead(403);
+    odgovor.end();
+    return;
+  }
+  posaljiFajl(odgovor, fajl);
+}
+
+function putanjaCasa(pathname) {
+  return pathname === "/uvod" || pathname === "/tema" || pathname.startsWith("/tema/");
 }
 
 function stranicaSajta(odgovor, url) {
@@ -417,7 +453,10 @@ async function razvrstaj(zahtev, odgovor) {
   if (zahtev.method === "GET" && url.pathname === "/dovod") return otvoriDovod(zahtev, odgovor);
   if (zahtev.method === "GET" && url.pathname === "/recnik") return recnik(odgovor);
   if (zahtev.method === "GET" && url.pathname === "/fonts/digital-7-mono.ttf") return posaljiFajl(odgovor, FONT);
+  if (zahtev.method === "GET" && url.pathname === "/kurs.json") return posaljiFajl(odgovor, KURS);
+  if (zahtev.method === "GET" && url.pathname.startsWith("/kursevi/")) return stranicaKurseva(odgovor, url);
   if (zahtev.method === "GET" && url.pathname.startsWith("/client/")) return stranicaKlijenta(odgovor, url);
+  if (zahtev.method === "GET" && putanjaCasa(url.pathname)) return posaljiFajl(odgovor, path.join(SAJT, "index.html"));
   if (zahtev.method === "GET") return stranicaSajta(odgovor, url);
   return posaljiJson(odgovor, 404, { greska: "nema putanje" });
 }

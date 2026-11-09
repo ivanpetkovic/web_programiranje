@@ -2,7 +2,7 @@
 
 Sajt časa za predavanja na Elektronskom fakultetu Univerziteta u Nišu. Autor kursa je **Ivan Petković**.
 
-Tekst tema, koraka i pitalica je `site/kurs.json`. Cilj kursa, način objašnjavanja i povezujući primer su u [docs/kurs.md](docs/kurs.md). Šta ljuska radi je u [docs/platforma.md](docs/platforma.md).
+Tekst tema, koraka i pitalica je `kursevi/web_programiranje/kurs.json`. Cilj kursa, način objašnjavanja i povezujući primer su u [docs/kurs.md](docs/kurs.md). Šta ljuska radi je u [docs/platforma.md](docs/platforma.md).
 
 ## Instalacija i pokretanje
 
@@ -51,13 +51,14 @@ npm test
 ## Gde je šta
 
 ```text
-site/          sajt časa; kurs je site/kurs.json
+site/          sajt časa
+kursevi/web_programiranje/   kurs.json, rečnik i asseti tog kursa
 client/        panel koji browser učitava
 server/        Node proces, modul http, bez Express-a
 test/          provere ljuske, editora i ugovora API-ja
 docs/kurs.md   cilj, način objašnjavanja, povezujući primer
 docs/platforma.md   šta sajt radi
-GLOSSARY.md    rečnik
+GLOSSARY-MAP.md     pokazuje na rečnik kursa
 ```
 
 `primeri/` drži samostalne primere. Svaki podfolder je jedan primer; `primer.json` daje natpis u selektoru. Kontrolna soba nije folder: to je stablo časa iz `client/` i `server/`, i ono je podrazumevani primer.

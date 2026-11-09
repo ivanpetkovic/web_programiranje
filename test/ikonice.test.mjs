@@ -107,6 +107,20 @@ test("tabovi, traka i isečak zadržavaju natpise", () => {
   assert.match(main, /ikonica\("chevron-right"\)/);
 });
 
+test("dodatno pitanje nosi question-plus i uvučeno je", () => {
+  const dodatnoPitanje = main.slice(main.indexOf("function prikazDodatnog"), main.indexOf("function teloSekcije"));
+  assert.match(dodatnoPitanje, /ikonica\("question-plus"\)/);
+  assert.equal(dodatnoPitanje.includes('ikonica("question")'), false);
+  assert.match(dodatnoPitanje, /pitanje-dodatno/);
+  const dodatnaIkona = fs.readFileSync(new URL("../site/icons/svg_currentColor/question-plus.svg", import.meta.url), "utf8");
+  assert.match(dodatnaIkona, /viewBox="0 0 24 24"/);
+  assert.match(dodatnaIkona, /stroke="currentColor"/);
+  assert.match(dodatnaIkona, /stroke-width="1\.75"/);
+  assert.equal(/png/i.test(dodatnaIkona), false);
+  assert.match(sprite, /<symbol id="question-plus" viewBox="0 0 24 24"[^>]*stroke="currentColor"[^>]*stroke-width="1\.75"/);
+  assert.match(css, /\.pitanje-dodatno\s*\{[^}]*border-left:/);
+});
+
 test("pitanje, stablo, olovka i panel", () => {
   assert.match(main, /omotZnaka\.className = "pitanje-znak"/);
   assert.match(main, /ikonica\("question"\)/);

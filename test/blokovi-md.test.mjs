@@ -62,6 +62,13 @@ test("svaka vrsta bloka uvozi sopstveni markdown", () => {
     analiza: "Pauza u razgovoru.",
   };
   assert.deepEqual(krug(Pitanje, tekst), tekst);
+  const saDodatnim = {
+    ...tekst,
+    dodatno: "Da li veza ostaje otvorena?",
+    dodatniOdgovor: "Ne, ako niko ne šalje.\n\n```javascript\nveza.end();\n```",
+  };
+  assert.deepEqual(krug(Pitanje, saDodatnim), saDodatnim);
+  assert.equal(new Pitanje(saDodatnim).izvoz().includes("Trajanje"), false);
 });
 
 test("blok iz markdowna bira klasu po obliku", () => {
