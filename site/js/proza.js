@@ -56,40 +56,64 @@ function razdelnikTabele(linija) {
   return /^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$/.test(linija.trim());
 }
 
+function naslovLinije(linija) {
+  return /^(#{1,6})\s+(\S.*)$/.exec(linija.trim());
+}
+
+function blokOdLinija(linije) {
+  if (linije.every((linija) => /^-\s+\S/.test(linija.trim()))) {
+    return {
+      vrsta: "lista",
+      stavke: linije.map((linija) => deloviReda(linija.trim().replace(/^-\s+/, ""))),
+    };
+  }
+  if (linije.every((linija) => /^\d+\.\s+\S/.test(linija.trim()))) {
+    return {
+      vrsta: "brojna",
+      stavke: linije.map((linija) => deloviReda(linija.trim().replace(/^\d+\.\s+/, ""))),
+    };
+  }
+  const bezRazdelnika = linije.filter((linija) => !razdelnikTabele(linija));
+  const tabela = bezRazdelnika.map(celijeTabele);
+  if (
+    tabela.length >= 2
+    && tabela.every((red) => red && red.length === tabela[0].length)
+  ) {
+    return {
+      vrsta: "tabela",
+      zaglavlje: tabela[0].map((celija) => deloviReda(celija)),
+      redovi: tabela.slice(1).map((red) => red.map((celija) => deloviReda(celija))),
+    };
+  }
+  return { vrsta: "pasus", delovi: deloviReda(linije.join("\n")) };
+}
+
 export function blokoviProze(tekst) {
   const izvor = String(tekst ?? "");
   if (!izvor.trim()) return [{ vrsta: "pasus", delovi: [{ tekst: izvor }] }];
-  return izvor.split(/\n{2,}/).map((komad) => {
+  const blokovi = [];
+  for (const komad of izvor.split(/\n{2,}/)) {
     const linije = komad.split(/\n/).map((linija) => linija.trimEnd()).filter((linija) => linija.trim() !== "");
-    if (linije.length === 0) return { vrsta: "pasus", delovi: [{ tekst: "" }] };
-    const naslov = linije.length === 1 ? /^(#{1,6})\s+(\S.*)$/.exec(linije[0].trim()) : null;
-    if (naslov) {
-      return { vrsta: "naslov", nivo: naslov[1].length, delovi: deloviReda(naslov[2].trim()) };
+    if (linije.length === 0) {
+      blokovi.push({ vrsta: "pasus", delovi: [{ tekst: "" }] });
+      continue;
     }
-    if (linije.every((linija) => /^-\s+\S/.test(linija.trim()))) {
-      return {
-        vrsta: "lista",
-        stavke: linije.map((linija) => deloviReda(linija.trim().replace(/^-\s+/, ""))),
-      };
+    let tekuce = [];
+    const zatvori = () => {
+      if (!tekuce.length) return;
+      blokovi.push(blokOdLinija(tekuce));
+      tekuce = [];
+    };
+    for (const linija of linije) {
+      const naslov = naslovLinije(linija);
+      if (!naslov) {
+        tekuce.push(linija);
+        continue;
+      }
+      zatvori();
+      blokovi.push({ vrsta: "naslov", nivo: naslov[1].length, delovi: deloviReda(naslov[2].trim()) });
     }
-    if (linije.every((linija) => /^\d+\.\s+\S/.test(linija.trim()))) {
-      return {
-        vrsta: "brojna",
-        stavke: linije.map((linija) => deloviReda(linija.trim().replace(/^\d+\.\s+/, ""))),
-      };
-    }
-    const bezRazdelnika = linije.filter((linija) => !razdelnikTabele(linija));
-    const tabela = bezRazdelnika.map(celijeTabele);
-    if (
-      tabela.length >= 2
-      && tabela.every((red) => red && red.length === tabela[0].length)
-    ) {
-      return {
-        vrsta: "tabela",
-        zaglavlje: tabela[0].map((celija) => deloviReda(celija)),
-        redovi: tabela.slice(1).map((red) => red.map((celija) => deloviReda(celija))),
-      };
-    }
-    return { vrsta: "pasus", delovi: deloviReda(linije.join("\n")) };
-  });
+    zatvori();
+  }
+  return blokovi;
 }
