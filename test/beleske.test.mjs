@@ -172,7 +172,7 @@ test("beleške u zaglavlju: broj, redosled, skok sa Editora, tastatura, prazno",
 
   await v(`document.querySelector('#beleske-lista .beleska-red[data-korak="2"]').click()`);
   await pauza(300);
-  assert.match(await v(`location.hash`), /^#cas-3\//);
+  assert.match(await v(`location.hash`), /^#tema\/3\//);
   assert.match(await v(`document.querySelector("#izbor-koraka-natpis").textContent`), /^Korak 3 od /);
   assert.equal(await v(`document.querySelector("#tab-editor").getAttribute("aria-selected")`), "true");
   assert.equal(await v(`document.querySelector("#beleske-lista").hidden`), true);
@@ -256,7 +256,7 @@ test("sve beleške: grupe, izmena, brisanje, korak koji ne postoji, mera liste",
   assert.equal(await v(`document.querySelector("#sve-beleske .sve-beleske-nema").tagName`), "SPAN");
   await v(`document.querySelector("#sve-beleske .sve-beleske-nema").click()`);
   await pauza(60);
-  assert.match(await v(`location.hash`), /^#cas-1\//);
+  assert.match(await v(`location.hash`), /^#tema\/1\//);
   assert.equal(await v(`document.querySelector("#sve-beleske").open`), true);
 
   await v(`(() => {
@@ -287,6 +287,6 @@ test("sve beleške: grupe, izmena, brisanje, korak koji ne postoji, mera liste",
   await v(`document.querySelector('#sve-beleske .sve-beleske-korak[class~="sve-beleske-korak"]:not(span)').click()`);
   await pauza(300);
   assert.equal(await v(`document.querySelector("#sve-beleske").open`), false);
-  assert.match(await v(`location.hash`), /^#cas-3\//);
+  assert.match(await v(`location.hash`), /^#tema\/3\//);
   assert.match(await v(`document.querySelector("#izbor-koraka-natpis").textContent`), /^Korak 1 od /);
 });
