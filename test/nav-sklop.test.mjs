@@ -26,7 +26,7 @@ test("tema otvorena hešom može da se sklopi", { timeout: 30000 }, async (t) =>
   await cekajHttp(`http://127.0.0.1:${portSajta}/`);
   strana = await otvoriStranu(portChrome);
   await strana.posalji("Emulation.setDeviceMetricsOverride", { width: 1400, height: 800, deviceScaleFactor: 1, mobile: false });
-  await strana.idi(`http://127.0.0.1:${portSajta}/#cas-3`);
+  await strana.idi(`http://127.0.0.1:${portSajta}/#tema/3`);
 
   const citaj = (broj) => strana.vrednost(`(${stanjeTeme.toString()})(${broj})`);
   async function sačekaj(broj, uslov) {
@@ -40,16 +40,16 @@ test("tema otvorena hešom može da se sklopi", { timeout: 30000 }, async (t) =>
     throw new Error(`tema ${broj} nije stigla: ${JSON.stringify(poslednje)}`);
   }
 
-  const otvorena = await sačekaj(3, (s) => s.otvorena && s.koraci && s.hash.startsWith("#cas-3/"));
+  const otvorena = await sačekaj(3, (s) => s.otvorena && s.koraci && s.hash.startsWith("#tema/3/"));
   assert.equal(otvorena.aktivna, true);
 
   await strana.vrednost(`document.querySelector("#nav .tema-red[data-n='3']").click()`);
   const sklopljena = await sačekaj(3, (s) => !s.otvorena && !s.koraci);
-  assert.match(sklopljena.hash, /^#cas-3\//);
+  assert.match(sklopljena.hash, /^#tema\/3\//);
   assert.equal(sklopljena.aktivna, true, "sklopljena tema ostaje otvoren čas");
   assert.match(sklopljena.naslov, /^Tema 3/);
 
   await strana.vrednost(`document.querySelector("#nav .tema-red[data-n='3']").click()`);
   const ponovo = await sačekaj(3, (s) => s.otvorena && s.koraci);
-  assert.match(ponovo.hash, /^#cas-3\//);
+  assert.match(ponovo.hash, /^#tema\/3\//);
 });

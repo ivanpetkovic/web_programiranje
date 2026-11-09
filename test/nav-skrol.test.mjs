@@ -37,7 +37,7 @@ test("levi panel drži svoj skrol dok se otvara tema 10", { timeout: 30000 }, as
     await strana.posalji("Emulation.setDeviceMetricsOverride", { width: 1400, height: 700, deviceScaleFactor: 1, mobile: false });
     await strana.posalji("Network.enable");
     await strana.posalji("Network.setBlockedURLs", { urls: ["*/api/fajl"] });
-    await strana.idi(`http://127.0.0.1:${portSajta}/#cas-1`);
+    await strana.idi(`http://127.0.0.1:${portSajta}/#tema/1`);
     const stanje = () => strana.vrednost(`(${stanjeNava.toString()})()`);
     async function sačekaj(uslov) {
       const kraj = Date.now() + 5000;
@@ -64,7 +64,7 @@ test("levi panel drži svoj skrol dok se otvara tema 10", { timeout: 30000 }, as
     assert.equal(pre.prozor, 0, "prozor ne treba da se pomera kad se skroluje nav");
 
     await strana.vrednost(`[...document.querySelectorAll("#nav .tema-red")].find((b) => b.textContent.startsWith("Tema 10 ")).nextElementSibling.querySelectorAll(".korak-red")[2].click()`);
-    const posle = await sačekaj((s) => s.hash.startsWith("#cas-10/") && s.korak.startsWith("3 "));
+    const posle = await sačekaj((s) => s.hash.startsWith("#tema/10/") && s.korak.startsWith("3 "));
     assert.ok(Math.abs(posle.odmak - pre.odmak) <= 1, `tema 10 je skočila sa ${pre.odmak} na ${posle.odmak}px od vrha nava`);
     assert.ok(posle.redVidljiv, "izabrani korak teme 10 ostaje u vidu");
 

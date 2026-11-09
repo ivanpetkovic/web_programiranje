@@ -36,7 +36,7 @@ test("j/k skroluju pola prozora, h/l korak, shift+j/k temu, u/i/o tab", { timeou
   await cekajHttp(`http://127.0.0.1:${portSajta}/`);
   strana = await otvoriStranu(portChrome);
   await strana.posalji("Emulation.setDeviceMetricsOverride", { width: 1280, height: 640, deviceScaleFactor: 1, mobile: false });
-  await strana.idi(`http://127.0.0.1:${portSajta}/#cas-1`);
+  await strana.idi(`http://127.0.0.1:${portSajta}/#tema/1`);
 
   const citaj = () => strana.vrednost(`(${stanjeVim.toString()})()`);
   async function sačekaj(uslov, opis) {
@@ -62,7 +62,7 @@ test("j/k skroluju pola prozora, h/l korak, shift+j/k temu, u/i/o tab", { timeou
   }
 
   let sada = await sačekaj((s) => s.tema.startsWith("Tema 1") && /^Korak 1 od /.test(s.korak) && s.tab === "tab-diskusija", "čas 1");
-  assert.match(sada.hash, /^#cas-1\/k\/1\/deo\/diskusija$/);
+  assert.match(sada.hash, /^#tema\/1\/k\/1\/deo\/diskusija$/);
   assert.equal(sada.diskusija, true);
   assert.equal(sada.gradivo, false);
 
@@ -70,7 +70,7 @@ test("j/k skroluju pola prozora, h/l korak, shift+j/k temu, u/i/o tab", { timeou
   await taster("l");
   sada = await sačekaj((s) => /^Korak 2 od /.test(s.korak), "sledeći korak");
   assert.equal(sada.tab, "tab-diskusija");
-  assert.match(sada.hash, /^#cas-1\/k\/2\/deo\/diskusija$/);
+  assert.match(sada.hash, /^#tema\/1\/k\/2\/deo\/diskusija$/);
 
   await taster("h");
   sada = await sačekaj((s) => /^Korak 1 od /.test(s.korak), "prethodni korak");
@@ -99,12 +99,12 @@ test("j/k skroluju pola prozora, h/l korak, shift+j/k temu, u/i/o tab", { timeou
   sada = await sačekaj((s) => s.tab === "tab-editor" && s.editor && !s.gradivo && !s.diskusija, "editor");
 
   await taster("j", { shift: true });
-  sada = await sačekaj((s) => s.hash.startsWith("#cas-2/") && s.tema.startsWith("Tema 2"), "sledeća tema");
+  sada = await sačekaj((s) => s.hash.startsWith("#tema/2/") && s.tema.startsWith("Tema 2"), "sledeća tema");
   assert.equal(sada.tab, "tab-diskusija");
   assert.match(sada.korak, /^Korak /);
 
   await taster("k", { shift: true });
-  sada = await sačekaj((s) => s.hash.startsWith("#cas-1/") && s.tema.startsWith("Tema 1"), "prethodna tema");
+  sada = await sačekaj((s) => s.hash.startsWith("#tema/1/") && s.tema.startsWith("Tema 1"), "prethodna tema");
   await taster("k", { shift: true });
   sada = await sačekaj((s) => s.hash === "#uvod" && s.uvod && s.tema === "Uvod", "uvod");
 
@@ -119,14 +119,14 @@ test("j/k skroluju pola prozora, h/l korak, shift+j/k temu, u/i/o tab", { timeou
   assert.equal(sada.uvod, true);
 
   await taster("j", { shift: true });
-  sada = await sačekaj((s) => s.hash.startsWith("#cas-1/") && !s.uvod, "prva tema sa uvoda");
+  sada = await sačekaj((s) => s.hash.startsWith("#tema/1/") && !s.uvod, "prva tema sa uvoda");
 
   await strana.vrednost(`document.querySelector("#q").focus()`);
   await taster("l");
   await taster("j");
   sada = await citaj();
   assert.match(sada.korak, /^Korak 1 od /);
-  assert.match(sada.hash, /^#cas-1\/k\/1\//);
+  assert.match(sada.hash, /^#tema\/1\/k\/1\//);
   assert.ok(sada.skrol <= 1, "j u pretrazi ne skroluje stranicu");
 
   await odmakniFokus();

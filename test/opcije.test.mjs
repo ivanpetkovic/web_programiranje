@@ -56,7 +56,7 @@ async function sajt(t, opcije) {
 test("Opcije: paleta, font, režim, Save, Load, Obriši i bedž", { timeout: 90000 }, async (t) => {
   const { strana, adresa } = await sajt(t);
   await strana.posalji("Emulation.setDeviceMetricsOverride", { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
-  await strana.idi(`${adresa}/#cas-3`);
+  await strana.idi(`${adresa}/#tema/3`);
   await pauza(400);
   const v = (izraz) => strana.vrednost(izraz);
 
@@ -93,7 +93,7 @@ test("Opcije: paleta, font, režim, Save, Load, Obriši i bedž", { timeout: 900
   await v(`document.querySelector("#opcije-samostalni").click()`);
   await pauza(80);
   assert.equal(await v(`document.documentElement.dataset.mod`), "samostalni");
-  assert.match(await v(`location.hash`), /^#cas-3\//);
+  assert.match(await v(`location.hash`), /^#tema\/3\//);
   assert.equal(await v(`document.querySelector("#izbor-koraka-natpis").textContent`), korak);
   assert.equal(await v(`document.querySelector("#opcije-samostalni").getAttribute("aria-pressed")`), "true");
   assert.equal(await v(`document.querySelector("#mod-kontrole")`), null);
@@ -173,7 +173,7 @@ test("Opcije: paleta, font, režim, Save, Load, Obriši i bedž", { timeout: 900
 test("Opcije prate maketu na 1672 × 941 i ne rastu sa A+", { timeout: 60000 }, async (t) => {
   const { strana, adresa } = await sajt(t, { paleta: "pesak" });
   await strana.posalji("Emulation.setDeviceMetricsOverride", { width: 1672, height: 941, deviceScaleFactor: 1, mobile: false });
-  await strana.idi(`${adresa}/#cas-3`);
+  await strana.idi(`${adresa}/#tema/3`);
   await pauza(400);
   await strana.vrednost(`(() => {
     const stil = document.createElement("style");
@@ -202,7 +202,7 @@ test("Opcije prate maketu na 1672 × 941 i ne rastu sa A+", { timeout: 60000 }, 
 test("prvi izbor režima: prazan browser, izbor, reload, Escape", { timeout: 60000 }, async (t) => {
   const { strana, adresa } = await sajt(t, { prviIzbor: true });
   await strana.posalji("Emulation.setDeviceMetricsOverride", { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
-  await strana.idi(`${adresa}/?r=1#cas-2`);
+  await strana.idi(`${adresa}/?r=1#tema/2`);
   await pauza(400);
   const v = (izraz) => strana.vrednost(izraz);
   assert.equal(await v(`document.querySelector("#prvi-izbor").open`), true);
@@ -211,20 +211,20 @@ test("prvi izbor režima: prazan browser, izbor, reload, Escape", { timeout: 600
   await v(`document.querySelector("#prvi-izbor-samostalni").click()`);
   await pauza(80);
   assert.equal(await v(`document.querySelector("#prvi-izbor").open`), false);
-  await strana.idi(`${adresa}/?r=2#cas-2`);
+  await strana.idi(`${adresa}/?r=2#tema/2`);
   await pauza(400);
   assert.equal(await v(`document.querySelector("#prvi-izbor").open`), false);
   assert.equal(await v(`document.documentElement.dataset.mod`), "samostalni");
 
   await v(`localStorage.clear()`);
-  await strana.idi(`${adresa}/?r=3#cas-2`);
+  await strana.idi(`${adresa}/?r=3#tema/2`);
   await pauza(400);
   assert.equal(await v(`document.querySelector("#prvi-izbor").open`), true);
   await strana.posalji("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27 });
   await pauza(80);
   assert.equal(await v(`document.querySelector("#prvi-izbor").open`), false);
   assert.equal(await v(`JSON.parse(localStorage.getItem("${KLJUC}")).podesavanja.mod`), "predavanja");
-  await strana.idi(`${adresa}/?r=4#cas-2`);
+  await strana.idi(`${adresa}/?r=4#tema/2`);
   await pauza(400);
   assert.equal(await v(`document.querySelector("#prvi-izbor").open`), false);
 });

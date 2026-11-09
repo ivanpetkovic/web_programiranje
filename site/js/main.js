@@ -285,6 +285,8 @@ function trenutnoMesto() {
 }
 
 function hashOdgovara(hash, mesto) {
+  const telo = String(hash || "").replace(/^#/, "");
+  if (telo.startsWith("cas-")) return false;
   return JSON.stringify(procitajMesto(hash)) === JSON.stringify(procitajMesto(sastaviMesto(mesto)));
 }
 

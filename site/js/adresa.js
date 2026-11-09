@@ -20,7 +20,7 @@ export function procitajMesto(hash) {
   const telo = String(hash || "").replace(/^#/, "");
   if (!telo) return prazno("prazno");
   if (telo === "uvod") return prazno("uvod");
-  const pogodak = telo.match(/^cas-(\d+)(?:\/(.*))?$/);
+  const pogodak = telo.match(/^(?:tema\/|cas-)(\d+)(?:\/(.*))?$/);
   if (!pogodak) return prazno("nepoznato");
   const mesto = {
     vrsta: "cas",
@@ -67,7 +67,7 @@ export function dopunaMesta(hash, mesto) {
 
 export function sastaviMesto(mesto) {
   if (!mesto || mesto.uvod) return "#uvod";
-  let hash = `#cas-${mesto.cas}`;
+  let hash = `#tema/${mesto.cas}`;
   if (Number.isInteger(mesto.korak) && mesto.korak >= 0) hash += `/k/${mesto.korak + 1}`;
   if (mesto.deo === "koraci" || mesto.deo === "diskusija" || mesto.deo === "editor") {
     hash += `/deo/${mesto.deo === "koraci" ? "gradivo" : mesto.deo}`;
