@@ -262,7 +262,7 @@ test("tema jezika ima 15 koraka, diskusiju po koraku i fajl po koraku", () => {
     "Moduli, JSON i priprema za Web",
   ];
   assert.deepEqual(tema.steps.map((korak) => korak.naslov), naslovi);
-  const ocekivano = [3, 3, 4, 4, 3, 5, 5, 3, 4, 4, 3, 3, 4, 3, 4];
+  const ocekivano = [3, 3, 4, 4, 3, 7, 5, 3, 4, 4, 3, 3, 4, 3, 4];
   tema.steps.forEach((korak, i) => {
     const pitanja = korak.diskusija.filter((blok) => blok.vrsta === "pitanje");
     assert.equal(pitanja.length, ocekivano[i], korak.naslov);
@@ -282,7 +282,11 @@ test("tema jezika ima 15 koraka, diskusiju po koraku i fajl po koraku", () => {
     assert.equal(cas.steps[i].delic, korak.delic);
   });
   assert.match(tema.steps[1].delic, /\/\/ const x = 5;/);
+  assert.match(tema.steps[5].tekst, /### Funkcije višeg reda/);
+  assert.match(tema.steps[5].tekst, /Callback je funkcija koja se prosleđuje/);
+  assert.match(tema.steps[5].delic, /function napraviMnozenje/);
   assert.match(tema.steps[6].tekst, /map\(\)/);
+  assert.match(tema.steps[6].tekst, /funkcija višeg reda/);
   assert.match(tema.steps[6].delic, /brojevi\.map/);
   assert.match(tema.steps[14].delic, /export function saberi/);
   assert.match(tema.steps[14].delic, /JSON\.parse/);

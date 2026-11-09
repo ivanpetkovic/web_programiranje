@@ -4003,8 +4003,8 @@
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "eksperiment",
-          "tekst": "Kada se isti postupak ponavlja ili predstavlja zasebnu logičku celinu, izdvajamo ga u funkciju.\n\nFunkcija prima argumente, izvršava određeni kod i može vratiti rezultat.\n\n### Deklaracija i pozivanje funkcije\n\n`broj` je parametar funkcije, dok je `5` argument prilikom pozivanja.\n\n`return` završava izvršavanje funkcije i vraća vrednost pozivaocu. Ako funkcija ne izvrši `return` sa vrednošću, njen rezultat je `undefined`.\n\nParametri mogu imati podrazumevane vrednosti.\n\n### Različiti načini definisanja funkcija\n\nJavaScript podržava više oblika zapisivanja funkcija.\n\nDeklaracija funkcije:\n\nFunkcijski izraz:\n\nArrow funkcija:\n\nTermin lambda funkcija često se koristi za anonimnu funkciju, odnosno funkciju napisanu kao izraz bez eksplicitnog imena. JavaScript omogućava takve funkcije pomoću funkcijskog izraza i arrow sintakse (`=>`).\n\nArrow funkcija nije samo kraći zapis obične funkcije: razlikuje se po načinu određivanja `this`, dostupnosti `arguments` i mogućnosti upotrebe kao konstruktora.\n\nOva tri oblika mogu dati isti rezultat, ali nisu u potpunosti ekvivalentna.\n\nRazlikuju se po pravilima dostupnosti pre deklaracije, ponašanju `this` i nekim drugim karakteristikama. Te razlike razjasnićemo u koracima o hoistingu i metodama objekata.\n\n### Funkcije su vrednosti\n\nU JavaScriptu funkcije su objekti koji mogu da se pozivaju. Funkcija se može dodeliti promenljivoj, proslediti drugoj funkciji ili vratiti kao rezultat funkcije.\n\nPromenljivoj `operacija` nismo dodelili rezultat funkcije, već samu funkciju.\n\nRazlika između `dupliraj` i `dupliraj()` je ključna:\n\n- `dupliraj` predstavlja vrednost funkcije.\n- `dupliraj()` predstavlja poziv funkcije.\n\n### Callback funkcije\n\nKada funkciju prosledimo drugoj funkciji da je ova pozove, govorimo o callback funkciji.\n\nFunkcija `primeni` ne mora unapred da zna koju operaciju treba izvršiti. Ona dobija ponašanje kao argument.\n\nOvaj koncept je važan za obradu nizova, događaje i kasnije asinhrono programiranje.\n\nFunkciji se argumenti prosleđuju po vrednosti. Kada je argument objekat, prosleđena vrednost je referenca na isti objekat. Zbog toga funkcija može menjati svojstva tog objekta, ali ponovno dodeljivanje njenom parametru ne menja promenljivu pozivaoca.",
-          "kljucnaIdeja": "Funkcija nije samo imenovani blok koda. Ona je vrednost kojom program može upravljati, što omogućava fleksibilno kombinovanje ponašanja.",
+          "tekst": "Kada se isti postupak ponavlja ili predstavlja zasebnu logičku celinu, izdvajamo ga u funkciju.\n\nFunkcija prima argumente, izvršava određeni kod i može vratiti rezultat.\n\n### Deklaracija i pozivanje funkcije\n\n`broj` je parametar funkcije, dok je `5` argument prilikom pozivanja.\n\n`return` završava izvršavanje funkcije i vraća vrednost pozivaocu. Ako funkcija ne izvrši `return` sa vrednošću, njen rezultat je `undefined`.\n\nParametri mogu imati podrazumevane vrednosti.\n\n### Različiti načini definisanja funkcija\n\nJavaScript podržava više oblika zapisivanja funkcija.\n\nDeklaracija funkcije:\n\nFunkcijski izraz:\n\nArrow funkcija:\n\nTermin lambda funkcija često se koristi za anonimnu funkciju, odnosno funkciju napisanu kao izraz bez eksplicitnog imena. JavaScript omogućava takve funkcije pomoću funkcijskog izraza i arrow sintakse (`=>`).\n\nArrow funkcija nije samo kraći zapis obične funkcije: razlikuje se po načinu određivanja `this`, dostupnosti `arguments` i mogućnosti upotrebe kao konstruktora.\n\nOva tri oblika mogu dati isti rezultat, ali nisu u potpunosti ekvivalentna.\n\nRazlikuju se po pravilima dostupnosti pre deklaracije, ponašanju `this` i nekim drugim karakteristikama. Te razlike razjasnićemo u koracima o hoistingu i metodama objekata.\n\n### Funkcije su vrednosti\n\nU JavaScriptu funkcije su objekti koji mogu da se pozivaju. Funkcija se može dodeliti promenljivoj, proslediti drugoj funkciji ili vratiti kao rezultat funkcije.\n\nPromenljivoj `operacija` nismo dodelili rezultat funkcije, već samu funkciju.\n\nRazlika između `dupliraj` i `dupliraj()` je ključna:\n\n- `dupliraj` predstavlja vrednost funkcije.\n- `dupliraj()` predstavlja poziv funkcije.\n\n### Callback funkcije\n\nKada funkciju prosledimo drugoj funkciji da je ova pozove, govorimo o callback funkciji.\n\nFunkcija `primeni` ne mora unapred da zna koju operaciju treba izvršiti. Ona dobija ponašanje kao argument.\n\nCallback je funkcija koja se prosleđuje da bi bila pozvana. U primeru to je `x => x * 3`. Funkcija `primeni` prima taj callback i poziva ga.\n\nOvaj koncept je važan za obradu nizova, događaje i kasnije asinhrono programiranje.\n\n### Funkcije višeg reda\n\nFunkcija višeg reda prima funkciju kao argument, vraća funkciju kao rezultat, ili radi oboje.\n\n`primeni` je funkcija višeg reda zato što prima callback i poziva ga. Rezultat `primeni(5, x => x * 3)` je broj `15`.\n\nFunkcija može i da vrati novu funkciju. Pozivalac tada dobija ponašanje, a ne već izračunatu vrednost.\n\n`napraviMnozenje(3)` ne množi broj odmah. Vraća funkciju koja ume da pomnoži svoj argument sa `3`. Zato je `napraviMnozenje` funkcija višeg reda, iako sama ne prima funkciju.\n\n`utrostruci` je ta vraćena funkcija. Poziv `utrostruci(5)` izvršava množenje i daje `15`.\n\nRazlika je ista kao kod `dupliraj` i `dupliraj()`: bez zagrada ostaje funkcija, sa zagradama dobija se rezultat poziva.\n\nVraćena funkcija i dalje vidi `faktor` iz poziva koji ju je napravio. Kako ta veza opstaje pošto se `napraviMnozenje` završi, objašnjava korak o closure-u.\n\nFunkciji se argumenti prosleđuju po vrednosti. Kada je argument objekat, prosleđena vrednost je referenca na isti objekat. Zbog toga funkcija može menjati svojstva tog objekta, ali ponovno dodeljivanje njenom parametru ne menja promenljivu pozivaoca.",
+          "kljucnaIdeja": "Funkcija je vrednost. Kada je prosledimo da bi bila pozvana, zovemo je callback. Funkcija koja funkciju prima ili vraća jeste funkcija višeg reda.",
           "blokovi": [
             {
               "id": "k06b1",
@@ -4103,13 +4103,30 @@
             {
               "id": "k06b17",
               "vrsta": "tekst",
-              "tekst": "Funkcija `primeni` ne mora unapred da zna koju operaciju treba izvršiti. Ona dobija ponašanje kao argument.\n\nOvaj koncept je važan za obradu nizova, događaje i kasnije asinhrono programiranje.\n\nFunkciji se argumenti prosleđuju po vrednosti. Kada je argument objekat, prosleđena vrednost je referenca na isti objekat. Zbog toga funkcija može menjati svojstva tog objekta, ali ponovno dodeljivanje njenom parametru ne menja promenljivu pozivaoca."
+              "tekst": "Funkcija `primeni` ne mora unapred da zna koju operaciju treba izvršiti. Ona dobija ponašanje kao argument.\n\nCallback je funkcija koja se prosleđuje da bi bila pozvana. U primeru to je `x => x * 3`. Funkcija `primeni` prima taj callback i poziva ga.\n\nOvaj koncept je važan za obradu nizova, događaje i kasnije asinhrono programiranje."
+            },
+            {
+              "id": "k06b19",
+              "vrsta": "tekst",
+              "tekst": "### Funkcije višeg reda\n\nFunkcija višeg reda prima funkciju kao argument, vraća funkciju kao rezultat, ili radi oboje.\n\n`primeni` je funkcija višeg reda zato što prima callback i poziva ga. Rezultat `primeni(5, x => x * 3)` je broj `15`.\n\nFunkcija može i da vrati novu funkciju. Pozivalac tada dobija ponašanje, a ne već izračunatu vrednost."
+            },
+            {
+              "id": "k06b20",
+              "vrsta": "kod",
+              "naslov": "Funkcija koja vraća funkciju",
+              "jezik": "javascript",
+              "tekst": "function napraviMnozenje(faktor) {\n  return (broj) => broj * faktor;\n}\n\nconst utrostruci = napraviMnozenje(3);\n\nconsole.log(utrostruci(5)); // 15"
+            },
+            {
+              "id": "k06b21",
+              "vrsta": "tekst",
+              "tekst": "`napraviMnozenje(3)` ne množi broj odmah. Vraća funkciju koja ume da pomnoži svoj argument sa `3`. Zato je `napraviMnozenje` funkcija višeg reda, iako sama ne prima funkciju.\n\n`utrostruci` je ta vraćena funkcija. Poziv `utrostruci(5)` izvršava množenje i daje `15`.\n\nRazlika je ista kao kod `dupliraj` i `dupliraj()`: bez zagrada ostaje funkcija, sa zagradama dobija se rezultat poziva.\n\nVraćena funkcija i dalje vidi `faktor` iz poziva koji ju je napravio. Kako ta veza opstaje pošto se `napraviMnozenje` završi, objašnjava korak o closure-u.\n\nFunkciji se argumenti prosleđuju po vrednosti. Kada je argument objekat, prosleđena vrednost je referenca na isti objekat. Zbog toga funkcija može menjati svojstva tog objekta, ali ponovno dodeljivanje njenom parametru ne menja promenljivu pozivaoca."
             },
             {
               "id": "k06b18",
               "vrsta": "highlight",
               "uloga": "kljucna",
-              "tekst": "Funkcija nije samo imenovani blok koda. Ona je vrednost kojom program može upravljati, što omogućava fleksibilno kombinovanje ponašanja."
+              "tekst": "Funkcija je vrednost. Kada je prosledimo da bi bila pozvana, zovemo je callback. Funkcija koja funkciju prima ili vraća jeste funkcija višeg reda."
             }
           ],
           "diskusija": [
@@ -4194,9 +4211,47 @@
               "vrsta": "pitanje",
               "oblik": "tekst",
               "tekst": "6.5. Kako jedna funkcija može da odlučuje koju drugu funkciju će izvršiti?\n\n```javascript\nfunction primeni(x, operacija) {\n  return operacija(x);\n}\n\nconst rezultat = primeni(5, x => x * 3);\n```\n\nŠta će biti rezultat i čemu služi argument `operacija`?",
-              "odgovor": "Rezultat je `15`.\n\n`operacija` je parametar koji prima funkciju. Funkcija `primeni` poziva prosleđenu funkciju sa argumentom `x`.\n\nOvakva funkcija prosleđena drugoj funkciji naziva se callback.",
+              "odgovor": "Rezultat je `15`.\n\n`operacija` je parametar koji prima funkciju. Funkcija `primeni` poziva prosleđenu funkciju sa argumentom `x`.\n\nOvakva funkcija prosleđena drugoj funkciji naziva se callback. `primeni` je funkcija višeg reda: prima tu funkciju i odlučuje kada će je pozvati.",
               "dodatno": "Ako funkciji prosledimo objekat, može li ona da promeni njegovo svojstvo?",
               "dodatniOdgovor": "Može. Argument se prosleđuje po vrednosti, ali kada je ta vrednost referenca na objekat, funkcija može menjati isti objekat koji vidi pozivalac. Ponovna dodela parametru unutar funkcije, međutim, ne menja promenljivu pozivaoca."
+            },
+            {
+              "id": "k06q6",
+              "vrsta": "pitanje",
+              "oblik": "izbor",
+              "tekst": "6.6. Šta je u ovom pozivu callback, a šta funkcija višeg reda?\n\n```javascript\nfunction primeni(vrednost, funkcija) {\n  return funkcija(vrednost);\n}\n\nconst rezultat = primeni(5, x => x * 3);\n```",
+              "opcije": [
+                {
+                  "key": "A",
+                  "text": "`x => x * 3` je callback, a `primeni` je funkcija višeg reda.",
+                  "ok": true,
+                  "why": "Callback se prosleđuje da bi bio pozvan. `primeni` prima tu funkciju."
+                },
+                {
+                  "key": "B",
+                  "text": "`primeni` je callback, a `x => x * 3` je funkcija višeg reda.",
+                  "ok": false,
+                  "why": "Uloge su zamenjene: prosleđena funkcija je callback."
+                },
+                {
+                  "key": "C",
+                  "text": "Obe su callback funkcije.",
+                  "ok": false,
+                  "why": "Callback je funkcija koja se prosleđuje. `primeni` je funkcija koja je prima."
+                }
+              ],
+              "analiza": "Odgovor: A.\n\nCallback je funkcija prosleđena drugoj funkciji da bi bila pozvana. Funkcija višeg reda je ona koja funkciju prima ili vraća.\n\nOvde `x => x * 3` jeste callback, a `primeni` jeste funkcija višeg reda.",
+              "dodatno": "Da li je `map` funkcija višeg reda?",
+              "dodatniOdgovor": "Da. `map` prima funkciju i poziva je za svaki element niza. Ta prosleđena funkcija je callback, a `map` je funkcija višeg reda."
+            },
+            {
+              "id": "k06q7",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "6.7. Šta funkcija višeg reda može da vrati?\n\n```javascript\nfunction napraviMnozenje(faktor) {\n  return (broj) => broj * faktor;\n}\n\nconst utrostruci = napraviMnozenje(3);\nconst rezultat = utrostruci(5);\n```\n\nŠta sadrže `utrostruci` i `rezultat`?",
+              "odgovor": "`utrostruci` je funkcija, a `rezultat` je `15`.\n\n`napraviMnozenje(3)` ne množi broj. Vraća funkciju koja svoj argument množi sa `3`. Zato je `napraviMnozenje` funkcija višeg reda: njen rezultat je funkcija.\n\nTek poziv `utrostruci(5)` izvršava množenje i daje `15`.",
+              "dodatno": "Po čemu se `napraviMnozenje` razlikuje od `primeni` ako su obe funkcije višeg reda?",
+              "dodatniOdgovor": "`primeni` prima callback i odmah ga pozove, pa vraća broj. `napraviMnozenje` ne prima funkciju: vraća novu funkciju. Funkcija višeg reda može da radi jedno, drugo, ili oboje."
             }
           ],
           "pitalice": [
@@ -4258,11 +4313,38 @@
             },
             {
               "pitalica": "6.5. Kako jedna funkcija može da odlučuje koju drugu funkciju će izvršiti?\n\n```javascript\nfunction primeni(x, operacija) {\n  return operacija(x);\n}\n\nconst rezultat = primeni(5, x => x * 3);\n```\n\nŠta će biti rezultat i čemu služi argument `operacija`?",
-              "odgovor": "Rezultat je `15`.\n\n`operacija` je parametar koji prima funkciju. Funkcija `primeni` poziva prosleđenu funkciju sa argumentom `x`.\n\nOvakva funkcija prosleđena drugoj funkciji naziva se callback."
+              "odgovor": "Rezultat je `15`.\n\n`operacija` je parametar koji prima funkciju. Funkcija `primeni` poziva prosleđenu funkciju sa argumentom `x`.\n\nOvakva funkcija prosleđena drugoj funkciji naziva se callback. `primeni` je funkcija višeg reda: prima tu funkciju i odlučuje kada će je pozvati."
+            },
+            {
+              "pitalica": "6.6. Šta je u ovom pozivu callback, a šta funkcija višeg reda?\n\n```javascript\nfunction primeni(vrednost, funkcija) {\n  return funkcija(vrednost);\n}\n\nconst rezultat = primeni(5, x => x * 3);\n```",
+              "opcije": [
+                {
+                  "key": "A",
+                  "text": "`x => x * 3` je callback, a `primeni` je funkcija višeg reda.",
+                  "ok": true,
+                  "why": "Callback se prosleđuje da bi bio pozvan. `primeni` prima tu funkciju."
+                },
+                {
+                  "key": "B",
+                  "text": "`primeni` je callback, a `x => x * 3` je funkcija višeg reda.",
+                  "ok": false,
+                  "why": "Uloge su zamenjene: prosleđena funkcija je callback."
+                },
+                {
+                  "key": "C",
+                  "text": "Obe su callback funkcije.",
+                  "ok": false,
+                  "why": "Callback je funkcija koja se prosleđuje. `primeni` je funkcija koja je prima."
+                }
+              ],
+              "analizaPitalice": "Odgovor: A.\n\nCallback je funkcija prosleđena drugoj funkciji da bi bila pozvana. Funkcija višeg reda je ona koja funkciju prima ili vraća.\n\nOvde `x => x * 3` jeste callback, a `primeni` jeste funkcija višeg reda."
+            },
+            {
+              "pitalica": "6.7. Šta funkcija višeg reda može da vrati?\n\n```javascript\nfunction napraviMnozenje(faktor) {\n  return (broj) => broj * faktor;\n}\n\nconst utrostruci = napraviMnozenje(3);\nconst rezultat = utrostruci(5);\n```\n\nŠta sadrže `utrostruci` i `rezultat`?",
+              "odgovor": "`utrostruci` je funkcija, a `rezultat` je `15`.\n\n`napraviMnozenje(3)` ne množi broj. Vraća funkciju koja svoj argument množi sa `3`. Zato je `napraviMnozenje` funkcija višeg reda: njen rezultat je funkcija.\n\nTek poziv `utrostruci(5)` izvršava množenje i daje `15`."
             }
           ],
-          "pitalica": "6.1. Šta se događa kada funkcija ne vrati vrednost?\n\n```javascript\nfunction izracunaj(a, b) {\n  const zbir = a + b;\n}\n\nconst rezultat = izracunaj(2, 3);\n\nconsole.log(rezultat);\n```"
-,
+          "pitalica": "6.1. Šta se događa kada funkcija ne vrati vrednost?\n\n```javascript\nfunction izracunaj(a, b) {\n  const zbir = a + b;\n}\n\nconst rezultat = izracunaj(2, 3);\n\nconsole.log(rezultat);\n```",
           "opcije": [
             {
               "key": "A",
@@ -4283,19 +4365,18 @@
               "why": "Funkcija sme da izračuna vrednost i da je ne vrati."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\nIzračunavanje vrednosti i vraćanje vrednosti nisu isto. Funkcija izvršava sabiranje, ali rezultat ne vraća pozivaocu.\n\nZa vraćanje rezultata potreban je `return`."
-,
+          "analizaPitalice": "Odgovor: B.\n\nIzračunavanje vrednosti i vraćanje vrednosti nisu isto. Funkcija izvršava sabiranje, ali rezultat ne vraća pozivaocu.\n\nZa vraćanje rezultata potreban je `return`.",
           "putanja": "client/lekcije/06-funkcije.js",
           "isecakNaslov": "Funkcije kao vrednosti",
           "isecakJezik": "javascript",
-          "delic": "// Funkcije kao vrednosti\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Deklaracija i poziv\nfunction kvadrat(broj) {\n  return broj * broj;\n}\n\nconst rezultat = kvadrat(5);\n\nconsole.log(rezultat); // 25\n\n// Podrazumevani parametar\nfunction pozdrav(ime = \"goste\") {\n  return \"Zdravo, \" + ime;\n}\n\npozdrav();      // \"Zdravo, goste\"\npozdrav(\"Ana\"); // \"Zdravo, Ana\"\n\n// Deklaracija funkcije\nfunction saberi(a, b) {\n  return a + b;\n}\n\n// Funkcijski izraz\nconst saberi = function(a, b) {\n  return a + b;\n};\n\n// Arrow funkcija\nconst saberi = (a, b) => a + b;\n\n// Funkcija je vrednost\nfunction dupliraj(x) {\n  return x * 2;\n}\n\nconst operacija = dupliraj;\n\nconsole.log(operacija(4)); // 8\n\n// Callback\nfunction primeni(vrednost, funkcija) {\n  return funkcija(vrednost);\n}\n\nconst rezultat = primeni(5, x => x * 3);\n\nconsole.log(rezultat); // 15\n"
+          "delic": "// Funkcije kao vrednosti\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Deklaracija i poziv\nfunction kvadrat(broj) {\n  return broj * broj;\n}\n\nconst rezultat = kvadrat(5);\n\nconsole.log(rezultat); // 25\n\n// Podrazumevani parametar\nfunction pozdrav(ime = \"goste\") {\n  return \"Zdravo, \" + ime;\n}\n\npozdrav();      // \"Zdravo, goste\"\npozdrav(\"Ana\"); // \"Zdravo, Ana\"\n\n// Deklaracija funkcije\nfunction saberi(a, b) {\n  return a + b;\n}\n\n// Funkcijski izraz\nconst saberi = function(a, b) {\n  return a + b;\n};\n\n// Arrow funkcija\nconst saberi = (a, b) => a + b;\n\n// Funkcija je vrednost\nfunction dupliraj(x) {\n  return x * 2;\n}\n\nconst operacija = dupliraj;\n\nconsole.log(operacija(4)); // 8\n\n// Callback\nfunction primeni(vrednost, funkcija) {\n  return funkcija(vrednost);\n}\n\nconst rezultat = primeni(5, x => x * 3);\n\nconsole.log(rezultat); // 15\n\n// Funkcija višeg reda\nfunction napraviMnozenje(faktor) {\n  return (broj) => broj * faktor;\n}\n\nconst utrostruci = napraviMnozenje(3);\n\nconsole.log(utrostruci(5)); // 15\n"
         },
         {
           "naslov": "Nizovi i obrada kolekcija",
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "eksperiment",
-          "tekst": "Niz (array) predstavlja uređenu kolekciju vrednosti.\n\nElementima se pristupa pomoću indeksa, počevši od nule.\n\nNizovi mogu sadržati različite tipove vrednosti, uključujući objekte i druge nizove.\n\nU JavaScriptu nizovi su posebna vrsta objekata i imaju ugrađene metode za rad sa kolekcijama.\n\n### Obilazak elemenata\n\nZa prolazak kroz sve elemente može se koristiti `for...of`.\n\n`for...of` daje vrednosti elemenata, a ne njihove indekse.\n\nKada je potrebno dodati novi element na kraj niza, može se koristiti `push()`.\n\n`push()` menja postojeći niz. To je mutacija i dozvoljena je čak i kada je niz dodeljen promenljivoj deklarisanoj pomoću `const`.\n\n### `map`: transformacija elemenata\n\n`map()` izvršava funkciju za svaki element i vraća novi niz rezultata.\n\nNiz `brojevi` nije promenjen.\n\nFunkcija prosleđena metodi `map()` određuje način transformacije svakog elementa.\n\n### `filter`: izbor elemenata\n\n`filter()` pravi novi niz koji sadrži samo elemente za koje funkcija vrati truthy vrednost.\n\nZa razliku od `map()`, rezultat ne mora imati isti broj elemenata kao početni niz.\n\n### `find`: pronalaženje elementa\n\n`find()` vraća prvi element koji zadovoljava uslov.\n\nAko nijedan element ne zadovoljava uslov, rezultat je `undefined`.\n\n`find()` ne vraća niz, već jedan element ili `undefined`.\n\n### `reduce`: svođenje niza na rezultat\n\n`reduce()` prolazi kroz elemente niza i održava akumulator, odnosno vrednost koja se ažurira tokom obrade.\n\nU ovom primeru:\n\n- `0` je početna vrednost akumulatora.\n- Za svaki element izračunava se novi akumulator.\n- Posle poslednjeg elementa vraća se konačna vrednost.\n\n`reduce()` može dati broj, objekat, niz ili drugi rezultat. Njegova osnovna ideja je da kolekciju postepeno svede na jednu vrednost.\n\nPočetnu vrednost akumulatora treba eksplicitno zadati, posebno da bi ponašanje nad praznim nizom bilo predvidljivo.\n\n### `forEach`: izvršavanje operacije nad elementima\n\n`forEach()` poziva funkciju za svaki element, ali za razliku od `map()` ne gradi novi niz rezultata.\n\nKoristi se kada je cilj izvršavanje operacije, a ne transformacija kolekcije.\n\n### Suštinske razlike\n\n| Operacija | Rezultat |\n| --- | --- |\n| `for...of` | Izvršavanje naredbi za svaki element |\n| `push()` | Menja postojeći niz dodavanjem elementa |\n| `map()` | Novi niz transformisanih vrednosti |\n| `filter()` | Novi niz izabranih vrednosti |\n| `find()` | Prvi odgovarajući element ili `undefined` |\n| `reduce()` | Jedna akumulirana vrednost |\n| `forEach()` | Izvršavanje callback funkcije, bez niza rezultata |\n\nMetode `map`, `filter`, `find`, `reduce` i `forEach` same po sebi ne menjaju strukturu izvornog niza. Ipak, callback funkcija može imati sporedne efekte, na primer mutirati objekte koji se nalaze u nizu.",
+          "tekst": "Niz (array) predstavlja uređenu kolekciju vrednosti.\n\nElementima se pristupa pomoću indeksa, počevši od nule.\n\nNizovi mogu sadržati različite tipove vrednosti, uključujući objekte i druge nizove.\n\nU JavaScriptu nizovi su posebna vrsta objekata i imaju ugrađene metode za rad sa kolekcijama.\n\n### Obilazak elemenata\n\nZa prolazak kroz sve elemente može se koristiti `for...of`.\n\n`for...of` daje vrednosti elemenata, a ne njihove indekse.\n\nKada je potrebno dodati novi element na kraj niza, može se koristiti `push()`.\n\n`push()` menja postojeći niz. To je mutacija i dozvoljena je čak i kada je niz dodeljen promenljivoj deklarisanoj pomoću `const`.\n\n### `map`: transformacija elemenata\n\n`map()` izvršava funkciju za svaki element i vraća novi niz rezultata.\n\nNiz `brojevi` nije promenjen.\n\nFunkcija prosleđena metodi `map()` određuje način transformacije svakog elementa.\n\n`map` je funkcija višeg reda: prima callback i vraća novi niz. Isti obrazac važi za `filter`, `find`, `reduce` i `forEach`.\n\n### `filter`: izbor elemenata\n\n`filter()` pravi novi niz koji sadrži samo elemente za koje funkcija vrati truthy vrednost.\n\nZa razliku od `map()`, rezultat ne mora imati isti broj elemenata kao početni niz.\n\n### `find`: pronalaženje elementa\n\n`find()` vraća prvi element koji zadovoljava uslov.\n\nAko nijedan element ne zadovoljava uslov, rezultat je `undefined`.\n\n`find()` ne vraća niz, već jedan element ili `undefined`.\n\n### `reduce`: svođenje niza na rezultat\n\n`reduce()` prolazi kroz elemente niza i održava akumulator, odnosno vrednost koja se ažurira tokom obrade.\n\nU ovom primeru:\n\n- `0` je početna vrednost akumulatora.\n- Za svaki element izračunava se novi akumulator.\n- Posle poslednjeg elementa vraća se konačna vrednost.\n\n`reduce()` može dati broj, objekat, niz ili drugi rezultat. Njegova osnovna ideja je da kolekciju postepeno svede na jednu vrednost.\n\nPočetnu vrednost akumulatora treba eksplicitno zadati, posebno da bi ponašanje nad praznim nizom bilo predvidljivo.\n\n### `forEach`: izvršavanje operacije nad elementima\n\n`forEach()` poziva funkciju za svaki element, ali za razliku od `map()` ne gradi novi niz rezultata.\n\nKoristi se kada je cilj izvršavanje operacije, a ne transformacija kolekcije.\n\n### Suštinske razlike\n\n| Operacija | Rezultat |\n| --- | --- |\n| `for...of` | Izvršavanje naredbi za svaki element |\n| `push()` | Menja postojeći niz dodavanjem elementa |\n| `map()` | Novi niz transformisanih vrednosti |\n| `filter()` | Novi niz izabranih vrednosti |\n| `find()` | Prvi odgovarajući element ili `undefined` |\n| `reduce()` | Jedna akumulirana vrednost |\n| `forEach()` | Izvršavanje callback funkcije, bez niza rezultata |\n\nMetode `map`, `filter`, `find`, `reduce` i `forEach` su funkcije višeg reda: svaka prima callback. Same po sebi ne menjaju strukturu izvornog niza. Ipak, callback funkcija može imati sporedne efekte, na primer mutirati objekte koji se nalaze u nizu.",
           "kljucnaIdeja": "Najvažnija razlika nije u pamćenju naziva metoda, već u načinu obrade: transformacija, filtriranje, pronalaženje, agregacija ili izvršavanje operacije.",
           "blokovi": [
             {
@@ -4371,7 +4452,7 @@
             {
               "id": "k07b13",
               "vrsta": "tekst",
-              "tekst": "Niz `brojevi` nije promenjen.\n\nFunkcija prosleđena metodi `map()` određuje način transformacije svakog elementa."
+              "tekst": "Niz `brojevi` nije promenjen.\n\nFunkcija prosleđena metodi `map()` određuje način transformacije svakog elementa.\n\n`map` je funkcija višeg reda: prima callback i vraća novi niz. Isti obrazac važi za `filter`, `find`, `reduce` i `forEach`."
             },
             {
               "id": "k07b14",
@@ -4444,7 +4525,7 @@
             {
               "id": "k07b26",
               "vrsta": "tekst",
-              "tekst": "### Suštinske razlike\n\n| Operacija | Rezultat |\n| --- | --- |\n| `for...of` | Izvršavanje naredbi za svaki element |\n| `push()` | Menja postojeći niz dodavanjem elementa |\n| `map()` | Novi niz transformisanih vrednosti |\n| `filter()` | Novi niz izabranih vrednosti |\n| `find()` | Prvi odgovarajući element ili `undefined` |\n| `reduce()` | Jedna akumulirana vrednost |\n| `forEach()` | Izvršavanje callback funkcije, bez niza rezultata |\n\nMetode `map`, `filter`, `find`, `reduce` i `forEach` same po sebi ne menjaju strukturu izvornog niza. Ipak, callback funkcija može imati sporedne efekte, na primer mutirati objekte koji se nalaze u nizu."
+              "tekst": "### Suštinske razlike\n\n| Operacija | Rezultat |\n| --- | --- |\n| `for...of` | Izvršavanje naredbi za svaki element |\n| `push()` | Menja postojeći niz dodavanjem elementa |\n| `map()` | Novi niz transformisanih vrednosti |\n| `filter()` | Novi niz izabranih vrednosti |\n| `find()` | Prvi odgovarajući element ili `undefined` |\n| `reduce()` | Jedna akumulirana vrednost |\n| `forEach()` | Izvršavanje callback funkcije, bez niza rezultata |\n\nMetode `map`, `filter`, `find`, `reduce` i `forEach` su funkcije višeg reda: svaka prima callback. Same po sebi ne menjaju strukturu izvornog niza. Ipak, callback funkcija može imati sporedne efekte, na primer mutirati objekte koji se nalaze u nizu."
             },
             {
               "id": "k07b27",
@@ -4468,7 +4549,7 @@
               "vrsta": "pitanje",
               "oblik": "tekst",
               "tekst": "7.2. Zašto koristiti `map` ako već imamo `for` petlju?\n\n```javascript\nconst brojevi = [1, 2, 3];\n\nconst rezultat = brojevi.map(x => x * 2);\n```\n\nŠta sadrži `rezultat` i da li se `brojevi` menja?",
-              "odgovor": "`rezultat` je `[2, 4, 6]`, a izvorni niz ostaje `[1, 2, 3]`.\n\n`map()` izražava nameru da se svaki element transformiše u novu vrednost. Umesto ručnog pravljenja niza, prosleđujemo funkciju transformacije.",
+              "odgovor": "`rezultat` je `[2, 4, 6]`, a izvorni niz ostaje `[1, 2, 3]`.\n\n`map()` izražava nameru da se svaki element transformiše u novu vrednost. Umesto ručnog pravljenja niza, prosleđujemo funkciju transformacije.\n\nTa funkcija je callback, a `map` je funkcija višeg reda.",
               "dodatno": "Po čemu se `map()` razlikuje od `forEach()`?",
               "dodatniOdgovor": "`map()` vraća novi niz sastavljen od rezultata callback funkcije. `forEach()` poziva callback za svaki element, ali sam vraća `undefined`. Pogodan je za operacije sa sporednim efektima, poput ispisa, a ne za pravljenje transformisanog niza."
             },
@@ -4547,7 +4628,7 @@
             },
             {
               "pitalica": "7.2. Zašto koristiti `map` ako već imamo `for` petlju?\n\n```javascript\nconst brojevi = [1, 2, 3];\n\nconst rezultat = brojevi.map(x => x * 2);\n```\n\nŠta sadrži `rezultat` i da li se `brojevi` menja?",
-              "odgovor": "`rezultat` je `[2, 4, 6]`, a izvorni niz ostaje `[1, 2, 3]`.\n\n`map()` izražava nameru da se svaki element transformiše u novu vrednost. Umesto ručnog pravljenja niza, prosleđujemo funkciju transformacije."
+              "odgovor": "`rezultat` je `[2, 4, 6]`, a izvorni niz ostaje `[1, 2, 3]`.\n\n`map()` izražava nameru da se svaki element transformiše u novu vrednost. Umesto ručnog pravljenja niza, prosleđujemo funkciju transformacije.\n\nTa funkcija je callback, a `map` je funkcija višeg reda."
             },
             {
               "pitalica": "7.3. Ako tražimo elemente koji zadovoljavaju uslov, kada koristimo `filter`, a kada `find`?\n\n```javascript\nconst brojevi = [4, 7, 12, 15];\n\nconst a = brojevi.filter(x => x > 10);\nconst b = brojevi.find(x => x > 10);\n```\n\nŠta su `a` i `b`?",
@@ -4614,7 +4695,7 @@
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "eksperiment",
-          "tekst": "JavaScript ima sintaksne konstrukcije koje olakšavaju rad sa objektima i nizovima. One uglavnom ne uvode nove vrste podataka, već omogućavaju preglednije izražavanje postojećih operacija.\n\n### Destrukturiranje objekata\n\nDestrukturiranje (destructuring) omogućava izdvajanje svojstava objekta u promenljive.\n\nRezultat je ekvivalentan pojedinačnom čitanju svojstava `korisnik.ime` i `korisnik.godine`.\n\nMoguće je zadati drugačije ime promenljive:\n\nDestrukturiranje je posebno korisno kod parametara funkcija i rada sa objektima koji sadrže više svojstava.\n\n### Destrukturiranje nizova\n\nKod nizova se elementi izdvajaju prema poziciji.\n\n### Rest i spread sintaksa\n\nTri tačke `...` imaju različitu ulogu u zavisnosti od mesta upotrebe.\n\nRest prikuplja preostale elemente.\n\nSpread proširuje elemente ili svojstva iz postojeće strukture.\n\nKod objekata spread omogućava pravljenje novog objekta sa kopiranim svojstvima.\n\nObjekat `kopija` je novi objekat. Izvorni objekat `korisnik` nije izmenjen.\n\n### Plitko kopiranje objekata\n\nSpread ne pravi rekurzivnu kopiju svih ugnježdenih objekata.\n\nKopija ima sopstveni spoljašnji objekat, ali svojstvo `podesavanja` u oba slučaja sadrži referencu na isti unutrašnji objekat.\n\nOvo se naziva shallow copy, odnosno plitka kopija.\n\n### Template literals\n\nTemplate literals koriste obrnute navodnike i omogućavaju ubacivanje izraza u tekst.\n\nIzraz unutar `${...}` izračunava se i njegov rezultat se pretvara u tekst.\n\n### Optional chaining: `?.`\n\nPristup svojstvu može izazvati grešku ako je vrednost `null` ili `undefined`.\n\nOperator `?.` prekida odgovarajući deo pristupnog lanca kada je leva vrednost `null` ili `undefined`, umesto da izazove grešku zbog pokušaja pristupa svojstvu.\n\nOn ne proverava da li objekat ima svojstvo u opštem smislu, već prvenstveno štiti od pristupa kroz `null` i `undefined`.\n\n### Nullish coalescing: `??`\n\nOperator `??` omogućava izbor podrazumevane vrednosti kada je leva vrednost `null` ili `undefined`.\n\nRazlika je važna:\n\n- `||` koristi desni operand ako je levi falsy.\n- `??` koristi desni operand samo ako je levi `null` ili `undefined`.\n\nVrednosti `0`, `false` i `\"\"` često su validni podaci, pa njihovo automatsko zamenjivanje može biti greška.\n\nOperatori `?.` i `??` često se koriste zajedno:",
+          "tekst": "JavaScript ima sintaksne konstrukcije koje olakšavaju rad sa objektima i nizovima. One uglavnom ne uvode nove vrste podataka, već omogućavaju preglednije izražavanje postojećih operacija.\n\n### Destrukturiranje objekata\n\nDestrukturiranje (destructuring) omogućava izdvajanje svojstava objekta u promenljive.\n\nRezultat je ekvivalentan pojedinačnom čitanju svojstava `korisnik.ime` i `korisnik.godine`.\n\nMoguće je zadati drugačije ime promenljive:\n\nDestrukturiranje je posebno korisno kod parametara funkcija i rada sa objektima koji sadrže više svojstava.\n\n### Destrukturiranje nizova\n\nKod nizova se elementi izdvajaju prema poziciji.\n\n### Rest i spread sintaksa\n\nTri tačke `...` imaju različitu ulogu u zavisnosti od mesta upotrebe.\n\nRest prikuplja preostale elemente.\n\nSpread proširuje elemente ili svojstva iz postojeće strukture.\n\nKod objekata spread omogućava pravljenje novog objekta sa kopiranim svojstvima.\n\nObjekat `kopija` je novi objekat. Izvorni objekat `korisnik` nije izmenjen.\n\n### Plitko kopiranje objekata\n\nSpread ne pravi rekurzivnu kopiju svih ugnježdenih objekata.\n\nKopija ima sopstveni spoljašnji objekat, ali svojstvo `podesavanja` u oba slučaja sadrži referencu na isti unutrašnji objekat.\n\nOvo se naziva shallow copy, odnosno plitka kopija.\n\n### Template literals\n\nTemplate literals koriste obrnute navodnike i omogućavaju ubacivanje izraza u tekst.\n\nIzraz unutar `${...}` izračunava se i njegov rezultat se pretvara u tekst.\n\n### Opciono ulančavanje (optional chaining): `?.`\n\nPristup svojstvu može izazvati grešku ako je vrednost `null` ili `undefined`.\n\nOperator `?.` prekida odgovarajući deo pristupnog lanca kada je leva vrednost `null` ili `undefined`, umesto da izazove grešku zbog pokušaja pristupa svojstvu.\n\nOn ne proverava da li objekat ima svojstvo u opštem smislu, već prvenstveno štiti od pristupa kroz `null` i `undefined`.\n\n### Nullish coalescing: `??`\n\nOperator `??` omogućava izbor podrazumevane vrednosti kada je leva vrednost `null` ili `undefined`.\n\nRazlika je važna:\n\n- `||` koristi desni operand ako je levi falsy.\n- `??` koristi desni operand samo ako je levi `null` ili `undefined`.\n\nVrednosti `0`, `false` i `\"\"` često su validni podaci, pa njihovo automatsko zamenjivanje može biti greška.\n\nOperatori `?.` i `??` često se koriste zajedno:",
           "kljucnaIdeja": "Destrukturiranje, rest i spread olakšavaju rad sa strukturama podataka, ali ne ukidaju pravila referenci. `?.` štiti pristup kroz odsutne vrednosti, a `??` definiše podrazumevanu vrednost bez odbacivanja validnih falsy vrednosti.",
           "blokovi": [
             {
@@ -4736,12 +4817,12 @@
             {
               "id": "k08b21",
               "vrsta": "tekst",
-              "tekst": "### Optional chaining: `?.`\n\nPristup svojstvu može izazvati grešku ako je vrednost `null` ili `undefined`."
+              "tekst": "### Opciono ulančavanje (optional chaining): `?.`\n\nPristup svojstvu može izazvati grešku ako je vrednost `null` ili `undefined`."
             },
             {
               "id": "k08b22",
               "vrsta": "kod",
-              "naslov": "Optional chaining",
+              "naslov": "Opciono ulančavanje",
               "jezik": "javascript",
               "tekst": "const korisnik = {\n  ime: \"Ana\"\n};\n\nconsole.log(korisnik.adresa?.grad);\n// undefined"
             },
@@ -4826,8 +4907,8 @@
               "oblik": "tekst",
               "tekst": "8.3. Kada je `??` bolji izbor od `||`?\n\n```javascript\nconst broj = 0;\n\nconst a = broj || 10;\nconst b = broj ?? 10;\n```\n\nŠta su `a` i `b`?",
               "odgovor": "`a` je `10`, a `b` je `0`.\n\n`||` koristi desni operand kada je levi falsy. `??` koristi desni operand samo kada je levi `null` ili `undefined`.\n\nZbog toga je `??` pogodan kada su `0`, `false` ili prazan string validni podaci.",
-              "dodatno": "Šta vraća sledeći izraz i zašto ne izaziva grešku?",
-              "dodatniOdgovor": "`\"Nepoznat\"`.\n\n```javascript\nconst korisnik = { adresa: null };\n\nconst grad = korisnik.adresa?.grad ?? \"Nepoznat\";\n```\n\nOptional chaining (`?.`) sprečava pristup svojstvu preko `null` i daje `undefined`, a zatim `??` zamenjuje `undefined` podrazumevanom vrednošću."
+              "dodatno": "Šta vraća sledeći izraz i zašto ne izaziva grešku?\n\n```javascript\nconst korisnik = { adresa: null };\n\nconst grad = korisnik.adresa?.grad ?? \"Nepoznat\";\n```",
+              "dodatniOdgovor": "`\"Nepoznat\"`.\n\nOpciono ulančavanje (`?.`) sprečava pristup svojstvu preko `null` i daje `undefined`, a zatim `??` zamenjuje `undefined` podrazumevanom vrednošću."
             },
             {
               "id": "k08z1",
@@ -4869,12 +4950,11 @@
               "odgovor": "`a` je `10`, a `b` je `0`.\n\n`||` koristi desni operand kada je levi falsy. `??` koristi desni operand samo kada je levi `null` ili `undefined`.\n\nZbog toga je `??` pogodan kada su `0`, `false` ili prazan string validni podaci."
             }
           ],
-          "pitalica": "8.1. Kako izdvajamo podatke iz objekata i nizova bez ponavljanja pristupa svojstvima?\n\n```javascript\nconst osoba = {\n  ime: \"Ana\",\n  godine: 22\n};\n\nconst { ime, godine } = osoba;\n```\n\nDa li su `ime` i `godine` nove promenljive ili reference na ceo objekat?"
-,
+          "pitalica": "8.1. Kako izdvajamo podatke iz objekata i nizova bez ponavljanja pristupa svojstvima?\n\n```javascript\nconst osoba = {\n  ime: \"Ana\",\n  godine: 22\n};\n\nconst { ime, godine } = osoba;\n```\n\nDa li su `ime` i `godine` nove promenljive ili reference na ceo objekat?",
           "putanja": "client/lekcije/08-sintaksa.js",
           "isecakNaslov": "Destrukturiranje i savremena sintaksa",
           "isecakJezik": "javascript",
-          "delic": "// Destrukturiranje i savremena sintaksa\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Destrukturiranje objekta\nconst korisnik = {\n  ime: \"Ana\",\n  godine: 22\n};\n\nconst { ime, godine } = korisnik;\n\nconsole.log(ime);    // \"Ana\"\nconsole.log(godine); // 22\n\n// Drugo ime promenljive\nconst { ime: korisnickoIme } = korisnik;\n\n// Destrukturiranje niza\nconst brojevi = [10, 20, 30];\n\nconst [prvi, drugi] = brojevi;\n\nconsole.log(prvi);  // 10\nconsole.log(drugi); // 20\n\n// Rest\nconst [prvi, ...ostali] = [1, 2, 3, 4];\n\nconsole.log(prvi);   // 1\nconsole.log(ostali); // [2, 3, 4]\n\n// Spread niza\nconst prvi = [1, 2];\nconst drugi = [...prvi, 3, 4];\n\nconsole.log(drugi); // [1, 2, 3, 4]\n\n// Spread objekta\nconst korisnik = {\n  ime: \"Ana\",\n  aktivan: true\n};\n\nconst kopija = {\n  ...korisnik,\n  aktivan: false\n};\n\n// Plitka kopija\nconst original = {\n  podesavanja: {\n    tema: \"tamna\"\n  }\n};\n\nconst kopija = { ...original };\n\nkopija.podesavanja.tema = \"svetla\";\n\nconsole.log(original.podesavanja.tema);\n// \"svetla\"\n\n// Template literal\nconst ime = \"Ana\";\nconst poeni = 95;\n\nconst poruka = `${ime} ima ${poeni} poena.`;\n\n// Optional chaining\nconst korisnik = {\n  ime: \"Ana\"\n};\n\nconsole.log(korisnik.adresa?.grad);\n// undefined\n\n// Nullish coalescing\nconst broj = 0;\n\nconsole.log(broj || 10); // 10\nconsole.log(broj ?? 10); // 0\n\n// ?. i ??\nconst korisnik = {\n  profil: null\n};\n\nconst grad = korisnik.profil?.grad ?? \"Nepoznat\";\n"
+          "delic": "// Destrukturiranje i savremena sintaksa\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Destrukturiranje objekta\nconst korisnik = {\n  ime: \"Ana\",\n  godine: 22\n};\n\nconst { ime, godine } = korisnik;\n\nconsole.log(ime);    // \"Ana\"\nconsole.log(godine); // 22\n\n// Drugo ime promenljive\nconst { ime: korisnickoIme } = korisnik;\n\n// Destrukturiranje niza\nconst brojevi = [10, 20, 30];\n\nconst [prvi, drugi] = brojevi;\n\nconsole.log(prvi);  // 10\nconsole.log(drugi); // 20\n\n// Rest\nconst [prvi, ...ostali] = [1, 2, 3, 4];\n\nconsole.log(prvi);   // 1\nconsole.log(ostali); // [2, 3, 4]\n\n// Spread niza\nconst prvi = [1, 2];\nconst drugi = [...prvi, 3, 4];\n\nconsole.log(drugi); // [1, 2, 3, 4]\n\n// Spread objekta\nconst korisnik = {\n  ime: \"Ana\",\n  aktivan: true\n};\n\nconst kopija = {\n  ...korisnik,\n  aktivan: false\n};\n\n// Plitka kopija\nconst original = {\n  podesavanja: {\n    tema: \"tamna\"\n  }\n};\n\nconst kopija = { ...original };\n\nkopija.podesavanja.tema = \"svetla\";\n\nconsole.log(original.podesavanja.tema);\n// \"svetla\"\n\n// Template literal\nconst ime = \"Ana\";\nconst poeni = 95;\n\nconst poruka = `${ime} ima ${poeni} poena.`;\n\n// Opciono ulančavanje\nconst korisnik = {\n  ime: \"Ana\"\n};\n\nconsole.log(korisnik.adresa?.grad);\n// undefined\n\n// Nullish coalescing\nconst broj = 0;\n\nconsole.log(broj || 10); // 10\nconsole.log(broj ?? 10); // 0\n\n// ?. i ??\nconst korisnik = {\n  profil: null\n};\n\nconst grad = korisnik.profil?.grad ?? \"Nepoznat\";\n"
         },
         {
           "naslov": "Opseg važenja i leksičko okruženje",
@@ -5400,13 +5480,13 @@
           "nivo": "Primena",
           "minuta": 3,
           "tipPrimer": "eksperiment",
-          "tekst": "U prethodnom koraku videli smo da se kontekst izvršavanja funkcije uklanja sa steka kada se funkcija završi.\n\nMeđutim, šta ako funkcija vrati drugu funkciju koja koristi njene lokalne promenljive?\n\nJavaScript omogućava da unutrašnja funkcija nastavi da pristupa leksičkom okruženju u kome je nastala. Taj mehanizam naziva se closure.\n\n### Primer: funkcija koja čuva stanje\n\nFunkcija `napraviBrojac` izvršila se i završila.\n\nIpak, funkcija koju je vratila nastavlja da koristi promenljivu `broj` iz njenog leksičkog okruženja.\n\nTo je moguće zato što se odgovarajuće veze iz leksičkog okruženja zadržavaju dok su potrebne dostupnoj funkciji.\n\nClosure ne čuva nužno kopiju vrednosti promenljive. On omogućava pristup samoj vezi sa promenljivom, čija vrednost može da se menja.\n\n### Nezavisna stanja\n\nSvaki poziv spoljašnje funkcije može napraviti novo leksičko okruženje.\n\n`prvi` i `drugi` koriste nezavisna stanja.\n\nOvo je važno za razumevanje fabričkih funkcija, lokalnog stanja i enkapsulacije.\n\n### Closure i privatni podaci\n\nPromenljive u spoljašnjoj funkciji ne moraju biti direktno dostupne ostatku programa.\n\nPromenljiva `stanje` nije javno svojstvo vraćenog objekta.\n\nPristup njoj moguć je kroz funkcije koje su definisane u odgovarajućem leksičkom okruženju.\n\nOvo je jedan način da se ostvari enkapsulacija bez korišćenja klasa.\n\n### Closure ne zahteva `return`\n\nClosure nastaje kao posledica načina na koji funkcije pristupaju spoljašnjem leksičkom okruženju. Nije neophodno da se funkcija vrati iz druge funkcije.\n\nVraćanje funkcije samo čini ovaj mehanizam lakšim za demonstraciju, zato što unutrašnja funkcija nastavlja da postoji nakon završetka spoljašnje.",
+          "tekst": "U prethodnom koraku videli smo da se kontekst izvršavanja funkcije uklanja sa steka kada se funkcija završi.\n\nU koraku o funkcijama `napraviMnozenje` vraća funkciju, i ta funkcija i dalje vidi `faktor`. Ovde gledamo kako vraćena funkcija nastavlja da koristi lokalne promenljive pošto se spoljašnja funkcija završila.\n\nJavaScript omogućava da unutrašnja funkcija nastavi da pristupa leksičkom okruženju u kome je nastala. Taj mehanizam naziva se closure.\n\n### Primer: funkcija koja čuva stanje\n\nFunkcija `napraviBrojac` izvršila se i završila.\n\nIpak, funkcija koju je vratila nastavlja da koristi promenljivu `broj` iz njenog leksičkog okruženja.\n\nTo je moguće zato što se odgovarajuće veze iz leksičkog okruženja zadržavaju dok su potrebne dostupnoj funkciji.\n\nClosure ne čuva nužno kopiju vrednosti promenljive. On omogućava pristup samoj vezi sa promenljivom, čija vrednost može da se menja.\n\n### Nezavisna stanja\n\nSvaki poziv spoljašnje funkcije može napraviti novo leksičko okruženje.\n\n`prvi` i `drugi` koriste nezavisna stanja.\n\nOvo je važno za razumevanje fabričkih funkcija, lokalnog stanja i enkapsulacije.\n\n### Closure i privatni podaci\n\nPromenljive u spoljašnjoj funkciji ne moraju biti direktno dostupne ostatku programa.\n\nPromenljiva `stanje` nije javno svojstvo vraćenog objekta.\n\nPristup njoj moguć je kroz funkcije koje su definisane u odgovarajućem leksičkom okruženju.\n\nOvo je jedan način da se ostvari enkapsulacija bez korišćenja klasa.\n\n### Closure ne zahteva `return`\n\nClosure nastaje kao posledica načina na koji funkcije pristupaju spoljašnjem leksičkom okruženju. Nije neophodno da se funkcija vrati iz druge funkcije.\n\nVraćanje funkcije samo čini ovaj mehanizam lakšim za demonstraciju, zato što unutrašnja funkcija nastavlja da postoji nakon završetka spoljašnje.",
           "kljucnaIdeja": "Funkcija zadržava pristup leksičkom okruženju u kome je definisana. To omogućava očuvanje stanja između poziva i predstavlja osnovu mnogih JavaScript obrazaca.",
           "blokovi": [
             {
               "id": "k11b1",
               "vrsta": "tekst",
-              "tekst": "U prethodnom koraku videli smo da se kontekst izvršavanja funkcije uklanja sa steka kada se funkcija završi.\n\nMeđutim, šta ako funkcija vrati drugu funkciju koja koristi njene lokalne promenljive?\n\nJavaScript omogućava da unutrašnja funkcija nastavi da pristupa leksičkom okruženju u kome je nastala. Taj mehanizam naziva se closure."
+              "tekst": "U prethodnom koraku videli smo da se kontekst izvršavanja funkcije uklanja sa steka kada se funkcija završi.\n\nU koraku o funkcijama `napraviMnozenje` vraća funkciju, i ta funkcija i dalje vidi `faktor`. Ovde gledamo kako vraćena funkcija nastavlja da koristi lokalne promenljive pošto se spoljašnja funkcija završila.\n\nJavaScript omogućava da unutrašnja funkcija nastavi da pristupa leksičkom okruženju u kome je nastala. Taj mehanizam naziva se closure."
             },
             {
               "id": "k11b2",

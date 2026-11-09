@@ -241,3 +241,7 @@ Uloga koja sme da pregleda stanje kontrolne sobe, ali ne i da upravlja ventilato
 
 **Operater**:
 Uloga koja sme da pregleda stanje i izdaje dozvoljene komande uređajima.
+
+**opciono ulančavanje**:
+Nastavak pristupnog lanca samo kad leva vrednost nije `null` ni `undefined`. Operator je `?.`. Engleski naziv je optional chaining.
+_Avoid_: Opciono lančanje.
