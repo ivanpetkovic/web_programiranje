@@ -52,13 +52,13 @@ npm test
 
 ```text
 site/          sajt časa
-kursevi/web_programiranje/   kurs.json i asseti tog kursa
+kursevi/web_programiranje/   kurs.json, rečnik i asseti tog kursa
 client/        panel koji browser učitava
 server/        Node proces, modul http, bez Express-a
 test/          provere ljuske, editora i ugovora API-ja
 docs/kurs.md   cilj, način objašnjavanja, povezujući primer
 docs/platforma.md   šta sajt radi
-GLOSSARY.md    rečnik
+GLOSSARY-MAP.md     pokazuje na rečnik kursa
 ```
 
 `primeri/` drži samostalne primere. Svaki podfolder je jedan primer; `primer.json` daje natpis u selektoru. Kontrolna soba nije folder: to je stablo časa iz `client/` i `server/`, i ono je podrazumevani primer.

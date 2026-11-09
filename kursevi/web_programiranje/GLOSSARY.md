@@ -221,10 +221,6 @@ _Avoid_: Keš.
 Podatak kojim se kutija javlja bazi. Browser ga ne dobija.
 _Avoid_: Kredencijal.
 
-**push**:
-Poruka kutije ka browseru, bez novog čitanja. Ide u sobu mašina.
-_Avoid_: Dovod, guranje.
-
 **opaque token**:
 Ključ sesije koji browser nosi, a ne čita. Kutija po njemu nađe ulogu.
 _Avoid_: Neprozirni ključ.
