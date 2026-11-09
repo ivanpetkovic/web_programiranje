@@ -99,6 +99,19 @@ test("termini gradiva izbegavaju kalk i javljaju se u kursu", () => {
   assert.equal(lekcijePojma(dokument, "Žica").teme.length, 0);
 });
 
+test("opseg važenja i opseg izvršavanja nose engleske nazive", () => {
+  const trazi = (ime) => pojmovi.find((pojam) => pojam.ime === ime);
+  const vazenje = trazi("opseg važenja");
+  const izvrsavanje = trazi("opseg izvršavanja");
+  assert.match(vazenje.definicija, /scope/);
+  assert.match(vazenje.izbegava, /Scope of validity/);
+  assert.match(izvrsavanje.definicija, /opseg važenja/i);
+  assert.match(izvrsavanje.definicija, /execution scope/);
+  assert.match(izvrsavanje.izbegava, /Kontekst izvršavanja/);
+  assert.match(izvrsavanje.izbegava, /execution context/);
+  assert.equal(lekcijePojma(dokument, "opseg važenja").prvi.korak >= 0, true);
+});
+
 test("pitanje koje počinje upitom vraća svoj korak", () => {
   const kurs = {
     teme: [

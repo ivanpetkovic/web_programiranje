@@ -241,3 +241,11 @@ Uloga koja sme da pregleda stanje i izdaje dozvoljene komande uređajima.
 **opciono ulančavanje**:
 Nastavak pristupnog lanca samo kad leva vrednost nije `null` ni `undefined`. Operator je `?.`. Engleski naziv je optional chaining.
 _Avoid_: Opciono lančanje.
+
+**opseg važenja**:
+Deo programa u kome je deklaracija dostupna. Engleski naziv je scope.
+_Avoid_: Scope of validity.
+
+**opseg izvršavanja**:
+Opseg važenja u kome se deo koda trenutno izvršava. Engleski naziv je execution scope.
+_Avoid_: Kontekst izvršavanja, execution context.
