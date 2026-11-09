@@ -2952,8 +2952,7 @@
               "odgovor": "`2 + 3` je izraz koji se izračunava i daje vrednost `5`. Prvi red koristi taj izraz kao naredbu, ali rezultat nigde ne čuva niti prikazuje. Drugi red poziva funkciju `console.log`, kojoj prosleđuje izračunatu vrednost."
             }
           ],
-          "pitalica": "1.1. Zašto nam je potreban JavaScript ako već imamo HTML i CSS?\n\nPretpostavimo da imamo Web stranicu sa dugmetom koje, nakon klika, treba da promeni neki podatak i prikaže rezultat.\n\nKoja tehnologija je odgovorna za koji deo?"
-,
+          "pitalica": "1.1. Zašto nam je potreban JavaScript ako već imamo HTML i CSS?\n\nPretpostavimo da imamo Web stranicu sa dugmetom koje, nakon klika, treba da promeni neki podatak i prikaže rezultat.\n\nKoja tehnologija je odgovorna za koji deo?",
           "opcije": [
             {
               "key": "A",
@@ -2974,8 +2973,7 @@
               "why": "HTML, CSS i JavaScript nemaju istu namenu."
             }
           ],
-          "analizaPitalice": "Odgovor: A.\n\nHTML opisuje strukturu dokumenta, CSS način prikazivanja, a JavaScript omogućava programsko ponašanje. JavaScript može obrađivati podatke, izvršavati uslove, pozivati funkcije i koristiti API-je okruženja."
-,
+          "analizaPitalice": "Odgovor: A.\n\nHTML opisuje strukturu dokumenta, CSS način prikazivanja, a JavaScript omogućava programsko ponašanje. JavaScript može obrađivati podatke, izvršavati uslove, pozivati funkcije i koristiti API-je okruženja.",
           "putanja": "client/lekcije/01-izvrsavanje.js",
           "isecakNaslov": "Šta je JavaScript i kako se izvršava?",
           "isecakJezik": "javascript",
@@ -3206,8 +3204,7 @@
               "odgovor": "`a` sadrži `undefined`, `b` sadrži `null`, a `c` sadrži `NaN`.\n\n`undefined` obično označava odsustvo dodeljene vrednosti. `null` se koristi za namerno odsustvo vrednosti. `NaN` je posebna numerička vrednost koja označava nevalidan numerički rezultat."
             }
           ],
-          "pitalica": "2.1. Da li promenljiva ima trajno određen tip?\n\n```javascript\nlet podatak = 10;\npodatak = \"deset\";\npodatak = true;\n```\n\nŠta će se dogoditi?"
-,
+          "pitalica": "2.1. Da li promenljiva ima trajno određen tip?\n\n```javascript\nlet podatak = 10;\npodatak = \"deset\";\npodatak = true;\n```\n\nŠta će se dogoditi?",
           "opcije": [
             {
               "key": "A",
@@ -3228,8 +3225,7 @@
               "why": "Dodela stringa ili `true` ne pretvara tu vrednost u broj."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\nU JavaScriptu tip pripada vrednosti, a promenljiva može tokom izvršavanja sadržati vrednosti različitih tipova. To je suština dinamičke tipizacije."
-,
+          "analizaPitalice": "Odgovor: B.\n\nU JavaScriptu tip pripada vrednosti, a promenljiva može tokom izvršavanja sadržati vrednosti različitih tipova. To je suština dinamičke tipizacije.",
           "putanja": "client/lekcije/02-vrednosti.js",
           "isecakNaslov": "Vrednosti, tipovi podataka i promenljive",
           "isecakJezik": "javascript",
@@ -3539,8 +3535,7 @@
               "analizaPitalice": "Odgovor: B.\n\nPrva operacija menja svojstvo postojećeg objekta. To je mutacija.\n\nDruga pokušava ponovnu dodelu promenljivoj deklarisanoj pomoću `const`, što nije dozvoljeno."
             }
           ],
-          "pitalica": "3.1. Kako predstaviti više povezanih vrednosti?\n\nImamo ime, godine i informaciju da li je korisnik aktivan. Umesto tri odvojene promenljive, želimo jednu strukturu.\n\n```javascript\nconst korisnik = {\n  ime: \"Ana\",\n  godine: 22,\n  aktivan: true\n};\n```\n\nKako pristupamo svojstvima, i da li su `korisnik.ime` i `korisnik[\"ime\"]` ekvivalentni?"
-,
+          "pitalica": "3.1. Kako predstaviti više povezanih vrednosti?\n\nImamo ime, godine i informaciju da li je korisnik aktivan. Umesto tri odvojene promenljive, želimo jednu strukturu.\n\n```javascript\nconst korisnik = {\n  ime: \"Ana\",\n  godine: 22,\n  aktivan: true\n};\n```\n\nKako pristupamo svojstvima, i da li su `korisnik.ime` i `korisnik[\"ime\"]` ekvivalentni?",
           "putanja": "client/lekcije/03-objekti.js",
           "isecakNaslov": "Objekti, svojstva, reference i mutacija",
           "isecakJezik": "javascript",
@@ -3794,8 +3789,7 @@
               "odgovor": "`a` je `100`, `b` je `42`, a `c` je `5`.\n\n`||` vraća prvi truthy operand, odnosno poslednji operand ako nijedan nije truthy. `&&` vraća prvi falsy operand, odnosno poslednji ako su svi prethodni truthy.\n\nIzraz `nepoznataPromenljiva` se u trećem slučaju uopšte ne izračunava, jer je levi operand već truthy."
             }
           ],
-          "pitalica": "4.1. Zašto isti podaci daju različite rezultate sa različitim operatorima?\n\n```javascript\nconsole.log(10 + \"5\");\nconsole.log(10 - \"5\");\n```"
-,
+          "pitalica": "4.1. Zašto isti podaci daju različite rezultate sa različitim operatorima?\n\n```javascript\nconsole.log(10 + \"5\");\nconsole.log(10 - \"5\");\n```",
           "opcije": [
             {
               "key": "A",
@@ -3816,8 +3810,7 @@
               "why": "Oba izraza se izvršavaju. Razlikuje se pravilo operatora."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\nOperator `+` može predstavljati sabiranje brojeva ili spajanje stringova. Kada se operand pretvori u string, izvršava se konkatenacija.\n\nOperator `-` nema značenje spajanja stringova, pa se vrednost `\"5\"` konvertuje u broj."
-,
+          "analizaPitalice": "Odgovor: B.\n\nOperator `+` može predstavljati sabiranje brojeva ili spajanje stringova. Kada se operand pretvori u string, izvršava se konkatenacija.\n\nOperator `-` nema značenje spajanja stringova, pa se vrednost `\"5\"` konvertuje u broj.",
           "putanja": "client/lekcije/04-izrazi.js",
           "isecakNaslov": "Izrazi, operatori i poređenja",
           "isecakJezik": "javascript",
@@ -3991,8 +3984,7 @@
               "odgovor": "`0`, `1`, `3`.\n\n`continue` preskače ostatak trenutne iteracije. `break` potpuno prekida petlju.\n\n`for` je pogodan kada je struktura ponavljanja poznata, dok `while` naglašava uslov koji mora ostati zadovoljen."
             }
           ],
-          "pitalica": "5.1. Kako program odlučuje koji kod se izvršava?\n\n```javascript\nconst broj = 0;\n\nif (broj) {\n  console.log(\"A\");\n} else {\n  console.log(\"B\");\n}\n```\n\nŠta se ispisuje i zašto?"
-,
+          "pitalica": "5.1. Kako program odlučuje koji kod se izvršava?\n\n```javascript\nconst broj = 0;\n\nif (broj) {\n  console.log(\"A\");\n} else {\n  console.log(\"B\");\n}\n```\n\nŠta se ispisuje i zašto?",
           "putanja": "client/lekcije/05-tok.js",
           "isecakNaslov": "Kontrola toka programa",
           "isecakJezik": "javascript",
@@ -4595,25 +4587,25 @@
               "id": "k07q5",
               "vrsta": "pitanje",
               "oblik": "izbor",
-              "tekst": "7.5. Da li `map` i `filter` garantuju da izvorni podaci neće biti promenjeni?\n\n```javascript\nconst podaci = [\n  { broj: 1 },\n  { broj: 2 }\n];\n\nconst rezultat = podaci.map(x => {\n  x.broj *= 2;\n  return x;\n});\n```\n\nDa li se izvorni objekti menjaju?",
+              "tekst": "7.5. Da li novi niz koji vraća map() garantuje da izvorni objekti neće biti promenjeni?“\n\n```javascript\nconst podaci = [\n  { broj: 1 },\n  { broj: 2 }\n];\n\nconst rezultat = podaci.map(x => {\n  x.broj *= 2;\n  return x;\n});\n```\n\nDa li se izvorni objekti menjaju?",
               "opcije": [
                 {
                   "key": "A",
-                  "text": "Ne, jer `map()` uvek pravi potpuno nezavisnu kopiju.",
+                  "text": "Da, jer `map()` uvek pravi potpuno nezavisnu kopiju.",
                   "ok": false,
                   "why": "`map` pravi novi niz, ali ne kopira objekte koje callback vrati."
                 },
                 {
                   "key": "B",
-                  "text": "Da, zato što callback menja svojstva postojećih objekata.",
+                  "text": "Ne, jer callback može promeniti objekte koji se nalaze u izvornom nizu",
                   "ok": true,
-                  "why": "Novi niz i dalje sadrži reference na iste objekte, a callback ih menja."
+                  "why": "Oba niza mogu sadržati reference na iste objekte, pa su promene vidljive u oba."
                 },
                 {
                   "key": "C",
-                  "text": "Ne, jer je niz deklarisan pomoću `const`.",
+                  "text": "Da, jer je niz deklarisan pomoću `const`.",
                   "ok": false,
-                  "why": "`const` sprečava novu dodelu imenu, ne mutaciju objekata u nizu."
+                  "why": "const sprečava da promenljivoj dodelimo novu vrednost, ali ne sprečava promenu sadržaja objekta ili niza na koji ona ukazuje."
                 }
               ],
               "analiza": "Odgovor: B.\n\n`map()` pravi novi spoljašnji niz, ali to ne sprečava callback da menja postojeće objekte.\n\nOvo je ključna razlika između pravljenja nove kolekcije i pravljenja potpuno nezavisnih podataka.",
@@ -4659,32 +4651,31 @@
               "odgovor": "| Korak | Akumulator pre | Element | Akumulator posle |\n| --- | --- | --- | --- |\n| Početak | 0 | — | 0 |\n| 1 | 0 | 2 | 2 |\n| 2 | 2 | 4 | 6 |\n| 3 | 6 | 6 | 12 |\n\nKonačni rezultat je `12`.\n\n`reduce()` koristi akumulator koji se postepeno ažurira. Rezultat ne mora biti broj, već može biti i objekat, niz ili druga vrednost."
             },
             {
-              "pitalica": "7.5. Da li `map` i `filter` garantuju da izvorni podaci neće biti promenjeni?\n\n```javascript\nconst podaci = [\n  { broj: 1 },\n  { broj: 2 }\n];\n\nconst rezultat = podaci.map(x => {\n  x.broj *= 2;\n  return x;\n});\n```\n\nDa li se izvorni objekti menjaju?",
+              "pitalica": "7.5. Da li novi niz koji vraća map() garantuje da izvorni objekti neće biti promenjeni?“\n\n```javascript\nconst podaci = [\n  { broj: 1 },\n  { broj: 2 }\n];\n\nconst rezultat = podaci.map(x => {\n  x.broj *= 2;\n  return x;\n});\n```\n\nDa li se izvorni objekti menjaju?",
               "opcije": [
                 {
                   "key": "A",
-                  "text": "Ne, jer `map()` uvek pravi potpuno nezavisnu kopiju.",
+                  "text": "Da, jer `map()` uvek pravi potpuno nezavisnu kopiju.",
                   "ok": false,
                   "why": "`map` pravi novi niz, ali ne kopira objekte koje callback vrati."
                 },
                 {
                   "key": "B",
-                  "text": "Da, zato što callback menja svojstva postojećih objekata.",
+                  "text": "Ne, jer callback može promeniti objekte koji se nalaze u izvornom nizu",
                   "ok": true,
-                  "why": "Novi niz i dalje sadrži reference na iste objekte, a callback ih menja."
+                  "why": "Oba niza mogu sadržati reference na iste objekte, pa su promene vidljive u oba."
                 },
                 {
                   "key": "C",
-                  "text": "Ne, jer je niz deklarisan pomoću `const`.",
+                  "text": "Da, jer je niz deklarisan pomoću `const`.",
                   "ok": false,
-                  "why": "`const` sprečava novu dodelu imenu, ne mutaciju objekata u nizu."
+                  "why": "const sprečava da promenljivoj dodelimo novu vrednost, ali ne sprečava promenu sadržaja objekta ili niza na koji ona ukazuje."
                 }
               ],
               "analizaPitalice": "Odgovor: B.\n\n`map()` pravi novi spoljašnji niz, ali to ne sprečava callback da menja postojeće objekte.\n\nOvo je ključna razlika između pravljenja nove kolekcije i pravljenja potpuno nezavisnih podataka."
             }
           ],
-          "pitalica": "7.1. Šta je niz i kako se razlikuje od običnog objekta?\n\n```javascript\nconst brojevi = [10, 20, 30];\n\nbrojevi.push(40);\n\nconsole.log(brojevi[0]);\nconsole.log(brojevi.length);\n```\n\nŠta se ispisuje i da li je operacija `push` dozvoljena ako je niz deklarisan sa `const`?"
-,
+          "pitalica": "7.1. Šta je niz i kako se razlikuje od običnog objekta?\n\n```javascript\nconst brojevi = [10, 20, 30];\n\nbrojevi.push(40);\n\nconsole.log(brojevi[0]);\nconsole.log(brojevi.length);\n```\n\nŠta se ispisuje i da li je operacija `push` dozvoljena ako je niz deklarisan sa `const`?",
           "putanja": "client/lekcije/07-nizovi.js",
           "isecakNaslov": "Nizovi i obrada kolekcija",
           "isecakJezik": "javascript",
@@ -5197,8 +5188,7 @@
               "odgovor": "`a` je dostupna, dok pristup `b` izaziva `ReferenceError`.\n\n`var` ima funkcijski opseg, dok `let` i `const` imaju blokovski opseg."
             }
           ],
-          "pitalica": "9.1. Zašto promenljiva definisana unutar funkcije nije dostupna izvan nje?\n\n```javascript\nconst a = 10;\n\nfunction primer() {\n  const b = 20;\n  console.log(a + b);\n}\n\nprimer();\nconsole.log(b);\n```\n\nŠta se događa?"
-,
+          "pitalica": "9.1. Zašto promenljiva definisana unutar funkcije nije dostupna izvan nje?\n\n```javascript\nconst a = 10;\n\nfunction primer() {\n  const b = 20;\n  console.log(a + b);\n}\n\nprimer();\nconsole.log(b);\n```\n\nŠta se događa?",
           "opcije": [
             {
               "key": "A",
@@ -5219,8 +5209,7 @@
               "why": "Funkcija sme da čita promenljivu iz spoljašnjeg leksičkog opsega."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\nFunkcija ima sopstveni opseg. Njene lokalne promenljive nisu dostupne izvan tog opsega, ali funkcija može pristupati promenljivama iz spoljašnjeg leksičkog opsega."
-,
+          "analizaPitalice": "Odgovor: B.\n\nFunkcija ima sopstveni opseg. Njene lokalne promenljive nisu dostupne izvan tog opsega, ali funkcija može pristupati promenljivama iz spoljašnjeg leksičkog opsega.",
           "putanja": "client/lekcije/09-opseg.js",
           "isecakNaslov": "Opseg važenja i leksičko okruženje",
           "isecakJezik": "javascript",
@@ -5468,8 +5457,7 @@
               "analizaPitalice": "Odgovor: B.\n\nJedna definicija funkcije može se pozvati više puta, ali svaki poziv ima sopstveni kontekst izvršavanja i lokalne vrednosti.\n\nZbog toga su rezultati `a = 3` i `b = 11`."
             }
           ],
-          "pitalica": "10.1. Kako JavaScript zna gde da nastavi izvršavanje kada se funkcija završi?\n\n```javascript\nfunction kvadrat(x) {\n  return x * x;\n}\n\nfunction izracunaj(x) {\n  return kvadrat(x) + 1;\n}\n\nconsole.log(izracunaj(3));\n```\n\nKojim redosledom se pozivaju i završavaju funkcije?"
-,
+          "pitalica": "10.1. Kako JavaScript zna gde da nastavi izvršavanje kada se funkcija završi?\n\n```javascript\nfunction kvadrat(x) {\n  return x * x;\n}\n\nfunction izracunaj(x) {\n  return kvadrat(x) + 1;\n}\n\nconsole.log(izracunaj(3));\n```\n\nKojim redosledom se pozivaju i završavaju funkcije?",
           "putanja": "client/lekcije/10-kontekst.js",
           "isecakNaslov": "Execution context, call stack i hoisting",
           "isecakJezik": "javascript",
@@ -5634,8 +5622,7 @@
               "odgovor": "Ispisuje se `150`.\n\n`stanje` je lokalna promenljiva funkcije `napraviRacun`, a nije svojstvo vraćenog objekta.\n\nVraćene metode imaju pristup toj promenljivoj zahvaljujući closure-u."
             }
           ],
-          "pitalica": "11.1. Kako funkcija može da koristi lokalnu promenljivu druge funkcije koja se već završila?\n\n```javascript\nfunction napraviBrojac() {\n  let broj = 0;\n\n  return function() {\n    broj++;\n    return broj;\n  };\n}\n\nconst brojac = napraviBrojac();\n\nconsole.log(brojac());\nconsole.log(brojac());\n```\n\nŠta se ispisuje?"
-,
+          "pitalica": "11.1. Kako funkcija može da koristi lokalnu promenljivu druge funkcije koja se već završila?\n\n```javascript\nfunction napraviBrojac() {\n  let broj = 0;\n\n  return function() {\n    broj++;\n    return broj;\n  };\n}\n\nconst brojac = napraviBrojac();\n\nconsole.log(brojac());\nconsole.log(brojac());\n```\n\nŠta se ispisuje?",
           "opcije": [
             {
               "key": "A",
@@ -5656,8 +5643,7 @@
               "why": "Kontekst spoljašnje funkcije silazi sa steka, ali veze njenog okruženja ostaju dostupne."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\nVraćena funkcija zadržava pristup leksičkom okruženju u kome je definisana, uključujući promenljivu `broj`.\n\nTaj mehanizam naziva se closure.\n\nKontekst izvršavanja spoljašnje funkcije više nije na steku, ali neophodne veze njenog leksičkog okruženja ostaju dostupne vraćenoj funkciji."
-,
+          "analizaPitalice": "Odgovor: B.\n\nVraćena funkcija zadržava pristup leksičkom okruženju u kome je definisana, uključujući promenljivu `broj`.\n\nTaj mehanizam naziva se closure.\n\nKontekst izvršavanja spoljašnje funkcije više nije na steku, ali neophodne veze njenog leksičkog okruženja ostaju dostupne vraćenoj funkciji.",
           "putanja": "client/lekcije/11-closure.js",
           "isecakNaslov": "Closure",
           "isecakJezik": "javascript",
@@ -5891,8 +5877,7 @@
               "analizaPitalice": "Odgovor: B.\n\nObična funkcija pri pozivu metode dobija odgovarajući objekat kao `this`.\n\nArrow funkcija koristi `this` iz spoljašnjeg leksičkog konteksta, pa `objekat` ne postaje automatski njena vrednost `this`."
             }
           ],
-          "pitalica": "12.1. Na koji objekat upućuje `this` unutar metode?\n\n```javascript\nconst prvi = {\n  ime: \"Ana\",\n  procitajIme() {\n    return this.ime;\n  }\n};\n\nconst drugi = {\n  ime: \"Marko\",\n  procitajIme: prvi.procitajIme\n};\n\nconsole.log(drugi.procitajIme());\n```\n\nŠta će biti rezultat?"
-,
+          "pitalica": "12.1. Na koji objekat upućuje `this` unutar metode?\n\n```javascript\nconst prvi = {\n  ime: \"Ana\",\n  procitajIme() {\n    return this.ime;\n  }\n};\n\nconst drugi = {\n  ime: \"Marko\",\n  procitajIme: prvi.procitajIme\n};\n\nconsole.log(drugi.procitajIme());\n```\n\nŠta će biti rezultat?",
           "opcije": [
             {
               "key": "A",
@@ -5913,8 +5898,7 @@
               "why": "Ista funkcija može biti pozvana kroz drugi objekat."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\nMetoda je funkcija koja se poziva kroz svojstvo objekta.\n\nKod običnih funkcija `this` uglavnom zavisi od načina pozivanja. U izrazu `drugi.procitajIme()`, `this` je objekat `drugi`."
-,
+          "analizaPitalice": "Odgovor: B.\n\nMetoda je funkcija koja se poziva kroz svojstvo objekta.\n\nKod običnih funkcija `this` uglavnom zavisi od načina pozivanja. U izrazu `drugi.procitajIme()`, `this` je objekat `drugi`.",
           "putanja": "client/lekcije/12-this.js",
           "isecakNaslov": "Metode objekata i this",
           "isecakJezik": "javascript",
@@ -6186,8 +6170,7 @@
               "odgovor": "Zato što `extends` uspostavlja odgovarajuće veze prototipskog nasleđivanja. Metoda se pronalazi kroz prototipski lanac.\n\nKlase predstavljaju savremen način definisanja konstruktora, metoda i nasleđivanja, ali JavaScript i dalje koristi prototipski model."
             }
           ],
-          "pitalica": "13.1. Kako objekat može imati metodu koja nije direktno definisana na njemu?\n\n```javascript\nconst zajednicko = {\n  pozdrav() {\n    return \"Zdravo\";\n  }\n};\n\nconst korisnik = Object.create(zajednicko);\n\nconsole.log(korisnik.pozdrav());\n```\n\nZašto ovaj kod radi?"
-,
+          "pitalica": "13.1. Kako objekat može imati metodu koja nije direktno definisana na njemu?\n\n```javascript\nconst zajednicko = {\n  pozdrav() {\n    return \"Zdravo\";\n  }\n};\n\nconst korisnik = Object.create(zajednicko);\n\nconsole.log(korisnik.pozdrav());\n```\n\nZašto ovaj kod radi?",
           "opcije": [
             {
               "key": "A",
@@ -6208,8 +6191,7 @@
               "why": "Dostupnost metode ne dolazi otuda što je objekat globalan."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\n`Object.create(zajednicko)` stvara novi objekat čiji je prototip `zajednicko`.\n\nKada svojstvo `pozdrav` ne postoji direktno na objektu `korisnik`, JavaScript nastavlja pretragu u njegovom prototipu."
-,
+          "analizaPitalice": "Odgovor: B.\n\n`Object.create(zajednicko)` stvara novi objekat čiji je prototip `zajednicko`.\n\nKada svojstvo `pozdrav` ne postoji direktno na objektu `korisnik`, JavaScript nastavlja pretragu u njegovom prototipu.",
           "putanja": "client/lekcije/13-prototipi.js",
           "isecakNaslov": "Prototipi, prototipski lanac i klase",
           "isecakJezik": "javascript",
@@ -6368,8 +6350,7 @@
               "odgovor": "Izuzetak je bačen u funkciji `treca`, koju je pozvala `druga`, a nju `prva`.\n\nStack trace omogućava da se vidi lanac aktivnih poziva koji je doveo do greške."
             }
           ],
-          "pitalica": "14.1. Da li je svaka programska greška JavaScript izuzetak?\n\nRazmotrite tri slučaja:\n\n```javascript\n// A\nconst x = ;\n\n// B\nconst osoba = null;\nconsole.log(osoba.ime);\n\n// C\nfunction povrsina(a, b) {\n  return a + b;\n}\n```\n\nKoji primer predstavlja sintaksnu grešku, koji grešku tokom izvršavanja, a koji logičku grešku?"
-,
+          "pitalica": "14.1. Da li je svaka programska greška JavaScript izuzetak?\n\nRazmotrite tri slučaja:\n\n```javascript\n// A\nconst x = ;\n\n// B\nconst osoba = null;\nconsole.log(osoba.ime);\n\n// C\nfunction povrsina(a, b) {\n  return a + b;\n}\n```\n\nKoji primer predstavlja sintaksnu grešku, koji grešku tokom izvršavanja, a koji logičku grešku?",
           "putanja": "client/lekcije/14-greske.js",
           "isecakNaslov": "Greške, izuzeci i debagovanje",
           "isecakJezik": "javascript",
@@ -6627,8 +6608,7 @@
               "analizaPitalice": "Odgovor: B.\n\nJavaScript u browser-u koristi dostupne Web API-je za komunikaciju sa serverom. Kada primi JSON podatke i oni budu parsirani, aplikacija može da ih obrađuje kao JavaScript vrednosti i objekte."
             }
           ],
-          "pitalica": "15.1. Zašto ne bismo sav JavaScript kod napisali u jednoj datoteci?\n\nPretpostavimo da imamo više funkcija i vrednosti koje koriste različiti delovi programa.\n\nKako možemo organizovati kod tako da drugi deo programa koristi samo potrebne funkcije, bez oslanjanja na globalne promenljive?"
-,
+          "pitalica": "15.1. Zašto ne bismo sav JavaScript kod napisali u jednoj datoteci?\n\nPretpostavimo da imamo više funkcija i vrednosti koje koriste različiti delovi programa.\n\nKako možemo organizovati kod tako da drugi deo programa koristi samo potrebne funkcije, bez oslanjanja na globalne promenljive?",
           "putanja": "client/lekcije/15-moduli.js",
           "isecakNaslov": "Moduli, JSON i priprema za Web",
           "isecakJezik": "javascript",
