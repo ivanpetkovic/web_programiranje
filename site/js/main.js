@@ -289,6 +289,29 @@ function hashOdgovara(hash, mesto) {
   return JSON.stringify(procitajMesto(hash)) === JSON.stringify(procitajMesto(sastaviMesto(mesto)));
 }
 
+function korenSajta() {
+  const put = new URL("../", import.meta.url).pathname;
+  if (put === `/`) return "";
+  return put.endsWith(`/`) ? put.slice(0, -1) : put;
+}
+
+function relativnaPutanja() {
+  const koren = korenSajta();
+  const put = location.pathname;
+  if (koren && (put === koren || put.startsWith(`${koren}/`))) return put.slice(koren.length) || `/`;
+  return put || `/`;
+}
+
+function hesJeMesto() {
+  const mesto = procitajMesto(location.hash);
+  return mesto.vrsta === "cas" || mesto.vrsta === "uvod";
+}
+
+function zapisAdrese() {
+  if (location.hash && hesJeMesto()) return location.hash;
+  return relativnaPutanja();
+}
+
 function kljucNavigacije(mesto) {
   if (mesto.uvod) return "uvod";
   const fajl = mesto.deo === "editor" ? mesto.fajl || "" : "";
@@ -298,15 +321,15 @@ function kljucNavigacije(mesto) {
 function uskladiAdresu() {
   if (pisemAdresu) return;
   const mesto = trenutnoMesto();
-  const hash = sastaviMesto(mesto);
+  const put = sastaviMesto(mesto);
   const nav = kljucNavigacije(mesto);
   const navigacija = poslednjaNavigacija !== null && poslednjaNavigacija !== nav;
   poslednjaNavigacija = nav;
-  if (hashOdgovara(location.hash, mesto)) return;
-  const url = `${location.pathname}${location.search}${hash}`;
+  if (!hesJeMesto() && hashOdgovara(relativnaPutanja(), mesto)) return;
+  const url = `${korenSajta()}${put}${location.search}${hesJeMesto() ? "" : location.hash}`;
   pisemAdresu = true;
   try {
-    if (navigacija && !dopunaMesta(location.hash, mesto)) history.pushState(null, "", url);
+    if (navigacija && !dopunaMesta(zapisAdrese(), mesto)) history.pushState(null, "", url);
     else history.replaceState(null, "", url);
   } finally {
     pisemAdresu = false;
@@ -378,7 +401,7 @@ function primeniFajlIzAdrese(putanja) {
 }
 
 function primeniHash() {
-  const adresa = procitajMesto(location.hash);
+  const adresa = procitajMesto(zapisAdrese());
   if (adresa.vrsta === "prazno" || adresa.vrsta === "nepoznato") return false;
   if (adresa.vrsta === "uvod") {
     uvod = true;
@@ -415,7 +438,12 @@ function primeniHash() {
 
 function naHash() {
   if (pisemAdresu) return;
-  if (hashOdgovara(location.hash, trenutnoMesto())) return;
+  if (location.hash && !hesJeMesto()) return;
+  if (!location.hash && hashOdgovara(relativnaPutanja(), trenutnoMesto())) return;
+  if (hesJeMesto() && hashOdgovara(location.hash, trenutnoMesto())) {
+    uskladiAdresu();
+    return;
+  }
   if (!primeniHash()) return;
   izHasha = true;
   renderLecture();
@@ -4049,6 +4077,12 @@ postaviTabove();
 poveziIzvoz();
 osveziOpcije();
 
+document.querySelector("a.ustanova")?.addEventListener("click", (dogadjaj) => {
+  if (dogadjaj.button !== 0 || dogadjaj.metaKey || dogadjaj.ctrlKey || dogadjaj.shiftKey || dogadjaj.altKey) return;
+  dogadjaj.preventDefault();
+  otvoriUvod();
+});
+
 window.addEventListener("hashchange", naHash);
 window.addEventListener("popstate", naHash);
 document.addEventListener("focusin", (event) => {
@@ -4336,7 +4370,7 @@ vezniPovuciNadoleIzborSheet(mobilNedSheet, zatvoriMobilIzborSheetove);
 vezniPovuciNadoleIzborSheet(mobilKorSheet, zatvoriMobilIzborSheetove);
 
 const pocetno = lokalno.stanje().mesto;
-const pocetnaAdresa = procitajMesto(location.hash);
+const pocetnaAdresa = procitajMesto(zapisAdrese());
 if (!primeniHash()) {
   if (pocetnaAdresa.vrsta === "uvod" || pocetnaAdresa.vrsta === "prazno") uvod = true;
   else if (pocetno.tema >= 1 && pocetno.tema <= dokument.trajanjeTema) {

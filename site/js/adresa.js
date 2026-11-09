@@ -16,11 +16,17 @@ function prazno(vrsta) {
   return { vrsta, cas: 0, korak: null, deo: null, blok: null, fajl: null };
 }
 
-export function procitajMesto(hash) {
-  const telo = String(hash || "").replace(/^#/, "");
+function teloAdrese(adresa) {
+  return String(adresa || "")
+    .replace(/^#/, "")
+    .replace(/^\/+/, "");
+}
+
+export function procitajMesto(adresa) {
+  const telo = teloAdrese(adresa);
   if (!telo) return prazno("prazno");
   if (telo === "uvod") return prazno("uvod");
-  const pogodak = telo.match(/^cas-(\d+)(?:\/(.*))?$/);
+  const pogodak = telo.match(/^(?:cas-|tema\/)(\d+)(?:\/(.*))?$/);
   if (!pogodak) return prazno("nepoznato");
   const mesto = {
     vrsta: "cas",
@@ -32,17 +38,18 @@ export function procitajMesto(hash) {
   };
   const ostatak = pogodak[2] || "";
   if (!ostatak) return mesto;
-  const fajlNa = ostatak.indexOf("/fajl/");
+  const oznakaFajla = `/fajl/`;
+  const fajlNa = ostatak.indexOf(oznakaFajla);
   const preFajla = fajlNa >= 0 ? ostatak.slice(0, fajlNa) : ostatak;
   if (fajlNa >= 0) {
     const put = ostatak
-      .slice(fajlNa + "/fajl/".length)
-      .split("/")
+      .slice(fajlNa + oznakaFajla.length)
+      .split(`/`)
       .map(dekodiraj)
-      .join("/");
+      .join(`/`);
     mesto.fajl = put || null;
   }
-  const delovi = preFajla.split("/").filter((deo) => deo !== "");
+  const delovi = preFajla.split(`/`).filter((deo) => deo !== "");
   for (let i = 0; i < delovi.length; i += 2) {
     const kljuc = delovi[i];
     const vrednost = delovi[i + 1];
@@ -66,15 +73,15 @@ export function dopunaMesta(hash, mesto) {
 }
 
 export function sastaviMesto(mesto) {
-  if (!mesto || mesto.uvod) return "#uvod";
-  let hash = `#cas-${mesto.cas}`;
-  if (Number.isInteger(mesto.korak) && mesto.korak >= 0) hash += `/k/${mesto.korak + 1}`;
+  if (!mesto || mesto.uvod) return `/uvod`;
+  let put = `/tema/${mesto.cas}`;
+  if (Number.isInteger(mesto.korak) && mesto.korak >= 0) put += `/k/${mesto.korak + 1}`;
   if (mesto.deo === "koraci" || mesto.deo === "diskusija" || mesto.deo === "editor") {
-    hash += `/deo/${mesto.deo === "koraci" ? "gradivo" : mesto.deo}`;
+    put += `/deo/${mesto.deo === "koraci" ? "gradivo" : mesto.deo}`;
   }
-  if (mesto.blok && mesto.deo !== "editor") hash += `/blok/${encodeURIComponent(mesto.blok)}`;
+  if (mesto.blok && mesto.deo !== "editor") put += `/blok/${encodeURIComponent(mesto.blok)}`;
   if (mesto.fajl && mesto.deo === "editor") {
-    hash += `/fajl/${mesto.fajl.split("/").map((deo) => encodeURIComponent(deo)).join("/")}`;
+    put += `/fajl/${mesto.fajl.split(`/`).map((deo) => encodeURIComponent(deo)).join(`/`)}`;
   }
-  return hash;
+  return put;
 }

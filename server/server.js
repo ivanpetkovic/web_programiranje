@@ -416,6 +416,10 @@ function stranicaKurseva(odgovor, url) {
   posaljiFajl(odgovor, fajl);
 }
 
+function putanjaCasa(pathname) {
+  return pathname === "/uvod" || pathname === "/tema" || pathname.startsWith("/tema/");
+}
+
 function stranicaSajta(odgovor, url) {
   const relativna = url.pathname === "/" ? "/index.html" : url.pathname;
   const fajl = path.normalize(path.join(SAJT, relativna));
@@ -452,6 +456,7 @@ async function razvrstaj(zahtev, odgovor) {
   if (zahtev.method === "GET" && url.pathname === "/kurs.json") return posaljiFajl(odgovor, KURS);
   if (zahtev.method === "GET" && url.pathname.startsWith("/kursevi/")) return stranicaKurseva(odgovor, url);
   if (zahtev.method === "GET" && url.pathname.startsWith("/client/")) return stranicaKlijenta(odgovor, url);
+  if (zahtev.method === "GET" && putanjaCasa(url.pathname)) return posaljiFajl(odgovor, path.join(SAJT, "index.html"));
   if (zahtev.method === "GET") return stranicaSajta(odgovor, url);
   return posaljiJson(odgovor, 404, { greska: "nema putanje" });
 }
