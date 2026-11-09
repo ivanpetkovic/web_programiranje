@@ -64,7 +64,7 @@ test("levi panel drži svoj skrol dok se otvara tema 10", { timeout: 30000 }, as
     assert.equal(pre.prozor, 0, "prozor ne treba da se pomera kad se skroluje nav");
 
     await strana.vrednost(`[...document.querySelectorAll("#nav .tema-red")].find((b) => b.textContent.startsWith("Tema 10 ")).nextElementSibling.querySelectorAll(".korak-red")[2].click()`);
-    const posle = await sačekaj((s) => s.hash === "#cas-10" && s.korak.startsWith("3 "));
+    const posle = await sačekaj((s) => s.hash.startsWith("#cas-10/") && s.korak.startsWith("3 "));
     assert.ok(Math.abs(posle.odmak - pre.odmak) <= 1, `tema 10 je skočila sa ${pre.odmak} na ${posle.odmak}px od vrha nava`);
     assert.ok(posle.redVidljiv, "izabrani korak teme 10 ostaje u vidu");
 

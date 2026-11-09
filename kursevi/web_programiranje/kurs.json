@@ -2952,7 +2952,8 @@
               "odgovor": "`2 + 3` je izraz koji se izračunava i daje vrednost `5`. Prvi red koristi taj izraz kao naredbu, ali rezultat nigde ne čuva niti prikazuje. Drugi red poziva funkciju `console.log`, kojoj prosleđuje izračunatu vrednost."
             }
           ],
-          "pitalica": "1.1. Zašto nam je potreban JavaScript ako već imamo HTML i CSS?\n\nPretpostavimo da imamo Web stranicu sa dugmetom koje, nakon klika, treba da promeni neki podatak i prikaže rezultat.\n\nKoja tehnologija je odgovorna za koji deo?",
+          "pitalica": "1.1. Zašto nam je potreban JavaScript ako već imamo HTML i CSS?\n\nPretpostavimo da imamo Web stranicu sa dugmetom koje, nakon klika, treba da promeni neki podatak i prikaže rezultat.\n\nKoja tehnologija je odgovorna za koji deo?"
+,
           "opcije": [
             {
               "key": "A",
@@ -2973,7 +2974,8 @@
               "why": "HTML, CSS i JavaScript nemaju istu namenu."
             }
           ],
-          "analizaPitalice": "Odgovor: A.\n\nHTML opisuje strukturu dokumenta, CSS način prikazivanja, a JavaScript omogućava programsko ponašanje. JavaScript može obrađivati podatke, izvršavati uslove, pozivati funkcije i koristiti API-je okruženja.",
+          "analizaPitalice": "Odgovor: A.\n\nHTML opisuje strukturu dokumenta, CSS način prikazivanja, a JavaScript omogućava programsko ponašanje. JavaScript može obrađivati podatke, izvršavati uslove, pozivati funkcije i koristiti API-je okruženja."
+,
           "putanja": "client/lekcije/01-izvrsavanje.js",
           "isecakNaslov": "Šta je JavaScript i kako se izvršava?",
           "isecakJezik": "javascript",
@@ -3204,7 +3206,8 @@
               "odgovor": "`a` sadrži `undefined`, `b` sadrži `null`, a `c` sadrži `NaN`.\n\n`undefined` obično označava odsustvo dodeljene vrednosti. `null` se koristi za namerno odsustvo vrednosti. `NaN` je posebna numerička vrednost koja označava nevalidan numerički rezultat."
             }
           ],
-          "pitalica": "2.1. Da li promenljiva ima trajno određen tip?\n\n```javascript\nlet podatak = 10;\npodatak = \"deset\";\npodatak = true;\n```\n\nŠta će se dogoditi?",
+          "pitalica": "2.1. Da li promenljiva ima trajno određen tip?\n\n```javascript\nlet podatak = 10;\npodatak = \"deset\";\npodatak = true;\n```\n\nŠta će se dogoditi?"
+,
           "opcije": [
             {
               "key": "A",
@@ -3225,7 +3228,8 @@
               "why": "Dodela stringa ili `true` ne pretvara tu vrednost u broj."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\nU JavaScriptu tip pripada vrednosti, a promenljiva može tokom izvršavanja sadržati vrednosti različitih tipova. To je suština dinamičke tipizacije.",
+          "analizaPitalice": "Odgovor: B.\n\nU JavaScriptu tip pripada vrednosti, a promenljiva može tokom izvršavanja sadržati vrednosti različitih tipova. To je suština dinamičke tipizacije."
+,
           "putanja": "client/lekcije/02-vrednosti.js",
           "isecakNaslov": "Vrednosti, tipovi podataka i promenljive",
           "isecakJezik": "javascript",
@@ -3535,7 +3539,8 @@
               "analizaPitalice": "Odgovor: B.\n\nPrva operacija menja svojstvo postojećeg objekta. To je mutacija.\n\nDruga pokušava ponovnu dodelu promenljivoj deklarisanoj pomoću `const`, što nije dozvoljeno."
             }
           ],
-          "pitalica": "3.1. Kako predstaviti više povezanih vrednosti?\n\nImamo ime, godine i informaciju da li je korisnik aktivan. Umesto tri odvojene promenljive, želimo jednu strukturu.\n\n```javascript\nconst korisnik = {\n  ime: \"Ana\",\n  godine: 22,\n  aktivan: true\n};\n```\n\nKako pristupamo svojstvima, i da li su `korisnik.ime` i `korisnik[\"ime\"]` ekvivalentni?",
+          "pitalica": "3.1. Kako predstaviti više povezanih vrednosti?\n\nImamo ime, godine i informaciju da li je korisnik aktivan. Umesto tri odvojene promenljive, želimo jednu strukturu.\n\n```javascript\nconst korisnik = {\n  ime: \"Ana\",\n  godine: 22,\n  aktivan: true\n};\n```\n\nKako pristupamo svojstvima, i da li su `korisnik.ime` i `korisnik[\"ime\"]` ekvivalentni?"
+,
           "putanja": "client/lekcije/03-objekti.js",
           "isecakNaslov": "Objekti, svojstva, reference i mutacija",
           "isecakJezik": "javascript",
@@ -3789,7 +3794,8 @@
               "odgovor": "`a` je `100`, `b` je `42`, a `c` je `5`.\n\n`||` vraća prvi truthy operand, odnosno poslednji operand ako nijedan nije truthy. `&&` vraća prvi falsy operand, odnosno poslednji ako su svi prethodni truthy.\n\nIzraz `nepoznataPromenljiva` se u trećem slučaju uopšte ne izračunava, jer je levi operand već truthy."
             }
           ],
-          "pitalica": "4.1. Zašto isti podaci daju različite rezultate sa različitim operatorima?\n\n```javascript\nconsole.log(10 + \"5\");\nconsole.log(10 - \"5\");\n```",
+          "pitalica": "4.1. Zašto isti podaci daju različite rezultate sa različitim operatorima?\n\n```javascript\nconsole.log(10 + \"5\");\nconsole.log(10 - \"5\");\n```"
+,
           "opcije": [
             {
               "key": "A",
@@ -3810,7 +3816,8 @@
               "why": "Oba izraza se izvršavaju. Razlikuje se pravilo operatora."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\nOperator `+` može predstavljati sabiranje brojeva ili spajanje stringova. Kada se operand pretvori u string, izvršava se konkatenacija.\n\nOperator `-` nema značenje spajanja stringova, pa se vrednost `\"5\"` konvertuje u broj.",
+          "analizaPitalice": "Odgovor: B.\n\nOperator `+` može predstavljati sabiranje brojeva ili spajanje stringova. Kada se operand pretvori u string, izvršava se konkatenacija.\n\nOperator `-` nema značenje spajanja stringova, pa se vrednost `\"5\"` konvertuje u broj."
+,
           "putanja": "client/lekcije/04-izrazi.js",
           "isecakNaslov": "Izrazi, operatori i poređenja",
           "isecakJezik": "javascript",
@@ -3984,7 +3991,8 @@
               "odgovor": "`0`, `1`, `3`.\n\n`continue` preskače ostatak trenutne iteracije. `break` potpuno prekida petlju.\n\n`for` je pogodan kada je struktura ponavljanja poznata, dok `while` naglašava uslov koji mora ostati zadovoljen."
             }
           ],
-          "pitalica": "5.1. Kako program odlučuje koji kod se izvršava?\n\n```javascript\nconst broj = 0;\n\nif (broj) {\n  console.log(\"A\");\n} else {\n  console.log(\"B\");\n}\n```\n\nŠta se ispisuje i zašto?",
+          "pitalica": "5.1. Kako program odlučuje koji kod se izvršava?\n\n```javascript\nconst broj = 0;\n\nif (broj) {\n  console.log(\"A\");\n} else {\n  console.log(\"B\");\n}\n```\n\nŠta se ispisuje i zašto?"
+,
           "putanja": "client/lekcije/05-tok.js",
           "isecakNaslov": "Kontrola toka programa",
           "isecakJezik": "javascript",
@@ -4675,7 +4683,8 @@
               "analizaPitalice": "Odgovor: B.\n\n`map()` pravi novi spoljašnji niz, ali to ne sprečava callback da menja postojeće objekte.\n\nOvo je ključna razlika između pravljenja nove kolekcije i pravljenja potpuno nezavisnih podataka."
             }
           ],
-          "pitalica": "7.1. Šta je niz i kako se razlikuje od običnog objekta?\n\n```javascript\nconst brojevi = [10, 20, 30];\n\nbrojevi.push(40);\n\nconsole.log(brojevi[0]);\nconsole.log(brojevi.length);\n```\n\nŠta se ispisuje i da li je operacija `push` dozvoljena ako je niz deklarisan sa `const`?",
+          "pitalica": "7.1. Šta je niz i kako se razlikuje od običnog objekta?\n\n```javascript\nconst brojevi = [10, 20, 30];\n\nbrojevi.push(40);\n\nconsole.log(brojevi[0]);\nconsole.log(brojevi.length);\n```\n\nŠta se ispisuje i da li je operacija `push` dozvoljena ako je niz deklarisan sa `const`?"
+,
           "putanja": "client/lekcije/07-nizovi.js",
           "isecakNaslov": "Nizovi i obrada kolekcija",
           "isecakJezik": "javascript",
@@ -4952,8 +4961,8 @@
           "nivo": "Primena",
           "minuta": 4,
           "tipPrimer": "eksperiment",
-          "tekst": "### II. Kako JavaScript izvršava program\n\nKada program sadrži više funkcija i blokova koda, postaje važno odrediti odakle je neka promenljiva dostupna.\n\nOpseg važenja (scope) određuje u kom delu programa se može pristupiti određenoj deklaraciji.\n\n### Globalni, funkcijski i blokovski opseg\n\nGlobalne promenljive nalaze se izvan funkcija i blokova. Funkcijske promenljive dostupne su unutar funkcije, dok se blokovski opseg odnosi na deo koda omeđen vitičastim zagradama.\n\nPromenljiva deklarisana pomoću `let` ili `const` pripada najbližem odgovarajućem bloku.\n\nZa razliku od njih, `var` ima funkcijski, a ne blokovski opseg.\n\nZbog ovakvog ponašanja, u savremenom JavaScript kodu prednost imaju `let` i `const`.\n\n### Leksički opseg\n\nJavaScript koristi leksički opseg (lexical scoping).\n\nTo znači da je spoljašnji opseg funkcije određen mestom na kome je funkcija definisana u izvornom kodu, a ne mestom sa kog se poziva.\n\nFunkcija `prikazi` pristupa promenljivoj `x` iz opsega u kome je definisana.\n\nNe koristi lokalnu promenljivu funkcije `pozovi`, iako je pozvana iz nje.\n\nTo svojstvo ima velike posledice za ponašanje funkcija.\n\n### Shadowing\n\nU unutrašnjem opsegu moguće je deklarisati promenljivu sa istim imenom kao u spoljašnjem opsegu.\n\nUnutrašnja deklaracija zaklanja spoljašnju. Taj mehanizam se naziva shadowing.\n\n### Leksičko okruženje\n\nZa razumevanje opsega važno je uvesti pojam leksičkog okruženja (lexical environment).\n\nPojednostavljeno, leksičko okruženje sadrži veze između identifikatora i njihovih vrednosti, kao i vezu prema spoljašnjem okruženju.\n\nKada JavaScript traži promenljivu, prvo proverava trenutno okruženje. Ako je tamo ne pronađe, nastavlja pretragu u spoljašnjem okruženju.\n\nFunkcija `unutrasnja` može da koristi `poruka` zato što je definisana u opsegu koji obuhvata tu promenljivu.",
-          "kljucnaIdeja": "Vidljivost promenljivih određuje struktura izvornog koda. Funkcija koristi leksičko okruženje u kome je definisana, a ne lokalne promenljive funkcije koja je poziva.",
+          "tekst": "### II. Kako JavaScript izvršava program\n\nKada program sadrži više funkcija i blokova koda, postaje važno odrediti odakle je neka promenljiva dostupna.\n\nOpseg važenja (scope) određuje u kom delu programa se može pristupiti određenoj deklaraciji.\n\n### Globalni, funkcijski i blokovski opseg\n\nGlobalne promenljive nalaze se izvan funkcija i blokova. Funkcijske promenljive dostupne su unutar funkcije, dok se blokovski opseg odnosi na deo koda omeđen vitičastim zagradama.\n\nPromenljiva deklarisana pomoću `let` ili `const` pripada najbližem odgovarajućem bloku.\n\nZa razliku od njih, `var` ima funkcijski, a ne blokovski opseg.\n\nZbog ovakvog ponašanja, u savremenom JavaScript kodu prednost imaju `let` i `const`.\n\nPogledajmo sledeći primer.\n\nZašto se ispisuje `10`, a ne `20`? Funkcija `pozovi` ima promenljivu `x = 20` i direktno poziva `prikazi`. Ipak, funkcija `prikazi` ne koristi tu promenljivu.\n\nDa bismo razumeli zašto, potrebno je da razlikujemo nekoliko pojmova.\n\n### Leksički opseg\n\n**Mesto na kome je funkcija definisana određuje kojim spoljašnjim promenljivama može da pristupi.**\n\nFunkcija `prikazi` definisana je u globalnom opsegu, izvan funkcije `pozovi`. Zbog toga ona može da pristupi globalnoj promenljivoj `x = 10`, ali ne i lokalnoj promenljivoj `x = 20` iz funkcije `pozovi`.\n\nLeksički opseg (lexical scope) određuje se na osnovu strukture koda, a ne na osnovu toga koja funkcija poziva koju.\n\n### Leksičko okruženje\n\nLeksički opseg opisuje pravilo vidljivosti promenljivih. Međutim, kada se program izvršava, JavaScript mora negde da čuva njihove vrednosti.\n\nZa to koristi leksička okruženja (lexical environment).\n\nLeksičko okruženje možemo da zamislimo kao zapis koji sadrži:\n\n- lokalne promenljive i njihove vrednosti;\n- vezu ka spoljašnjem leksičkom okruženju.\n\nKada se pozove `pozovi()`, nastaje okruženje koje sadrži `x = 20`.\n\nKada se pozove `prikazi()`, nastaje njeno okruženje. Ono nema lokalnu promenljivu `x`, a njegova veza ka spolja vodi do globalnog okruženja.\n\nVažno je da svaki poziv funkcije dobija svoje okruženje. Ako istu funkciju pozovemo više puta, njeni pozivi mogu imati različite lokalne vrednosti, iako je leksički opseg funkcije isti.\n\nIsta boja vezuje deo koda i leksičko okruženje. Okruženje funkcije `pozovi` drži `x = 20` i vezu ka globalnom okruženju. Okruženje funkcije `prikazi` nema lokalno `x`, a veza ka spolja vodi u globalno okruženje, gde je `x` jednako `10`.\n\n### Leksički lanac (scope chain)\n\nŠta se dešava kada funkcija koristi promenljivu koja nije definisana u njenom lokalnom okruženju?\n\nJavaScript je traži sledećim redosledom:\n\n1. U trenutnom leksičkom okruženju.\n2. Ako je ne pronađe, prelazi u spoljašnje okruženje.\n3. Nastavlja prema spolja dok ne pronađe promenljivu ili ne stigne do kraja lanca.\n\nTaj niz povezanih okruženja naziva se **scope chain** (lanac opsega).\n\nOkruženje funkcije `pozovi`, koje sadrži `x = 20`, **nije deo ovog lanca**.\n\nRazlog je jednostavan: funkcija `prikazi` definisana je u globalnom opsegu, a ne unutar funkcije `pozovi`.\n\n### Kontekst izvršavanja\n\nKontekst izvršavanja (execution context) predstavlja informacije koje JavaScript koristi dok izvršava određeni deo programa.\n\nKada pozovemo funkciju, nastaje novi kontekst izvršavanja. On, između ostalog, obuhvata leksičko okruženje potrebno za pristup promenljivama.\n\nKonteksti izvršavanja organizovani su na steku poziva (call stack).\n\nDok se izvršava `prikazi()`, stek izgleda ovako:\n\nFunkcija `pozovi` nalazi se na steku zato što je pozvala `prikazi`.\n\n**Stek poziva i leksički lanac nisu isto.**\n\n- Stek poziva pokazuje koje su funkcije pozvane i koja se trenutno izvršava.\n- Leksički lanac određuje gde JavaScript traži promenljive.\n\nZato `pozovi` može da bude na steku poziva, a da njena lokalna promenljiva `x` ipak nije dostupna funkciji `prikazi`.\n\n### Najvažnije za razumevanje\n\nTo što jedna funkcija poziva drugu ne znači da pozvana funkcija može da pristupi lokalnim promenljivama pozivaoca.\n\nPristup promenljivama određuje mesto na kome je funkcija definisana, a ne mesto sa kojeg je pozvana.\n\nU ovom primeru:\n\n- `pozovi()` ima lokalno `x = 20`.\n- `prikazi()` nema lokalno `x`.\n- Spoljašnje okruženje funkcije `prikazi` jeste globalno okruženje.\n- Zato `prikazi()` pronalazi `x = 10` i ispisuje `10`.\n\n### Shadowing\n\nIme u unutrašnjem opsegu može da zakloni isto ime spolja.\n\nU unutrašnjem opsegu moguće je deklarisati promenljivu sa istim imenom kao u spoljašnjem opsegu.\n\nUnutrašnja deklaracija zaklanja spoljašnju. Taj mehanizam se naziva shadowing.\n\nIsta veza ka spolja važi i kad je funkcija napisana unutar druge. Funkcija `unutrasnja` može da koristi `poruka` zato što je definisana u opsegu koji obuhvata tu promenljivu.",
+          "kljucnaIdeja": "To što jedna funkcija poziva drugu ne znači da pozvana funkcija može da pristupi lokalnim promenljivama pozivaoca. Pristup promenljivama određuje mesto na kome je funkcija definisana, a ne mesto sa kojeg je pozvana.",
           "blokovi": [
             {
               "id": "k09b1",
@@ -4992,7 +5001,7 @@
             {
               "id": "k09b7",
               "vrsta": "tekst",
-              "tekst": "### Leksički opseg\n\nJavaScript koristi leksički opseg (lexical scoping).\n\nTo znači da je spoljašnji opseg funkcije određen mestom na kome je funkcija definisana u izvornom kodu, a ne mestom sa kog se poziva."
+              "tekst": "Pogledajmo sledeći primer."
             },
             {
               "id": "k09b8",
@@ -5004,12 +5013,70 @@
             {
               "id": "k09b9",
               "vrsta": "tekst",
-              "tekst": "Funkcija `prikazi` pristupa promenljivoj `x` iz opsega u kome je definisana.\n\nNe koristi lokalnu promenljivu funkcije `pozovi`, iako je pozvana iz nje.\n\nTo svojstvo ima velike posledice za ponašanje funkcija."
+              "tekst": "Zašto se ispisuje `10`, a ne `20`? Funkcija `pozovi` ima promenljivu `x = 20` i direktno poziva `prikazi`. Ipak, funkcija `prikazi` ne koristi tu promenljivu.\n\nDa bismo razumeli zašto, potrebno je da razlikujemo nekoliko pojmova."
+            },
+            {
+              "id": "k09b19",
+              "vrsta": "tekst",
+              "tekst": "### Leksički opseg\n\n**Mesto na kome je funkcija definisana određuje kojim spoljašnjim promenljivama može da pristupi.**\n\nFunkcija `prikazi` definisana je u globalnom opsegu, izvan funkcije `pozovi`. Zbog toga ona može da pristupi globalnoj promenljivoj `x = 10`, ali ne i lokalnoj promenljivoj `x = 20` iz funkcije `pozovi`.\n\nLeksički opseg (lexical scope) određuje se na osnovu strukture koda, a ne na osnovu toga koja funkcija poziva koju."
+            },
+            {
+              "id": "k09b13",
+              "vrsta": "tekst",
+              "tekst": "### Leksičko okruženje\n\nLeksički opseg opisuje pravilo vidljivosti promenljivih. Međutim, kada se program izvršava, JavaScript mora negde da čuva njihove vrednosti.\n\nZa to koristi leksička okruženja (lexical environment).\n\nLeksičko okruženje možemo da zamislimo kao zapis koji sadrži:\n\n- lokalne promenljive i njihove vrednosti;\n- vezu ka spoljašnjem leksičkom okruženju.\n\nKada se pozove `pozovi()`, nastaje okruženje koje sadrži `x = 20`.\n\nKada se pozove `prikazi()`, nastaje njeno okruženje. Ono nema lokalnu promenljivu `x`, a njegova veza ka spolja vodi do globalnog okruženja.\n\nVažno je da svaki poziv funkcije dobija svoje okruženje. Ako istu funkciju pozovemo više puta, njeni pozivi mogu imati različite lokalne vrednosti, iako je leksički opseg funkcije isti."
+            },
+            {
+              "id": "k09b17",
+              "vrsta": "tekst",
+              "tekst": "Ista boja vezuje deo koda i leksičko okruženje. Okruženje funkcije `pozovi` drži `x = 20` i vezu ka globalnom okruženju. Okruženje funkcije `prikazi` nema lokalno `x`, a veza ka spolja vodi u globalno okruženje, gde je `x` jednako `10`."
+            },
+            {
+              "id": "k09b18",
+              "vrsta": "struktura",
+              "naslov": "Leksička okruženja prikazi i pozovi",
+              "tekst": "{\n  \"kod\": [\n    \"const x = 10;\",\n    \"\",\n    \"function prikazi() {\",\n    {\n      \"t\": \"  console.log(x);\",\n      \"boja\": \"plava\",\n      \"ka\": \"prikazi\"\n    },\n    \"}\",\n    \"\",\n    \"function pozovi() {\",\n    {\n      \"t\": \"  const x = 20;\",\n      \"boja\": \"oker\",\n      \"ka\": \"pozovi\"\n    },\n    \"  prikazi();\",\n    \"}\",\n    \"\",\n    {\n      \"t\": \"pozovi();\",\n      \"boja\": \"zelena\",\n      \"ka\": \"global\"\n    }\n  ],\n  \"okviri\": [\n    {\n      \"id\": \"prikazi\",\n      \"boja\": \"plava\",\n      \"redovi\": [\n        \"okruženje prikazi\",\n        \"spolja: globalno\"\n      ]\n    },\n    {\n      \"id\": \"pozovi\",\n      \"boja\": \"oker\",\n      \"redovi\": [\n        \"okruženje pozovi\",\n        \"x = 20\",\n        \"spolja: globalno\"\n      ]\n    },\n    {\n      \"id\": \"global\",\n      \"boja\": \"zelena\",\n      \"redovi\": [\n        \"globalno okruženje\",\n        \"x = 10\"\n      ]\n    }\n  ]\n}"
+            },
+            {
+              "id": "k09b20",
+              "vrsta": "tekst",
+              "tekst": "### Leksički lanac (scope chain)\n\nŠta se dešava kada funkcija koristi promenljivu koja nije definisana u njenom lokalnom okruženju?\n\nJavaScript je traži sledećim redosledom:\n\n1. U trenutnom leksičkom okruženju.\n2. Ako je ne pronađe, prelazi u spoljašnje okruženje.\n3. Nastavlja prema spolja dok ne pronađe promenljivu ili ne stigne do kraja lanca.\n\nTaj niz povezanih okruženja naziva se **scope chain** (lanac opsega)."
+            },
+            {
+              "id": "k09b21",
+              "vrsta": "dijagram",
+              "naslov": "Pretraga x dok radi prikazi",
+              "tekst": "Okruženje prikazi()\n    │\n    │ x ne postoji\n    ▼\nGlobalno okruženje\n    │\n    │ x = 10\n    ▼\nPronađeno!"
+            },
+            {
+              "id": "k09b22",
+              "vrsta": "tekst",
+              "tekst": "Okruženje funkcije `pozovi`, koje sadrži `x = 20`, **nije deo ovog lanca**.\n\nRazlog je jednostavan: funkcija `prikazi` definisana je u globalnom opsegu, a ne unutar funkcije `pozovi`."
+            },
+            {
+              "id": "k09b23",
+              "vrsta": "tekst",
+              "tekst": "### Kontekst izvršavanja\n\nKontekst izvršavanja (execution context) predstavlja informacije koje JavaScript koristi dok izvršava određeni deo programa.\n\nKada pozovemo funkciju, nastaje novi kontekst izvršavanja. On, između ostalog, obuhvata leksičko okruženje potrebno za pristup promenljivama.\n\nKonteksti izvršavanja organizovani su na steku poziva (call stack).\n\nDok se izvršava `prikazi()`, stek izgleda ovako:"
+            },
+            {
+              "id": "k09b24",
+              "vrsta": "dijagram",
+              "naslov": "Stek poziva dok radi prikazi",
+              "tekst": "┌─────────────────────┐\n│ prikazi()           │ ← trenutno se izvršava\n├─────────────────────┤\n│ pozovi()            │ ← čeka završetak prikazi()\n├─────────────────────┤\n│ Globalni kontekst   │\n└─────────────────────┘"
+            },
+            {
+              "id": "k09b25",
+              "vrsta": "tekst",
+              "tekst": "Funkcija `pozovi` nalazi se na steku zato što je pozvala `prikazi`.\n\n**Stek poziva i leksički lanac nisu isto.**\n\n- Stek poziva pokazuje koje su funkcije pozvane i koja se trenutno izvršava.\n- Leksički lanac određuje gde JavaScript traži promenljive.\n\nZato `pozovi` može da bude na steku poziva, a da njena lokalna promenljiva `x` ipak nije dostupna funkciji `prikazi`."
+            },
+            {
+              "id": "k09b26",
+              "vrsta": "tekst",
+              "tekst": "### Najvažnije za razumevanje\n\nTo što jedna funkcija poziva drugu ne znači da pozvana funkcija može da pristupi lokalnim promenljivama pozivaoca.\n\nPristup promenljivama određuje mesto na kome je funkcija definisana, a ne mesto sa kojeg je pozvana.\n\nU ovom primeru:\n\n- `pozovi()` ima lokalno `x = 20`.\n- `prikazi()` nema lokalno `x`.\n- Spoljašnje okruženje funkcije `prikazi` jeste globalno okruženje.\n- Zato `prikazi()` pronalazi `x = 10` i ispisuje `10`."
             },
             {
               "id": "k09b10",
               "vrsta": "tekst",
-              "tekst": "### Shadowing\n\nU unutrašnjem opsegu moguće je deklarisati promenljivu sa istim imenom kao u spoljašnjem opsegu."
+              "tekst": "### Shadowing\n\nIme u unutrašnjem opsegu može da zakloni isto ime spolja.\n\nU unutrašnjem opsegu moguće je deklarisati promenljivu sa istim imenom kao u spoljašnjem opsegu."
             },
             {
               "id": "k09b11",
@@ -5024,11 +5091,6 @@
               "tekst": "Unutrašnja deklaracija zaklanja spoljašnju. Taj mehanizam se naziva shadowing."
             },
             {
-              "id": "k09b13",
-              "vrsta": "tekst",
-              "tekst": "### Leksičko okruženje\n\nZa razumevanje opsega važno je uvesti pojam leksičkog okruženja (lexical environment).\n\nPojednostavljeno, leksičko okruženje sadrži veze između identifikatora i njihovih vrednosti, kao i vezu prema spoljašnjem okruženju.\n\nKada JavaScript traži promenljivu, prvo proverava trenutno okruženje. Ako je tamo ne pronađe, nastavlja pretragu u spoljašnjem okruženju."
-            },
-            {
               "id": "k09b14",
               "vrsta": "kod",
               "naslov": "Unutrašnja funkcija vidi spoljašnju vezu",
@@ -5038,13 +5100,13 @@
             {
               "id": "k09b15",
               "vrsta": "tekst",
-              "tekst": "Funkcija `unutrasnja` može da koristi `poruka` zato što je definisana u opsegu koji obuhvata tu promenljivu."
+              "tekst": "Ista veza ka spolja važi i kad je funkcija napisana unutar druge. Funkcija `unutrasnja` može da koristi `poruka` zato što je definisana u opsegu koji obuhvata tu promenljivu."
             },
             {
               "id": "k09b16",
               "vrsta": "highlight",
               "uloga": "kljucna",
-              "tekst": "Vidljivost promenljivih određuje struktura izvornog koda. Funkcija koristi leksičko okruženje u kome je definisana, a ne lokalne promenljive funkcije koja je poziva."
+              "tekst": "To što jedna funkcija poziva drugu ne znači da pozvana funkcija može da pristupi lokalnim promenljivama pozivaoca. Pristup promenljivama određuje mesto na kome je funkcija definisana, a ne mesto sa kojeg je pozvana."
             }
           ],
           "diskusija": [
@@ -5188,7 +5250,8 @@
               "odgovor": "`a` je dostupna, dok pristup `b` izaziva `ReferenceError`.\n\n`var` ima funkcijski opseg, dok `let` i `const` imaju blokovski opseg."
             }
           ],
-          "pitalica": "9.1. Zašto promenljiva definisana unutar funkcije nije dostupna izvan nje?\n\n```javascript\nconst a = 10;\n\nfunction primer() {\n  const b = 20;\n  console.log(a + b);\n}\n\nprimer();\nconsole.log(b);\n```\n\nŠta se događa?",
+          "pitalica": "9.1. Zašto promenljiva definisana unutar funkcije nije dostupna izvan nje?\n\n```javascript\nconst a = 10;\n\nfunction primer() {\n  const b = 20;\n  console.log(a + b);\n}\n\nprimer();\nconsole.log(b);\n```\n\nŠta se događa?"
+,
           "opcije": [
             {
               "key": "A",
@@ -5209,7 +5272,8 @@
               "why": "Funkcija sme da čita promenljivu iz spoljašnjeg leksičkog opsega."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\nFunkcija ima sopstveni opseg. Njene lokalne promenljive nisu dostupne izvan tog opsega, ali funkcija može pristupati promenljivama iz spoljašnjeg leksičkog opsega.",
+          "analizaPitalice": "Odgovor: B.\n\nFunkcija ima sopstveni opseg. Njene lokalne promenljive nisu dostupne izvan tog opsega, ali funkcija može pristupati promenljivama iz spoljašnjeg leksičkog opsega."
+,
           "putanja": "client/lekcije/09-opseg.js",
           "isecakNaslov": "Opseg važenja i leksičko okruženje",
           "isecakJezik": "javascript",
@@ -5220,13 +5284,13 @@
           "nivo": "Primena",
           "minuta": 4,
           "tipPrimer": "eksperiment",
-          "tekst": "Do sada smo posmatrali kako je kod napisan i gde su promenljive dostupne. Sada treba objasniti šta se dešava tokom njegovog izvršavanja.\n\n### Execution context\n\nExecution context, odnosno kontekst izvršavanja, predstavlja stanje neophodno da JavaScript izvršava određeni deo programa.\n\nKontekst obuhvata informacije o dostupnim promenljivama i njihovim vezama, leksičkom okruženju i vrednosti `this`, u skladu sa vrstom i načinom izvršavanja koda.\n\nPri pokretanju programa nastaje odgovarajući kontekst izvršavanja. Kada se pozove funkcija, za taj poziv formira se novi kontekst.\n\nPrilikom izvršavanja dolazi do sledećeg:\n\n1. Pokreće se izvršavanje glavnog programa.\n2. Poziva se `izracunaj(3)` i nastaje kontekst za taj poziv.\n3. Funkcija `izracunaj` poziva `kvadrat(3)`.\n4. Nastaje novi kontekst za `kvadrat`.\n5. `kvadrat` vraća `9`, pa se njen kontekst uklanja sa steka.\n6. `izracunaj` vraća `10`, pa se izvršavanje nastavlja u glavnom programu.\n\n### Call stack\n\nJavaScript prati aktivne pozive funkcija pomoću steka poziva (call stack).\n\nStek funkcioniše po principu LIFO (Last In, First Out): poslednji poziv dodat na stek prvi se završava.\n\nKada se funkcija završi, njen kontekst se uklanja sa steka i nastavlja se prethodno izvršavanje.\n\nAko funkcije neprekidno pozivaju nove funkcije bez završetka, stek može da se popuni. To se često dešava kod neispravne rekurzije i izaziva grešku prekoračenja steka.\n\n### Hoisting: priprema deklaracija\n\nPre nego što se izvrše naredbe u određenom kontekstu, JavaScript priprema odgovarajuće deklaracije.\n\nPosledice ovog mehanizma često se opisuju terminom hoisting.\n\nTo ne znači da JavaScript fizički premešta naredbe na početak datoteke.\n\nDeklaracije funkcija dostupne su i pre svog mesta u izvornom kodu.\n\nKod `var`, deklaracija je pripremljena i promenljiva inicijalizovana vrednošću `undefined` pre izvršavanja odgovarajuće naredbe dodele.\n\nNasuprot tome, promenljive deklarisane pomoću `let` i `const` postoje u svom opsegu pre izvršavanja deklaracije, ali nisu inicijalizovane tako da im se može pristupiti.\n\nPeriod od početka opsega do inicijalizacije promenljive naziva se Temporal Dead Zone (TDZ).\n\nZato izraz „`let` i `const` se ne hoistuju” nije potpuno precizan. Njihove deklaracije učestvuju u pripremi okruženja, ali im se ne može pristupiti pre inicijalizacije.\n\nFunkcijski izrazi zavise od načina deklaracije promenljive kojoj su dodeljeni.\n\nOvde je `kvadrat` promenljiva deklarisana pomoću `const`, a ne deklaracija funkcije.\n\n### Veza između opsega i konteksta izvršavanja\n\nOpseg važenja govori gde je određena promenljiva dostupna, dok kontekst izvršavanja opisuje stanje u kome se kod trenutno izvršava.\n\nJedna funkcija može biti pozvana mnogo puta. Svaki poziv ima sopstveni kontekst izvršavanja, iako svi pozivi koriste istu definiciju funkcije i ista pravila leksičkog opsega.",
-          "kljucnaIdeja": "JavaScript priprema deklaracije pre izvršavanja naredbi, svaki poziv funkcije dobija sopstveni kontekst, a call stack određuje koja je funkcija trenutno aktivna i gde se izvršavanje nastavlja.",
+          "tekst": "Do sada smo posmatrali kako je kod napisan i gde su promenljive dostupne. Na primeru `prikazi` i `pozovi` stek poziva pokazuje ko je koga pozvao, a leksički lanac pokazuje gde se traži ime. Sada gledamo isti mehanizam dok se pozivi ugnezde, i šta engine priprema pre naredbi.\n\n### Kontekst izvršavanja\n\nKontekst izvršavanja (execution context) predstavlja informacije koje JavaScript koristi dok izvršava određeni deo programa.\n\nKada pozovemo funkciju, nastaje novi kontekst izvršavanja. On, između ostalog, obuhvata leksičko okruženje potrebno za pristup promenljivama. Kontekst obuhvata i dostupne promenljive, njihove veze i vrednost `this`, u skladu sa vrstom i načinom izvršavanja koda.\n\nPri pokretanju programa nastaje odgovarajući kontekst izvršavanja. Kada se pozove funkcija, za taj poziv formira se novi kontekst.\n\nPrilikom izvršavanja dolazi do sledećeg:\n\n1. Pokreće se izvršavanje glavnog programa.\n2. Poziva se `izracunaj(3)` i nastaje kontekst za taj poziv.\n3. Funkcija `izracunaj` poziva `kvadrat(3)`.\n4. Nastaje novi kontekst za `kvadrat`.\n5. `kvadrat` vraća `9`, pa se njen kontekst uklanja sa steka.\n6. `izracunaj` vraća `10`, pa se izvršavanje nastavlja u glavnom programu.\n\n### Call stack\n\nStek poziva (call stack) prati aktivne pozive funkcija.\n\nStek funkcioniše po principu LIFO (Last In, First Out): poslednji poziv dodat na stek prvi se završava.\n\nStek poziva pokazuje koji je poziv aktivan. Leksički lanac i dalje ide tamo gde je funkcija napisana. Zato okruženje funkcije `kvadrat` ne vidi `a` i `rezultat`, iako `izracunaj` stoji na steku ispod njega.\n\nBoja vezuje deo koda i okvir na steku poziva. U okviru je leksičko okruženje tog poziva. Za `kvadrat` i za `izracunaj` spolja je globalno okruženje. Okruženje poziva `izracunaj` drži `a`.\n\nKada se funkcija završi, njen kontekst se uklanja sa steka i nastavlja se prethodno izvršavanje.\n\nAko funkcije neprekidno pozivaju nove funkcije bez završetka, stek može da se popuni. To se često dešava kod neispravne rekurzije i izaziva grešku prekoračenja steka.\n\n### Hoisting: priprema deklaracija\n\nPri stvaranju konteksta izvršavanja JavaScript engine prolazi kroz kod tog konteksta u dva koraka.\n\n1. Priprema deklaracija. Engine upisuje sva imena iz tog koda.\n2. Izvršavanje naredbi, redom odozgo nadole. Dodela i ostale naredbe rade se u ovom koraku, na liniji na kojoj su napisane.\n\nHoisting je naziv za posledice prvog koraka. Izvorni kod se pri tome ne premešta na početak datoteke.\n\nJavaScript engine je program koji izvršava jezik: V8 u Chrome-u i Node.js-u, SpiderMonkey u Firefox-u. JVM izvršava Java bajtkod. Interpreter, gde ga engine koristi, izvršava naredbe drugog koraka. Prvi korak je upis imena u kontekst.\n\nDva koraka važe za jedan kontekst. Telo funkcije ulazi u njih tek kad se ta funkcija pozove. `var` unutar bloka upisuje se u kontekst funkcije ili glavnog programa. `let` i `const` upisuju se kad izvršavanje uđe u njihov blok.\n\nDeklaracije funkcija dostupne su i pre svog mesta u izvornom kodu.\n\nU prvom koraku `var` upiše ime i vrednost `undefined`. Dodela ostaje za drugi korak.\n\n`let` i `const` dobijaju ime u pripremi svog opsega. Drugi korak ih inicijalizuje na liniji deklaracije. Do tada pristup nije dozvoljen.\n\nPeriod od početka opsega do inicijalizacije promenljive naziva se Temporal Dead Zone (TDZ).\n\nZato izraz „`let` i `const` se ne hoistuju” nije potpuno precizan. Njihove deklaracije učestvuju u pripremi okruženja, ali im se ne može pristupiti pre inicijalizacije.\n\nFunkcijski izrazi zavise od načina deklaracije promenljive kojoj su dodeljeni.\n\nOvde je `kvadrat` promenljiva deklarisana pomoću `const`, a ne deklaracija funkcije.\n\n### Veza između opsega i konteksta izvršavanja\n\nOpseg važenja govori gde je određena promenljiva dostupna, dok kontekst izvršavanja opisuje stanje u kome se kod trenutno izvršava.\n\nJedna funkcija može biti pozvana mnogo puta. Svaki poziv ima sopstveni kontekst izvršavanja, iako svi pozivi koriste istu definiciju funkcije i ista pravila leksičkog opsega.\n\nOpseg izvršavanja je opseg važenja koji važi dok se taj deo koda izvršava. Dok radi `kvadrat(3)`, opseg izvršavanja obuhvata `x` i imena iz globalnog opsega. `a` i `rezultat` stoje u opsegu funkcije `izracunaj`.",
+          "kljucnaIdeja": "Pri stvaranju konteksta JavaScript engine prvo upiše deklaracije, pa izvršava naredbe i dodele. Svaki poziv funkcije dobija sopstveni kontekst, a stek poziva određuje koja je funkcija trenutno aktivna i gde se izvršavanje nastavlja.",
           "blokovi": [
             {
               "id": "k10b1",
               "vrsta": "tekst",
-              "tekst": "Do sada smo posmatrali kako je kod napisan i gde su promenljive dostupne. Sada treba objasniti šta se dešava tokom njegovog izvršavanja.\n\n### Execution context\n\nExecution context, odnosno kontekst izvršavanja, predstavlja stanje neophodno da JavaScript izvršava određeni deo programa.\n\nKontekst obuhvata informacije o dostupnim promenljivama i njihovim vezama, leksičkom okruženju i vrednosti `this`, u skladu sa vrstom i načinom izvršavanja koda.\n\nPri pokretanju programa nastaje odgovarajući kontekst izvršavanja. Kada se pozove funkcija, za taj poziv formira se novi kontekst."
+              "tekst": "Do sada smo posmatrali kako je kod napisan i gde su promenljive dostupne. Na primeru `prikazi` i `pozovi` stek poziva pokazuje ko je koga pozvao, a leksički lanac pokazuje gde se traži ime. Sada gledamo isti mehanizam dok se pozivi ugnezde, i šta engine priprema pre naredbi.\n\n### Kontekst izvršavanja\n\nKontekst izvršavanja (execution context) predstavlja informacije koje JavaScript koristi dok izvršava određeni deo programa.\n\nKada pozovemo funkciju, nastaje novi kontekst izvršavanja. On, između ostalog, obuhvata leksičko okruženje potrebno za pristup promenljivama. Kontekst obuhvata i dostupne promenljive, njihove veze i vrednost `this`, u skladu sa vrstom i načinom izvršavanja koda.\n\nPri pokretanju programa nastaje odgovarajući kontekst izvršavanja. Kada se pozove funkcija, za taj poziv formira se novi kontekst."
             },
             {
               "id": "k10b2",
@@ -5243,23 +5307,23 @@
             {
               "id": "k10b4",
               "vrsta": "tekst",
-              "tekst": "### Call stack\n\nJavaScript prati aktivne pozive funkcija pomoću steka poziva (call stack).\n\nStek funkcioniše po principu LIFO (Last In, First Out): poslednji poziv dodat na stek prvi se završava."
+              "tekst": "### Call stack\n\nStek poziva (call stack) prati aktivne pozive funkcija.\n\nStek funkcioniše po principu LIFO (Last In, First Out): poslednji poziv dodat na stek prvi se završava."
             },
             {
               "id": "k10b5",
-              "vrsta": "dijagram",
-              "naslov": "Stek tokom kvadrat(3)",
-              "tekst": "kvadrat(3)\n  trenutno se izvršava\n\nizracunaj(3)\n  čeka rezultat funkcije kvadrat\n\nglavni program\n  dno steka"
+              "vrsta": "struktura",
+              "naslov": "Stek poziva i leksička okruženja",
+              "tekst": "{\n  \"lifo\": true,\n  \"kod\": [\n    \"function kvadrat(x) {\",\n    {\n      \"t\": \"  return x * x;\",\n      \"boja\": \"plava\",\n      \"ka\": \"kvadrat\"\n    },\n    \"}\",\n    \"\",\n    \"function izracunaj(a) {\",\n    {\n      \"t\": \"  const rezultat = kvadrat(a);\",\n      \"boja\": \"oker\",\n      \"ka\": \"izracunaj\"\n    },\n    \"  return rezultat + 1;\",\n    \"}\",\n    \"\",\n    {\n      \"t\": \"izracunaj(3);\",\n      \"boja\": \"zelena\",\n      \"ka\": \"global\"\n    }\n  ],\n  \"okviri\": [\n    {\n      \"id\": \"kvadrat\",\n      \"boja\": \"plava\",\n      \"redovi\": [\n        \"kvadrat(3)\",\n        \"x = 3\",\n        \"spolja: globalno\"\n      ]\n    },\n    {\n      \"id\": \"izracunaj\",\n      \"boja\": \"oker\",\n      \"redovi\": [\n        \"izracunaj(3)\",\n        \"a = 3\",\n        \"spolja: globalno\"\n      ]\n    },\n    {\n      \"id\": \"global\",\n      \"boja\": \"zelena\",\n      \"redovi\": [\n        \"globalni kontekst\",\n        \"kvadrat, izracunaj\"\n      ]\n    }\n  ]\n}"
             },
             {
               "id": "k10b6",
               "vrsta": "tekst",
-              "tekst": "Kada se funkcija završi, njen kontekst se uklanja sa steka i nastavlja se prethodno izvršavanje.\n\nAko funkcije neprekidno pozivaju nove funkcije bez završetka, stek može da se popuni. To se često dešava kod neispravne rekurzije i izaziva grešku prekoračenja steka."
+              "tekst": "Stek poziva pokazuje koji je poziv aktivan. Leksički lanac i dalje ide tamo gde je funkcija napisana. Zato okruženje funkcije `kvadrat` ne vidi `a` i `rezultat`, iako `izracunaj` stoji na steku ispod njega.\n\nBoja vezuje deo koda i okvir na steku poziva. U okviru je leksičko okruženje tog poziva. Za `kvadrat` i za `izracunaj` spolja je globalno okruženje. Okruženje poziva `izracunaj` drži `a`.\n\nKada se funkcija završi, njen kontekst se uklanja sa steka i nastavlja se prethodno izvršavanje.\n\nAko funkcije neprekidno pozivaju nove funkcije bez završetka, stek može da se popuni. To se često dešava kod neispravne rekurzije i izaziva grešku prekoračenja steka."
             },
             {
               "id": "k10b7",
               "vrsta": "tekst",
-              "tekst": "### Hoisting: priprema deklaracija\n\nPre nego što se izvrše naredbe u određenom kontekstu, JavaScript priprema odgovarajuće deklaracije.\n\nPosledice ovog mehanizma često se opisuju terminom hoisting.\n\nTo ne znači da JavaScript fizički premešta naredbe na početak datoteke.\n\nDeklaracije funkcija dostupne su i pre svog mesta u izvornom kodu."
+              "tekst": "### Hoisting: priprema deklaracija\n\nPri stvaranju konteksta izvršavanja JavaScript engine prolazi kroz kod tog konteksta u dva koraka.\n\n1. Priprema deklaracija. Engine upisuje sva imena iz tog koda.\n2. Izvršavanje naredbi, redom odozgo nadole. Dodela i ostale naredbe rade se u ovom koraku, na liniji na kojoj su napisane.\n\nHoisting je naziv za posledice prvog koraka. Izvorni kod se pri tome ne premešta na početak datoteke.\n\nJavaScript engine je program koji izvršava jezik: V8 u Chrome-u i Node.js-u, SpiderMonkey u Firefox-u. JVM izvršava Java bajtkod. Interpreter, gde ga engine koristi, izvršava naredbe drugog koraka. Prvi korak je upis imena u kontekst.\n\nDva koraka važe za jedan kontekst. Telo funkcije ulazi u njih tek kad se ta funkcija pozove. `var` unutar bloka upisuje se u kontekst funkcije ili glavnog programa. `let` i `const` upisuju se kad izvršavanje uđe u njihov blok.\n\nDeklaracije funkcija dostupne su i pre svog mesta u izvornom kodu."
             },
             {
               "id": "k10b8",
@@ -5271,7 +5335,7 @@
             {
               "id": "k10b9",
               "vrsta": "tekst",
-              "tekst": "Kod `var`, deklaracija je pripremljena i promenljiva inicijalizovana vrednošću `undefined` pre izvršavanja odgovarajuće naredbe dodele."
+              "tekst": "U prvom koraku `var` upiše ime i vrednost `undefined`. Dodela ostaje za drugi korak."
             },
             {
               "id": "k10b10",
@@ -5283,7 +5347,7 @@
             {
               "id": "k10b11",
               "vrsta": "tekst",
-              "tekst": "Nasuprot tome, promenljive deklarisane pomoću `let` i `const` postoje u svom opsegu pre izvršavanja deklaracije, ali nisu inicijalizovane tako da im se može pristupiti."
+              "tekst": "`let` i `const` dobijaju ime u pripremi svog opsega. Drugi korak ih inicijalizuje na liniji deklaracije. Do tada pristup nije dozvoljen."
             },
             {
               "id": "k10b12",
@@ -5312,13 +5376,19 @@
             {
               "id": "k10b16",
               "vrsta": "tekst",
-              "tekst": "### Veza između opsega i konteksta izvršavanja\n\nOpseg važenja govori gde je određena promenljiva dostupna, dok kontekst izvršavanja opisuje stanje u kome se kod trenutno izvršava.\n\nJedna funkcija može biti pozvana mnogo puta. Svaki poziv ima sopstveni kontekst izvršavanja, iako svi pozivi koriste istu definiciju funkcije i ista pravila leksičkog opsega."
+              "tekst": "### Veza između opsega i konteksta izvršavanja\n\nOpseg važenja govori gde je određena promenljiva dostupna, dok kontekst izvršavanja opisuje stanje u kome se kod trenutno izvršava.\n\nJedna funkcija može biti pozvana mnogo puta. Svaki poziv ima sopstveni kontekst izvršavanja, iako svi pozivi koriste istu definiciju funkcije i ista pravila leksičkog opsega.\n\nOpseg izvršavanja je opseg važenja koji važi dok se taj deo koda izvršava. Dok radi `kvadrat(3)`, opseg izvršavanja obuhvata `x` i imena iz globalnog opsega. `a` i `rezultat` stoje u opsegu funkcije `izracunaj`."
+            },
+            {
+              "id": "k10b18",
+              "vrsta": "struktura",
+              "naslov": "Opseg važenja i opseg izvršavanja",
+              "tekst": "{\n  \"delovi\": [\n    {\n      \"naslov\": \"Opseg važenja\",\n      \"kod\": [\n        \"function kvadrat(x) {\",\n        {\n          \"t\": \"  return x * x;\",\n          \"boja\": \"plava\",\n          \"ka\": \"kv\"\n        },\n        \"}\",\n        \"\",\n        \"function izracunaj(a) {\",\n        {\n          \"t\": \"  const rezultat = kvadrat(a);\",\n          \"boja\": \"oker\",\n          \"ka\": \"iz\"\n        },\n        \"  return rezultat + 1;\",\n        \"}\",\n        \"\",\n        {\n          \"t\": \"izracunaj(3);\",\n          \"boja\": \"zelena\",\n          \"ka\": \"gl\"\n        }\n      ],\n      \"okviri\": [\n        {\n          \"id\": \"kv\",\n          \"boja\": \"plava\",\n          \"redovi\": [\n            \"opseg kvadrat\",\n            \"x\"\n          ]\n        },\n        {\n          \"id\": \"iz\",\n          \"boja\": \"oker\",\n          \"redovi\": [\n            \"opseg izracunaj\",\n            \"a, rezultat\"\n          ]\n        },\n        {\n          \"id\": \"gl\",\n          \"boja\": \"zelena\",\n          \"redovi\": [\n            \"globalni opseg\",\n            \"kvadrat, izracunaj\"\n          ]\n        }\n      ]\n    },\n    {\n      \"naslov\": \"Opseg izvršavanja\",\n      \"podnaslov\": \"dok radi kvadrat(3)\",\n      \"kod\": [\n        \"function kvadrat(x) {\",\n        {\n          \"t\": \"  return x * x;\",\n          \"boja\": \"plava\",\n          \"ka\": \"kv\"\n        },\n        \"}\",\n        \"\",\n        \"function izracunaj(a) {\",\n        \"  const rezultat = kvadrat(a);\",\n        \"  return rezultat + 1;\",\n        \"}\",\n        \"\",\n        {\n          \"t\": \"izracunaj(3);\",\n          \"boja\": \"zelena\",\n          \"ka\": \"gl\"\n        }\n      ],\n      \"okviri\": [\n        {\n          \"id\": \"kv\",\n          \"boja\": \"plava\",\n          \"redovi\": [\n            \"x = 3\"\n          ]\n        },\n        {\n          \"id\": \"gl\",\n          \"boja\": \"zelena\",\n          \"redovi\": [\n            \"globalna imena\"\n          ]\n        }\n      ]\n    }\n  ]\n}"
             },
             {
               "id": "k10b17",
               "vrsta": "highlight",
               "uloga": "kljucna",
-              "tekst": "JavaScript priprema deklaracije pre izvršavanja naredbi, svaki poziv funkcije dobija sopstveni kontekst, a call stack određuje koja je funkcija trenutno aktivna i gde se izvršavanje nastavlja."
+              "tekst": "Pri stvaranju konteksta JavaScript engine prvo upiše deklaracije, pa izvršava naredbe i dodele. Svaki poziv funkcije dobija sopstveni kontekst, a stek poziva određuje koja je funkcija trenutno aktivna i gde se izvršavanje nastavlja."
             }
           ],
           "diskusija": [
@@ -5356,16 +5426,16 @@
                   "why": "Ovo ponašanje pripada deklaraciji funkcije, ne deklaraciji pomoću `var`."
                 }
               ],
-              "analiza": "Odgovor: B.\n\nDeklaracije funkcija pripremaju se pre izvršavanja naredbi u odgovarajućem kontekstu.\n\nOvo ponašanje je deo mehanizma koji se naziva hoisting.",
+              "analiza": "Odgovor: B.\n\nJavaScript engine u prvom koraku upiše deklaraciju funkcije, pa u drugom izvršava naredbe. Zato je `saberi` dostupna pre reda u kome je napisana.\n\nOvo ponašanje je deo mehanizma koji se naziva hoisting.",
               "dodatno": "Da li JavaScript stvarno premešta tekst funkcije na početak datoteke?",
-              "dodatniOdgovor": "Ne. Hoisting je naziv za vidljive posledice pripreme deklaracija i njihovih veza tokom stvaranja odgovarajućeg okruženja. Izvorni kod se ne mora fizički premeštati."
+              "dodatniOdgovor": "Ne. Hoisting imenuje posledice prvog koraka: JavaScript engine pri stvaranju konteksta upiše deklaracije, pa u drugom koraku izvršava naredbe i dodele. Izvorni kod ostaje na svom mestu."
             },
             {
               "id": "k10q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
               "tekst": "10.3. Zašto `var` vraća `undefined`, dok `let` izaziva grešku?\n\n```javascript\nconsole.log(a);\nvar a = 10;\n```\n\n```javascript\nconsole.log(b);\nlet b = 10;\n```\n\nKako se razlikuju rezultati?",
-              "odgovor": "Prvi kod ispisuje `undefined`, a drugi izaziva `ReferenceError`.\n\nDeklaracija `var` priprema se i inicijalizuje vrednošću `undefined` pre izvršavanja naredbi.\n\n`let` i `const` takođe se registruju u svom opsegu, ali do njihove inicijalizacije nije dozvoljen pristup.\n\nOvaj period naziva se Temporal Dead Zone (TDZ).",
+              "odgovor": "Prvi kod ispisuje `undefined`, a drugi izaziva `ReferenceError`.\n\nU prvom koraku `var` dobija `undefined`, a `let` samo ime kome se još ne sme pristupiti. Dodela `10` dešava se u drugom koraku, na liniji na kojoj je napisana. Period do te inicijalizacije naziva se Temporal Dead Zone (TDZ).",
               "dodatno": "Da li je tačno reći da se `let` i `const` uopšte ne hoistuju?",
               "dodatniOdgovor": "To je neprecizno. Njihove deklaracije učestvuju u pripremi leksičkog okruženja, ali se njihovim vrednostima ne može pristupiti pre inicijalizacije."
             },
@@ -5426,11 +5496,11 @@
                   "why": "Ovo ponašanje pripada deklaraciji funkcije, ne deklaraciji pomoću `var`."
                 }
               ],
-              "analizaPitalice": "Odgovor: B.\n\nDeklaracije funkcija pripremaju se pre izvršavanja naredbi u odgovarajućem kontekstu.\n\nOvo ponašanje je deo mehanizma koji se naziva hoisting."
+              "analizaPitalice": "Odgovor: B.\n\nJavaScript engine u prvom koraku upiše deklaraciju funkcije, pa u drugom izvršava naredbe. Zato je `saberi` dostupna pre reda u kome je napisana.\n\nOvo ponašanje je deo mehanizma koji se naziva hoisting."
             },
             {
               "pitalica": "10.3. Zašto `var` vraća `undefined`, dok `let` izaziva grešku?\n\n```javascript\nconsole.log(a);\nvar a = 10;\n```\n\n```javascript\nconsole.log(b);\nlet b = 10;\n```\n\nKako se razlikuju rezultati?",
-              "odgovor": "Prvi kod ispisuje `undefined`, a drugi izaziva `ReferenceError`.\n\nDeklaracija `var` priprema se i inicijalizuje vrednošću `undefined` pre izvršavanja naredbi.\n\n`let` i `const` takođe se registruju u svom opsegu, ali do njihove inicijalizacije nije dozvoljen pristup.\n\nOvaj period naziva se Temporal Dead Zone (TDZ)."
+              "odgovor": "Prvi kod ispisuje `undefined`, a drugi izaziva `ReferenceError`.\n\nU prvom koraku `var` dobija `undefined`, a `let` samo ime kome se još ne sme pristupiti. Dodela `10` dešava se u drugom koraku, na liniji na kojoj je napisana. Period do te inicijalizacije naziva se Temporal Dead Zone (TDZ)."
             },
             {
               "pitalica": "10.4. Da li svaki poziv funkcije koristi iste lokalne promenljive?\n\n```javascript\nfunction saberi(x) {\n  const rezultat = x + 1;\n  return rezultat;\n}\n\nconst a = saberi(2);\nconst b = saberi(10);\n```\n\nDa li oba poziva dele promenljive `x` i `rezultat`?",
@@ -5457,11 +5527,12 @@
               "analizaPitalice": "Odgovor: B.\n\nJedna definicija funkcije može se pozvati više puta, ali svaki poziv ima sopstveni kontekst izvršavanja i lokalne vrednosti.\n\nZbog toga su rezultati `a = 3` i `b = 11`."
             }
           ],
-          "pitalica": "10.1. Kako JavaScript zna gde da nastavi izvršavanje kada se funkcija završi?\n\n```javascript\nfunction kvadrat(x) {\n  return x * x;\n}\n\nfunction izracunaj(x) {\n  return kvadrat(x) + 1;\n}\n\nconsole.log(izracunaj(3));\n```\n\nKojim redosledom se pozivaju i završavaju funkcije?",
+          "pitalica": "10.1. Kako JavaScript zna gde da nastavi izvršavanje kada se funkcija završi?\n\n```javascript\nfunction kvadrat(x) {\n  return x * x;\n}\n\nfunction izracunaj(x) {\n  return kvadrat(x) + 1;\n}\n\nconsole.log(izracunaj(3));\n```\n\nKojim redosledom se pozivaju i završavaju funkcije?"
+,
           "putanja": "client/lekcije/10-kontekst.js",
           "isecakNaslov": "Execution context, call stack i hoisting",
           "isecakJezik": "javascript",
-          "delic": "// Execution context, call stack i hoisting\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Ugneždeni pozivi\nfunction kvadrat(x) {\n  return x * x;\n}\n\nfunction izracunaj(a) {\n  const rezultat = kvadrat(a);\n  return rezultat + 1;\n}\n\nconsole.log(izracunaj(3)); // 10\n\n// Deklaracija funkcije pre poziva\nconsole.log(saberi(2, 3)); // 5\n\nfunction saberi(a, b) {\n  return a + b;\n}\n\n// var pre dodele\nconsole.log(broj); // undefined\n\nvar broj = 10;\n\n// Temporal Dead Zone\n// console.log(broj); // ReferenceError\n//\n// let broj = 10;\n\n// const i funkcijski izraz\n// console.log(kvadrat(3)); // ReferenceError\n//\n// const kvadrat = x => x * x;\n"
+          "delic": "// Execution context, call stack i hoisting\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n// Pri stvaranju konteksta JavaScript engine prvo upiše deklaracije, pa izvršava naredbe i dodele.\n\n// Ugneždeni pozivi\nfunction kvadrat(x) {\n  return x * x;\n}\n\nfunction izracunaj(a) {\n  const rezultat = kvadrat(a);\n  return rezultat + 1;\n}\n\nconsole.log(izracunaj(3)); // 10\n\n// Deklaracija funkcije pre poziva\nconsole.log(saberi(2, 3)); // 5\n\nfunction saberi(a, b) {\n  return a + b;\n}\n\n// var pre dodele\nconsole.log(broj); // undefined\n\nvar broj = 10;\n\n// Temporal Dead Zone\n// console.log(broj); // ReferenceError\n//\n// let broj = 10;\n\n// const i funkcijski izraz\n// console.log(kvadrat(3)); // ReferenceError\n//\n// const kvadrat = x => x * x;\n"
         },
         {
           "naslov": "Closure: kako funkcija zadržava pristup svom okruženju",
@@ -5622,7 +5693,8 @@
               "odgovor": "Ispisuje se `150`.\n\n`stanje` je lokalna promenljiva funkcije `napraviRacun`, a nije svojstvo vraćenog objekta.\n\nVraćene metode imaju pristup toj promenljivoj zahvaljujući closure-u."
             }
           ],
-          "pitalica": "11.1. Kako funkcija može da koristi lokalnu promenljivu druge funkcije koja se već završila?\n\n```javascript\nfunction napraviBrojac() {\n  let broj = 0;\n\n  return function() {\n    broj++;\n    return broj;\n  };\n}\n\nconst brojac = napraviBrojac();\n\nconsole.log(brojac());\nconsole.log(brojac());\n```\n\nŠta se ispisuje?",
+          "pitalica": "11.1. Kako funkcija može da koristi lokalnu promenljivu druge funkcije koja se već završila?\n\n```javascript\nfunction napraviBrojac() {\n  let broj = 0;\n\n  return function() {\n    broj++;\n    return broj;\n  };\n}\n\nconst brojac = napraviBrojac();\n\nconsole.log(brojac());\nconsole.log(brojac());\n```\n\nŠta se ispisuje?"
+,
           "opcije": [
             {
               "key": "A",
@@ -5643,7 +5715,8 @@
               "why": "Kontekst spoljašnje funkcije silazi sa steka, ali veze njenog okruženja ostaju dostupne."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\nVraćena funkcija zadržava pristup leksičkom okruženju u kome je definisana, uključujući promenljivu `broj`.\n\nTaj mehanizam naziva se closure.\n\nKontekst izvršavanja spoljašnje funkcije više nije na steku, ali neophodne veze njenog leksičkog okruženja ostaju dostupne vraćenoj funkciji.",
+          "analizaPitalice": "Odgovor: B.\n\nVraćena funkcija zadržava pristup leksičkom okruženju u kome je definisana, uključujući promenljivu `broj`.\n\nTaj mehanizam naziva se closure.\n\nKontekst izvršavanja spoljašnje funkcije više nije na steku, ali neophodne veze njenog leksičkog okruženja ostaju dostupne vraćenoj funkciji."
+,
           "putanja": "client/lekcije/11-closure.js",
           "isecakNaslov": "Closure",
           "isecakJezik": "javascript",
@@ -5877,7 +5950,8 @@
               "analizaPitalice": "Odgovor: B.\n\nObična funkcija pri pozivu metode dobija odgovarajući objekat kao `this`.\n\nArrow funkcija koristi `this` iz spoljašnjeg leksičkog konteksta, pa `objekat` ne postaje automatski njena vrednost `this`."
             }
           ],
-          "pitalica": "12.1. Na koji objekat upućuje `this` unutar metode?\n\n```javascript\nconst prvi = {\n  ime: \"Ana\",\n  procitajIme() {\n    return this.ime;\n  }\n};\n\nconst drugi = {\n  ime: \"Marko\",\n  procitajIme: prvi.procitajIme\n};\n\nconsole.log(drugi.procitajIme());\n```\n\nŠta će biti rezultat?",
+          "pitalica": "12.1. Na koji objekat upućuje `this` unutar metode?\n\n```javascript\nconst prvi = {\n  ime: \"Ana\",\n  procitajIme() {\n    return this.ime;\n  }\n};\n\nconst drugi = {\n  ime: \"Marko\",\n  procitajIme: prvi.procitajIme\n};\n\nconsole.log(drugi.procitajIme());\n```\n\nŠta će biti rezultat?"
+,
           "opcije": [
             {
               "key": "A",
@@ -5898,7 +5972,8 @@
               "why": "Ista funkcija može biti pozvana kroz drugi objekat."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\nMetoda je funkcija koja se poziva kroz svojstvo objekta.\n\nKod običnih funkcija `this` uglavnom zavisi od načina pozivanja. U izrazu `drugi.procitajIme()`, `this` je objekat `drugi`.",
+          "analizaPitalice": "Odgovor: B.\n\nMetoda je funkcija koja se poziva kroz svojstvo objekta.\n\nKod običnih funkcija `this` uglavnom zavisi od načina pozivanja. U izrazu `drugi.procitajIme()`, `this` je objekat `drugi`."
+,
           "putanja": "client/lekcije/12-this.js",
           "isecakNaslov": "Metode objekata i this",
           "isecakJezik": "javascript",
@@ -6170,7 +6245,8 @@
               "odgovor": "Zato što `extends` uspostavlja odgovarajuće veze prototipskog nasleđivanja. Metoda se pronalazi kroz prototipski lanac.\n\nKlase predstavljaju savremen način definisanja konstruktora, metoda i nasleđivanja, ali JavaScript i dalje koristi prototipski model."
             }
           ],
-          "pitalica": "13.1. Kako objekat može imati metodu koja nije direktno definisana na njemu?\n\n```javascript\nconst zajednicko = {\n  pozdrav() {\n    return \"Zdravo\";\n  }\n};\n\nconst korisnik = Object.create(zajednicko);\n\nconsole.log(korisnik.pozdrav());\n```\n\nZašto ovaj kod radi?",
+          "pitalica": "13.1. Kako objekat može imati metodu koja nije direktno definisana na njemu?\n\n```javascript\nconst zajednicko = {\n  pozdrav() {\n    return \"Zdravo\";\n  }\n};\n\nconst korisnik = Object.create(zajednicko);\n\nconsole.log(korisnik.pozdrav());\n```\n\nZašto ovaj kod radi?"
+,
           "opcije": [
             {
               "key": "A",
@@ -6191,7 +6267,8 @@
               "why": "Dostupnost metode ne dolazi otuda što je objekat globalan."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\n`Object.create(zajednicko)` stvara novi objekat čiji je prototip `zajednicko`.\n\nKada svojstvo `pozdrav` ne postoji direktno na objektu `korisnik`, JavaScript nastavlja pretragu u njegovom prototipu.",
+          "analizaPitalice": "Odgovor: B.\n\n`Object.create(zajednicko)` stvara novi objekat čiji je prototip `zajednicko`.\n\nKada svojstvo `pozdrav` ne postoji direktno na objektu `korisnik`, JavaScript nastavlja pretragu u njegovom prototipu."
+,
           "putanja": "client/lekcije/13-prototipi.js",
           "isecakNaslov": "Prototipi, prototipski lanac i klase",
           "isecakJezik": "javascript",
@@ -6350,7 +6427,8 @@
               "odgovor": "Izuzetak je bačen u funkciji `treca`, koju je pozvala `druga`, a nju `prva`.\n\nStack trace omogućava da se vidi lanac aktivnih poziva koji je doveo do greške."
             }
           ],
-          "pitalica": "14.1. Da li je svaka programska greška JavaScript izuzetak?\n\nRazmotrite tri slučaja:\n\n```javascript\n// A\nconst x = ;\n\n// B\nconst osoba = null;\nconsole.log(osoba.ime);\n\n// C\nfunction povrsina(a, b) {\n  return a + b;\n}\n```\n\nKoji primer predstavlja sintaksnu grešku, koji grešku tokom izvršavanja, a koji logičku grešku?",
+          "pitalica": "14.1. Da li je svaka programska greška JavaScript izuzetak?\n\nRazmotrite tri slučaja:\n\n```javascript\n// A\nconst x = ;\n\n// B\nconst osoba = null;\nconsole.log(osoba.ime);\n\n// C\nfunction povrsina(a, b) {\n  return a + b;\n}\n```\n\nKoji primer predstavlja sintaksnu grešku, koji grešku tokom izvršavanja, a koji logičku grešku?"
+,
           "putanja": "client/lekcije/14-greske.js",
           "isecakNaslov": "Greške, izuzeci i debagovanje",
           "isecakJezik": "javascript",
@@ -6608,7 +6686,8 @@
               "analizaPitalice": "Odgovor: B.\n\nJavaScript u browser-u koristi dostupne Web API-je za komunikaciju sa serverom. Kada primi JSON podatke i oni budu parsirani, aplikacija može da ih obrađuje kao JavaScript vrednosti i objekte."
             }
           ],
-          "pitalica": "15.1. Zašto ne bismo sav JavaScript kod napisali u jednoj datoteci?\n\nPretpostavimo da imamo više funkcija i vrednosti koje koriste različiti delovi programa.\n\nKako možemo organizovati kod tako da drugi deo programa koristi samo potrebne funkcije, bez oslanjanja na globalne promenljive?",
+          "pitalica": "15.1. Zašto ne bismo sav JavaScript kod napisali u jednoj datoteci?\n\nPretpostavimo da imamo više funkcija i vrednosti koje koriste različiti delovi programa.\n\nKako možemo organizovati kod tako da drugi deo programa koristi samo potrebne funkcije, bez oslanjanja na globalne promenljive?"
+,
           "putanja": "client/lekcije/15-moduli.js",
           "isecakNaslov": "Moduli, JSON i priprema za Web",
           "isecakJezik": "javascript",

@@ -18,6 +18,7 @@ const KURSEVI = path.join(__dirname, "..", "kursevi");
 const KURS = process.env.KURS_DATOTEKA
   ? path.resolve(process.env.KURS_DATOTEKA)
   : path.join(KURSEVI, "web_programiranje", "kurs.json");
+const RECENIK = path.join(path.dirname(KURS), "GLOSSARY.md");
 const KLIJENT = path.join(__dirname, "..", "client");
 const PRIMERI = path.join(__dirname, "..", "primeri");
 const FONT = path.join(KLIJENT, "assets", "fonts", "digital-7", "digital-7 (mono).ttf");
@@ -358,7 +359,7 @@ function stranicaKlijenta(odgovor, url) {
 }
 
 function recnik(odgovor) {
-  fs.readFile(path.join(__dirname, "..", "GLOSSARY.md"), (greska, sadrzaj) => {
+  fs.readFile(RECENIK, (greska, sadrzaj) => {
     if (greska) {
       odgovor.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
       odgovor.end("nema");
