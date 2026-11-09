@@ -2696,16 +2696,12 @@ function nacrtajBirac(item, i) {
 }
 
 function nacrtajZaglavlje() {
-  document.querySelector("#naslov-kursa-tekst").textContent = dokument.naslov;
+  document.querySelector("#naslov-kursa").textContent = dokument.naslov;
   document.querySelector("#ustanova").textContent = dokument.ustanova;
   document.querySelector("#ustanova-red").textContent = dokument.ustanovaRed;
   const grb = putanjaAseta(dokument.grb);
   if (grb) document.querySelector("#grb").src = grb;
   document.querySelector("#oznaka").textContent = dokument.oznaka;
-  const slika = document.querySelector("#kurs-slika");
-  if (!slika) return;
-  const put = putanjaAseta(dokument.slika);
-  if (slika.getAttribute("src") !== put) slika.src = put;
 }
 
 function stavkaUvod(naslov, telo) {

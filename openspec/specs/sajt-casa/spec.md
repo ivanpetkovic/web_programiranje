@@ -384,7 +384,7 @@ Opening Editor MUST show the iframe of the client tree then in the editor, inclu
 - **THEN** the iframe shows the client tree then in the editor
 
 ### Requirement: Zaglavlje školjke
-The header MUST show, from left to right, the institution and its mark, a divider, the course title from the course document beside the image named by that document, term search, help, the Sačuvane beleške control, the Opcije control, and the initials from the document. The shipped course image is `assets/kurs.png` in `kursevi/web_programiranje/`. The course mark MUST be that image, not a shell icon. The header MUST NOT show the week slider, previous week, next week, or the palette, text-size, and mode controls. The site title MUST NOT be Kontrolna soba.
+The header MUST show, from left to right, the institution and its mark, a divider, the course title from the course document, term search, help, the Sačuvane beleške control, the Opcije control, and the initials from the document. The course title MUST be text only: the header MUST NOT show a course image or a shell icon beside it. The header MUST NOT show the week slider, previous week, next week, or the palette, text-size, and mode controls. The site title MUST NOT be Kontrolna soba.
 
 #### Scenario: Shipped title
 - **WHEN** the shipped course is open
@@ -396,7 +396,7 @@ The header MUST show, from left to right, the institution and its mark, a divide
 
 #### Scenario: Header order
 - **WHEN** a lecture is open on a desktop width
-- **THEN** the header shows the mark and institution, the course title with the image from the course document, search, help, Sačuvane beleške, Opcije, and the initials in that order, on one row
+- **THEN** the header shows the mark and institution, the course title as text, search, help, Sačuvane beleške, Opcije, and the initials in that order, on one row
 
 #### Scenario: No week controls in the header
 - **WHEN** a lecture is open on a desktop width
@@ -631,11 +631,11 @@ A shell icon MUST be the same-named SVG from the currentColor set and MUST paint
 - **THEN** a shell icon painted in the accent color uses that theme's accent and no PNG icon is shown
 
 ### Requirement: Ikonice zaglavlja
-Search MUST show `search`. Help MUST show `help-circle`. The Sačuvane beleške control MUST show `bookmark` and `chevron-down`. The Opcije control MUST show `settings`. The course title MUST show the image named in the course document. The shipped course image is `assets/kurs.png` in `kursevi/web_programiranje/`. That mark MUST NOT be a shell icon. The initials MUST stay the letters from the course document. The mark MUST stay the course document mark.
+Search MUST show `search`. Help MUST show `help-circle`. The Sačuvane beleške control MUST show `bookmark` and `chevron-down`. The Opcije control MUST show `settings`. The course title MUST be the words from the course document and MUST NOT show an image or a shell icon. The initials MUST stay the letters from the course document. The mark MUST stay the course document mark.
 
 #### Scenario: Header icons
 - **WHEN** a lecture is open
-- **THEN** search, help, Sačuvane beleške, Opcije, and the course title show those icons, and the initials and the mark are unchanged
+- **THEN** search, help, Sačuvane beleške, and Opcije show those icons, the course title is text only, and the initials and the mark are unchanged
 
 ### Requirement: Ikonice spiska tema
 The course head MUST show `book-open`. A week whose every step has been viewed MUST show `check-circle`. Any other week MUST show `circle`. An expanded week MUST show `chevron-up`. A collapsed week MUST show `chevron-down`. The completed mark MUST NOT be a grade.

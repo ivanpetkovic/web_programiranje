@@ -46,6 +46,19 @@ test("isporučeni kurs.json prolazi šemu", () => {
   assert.equal(spremiTekst(procitan.kurs), json);
 });
 
+test("slika kursa ostaje putanja pri čitanju", () => {
+  const procitan = procitajTekst(JSON.stringify({ ...prazanKurs(), slika: "/img/kurs.png" }));
+  assert.equal(procitan.ok, true);
+  assert.equal(procitan.kurs.slika, "/img/kurs.png");
+  assert.match(spremiTekst(procitan.kurs), /"slika": "\/img\/kurs.png"/);
+});
+
+test("slika kursa koja nije tekst ne prolazi šemu", () => {
+  const procitan = procitajTekst(JSON.stringify({ ...prazanKurs(), slika: 1 }));
+  assert.equal(procitan.ok, false);
+  assert.match(procitan.greska, /slika: očekivan je tekst/);
+});
+
 test("prazan kurs i nova tema prolaze istu šemu", () => {
   const prazan = procitajTekst(spremiTekst(prazanKurs()));
   assert.equal(prazan.ok, true);
