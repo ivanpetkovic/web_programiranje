@@ -64,6 +64,7 @@ import { praznaSesija, primeni } from "./verzija.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
 import { napraviBeleske } from "./beleske.js";
+import { napraviKviz } from "./kviz.js";
 import {
   napraviStanje,
   SKALE_FONTA,
@@ -4048,6 +4049,16 @@ function otvoriBelesku(tema, korak) {
   renderLecture();
 }
 
+const kviz = napraviKviz({
+  lekcije: () => lectures,
+  temaSada() {
+    if (uvod) return null;
+    const item = lecture();
+    if (!item) return null;
+    return { tema: cas, naslov: item.title };
+  },
+});
+
 const beleske = napraviBeleske({
   lokalno,
   korakSada() {
@@ -4160,6 +4171,10 @@ mobilNavPrekidac?.addEventListener("click", () => {
   osveziMobilGlavaSkrol();
 });
 document.querySelector("#mobil-profil-sacuvaj")?.addEventListener("click", (dogadjaj) => beleske.uredjivac.otvori(dogadjaj.currentTarget));
+document.querySelector("#mobil-profil-kviz")?.addEventListener("click", () => {
+  zatvoriMobilSheetove();
+  kviz.otvori();
+});
 document.querySelector("#mobil-profil-beleske")?.addEventListener("click", () => beleske.otvoriSve());
 mobilZavesa?.addEventListener("click", zatvoriMobilSheetove);
 if (usko()) navOtvoren = false;
