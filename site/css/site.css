@@ -854,6 +854,67 @@ button.sve-beleske-korak:hover { color: var(--amber); }
 .sve-beleske-nema { color: var(--muted); }
 .oznaka-nema { padding: 2px 8px; border-radius: 999px; background: color-mix(in srgb, var(--upozorenje) 14%, var(--paper)); color: var(--upozorenje); font-size: 12px; font-weight: 700; }
 .sve-beleske button:focus-visible, .beleska-uredjivac button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.kviz-dijalog {
+  width: min(calc(100vw - 2rem), 46rem);
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px 24px 24px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.kviz-dijalog::backdrop { background: rgba(0, 0, 0, 0.45); }
+.kviz-h { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.kviz-h h2 { margin: 0; font-size: 20px; color: var(--naslov); }
+.kviz-zatvori { width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); font-size: 20px; }
+.kviz-telo { display: grid; gap: 14px; margin-top: 12px; }
+.kviz-napomena { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
+.kviz-grupa { margin: 0; padding: 0; border: 0; display: grid; gap: 8px; }
+.kviz-grupa legend { padding: 0; font-weight: 700; color: var(--ink); }
+.kviz-segment { display: flex; flex-wrap: wrap; gap: 8px; }
+.kviz-segment button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 8px 14px;
+}
+.kviz-segment button[aria-pressed="true"] {
+  border-color: var(--amber);
+  background: color-mix(in srgb, var(--amber) 14%, var(--paper));
+  color: var(--amber);
+  font-weight: 700;
+}
+.kviz-segment button:disabled { opacity: 0.45; }
+.kviz-ocena { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+.kviz-kreni, .kviz-sporedno {
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 700;
+}
+.kviz-kreni { border: 1px solid var(--amber); background: var(--amber); color: var(--on-amber); }
+.kviz-sporedno { border: 1px solid var(--line); background: var(--paper); color: var(--ink); }
+.kviz-meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0; color: var(--muted); font-size: 14px; }
+.kviz-bedz { border: 1px solid var(--line); border-radius: 999px; padding: 2px 8px; font-size: 12px; }
+.kviz-zamka { border-color: var(--amber); color: var(--amber); }
+.kviz-tekst { margin: 0; font-size: 1.15rem; line-height: 1.4; }
+.kviz-kod { margin: 0; }
+.kviz-polje { width: 100%; min-height: 9rem; }
+.kviz-navigacija { display: flex; justify-content: space-between; gap: 8px; }
+.kviz-odgovor { display: grid; gap: 6px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; }
+.kviz-proza { margin: 0; white-space: pre-wrap; }
+.kviz-tacno { margin: 0; color: var(--good); font-weight: 700; }
+.kviz-netacno { margin: 0; color: var(--bad); font-weight: 700; }
+.kviz-skor { margin: 0; font-size: 2rem; font-weight: 700; color: var(--naslov); }
+.kviz-spisak { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.kviz-stavka { display: grid; gap: 4px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; }
+.kviz-stavka.tacno { border-color: var(--good); }
+.kviz-stavka.netacno { border-color: var(--bad); }
+.kviz-stavka-dugme { border: 0; background: transparent; color: var(--ink); text-align: left; font-weight: 700; padding: 0; }
+.option.kviz-promaseno { outline: 2px solid var(--bad); }
+.kviz-dijalog button:focus-visible, .kviz-dijalog textarea:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.kviz-prazno { margin: 0; color: var(--bad); }
 .ustanova {
   display: flex;
   gap: 0.55rem;
@@ -2611,6 +2672,7 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   .trazi { display: none; }
   .top-razdelnik,
   .traka-casa,
+  .top > .kviz-dugme,
   .top > .beleske-dugme,
   .top > .opcije-dugme,
   .top > .beleske-lista,
@@ -2763,7 +2825,7 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   }
   .top > #pomoc { flex: none; width: 44px; height: 44px; margin-left: 14px; padding: 0; border-radius: 12px; }
   .top > #pomoc .ikona { width: 22px; height: 22px; }
-  .beleske-dugme, .opcije-dugme {
+  .kviz-dugme, .beleske-dugme, .opcije-dugme {
     flex: none;
     gap: 8px;
     height: 55px;
@@ -2772,12 +2834,13 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     background: color-mix(in srgb, var(--amber) 8%, var(--paper));
     color: var(--amber);
   }
-  .beleske-dugme { width: 85px; margin-left: 24px; padding: 0; }
+  .kviz-dugme { width: 85px; margin-left: 24px; padding: 0; }
+  .beleske-dugme { width: 85px; margin-left: 12px; padding: 0; }
   .opcije-dugme { width: 176px; margin-left: 27px; padding: 0 16px; font-size: 20px; font-weight: 700; }
-  .beleske-dugme .ikona-slot, .opcije-dugme .ikona-slot { display: grid; }
-  .beleske-dugme .ikona, .opcije-dugme .ikona { width: 24px; height: 24px; }
+  .kviz-dugme .ikona-slot, .beleske-dugme .ikona-slot, .opcije-dugme .ikona-slot { display: grid; }
+  .kviz-dugme .ikona, .beleske-dugme .ikona, .opcije-dugme .ikona { width: 24px; height: 24px; }
   .beleske-dugme .ikona-slot + .ikona-slot .ikona, .opcije-strelica .ikona { width: 18px; height: 18px; }
-  .beleske-dugme[aria-expanded="true"], .opcije-dugme[aria-expanded="true"] { background: color-mix(in srgb, var(--amber) 14%, var(--paper)); }
+  .kviz-dugme:hover, .beleske-dugme[aria-expanded="true"], .opcije-dugme[aria-expanded="true"] { background: color-mix(in srgb, var(--amber) 14%, var(--paper)); }
   .top > #oznaka { flex: none; width: 56px; height: 56px; margin-left: 38px; font-size: 20px; }
   .opcije-panel {
     position: absolute;

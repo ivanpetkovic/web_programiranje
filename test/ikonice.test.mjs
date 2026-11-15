@@ -48,10 +48,11 @@ test("natpis pretrage ostaje u polju i ne preklapa grb", () => {
 
 test("zaglavlje u jednom redu nosi ikonice i nema klizač tema", () => {
   const zaglavlje = html.slice(html.indexOf('<header class="top">'), html.indexOf("</header>"));
-  const redosled = ['class="ustanova"', 'class="top-razdelnik"', 'id="naslov-kursa"', 'id="search-form"', 'id="pomoc"', 'id="beleske-dugme"', 'id="opcije-dugme"', 'id="oznaka"'];
+  const redosled = ['class="ustanova"', 'class="top-razdelnik"', 'id="naslov-kursa"', 'id="search-form"', 'id="pomoc"', 'id="kviz-dugme"', 'id="beleske-dugme"', 'id="opcije-dugme"', 'id="oznaka"'];
   const mesta = redosled.map((deo) => zaglavlje.indexOf(deo));
   assert.ok(mesta.every((m, i) => m > 0 && (i === 0 || m > mesta[i - 1])), JSON.stringify(mesta));
   assert.match(zaglavlje, /id="pomoc"[^>]*data-ikona="help-circle"/);
+  assert.match(zaglavlje, /id="kviz-dugme"[\s\S]*?data-ikona="graduation-cap"/);
   assert.match(zaglavlje, /id="beleske-dugme"[\s\S]*?data-ikona="bookmark"[\s\S]*?data-ikona="chevron-down"[\s\S]*?<\/button>/);
   assert.match(zaglavlje, /id="opcije-dugme"[\s\S]*?data-ikona="settings"[\s\S]*?<span>Opcije<\/span>[\s\S]*?data-ikona="chevron-down"/);
   for (const staro of ['id="klizac"', 'id="natpis-teme"', 'id="prethodna-tema"', 'id="sledeca-tema"', 'id="sacuvaj-zaglavlje"', 'class="tema-meni"', 'id="font-kontrole"']) {
