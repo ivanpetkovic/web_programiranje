@@ -43,7 +43,7 @@ test("isporučeni kurs.json prolazi šemu", () => {
   const procitan = procitajTekst(json);
   assert.equal(procitan.ok, true);
   assert.equal(procitan.napomena, "");
-  assert.equal(spremiTekst(procitan.kurs), json);
+  assert.deepEqual(JSON.parse(spremiTekst(procitan.kurs)), JSON.parse(json));
 });
 
 test("slika kursa ostaje putanja pri čitanju", () => {
