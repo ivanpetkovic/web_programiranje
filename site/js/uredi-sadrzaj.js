@@ -436,14 +436,87 @@ export function napraviStanjeUredjivanja(dokument) {
   };
 }
 
+export function izvestajGreske({ poruka, zahtev, odgovor, uzrok }) {
+  const redovi = [];
+  if (poruka) redovi.push(poruka);
+  if (zahtev) {
+    redovi.push("", `${zahtev.method || "GET"} ${zahtev.url || ""}`);
+    for (const [ime, vrednost] of Object.entries(zahtev.headers || {})) redovi.push(`${ime}: ${vrednost}`);
+    if (zahtev.body != null) redovi.push("", String(zahtev.body));
+  }
+  if (odgovor) {
+    const status = `HTTP ${odgovor.status}${odgovor.statusText ? ` ${odgovor.statusText}` : ""}`;
+    redovi.push("", status);
+    for (const [ime, vrednost] of Object.entries(odgovor.headers || {})) redovi.push(`${ime}: ${vrednost}`);
+    if (odgovor.body != null) redovi.push("", tekstTela(odgovor.body));
+  }
+  if (uzrok) redovi.push("", String(uzrok));
+  return redovi.join("\n").trim();
+}
+
+function tekstTela(telo) {
+  const tekst = String(telo);
+  try {
+    return JSON.stringify(JSON.parse(tekst), null, 2);
+  } catch {
+    return tekst;
+  }
+}
+
+function greskaCuvanja(poruka, detalji) {
+  const greska = new Error(poruka);
+  greska.detalji = detalji;
+  return greska;
+}
+
+function zaglavljaOdgovora(odgovor) {
+  const mapa = {};
+  odgovor.headers.forEach((vrednost, ime) => {
+    mapa[ime] = vrednost;
+  });
+  return mapa;
+}
+
 export async function sacuvajKursNaServeru(dokument) {
-  const odgovor = await fetch("/api/kurs", {
+  const zahtev = {
     method: "PUT",
+    url: "/api/kurs",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(dokument),
-  });
-  const telo = await odgovor.json().catch(() => ({}));
+  };
+  let odgovor;
+  try {
+    odgovor = await fetch(zahtev.url, {
+      method: zahtev.method,
+      headers: zahtev.headers,
+      body: zahtev.body,
+    });
+  } catch (uzrok) {
+    const poruka = "Čuvanje nije uspelo.";
+    throw greskaCuvanja(poruka, izvestajGreske({
+      poruka,
+      zahtev,
+      uzrok: uzrok?.message || String(uzrok),
+    }));
+  }
+  const tekst = await odgovor.text();
+  let telo = {};
+  try {
+    telo = tekst ? JSON.parse(tekst) : {};
+  } catch {
+    telo = {};
+  }
   if (!odgovor.ok) {
-    throw new Error(telo.greska || "Čuvanje nije uspelo.");
+    const poruka = telo.greska || "Čuvanje nije uspelo.";
+    throw greskaCuvanja(poruka, izvestajGreske({
+      poruka,
+      zahtev,
+      odgovor: {
+        status: odgovor.status,
+        statusText: odgovor.statusText,
+        headers: zaglavljaOdgovora(odgovor),
+        body: tekst,
+      },
+    }));
   }
 }
