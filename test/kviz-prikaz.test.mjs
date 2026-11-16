@@ -63,6 +63,33 @@ function stanjePosleIzbora() {
   };
 }
 
+function zavrsiKviz() {
+  for (let i = 0; i < 15; i += 1) {
+    if (document.querySelector("#kviz-naslov")?.textContent === "Rezultat") return true;
+    const polje = document.querySelector("#kviz .kviz-polje");
+    const dalje = [...document.querySelectorAll("#kviz button")].find((dugme) =>
+      dugme.textContent === "Dalje" || dugme.textContent === "Predaj" || dugme.textContent === "Završi");
+    if (polje && !polje.readOnly) {
+      polje.value = "netacno";
+      polje.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    if (!dalje) return false;
+    dalje.click();
+  }
+  return document.querySelector("#kviz-naslov")?.textContent === "Rezultat";
+}
+
+function stanjeRezultata() {
+  return {
+    naslov: document.querySelector("#kviz-naslov")?.textContent || "",
+    stavke: [...document.querySelectorAll("#kviz .kviz-stavka")].map((stavka) => ({
+      pitanje: stavka.querySelector(".kviz-stavka-dugme")?.textContent || "",
+      status: stavka.querySelector(":scope > .meta")?.textContent || "",
+      resenje: stavka.querySelector(".kviz-resenje")?.innerText || "",
+    })),
+  };
+}
+
 test("kviz bez ocene odmah pokazuje tačan odgovor, neograničeno gasi ocenu", { timeout: 60000 }, async (t) => {
   const portSajta = await slobodanPort();
   const portChrome = await slobodanPort();
@@ -155,4 +182,19 @@ test("kviz bez ocene odmah pokazuje tačan odgovor, neograničeno gasi ocenu", {
   assert.equal(sakriveno.holds, 0);
   assert.equal(sakriveno.izabrano, 1);
   assert.equal(sakriveno.prikazi, false);
+
+  assert.equal(await strana.vrednost(`(${zavrsiKviz.toString()})()`), true);
+  const rezultat = await strana.vrednost(`(${stanjeRezultata.toString()})()`);
+  assert.equal(rezultat.naslov, "Rezultat");
+  assert.equal(rezultat.stavke.length, 3);
+  for (const stavka of rezultat.stavke) {
+    assert.match(stavka.status, /^(Tačno|Nije tačno)$/, stavka.pitanje);
+    assert.match(stavka.resenje, /Tačan odgovor:|Rešenje/, stavka.pitanje);
+  }
+  const promasaji = rezultat.stavke.filter((stavka) => stavka.status === "Nije tačno");
+  assert.ok(promasaji.length > 0, JSON.stringify(rezultat.stavke.map((stavka) => stavka.status)));
+  for (const stavka of promasaji) {
+    assert.match(stavka.resenje, /Tvoj odgovor:|Tvoj kod|Nisi /, stavka.pitanje);
+  }
+  await snimi("kviz-rezultat-resenja");
 });
