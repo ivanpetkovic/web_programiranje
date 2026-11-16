@@ -132,7 +132,6 @@ test("pitanje, stablo, olovka i panel", () => {
   assert.equal(main.includes("pitalica-samo-ikona"), false);
   assert.match(css, /\.pitanje-red\.otkriva/);
   assert.match(css, /\.pitanje-okidac/);
-  assert.match(main, /saIkonom\(ponovi, "refresh-cw", "Ponovi pitanja"\)/);
   assert.equal(main.includes("Obrazloženje je otvoreno"), false);
   assert.match(main, /const mozeOtvoriti = izbor \? true : Boolean\(odgovor\)/);
   assert.match(main, /if \(otkriveno && opt\.ok\) return ikonica\("check-circle"\)/);
@@ -167,4 +166,12 @@ test("pitanje, stablo, olovka i panel", () => {
   assert.equal(main.includes("procitaj.append(ikonica"), false);
   assert.equal(main.includes("prekidac.append(ikonica"), false);
   assert.equal(html.includes('id="sledeci" class="hod-koraka"'), false);
+});
+
+test("ponovi pitanja nema ikonicu", () => {
+  const crtez = main.slice(main.indexOf("ponovi.id"), main.indexOf("ponovi.addEventListener"));
+  assert.match(crtez, /ponovi\.textContent = "Ponovi pitanja"/);
+  assert.equal(crtez.includes("saIkonom"), false);
+  assert.equal(crtez.includes("refresh-cw"), false);
+  assert.equal(crtez.includes("ikonica"), false);
 });
