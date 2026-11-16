@@ -200,6 +200,14 @@ _Avoid_: Opciono lančanje.
 Deo programa u kome je deklaracija dostupna. Engleski naziv je scope.
 _Avoid_: Scope of validity.
 
+**leksički opseg**:
+Pravilo vidljivosti imena na osnovu mesta gde je kod napisan. Engleski naziv je lexical scope.
+_Avoid_: Leksičko okruženje, lexical environment.
+
+**leksičko okruženje**:
+Zapis lokalnih veza i vrednosti koji nastaje pri izvršavanju jednog opsega. Engleski naziv je lexical environment.
+_Avoid_: Leksički opseg, lexical scope.
+
 **opseg izvršavanja**:
 Opseg važenja u kome se deo koda trenutno izvršava. Engleski naziv je execution scope.
 _Avoid_: Kontekst izvršavanja, execution context.
