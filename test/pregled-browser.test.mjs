@@ -67,7 +67,7 @@ async function saAlatom(strana) {
   return { ekran, sačekaj, snimi };
 }
 
-test("tema 6 korak 1 drži preventDefault u skripti, ne u tekstu stranice", { timeout: 40000 }, async (t) => {
+test("tema 5 formular drži preventDefault u fajlu lekcije, ne u tekstu stranice", { timeout: 40000 }, async (t) => {
   const portSajta = await slobodanPort();
   const portChrome = await slobodanPort();
   const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
@@ -86,22 +86,27 @@ test("tema 6 korak 1 drži preventDefault u skripti, ne u tekstu stranice", { ti
       deviceScaleFactor: 1,
       mobile: false,
     });
-    await strana.idi(`http://127.0.0.1:${portSajta}/#cas-6`);
+    await strana.idi(`http://127.0.0.1:${portSajta}/#tema/5/k/9/deo/editor`);
     const { sačekaj, snimi } = await saAlatom(strana);
-    await strana.vrednost(`document.querySelector("#tab-editor").click()`);
     await sačekaj((s) => s.spreman);
-    await strana.vrednost(klikNaFajl("js/displej.js"));
-    const displej = await sačekaj(
-      (s) => s.putanja === "client/js/displej.js" && s.tekst.includes('displej.textContent = "----"'),
-    );
-    assert.equal(displej.tekst.includes("e.preventDefault"), false);
+    await strana.vrednost(klikNaFajl("lekcije/24-formular.js"));
+    let pomeraj = 0;
+    const formular = await sačekaj((s) => {
+      if (s.putanja === "client/lekcije/24-formular.js" && s.tekst.includes("preventDefault")) return true;
+      pomeraj += 400;
+      void strana.vrednost(`document.scrollingElement.scrollTop = ${pomeraj}`);
+      return false;
+    });
+    assert.match(formular.tekst, /Kontrolna soba/);
+    assert.match(formular.tekst, /preventDefault/);
+    await snimi("tema-5-formular");
+    await strana.vrednost(`document.scrollingElement.scrollTop = 0`);
     await strana.vrednost(klikNaFajl("index.html"));
-    const html = await sačekaj((s) => s.putanja === "client/index.html" && s.tekst.includes("e.preventDefault()"));
-    assert.equal(html.tekst.includes("<h1"), false);
-    assert.equal(html.tekst.includes('displej.textContent = "----"'), false);
-    assert.equal(/e\.preventDefault/.test(html.pasusi.join(" ")), false);
-    belezi(`tema 6 korak 1: ${html.tekst}`);
-    await snimi("tema-6-korak-1");
+    const html = await sačekaj((s) => s.putanja === "client/index.html" && s.tekst.includes("naslov je h1"));
+    assert.equal(html.tekst.includes("preventDefault"), false);
+    assert.equal(/preventDefault/.test(html.pasusi.join(" ")), false);
+    belezi(`tema 5 formular: ${formular.tekst.slice(0, 180)}`);
+    await snimi("tema-5-index");
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
     throw greska;

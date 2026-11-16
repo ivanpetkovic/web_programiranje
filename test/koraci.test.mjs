@@ -310,6 +310,53 @@ test("tema okruženja počinje od opsega i završava modulima", () => {
   assert.match(moduli.tekst, /import \{ saberi, PI \}/);
 });
 
+test("tema DOM prati revidovano gradivo od stabla do dijagnostike", () => {
+  const tema = dokument.teme[4];
+  assert.equal(tema.naslov, "DOM, događaji i prikaz stanja");
+  assert.equal(tema.preduslov, lectures[3].outcome);
+  assert.equal(dokument.teme[5].preduslov, tema.ishod);
+  assert.equal(tema.steps.reduce((zbir, korak) => zbir + korak.minuta, 0), 54);
+  assert.match(tema.izlaz, /DOM/);
+  assert.match(tema.rezerva.options.find((opcija) => opcija.ok).text, /Funkcija čeka klik/);
+  assert.deepEqual(tema.steps.map((korak) => korak.naslov), [
+    "Šta je DOM i zašto postoji?",
+    "Pronalaženje elemenata",
+    "Čitanje i menjanje sadržaja",
+    "CSS klase i vizuelna stanja",
+    "Kreiranje, premeštanje i uklanjanje elemenata",
+    "Od korisničke akcije do funkcije",
+    "Propagacija događaja: capture, target i bubbling",
+    "Delegiranje događaja",
+    "Formulari, unos i podrazumevane radnje",
+    "Zašto DOM nije stanje aplikacije?",
+    "Prikaz kao funkcija stanja",
+    "Jednosmeran tok podataka",
+    "Prikaz kolekcija iz stanja",
+    "Više prikaza jednog stanja i izvedene vrednosti",
+    "Čuvanje i obnavljanje stanja",
+    "Semantika, pristupačnost i tastatura",
+    "Efikasno ažuriranje DOM-a",
+    "Dijagnostika: kada stanje i ekran nisu usklađeni",
+  ]);
+  tema.steps.forEach((korak) => {
+    const pitanja = korak.diskusija.filter((blok) => blok.vrsta === "pitanje");
+    assert.equal(pitanja.length, 2, korak.naslov);
+    assert.equal(pitanja.some((blok) => Object.hasOwn(blok, "minuta")), false, korak.naslov);
+    assert.equal(korak.pitalice.length, pitanja.length);
+    assert.equal(korak.blokovi.some((blok) => blok.vrsta === "highlight" && blok.uloga === "kljucna"), true);
+    assert.equal(korak.blokovi.some((blok) => blok.vrsta === "kod"), true);
+    assert.match(korak.putanja, /^client\/lekcije\/\d{2}-/);
+    assert.equal(korak.delic.startsWith(`// ${korak.naslov}\n`), true, korak.naslov);
+    assert.match(korak.delic, /\/\/ Kontrolna soba/);
+  });
+  assert.match(tema.steps[0].tekst, /Document Object Model/);
+  assert.match(tema.steps[2].kljucnaIdeja, /textContent/);
+  assert.match(tema.steps[8].delic, /preventDefault/);
+  assert.match(tema.steps[10].kljucnaIdeja, /render/);
+  assert.match(tema.steps[17].tekst, /structuredClone/);
+  assert.match(tema.steps[17].diskusija[1].odgovor, /replaceChildren/);
+});
+
 test("čas istorije nema Node, čas stranice ima client/index.html", () => {
   const istorija = lectures[0];
   const stranica = lectures[1];

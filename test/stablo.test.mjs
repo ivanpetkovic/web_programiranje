@@ -70,29 +70,30 @@ test("koraci jezika drže odvojene fajlove", () => {
   assert.equal(fajloviStrane(moduli, "client").includes("js/korak.js"), false);
 });
 
-test("prekidač drži crtaj u svojim fajlovima", () => {
-  const pre = stabloDo(koraci, indeks("crtaj"));
-  const prekidac = stabloDo(koraci, indeks("Prekidač"));
-  assert.match(pre.verzije["client/js/displej.js"], /crtaj\(vrednost\)/);
-  assert.equal(pre.verzije["client/index.html"].includes("<canvas"), false);
-  assert.equal(pre.verzije["client/index.html"].includes("<script"), false);
-  assert.match(prekidac.verzije["client/js/prekidac.js"], /crtaj\(ukljucen\)/);
-  assert.match(prekidac.verzije["client/js/displej.js"], /crtaj\(vrednost\)/);
-  assert.equal(prekidac.verzije["client/index.html"].includes("new Displej"), false);
-  assert.equal(prekidac.verzije["client/index.html"].includes("new Prekidac"), false);
+test("prikaz stanja drži render u fajlu lekcije, a stranica sobe ostaje dokument", () => {
+  const prikaz = stabloDo(koraci, indeks("Prikaz kao funkcija stanja"));
+  const forma = stabloDo(koraci, indeks("Formulari, unos i podrazumevane radnje"));
+  assert.match(prikaz.verzije["client/lekcije/26-render.js"], /function render\(stanje\)/);
+  assert.match(forma.verzije["client/lekcije/24-formular.js"], /preventDefault/);
+  assert.equal(prikaz.verzije["client/index.html"].includes("<script"), false);
+  assert.equal(prikaz.verzije["client/index.html"].includes("preventDefault"), false);
+  assert.equal(fajloviStrane(prikaz, "client").includes("js/displej.js"), false);
+  assert.equal(fajloviStrane(prikaz, "client").includes("js/prekidac.js"), false);
 });
 
-test("kraj teme događaja ima klijentske fajlove kursa, svaki u verziji do tog koraka", () => {
-  const stablo = stabloDo(koraci, indeks("Prag"));
+test("kraj teme DOM-a drži lekcije i ne otvara server", () => {
+  const stablo = stabloDo(koraci, indeks("Dijagnostika: kada stanje i ekran nisu usklađeni"));
   const fajlovi = fajloviStrane(stablo, "client");
-  for (const put of ["index.html", "css/soba.css", "js/korak.js", "js/niz.js", "js/displej.js", "js/prekidac.js"]) {
+  for (const put of ["index.html", "css/soba.css", "lekcije/16-dom.js", "lekcije/33-dijagnostika.js"]) {
     assert.ok(fajlovi.includes(put), put);
     assert.notEqual((stablo.verzije[`client/${put}`] || "").trim(), "");
   }
   assert.equal(fajlovi.includes("js/strana.js"), false);
+  assert.equal(fajlovi.includes("js/displej.js"), false);
   assert.equal(fajloviStrane(stablo, "server").length, 0);
-  assert.equal(stablo.verzije["client/index.html"].trim(), "e.preventDefault();");
-  assert.notEqual(stablo.verzije["client/js/displej.js"].trim(), fs.readFileSync(new URL("../client/js/displej.js", import.meta.url), "utf8").trim());
+  assert.match(stablo.verzije["client/index.html"], /naslov je h1/);
+  assert.equal(stablo.verzije["client/index.html"].includes("preventDefault"), false);
+  assert.match(stablo.verzije["client/lekcije/33-dijagnostika.js"], /function naKlik/);
 });
 
 test("server stablo kreće od prvog serverskog koraka", () => {

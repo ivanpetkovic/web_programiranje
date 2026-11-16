@@ -730,16 +730,19 @@ console.log("poslednje", shown.at(-1).t);
   evidentiraj("sam-loop", petlja === "A D C B", petlja);
   const cekanje = stdout(await runNode(korak("async/await ne blokira stranicu").samostalniPrimer.tekst));
   evidentiraj("sam-async", cekanje === "1 3 2", cekanje);
+  const propagacija = korak("Propagacija događaja: capture, target i bubbling");
+  const mehurKod = propagacija.blokovi.find((blok) => blok.vrsta === "kod" && blok.tekst.includes('console.log("dugme")')).tekst;
   const mehur = JSON.parse(await chrome.html(page({
-    prep: 'const outer=document.createElement("div"); const inner=document.createElement("button"); outer.append(inner); document.body.append(outer);',
-    code: korak("Event bubbling").samostalniPrimer.tekst,
-    posle: "inner.click();",
+    html: '<div id="kartica"><button id="detalji" type="button">Detalji</button></div>',
+    code: mehurKod,
+    posle: 'document.querySelector("#detalji").click();',
   })));
-  evidentiraj("sam-bubble", mehur.logs.join(" ") === "inner outer", mehur.logs.join(" "));
+  evidentiraj("sam-bubble", mehur.logs.join(" ") === "dugme kartica", mehur.logs.join(" ") || mehur.throw);
   const spec = await chrome.html(`<!doctype html><style>.broj { color: blue; } #v { color: red; }</style><p id="v" class="broj">24</p><script>document.body.dataset.result=getComputedStyle(document.getElementById("v")).color;</script>`);
   evidentiraj("sam-spec", spec === "rgb(255, 0, 0)", spec);
-  const closure = stdout(await runNode(korak("Prag").isecak + "\nconst f = granica(24);\nconsole.log(f(24), f(23));"));
-  evidentiraj("sam-closure", closure === "true false", closure);
+  const brojac = korak("Closure: kako funkcija zadržava pristup svom okruženju").blokovi.find((blok) => blok.naslov === "Brojač").tekst;
+  const closure = stdout(await runNode(brojac));
+  evidentiraj("sam-closure", closure === "1 2 3", closure);
   const pad = await python(`
 import sqlite3, os, tempfile
 p = tempfile.mktemp()
