@@ -116,8 +116,8 @@ test("neograničen izbor se ne ocenjuje, a po temi uzima n iz svake", () => {
   assert.deepEqual(jednaTema.map((pitanje) => pitanje.id), ["t2a", "t2b"]);
 });
 
-test("kviz pokriva prve četiri teme i svaki njihov korak ima bar deset pitanja", () => {
-  assert.deepEqual(temeSaKvizom(novaPitanja), [1, 2, 3, 4]);
+test("kviz pokriva prvih pet tema i svaki njihov korak ima bar deset pitanja", () => {
+  assert.deepEqual(temeSaKvizom(novaPitanja), [1, 2, 3, 4, 5]);
   const sve = bazen(lectures, novaPitanja);
   const idjevi = new Set();
   for (const pitanje of sve) {
@@ -134,7 +134,7 @@ test("kviz pokriva prve četiri teme i svaki njihov korak ima bar deset pitanja"
       assert.ok(bezBelih(pitanje.resenje), pitanje.id);
     }
   }
-  for (const tema of [1, 2, 3, 4]) {
+  for (const tema of [1, 2, 3, 4, 5]) {
     const lekcija = lectures.find((stavka) => stavka.n === tema);
     lekcija.steps.forEach((korak, indeks) => {
       const zaKorak = sve.filter((pitanje) => pitanje.tema === tema && pitanje.korak === indeks);
@@ -145,7 +145,20 @@ test("kviz pokriva prve četiri teme i svaki njihov korak ima bar deset pitanja"
       assert.ok(ocenjiva.some((pitanje) => pitanje.vrsta === "ispravka"), `${tema}.${indeks + 1} nema ispravku`);
     });
   }
-  assert.equal(sve.some((pitanje) => pitanje.tema > 4), false);
+  assert.equal(sve.some((pitanje) => pitanje.tema > 5), false);
+  const dom = sve.filter((pitanje) => pitanje.tema === 5);
+  assert.ok(dom.length >= 18 * 10);
+  for (const pitanje of dom) {
+    if (pitanje.vrsta === "izbor") {
+      assert.equal(pitanje.opcije.filter((opcija) => opcija.ok).length, 1, pitanje.id);
+      assert.ok(pitanje.analiza.trim(), pitanje.id);
+    } else if (pitanje.vrsta === "ispravka") {
+      assert.ok(pitanje.resenje.trim(), pitanje.id);
+      assert.ok(pitanje.analiza.trim(), pitanje.id);
+    } else {
+      assert.ok(String(pitanje.odgovor || "").trim(), pitanje.id);
+    }
+  }
 });
 
 test("ograda u pitanju postaje blok koda, a kratki kod u opciji ostaje bez navodnika", () => {

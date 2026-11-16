@@ -340,9 +340,16 @@ test("tema DOM prati revidovano gradivo od stabla do dijagnostike", () => {
   ]);
   tema.steps.forEach((korak) => {
     const pitanja = korak.diskusija.filter((blok) => blok.vrsta === "pitanje");
-    assert.equal(pitanja.length, 2, korak.naslov);
+    assert.ok(pitanja.length >= 7, korak.naslov);
     assert.equal(pitanja.some((blok) => Object.hasOwn(blok, "minuta")), false, korak.naslov);
     assert.equal(korak.pitalice.length, pitanja.length);
+    pitanja.forEach((blok, i) => {
+      assert.equal(blok.oblik, "tekst", blok.id);
+      assert.match(blok.tekst, new RegExp(`^${tema.steps.indexOf(korak) + 1}\\.${i + 1}\\.`));
+      assert.ok(blok.odgovor.trim(), blok.id);
+      assert.equal(korak.pitalice[i].odgovor, blok.odgovor);
+    });
+    assert.equal(korak.opcije, undefined);
     assert.equal(korak.blokovi.some((blok) => blok.vrsta === "highlight" && blok.uloga === "kljucna"), true);
     assert.equal(korak.blokovi.some((blok) => blok.vrsta === "kod"), true);
     assert.match(korak.putanja, /^client\/lekcije\/\d{2}-/);
@@ -354,7 +361,7 @@ test("tema DOM prati revidovano gradivo od stabla do dijagnostike", () => {
   assert.match(tema.steps[8].delic, /preventDefault/);
   assert.match(tema.steps[10].kljucnaIdeja, /render/);
   assert.match(tema.steps[17].tekst, /structuredClone/);
-  assert.match(tema.steps[17].diskusija[1].odgovor, /replaceChildren/);
+  assert.match(tema.steps[17].diskusija.map((blok) => blok.odgovor).join("\n"), /state\.senzori/);
 });
 
 test("čas istorije nema Node, čas stranice ima client/index.html", () => {
