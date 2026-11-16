@@ -145,8 +145,8 @@ test("opseg važenja i opseg izvršavanja nose engleske nazive", () => {
   assert.match(stek.definicija, /call stack/);
   assert.match(stek.izbegava, /Pozivni stek/);
   assert.match(stek.izbegava, /callstack/);
-  const opseg = dokument.teme[2].steps[8];
-  const kontekst = dokument.teme[2].steps[9];
+  const opseg = dokument.teme[3].steps[0];
+  const kontekst = dokument.teme[3].steps[1];
   const izvori = [...opseg.blokovi, ...kontekst.blokovi].filter((blok) => blok.vrsta === "struktura");
   assert.deepEqual(izvori.map((blok) => blok.naslov), [
     "Leksička okruženja prikazi i pozovi",
@@ -157,8 +157,8 @@ test("opseg važenja i opseg izvršavanja nose engleske nazive", () => {
   assert.match(izvori[1].tekst, /"lifo": true/);
   assert.match(izvori[1].tekst, /spolja/);
   assert.match(izvori[2].tekst, /Opseg izvršavanja/);
-  assert.equal(lekcijePojma(dokument, "stek poziva").prvi.tema, 3);
-  assert.equal(lekcijePojma(dokument, "opseg izvršavanja").prvi.tema, 3);
+  assert.equal(lekcijePojma(dokument, "stek poziva").prvi.tema, 4);
+  assert.equal(lekcijePojma(dokument, "opseg izvršavanja").prvi.tema, 4);
 });
 
 test("leksički opseg i leksičko okruženje razlikuju strukturu i primerak", () => {
@@ -169,17 +169,17 @@ test("leksički opseg i leksičko okruženje razlikuju strukturu i primerak", ()
   assert.match(opseg.izbegava, /Leksičko okruženje/);
   assert.match(okruzenje.definicija, /lexical environment/);
   assert.match(okruzenje.izbegava, /Leksički opseg/);
-  const blok = dokument.teme[2].steps[8].blokovi.find((stavka) => stavka.id === "k09b13");
+  const blok = dokument.teme[3].steps[0].blokovi.find((stavka) => stavka.id === "k09b13");
   assert.match(blok.tekst, /odnosu klase i objekta/);
   assert.match(blok.tekst, /Leksički opseg je ta struktura u kodu/);
   assert.match(blok.tekst, /Leksičko okruženje je primerak/);
-  const pitanje = dokument.teme[2].steps[8].diskusija.find((stavka) => stavka.id === "k09q3");
+  const pitanje = dokument.teme[3].steps[0].diskusija.find((stavka) => stavka.id === "k09q3");
   assert.match(pitanje.tekst, /Koja je razlika između ta dva\?/);
   assert.match(pitanje.odgovor, /odnosu klase i objekta/);
   assert.match(pitanje.odgovor, /Leksički opseg je ta struktura u kodu/);
   assert.match(pitanje.odgovor, /Leksičko okruženje je primerak/);
-  assert.equal(lekcijePojma(dokument, "leksički opseg").prvi.tema, 3);
-  assert.equal(lekcijePojma(dokument, "leksičko okruženje").prvi.tema, 3);
+  assert.equal(lekcijePojma(dokument, "leksički opseg").prvi.tema, 4);
+  assert.equal(lekcijePojma(dokument, "leksičko okruženje").prvi.tema, 4);
 });
 
 test("CSS model kutije je pojam rečnika i stoji u gradivu", () => {

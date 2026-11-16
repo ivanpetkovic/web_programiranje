@@ -35,7 +35,7 @@ test("isporučeni kurs.json prolazi kroz studio bez izmene bajtova", () => {
   const procitan = procitajTekst(izvor);
   assert.equal(procitan.ok, true);
   assert.equal(procitan.napomena, "");
-  assert.equal(procitan.kurs.trajanjeTema, 11);
+  assert.equal(procitan.kurs.trajanjeTema, 12);
   assert.equal(procitan.kurs.teme[0].steps[0].naslov, "Počeci");
   assert.equal(spremiTekst(procitan.kurs), izvor);
 });
