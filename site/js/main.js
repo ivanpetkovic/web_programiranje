@@ -1388,7 +1388,7 @@ function prikazRasporeda(blok, dijagrami) {
   glava.append(naslov);
   const figura = document.createElement("div");
   figura.className = "figura figura-raspored";
-  figura.innerHTML = svgRasporeda();
+  figura.innerHTML = svgRasporeda(blok.naslov);
   kartica.append(glava, figura);
   const legenda = String(blok.tekst || "").trim();
   if (legenda) {

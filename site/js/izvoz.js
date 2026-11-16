@@ -146,7 +146,7 @@ function htmlBloka(blok) {
   }
   if (blok.vrsta === "raspored") {
     const legenda = imaTekst(blok.tekst) ? htmlProze(blok.tekst) : "";
-    return `${htmlNaslovBloka(blok.naslov || "Prototipski lanac")}<div class="figura-raspored">${svgRasporeda()}</div>${legenda}`;
+    return `${htmlNaslovBloka(blok.naslov || "Prototipski lanac")}<div class="figura-raspored">${svgRasporeda(blok.naslov)}</div>${legenda}`;
   }
   if (blok.vrsta === "struktura") {
     let crtez = "<p>Dijagram se ne crta.</p>";
