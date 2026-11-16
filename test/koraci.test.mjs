@@ -371,7 +371,7 @@ test("tema istorije drži korake bez fajla", () => {
 
 test("tema stranice drži isečke dokumenta, bez ugrađenog originala", () => {
   const redosled = [
-    "Stranica", "Glava", "Naslov", "Širina kutije", "Broj", "Dugme", "Veza",
+    "Stranica", "Glava", "Naslov", "CSS model kutije", "Broj", "Dugme", "Veza",
     "Specifičnost selektora", "Selektor", "Okvir", "Osvežavanje", "Raspored pri uskom ekranu",
     "Alati", "Dva zahteva", "Semantika",
   ];

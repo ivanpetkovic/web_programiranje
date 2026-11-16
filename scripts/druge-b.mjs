@@ -14,14 +14,14 @@ analizaPitalice:"Glava postoji da dokument kaže nešto o sebi pre vidljivog del
 {key:"A",text:"Zato što browser pamti naslov i kad fajl nestane.",why:"Bez fajla nema šta da se ponovo učita. Pamćenje prikaza nije izvor naslova.",ok:false},
 {key:"B",text:"Zato što h1 stoji u fajlu, a osvežavanje taj fajl ponovo učita.",why:"Naslov je deo dokumenta, ne stanje koje se pamti mimo fajla.",ok:true}],
 analizaPitalice:"h1 postoji da uloga naslova bude u dokumentu. Osvežavanje je vraća jer je čita iz fajla, ne iz prethodnog prikaza."}],
-"2:Širina kutije": [
-{pitalica:"Zašto 200 u width nije ukupna širina kutije?",opcije:[
+"2:CSS model kutije": [
+{pitalica:"Zašto 200 u width nije ukupna širina koju daje CSS model kutije?",opcije:[
 {key:"A",text:"Zato što content-box meri sadržaj, pa se padding i border dodaju.",why:"Deklarisana širina nije spoljašnja. 200 + 20 + 20 + 2 + 2 daje 244 bez margina.",ok:true},
-{key:"B",text:"Zato što roditelj uvek prepiše width.",why:"U ovom primeru roditelj ne menja računicu. Iznenađenje dolazi iz modela kutije.",ok:false}],
-analizaPitalice:"Content-box je nastao da width znači širinu sadržaja. Ko ga čita kao ukupnu kutiju, pogreši raspored i ne vidi gde su nestali pikseli."},
+{key:"B",text:"Zato što roditelj uvek prepiše width.",why:"U ovom primeru roditelj ne menja računicu. Iznenađenje dolazi iz pojma CSS model kutije.",ok:false}],
+analizaPitalice:"Content-box je nastao da width znači širinu sadržaja. Ko ga čita kao da je već ceo CSS model kutije, pogreši raspored i ne vidi gde su nestali pikseli."},
 {pitalica:"Šta u tih 244 px nije uračunato?",opcije:[
 {key:"A",text:"Padding i border.",why:"Oni jesu u 244. To je poenta prethodne računice.",ok:false},
-{key:"B",text:"Margin.",why:"Ukupna širina bez margina je 244. Margin stoji van te kutije i ne ulazi u zbir.",ok:true}],
+{key:"B",text:"Margin.",why:"Ukupna širina bez margina je 244. Margin jeste deo pojma CSS model kutije, ali ne ulazi u zbir width, padding i border.",ok:true}],
 analizaPitalice:"Tačan zbir i dalje ima granicu. Margin nije deo width+padding+border. Sledeći korak koji doda margin ne sme da se sabere u istih 244."}],
 "2:Broj": [
 {pitalica:"Zašto 24 na početku ne dokazuje merenje?",opcije:[
@@ -54,9 +54,9 @@ analizaPitalice:"Tačan odgovor na boju nije teorija da ID zauvek pobeđuje. Sle
 analizaPitalice:"Bez selektora svako pravilo bi bilo globalno. Klasa ne menja tekst 24; bira kome izgled pripada."}],
 "2:Okvir": [
 {pitalica:"Zašto border ne upiše novi broj u fajl?",opcije:[
-{key:"A",text:"Zato što je ivica prikaz kutije, a 24 je tekst dokumenta.",why:"border crta granicu. Ne dira čvor teksta.",ok:true},
-{key:"B",text:"Zato što border sme da menja samo marginu.",why:"Border i margina su različiti delovi kutije. Ovde se ne menja ni margina ni broj.",ok:false}],
-analizaPitalice:"Ivica postoji da se kutija vidi. Ko iz okvira zaključi da se merenje promenilo, pomešao je sloj prikaza i sadržaj."}],
+{key:"A",text:"Zato što je ivica prikaz u pojmu CSS model kutije, a 24 je tekst dokumenta.",why:"border crta granicu. Ne dira čvor teksta.",ok:true},
+{key:"B",text:"Zato što border sme da menja samo marginu.",why:"Border i margina su različiti delovi pojma CSS model kutije. Ovde se ne menja ni margina ni broj.",ok:false}],
+analizaPitalice:"Ivica postoji da se vidi CSS model kutije. Ko iz okvira zaključi da se merenje promenilo, pomešao je sloj prikaza i sadržaj."}],
 "2:Osvežavanje": [
 {pitalica:"Zašto 10 nestane posle osvežavanja?",opcije:[
 {key:"A",text:"Zato što browser pri reload-u upisuje 24 u fajl.",why:"Osvežavanje čita fajl. Ne piše u njega.",ok:false},

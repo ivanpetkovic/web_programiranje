@@ -98,6 +98,10 @@ _Avoid_: Serversko stanje.
 
 ## Termini gradiva
 
+**CSS model kutije**:
+Pravougaonik koji CSS izvede za raspored elementa. Čine ga sadržaj, padding, border i margin. Engleski naziv je box model.
+_Avoid_: Okvir elementa, boks
+
 **komutacija kola**:
 Rezervisanje komunikacionog puta za vreme razgovora. Put ostaje zauzet i dok nema podataka.
 _Avoid_: Veza od kraja do kraja.

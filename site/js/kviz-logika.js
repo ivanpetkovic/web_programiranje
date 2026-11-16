@@ -7,7 +7,7 @@ export const DIJAGRAM_KUTIJE_244 = [
 
 const PREPRAVKE = {
   "postojece-1-1-2": "Poruka ide u paketima i komunikacioni put nije rezervisan. Šta od toga još nije HTTP?",
-  "postojece-2-3-2": "Kutija je content-box: width 200px, padding 20px i border 2px. Na dijagramu je taj zbir, 244 px. Šta u njemu nije uračunato?",
+  "postojece-2-3-2": "CSS model kutije, grana content-box: width 200px, padding 20px i border 2px. Na dijagramu je taj zbir, 244 px. Šta u njemu nije uračunato?",
   "postojece-2-4-0": "Odakle je broj 24 u ovom pasusu?",
   "postojece-2-4-1": "Zašto broj 24 u ovom pasusu ne dokazuje merenje?",
   "postojece-2-5-0": "Klik na ovo dugme, dok još nema handlera. Šta se desi?",

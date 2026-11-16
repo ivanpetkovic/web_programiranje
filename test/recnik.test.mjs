@@ -46,6 +46,7 @@ test("rečnik nosi nastavni model, a ne rekvizit povezujućeg primera", () => {
     assert.equal(pojmovi.some((pojam) => pojam.ime === ime), false, ime);
   }
   for (const pojam of pojmovi) {
+    if (pojam.ime === "CSS model kutije") continue;
     assert.doesNotMatch(`${pojam.ime} ${pojam.definicija} ${pojam.izbegava}`, zabranjeno, pojam.ime);
   }
   const autentifikacija = pojmovi.find((pojam) => pojam.ime === "Autentifikacija");
@@ -158,6 +159,17 @@ test("opseg važenja i opseg izvršavanja nose engleske nazive", () => {
   assert.match(izvori[2].tekst, /Opseg izvršavanja/);
   assert.equal(lekcijePojma(dokument, "stek poziva").prvi.tema, 3);
   assert.equal(lekcijePojma(dokument, "opseg izvršavanja").prvi.tema, 3);
+});
+
+test("CSS model kutije je pojam rečnika i stoji u gradivu", () => {
+  const pojam = pojmovi.find((stavka) => stavka.ime === "CSS model kutije");
+  assert.match(pojam.definicija, /box model/);
+  assert.match(pojam.definicija, /padding/);
+  assert.match(pojam.izbegava, /Okvir elementa/);
+  assert.match(pojam.izbegava, /boks/);
+  const pogoci = lekcijePojma(dokument, "CSS model kutije");
+  assert.equal(pogoci.prvi.tema, 2);
+  assert.equal(pogoci.prvi.korak, 3);
 });
 
 test("pitanje koje počinje upitom vraća svoj korak", () => {
