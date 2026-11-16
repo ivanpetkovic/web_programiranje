@@ -5591,8 +5591,8 @@
               "id": "k10q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "10.3. Zašto `var` vraća `undefined`, dok `let` izaziva grešku?\n\n```javascript\nconsole.log(a);\nvar a = 10;\n```\n\n```javascript\nconsole.log(b);\nlet b = 10;\n```\n\nKako se razlikuju rezultati?",
-              "odgovor": "Prvi kod ispisuje `undefined`, a drugi izaziva `ReferenceError`.\n\nU prolazu definicija `var` dobija `undefined`, a `let` samo ime kome se još ne sme pristupiti. Dodela `10` dešava se u prolazu izvršenja, na liniji na kojoj je napisana. Period do te inicijalizacije naziva se Temporal Dead Zone (TDZ).",
+              "tekst": "10.3. Zašto `var` vraća `undefined`, dok `let` izaziva grešku?\n\n```javascript\nconsole.log(a);\nvar a = 4;\n```\n\n```javascript\nconsole.log(b);\nlet b = 7;\n```\n\nKako se razlikuju rezultati?",
+              "odgovor": "Dva isečka su dva programa. U oba je `console.log` pre dodele, pa ispis ne vidi ni `4` ni `7`.\n\nPrvi ispiše `undefined`. U prolazu definicija engine upiše ime `a` i da mu vrednost `undefined`. Broj `4` ostaje na liniji dodele. U prolazu izvršenja `console.log(a)` pročita to `undefined`. Tek naredna naredba upiše `4` u `a`. Taj ispis je već prošao.\n\nDrugi baci `ReferenceError` i stane na `console.log(b)`. U prolazu definicija engine upiše ime `b`, ali ga ne inicijalizuje. Od početka opsega do linije `let` ime je u temporal dead zone (TDZ): vezivanje postoji, a čitanje nije dozvoljeno. Izvršavanje stane pre linije `let b = 7`, pa se `7` ne upiše.\n\n`var` pre dodele ima vrednost `undefined`. `let` pre inicijalizacije nema vrednost kojoj sme da se pristupi.",
               "dodatno": "Da li je tačno reći da se `let` i `const` uopšte ne hoistuju?",
               "dodatniOdgovor": "To je neprecizno. Njihove deklaracije učestvuju u pripremi leksičkog okruženja, ali se njihovim vrednostima ne može pristupiti pre inicijalizacije."
             },
@@ -5685,8 +5685,8 @@
               "analizaPitalice": "Odgovor: B.\n\nJavaScript engine u prolazu definicija upiše deklaraciju funkcije, pa u prolazu izvršenja izvršava naredbe. Zato je `saberi` dostupna pre reda u kome je napisana.\n\nOvo ponašanje je deo mehanizma koji se naziva hoisting."
             },
             {
-              "pitalica": "10.3. Zašto `var` vraća `undefined`, dok `let` izaziva grešku?\n\n```javascript\nconsole.log(a);\nvar a = 10;\n```\n\n```javascript\nconsole.log(b);\nlet b = 10;\n```\n\nKako se razlikuju rezultati?",
-              "odgovor": "Prvi kod ispisuje `undefined`, a drugi izaziva `ReferenceError`.\n\nU prolazu definicija `var` dobija `undefined`, a `let` samo ime kome se još ne sme pristupiti. Dodela `10` dešava se u prolazu izvršenja, na liniji na kojoj je napisana. Period do te inicijalizacije naziva se Temporal Dead Zone (TDZ)."
+              "pitalica": "10.3. Zašto `var` vraća `undefined`, dok `let` izaziva grešku?\n\n```javascript\nconsole.log(a);\nvar a = 4;\n```\n\n```javascript\nconsole.log(b);\nlet b = 7;\n```\n\nKako se razlikuju rezultati?",
+              "odgovor": "Dva isečka su dva programa. U oba je `console.log` pre dodele, pa ispis ne vidi ni `4` ni `7`.\n\nPrvi ispiše `undefined`. U prolazu definicija engine upiše ime `a` i da mu vrednost `undefined`. Broj `4` ostaje na liniji dodele. U prolazu izvršenja `console.log(a)` pročita to `undefined`. Tek naredna naredba upiše `4` u `a`. Taj ispis je već prošao.\n\nDrugi baci `ReferenceError` i stane na `console.log(b)`. U prolazu definicija engine upiše ime `b`, ali ga ne inicijalizuje. Od početka opsega do linije `let` ime je u temporal dead zone (TDZ): vezivanje postoji, a čitanje nije dozvoljeno. Izvršavanje stane pre linije `let b = 7`, pa se `7` ne upiše.\n\n`var` pre dodele ima vrednost `undefined`. `let` pre inicijalizacije nema vrednost kojoj sme da se pristupi."
             },
             {
               "pitalica": "10.4. Da li svaki poziv funkcije koristi iste lokalne promenljive?\n\n```javascript\nfunction saberi(x) {\n  const rezultat = x + 1;\n  return rezultat;\n}\n\nconst a = saberi(2);\nconst b = saberi(10);\n```\n\nDa li oba poziva dele promenljive `x` i `rezultat`?",
