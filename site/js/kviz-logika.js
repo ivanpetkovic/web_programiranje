@@ -1,3 +1,20 @@
+import { mermaidFigura } from "./figura.js";
+
+export const DIJAGRAM_KUTIJE_244 = [
+  "flowchart LR",
+  "  b1[\"border 2px\"] --- p1[\"padding 20px\"] --- c[\"sadržaj 200px\"] --- p2[\"padding 20px\"] --- b2[\"border 2px\"]",
+].join("\n");
+
+const PREPRAVKE = {
+  "postojece-1-1-2": "Poruka ide u paketima i komunikacioni put nije rezervisan. Šta od toga još nije HTTP?",
+  "postojece-2-3-2": "Kutija je content-box: width 200px, padding 20px i border 2px. Na dijagramu je taj zbir, 244 px. Šta u njemu nije uračunato?",
+  "postojece-2-4-0": "Odakle je broj 24 u ovom pasusu?",
+  "postojece-2-4-1": "Zašto broj 24 u ovom pasusu ne dokazuje merenje?",
+  "postojece-2-5-0": "Klik na ovo dugme, dok još nema handlera. Šta se desi?",
+  "postojece-2-7-2": "Šta iz crvene boje, uz ove deklaracije, ne sledi?",
+  "postojece-2-12-0": "U alatima se izvrši element.textContent = \"10\", a fajl i dalje kaže 24. Šta je time promenjeno?",
+};
+
 export function bezBelih(kod) {
   return String(kod ?? "").replace(/\s+/g, "");
 }
@@ -10,12 +27,31 @@ function imaTekst(vrednost) {
   return String(vrednost ?? "").trim().length > 0;
 }
 
-export function izPostojeceg(tema, korak, indeks, pitanje) {
+function uzorakKoraka(korak) {
+  const kandidati = [korak?.samostalniPrimer?.tekst, korak?.isecak, korak?.delic];
+  const tekst = kandidati.map((vrednost) => String(vrednost || "").trim()).find(Boolean) || "";
+  if (!tekst || tekst.length > 500) return "";
+  if (tekst.startsWith("<!--") || tekst.startsWith("//")) return "";
+  return tekst;
+}
+
+function dijagramKoraka(korak) {
+  const traka = String(korak?.dijagram?.tekst || "");
+  if (korak?.dijagram?.format === "text" && traka.includes("border") && traka.includes("content")) {
+    return DIJAGRAM_KUTIJE_244;
+  }
+  const natpisi = (korak?.figura?.cvorovi || []).map((cvor) => cvor.natpis).join(" ");
+  if (korak?.figura?.vrsta === "put" && /veza/i.test(natpisi)) return mermaidFigura(korak.figura);
+  return "";
+}
+
+export function izPostojeceg(tema, korak, indeks, pitanje, okvir = {}) {
   const opcije = (pitanje?.opcije || []).filter((opcija) => imaTekst(opcija?.text));
-  const tekst = String(pitanje?.pitalica || "").trim();
+  const id = `postojece-${tema}-${korak}-${indeks}`;
+  const tekst = PREPRAVKE[id] || String(pitanje?.pitalica || "").trim();
   if (!tekst && opcije.length === 0) return null;
   const osnova = {
-    id: `postojece-${tema}-${korak}-${indeks}`,
+    id,
     tema,
     korak,
     vrsta: opcije.length ? "izbor" : "tekst",
@@ -24,6 +60,8 @@ export function izPostojeceg(tema, korak, indeks, pitanje) {
     tekst: tekst || "Izaberi odgovor.",
     analiza: pitanje?.analiza || "",
   };
+  if (!osnova.tekst.includes("```") && okvir.kod) osnova.kod = okvir.kod;
+  if (okvir.dijagram) osnova.dijagram = okvir.dijagram;
   if (opcije.length) {
     return {
       ...osnova,
@@ -45,7 +83,10 @@ export function bazen(lekcije, nova) {
     if (!teme.has(lekcija.n)) continue;
     (lekcija.steps || []).forEach((korak, indeks) => {
       (korak.pitalice || []).forEach((pitanje, i) => {
-        const stavka = izPostojeceg(lekcija.n, indeks, i, pitanje);
+        const stavka = izPostojeceg(lekcija.n, indeks, i, pitanje, {
+          kod: uzorakKoraka(korak),
+          dijagram: dijagramKoraka(korak),
+        });
         if (stavka) postojece.push(stavka);
       });
     });
@@ -100,7 +141,7 @@ export function oceni(pitanje, odgovor) {
   return { ocenjivo: false, tacno: null, ocekivano: pitanje?.odgovor || "" };
 }
 
-const OGRADA = /^```[A-Za-z0-9_+-]*\s*$/;
+const OGRADA = /^```([A-Za-z0-9_+-]*)\s*$/;
 const KRAJ_OGRADE = /^```\s*$/;
 
 export function deloviKvizTeksta(tekst) {
@@ -108,6 +149,7 @@ export function deloviKvizTeksta(tekst) {
   const delovi = [];
   let proza = [];
   let kod = null;
+  let jezik = "";
   const isprazni = () => {
     const telo = proza.join("\n").trim();
     proza = [];
@@ -116,14 +158,20 @@ export function deloviKvizTeksta(tekst) {
   for (const linija of linije) {
     if (kod) {
       if (KRAJ_OGRADE.test(linija)) {
-        delovi.push({ vrsta: "kod", tekst: kod.join("\n") });
+        delovi.push({
+          vrsta: jezik === "mermaid" ? "mermaid" : "kod",
+          tekst: kod.join("\n"),
+        });
         kod = null;
+        jezik = "";
       } else kod.push(linija);
       continue;
     }
-    if (OGRADA.test(linija)) {
+    const otvor = OGRADA.exec(linija);
+    if (otvor) {
       isprazni();
       kod = [];
+      jezik = otvor[1].toLowerCase();
       continue;
     }
     proza.push(linija);

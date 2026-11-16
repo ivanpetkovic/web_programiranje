@@ -9,6 +9,7 @@ export function izbor(tema, korak, red, tekst, opcije, analiza, extra = {}) {
     tekst,
     kod: extra.kod || "",
     jezik: extra.jezik || "",
+    dijagram: extra.dijagram || "",
     analiza: analiza || "",
     opcije: opcije.map(([key, text, ok, why = ""]) => ({ key, text, ok: Boolean(ok), why })),
   };
@@ -26,6 +27,7 @@ export function ispravka(tema, korak, red, tekst, polazno, resenje, analiza, ext
     polazno,
     resenje,
     jezik: extra.jezik || "js",
+    dijagram: extra.dijagram || "",
     analiza: analiza || "",
   };
 }

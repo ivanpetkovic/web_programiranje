@@ -93,7 +93,7 @@ export const pitanja = [
     ["B", "Da. === za objekte poredi sadržaj.", false],
   ], "=== za objekte poredi referencu, ne polja.", { ...z, ...kod("console.log({ n: 1 } === { n: 1 });") }),
 
-  izbor(3, 3, 1, "Šta ispiše + ovde?", [
+  izbor(3, 3, 1, "Šta ispiše 24 + \"C\"?", [
     ["A", "\"24C\"", true],
     ["B", "24", false],
     ["C", "NaN", false],

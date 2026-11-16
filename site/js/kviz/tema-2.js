@@ -1,4 +1,5 @@
 import { ispravka, izbor } from "../kviz-oblik.js";
+import { DIJAGRAM_KUTIJE_244 } from "../kviz-logika.js";
 
 const z = { zamka: true };
 const html = { jezik: "html" };
@@ -27,7 +28,7 @@ export const pitanja = [
     ["A", "Učita ga kao dokument.", true],
     ["B", "Pošalje ga PostgreSQL-u kao upit.", false],
     ["C", "Izvrši ga kao JavaScript modul.", false],
-  ], "HTML nije ni upit ni modul. Browser ga čita kao dokument."),
+  ], "HTML nije ni upit ni modul. Browser ga čita kao dokument.", { kod: "<!DOCTYPE html>\n<html lang=\"sr\">\n</html>", jezik: "html" }),
   ispravka(2, 0, 7, "Dokument treba da bude na srpskom. Ispravi lang.", "<html lang=\"en\"></html>", "<html lang=\"sr\"></html>", "lang imenuje jezik dokumenta. en nije sr.", html),
   izbor(2, 0, 8, "Ako fajl nema vidljiv tekst, browser ipak ima dokument.", [
     ["A", "Da. html može da postoji i pre naslova, broja i dugmeta.", true],
@@ -99,33 +100,33 @@ export const pitanja = [
     ["B", "240 px", false],
     ["C", "244 px", true],
     ["D", "Zavisi od roditelja.", false],
-  ], "content-box: 200 + 2×20 + 2×2 = 244. Margin nije u tom zbiru.", { kod: ".box { width: 200px; padding: 20px; border: 2px solid; }", jezik: "css" }),
+  ], "content-box: 200 + 2×20 + 2×2 = 244. Margin nije u tom zbiru.", { kod: ".box { width: 200px; padding: 20px; border: 2px solid; }", jezik: "css", dijagram: DIJAGRAM_KUTIJE_244 }),
   izbor(2, 3, 2, "width: 200px u content-box modelu već jeste cela kutija sa paddingom i borderom.", [
     ["A", "Da. 200 je uvek spoljašnja mera.", false],
     ["B", "Ne. 200 je sadržaj. Padding i border se dodaju.", true],
-  ], "Podrazumevani model meri sadržaj. Spolja izađe 244 px.", z),
-  izbor(2, 3, 3, "Šta u tih 244 px nije uračunato?", [
+  ], "Podrazumevani model meri sadržaj. Padding i border se dodaju na width.", z),
+  izbor(2, 3, 3, "Kutija je content-box: width 200px, padding 20px i border 2px. Na dijagramu je taj zbir, 244 px. Šta u njemu nije uračunato?", [
     ["A", "Padding.", false],
     ["B", "Border.", false],
     ["C", "Margin.", true],
-  ], "Margin stoji van width + padding + border."),
-  izbor(2, 3, 4, "Isti CSS, ali box-sizing: border-box. Kolika je spoljašnja širina bez margina?", [
+  ], "Margin stoji van width + padding + border.", { kod: ".box { width: 200px; padding: 20px; border: 2px solid; }", jezik: "css", dijagram: DIJAGRAM_KUTIJE_244 }),
+  izbor(2, 3, 4, "Uz box-sizing: border-box, kolika je spoljašnja širina ove kutije, bez margina?", [
     ["A", "200 px. Padding i border ulaze u deklarisanih 200.", true],
     ["B", "244 px. border-box i dalje sabira isto.", false],
     ["C", "240 px. Border se ignoriše, padding ne.", false],
   ], "border-box uključuje padding i border u width. Sadržaj ostane uži.", { kod: ".box { box-sizing: border-box; width: 200px; padding: 20px; border: 2px solid; }", jezik: "css" }),
   ispravka(2, 3, 5, "Kutija treba da meri spolja 200 px zajedno sa paddingom i borderom. Dodaj box-sizing. Ostale deklaracije ostaju.", ".box {\n  width: 200px;\n  padding: 20px;\n  border: 2px solid;\n}", ".box {\n  box-sizing: border-box;\n  width: 200px;\n  padding: 20px;\n  border: 2px solid;\n}", "Bez border-box, width je samo sadržaj i kutija izađe na 244 px.", css),
-  izbor(2, 3, 6, "Margin: 8px sa obe strane uveća onih 244 na 260, i to je i dalje width.", [
+  izbor(2, 3, 6, "Kutija bez margina meri 244 px: width 200px, padding 20px i border 2px. Margin od 8 px sa obe strane diže spoljašnju meru na 260. Ta 260 je i dalje width.", [
     ["A", "Da. Margin je deo width.", false],
     ["B", "Ne. Margin nije u 244. Width, padding i border su drugi zbir.", true],
-  ], "Sledeći sloj van kutije ne ulazi u prethodni zbir.", z),
-  izbor(2, 3, 7, "Zašto 240 px nije tačan zbir?", [
+  ], "Sledeći sloj van kutije ne ulazi u prethodni zbir.", { ...z, kod: ".box { width: 200px; padding: 20px; border: 2px solid; margin: 8px; }", jezik: "css", dijagram: DIJAGRAM_KUTIJE_244 }),
+  izbor(2, 3, 7, "Kutija ima width 200px, padding 20px i border 2px. Zašto 240 px nije tačan zbir bez margina?", [
     ["A", "Uračunat je padding 2×20, a zaboravljena je ivica 2×2.", true],
     ["B", "Zato što roditelj uvek prepiše width.", false],
     ["C", "Zato što border ne postoji u CSS-u.", false],
-  ], "200 + 40 = 240, pa još 4 px ivice daju 244."),
+  ], "200 + 40 = 240, pa još 4 px ivice daju 244.", { kod: ".box { width: 200px; padding: 20px; border: 2px solid; }", jezik: "css", dijagram: DIJAGRAM_KUTIJE_244 }),
 
-  izbor(2, 4, 1, "Odakle je 24 na početku?", [
+  izbor(2, 4, 1, "Odakle je broj 24 u ovom pasusu?", [
     ["A", "Iz statičnog teksta dokumenta.", true],
     ["B", "Iz merenja kutije.", false],
     ["C", "Iz odgovora /api/soba.", false],
@@ -155,15 +156,15 @@ export const pitanja = [
     ["B", "Ne. Klasa znači da browser meri jednom i upiše svuda.", false],
   ], "Isto ime klase nije isto merenje."),
 
-  izbor(2, 5, 1, "Klik na ovo dugme na ovom času šalje komandu ventilatoru.", [
+  izbor(2, 5, 1, "Klik na ovo dugme šalje komandu ventilatoru.", [
     ["A", "Da. type=\"button\" je PUT ka ventilatoru.", false],
     ["B", "Ne. Dugme je u dokumentu i još nema kome da pošalje zahtev.", true],
   ], "button imenuje kontrolu. Komanda dolazi tek kad postoji server.", { ...z, kod: "<button type=\"button\">Uključi</button>", jezik: "html" }),
-  izbor(2, 5, 2, "Šta type=\"button\" ovde radi?", [
+  izbor(2, 5, 2, "Šta type=\"button\" na ovom dugmetu radi?", [
     ["A", "Imenuje dugme koje samo ne šalje formu i ne šalje komandu.", true],
     ["B", "Zabranjuje svaki kasniji zahtev, zauvek.", false],
     ["C", "Uključuje ventilator čim se HTML učita.", false],
-  ], "Tip odvaja ovo dugme od podrazumevanog slanja forme. Nije mrežna komanda."),
+  ], "Tip odvaja ovo dugme od podrazumevanog slanja forme. Nije mrežna komanda.", { kod: "<button type=\"button\">Uključi</button>", jezik: "html" }),
   izbor(2, 5, 3, "Natpis Uključi znači da je ventilator već uključen.", [
     ["A", "Da. Tekst dugmeta je stanje sa servera.", false],
     ["B", "Ne. Natpis je tekst u dokumentu.", true],
@@ -209,10 +210,10 @@ export const pitanja = [
     ["B", "Ne. Dokument i dalje ima svoj tekst. Nedostaje stil.", true],
   ], "Neuspeh jednog zahteva nije brisanje drugog resursa.", z),
   ispravka(2, 6, 7, "Oznaka za stil je link, ne a. Adresa ostaje css/soba.css.", "<a rel=\"stylesheet\" href=\"css/soba.css\">css/soba.css</a>", "<link rel=\"stylesheet\" href=\"css/soba.css\">", "a je hipertekst u sadržaju. link u glavi traži stil.", html),
-  izbor(2, 6, 8, "Šta href ovde nije?", [
+  izbor(2, 6, 8, "Šta href na ovoj vezi nije?", [
     ["A", "Nije komanda ventilatoru i nije novi broj temperature.", true],
     ["B", "Nije adresa resursa.", false],
-  ], "Adresa stila i komanda sobi nisu ista rečenica."),
+  ], "Adresa stila i komanda sobi nisu ista rečenica.", { kod: "<link rel=\"stylesheet\" href=\"css/soba.css\">", jezik: "html" }),
 
   izbor(2, 7, 1, "Iste važnosti. Koja boja pobedi?", [
     ["A", "Plava, jer je klasa bliža elementu.", false],
@@ -223,10 +224,10 @@ export const pitanja = [
     ["A", "Da. CSS gleda samo red u fajlu.", false],
     ["B", "Ne. Redosled se gleda tek kad su poreklo, važnost i specifičnost jednaki.", true],
   ], "Kaskada ima više koraka. Red je jedan od kasnijih.", z),
-  izbor(2, 7, 3, "Crvena boja ovde znači da !important više ništa ne može da promeni.", [
+  izbor(2, 7, 3, "Crvena boja uz ove deklaracije znači da !important više ništa ne može da promeni.", [
     ["A", "Da. ID je poslednja reč kaskade.", false],
     ["B", "Ne. Drugačije poreklo ili !important i dalje mogu da prevagnu.", true],
-  ], "Iz pobede ID nad klasom ne sledi da je kaskada gotova.", z),
+  ], "Iz pobede ID nad klasom ne sledi da je kaskada gotova.", { ...z, kod: "p { color: green; }\n.tekst { color: blue; }\n#naslov { color: red; }", jezik: "css" }),
   izbor(2, 7, 4, "Dva pravila iste specifičnosti i važnosti. Koje važi?", [
     ["A", "Ono koje dolazi kasnije.", true],
     ["B", "Uvek ono sa kraćim imenom.", false],
@@ -252,10 +253,10 @@ export const pitanja = [
     ["A", "Da. Razmak slova upisuje novu temperaturu.", false],
     ["B", "Ne. Menja prikaz slova. Tekst ostaje 24.", true],
   ], "Stil nije upis u dokument.", z),
-  izbor(2, 8, 3, "Element bez klase digit dobija ovo pravilo.", [
+  izbor(2, 8, 3, "Element bez klase digit dobija pravilo .digit { letter-spacing: 0.08em; }.", [
     ["A", "Ne. Nema poklapanja.", true],
     ["B", "Da. Tačka znači sve elemente.", false],
-  ], "Selektor je uslov, ne boja cele stranice."),
+  ], "Selektor je uslov, ne boja cele stranice.", { kod: ".digit { letter-spacing: 0.08em; }", jezik: "css" }),
   ispravka(2, 8, 4, "Selektor treba da bude klasa digit. Ispravi tačku koja fali.", "digit { letter-spacing: 0.08em; }", ".digit { letter-spacing: 0.08em; }", "Bez tačke ovo je selektor oznake digit, ne klase.", css),
   izbor(2, 8, 5, "Dva elementa sa klasom digit dele pravilo. Da li dele i tekst?", [
     ["A", "Dele pravilo. Tekst svako ima svoj, iz HTML-a.", true],
@@ -336,11 +337,11 @@ export const pitanja = [
     ["A", "Da. Uski ekran seče HTML.", false],
     ["B", "Ne. Grid menja raspored. Obe kontrole ostaju u dokumentu.", true],
   ], "Prikaz kolona nije sadržaj fajla.", z),
-  izbor(2, 11, 3, "minmax i auto-fit ovde služe čemu?", [
+  izbor(2, 11, 3, "Čemu služe minmax i auto-fit u ovom pravilu?", [
     ["A", "Da broj kolona prati raspoloživu širinu, umesto da bude zauvek dve.", true],
     ["B", "Da izmere temperaturu.", false],
     ["C", "Da pošalju zahtev za stil još jednom.", false],
-  ], "Ovo je raspored, ne merenje i ne mreža."),
+  ], "Ovo je raspored, ne merenje i ne mreža.", { kod: ".panel {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));\n}", jezik: "css" }),
   ispravka(2, 11, 4, "Panel treba da bude grid, ne flex. Ostale deklaracije ostaju kako jesu u polaznom kodu.", ".panel {\n  display: flex;\n  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));\n}", ".panel {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));\n}", "grid-template-columns važi za grid. display treba da bude grid.", css),
   izbor(2, 11, 5, "Horizontalni overflow je jedini dozvoljen ishod uskog ekrana.", [
     ["A", "Ne. Grid može da spusti stavke u jednu kolonu.", true],

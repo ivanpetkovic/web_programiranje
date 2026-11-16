@@ -6,6 +6,7 @@ import {
   bazen,
   bezBelih,
   deloviKvizTeksta,
+  DIJAGRAM_KUTIJE_244,
   izaberiPitanja,
   izPostojeceg,
   oceni,
@@ -134,4 +135,36 @@ test("ograda u pitanju postaje blok koda, a kratki kod u opciji ostaje bez navod
   const otvorena = deloviKvizTeksta("pre\n```javascript\nconst x = 1;");
   assert.equal(otvorena.every((deo) => deo.vrsta === "proza"), true);
   assert.match(otvorena.map((deo) => deo.tekst).join("\n"), /const x = 1;/);
+});
+
+test("ograda mermaid je dijagram, ne blok koda", () => {
+  const delovi = deloviKvizTeksta("Pre\n\n```mermaid\nflowchart LR\n  a --> b\n```\n\nPosle");
+  assert.deepEqual(delovi.map((deo) => deo.vrsta), ["proza", "mermaid", "proza"]);
+  assert.match(delovi[1].tekst, /flowchart LR/);
+  assert.equal(sazetakPitanja("Pre\n\n```mermaid\nflowchart LR\n  a --> b\n```\n\nPosle").includes("flowchart"), false);
+});
+
+const POKAZNA = /\b(ovaj|ovog|ovom|ovu|ova|ovo|ove|ovih|ovim|ovde|tih|onih)\b/i;
+const ZABRANJENO = [/tih 244/, /onih 244/, /na početku/, /na času/, /nas ovo/, /Isti CSS/, /\bovde\b/];
+
+test("pitanje kviza ne poziva na kontekst koji kartica ne pokazuje", () => {
+  const sve = bazen(lectures, novaPitanja);
+  for (const pitanje of sve) {
+    const kartica = [pitanje.tekst, pitanje.kod, pitanje.polazno, pitanje.dijagram].filter(Boolean).join("\n");
+    for (const zabranjeno of ZABRANJENO) {
+      assert.equal(zabranjeno.test(pitanje.tekst), false, `${pitanje.id}: ${pitanje.tekst}`);
+    }
+    if (POKAZNA.test(pitanje.tekst)) {
+      const imaUzorak = Boolean(pitanje.kod || pitanje.polazno || pitanje.dijagram || pitanje.tekst.includes("```"));
+      assert.equal(imaUzorak, true, `${pitanje.id}: ${pitanje.tekst}`);
+    }
+  }
+  const kutija = sve.find((pitanje) => pitanje.id === "postojece-2-3-2");
+  assert.match(kutija.tekst, /244 px/);
+  assert.match(kutija.tekst, /width 200px/);
+  assert.equal(kutija.dijagram, DIJAGRAM_KUTIJE_244);
+  assert.match(kutija.kod, /padding: 20px/);
+  const veza = sve.find((pitanje) => pitanje.id === "postojece-1-5-0");
+  assert.match(veza.dijagram, /flowchart LR/);
+  assert.match(veza.dijagram, /Veza/);
 });
