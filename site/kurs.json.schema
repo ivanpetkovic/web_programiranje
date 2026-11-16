@@ -268,7 +268,7 @@
       "required": ["id", "vrsta", "tekst"],
       "properties": {
         "id": { "type": "string", "minLength": 1 },
-        "vrsta": { "type": "string", "enum": ["tekst", "highlight", "kod", "dijagram", "mermaid", "struktura", "pitanje"] },
+        "vrsta": { "type": "string", "enum": ["tekst", "highlight", "kod", "dijagram", "mermaid", "struktura", "raspored", "pitanje"] },
         "tekst": { "type": "string" },
         "uloga": { "type": "string", "enum": ["kljucna", "obicna"] },
         "naslov": { "type": "string" },
