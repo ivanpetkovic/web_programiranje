@@ -46,9 +46,9 @@ export const pitanja = [
   ], "Glava opisuje dokument. Ne donosi merenje.", z),
   izbor(2, 1, 3, "Čemu služi charset=\"utf-8\"?", [
     ["A", "Kaže kako da se protumače bajtovi teksta.", true],
-    ["B", "Postavlja širinu kutije na 8 piksela.", false],
+    ["B", "Postavlja širinu koju daje CSS model kutije na 8 piksela.", false],
     ["C", "Otvara TCP vezu.", false],
-  ], "Charset je dogovor o tekstu, ne o mreži i ne o kutiji."),
+  ], "Charset je dogovor o tekstu, ne o mreži i ne o pojmu CSS model kutije."),
   ispravka(2, 1, 4, "Naslov dokumenta treba da bude Soba, a skup znakova utf-8. Ispravi glavu.", "<meta charset=\"ascii\">\n<title>Temperatura</title>", "<meta charset=\"utf-8\">\n<title>Soba</title>", "Kurs u ovom koraku stavlja utf-8 i title Soba. ascii i drugi naslov nisu taj dokument.", html),
   izbor(2, 1, 5, "title je isto što i h1 na stranici.", [
     ["A", "Da. Oba su uvek isti vidljivi natpis u sobi.", false],
@@ -95,31 +95,31 @@ export const pitanja = [
     ["B", "Ne. Naslov dolazi iz fajla. Nema fajla, nema ni tog učitavanja.", true],
   ], "Osvežavanje ne čuva naslov mimo dokumenta.", z),
 
-  izbor(2, 3, 1, "Kolika je ukupna širina ove kutije, bez margina?", [
+  izbor(2, 3, 1, "Kolika je ukupna širina koju daje CSS model kutije, bez margina?", [
     ["A", "200 px", false],
     ["B", "240 px", false],
     ["C", "244 px", true],
     ["D", "Zavisi od roditelja.", false],
   ], "content-box: 200 + 2×20 + 2×2 = 244. Margin nije u tom zbiru.", { kod: ".box { width: 200px; padding: 20px; border: 2px solid; }", jezik: "css", dijagram: DIJAGRAM_KUTIJE_244 }),
-  izbor(2, 3, 2, "width: 200px u content-box modelu već jeste cela kutija sa paddingom i borderom.", [
+  izbor(2, 3, 2, "width: 200px u content-box već jeste ceo CSS model kutije, sa paddingom i borderom.", [
     ["A", "Da. 200 je uvek spoljašnja mera.", false],
     ["B", "Ne. 200 je sadržaj. Padding i border se dodaju.", true],
   ], "Podrazumevani model meri sadržaj. Padding i border se dodaju na width.", z),
-  izbor(2, 3, 3, "Kutija je content-box: width 200px, padding 20px i border 2px. Na dijagramu je taj zbir, 244 px. Šta u njemu nije uračunato?", [
+  izbor(2, 3, 3, "CSS model kutije, grana content-box: width 200px, padding 20px i border 2px. Na dijagramu je taj zbir, 244 px. Šta u njemu nije uračunato?", [
     ["A", "Padding.", false],
     ["B", "Border.", false],
     ["C", "Margin.", true],
   ], "Margin stoji van width + padding + border.", { kod: ".box { width: 200px; padding: 20px; border: 2px solid; }", jezik: "css", dijagram: DIJAGRAM_KUTIJE_244 }),
-  izbor(2, 3, 4, "Uz box-sizing: border-box, kolika je spoljašnja širina ove kutije, bez margina?", [
+  izbor(2, 3, 4, "Uz box-sizing: border-box, kolika je spoljašnja širina koju daje CSS model kutije, bez margina?", [
     ["A", "200 px. Padding i border ulaze u deklarisanih 200.", true],
     ["B", "244 px. border-box i dalje sabira isto.", false],
     ["C", "240 px. Border se ignoriše, padding ne.", false],
   ], "border-box uključuje padding i border u width. Sadržaj ostane uži.", { kod: ".box { box-sizing: border-box; width: 200px; padding: 20px; border: 2px solid; }", jezik: "css" }),
-  ispravka(2, 3, 5, "Kutija treba da meri spolja 200 px zajedno sa paddingom i borderom. Dodaj box-sizing. Ostale deklaracije ostaju.", ".box {\n  width: 200px;\n  padding: 20px;\n  border: 2px solid;\n}", ".box {\n  box-sizing: border-box;\n  width: 200px;\n  padding: 20px;\n  border: 2px solid;\n}", "Bez border-box, width je samo sadržaj i kutija izađe na 244 px.", css),
+  ispravka(2, 3, 5, "CSS model kutije treba da meri spolja 200 px zajedno sa paddingom i borderom. Dodaj box-sizing. Ostale deklaracije ostaju.", ".box {\n  width: 200px;\n  padding: 20px;\n  border: 2px solid;\n}", ".box {\n  box-sizing: border-box;\n  width: 200px;\n  padding: 20px;\n  border: 2px solid;\n}", "Bez border-box, width je samo sadržaj i CSS model kutije izađe na 244 px.", css),
   izbor(2, 3, 6, "Kutija bez margina meri 244 px: width 200px, padding 20px i border 2px. Margin od 8 px sa obe strane diže spoljašnju meru na 260. Ta 260 je i dalje width.", [
     ["A", "Da. Margin je deo width.", false],
     ["B", "Ne. Margin nije u 244. Width, padding i border su drugi zbir.", true],
-  ], "Sledeći sloj van kutije ne ulazi u prethodni zbir.", { ...z, kod: ".box { width: 200px; padding: 20px; border: 2px solid; margin: 8px; }", jezik: "css", dijagram: DIJAGRAM_KUTIJE_244 }),
+  ], "Margin jeste deo pojma CSS model kutije, ali ne ulazi u zbir width, padding i border.", { ...z, kod: ".box { width: 200px; padding: 20px; border: 2px solid; margin: 8px; }", jezik: "css", dijagram: DIJAGRAM_KUTIJE_244 }),
   izbor(2, 3, 7, "Kutija ima width 200px, padding 20px i border 2px. Zašto 240 px nije tačan zbir bez margina?", [
     ["A", "Uračunat je padding 2×20, a zaboravljena je ivica 2×2.", true],
     ["B", "Zato što roditelj uvek prepiše width.", false],
@@ -273,15 +273,15 @@ export const pitanja = [
   ], "Uslov selektora je klasa, ne „sve”."),
 
   izbor(2, 9, 1, "Šta border menja?", [
-    ["A", "Ivicu kutije.", true],
+    ["A", "Ivicu iz pojma CSS model kutije.", true],
     ["B", "Broj 24 u dokumentu.", false],
     ["C", "Merenje senzora.", false],
   ], "border je ivica. Tekst fajla i dalje može biti 24.", { kod: ".digit { border: 1px solid #3a342c; }", jezik: "css" }),
   izbor(2, 9, 2, "border upisuje novi broj u fajl.", [
     ["A", "Da. Ivica je novo merenje.", false],
-    ["B", "Ne. Ivica je prikaz kutije. 24 je tekst dokumenta.", true],
-  ], "Prikaz kutije i sadržaj fajla ostaju odvojeni.", z),
-  izbor(2, 9, 3, "U content-box modelu, border od 1px sa obe strane ulazi u deklarisani width.", [
+    ["B", "Ne. Ivica je prikaz u pojmu CSS model kutije. 24 je tekst dokumenta.", true],
+  ], "Prikaz iz pojma CSS model kutije i sadržaj fajla ostaju odvojeni.", z),
+  izbor(2, 9, 3, "U content-box, unutar pojma CSS model kutije, border od 1px sa obe strane ulazi u deklarisani width.", [
     ["A", "Ne. Dodaje se na širinu sadržaja.", true],
     ["B", "Da. width već uključuje svaku ivicu.", false],
   ], "Ista poenta kao kod 244 px: ivica je van width dok je model content-box."),
@@ -292,7 +292,7 @@ export const pitanja = [
   ], "Ivica nije sadržaj."),
   izbor(2, 9, 6, "border i margin su ista merna linija.", [
     ["A", "Da. Oba su unutar width.", false],
-    ["B", "Ne. border je ivica kutije. margin je prostor van nje.", true],
+    ["B", "Ne. border je ivica u pojmu CSS model kutije. margin je prostor van ivice.", true],
   ], "Zbir 244 nije uključio margin. Ivica jeste deo te računice u content-box.", z),
   ispravka(2, 9, 7, "Ispravi ime osobine. Treba ivica, ne margina. Vrednost ostaje.", ".digit { margin: 1px solid #3a342c; }", ".digit { border: 1px solid #3a342c; }", "margin ne prima solid i boju na ovaj način. Osobina je border.", css),
   izbor(2, 9, 8, "Boja ivice #3a342c je temperatura.", [

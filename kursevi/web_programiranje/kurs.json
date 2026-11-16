@@ -1351,11 +1351,11 @@
           ]
         },
         {
-          "naslov": "Širina kutije",
+          "naslov": "CSS model kutije",
           "nivo": "Primena",
           "minuta": 5,
           "tipPrimer": "pitalica-kod",
-          "tekst": "CSS širina podrazumevano nije nužno ukupna širina elementa. U podrazumevanom content-box modelu deklarisana width obuhvata samo sadržaj; padding i border povećavaju spoljašnju meru. Za 200px + 2×20px + 2×2px rezultat je 244px, dok border-box uključuje te delove u width.",
+          "tekst": "CSS model kutije kaže da širina podrazumevano nije nužno ukupna širina elementa. U podrazumevanom content-box deklarisana width obuhvata samo sadržaj; padding i border povećavaju spoljašnju meru. Za 200px + 2×20px + 2×2px rezultat je 244px, dok border-box uključuje te delove u width.",
           "kljucnaIdeja": "Content-box dodaje padding i border na deklarisanu width.",
           "samostalniPrimer": {
             "jezik": "css",
@@ -1371,29 +1371,29 @@
             {
               "key": "A",
               "text": "200 px",
-              "why": "200 px je samo širina sadržaja. U podrazumevanom content-box modelu deklarisana width obuhvata samo sadržaj; padding i border povećavaju spoljašnju meru.",
+              "why": "200 px je samo širina sadržaja. CSS model kutije, u podrazumevanom content-box, meri width kao sadržaj; padding i border povećavaju spoljašnju meru.",
               "ok": false
             },
             {
               "key": "B",
               "text": "240 px",
-              "why": "Nedostaju po 2 px ivice sa obe strane. U podrazumevanom content-box modelu deklarisana width obuhvata samo sadržaj; padding i border povećavaju spoljašnju meru.",
+              "why": "Nedostaju po 2 px ivice sa obe strane. CSS model kutije, u podrazumevanom content-box, meri width kao sadržaj; padding i border povećavaju spoljašnju meru.",
               "ok": false
             },
             {
               "key": "C",
               "text": "244 px",
-              "why": "200 + 2×20 + 2×2 = 244 px. U podrazumevanom content-box modelu deklarisana width obuhvata samo sadržaj; padding i border povećavaju spoljašnju meru. Za 200px + 2×20px + 2×2px rezultat je 244px, dok border-box uključuje te delove u width.",
+              "why": "200 + 2×20 + 2×2 = 244 px. CSS model kutije, u podrazumevanom content-box, meri width kao sadržaj; padding i border povećavaju spoljašnju meru. Za 200px + 2×20px + 2×2px rezultat je 244px, dok border-box uključuje te delove u width.",
               "ok": true
             },
             {
               "key": "D",
               "text": "Zavisi od roditelja",
-              "why": "Za konkretne vrednosti i podrazumevani content-box račun je određen. U podrazumevanom content-box modelu deklarisana width obuhvata samo sadržaj; padding i border povećavaju spoljašnju meru.",
+              "why": "Za konkretne vrednosti i podrazumevani content-box račun je određen. CSS model kutije, u podrazumevanom content-box, meri width kao sadržaj; padding i border povećavaju spoljašnju meru.",
               "ok": false
             }
           ],
-          "analizaPitalice": "U podrazumevanom content-box modelu deklarisana width obuhvata samo sadržaj; padding i border povećavaju spoljašnju meru. Za 200px + 2×20px + 2×2px rezultat je 244px, dok border-box uključuje te delove u width.",
+          "analizaPitalice": "CSS model kutije, u podrazumevanom content-box, meri width kao sadržaj; padding i border povećavaju spoljašnju meru. Za 200px + 2×20px + 2×2px rezultat je 244px, dok border-box uključuje te delove u width.",
           "pitalice": [
             {
               "pitalica": "Kolika je ukupna širina bez margina?",
@@ -1401,32 +1401,32 @@
                 {
                   "key": "A",
                   "text": "200 px",
-                  "why": "200 px je samo širina sadržaja. U podrazumevanom content-box modelu deklarisana width obuhvata samo sadržaj; padding i border povećavaju spoljašnju meru.",
+                  "why": "200 px je samo širina sadržaja. CSS model kutije, u podrazumevanom content-box, meri width kao sadržaj; padding i border povećavaju spoljašnju meru.",
                   "ok": false
                 },
                 {
                   "key": "B",
                   "text": "240 px",
-                  "why": "Nedostaju po 2 px ivice sa obe strane. U podrazumevanom content-box modelu deklarisana width obuhvata samo sadržaj; padding i border povećavaju spoljašnju meru.",
+                  "why": "Nedostaju po 2 px ivice sa obe strane. CSS model kutije, u podrazumevanom content-box, meri width kao sadržaj; padding i border povećavaju spoljašnju meru.",
                   "ok": false
                 },
                 {
                   "key": "C",
                   "text": "244 px",
-                  "why": "200 + 2×20 + 2×2 = 244 px. U podrazumevanom content-box modelu deklarisana width obuhvata samo sadržaj; padding i border povećavaju spoljašnju meru. Za 200px + 2×20px + 2×2px rezultat je 244px, dok border-box uključuje te delove u width.",
+                  "why": "200 + 2×20 + 2×2 = 244 px. CSS model kutije, u podrazumevanom content-box, meri width kao sadržaj; padding i border povećavaju spoljašnju meru. Za 200px + 2×20px + 2×2px rezultat je 244px, dok border-box uključuje te delove u width.",
                   "ok": true
                 },
                 {
                   "key": "D",
                   "text": "Zavisi od roditelja",
-                  "why": "Za konkretne vrednosti i podrazumevani content-box račun je određen. U podrazumevanom content-box modelu deklarisana width obuhvata samo sadržaj; padding i border povećavaju spoljašnju meru.",
+                  "why": "Za konkretne vrednosti i podrazumevani content-box račun je određen. CSS model kutije, u podrazumevanom content-box, meri width kao sadržaj; padding i border povećavaju spoljašnju meru.",
                   "ok": false
                 }
               ],
-              "analizaPitalice": "U podrazumevanom content-box modelu deklarisana width obuhvata samo sadržaj; padding i border povećavaju spoljašnju meru. Za 200px + 2×20px + 2×2px rezultat je 244px, dok border-box uključuje te delove u width."
+              "analizaPitalice": "CSS model kutije, u podrazumevanom content-box, meri width kao sadržaj; padding i border povećavaju spoljašnju meru. Za 200px + 2×20px + 2×2px rezultat je 244px, dok border-box uključuje te delove u width."
             },
             {
-              "pitalica": "Zašto 200 u width nije ukupna širina kutije?",
+              "pitalica": "Zašto 200 u width nije ukupna širina koju daje CSS model kutije?",
               "opcije": [
                 {
                   "key": "A",
@@ -1437,11 +1437,11 @@
                 {
                   "key": "B",
                   "text": "Zato što roditelj uvek prepiše width.",
-                  "why": "U ovom primeru roditelj ne menja računicu. Iznenađenje dolazi iz modela kutije.",
+                  "why": "U ovom primeru roditelj ne menja računicu. Iznenađenje dolazi iz pojma CSS model kutije.",
                   "ok": false
                 }
               ],
-              "analizaPitalice": "Content-box je nastao da width znači širinu sadržaja. Ko ga čita kao ukupnu kutiju, pogreši raspored i ne vidi gde su nestali pikseli."
+              "analizaPitalice": "Content-box je nastao da width znači širinu sadržaja. Ko ga čita kao da je već ceo CSS model kutije, pogreši raspored i ne vidi gde su nestali pikseli."
             },
             {
               "pitalica": "Šta u tih 244 px nije uračunato?",
@@ -1455,7 +1455,7 @@
                 {
                   "key": "B",
                   "text": "Margin.",
-                  "why": "Ukupna širina bez margina je 244. Margin stoji van te kutije i ne ulazi u zbir.",
+                  "why": "Ukupna širina bez margina je 244. Margin jeste deo pojma CSS model kutije, ali ne ulazi u zbir width, padding i border.",
                   "ok": true
                 }
               ],
@@ -1837,8 +1837,8 @@
           "nivo": "Osnovno",
           "minuta": 3,
           "tipPrimer": "aplikacija",
-          "tekst": "Kutija dobija ivicu. border crta ivicu, padding pravi razmak između ivice i sadržaja, a margin utiče na razmak izvan ivice. Nijedno od tih pravila ne menja broj koji je zapisan u HTML-u.",
-          "kljucnaIdeja": "border je ivica kutije. Broj u fajlu i dalje je 24.",
+          "tekst": "CSS model kutije dobija ivicu. border crta ivicu, padding pravi razmak između ivice i sadržaja, a margin utiče na razmak izvan ivice. Nijedno od tih pravila ne menja broj koji je zapisan u HTML-u.",
+          "kljucnaIdeja": "border je ivica u pojmu CSS model kutije. Broj u fajlu i dalje je 24.",
           "putanja": "client/css/soba.css",
           "isecakNaslov": "Okvir",
           "isecakJezik": "css",
@@ -1854,8 +1854,8 @@
             },
             {
               "key": "B",
-              "text": "Ivicu kutije.",
-              "why": "border je deo box modela. border crta ivicu, padding pravi razmak između ivice i sadržaja, a margin utiče na razmak izvan ivice. Nijedno od tih pravila ne menja broj koji je zapisan u HTML-u.",
+              "text": "Ivicu iz pojma CSS model kutije.",
+              "why": "border je deo pojma CSS model kutije. border crta ivicu, padding pravi razmak između ivice i sadržaja, a margin utiče na razmak izvan ivice. Nijedno od tih pravila ne menja broj koji je zapisan u HTML-u.",
               "ok": true
             }
           ],
@@ -1873,8 +1873,8 @@
                 },
                 {
                   "key": "B",
-                  "text": "Ivicu kutije.",
-                  "why": "border je deo box modela. border crta ivicu, padding pravi razmak između ivice i sadržaja, a margin utiče na razmak izvan ivice. Nijedno od tih pravila ne menja broj koji je zapisan u HTML-u.",
+                  "text": "Ivicu iz pojma CSS model kutije.",
+                  "why": "border je deo pojma CSS model kutije. border crta ivicu, padding pravi razmak između ivice i sadržaja, a margin utiče na razmak izvan ivice. Nijedno od tih pravila ne menja broj koji je zapisan u HTML-u.",
                   "ok": true
                 }
               ],
@@ -1885,18 +1885,18 @@
               "opcije": [
                 {
                   "key": "A",
-                  "text": "Zato što je ivica prikaz kutije, a 24 je tekst dokumenta.",
+                  "text": "Zato što je ivica prikaz u pojmu CSS model kutije, a 24 je tekst dokumenta.",
                   "why": "border crta granicu. Ne dira čvor teksta.",
                   "ok": true
                 },
                 {
                   "key": "B",
                   "text": "Zato što border sme da menja samo marginu.",
-                  "why": "Border i margina su različiti delovi kutije. Ovde se ne menja ni margina ni broj.",
+                  "why": "Border i margina su različiti delovi pojma CSS model kutije. Ovde se ne menja ni margina ni broj.",
                   "ok": false
                 }
               ],
-              "analizaPitalice": "Ivica postoji da se kutija vidi. Ko iz okvira zaključi da se merenje promenilo, pomešao je sloj prikaza i sadržaj."
+              "analizaPitalice": "Ivica postoji da se vidi CSS model kutije. Ko iz okvira zaključi da se merenje promenilo, pomešao je sloj prikaza i sadržaj."
             }
           ]
         },
@@ -2288,11 +2288,11 @@
       "samostalnoUcenje": {
         "uvod": "Ova tema razvija Kontrolnu sobu kroz poznat problem. HTML opisuje značenje sadržaja, CSS njegov raspored i izgled, a DOM je model dokumenta u browseru. Prikaz nije istovetan merenju. Pre nego što otvoriš objašnjenje pitalice, napiši sopstvenu pretpostavku, pokreni kod i uporedi stvarni ishod sa očekivanjem.",
         "detaljnoGradivo": [
-          "HTML opisuje strukturu i značenje, ne samo vizuelni rezultat. Naslov ostaje naslov čak i kada promenimo njegovu veličinu ili boju. Semantički elementi pomažu navigaciji, pristupačnosti i razumevanju dokumenta. CSS određuje pravila prikaza preko selektora, kaskade, nasleđivanja i box modela.",
+          "HTML opisuje strukturu i značenje, ne samo vizuelni rezultat. Naslov ostaje naslov čak i kada promenimo njegovu veličinu ili boju. Semantički elementi pomažu navigaciji, pristupačnosti i razumevanju dokumenta. CSS određuje pravila prikaza preko selektora, kaskade, nasleđivanja i pojma CSS model kutije.",
           "Kada CSS pravila ciljaju isti element, rezultat ne zavisi samo od poslednjeg reda. Porede se izvor i važnost pravila, slojevi, specifičnost i redosled. Dimenzije elementa zavise i od box-sizing: width može opisivati sadržaj ili ukupnu širinu sa unutrašnjim razmakom i ivicom. Zato predviđanje renderovanog rezultata ima više vrednosti od pamćenja svojstava.",
           "Kontrolna soba koristi Flexbox i Grid za raspored prekidača i displeja. Media query menja broj kolona na užem ekranu, ali ne menja sadržaj ni stanje aplikacije. DevTools služi za eksperimente: privremena izmena DOM-a i stila nije trajna promena izvornog fajla niti izmena očitavanja na serveru.",
           "Prikaz brojke u Kontrolnoj sobi počinje kao čisti HTML. Prvo odredi ulogu svake informacije: h1 je naslov, p je tekst očitavanja, button je interaktivna kontrola. Tek potom opiši izgled u CSS-u. Tako se čuvaju smisao dokumenta, navigacija tastaturom i podaci važni asistivnim tehnologijama čak i kada dizajn bude promenjen.",
-          "Box model uči se računanjem, ne nabrajanjem: width:200px uz padding:20px i border:2px daje spolja 244px kod content-box. Proveri isto sa border-box. Kaskada zatim određuje koja deklaracija važi kada se selektori sukobe: važnost, poreklo, slojevi, specifičnost i redosled igraju ulogu. DevTools Styles i Computed panel služe kao dokaz, ne kao zamena za predviđanje.",
+          "CSS model kutije uči se računanjem, ne nabrajanjem: width:200px uz padding:20px i border:2px daje spolja 244px kod content-box. Proveri isto sa border-box. Kaskada zatim određuje koja deklaracija važi kada se selektori sukobe: važnost, poreklo, slojevi, specifičnost i redosled igraju ulogu. DevTools Styles i Computed panel služe kao dokaz, ne kao zamena za predviđanje.",
           "Responsive raspored rešava problem: dva panela koja izgledaju dobro na velikom monitoru postaju nečitljiva na telefonu. CSS Grid i Flexbox mogu promeniti organizaciju bez promene HTML semantike ili podatka. Pri proveri smanji viewport, povećaj font, navigiraj Tab tasterom i posmatraj da li fokus i oznake i dalje imaju smisla."
         ],
         "tokRada": "1) Pročitaj problem i opiši šta očekuješ. 2) Odgovori bez izvršavanja. 3) Otvori detaljno objašnjenje svih opcija. 4) Pokreni primer u izolovanom editoru. 5) Izmeni jedan detalj i ponovi eksperiment. 6) Vrati se Kontrolnoj sobi i poveži naučeno sa njenim fajlovima.",
@@ -2318,24 +2318,24 @@
             {
               "key": "A",
               "text": "244 px",
-              "why": "Kod content-box modela width određuje širinu sadržaja. Padding od 20 px sa obe strane dodaje 40 px, a border od 2 px dodaje još 4 px.",
+              "why": "CSS model kutije, u content-box, meri width kao širinu sadržaja. Padding od 20 px sa obe strane dodaje 40 px, a border od 2 px dodaje još 4 px.",
               "ok": true
             },
             {
               "key": "B",
               "text": "200 px",
-              "why": "Ova pretpostavka ne važi: 200 px. Kod content-box modela width određuje širinu sadržaja. Padding od 20 px sa obe strane dodaje 40 px, a border od 2 px dodaje još 4 px.",
+              "why": "Ova pretpostavka ne važi: 200 px. CSS model kutije, u content-box, meri width kao širinu sadržaja. Padding od 20 px sa obe strane dodaje 40 px, a border od 2 px dodaje još 4 px.",
               "ok": false
             },
             {
               "key": "C",
               "text": "240 px",
-              "why": "Ova pretpostavka ne važi: 240 px. Kod content-box modela width određuje širinu sadržaja. Padding od 20 px sa obe strane dodaje 40 px, a border od 2 px dodaje još 4 px.",
+              "why": "Ova pretpostavka ne važi: 240 px. CSS model kutije, u content-box, meri width kao širinu sadržaja. Padding od 20 px sa obe strane dodaje 40 px, a border od 2 px dodaje još 4 px.",
               "ok": false
             }
           ],
           "tacanOdgovor": "244 px",
-          "objasnjenje": "Kod content-box modela width određuje širinu sadržaja. Padding od 20 px sa obe strane dodaje 40 px, a border od 2 px dodaje još 4 px. Ukupno je 244 px. Sa box-sizing: border-box ukupna spoljašnja širina bila bi 200 px, pod uslovom da nema drugih ograničenja. Razumevanje ove razlike sprečava neočekivano prelivanje kontrolne table.",
+          "objasnjenje": "CSS model kutije, u content-box, meri width kao širinu sadržaja. Padding od 20 px sa obe strane dodaje 40 px, a border od 2 px dodaje još 4 px. Ukupno je 244 px. Sa box-sizing: border-box ukupna spoljašnja širina bila bi 200 px, pod uslovom da nema drugih ograničenja. Razumevanje ove razlike sprečava neočekivano prelivanje kontrolne table.",
           "promeniIProveri": "Promeni jedan uslov iz primera, napiši novo očekivanje i tek onda ponovi proveru. Kod sa browserom koristi DOM okruženje, a HTTP/SQL scenarije pokreći samo u odgovarajućem simuliranom servisu.",
           "vezaSaAplikacijom": "HTML opisuje značenje sadržaja, CSS njegov raspored i izgled, a DOM je model dokumenta u browseru. Prikaz nije istovetan merenju.",
           "ocekivaniRezultat": "244 px",
