@@ -726,8 +726,6 @@ console.log("poslednje", shown.at(-1).t);
   evidentiraj("sam-proto", proto === "off", proto);
   const metod = logsOf(await runNode(korak("Metode, this i klase").samostalniPrimer.tekst));
   evidentiraj("sam-this", metod.logs.join(" ") === "3" && metod.throw === "TypeError", JSON.stringify(metod));
-  const klasa = stdout(await runNode(korak("Class je sintaksa iznad prototipa").samostalniPrimer.tekst));
-  evidentiraj("sam-class", klasa === "true", klasa);
   const petlja = stdout(await runNode(korak("Event loop: redosled izvršavanja").samostalniPrimer.tekst));
   evidentiraj("sam-loop", petlja === "A D C B", petlja);
   const cekanje = stdout(await runNode(korak("async/await ne blokira stranicu").samostalniPrimer.tekst));
@@ -740,7 +738,7 @@ console.log("poslednje", shown.at(-1).t);
   evidentiraj("sam-bubble", mehur.logs.join(" ") === "inner outer", mehur.logs.join(" "));
   const spec = await chrome.html(`<!doctype html><style>.broj { color: blue; } #v { color: red; }</style><p id="v" class="broj">24</p><script>document.body.dataset.result=getComputedStyle(document.getElementById("v")).color;</script>`);
   evidentiraj("sam-spec", spec === "rgb(255, 0, 0)", spec);
-  const closure = stdout(await runNode(korak("Closure").isecak + "\nconst f = granica(24);\nconsole.log(f(24), f(23));"));
+  const closure = stdout(await runNode(korak("Prag").isecak + "\nconst f = granica(24);\nconsole.log(f(24), f(23));"));
   evidentiraj("sam-closure", closure === "true false", closure);
   const pad = await python(`
 import sqlite3, os, tempfile
@@ -785,7 +783,7 @@ print(c.execute("SELECT ukljucen FROM ventilator").fetchone()[0], c.execute("SEL
   evidentiraj("sam-anotacija", tipRun.code === 0, tipRun.err.trim() || "tsc 0");
 
   const ocekivani = new Set(sviPrimeri().map((p) => p.id));
-  for (const id of ["04-e04-popravka", "04-r03-popravka", "06-e03-popravka", "06-r03-popravka", "11-e03-popravka", "11-r03-popravka", "sintaksa-js", "sam-primitiv", "sam-proto", "sam-this", "sam-class", "sam-loop", "sam-async", "sam-bubble", "sam-spec", "sam-closure", "sam-rollback", "sam-commit", "sam-ts", "sam-anotacija"]) {
+  for (const id of ["04-e04-popravka", "04-r03-popravka", "06-e03-popravka", "06-r03-popravka", "11-e03-popravka", "11-r03-popravka", "sintaksa-js", "sam-primitiv", "sam-proto", "sam-this", "sam-loop", "sam-async", "sam-bubble", "sam-spec", "sam-closure", "sam-rollback", "sam-commit", "sam-ts", "sam-anotacija"]) {
     ocekivani.add(id);
   }
   const fali = [...ocekivani].filter((id) => !vidjeni.has(id));

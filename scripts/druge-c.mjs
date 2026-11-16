@@ -38,11 +38,6 @@ analizaPitalice:"Korak postoji kao kontrapunkt. Ko vidi stari displej i zaključ
 {key:"A",text:"Zato što objekat drži broj, a klasa displeja zna koji čvor da promeni.",why:"Crtanje je odluka prikaza. Soba ne zna za DOM.",ok:true},
 {key:"B",text:"Zato što objekat sobe jeste čvor, pa dodela polja sama menja tekst.",why:"Polje nije textContent. Bez crtaj ekran ostaje star.",ok:false}],
 analizaPitalice:"crtaj postoji da prikaz ima jedno mesto. Ako objekat sam crta, stanje i DOM se opet slepe."}],
-"4:Class je sintaksa iznad prototipa": [
-{pitalica:"Zašto je metoda na prototipu, a ne sopstveno polje svakog primerka?",opcije:[
-{key:"A",text:"Zato što class samo prepisuje metodu u svaki new.",why:"Ispis true kaže da je metoda na prototipu. Primerci je dele.",ok:false},
-{key:"B",text:"Zato što je class kraći zapis lanca, a zajednička metoda ne mora da se kopira.",why:"Sintaksa ne uvodi drugi model objekta. Ostaje prototip.",ok:true}],
-analizaPitalice:"Ako student iz class zaključi da je prototip nestao, ne ume da objasni true. Sintaksa postoji da se lanac piše kraće, ne da se ukine."}],
 "4:Prekidač": [
 {pitalica:"Zašto crtaj prekidača ne menja broj temperature?",opcije:[
 {key:"A",text:"Zato što svaka klasa crta svoj deo, a natpis željenog stanja nije cifra.",why:"Dva prikaza postoje da se režim i merenje ne pišu u isti čvor.",ok:true},
@@ -57,11 +52,11 @@ analizaPitalice:"Ako student vidi reload i zaključi da je stanje sačuvano, pom
 {key:"A",text:"Ne pretvara formu u komandu ka ventilatoru.",why:"Zaustavljanje navigacije ostavlja stranu. I dalje nema rute ni servera u ovom koraku.",ok:true},
 {key:"B",text:"Ne dozvoljava da se ostatak handlera izvrši.",why:"Upravo dozvoljava da kod nastavi na istoj strani. To mu je svrha.",ok:false}],
 analizaPitalice:"Granica časa: forma više ne briše prikaz, ali još ne šalje režim."}],
-"4:Closure": [
-{pitalica:"Zašto unutrašnja funkcija i dalje vidi prag posle povratka granice?",opcije:[
-{key:"A",text:"Zato što closure pamti vezu ka pragu, a ne samo kasnije argumente.",why:"Spoljna funkcija je gotova, a unutrašnja i dalje čita ono što je zatvorila.",ok:true},
-{key:"B",text:"Zato što se prag kopira u svaki kasniji argument poziva.",why:"Argument kasnijeg poziva je druga vrednost. Prag nije taj argument.",ok:false}],
-analizaPitalice:"Closure postoji da pravilo ostane uz funkciju koja ga koristi. Ko traži prag samo među argumentima, ne vidi zašto provera i dalje zna granicu."}],
+"4:Prag": [
+{pitalica:"Šta granica(24) ostavlja programu?",opcije:[
+{key:"A",text:"Funkciju koja temperaturu poredi sa 24.",why:"Prag je u okruženju te funkcije. To je closure iz prethodne teme, ovde vezan za merenje.",ok:true},
+{key:"B",text:"Broj 24, spreman za upis u DOM.",why:"Vraća se funkcija, ne temperatura. Broj na ekran i dalje upisuje crtaj.",ok:false}],
+analizaPitalice:"Fajl niz.js dobija proveru, ne novu definiciju closure-a. Ko traži broj umesto funkcije, pomešao je prag i prikaz."}],
 
 "5:Cela poruka": [
 {pitalica:"Zašto je pretpostavka cele poruke, redom, krhka?",opcije:[
