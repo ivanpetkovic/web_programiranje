@@ -109,10 +109,29 @@ export function promesaj(niz, rng = Math.random) {
   return kopija;
 }
 
+export function seOcenjuje(izbor = {}) {
+  if (izbor.maksimum == null && !Number.isFinite(Number(izbor.poTemi))) return false;
+  return Boolean(izbor.ocenjivanje);
+}
+
 export function izaberiPitanja(pitanja, izbor = {}) {
   const opseg = izbor.opseg === "sve" ? "sve" : "tema";
   let skup = (pitanja || []).filter((pitanje) => opseg === "sve" || pitanje.tema === izbor.tema);
-  if (izbor.ocenjivanje) skup = skup.filter(mozeOcena);
+  if (seOcenjuje(izbor)) skup = skup.filter(mozeOcena);
+  const poTemi = Number(izbor.poTemi);
+  if (Number.isFinite(poTemi)) {
+    if (poTemi < 0) return [];
+    const grupe = new Map();
+    for (const pitanje of skup) {
+      if (!grupe.has(pitanje.tema)) grupe.set(pitanje.tema, []);
+      grupe.get(pitanje.tema).push(pitanje);
+    }
+    const uzeto = [];
+    for (const tema of [...grupe.keys()].sort((a, b) => a - b)) {
+      uzeto.push(...promesaj(grupe.get(tema), izbor.rng).slice(0, poTemi));
+    }
+    return promesaj(uzeto, izbor.rng);
+  }
   const poredak = promesaj(skup, izbor.rng);
   if (izbor.maksimum == null) return poredak;
   const granica = Number(izbor.maksimum);
