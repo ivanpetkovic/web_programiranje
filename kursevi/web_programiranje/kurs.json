@@ -5177,16 +5177,25 @@
               "id": "k09q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "9.3. Šta se događa ako dve promenljive imaju isto ime?\n\n```javascript\nconst poruka = \"Spolja\";\n\nfunction primer() {\n  const poruka = \"Unutra\";\n  console.log(poruka);\n}\n\nprimer();\nconsole.log(poruka);\n```\n\nŠta se ispisuje?",
-              "odgovor": "Najpre `\"Unutra\"`, zatim `\"Spolja\"`.\n\nUnutrašnja promenljiva zaklanja spoljašnju promenljivu istog imena. Ovaj mehanizam naziva se shadowing.",
-              "dodatno": "Kako JavaScript pronalazi promenljivu ako nije deklarisana u trenutnom opsegu?",
-              "dodatniOdgovor": "Pretraga se nastavlja u spoljašnjem leksičkom okruženju, zatim u njegovom spoljašnjem okruženju, sve do kraja lanca. Ako odgovarajuća deklaracija ne postoji, čitanje nedeklarisanog identifikatora izaziva `ReferenceError`."
+              "tekst": "9.3. Leksički opseg i leksičko okruženje\n\n```javascript\nconst x = 10;\n\nfunction prikazi() {\n  console.log(x);\n}\n\nfunction pozovi() {\n  const x = 20;\n  prikazi();\n}\n```\n\nLeksički opseg funkcije `prikazi` određen je mestom na kome je napisana. Pri pozivu nastaje njeno leksičko okruženje.\n\nKoja je razlika između ta dva?",
+              "odgovor": "Odnos leksičkog opsega i leksičkog okruženja sličan je odnosu klase i objekta.\n\nKlasa opisuje strukturu: koja imena postoje i kako se objekat ponaša. Objekat je konkretan primerak te strukture, sa sopstvenim vrednostima.\n\nLeksički opseg je ta struktura u kodu. Leksičko okruženje je primerak koji nastaje pri pozivu i drži konkretne vrednosti.",
+              "dodatno": "Ako funkciju `prikazi` pozovemo dvaput, šta ostaje jedno, a šta nastaje dvaput?",
+              "dodatniOdgovor": "Leksički opseg ostaje jedan, jer je funkcija napisana na jednom mestu. Nastaju dva leksička okruženja, svako sa sopstvenim vrednostima. Jedna klasa, dva objekta."
             },
             {
               "id": "k09q4",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "9.4. Zašto danas uglavnom koristimo `let` i `const`, umesto `var`?\n\n```javascript\nfunction primer() {\n  if (true) {\n    var a = 10;\n    let b = 20;\n  }\n\n  console.log(a);\n  console.log(b);\n}\n```\n\nKoja promenljiva je dostupna izvan `if` bloka?",
+              "tekst": "9.4. Šta se događa ako dve promenljive imaju isto ime?\n\n```javascript\nconst poruka = \"Spolja\";\n\nfunction primer() {\n  const poruka = \"Unutra\";\n  console.log(poruka);\n}\n\nprimer();\nconsole.log(poruka);\n```\n\nŠta se ispisuje?",
+              "odgovor": "Najpre `\"Unutra\"`, zatim `\"Spolja\"`.\n\nUnutrašnja promenljiva zaklanja spoljašnju promenljivu istog imena. Ovaj mehanizam naziva se shadowing.",
+              "dodatno": "Kako JavaScript pronalazi promenljivu ako nije deklarisana u trenutnom opsegu?",
+              "dodatniOdgovor": "Pretraga se nastavlja u spoljašnjem leksičkom okruženju, zatim u njegovom spoljašnjem okruženju, sve do kraja lanca. Ako odgovarajuća deklaracija ne postoji, čitanje nedeklarisanog identifikatora izaziva `ReferenceError`."
+            },
+            {
+              "id": "k09q5",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "9.5. Zašto danas uglavnom koristimo `let` i `const`, umesto `var`?\n\n```javascript\nfunction primer() {\n  if (true) {\n    var a = 10;\n    let b = 20;\n  }\n\n  console.log(a);\n  console.log(b);\n}\n```\n\nKoja promenljiva je dostupna izvan `if` bloka?",
               "odgovor": "`a` je dostupna, dok pristup `b` izaziva `ReferenceError`.\n\n`var` ima funkcijski opseg, dok `let` i `const` imaju blokovski opseg.",
               "dodatno": "Znači li to da `var` nikada nema lokalni opseg?",
               "dodatniOdgovor": "Ne. `var` deklarisana unutar funkcije lokalna je toj funkciji. Ono što nema jeste blokovski opseg kao `let` i `const`. Njena druga važna specifičnost, inicijalizacija pri hoistingu, obrađuje se u narednom koraku."
@@ -5242,11 +5251,15 @@
               "analizaPitalice": "Odgovor: A.\n\nJavaScript koristi leksički opseg. Funkcija pristupa promenljivama na osnovu mesta gde je definisana, a ne mesta sa kog je pozvana."
             },
             {
-              "pitalica": "9.3. Šta se događa ako dve promenljive imaju isto ime?\n\n```javascript\nconst poruka = \"Spolja\";\n\nfunction primer() {\n  const poruka = \"Unutra\";\n  console.log(poruka);\n}\n\nprimer();\nconsole.log(poruka);\n```\n\nŠta se ispisuje?",
+              "pitalica": "9.3. Leksički opseg i leksičko okruženje\n\n```javascript\nconst x = 10;\n\nfunction prikazi() {\n  console.log(x);\n}\n\nfunction pozovi() {\n  const x = 20;\n  prikazi();\n}\n```\n\nLeksički opseg funkcije `prikazi` određen je mestom na kome je napisana. Pri pozivu nastaje njeno leksičko okruženje.\n\nKoja je razlika između ta dva?",
+              "odgovor": "Odnos leksičkog opsega i leksičkog okruženja sličan je odnosu klase i objekta.\n\nKlasa opisuje strukturu: koja imena postoje i kako se objekat ponaša. Objekat je konkretan primerak te strukture, sa sopstvenim vrednostima.\n\nLeksički opseg je ta struktura u kodu. Leksičko okruženje je primerak koji nastaje pri pozivu i drži konkretne vrednosti."
+            },
+            {
+              "pitalica": "9.4. Šta se događa ako dve promenljive imaju isto ime?\n\n```javascript\nconst poruka = \"Spolja\";\n\nfunction primer() {\n  const poruka = \"Unutra\";\n  console.log(poruka);\n}\n\nprimer();\nconsole.log(poruka);\n```\n\nŠta se ispisuje?",
               "odgovor": "Najpre `\"Unutra\"`, zatim `\"Spolja\"`.\n\nUnutrašnja promenljiva zaklanja spoljašnju promenljivu istog imena. Ovaj mehanizam naziva se shadowing."
             },
             {
-              "pitalica": "9.4. Zašto danas uglavnom koristimo `let` i `const`, umesto `var`?\n\n```javascript\nfunction primer() {\n  if (true) {\n    var a = 10;\n    let b = 20;\n  }\n\n  console.log(a);\n  console.log(b);\n}\n```\n\nKoja promenljiva je dostupna izvan `if` bloka?",
+              "pitalica": "9.5. Zašto danas uglavnom koristimo `let` i `const`, umesto `var`?\n\n```javascript\nfunction primer() {\n  if (true) {\n    var a = 10;\n    let b = 20;\n  }\n\n  console.log(a);\n  console.log(b);\n}\n```\n\nKoja promenljiva je dostupna izvan `if` bloka?",
               "odgovor": "`a` je dostupna, dok pristup `b` izaziva `ReferenceError`.\n\n`var` ima funkcijski opseg, dok `let` i `const` imaju blokovski opseg."
             }
           ],
