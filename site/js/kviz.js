@@ -76,7 +76,8 @@ export function napraviKviz(ctx) {
     const imaTemu = Boolean(sada && pokriveno.includes(sada.tema));
     if (!imaTemu) stanje.opseg = "sve";
     telo.replaceChildren();
-    const uvod = el("p", "kviz-napomena", "Kviz za sada pokriva prve tri teme. Ostale dolaze kad gradivo bude provereno. Pitanja su iz koraka i nova: zamke, šta kod ispiše, i ispravka koda.");
+    const raspon = pokriveno.length ? `${pokriveno[0]}–${pokriveno[pokriveno.length - 1]}` : "nijednu temu";
+    const uvod = el("p", "kviz-napomena", `Kviz pokriva teme ${raspon}. Pitanja su iz koraka i nova: zamke, šta kod ispiše, i ispravka koda. Svako pitanje ima odgovor.`);
     telo.append(uvod);
 
     telo.append(grupaOpsega(sada, imaTemu, pokriveno));
