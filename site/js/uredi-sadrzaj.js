@@ -436,6 +436,52 @@ export function napraviStanjeUredjivanja(dokument) {
   };
 }
 
+export function porukaOdbijanja(telo, dokument) {
+  const detalji = Array.isArray(telo?.detalji)
+    ? telo.detalji.map((red) => String(red || "").trim()).filter(Boolean)
+    : [];
+  if (!detalji.length) return String(telo?.greska || "Čuvanje nije uspelo.");
+  return detalji.map((red) => objasniPut(red, dokument)).join("\n");
+}
+
+function objasniPut(red, dokument) {
+  const razdvajanje = red.indexOf(": ");
+  if (!red.startsWith("kurs") || razdvajanje < 0) return red;
+  const delovi = red.slice(0, razdvajanje).split("/");
+  const razlog = red.slice(razdvajanje + 2);
+  const recenica = [];
+  let cvor = dokument;
+  for (let i = 1; i < delovi.length; i += 1) {
+    const kljuc = delovi[i];
+    const sledi = delovi[i + 1];
+    if (/^\d+$/.test(kljuc)) continue;
+    if (/^\d+$/.test(sledi)) {
+      const n = Number(sledi);
+      const niz = cvor?.[kljuc];
+      cvor = Array.isArray(niz) ? niz[n] : undefined;
+      recenica.push(mestoUPutu(kljuc, n, cvor));
+      i += 1;
+    } else {
+      recenica.push(kljuc);
+      cvor = cvor?.[kljuc];
+    }
+  }
+  return `${recenica.length ? recenica.join(", ") : "kurs"}: ${razlog}`;
+}
+
+function mestoUPutu(kljuc, n, cvor) {
+  const broj = n + 1;
+  if (kljuc === "teme") return cvor?.naslov ? `tema ${broj} (${cvor.naslov})` : `tema ${broj}`;
+  if (kljuc === "steps") return cvor?.naslov ? `korak ${broj} (${cvor.naslov})` : `korak ${broj}`;
+  if (kljuc === "blokovi" || kljuc === "diskusija") {
+    const gde = kljuc === "diskusija" ? "diskusija" : "gradivo";
+    const oznaka = cvor?.id || String(broj);
+    const vrsta = cvor?.vrsta ? ` (${cvor.vrsta})` : "";
+    return `${gde} ${oznaka}${vrsta}`;
+  }
+  return `${kljuc} ${broj}`;
+}
+
 export function izvestajGreske({ poruka, zahtev, odgovor, uzrok }) {
   const redovi = [];
   if (poruka) redovi.push(poruka);
@@ -507,7 +553,7 @@ export async function sacuvajKursNaServeru(dokument) {
     telo = {};
   }
   if (!odgovor.ok) {
-    const poruka = telo.greska || "Čuvanje nije uspelo.";
+    const poruka = porukaOdbijanja(telo, dokument);
     throw greskaCuvanja(poruka, izvestajGreske({
       poruka,
       zahtev,

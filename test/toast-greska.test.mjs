@@ -129,10 +129,12 @@ test("toast greške stoji dole desno, krije detalje i nestaje na klik ili posle 
     })()`);
   }
   assert.ok(toast, "toast nije prikazan");
-  assert.equal(toast.tekst, "dokument nije kurs");
+  assert.match(toast.tekst, /tema 3/);
+  assert.match(toast.tekst, /korak 9/);
+  assert.match(toast.tekst, /vrsta: vrednost nije dozvoljena/);
+  assert.equal(toast.tekst.includes("dokument nije kurs"), false);
   assert.equal(toast.html.includes("PUT"), false);
-  assert.equal(toast.html.includes("detalji"), false);
-  assert.equal(toast.html.includes("vrsta"), false);
+  assert.equal(toast.html.includes("\"detalji\""), false);
   assert.equal(toast.oznaka, "Kopiraj detalje greške");
   assert.equal(toast.ikona, "#copy");
   assert.ok(toast.levoOdSredine);
