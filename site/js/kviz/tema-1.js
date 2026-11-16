@@ -46,7 +46,7 @@ export const pitanja = [
   ),
   izbor(
     1, 0, 5,
-    "Šta web traži, a ova prijava još nema?",
+    "Šta web traži, a prijava LO iz 1969. još nema?",
     [
       ["A", "Dokument na lokaciji i vezu kojom jedan dokument vodi na drugi.", true],
       ["B", "Bržu žicu između UCLA i SRI.", false],

@@ -1,6 +1,7 @@
 import { ikonica } from "./ikonice.js";
 import { novaPitanja } from "./kviz-banka.js";
 import { bazen, deloviKvizTeksta, izaberiPitanja, mozeOcena, oceni, sazetakPitanja, temeSaKvizom, zbir } from "./kviz-logika.js";
+import { nacrtajMermaid } from "./mermaid.js";
 import { deloviReda } from "./proza.js";
 
 const MAKSIMUMI = [
@@ -189,6 +190,7 @@ export function napraviKviz(ctx) {
     telo.append(meta);
 
     telo.append(omotTeksta(pitanje.tekst));
+    if (pitanje.dijagram) telo.append(figuraMermaid(pitanje.dijagram));
     if (pitanje.kod) telo.append(blokKoda(pitanje.kod));
 
     if (pitanje.vrsta === "izbor") telo.append(prikazIzbora(pitanje));
@@ -226,6 +228,7 @@ export function napraviKviz(ctx) {
     });
     navigacija.append(nazad, dalje);
     telo.append(navigacija);
+    nacrtajDijagrame(telo);
     telo.querySelector(".kviz-tekst")?.focus?.();
   }
 
@@ -380,6 +383,10 @@ export function napraviKviz(ctx) {
         cvorovi.push(blokKoda(deo.tekst));
         continue;
       }
+      if (deo.vrsta === "mermaid") {
+        cvorovi.push(figuraMermaid(deo.tekst));
+        continue;
+      }
       const pasusi = deo.tekst.split(/\n{2,}/).map((pasus) => pasus.trim()).filter(Boolean);
       for (const pasus of pasusi) {
         const cvor = document.createElement(naslov && prvaProza ? "h3" : "p");
@@ -405,6 +412,18 @@ export function napraviKviz(ctx) {
     const cvorovi = blokoviTeksta(tekst, false);
     if (cvorovi.length) omot.append(...cvorovi);
     return omot;
+  }
+
+  function figuraMermaid(izvor) {
+    const figura = el("div", "kviz-dijagram figura figura-mermaid");
+    figura.dataset.izvor = izvor;
+    return figura;
+  }
+
+  function nacrtajDijagrame(koren) {
+    for (const figura of koren.querySelectorAll(".figura-mermaid")) {
+      void nacrtajMermaid(figura, figura.dataset.izvor || "");
+    }
   }
 
   function blokKoda(tekst) {

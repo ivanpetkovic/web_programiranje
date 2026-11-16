@@ -923,6 +923,15 @@ button.sve-beleske-korak:hover { color: var(--amber); }
   line-height: 1.45;
 }
 .kviz-kod code { font: inherit; }
+.kviz-dijagram {
+  margin: 0;
+  padding: 0.7rem 0.85rem 0.9rem;
+  overflow: auto;
+  border-radius: 10px;
+  background: #f7f1e6;
+}
+html[data-pozadina-koda="crna"] .kviz-dijagram { background: #111111; }
+.kviz-dijagram svg { max-width: 100%; height: auto; }
 html[data-pozadina-koda="crna"] .kviz-kod { background: #111111; color: #f4efe4; }
 .kviz-polje { width: 100%; min-height: 9rem; }
 .kviz-navigacija { display: flex; justify-content: space-between; gap: 8px; }
