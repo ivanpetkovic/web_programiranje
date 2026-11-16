@@ -100,6 +100,51 @@ export function oceni(pitanje, odgovor) {
   return { ocenjivo: false, tacno: null, ocekivano: pitanje?.odgovor || "" };
 }
 
+const OGRADA = /^```[A-Za-z0-9_+-]*\s*$/;
+const KRAJ_OGRADE = /^```\s*$/;
+
+export function deloviKvizTeksta(tekst) {
+  const linije = String(tekst ?? "").split("\n");
+  const delovi = [];
+  let proza = [];
+  let kod = null;
+  const isprazni = () => {
+    const telo = proza.join("\n").trim();
+    proza = [];
+    if (telo) delovi.push({ vrsta: "proza", tekst: telo });
+  };
+  for (const linija of linije) {
+    if (kod) {
+      if (KRAJ_OGRADE.test(linija)) {
+        delovi.push({ vrsta: "kod", tekst: kod.join("\n") });
+        kod = null;
+      } else kod.push(linija);
+      continue;
+    }
+    if (OGRADA.test(linija)) {
+      isprazni();
+      kod = [];
+      continue;
+    }
+    proza.push(linija);
+  }
+  if (kod) proza.push("```", ...kod);
+  isprazni();
+  return delovi;
+}
+
+export function sazetakPitanja(tekst) {
+  const delovi = deloviKvizTeksta(tekst);
+  const proza = delovi
+    .filter((deo) => deo.vrsta === "proza")
+    .map((deo) => deo.tekst.replace(/\s+/g, " ").trim())
+    .filter(Boolean);
+  if (proza.length) return proza.join(" ");
+  const blok = delovi.find((deo) => deo.vrsta === "kod");
+  if (blok) return blok.tekst.replace(/\s+/g, " ").trim();
+  return String(tekst ?? "").replace(/\s+/g, " ").trim();
+}
+
 export function zbir(pitanja, odgovori) {
   let ocenjivih = 0;
   let tacnih = 0;

@@ -1,6 +1,7 @@
 import { ikonica } from "./ikonice.js";
 import { novaPitanja } from "./kviz-banka.js";
-import { bazen, izaberiPitanja, mozeOcena, oceni, temeSaKvizom, zbir } from "./kviz-logika.js";
+import { bazen, deloviKvizTeksta, izaberiPitanja, mozeOcena, oceni, sazetakPitanja, temeSaKvizom, zbir } from "./kviz-logika.js";
+import { deloviReda } from "./proza.js";
 
 const MAKSIMUMI = [
   { vrednost: 3, natpis: "3" },
@@ -187,9 +188,7 @@ export function napraviKviz(ctx) {
     if (!mozeOcena(pitanje)) meta.append(el("span", "kviz-bedz", "Bez ocene"));
     telo.append(meta);
 
-    const pitanjeNaslov = el("h3", "kviz-tekst", pitanje.tekst);
-    pitanjeNaslov.tabIndex = -1;
-    telo.append(pitanjeNaslov);
+    telo.append(omotTeksta(pitanje.tekst));
     if (pitanje.kod) telo.append(blokKoda(pitanje.kod));
 
     if (pitanje.vrsta === "izbor") telo.append(prikazIzbora(pitanje));
@@ -243,9 +242,14 @@ export function napraviKviz(ctx) {
       const znak = ikonica(otkriveno && opcija.ok ? "check-circle" : opcija.key === izabran ? "circle-dot" : "circle");
       if (znak) dugme.append(znak);
       const natpis = el("span");
-      natpis.append(document.createTextNode(`${opcija.key}. ${opcija.text}`));
+      natpis.append(document.createTextNode(`${opcija.key}. `));
+      dodajDelove(natpis, opcija.text);
       dugme.append(natpis);
-      if (otkriveno && opcija.why) dugme.append(el("p", "why", opcija.why));
+      if (otkriveno && opcija.why) {
+        const zasto = el("p", "why");
+        dodajDelove(zasto, opcija.why);
+        dugme.append(zasto);
+      }
       dugme.addEventListener("click", () => {
         if (runda.predato) return;
         runda.odgovori[pitanje.id] = opcija.key;
@@ -284,11 +288,11 @@ export function napraviKviz(ctx) {
       okvir.append(blokKoda(pitanje.resenje || ""));
     } else if (pitanje.vrsta === "tekst" && pitanje.odgovor) {
       okvir.append(el("p", "meta", "Odgovor iz gradiva"));
-      okvir.append(el("p", "kviz-proza", pitanje.odgovor));
+      okvir.append(prozaBlok(pitanje.odgovor));
     }
     if (pitanje.analiza) {
       okvir.append(el("p", "meta", "Obrazloženje"));
-      okvir.append(el("p", "kviz-proza", pitanje.analiza));
+      okvir.append(prozaBlok(pitanje.analiza));
     }
     return okvir;
   }
@@ -312,7 +316,8 @@ export function napraviKviz(ctx) {
       const ocena = zbirno.stavke[indeks];
       if (!ocena.ocenjivo) stavka.classList.add("bez-ocene");
       else stavka.classList.add(ocena.tacno ? "tacno" : "netacno");
-      const glava = el("button", "kviz-stavka-dugme", pitanje.tekst);
+      const glava = el("button", "kviz-stavka-dugme");
+      dodajDelove(glava, sazetakPitanja(pitanje.tekst));
       glava.type = "button";
       glava.addEventListener("click", () => {
         runda.indeks = indeks;
@@ -353,9 +358,60 @@ export function napraviKviz(ctx) {
     return "Izbor";
   }
 
+  function dodajDelove(cvor, tekst) {
+    for (const deo of deloviReda(tekst)) {
+      if (deo.kod) {
+        const kod = document.createElement("code");
+        kod.textContent = deo.tekst;
+        cvor.append(kod);
+      } else if (deo.jako) {
+        const jako = document.createElement("strong");
+        jako.textContent = deo.tekst;
+        cvor.append(jako);
+      } else if (deo.tekst) cvor.append(document.createTextNode(deo.tekst));
+    }
+  }
+
+  function blokoviTeksta(tekst, naslov) {
+    const cvorovi = [];
+    let prvaProza = true;
+    for (const deo of deloviKvizTeksta(tekst)) {
+      if (deo.vrsta === "kod") {
+        cvorovi.push(blokKoda(deo.tekst));
+        continue;
+      }
+      const pasusi = deo.tekst.split(/\n{2,}/).map((pasus) => pasus.trim()).filter(Boolean);
+      for (const pasus of pasusi) {
+        const cvor = document.createElement(naslov && prvaProza ? "h3" : "p");
+        prvaProza = false;
+        if (cvor.tagName === "P") cvor.className = "kviz-nastavak";
+        dodajDelove(cvor, pasus.replace(/\n+/g, " "));
+        cvorovi.push(cvor);
+      }
+    }
+    return cvorovi;
+  }
+
+  function omotTeksta(tekst) {
+    const omot = el("div", "kviz-tekst");
+    omot.tabIndex = -1;
+    const cvorovi = blokoviTeksta(tekst, true);
+    if (cvorovi.length) omot.append(...cvorovi);
+    return omot;
+  }
+
+  function prozaBlok(tekst) {
+    const omot = el("div", "kviz-proza");
+    const cvorovi = blokoviTeksta(tekst, false);
+    if (cvorovi.length) omot.append(...cvorovi);
+    return omot;
+  }
+
   function blokKoda(tekst) {
     const pre = el("pre", "kviz-kod");
-    pre.textContent = tekst;
+    const code = document.createElement("code");
+    code.textContent = tekst;
+    pre.append(code);
     return pre;
   }
 

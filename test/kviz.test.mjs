@@ -5,12 +5,15 @@ import { novaPitanja } from "../site/js/kviz-banka.js";
 import {
   bazen,
   bezBelih,
+  deloviKvizTeksta,
   izaberiPitanja,
   izPostojeceg,
   oceni,
+  sazetakPitanja,
   temeSaKvizom,
   zbir,
 } from "../site/js/kviz-logika.js";
+import { deloviReda } from "../site/js/proza.js";
 
 test("belina se odbacuje, ostali znakovi ostaju", () => {
   assert.equal(bezBelih("a b\n\tc"), "abc");
@@ -108,4 +111,27 @@ test("kviz pokriva samo prve tri teme i svaki njihov korak ima bar deset pitanja
     });
   }
   assert.equal(sve.some((pitanje) => pitanje.tema > 3), false);
+});
+
+test("ograda u pitanju postaje blok koda, a kratki kod u opciji ostaje bez navodnika", () => {
+  const pitanje = lectures.find((lekcija) => lekcija.n === 3).steps[8].pitalice
+    .find((stavka) => stavka.pitalica.includes("tamo gde je pozvana"));
+  const delovi = deloviKvizTeksta(pitanje.pitalica);
+  assert.deepEqual(delovi.map((deo) => deo.vrsta), ["proza", "kod", "proza"]);
+  assert.match(delovi[1].tekst, /function prikazi\(\)/);
+  assert.equal(delovi.every((deo) => !deo.tekst.includes("```")), true);
+  assert.equal(delovi[2].tekst, "Šta se ispisuje?");
+  assert.equal(
+    sazetakPitanja(pitanje.pitalica).includes("function prikazi"),
+    false,
+  );
+  assert.match(sazetakPitanja(pitanje.pitalica), /Šta se ispisuje\?/);
+  assert.deepEqual(pitanje.opcije.map((opcija) => deloviReda(opcija.text)), [
+    [{ tekst: "10", kod: true }],
+    [{ tekst: "20", kod: true }],
+    [{ tekst: "undefined", kod: true }],
+  ]);
+  const otvorena = deloviKvizTeksta("pre\n```javascript\nconst x = 1;");
+  assert.equal(otvorena.every((deo) => deo.vrsta === "proza"), true);
+  assert.match(otvorena.map((deo) => deo.tekst).join("\n"), /const x = 1;/);
 });
