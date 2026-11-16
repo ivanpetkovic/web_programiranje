@@ -82,7 +82,7 @@ test("prekidač drži crtaj u svojim fajlovima", () => {
 });
 
 test("kraj teme događaja ima klijentske fajlove kursa, svaki u verziji do tog koraka", () => {
-  const stablo = stabloDo(koraci, indeks("Closure"));
+  const stablo = stabloDo(koraci, indeks("Prag"));
   const fajlovi = fajloviStrane(stablo, "client");
   for (const put of ["index.html", "css/soba.css", "js/korak.js", "js/niz.js", "js/displej.js", "js/prekidac.js"]) {
     assert.ok(fajlovi.includes(put), put);

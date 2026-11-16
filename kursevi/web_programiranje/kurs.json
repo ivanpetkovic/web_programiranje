@@ -7192,14 +7192,6 @@
           "body": "Listener čeka događaj ako dobije funkciju. Poziv sa zagradama odradi se odmah.",
           "code": "dugme.addEventListener(\"click\", nacrtaj);",
           "codeLanguage": "javascript"
-        },
-        {
-          "id": "closure",
-          "name": "Closure",
-          "hint": "unutrašnja funkcija pamti prag",
-          "body": "Sinhrona funkcija vrati funkciju koja i dalje vidi prag. Tajmer nije deo ovog primera.",
-          "code": "function granica(prag) {\n  return (t) => t >= prag;\n}",
-          "codeLanguage": "javascript"
         }
       ],
       "steps": [
@@ -7720,89 +7712,6 @@
           ]
         },
         {
-          "naslov": "Class je sintaksa iznad prototipa",
-          "nivo": "Primena",
-          "minuta": 5,
-          "tipPrimer": "pitalica-kod",
-          "tekst": "Dve instance dele isti metod, ali ne i sopstvena polja. class u JavaScriptu koristi prototipski mehanizam: metode iz tela klase obično se nalaze na Constructor.prototype, a ne kao posebna kopija na svakoj instanci. To je važno za deljenje ponašanja i razumevanje instanceof.",
-          "kljucnaIdeja": "Metode deklarisane u class telu se nalaze na prototipu.",
-          "samostalniPrimer": {
-            "jezik": "javascript",
-            "izolovan": true,
-            "tekst": "class Displej { crtaj() {} }\nconst a = new Displej();\nconst b = new Displej();\nconsole.log(a.crtaj === b.crtaj);"
-          },
-          "dijagram": {
-            "format": "text",
-            "tekst": "a ─┐\n   ├──▶ Displej.prototype { crtaj() }\nb ─┘"
-          },
-          "pitalica": "Šta se ispisuje?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "true",
-              "why": "Metoda se deli preko Displej.prototype. class u JavaScriptu koristi prototipski mehanizam: metode iz tela klase obično se nalaze na Constructor.prototype, a ne kao posebna kopija na svakoj instanci. To je važno za deljenje ponašanja i razumevanje instanceof.",
-              "ok": true
-            },
-            {
-              "key": "B",
-              "text": "false",
-              "why": "Nisu napravljene dve funkcije za dve instance. class u JavaScriptu koristi prototipski mehanizam: metode iz tela klase obično se nalaze na Constructor.prototype, a ne kao posebna kopija na svakoj instanci.",
-              "ok": false
-            },
-            {
-              "key": "C",
-              "text": "TypeError",
-              "why": "Metod postoji u prototipskom lancu obe instance. class u JavaScriptu koristi prototipski mehanizam: metode iz tela klase obično se nalaze na Constructor.prototype, a ne kao posebna kopija na svakoj instanci.",
-              "ok": false
-            }
-          ],
-          "analizaPitalice": "class u JavaScriptu koristi prototipski mehanizam: metode iz tela klase obično se nalaze na Constructor.prototype, a ne kao posebna kopija na svakoj instanci. To je važno za deljenje ponašanja i razumevanje instanceof.",
-          "pitalice": [
-            {
-              "pitalica": "Šta se ispisuje?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "true",
-                  "why": "Metoda se deli preko Displej.prototype. class u JavaScriptu koristi prototipski mehanizam: metode iz tela klase obično se nalaze na Constructor.prototype, a ne kao posebna kopija na svakoj instanci. To je važno za deljenje ponašanja i razumevanje instanceof.",
-                  "ok": true
-                },
-                {
-                  "key": "B",
-                  "text": "false",
-                  "why": "Nisu napravljene dve funkcije za dve instance. class u JavaScriptu koristi prototipski mehanizam: metode iz tela klase obično se nalaze na Constructor.prototype, a ne kao posebna kopija na svakoj instanci.",
-                  "ok": false
-                },
-                {
-                  "key": "C",
-                  "text": "TypeError",
-                  "why": "Metod postoji u prototipskom lancu obe instance. class u JavaScriptu koristi prototipski mehanizam: metode iz tela klase obično se nalaze na Constructor.prototype, a ne kao posebna kopija na svakoj instanci.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "class u JavaScriptu koristi prototipski mehanizam: metode iz tela klase obično se nalaze na Constructor.prototype, a ne kao posebna kopija na svakoj instanci. To je važno za deljenje ponašanja i razumevanje instanceof."
-            },
-            {
-              "pitalica": "Zašto je metoda na prototipu, a ne sopstveno polje svakog primerka?",
-              "opcije": [
-                {
-                  "key": "B",
-                  "text": "Zato što class samo prepisuje metodu u svaki new.",
-                  "why": "Ispis true kaže da je metoda na prototipu. Primerci je dele.",
-                  "ok": false
-                },
-                {
-                  "key": "A",
-                  "text": "Zato što je class kraći zapis lanca, a zajednička metoda ne mora da se kopira.",
-                  "why": "Sintaksa ne uvodi drugi model objekta. Ostaje prototip.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Ako student iz class zaključi da je prototip nestao, ne ume da objasni true. Sintaksa postoji da se lanac piše kraće, ne da se ukine."
-            }
-          ]
-        },
-        {
           "naslov": "Prekidač",
           "nivo": "Osnovno",
           "minuta": 5,
@@ -7960,70 +7869,70 @@
           ]
         },
         {
-          "naslov": "Closure",
+          "naslov": "Prag",
           "nivo": "Osnovno",
           "minuta": 5,
           "tipPrimer": "aplikacija",
-          "tekst": "Spoljašnja funkcija vrati unutrašnju i pamti prag. Closure znači da funkcija zadržava pristup leksičkom okruženju u kome je nastala. Nije vezan za tajmere ni asinhronost; granica(24) vraća funkciju koja i kasnije zna taj prag.",
-          "kljucnaIdeja": "Closure je sinhrona funkcija koja vrati funkciju i pamti prag.",
+          "tekst": "Temperatura sobe ima granicu. granica(24) vraća funkciju koja 24 poredi sa pragom, a 23 ostavlja ispod. Prag ostaje uz tu funkciju. To je closure iz prethodne teme, ovde samo uz merenje. Korak uvodi fajl koji tu proveru drži.",
+          "kljucnaIdeja": "granica(24) pamti prag za temperaturu. Mehanizam je closure iz prethodne teme.",
           "putanja": "client/js/niz.js",
-          "isecakNaslov": "Closure",
+          "isecakNaslov": "Prag",
           "isecakJezik": "javascript",
           "isecak": "function granica(prag) {\n  return (t) => t >= prag;\n}",
           "delic": "function granica(prag) {\n  return (t) => t >= prag;\n}",
-          "pitalica": "Šta unutrašnja funkcija i dalje vidi?",
+          "pitalica": "Šta vraćaju granica(24)(24) i granica(24)(23)?",
           "opcije": [
             {
               "key": "A",
-              "text": "Samo argumente svog kasnijeg poziva.",
-              "why": "Vidi i prag iz spolja. Closure znači da funkcija zadržava pristup leksičkom okruženju u kome je nastala.",
-              "ok": false
+              "text": "true, pa false. 24 doseže prag, 23 ne.",
+              "why": "Poređenje je t >= 24. Prag je ostao iz poziva granica.",
+              "ok": true
             },
             {
               "key": "B",
-              "text": "Prag koji je granica dobila.",
-              "why": "To je sinhroni closure. Closure znači da funkcija zadržava pristup leksičkom okruženju u kome je nastala. Nije vezan za tajmere ni asinhronost; granica(24) vraća funkciju koja i kasnije zna taj prag.",
-              "ok": true
+              "text": "false, pa true. Manji broj prolazi prvi.",
+              "why": "Provera nije blizina nuli. 23 je ispod praga.",
+              "ok": false
             }
           ],
-          "analizaPitalice": "Closure znači da funkcija zadržava pristup leksičkom okruženju u kome je nastala. Nije vezan za tajmere ni asinhronost; granica(24) vraća funkciju koja i kasnije zna taj prag.",
+          "analizaPitalice": "granica(24) ostavlja proveru temperature. Closure koji prag drži već je bio čas. Ovde se vidi samo ishod na 24 i 23.",
           "proveraPitalice": "predvidi-pa-proveri",
           "pitalice": [
             {
-              "pitalica": "Šta unutrašnja funkcija i dalje vidi?",
+              "pitalica": "Šta vraćaju granica(24)(24) i granica(24)(23)?",
               "opcije": [
                 {
                   "key": "A",
-                  "text": "Samo argumente svog kasnijeg poziva.",
-                  "why": "Vidi i prag iz spolja. Closure znači da funkcija zadržava pristup leksičkom okruženju u kome je nastala.",
-                  "ok": false
+                  "text": "true, pa false. 24 doseže prag, 23 ne.",
+                  "why": "Poređenje je t >= 24. Prag je ostao iz poziva granica.",
+                  "ok": true
                 },
                 {
                   "key": "B",
-                  "text": "Prag koji je granica dobila.",
-                  "why": "To je sinhroni closure. Closure znači da funkcija zadržava pristup leksičkom okruženju u kome je nastala. Nije vezan za tajmere ni asinhronost; granica(24) vraća funkciju koja i kasnije zna taj prag.",
-                  "ok": true
+                  "text": "false, pa true. Manji broj prolazi prvi.",
+                  "why": "Provera nije blizina nuli. 23 je ispod praga.",
+                  "ok": false
                 }
               ],
-              "analizaPitalice": "Closure znači da funkcija zadržava pristup leksičkom okruženju u kome je nastala. Nije vezan za tajmere ni asinhronost; granica(24) vraća funkciju koja i kasnije zna taj prag."
+              "analizaPitalice": "granica(24) ostavlja proveru temperature. Closure koji prag drži već je bio čas. Ovde se vidi samo ishod na 24 i 23."
             },
             {
-              "pitalica": "Zašto unutrašnja funkcija i dalje vidi prag posle povratka granice?",
+              "pitalica": "Šta granica(24) ostavlja programu?",
               "opcije": [
                 {
                   "key": "B",
-                  "text": "Zato što se prag kopira u svaki kasniji argument poziva.",
-                  "why": "Argument kasnijeg poziva je druga vrednost. Prag nije taj argument.",
+                  "text": "Broj 24, spreman za upis u DOM.",
+                  "why": "Vraća se funkcija, ne temperatura. Broj na ekran i dalje upisuje crtaj.",
                   "ok": false
                 },
                 {
                   "key": "A",
-                  "text": "Zato što closure pamti vezu ka pragu, a ne samo kasnije argumente.",
-                  "why": "Spoljna funkcija je gotova, a unutrašnja i dalje čita ono što je zatvorila.",
+                  "text": "Funkciju koja temperaturu poredi sa 24.",
+                  "why": "Prag je u okruženju te funkcije. To je closure iz prethodne teme, ovde vezan za merenje.",
                   "ok": true
                 }
               ],
-              "analizaPitalice": "Closure postoji da pravilo ostane uz funkciju koja ga koristi. Ko traži prag samo među argumentima, ne vidi zašto provera i dalje zna granicu."
+              "analizaPitalice": "Fajl niz.js dobija proveru, ne novu definiciju closure-a. Ko traži broj umesto funkcije, pomešao je prag i prikaz."
             }
           ]
         }
@@ -8036,7 +7945,7 @@
           "Listener dobija funkciju, a ne rezultat njenog poziva. Greška addEventListener('click', handler()) obično pokreće handler pri registraciji. U Kontrolnoj sobi klik menja željeno stanje, a odvojena funkcija ažurira displej i natpis prekidača. Kasnije će isti UI slati komandu serveru umesto da sam glumi stvarni ventilator.",
           "Browserov DOM je stablo objekata za prikaz dokumenta, a model aplikacije je naš sopstveni objekat sa temperaturom. Niko automatski ne održava njihovu jednakost u običnom JavaScriptu. Zato organizujemo jednosmerni tok: događaj → logika promene stanja → funkcija za prikaz. Kada vrednosti odstupaju, možemo zasebno proveriti svaki prelaz.",
           "Događaj se ne obrađuje samo 'na dugmetu'. DOM definiše cilj i faze propagacije: capture, target i bubble. event.target govori gde je događaj nastao, a event.currentTarget gde se trenutno obrađuje. Delegacija događaja koristi taj mehanizam za više kontrola. Za dugme u formi vodi računa i o podrazumevanom submit ponašanju.",
-          "Klase za Displej i Prekidač ne uvodimo zato što JavaScript zahteva objektno-orijentisani dizajn, nego da odvojimo upravljanje prikazom. Student treba da objasni gde živi zajednička metoda, kako radi this i kakvu grešku dobijamo kada prosledimo odvojenu metodu bez njenog primaoca."
+          "Klase za Displej i Prekidač ne uvodimo zato što JavaScript zahteva objektno-orijentisani dizajn, nego da odvojimo upravljanje prikazom. Gde živi zajednička metoda i kako this radi već je rečeno uz prototip. Ovde klasa samo drži crtaj odvojeno od objekta sobe."
         ],
         "tokRada": "1) Pročitaj problem i opiši šta očekuješ. 2) Odgovori bez izvršavanja. 3) Otvori detaljno objašnjenje svih opcija. 4) Pokreni primer u izolovanom editoru. 5) Izmeni jedan detalj i ponovi eksperiment. 6) Vrati se Kontrolnoj sobi i poveži naučeno sa njenim fajlovima.",
         "graniceZnanja": "Korisnički događaj menja aplikaciono stanje tek kada ga obradi listener; poseban korak mora uskladiti DOM sa novim stanjem. Pretpostavke o serveru, browseru i bazi moraš navesti eksplicitno; kada zavise od konfiguracije, odgovor nije univerzalan.",
