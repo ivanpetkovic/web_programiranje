@@ -17,9 +17,12 @@ Zaglavlje (`header.top`) je jedan red visok 86 px. Elementi idu sleva nadesno:
 | Naslov kursa | `naslov` iz `kurs.json`. Isporučeni kurs pokazuje Web programiranje, u boji naglaska. Zaglavlje nema ikonicu pored naslova. `slika` je putanja u dokumentu kursa i u Studiju; zaglavlje je ne crta. |
 | Pretraga | Sklopljena lupa sa oznakom ⌘K. Polje se raširi na fokus ili kad u njemu ima upita. Placeholder je Nađi pojam, pitanje ili primer koda. Prečica je Command+K ili Ctrl+K. |
 | Pomoć | Dijalog sa kratkim uputstvom. |
-| Dugme beleški | `bookmark` i `chevron-down`. Otvara spisak beleški koraka. |
-| Dugme Opcije | `settings`, Opcije i strelica koja se okreće kad je panel otvoren. |
+| Kviz | Samo `graduation-cap`, bez natpisa. |
+| Dugme beleški | `bookmark` i `chevron-down`, bez natpisa. Otvara spisak beleški koraka. |
+| Dugme Opcije | `settings` i strelica koja se okreće kad je panel otvoren. Nema natpisa; ime je u `aria-label`. |
 | Oznaka | Krug 56 px sa oznakom iz `kurs.json` (na maketi MP). |
+
+Kviz, beleške i Opcije su iste visine kao ranije, ali Opcije su uske kao beleške (85 px): samo ikonice. Dok je kontrola zatvorena, ivica, pozadina i ikonica su kao kod Pomoći (papir i mastilo). Žuta boja naglaska znači da je dugme otvoreno (`aria-expanded="true"`). Spisak beleški i dalje visi ispod dugmeta beleški; pošto je dugme Opcija uže, spisak je pomeren udesno.
 
 ### Traka časa
 

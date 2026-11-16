@@ -54,7 +54,9 @@ test("zaglavlje u jednom redu nosi ikonice i nema klizač tema", () => {
   assert.match(zaglavlje, /id="pomoc"[^>]*data-ikona="help-circle"/);
   assert.match(zaglavlje, /id="kviz-dugme"[\s\S]*?data-ikona="graduation-cap"/);
   assert.match(zaglavlje, /id="beleske-dugme"[\s\S]*?data-ikona="bookmark"[\s\S]*?data-ikona="chevron-down"[\s\S]*?<\/button>/);
-  assert.match(zaglavlje, /id="opcije-dugme"[\s\S]*?data-ikona="settings"[\s\S]*?<span>Opcije<\/span>[\s\S]*?data-ikona="chevron-down"/);
+  assert.match(zaglavlje, /id="kviz-dugme"[^>]*aria-expanded="false"/);
+  assert.match(zaglavlje, /id="opcije-dugme"[^>]*aria-label="Opcije"[\s\S]*?data-ikona="settings"[\s\S]*?data-ikona="chevron-down"/);
+  assert.equal(/id="opcije-dugme"[\s\S]*?<span>Opcije<\/span>/.test(zaglavlje), false);
   for (const staro of ['id="klizac"', 'id="natpis-teme"', 'id="prethodna-tema"', 'id="sledeca-tema"', 'id="sacuvaj-zaglavlje"', 'class="tema-meni"', 'id="font-kontrole"']) {
     assert.equal(html.includes(staro), false, staro);
   }
@@ -64,6 +66,16 @@ test("zaglavlje u jednom redu nosi ikonice i nema klizač tema", () => {
   const opcije = fs.readFileSync(new URL("../site/js/opcije.js", import.meta.url), "utf8");
   assert.match(opcije, /strelicom\("chevron-up"\)/);
   assert.match(opcije, /naZatvori: \(\) => strelicom\("chevron-down"\)/);
+  const kviz = fs.readFileSync(new URL("../site/js/kviz.js", import.meta.url), "utf8");
+  assert.match(kviz, /setAttribute\("aria-expanded", "true"\)/);
+  assert.match(kviz, /setAttribute\("aria-expanded", "false"\)/);
+  const mirovanje = css.slice(css.indexOf(".kviz-dugme, .beleske-dugme, .opcije-dugme {"), css.indexOf(".kviz-dugme {"));
+  assert.match(mirovanje, /color:\s*var\(--ink\)/);
+  assert.match(mirovanje, /background:\s*var\(--paper\)/);
+  assert.match(mirovanje, /border:\s*1px solid var\(--line\)/);
+  assert.equal(mirovanje.includes("var(--amber)"), false);
+  assert.match(css, /\.opcije-dugme\[aria-expanded="true"\][\s\S]*?color:\s*var\(--amber\)/);
+  assert.match(css, /\.opcije-dugme \{ width: 85px;/);
 });
 
 test("zaglavlje, spisak i kartica nose ikonice", () => {

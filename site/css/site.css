@@ -2921,18 +2921,30 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     flex: none;
     gap: 8px;
     height: 55px;
-    border: 1px solid color-mix(in srgb, var(--amber) 55%, var(--line));
+    border: 1px solid var(--line);
     border-radius: 12px;
-    background: color-mix(in srgb, var(--amber) 8%, var(--paper));
-    color: var(--amber);
+    background: var(--paper);
+    color: var(--ink);
   }
   .kviz-dugme { width: 85px; margin-left: 24px; padding: 0; }
   .beleske-dugme { width: 85px; margin-left: 12px; padding: 0; }
-  .opcije-dugme { width: 176px; margin-left: 27px; padding: 0 16px; font-size: 20px; font-weight: 700; }
+  .opcije-dugme { width: 85px; margin-left: 27px; padding: 0; }
   .kviz-dugme .ikona-slot, .beleske-dugme .ikona-slot, .opcije-dugme .ikona-slot { display: grid; }
   .kviz-dugme .ikona, .beleske-dugme .ikona, .opcije-dugme .ikona { width: 24px; height: 24px; }
   .beleske-dugme .ikona-slot + .ikona-slot .ikona, .opcije-strelica .ikona { width: 18px; height: 18px; }
-  .kviz-dugme:hover, .beleske-dugme[aria-expanded="true"], .opcije-dugme[aria-expanded="true"] { background: color-mix(in srgb, var(--amber) 14%, var(--paper)); }
+  .kviz-dugme:hover, .beleske-dugme:hover, .opcije-dugme:hover {
+    border-color: color-mix(in srgb, var(--ink) 35%, var(--line));
+  }
+  .kviz-dugme[aria-expanded="true"],
+  .beleske-dugme[aria-expanded="true"],
+  .opcije-dugme[aria-expanded="true"],
+  .kviz-dugme[aria-expanded="true"]:hover,
+  .beleske-dugme[aria-expanded="true"]:hover,
+  .opcije-dugme[aria-expanded="true"]:hover {
+    border-color: color-mix(in srgb, var(--amber) 55%, var(--line));
+    background: color-mix(in srgb, var(--amber) 8%, var(--paper));
+    color: var(--amber);
+  }
   .top > #oznaka { flex: none; width: 56px; height: 56px; margin-left: 38px; font-size: 20px; }
   .opcije-panel {
     position: absolute;
@@ -2952,7 +2964,7 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   .beleske-lista {
     position: absolute;
     top: 76px;
-    right: 349px;
+    right: 258px;
     z-index: 10;
     width: 342px;
     overflow: hidden;

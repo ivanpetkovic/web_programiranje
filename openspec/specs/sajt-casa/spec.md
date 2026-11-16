@@ -631,7 +631,15 @@ A shell icon MUST be the same-named SVG from the currentColor set and MUST paint
 - **THEN** a shell icon painted in the accent color uses that theme's accent and no PNG icon is shown
 
 ### Requirement: Ikonice zaglavlja
-Search MUST show `search`. Help MUST show `help-circle`. The Sačuvane beleške control MUST show `bookmark` and `chevron-down`. The Opcije control MUST show `settings`. The course title MUST be the words from the course document and MUST NOT show an image or a shell icon. The initials MUST stay the letters from the course document. The mark MUST stay the course document mark.
+Search MUST show `search`. Help MUST show `help-circle`. The Sačuvane beleške control MUST show `bookmark` and `chevron-down`. The Opcije control MUST show `settings` and MUST NOT show a visible text label. Kviz, Sačuvane beleške, and Opcije MUST use the ink color while closed and the accent color while `aria-expanded` is true. The course title MUST be the words from the course document and MUST NOT show an image or a shell icon. The initials MUST stay the letters from the course document. The mark MUST stay the course document mark.
+
+#### Scenario: Idle header actions are not accent
+- **WHEN** Kviz, Sačuvane beleške, and Opcije are closed
+- **THEN** those three controls use the ink color, and Opcije shows no visible word Opcije
+
+#### Scenario: Open header action is accent
+- **WHEN** the student opens Sačuvane beleške or Opcije
+- **THEN** the open control uses the accent color and the closed ones stay in the ink color
 
 #### Scenario: Header icons
 - **WHEN** a lecture is open
