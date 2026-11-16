@@ -6649,12 +6649,12 @@
           "delic": "// Greške, izuzeci i debagovanje\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Sintaksna greška\n// const x = ;\n\n// TypeError\n// const osoba = null;\n//\n// console.log(osoba.ime); // TypeError\n\n// Logička greška\nfunction povrsina(a, b) {\n  return a + b; // Pogrešna formula\n}\n\n// throw\nfunction procenat(deo, ukupno) {\n  if (ukupno === 0) {\n    throw new Error(\"Ukupno ne sme biti nula\");\n  }\n\n  return (deo / ukupno) * 100;\n}\n\n// try, catch, finally\ntry {\n  const rezultat = procenat(5, 0);\n  console.log(rezultat);\n\n} catch (greska) {\n  console.log(greska.message);\n\n} finally {\n  console.log(\"Obrada je završena\");\n}\n"
         },
         {
-          "naslov": "Moduli, JSON i priprema za Web",
+          "naslov": "Moduli i priprema za Web",
           "nivo": "Primena",
           "minuta": 3,
           "tipPrimer": "eksperiment",
-          "tekst": "Kako program raste, čuvanje celokupnog koda u jednoj datoteci postaje nepregledno.\n\nPotrebno je razdvojiti odgovornosti i definisati kako različiti delovi programa međusobno koriste funkcije i podatke.\n\n### JavaScript moduli\n\nJavaScript podržava module koji omogućavaju organizovanje koda u nezavisne datoteke.\n\nModul može izvoziti vrednosti pomoću `export`.\n\nDrugi modul može uvesti te vrednosti pomoću `import`.\n\nModuli imaju sopstveni opseg, a uvezeni identifikatori ne postaju automatski globalne promenljive.\n\nJavaScript moduli podrazumevano se izvršavaju u strogom režimu (strict mode).\n\nU browser-u se ulazni modul može uključiti pomoću HTML elementa `<script type=\"module\">`.\n\nModuli omogućavaju da se javno dostupne funkcije i podaci eksplicitno definišu, umesto da se sve oslanja na globalne promenljive.\n\n### JavaScript objekti i JSON\n\nJavaScript objekat je struktura podataka koja postoji tokom izvršavanja programa.\n\nMeđutim, kada podaci treba da se sačuvaju ili prenesu između sistema, potreban je format za njihovo predstavljanje.\n\nJSON (JavaScript Object Notation) je tekstualni format za razmenu strukturisanih podataka.\n\nJSON podseća na sintaksu JavaScript objekata, ali nije isto što i JavaScript objekat.\n\nJSON ima sopstvenu gramatiku. Na primer, nazivi svojstava moraju biti stringovi zapisani dvostrukim navodnicima.\n\nJSON podržava objekte, nizove, stringove, brojeve, logičke vrednosti i `null`, ali ne i JavaScript funkcije, `undefined` ili reference koje predstavljaju kružne veze.\n\n### Serijalizacija i deserijalizacija\n\nZa pretvaranje JavaScript vrednosti u JSON tekst koristi se `JSON.stringify()`.\n\nZa pretvaranje JSON teksta u JavaScript vrednost koristi se `JSON.parse()`.\n\nSerijalizacija nije isto što i kloniranje kompletnog objekta.\n\nJSON ne čuva JavaScript funkcije, prototipski lanac ili sve specifične tipove vrednosti. Na primer, svojstva sa vrednošću `undefined` izostavljaju se pri standardnoj JSON serijalizaciji objekta.\n\nTakođe, `JSON.parse()` može baciti izuzetak ako tekst nije validan JSON. Time se ovaj korak povezuje sa obradom grešaka iz prethodne lekcije.\n\n### Razlika između JavaScripta i Web API-ja\n\nNa kraju teme potrebno je jasno razdvojiti sam jezik od okruženja u kome se izvršava.\n\nJavaScript kao jezik definiše promenljive, tipove, objekte, funkcije, klase, module i ugrađene mehanizme kao što su `Promise` i JSON obrada.\n\nBrowser dodatno obezbeđuje API-je, uključujući:\n\n| API | Namena |\n| --- | --- |\n| DOM | Pristup i izmena HTML dokumenta |\n| Event API | Reagovanje na događaje |\n| Fetch API | Slanje HTTP zahteva |\n| Timers API | Zakazivanje izvršavanja |\n| Web Storage | Čuvanje podataka u browser-u |\n\nNa primer, `document.querySelector()` nije deo osnovnog JavaScript jezika. To je metoda koju obezbeđuje DOM API browser-a.\n\nSlično tome, `setTimeout()` nije standardna funkcija jezika ECMAScript, već funkcionalnost odgovarajućeg okruženja izvršavanja.\n\n### Prelaz na asinhrono izvršavanje\n\nDo sada smo uglavnom objašnjavali sinhrono izvršavanje: funkcija se poziva, njen kod se izvrši i rezultat se vrati pozivaocu.\n\nWeb aplikacije često čekaju spoljne operacije, kao što su mrežni zahtevi, korisničke akcije i tajmeri.\n\nKada bi se za svaku takvu operaciju blokiralo izvršavanje JavaScripta do njenog završetka, interaktivne aplikacije ne bi mogle efikasno da funkcionišu.\n\nZato naredna tema treba da objasni asinhroni model izvršavanja: događaje, callbacks, event loop, redove zadataka, Promise i `async/await`.\n\n### Završni pregled teme\n\nOvih 15 koraka čine zaokruženo gradivo o osnovama JavaScript jezika. Student po završetku treba da ume da objasni ne samo šta određeni izraz radi, već i zašto se izvršava na određeni način.\n\nDijagram prikazuje konceptualne zavisnosti, ne strogi redosled svih 15 koraka. Kontrola toka, operatori, nizovi i rad sa podacima obrađuju se pre modela izvršavanja.\n\nU ovom obimu zadržane su ključne metode za nizove, posebno `map`, `filter`, `find` i `reduce`. Ostale metode uvode se po potrebi u editoru. Nema potrebe da studenti pamte kompletnu standardnu biblioteku.\n\nPitanja za diskusiju stoje u tabu Diskusija ovog koraka. Njima se proverava razumevanje mehanizama i predviđanje ponašanja koda.",
-          "kljucnaIdeja": "Moduli organizuju JavaScript kod, JSON omogućava predstavljanje podataka za razmenu, a browser obezbeđuje dodatne API-je. Razlikovanje jezika i okruženja ključno je za razumevanje sledećih tema.",
+          "tekst": "Kako program raste, čuvanje celokupnog koda u jednoj datoteci postaje nepregledno.\n\nPotrebno je razdvojiti odgovornosti i definisati kako različiti delovi programa međusobno koriste funkcije i podatke.\n\n### JavaScript moduli\n\nJavaScript podržava module koji omogućavaju organizovanje koda u nezavisne datoteke.\n\nModul može izvoziti vrednosti pomoću `export`.\n\nDrugi modul može uvesti te vrednosti pomoću `import`.\n\nModuli imaju sopstveni opseg, a uvezeni identifikatori ne postaju automatski globalne promenljive.\n\nJavaScript moduli podrazumevano se izvršavaju u strogom režimu (strict mode).\n\nU browser-u se ulazni modul može uključiti pomoću HTML elementa `<script type=\"module\">`.\n\nModuli omogućavaju da se javno dostupne funkcije i podaci eksplicitno definišu, umesto da se sve oslanja na globalne promenljive.\n\n### Razlika između JavaScripta i Web API-ja\n\nNa kraju teme potrebno je jasno razdvojiti sam jezik od okruženja u kome se izvršava.\n\nJavaScript kao jezik definiše promenljive, tipove, objekte, funkcije, klase, module i ugrađene mehanizme kao što je `Promise`.\n\nBrowser dodatno obezbeđuje API-je, uključujući:\n\n| API | Namena |\n| --- | --- |\n| DOM | Pristup i izmena HTML dokumenta |\n| Event API | Reagovanje na događaje |\n| Fetch API | Slanje HTTP zahteva |\n| Timers API | Zakazivanje izvršavanja |\n| Web Storage | Čuvanje podataka u browser-u |\n\nNa primer, `document.querySelector()` nije deo osnovnog JavaScript jezika. To je metoda koju obezbeđuje DOM API browser-a.\n\nSlično tome, `setTimeout()` nije standardna funkcija jezika ECMAScript, već funkcionalnost odgovarajućeg okruženja izvršavanja.\n\n### Prelaz na asinhrono izvršavanje\n\nDo sada smo uglavnom objašnjavali sinhrono izvršavanje: funkcija se poziva, njen kod se izvrši i rezultat se vrati pozivaocu.\n\nWeb aplikacije često čekaju spoljne operacije, kao što su mrežni zahtevi, korisničke akcije i tajmeri.\n\nKada bi se za svaku takvu operaciju blokiralo izvršavanje JavaScripta do njenog završetka, interaktivne aplikacije ne bi mogle efikasno da funkcionišu.\n\nZato naredna tema treba da objasni asinhroni model izvršavanja: događaje, callbacks, event loop, redove zadataka, Promise i `async/await`.\n\n### Završni pregled teme\n\nOvih 15 koraka čine zaokruženo gradivo o osnovama JavaScript jezika. Student po završetku treba da ume da objasni ne samo šta određeni izraz radi, već i zašto se izvršava na određeni način.\n\nDijagram prikazuje konceptualne zavisnosti, ne strogi redosled svih 15 koraka. Kontrola toka, operatori, nizovi i rad sa podacima obrađuju se pre modela izvršavanja.\n\nU ovom obimu zadržane su ključne metode za nizove, posebno `map`, `filter`, `find` i `reduce`. Ostale metode uvode se po potrebi u editoru. Nema potrebe da studenti pamte kompletnu standardnu biblioteku.\n\nPitanja za diskusiju stoje u tabu Diskusija ovog koraka. Njima se proverava razumevanje mehanizama i predviđanje ponašanja koda.",
+          "kljucnaIdeja": "Moduli organizuju JavaScript kod, a browser obezbeđuje dodatne API-je. Razlikovanje jezika i okruženja ključno je za razumevanje sledećih tema.",
           "blokovi": [
             {
               "id": "k15b1",
@@ -6691,55 +6691,9 @@
               "tekst": "Moduli imaju sopstveni opseg, a uvezeni identifikatori ne postaju automatski globalne promenljive.\n\nJavaScript moduli podrazumevano se izvršavaju u strogom režimu (strict mode).\n\nU browser-u se ulazni modul može uključiti pomoću HTML elementa `<script type=\"module\">`.\n\nModuli omogućavaju da se javno dostupne funkcije i podaci eksplicitno definišu, umesto da se sve oslanja na globalne promenljive."
             },
             {
-              "id": "k15b7",
-              "vrsta": "tekst",
-              "tekst": "### JavaScript objekti i JSON\n\nJavaScript objekat je struktura podataka koja postoji tokom izvršavanja programa.\n\nMeđutim, kada podaci treba da se sačuvaju ili prenesu između sistema, potreban je format za njihovo predstavljanje.\n\nJSON (JavaScript Object Notation) je tekstualni format za razmenu strukturisanih podataka."
-            },
-            {
-              "id": "k15b8",
-              "vrsta": "kod",
-              "naslov": "JSON tekst",
-              "jezik": "json",
-              "tekst": "{\n  \"ime\": \"Ana\",\n  \"godine\": 22,\n  \"aktivan\": true\n}"
-            },
-            {
-              "id": "k15b9",
-              "vrsta": "tekst",
-              "tekst": "JSON podseća na sintaksu JavaScript objekata, ali nije isto što i JavaScript objekat.\n\nJSON ima sopstvenu gramatiku. Na primer, nazivi svojstava moraju biti stringovi zapisani dvostrukim navodnicima.\n\nJSON podržava objekte, nizove, stringove, brojeve, logičke vrednosti i `null`, ali ne i JavaScript funkcije, `undefined` ili reference koje predstavljaju kružne veze."
-            },
-            {
-              "id": "k15b10",
-              "vrsta": "tekst",
-              "tekst": "### Serijalizacija i deserijalizacija\n\nZa pretvaranje JavaScript vrednosti u JSON tekst koristi se `JSON.stringify()`."
-            },
-            {
-              "id": "k15b11",
-              "vrsta": "kod",
-              "naslov": "JSON.stringify",
-              "jezik": "javascript",
-              "tekst": "const osoba = {\n  ime: \"Ana\",\n  aktivan: true\n};\n\nconst tekst = JSON.stringify(osoba);\n\nconsole.log(tekst);\n// '{\"ime\":\"Ana\",\"aktivan\":true}'"
-            },
-            {
-              "id": "k15b12",
-              "vrsta": "tekst",
-              "tekst": "Za pretvaranje JSON teksta u JavaScript vrednost koristi se `JSON.parse()`."
-            },
-            {
-              "id": "k15b13",
-              "vrsta": "kod",
-              "naslov": "JSON.parse",
-              "jezik": "javascript",
-              "tekst": "const tekst = '{\"ime\":\"Ana\",\"aktivan\":true}';\n\nconst osoba = JSON.parse(tekst);\n\nconsole.log(osoba.ime); // \"Ana\""
-            },
-            {
-              "id": "k15b14",
-              "vrsta": "tekst",
-              "tekst": "Serijalizacija nije isto što i kloniranje kompletnog objekta.\n\nJSON ne čuva JavaScript funkcije, prototipski lanac ili sve specifične tipove vrednosti. Na primer, svojstva sa vrednošću `undefined` izostavljaju se pri standardnoj JSON serijalizaciji objekta.\n\nTakođe, `JSON.parse()` može baciti izuzetak ako tekst nije validan JSON. Time se ovaj korak povezuje sa obradom grešaka iz prethodne lekcije."
-            },
-            {
               "id": "k15b15",
               "vrsta": "tekst",
-              "tekst": "### Razlika između JavaScripta i Web API-ja\n\nNa kraju teme potrebno je jasno razdvojiti sam jezik od okruženja u kome se izvršava.\n\nJavaScript kao jezik definiše promenljive, tipove, objekte, funkcije, klase, module i ugrađene mehanizme kao što su `Promise` i JSON obrada.\n\nBrowser dodatno obezbeđuje API-je, uključujući:\n\n| API | Namena |\n| --- | --- |\n| DOM | Pristup i izmena HTML dokumenta |\n| Event API | Reagovanje na događaje |\n| Fetch API | Slanje HTTP zahteva |\n| Timers API | Zakazivanje izvršavanja |\n| Web Storage | Čuvanje podataka u browser-u |\n\nNa primer, `document.querySelector()` nije deo osnovnog JavaScript jezika. To je metoda koju obezbeđuje DOM API browser-a.\n\nSlično tome, `setTimeout()` nije standardna funkcija jezika ECMAScript, već funkcionalnost odgovarajućeg okruženja izvršavanja."
+              "tekst": "### Razlika između JavaScripta i Web API-ja\n\nNa kraju teme potrebno je jasno razdvojiti sam jezik od okruženja u kome se izvršava.\n\nJavaScript kao jezik definiše promenljive, tipove, objekte, funkcije, klase, module i ugrađene mehanizme kao što je `Promise`.\n\nBrowser dodatno obezbeđuje API-je, uključujući:\n\n| API | Namena |\n| --- | --- |\n| DOM | Pristup i izmena HTML dokumenta |\n| Event API | Reagovanje na događaje |\n| Fetch API | Slanje HTTP zahteva |\n| Timers API | Zakazivanje izvršavanja |\n| Web Storage | Čuvanje podataka u browser-u |\n\nNa primer, `document.querySelector()` nije deo osnovnog JavaScript jezika. To je metoda koju obezbeđuje DOM API browser-a.\n\nSlično tome, `setTimeout()` nije standardna funkcija jezika ECMAScript, već funkcionalnost odgovarajućeg okruženja izvršavanja.\n\nKako se vrednost sobe pretvara u tekst HTTP odgovora, pokazuje se kad Node server pošalje telo. Ovde ostaje razlika između jezika i okruženja."
             },
             {
               "id": "k15b16",
@@ -6750,7 +6704,7 @@
               "id": "k15b17",
               "vrsta": "highlight",
               "uloga": "kljucna",
-              "tekst": "Moduli organizuju JavaScript kod, JSON omogućava predstavljanje podataka za razmenu, a browser obezbeđuje dodatne API-je. Razlikovanje jezika i okruženja ključno je za razumevanje sledećih tema."
+              "tekst": "Moduli organizuju JavaScript kod, a browser obezbeđuje dodatne API-je. Razlikovanje jezika i okruženja ključno je za razumevanje sledećih tema."
             },
             {
               "id": "k15b18",
@@ -6761,7 +6715,7 @@
               "id": "k15b19",
               "vrsta": "mermaid",
               "naslov": "Zavisnosti pojmova",
-              "tekst": "flowchart TD\n  vrednosti[\"Vrednosti i tipovi\"] --> objekti[\"Objekti i reference\"]\n  vrednosti --> izrazi[\"Izrazi i operatori\"]\n  izrazi --> tok[\"Kontrola toka\"]\n  objekti --> funkcije[\"Funkcije\"]\n  funkcije --> nizovi[\"Nizovi\"]\n  objekti --> sintaksa[\"Destrukturiranje\"]\n  funkcije --> opseg[\"Leksički opseg\"]\n  opseg --> kontekst[\"Execution context i hoisting\"]\n  opseg --> closure[\"Closure\"]\n  funkcije --> metodi[\"Metode i this\"]\n  objekti --> prototip[\"Prototipi i klase\"]\n  metodi --> prototip\n  kontekst --> greske[\"Greške i izuzeci\"]\n  funkcije --> moduli[\"Moduli, JSON i okruženje\"]\n  objekti --> moduli"
+              "tekst": "flowchart TD\n  vrednosti[\"Vrednosti i tipovi\"] --> objekti[\"Objekti i reference\"]\n  vrednosti --> izrazi[\"Izrazi i operatori\"]\n  izrazi --> tok[\"Kontrola toka\"]\n  objekti --> funkcije[\"Funkcije\"]\n  funkcije --> nizovi[\"Nizovi\"]\n  objekti --> sintaksa[\"Destrukturiranje\"]\n  funkcije --> opseg[\"Leksički opseg\"]\n  opseg --> kontekst[\"Execution context i hoisting\"]\n  opseg --> closure[\"Closure\"]\n  funkcije --> metodi[\"Metode i this\"]\n  objekti --> prototip[\"Prototipi i klase\"]\n  metodi --> prototip\n  kontekst --> greske[\"Greške i izuzeci\"]\n  funkcije --> moduli[\"Moduli i okruženje\"]\n  objekti --> moduli"
             }
           ],
           "diskusija": [
@@ -6778,37 +6732,37 @@
               "id": "k15q2",
               "vrsta": "pitanje",
               "oblik": "izbor",
-              "tekst": "15.2. Zašto JavaScript objekat nije isto što i JSON?\n\n```javascript\nconst osoba = {\n  ime: \"Ana\",\n  aktivan: true\n};\n```\n\nKoja tvrdnja je tačna?",
+              "tekst": "15.2. Da li ime uvezeno u jedan modul vide i ostali moduli?\n\n```javascript\nimport { saberi } from \"./matematika.js\";\n```\n\nŠta važi za ime `saberi`?",
               "opcije": [
                 {
                   "key": "A",
-                  "text": "Objekat je isto što i JSON tekst.",
+                  "text": "Postane globalno, pa ga vidi svaki fajl.",
                   "ok": false,
-                  "why": "Objekat postoji tokom izvršavanja. JSON je tekst."
+                  "why": "import ne pravi globalno ime."
                 },
                 {
                   "key": "B",
-                  "text": "JSON je tekstualni format za predstavljanje strukturisanih podataka.",
+                  "text": "Dostupno je u modulu koji ga uvozi.",
                   "ok": true,
-                  "why": "JSON služi za razmenu podataka i nije sam JavaScript objekat."
+                  "why": "Ostali moduli ne dobijaju to ime sami od sebe."
                 },
                 {
                   "key": "C",
-                  "text": "JSON može bez ograničenja da prenese JavaScript funkcije i prototipe.",
+                  "text": "Vidi ga samo matematika.js, ne i fajl koji uvozi.",
                   "ok": false,
-                  "why": "JSON ne predstavlja funkcije, prototipe ni sve JavaScript vrednosti."
+                  "why": "Uvoz upravo daje ime modulu koji importa."
                 }
               ],
-              "analiza": "Odgovor: B.\n\nJavaScript objekat postoji tokom izvršavanja programa. JSON je tekstualni format za razmenu podataka.\n\nJSON može predstavljati objekte, nizove, stringove, brojeve, logičke vrednosti i `null`, ali ne i sve JavaScript vrednosti i ponašanja.",
-              "dodatno": "Kako se JavaScript objekat pretvara u JSON tekst i obrnuto?",
-              "dodatniOdgovor": "`JSON.stringify()` serijalizuje odgovarajuću JavaScript vrednost u JSON tekst. `JSON.parse()` parsira validan JSON tekst i vraća odgovarajuću JavaScript vrednost."
+              "analiza": "Odgovor: B.\n\nIme iz `import` živi u modulu koji ga je uveo. Drugi modul dobija `saberi` tek ako ga sam uveze.",
+              "dodatno": "Šta se desi ako drugi modul pozove saberi, a nije ga uveo?",
+              "dodatniOdgovor": "To ime nije u njegovom opsegu. Poziv baci ReferenceError, osim ako taj modul ima sopstvenu deklaraciju saberi."
             },
             {
               "id": "k15q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "15.3. Šta je deo JavaScript jezika, a šta obezbeđuje browser?\n\nRazvrstajte sledeće funkcionalnosti:\n\n`Array.map()`, `document.querySelector()`, `JSON.parse()`, `fetch()`, `Promise`, `setTimeout()`.",
-              "odgovor": "| Deo JavaScript jezika i njegovih ugrađenih objekata | API browser okruženja |\n| --- | --- |\n| `Array.prototype.map()` | `document.querySelector()` |\n| `JSON.parse()` | `fetch()` |\n| `Promise` | `setTimeout()` |\n\nBrowser omogućava dodatne operacije koje sam JavaScript jezik ne definiše.",
+              "tekst": "15.3. Šta je deo JavaScript jezika, a šta obezbeđuje browser?\n\nRazvrstajte sledeće funkcionalnosti:\n\n`Array.map()`, `document.querySelector()`, `Promise`, `fetch()`, `setTimeout()`.",
+              "odgovor": "| Deo JavaScript jezika i njegovih ugrađenih objekata | API browser okruženja |\n| --- | --- |\n| `Array.prototype.map()` | `document.querySelector()` |\n| `Promise` | `fetch()` |\n| | `setTimeout()` |\n\nBrowser omogućava dodatne operacije koje sam JavaScript jezik ne definiše.",
               "dodatno": "Ako je `Promise` deo JavaScript jezika, a `fetch()` Web API, kakva je njihova veza?",
               "dodatniOdgovor": "`fetch()` je funkcija koju obezbeđuje okruženje i koja vraća `Promise`. `Promise` je standardni JavaScript mehanizam za predstavljanje budućeg ishoda asinhrone operacije. Browser i jezik na taj način sarađuju."
             },
@@ -6816,7 +6770,7 @@
               "id": "k15q4",
               "vrsta": "pitanje",
               "oblik": "izbor",
-              "tekst": "15.4. Kako JavaScript povezuje obradu podataka sa Web komunikacijom?\n\nPretpostavimo da Web aplikacija treba da dobije podatke sa servera u JSON formatu.\n\nKoji niz koraka najbolje opisuje zadatak?",
+              "tekst": "15.4. Kako program u browseru dobije podatak koji drži drugi proces?\n\nKoji niz koraka to opisuje?",
               "opcije": [
                 {
                   "key": "A",
@@ -6826,18 +6780,18 @@
                 },
                 {
                   "key": "B",
-                  "text": "Browser preko mrežnog API-ja upućuje zahtev, prima odgovor, a JavaScript zatim koristi dobijene podatke.",
+                  "text": "Browser preko mrežnog API-ja uputi zahtev i primi odgovor. JavaScript zatim koristi taj odgovor.",
                   "ok": true,
-                  "why": "JavaScript koristi Web API za zahtev, a parsirane podatke zatim obrađuje kao vrednosti."
+                  "why": "JavaScript koristi Web API za zahtev. Odgovor zatim obrađuje kao podatak."
                 },
                 {
                   "key": "C",
-                  "text": "JSON automatski izvršava funkcije koje se nalaze na serveru.",
+                  "text": "Odgovor sam izvrši funkcije na drugom procesu.",
                   "ok": false,
-                  "why": "JSON je tekst podataka. Ne izvršava serverske funkcije."
+                  "why": "Odgovor je podatak. Ne izvršava tuđe funkcije."
                 }
               ],
-              "analiza": "Odgovor: B.\n\nJavaScript u browser-u koristi dostupne Web API-je za komunikaciju sa serverom. Kada primi JSON podatke i oni budu parsirani, aplikacija može da ih obrađuje kao JavaScript vrednosti i objekte.",
+              "analiza": "Odgovor: B.\n\nJavaScript u browseru koristi Web API za komunikaciju sa drugim procesom. Kako se telo odgovora čita kao vrednost, pokazuje se kad Node server to telo pošalje.",
               "dodatno": "Zašto JavaScript ne može jednostavno da čeka svaki mrežni zahtev tako što blokira kompletno izvršavanje programa?",
               "dodatniOdgovor": "Mrežna komunikacija može trajati neodređeno dugo. Kada bi se izvršavanje na glavnoj niti browser-a blokiralo tokom čekanja, interaktivnost stranice bi bila narušena. Zato se koriste asinhroni mehanizmi koji omogućavaju da se mrežne operacije obrađuju bez takvog blokiranja. Kako to konkretno funkcioniše, objašnjava se u narednoj temi kroz event loop, zadatke, Promise i `async/await`."
             }
@@ -6848,35 +6802,35 @@
               "odgovor": "JavaScript moduli omogućavaju da se kod razdvoji u datoteke, a javno dostupne vrednosti eksplicitno izvezu i uvezu.\n\n```javascript\n// matematika.js\nexport function saberi(a, b) {\n  return a + b;\n}\n```\n\n```javascript\n// main.js\nimport { saberi } from \"./matematika.js\";\n\nconsole.log(saberi(2, 3));\n```\n\nModuli imaju sopstveni opseg i podrazumevano koriste strogi režim rada."
             },
             {
-              "pitalica": "15.2. Zašto JavaScript objekat nije isto što i JSON?\n\n```javascript\nconst osoba = {\n  ime: \"Ana\",\n  aktivan: true\n};\n```\n\nKoja tvrdnja je tačna?",
+              "pitalica": "15.2. Da li ime uvezeno u jedan modul vide i ostali moduli?\n\n```javascript\nimport { saberi } from \"./matematika.js\";\n```\n\nŠta važi za ime `saberi`?",
               "opcije": [
                 {
                   "key": "A",
-                  "text": "Objekat je isto što i JSON tekst.",
+                  "text": "Postane globalno, pa ga vidi svaki fajl.",
                   "ok": false,
-                  "why": "Objekat postoji tokom izvršavanja. JSON je tekst."
+                  "why": "import ne pravi globalno ime."
                 },
                 {
                   "key": "B",
-                  "text": "JSON je tekstualni format za predstavljanje strukturisanih podataka.",
+                  "text": "Dostupno je u modulu koji ga uvozi.",
                   "ok": true,
-                  "why": "JSON služi za razmenu podataka i nije sam JavaScript objekat."
+                  "why": "Ostali moduli ne dobijaju to ime sami od sebe."
                 },
                 {
                   "key": "C",
-                  "text": "JSON može bez ograničenja da prenese JavaScript funkcije i prototipe.",
+                  "text": "Vidi ga samo matematika.js, ne i fajl koji uvozi.",
                   "ok": false,
-                  "why": "JSON ne predstavlja funkcije, prototipe ni sve JavaScript vrednosti."
+                  "why": "Uvoz upravo daje ime modulu koji importa."
                 }
               ],
-              "analizaPitalice": "Odgovor: B.\n\nJavaScript objekat postoji tokom izvršavanja programa. JSON je tekstualni format za razmenu podataka.\n\nJSON može predstavljati objekte, nizove, stringove, brojeve, logičke vrednosti i `null`, ali ne i sve JavaScript vrednosti i ponašanja."
+              "analizaPitalice": "Odgovor: B.\n\nIme iz `import` živi u modulu koji ga je uveo. Drugi modul dobija `saberi` tek ako ga sam uveze."
             },
             {
-              "pitalica": "15.3. Šta je deo JavaScript jezika, a šta obezbeđuje browser?\n\nRazvrstajte sledeće funkcionalnosti:\n\n`Array.map()`, `document.querySelector()`, `JSON.parse()`, `fetch()`, `Promise`, `setTimeout()`.",
-              "odgovor": "| Deo JavaScript jezika i njegovih ugrađenih objekata | API browser okruženja |\n| --- | --- |\n| `Array.prototype.map()` | `document.querySelector()` |\n| `JSON.parse()` | `fetch()` |\n| `Promise` | `setTimeout()` |\n\nBrowser omogućava dodatne operacije koje sam JavaScript jezik ne definiše."
+              "pitalica": "15.3. Šta je deo JavaScript jezika, a šta obezbeđuje browser?\n\nRazvrstajte sledeće funkcionalnosti:\n\n`Array.map()`, `document.querySelector()`, `Promise`, `fetch()`, `setTimeout()`.",
+              "odgovor": "| Deo JavaScript jezika i njegovih ugrađenih objekata | API browser okruženja |\n| --- | --- |\n| `Array.prototype.map()` | `document.querySelector()` |\n| `Promise` | `fetch()` |\n| | `setTimeout()` |\n\nBrowser omogućava dodatne operacije koje sam JavaScript jezik ne definiše."
             },
             {
-              "pitalica": "15.4. Kako JavaScript povezuje obradu podataka sa Web komunikacijom?\n\nPretpostavimo da Web aplikacija treba da dobije podatke sa servera u JSON formatu.\n\nKoji niz koraka najbolje opisuje zadatak?",
+              "pitalica": "15.4. Kako program u browseru dobije podatak koji drži drugi proces?\n\nKoji niz koraka to opisuje?",
               "opcije": [
                 {
                   "key": "A",
@@ -6886,25 +6840,25 @@
                 },
                 {
                   "key": "B",
-                  "text": "Browser preko mrežnog API-ja upućuje zahtev, prima odgovor, a JavaScript zatim koristi dobijene podatke.",
+                  "text": "Browser preko mrežnog API-ja uputi zahtev i primi odgovor. JavaScript zatim koristi taj odgovor.",
                   "ok": true,
-                  "why": "JavaScript koristi Web API za zahtev, a parsirane podatke zatim obrađuje kao vrednosti."
+                  "why": "JavaScript koristi Web API za zahtev. Odgovor zatim obrađuje kao podatak."
                 },
                 {
                   "key": "C",
-                  "text": "JSON automatski izvršava funkcije koje se nalaze na serveru.",
+                  "text": "Odgovor sam izvrši funkcije na drugom procesu.",
                   "ok": false,
-                  "why": "JSON je tekst podataka. Ne izvršava serverske funkcije."
+                  "why": "Odgovor je podatak. Ne izvršava tuđe funkcije."
                 }
               ],
-              "analizaPitalice": "Odgovor: B.\n\nJavaScript u browser-u koristi dostupne Web API-je za komunikaciju sa serverom. Kada primi JSON podatke i oni budu parsirani, aplikacija može da ih obrađuje kao JavaScript vrednosti i objekte."
+              "analizaPitalice": "Odgovor: B.\n\nJavaScript u browseru koristi Web API za komunikaciju sa drugim procesom. Kako se telo odgovora čita kao vrednost, pokazuje se kad Node server to telo pošalje."
             }
           ],
           "pitalica": "15.1. Zašto ne bismo sav JavaScript kod napisali u jednoj datoteci?\n\nPretpostavimo da imamo više funkcija i vrednosti koje koriste različiti delovi programa.\n\nKako možemo organizovati kod tako da drugi deo programa koristi samo potrebne funkcije, bez oslanjanja na globalne promenljive?",
           "putanja": "client/lekcije/15-moduli.js",
-          "isecakNaslov": "Moduli, JSON i priprema za Web",
+          "isecakNaslov": "Moduli i priprema za Web",
           "isecakJezik": "javascript",
-          "delic": "// Moduli, JSON i priprema za Web\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// matematika.js\nexport function saberi(a, b) {\n  return a + b;\n}\n\nexport const PI = 3.14159;\n\n// main.js\n// import { saberi, PI } from \"./matematika.js\";\n//\n// console.log(saberi(2, 3)); // 5\n// console.log(PI);\n\n// JSON tekst. U fajlu je string, da primer ostane ispravan JavaScript.\nconst jsonTekst = `{\n  \"ime\": \"Ana\",\n  \"godine\": 22,\n  \"aktivan\": true\n}`;\n\n// JSON.stringify\nconst osoba = {\n  ime: \"Ana\",\n  aktivan: true\n};\n\nconst tekst = JSON.stringify(osoba);\n\nconsole.log(tekst);\n// '{\"ime\":\"Ana\",\"aktivan\":true}'\n\n// JSON.parse\nconst izTeksta = JSON.parse(jsonTekst);\n\nconsole.log(izTeksta.ime); // \"Ana\"\n"
+          "delic": "// Moduli i priprema za Web\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// matematika.js\nexport function saberi(a, b) {\n  return a + b;\n}\n\nexport const PI = 3.14159;\n\n// main.js\n// import { saberi, PI } from \"./matematika.js\";\n//\n// console.log(saberi(2, 3)); // 5\n// console.log(PI);\n"
         }
       ],
       "samostalnoUcenje": {
@@ -6912,7 +6866,7 @@
         "detaljnoGradivo": [
           "Opseg je leksički: funkcija vidi okruženje u kome je napisana. Svaki poziv dobija kontekst izvršavanja, a call stack pamti ko čeka rezultat. let i const učestvuju u pripremi, ali su u temporal dead zone do inicijalizacije.",
           "Closure zadržava vezu sa promenljivom spoljašnjeg okruženja. this obične funkcije zavisi od poziva. Arrow funkcija preuzima this iz okolnog konteksta. Prototipski lanac traži svojstvo koje objekat nema kao sopstveno. class ne ukida taj model.",
-          "try i catch hvataju izuzetak. Deljenje nulom daje Infinity, ne izuzetak. Moduli imaju sopstveni opseg. JSON je tekst, a JSON.parse pravi vrednost. DOM, fetch i setTimeout pripadaju okruženju, ne jeziku."
+          "try i catch hvataju izuzetak. Deljenje nulom daje Infinity, ne izuzetak. Moduli imaju sopstveni opseg. DOM, fetch i setTimeout pripadaju okruženju, ne jeziku."
         ],
         "tokRada": "1) Pročitaj korak i označi koji mehanizam uvodi. 2) Pre pokretanja napiši šta očekuješ da primer uradi. 3) Otvori fajl koraka u editoru i uporedi ga sa isečcima u gradivu. 4) Promeni jednu vrednost i ponovo predvidi ishod. 5) U tabu Diskusija odgovori na pitanje koraka pre nego što otvoriš objašnjenje.",
         "graniceZnanja": "Gradivo objašnjava gde ime živi, šta poziv drži, kako se svojstvo traži i kako modul deli kod. Asinhroni model, DOM i HTTP dolaze u narednim temama. Primeri su nezavisni i ne grade Kontrolnu sobu.",
@@ -9190,12 +9144,12 @@
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "eksperiment",
-          "tekst": "HTTP telo stiže kao niz bajtova koji se čita kao tekst. JSON je tekstualni format: dok ga ne parsiraš, u JavaScriptu nema objekta. JSON.parse pravi vrednost, ali ne proverava da li polja i tipovi odgovaraju našem API ugovoru.",
-          "kljucnaIdeja": "JSON na žici je tekst; JavaScript vrednost nastaje tek posle JSON.parse.",
+          "tekst": "Adresa /api/soba već vraća telo. To telo nije objekat iz memorije servera. HTTP nosi bajtove, a JSON je tekstualni zapis.\n\nJSON podseća na objekat u jeziku, ali ima sopstvenu gramatiku. Imena svojstava su stringovi u dvostrukim navodnicima. Dozvoljeni su objekat, niz, string, broj, true, false i null. Nema funkcije, undefined ni kružne reference. Zarez posle poslednjeg polja nije JSON.\n\nSoba u handleru je vrednost. JSON.stringify je pretvara u tekst koji ruta šalje. JSON.parse od tog teksta pravi novu vrednost. typeof pre parse-a je string, posle je object, a temperatura je polje te vrednosti.\n\nTo nije klon objekta sa servera. Nema prototipa ni metode. Svojstvo čija je vrednost undefined stringify izostavi, a null ostane. JSON.parse baci izuzetak kad tekst nije validan JSON. Uspešan parse i dalje ne znači da polja i tipovi odgovaraju ugovoru sobe.",
+          "kljucnaIdeja": "JSON na žici je tekst sobe. JavaScript vrednost nastaje tek posle JSON.parse.",
           "samostalniPrimer": {
             "jezik": "javascript",
             "izolovan": true,
-            "tekst": "const s = '{\"t\":24}';\nconsole.log(typeof s, typeof JSON.parse(s));"
+            "tekst": "const soba = { temperatura: 24, ukljucen: false };\nconst tekst = JSON.stringify(soba);\nconsole.log(typeof tekst, typeof JSON.parse(tekst));\nconsole.log(JSON.parse(tekst).temperatura);"
           },
           "pitalica": "Šta ispisuje typeof pre i posle parse?",
           "opcije": [
@@ -9288,7 +9242,7 @@
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "aplikacija",
-          "tekst": "Server ne šalje JavaScript objekat preko mreže, već JSON tekst. JSON.stringify pretvara vrednost u tekst; klijent pouzdano zna da je reč o JSON-u tek kad odgovor nosi Content-Type: application/json.",
+          "tekst": "Handler drži sobu kao vrednost u memoriji: temperaturu i režim ventilatora. Preko mreže ne ide ta vrednost. JSON.stringify pravi tekst, a writeHead kaže da je telo JSON.\n\nres.writeHead(200, { \"Content-Type\": \"application/json; charset=utf-8\" });\nres.end(JSON.stringify({ temperatura, ukljucen }));\n\nZaglavlje opisuje telo. Ne stoji umesto njega. Browser i dalje vidi tekst. Ista dva poziva, stringify na serveru i parse na klijentu, spajaju memoriju handlera sa prikazom.",
           "kljucnaIdeja": "Handler šalje JSON tekst i zaglavlje application/json.",
           "putanja": "server/soba.js",
           "isecakNaslov": "JSON telo",

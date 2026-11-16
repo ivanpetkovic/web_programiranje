@@ -59,11 +59,12 @@ test("prvi korak jezika dodaje svoj fajl, bez kasnijeg i bez korak.js", () => {
 test("koraci jezika drže odvojene fajlove", () => {
   const rano = stabloDo(koraci, indeks("Šta je JavaScript i kako se izvršava?")).verzije["client/lekcije/01-izvrsavanje.js"];
   const nizovi = stabloDo(koraci, indeks("Nizovi i obrada kolekcija"));
-  const moduli = stabloDo(koraci, indeks("Moduli, JSON i priprema za Web"));
+  const moduli = stabloDo(koraci, indeks("Moduli i priprema za Web"));
   assert.equal(fajloviStrane(nizovi, "client").includes("lekcije/07-nizovi.js"), true);
   assert.equal(fajloviStrane(nizovi, "client").includes("lekcije/15-moduli.js"), false);
   assert.match(nizovi.verzije["client/lekcije/07-nizovi.js"], /brojevi\.map/);
-  assert.match(moduli.verzije["client/lekcije/15-moduli.js"], /JSON\.parse/);
+  assert.match(moduli.verzije["client/lekcije/15-moduli.js"], /export function saberi/);
+  assert.equal(moduli.verzije["client/lekcije/15-moduli.js"].includes("JSON.parse"), false);
   assert.equal(moduli.verzije["client/lekcije/07-nizovi.js"].includes("JSON.parse"), false);
   assert.notEqual(rano, nizovi.verzije["client/lekcije/07-nizovi.js"]);
   assert.equal(fajloviStrane(moduli, "client").includes("js/korak.js"), false);

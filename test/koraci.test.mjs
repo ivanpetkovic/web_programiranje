@@ -300,11 +300,11 @@ test("tema okruženja počinje od opsega i završava modulima", () => {
     "Metode objekata i this",
     "Prototipi, prototipski lanac i klase",
     "Greške, izuzeci i debagovanje",
-    "Moduli, JSON i priprema za Web",
+    "Moduli i priprema za Web",
   ]);
   proveriKorakeJezika(tema, cas, [5, 5, 3, 3, 4, 3, 4]);
   assert.match(tema.steps[6].delic, /export function saberi/);
-  assert.match(tema.steps[6].delic, /JSON\.parse/);
+  assert.equal(tema.steps[6].delic.includes("JSON.parse"), false);
   assert.match(tema.steps[6].delic, /\/\/ import \{ saberi, PI \}/);
   const moduli = tema.steps[6].blokovi.find((blok) => blok.naslov === "main.js");
   assert.match(moduli.tekst, /import \{ saberi, PI \}/);
@@ -331,6 +331,16 @@ test("čas 6 stavlja HTTP posle TCP, pa createServer pa listen", () => {
   const komanda = naslov("Komanda");
   const adresa = naslov("Adresa");
   assert.ok(tcp < http && http < kreiraj && kreiraj < slusaj && slusaj < komanda && komanda < adresa);
+  const json = naslov("JSON tekst, ne objekat");
+  const odgovor = naslov("Odgovor kao JSON tekst");
+  assert.ok(adresa < json && json < odgovor);
+  assert.match(cas.steps[json].samostalniPrimer.tekst, /temperatura: 24/);
+  assert.match(cas.steps[json].tekst, /JSON\.stringify/);
+  assert.match(cas.steps[json].tekst, /JSON\.parse/);
+  assert.match(cas.steps[odgovor].original, /JSON\.stringify\(\{ temperatura, ukljucen \}\)/);
+  const moduli = lectures[3].steps.find((korak) => korak.naslov.startsWith("Moduli"));
+  assert.equal(moduli.tekst.includes("JSON.stringify"), false);
+  assert.equal(moduli.delic.includes("JSON.parse"), false);
   assert.match(cas.steps[kreiraj].original, /const http = require\("http"\)/);
   assert.match(cas.steps[kreiraj].isecak, /http\.createServer\(obrada\)/);
   assert.equal(cas.steps[kreiraj].isecak.includes("require"), false);

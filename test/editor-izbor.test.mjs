@@ -227,7 +227,7 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
     assert.equal(drugiFajl.otvoren, "index.html");
     assert.equal(drugiFajl.tekst.includes(filter), false);
 
-    await korak("Moduli, JSON i priprema za Web");
+    await korak("Moduli i priprema za Web");
     const posleDrugogKoraka = await (async () => {
       const kraj = Date.now() + 5000;
       let poslednje;
@@ -237,13 +237,14 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
           document.querySelector("#editor")?.scrollIntoView({ block: "end" });
           return (${stanjeEditora.toString()})();
         })()`);
-        if (poslednje.putanja === "client/lekcije/15-moduli.js" && poslednje.tekst.includes("JSON.parse")) return poslednje;
+        if (poslednje.putanja === "client/lekcije/15-moduli.js" && poslednje.tekst.includes("export function saberi")) return poslednje;
         await pauza(40);
       }
       throw new Error(`editor nije stigao: ${JSON.stringify(poslednje)}`);
     })();
     assert.equal(posleDrugogKoraka.otvoren, "lekcije/15-moduli.js");
-    assert.equal(posleDrugogKoraka.tekst.includes("JSON.parse"), true);
+    assert.equal(posleDrugogKoraka.tekst.includes("export function saberi"), true);
+    assert.equal(posleDrugogKoraka.tekst.includes("JSON.parse"), false);
     assert.equal(posleDrugogKoraka.tekst.includes("console.log(2 + 3)"), false);
     assert.equal(posleDrugogKoraka.tekst.includes("naslov je h1"), false);
     assert.equal(posleDrugogKoraka.tekst.includes("brojevi.map"), false);
