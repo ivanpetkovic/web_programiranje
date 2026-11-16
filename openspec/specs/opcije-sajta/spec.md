@@ -7,7 +7,15 @@ Opcije su jedan padajući panel u zaglavlju sajta časa za paletu, veličinu tek
 ## Requirements
 
 ### Requirement: Dugme Opcije
-The header MUST show an Opcije control with `settings`, the word Opcije, and `chevron-down` while closed or `chevron-up` while open. Activating it MUST open the Opcije panel below the control, aligned to its right edge. Escape, a click outside, or activating the control again MUST close the panel and return focus to the control.
+The header MUST show an Opcije control whose accessible name is Opcije, with `settings` and `chevron-down` while closed or `chevron-up` while open. The control MUST NOT show a visible text label. While the panel is closed the control MUST use the ink color, the paper background, and the ordinary border, the same as Help. While the panel is open the control MUST use the accent color. Activating it MUST open the Opcije panel below the control, aligned to its right edge. Escape, a click outside, or activating the control again MUST close the panel and return focus to the control.
+
+#### Scenario: Closed control has no label and no accent
+- **WHEN** the Opcije panel is closed
+- **THEN** the control shows `settings` and `chevron-down`, shows no visible word Opcije, has `aria-expanded` false, and uses the ink color
+
+#### Scenario: Open control uses the accent
+- **WHEN** the student activates Opcije
+- **THEN** the control uses the accent color, shows `chevron-up`, and has `aria-expanded` true
 
 #### Scenario: Open and close
 - **WHEN** the student activates Opcije and then presses Escape

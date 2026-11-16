@@ -30,6 +30,7 @@ function slot(ime) {
 
 export function napraviKviz(ctx) {
   const dijalog = document.querySelector("#kviz");
+  const dugme = document.querySelector("#kviz-dugme");
   const telo = dijalog.querySelector(".kviz-telo");
   const naslov = dijalog.querySelector("#kviz-naslov");
   let povratak = null;
@@ -58,6 +59,7 @@ export function napraviKviz(ctx) {
     naslov.textContent = "Kviz";
     nacrtajPodesavanja();
     if (!dijalog.open) dijalog.showModal();
+    dugme?.setAttribute("aria-expanded", "true");
   }
 
   function zatvori() {
@@ -65,6 +67,7 @@ export function napraviKviz(ctx) {
     if (povratak instanceof HTMLElement) povratak.focus();
   }
 
+  dijalog.addEventListener("close", () => dugme?.setAttribute("aria-expanded", "false"));
   dijalog.querySelector(".kviz-zatvori").addEventListener("click", zatvori);
 
   function nacrtajPodesavanja() {

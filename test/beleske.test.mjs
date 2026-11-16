@@ -6,7 +6,7 @@ import { cekajHttp, otvoriStranu, pauza, pokreni, slobodanPort, ugasi } from "./
 const KLJUC = "web-programiranje:stanje";
 
 // Mere iz maketa.png (1672 × 941) za spisak sa dve beleške.
-const MAKETA_LISTE = [981, 76, 342, 248];
+const MAKETA_LISTE = [1072, 76, 342, 248];
 
 function beleska(tema, korak, izmenjeno, komentar = "", naslov = `Naslov ${tema}.${korak}`) {
   return { tema, korak, naslov, komentar, izmenjeno };

@@ -37,7 +37,7 @@ Sačuvaj korak in the lesson MUST open a small editor anchored to that control, 
 - **THEN** the editor closes, the stored note is unchanged, and focus returns to Sačuvaj korak
 
 ### Requirement: Sačuvane beleške u zaglavlju
-The header MUST show a notes control with `bookmark` and `chevron-down`. Activating it MUST open a dropdown titled Sačuvane beleške with the note count, the five most recently changed notes, and Prikaži sve beleške. Each row MUST show `sticky-note`, Korak {n} – {step title} truncated to one line, and, when present, the comment with `message-circle`.
+The header MUST show a notes control with `bookmark` and `chevron-down` and no visible text label. While closed it MUST use the ink color. While open it MUST use the accent color. Activating it MUST open a dropdown titled Sačuvane beleške with the note count, the five most recently changed notes, and Prikaži sve beleške. Each row MUST show `sticky-note`, Korak {n} – {step title} truncated to one line, and, when present, the comment with `message-circle`.
 
 #### Scenario: Two notes
 - **WHEN** the student has two notes and opens the notes control
