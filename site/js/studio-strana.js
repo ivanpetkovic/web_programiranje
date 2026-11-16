@@ -1,4 +1,5 @@
 import { nacrtajFiguru } from "./crtez.js";
+import { porukaOdbijanja } from "./uredi-sadrzaj.js";
 import { blokoviTeksta, imaMermaid, nacrtajMermaid } from "./mermaid.js";
 import {
   dodajKorak,
@@ -855,10 +856,7 @@ async function sacuvaj() {
     if (!odgovor.ok) {
       const telo = await odgovor.json().catch(() => ({}));
       preuzmiTekst(tekst);
-      postaviPoruku(
-        telo.greska ? `Server nije primio dokument (${telo.greska}). Preuzet je kurs.json.` : "Server nije primio dokument. Preuzet je kurs.json.",
-        "greska"
-      );
+      postaviPoruku(`Server nije primio dokument. ${porukaOdbijanja(telo, kurs)} Preuzet je kurs.json.`, "greska");
       return;
     }
     prljavo = false;

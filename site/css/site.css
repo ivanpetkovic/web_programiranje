@@ -2075,8 +2075,12 @@ html[data-pozadina-koda="crna"] .pitanje-kod { background: #111111; color: #f4ef
 .toast-greska p {
   margin: 0;
   flex: 1 1 auto;
+  max-height: 14rem;
+  overflow: auto;
   font-size: 0.92rem;
   line-height: 1.35;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
 }
 .toast-greska .toast-kopiraj {
   flex: none;

@@ -17,6 +17,7 @@ import {
   ubaciKorak,
   ubaciPitanje,
   izvestajGreske,
+  porukaOdbijanja,
   znakStanja,
 } from "../site/js/uredi-sadrzaj.js";
 
@@ -27,6 +28,49 @@ test("opozovi i ponovi su ikonice, a Potvrdi ne otvara prozor", () => {
   assert.equal(main.includes('textContent = "Opozovi"'), false);
   assert.equal(main.includes('textContent = "Ponovi"'), false);
   assert.equal(main.includes("window.confirm"), false);
+});
+
+test("odbijanje kursa kaže gde šema nije prošla i koja je vrednost", () => {
+  const dokument = {
+    teme: [{}, {}, {
+      naslov: "Opseg",
+      steps: [...Array(8).fill({ naslov: "Ranije" }), {
+        naslov: "Leksičko okruženje",
+        blokovi: [...Array(12).fill({}), { id: "k09b18", vrsta: "struktura" }],
+        diskusija: [
+          { vrsta: "tekst", tekst: "uvod" },
+          { vrsta: "pitanje", tekst: "9.2. Zašto?", opcije: [{ key: "A", text: 3 }] },
+        ],
+      }],
+    }],
+  };
+  const poruka = porukaOdbijanja({
+    greska: "dokument nije kurs",
+    detalji: [
+      "kurs/teme/2/steps/8/blokovi/12/vrsta: vrednost nije dozvoljena.",
+      "trajanjeTema se ne slaže sa brojem tema.",
+    ],
+  }, dokument);
+  assert.equal(
+    poruka,
+    "Tema 3, korak 9, strukturni dijagram: „struktura” nije dozvoljena vrednost za vrsta.\ntrajanjeTema se ne slaže sa brojem tema.",
+  );
+  assert.equal(poruka.includes("Opseg"), false);
+  assert.equal(poruka.includes("gradivo"), false);
+  assert.equal(porukaOdbijanja({ greska: "neispravan json" }), "neispravan json");
+  assert.equal(porukaOdbijanja({}), "Čuvanje nije uspelo.");
+  assert.equal(
+    porukaOdbijanja({
+      detalji: ["kurs/teme/2/steps/8/diskusija/1/opcije/0/text: očekivan je tekst."],
+    }, dokument),
+    "Tema 3, korak 9, pitanje 9.2, odgovor A, tekst: očekivan je tekst, a upisano je 3.",
+  );
+  assert.equal(
+    porukaOdbijanja({
+      detalji: ["kurs/teme/2/steps/8/diskusija/1/oblik: vrednost nije dozvoljena."],
+    }, { teme: [{}, {}, { steps: [...Array(8).fill({}), { diskusija: [{}, { vrsta: "pitanje", tekst: "Bez broja.", oblik: "izbor" }] }] }] }),
+    "Tema 3, korak 9, pitanje 1: „izbor” nije dozvoljena vrednost za oblik.",
+  );
 });
 
 test("izveštaj greške nosi zahtev i odgovor, a kratka poruka ostaje odvojena", () => {
