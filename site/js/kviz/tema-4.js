@@ -44,8 +44,8 @@ export const pitanja = [
   izbor(4, 1, 3, "Šta uradi var pre dodele, a šta let?", [
     ["A", "var ispiše undefined. let baci ReferenceError.", true],
     ["B", "Oba ispišu undefined.", false],
-    ["C", "Oba ispišu 10.", false],
-  ], "var se podigne kao ime bez vrednosti. let postoji, ali je u vremenskoj zoni do dodele. Dva programa su odvojena.", kod("// poseban program\nconsole.log(a);\nvar a = 10;\n// poseban program\nconsole.log(b);\nlet b = 10;")),
+    ["C", "var ispiše 4, a let 7.", false],
+  ], "var se podigne kao ime bez vrednosti. let postoji, ali je u vremenskoj zoni do dodele. Dva programa su odvojena. Ispis je pre dodele, pa se ni 4 ni 7 ne vide.", kod("// poseban program\nconsole.log(a);\nvar a = 4;\n// poseban program\nconsole.log(b);\nlet b = 7;")),
   ispravka(4, 1, 4, "kvadrat treba da može da se pozove iznad dodele. Neka bude deklaracija funkcije, ne const izraz.", "console.log(kvadrat(3));\nconst kvadrat = function (x) {\n  return x * x;\n};", "console.log(kvadrat(3));\nfunction kvadrat(x) {\n  return x * x;\n}", "Deklaracija funkcije je spremna pre prolaza izvršavanja. const dodela nije.", js),
   izbor(4, 1, 5, "Dva poziva iste funkcije dele lokalne promenljive.", [
     ["A", "Ne. Svaki poziv ima sopstveno izvršavanje.", true],
