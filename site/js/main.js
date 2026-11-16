@@ -3041,7 +3041,7 @@ function nacrtajDiskusijuKoraka(item, i, korak, sirovi) {
     ponovi.type = "button";
     ponovi.id = "ponovi-pitanje";
     ponovi.className = "ponovi-pitanje";
-    saIkonom(ponovi, "refresh-cw", "Ponovi pitanja");
+    ponovi.textContent = "Ponovi pitanja";
     ponovi.addEventListener("click", () => {
       for (const pitanje of lista.filter((blok) => blok.vrsta === "pitanje")) {
         const kljuc = `${cas}:${i}:${pitanje.id}`;
