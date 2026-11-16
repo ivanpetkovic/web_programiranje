@@ -16,6 +16,7 @@ import {
   primeniSnapshot,
   ubaciKorak,
   ubaciPitanje,
+  izvestajGreske,
   znakStanja,
 } from "../site/js/uredi-sadrzaj.js";
 
@@ -26,6 +27,31 @@ test("opozovi i ponovi su ikonice, a Potvrdi ne otvara prozor", () => {
   assert.equal(main.includes('textContent = "Opozovi"'), false);
   assert.equal(main.includes('textContent = "Ponovi"'), false);
   assert.equal(main.includes("window.confirm"), false);
+});
+
+test("izveštaj greške nosi zahtev i odgovor, a kratka poruka ostaje odvojena", () => {
+  const izvestaj = izvestajGreske({
+    poruka: "dokument nije kurs",
+    zahtev: {
+      method: "PUT",
+      url: "/api/kurs",
+      headers: { "content-type": "application/json" },
+      body: "{\"naslov\":\"Proba\"}",
+    },
+    odgovor: {
+      status: 400,
+      statusText: "Bad Request",
+      headers: { "content-type": "application/json; charset=utf-8" },
+      body: "{\"greska\":\"dokument nije kurs\",\"detalji\":[\"kurs/teme/2/steps/8/blokovi/12/vrsta: vrednost nije dozvoljena.\"]}",
+    },
+  });
+  assert.match(izvestaj, /^dokument nije kurs\n/);
+  assert.match(izvestaj, /PUT \/api\/kurs/);
+  assert.match(izvestaj, /content-type: application\/json/);
+  assert.match(izvestaj, /\{"naslov":"Proba"\}/);
+  assert.match(izvestaj, /HTTP 400 Bad Request/);
+  assert.match(izvestaj, /"detalji": \[\n\s+"kurs\/teme\/2\/steps\/8\/blokovi\/12\/vrsta: vrednost nije dozvoljena."\n\s+\]/);
+  assert.equal(izvestaj.includes("vrednost nije dozvoljena.") && izvestaj.startsWith("dokument nije kurs"), true);
 });
 
 test("znak stanja je kvačica, loader ili crveni X", () => {

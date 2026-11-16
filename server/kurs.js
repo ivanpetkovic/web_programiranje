@@ -16,9 +16,17 @@ function skiniMinuteBlokova(kurs) {
   }
 }
 
-function dokumentJeKurs(kurs) {
-  if (!proveriSemu(sema, kurs).ok) return false;
-  return Array.isArray(kurs.teme) && kurs.trajanjeTema === kurs.teme.length;
+function greskeDokumenta(kurs) {
+  const greske = [...proveriSemu(sema, kurs).greske];
+  const teme = kurs?.teme;
+  if (!Array.isArray(teme) || kurs?.trajanjeTema !== teme.length) {
+    greske.push("trajanjeTema se ne slaže sa brojem tema.");
+  }
+  return greske;
 }
 
-module.exports = { dokumentJeKurs, skiniMinuteBlokova };
+function dokumentJeKurs(kurs) {
+  return greskeDokumenta(kurs).length === 0;
+}
+
+module.exports = { dokumentJeKurs, greskeDokumenta, skiniMinuteBlokova };

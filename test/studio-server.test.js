@@ -125,6 +125,43 @@ test("čuvanje kursa piše JSON i odbija dokument koji čas ne bi učitao", asyn
     assert.equal(trajanje.status, 400);
     assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).naslov, "Proba");
 
+    const struktura = {
+      naslov: "Proba",
+      trajanjeTema: 1,
+      teme: [{
+        naslov: "Jedna",
+        steps: [{
+          naslov: "Korak",
+          blokovi: [{ id: "s1", vrsta: "struktura", tekst: "{\"kod\":[]}" }],
+        }],
+      }],
+    };
+    const saStrukturom = await zahtev("PUT", "/api/kurs", JSON.stringify(struktura), {
+      "content-type": "application/json",
+    });
+    assert.equal(saStrukturom.status, 200);
+    assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).teme[0].steps[0].blokovi[0].vrsta, "struktura");
+
+    const nepoznato = {
+      naslov: "Proba",
+      trajanjeTema: 1,
+      teme: [{
+        naslov: "Jedna",
+        steps: [{
+          naslov: "Korak",
+          blokovi: [{ id: "s1", vrsta: "nepoznato", tekst: "" }],
+        }],
+      }],
+    };
+    const odbijen = await zahtev("PUT", "/api/kurs", JSON.stringify(nepoznato), {
+      "content-type": "application/json",
+    });
+    assert.equal(odbijen.status, 400);
+    const teloOdbijenog = JSON.parse(odbijen.body);
+    assert.equal(teloOdbijenog.greska, "dokument nije kurs");
+    assert.match(teloOdbijenog.detalji.join("\n"), /vrsta: vrednost nije dozvoljena/);
+    assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).teme[0].steps[0].blokovi[0].vrsta, "struktura");
+
     const saViskom = {
       naslov: "Proba",
       trajanjeTema: 1,

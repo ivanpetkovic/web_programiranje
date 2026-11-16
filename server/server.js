@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const { state, dovodi, trenutnoStanje, objaviStanje } = require("./stanje");
 const { pripremiBazu, dohvatiBazu } = require("./baza");
-const { dokumentJeKurs, skiniMinuteBlokova } = require("./kurs");
+const { greskeDokumenta, skiniMinuteBlokova } = require("./kurs");
 const { spisakPrimera, ucitajPrimer } = require("./primeri");
 
 const PODRAZUMEVANI_PORT = 8787;
@@ -379,7 +379,8 @@ async function sacuvajKurs(zahtev, odgovor) {
     return posaljiJson(odgovor, 400, { greska: "neispravan json" });
   }
   skiniMinuteBlokova(kurs);
-  if (!dokumentJeKurs(kurs)) return posaljiJson(odgovor, 400, { greska: "dokument nije kurs" });
+  const greske = greskeDokumenta(kurs);
+  if (greske.length) return posaljiJson(odgovor, 400, { greska: "dokument nije kurs", detalji: greske });
   const telo = `${JSON.stringify(kurs, null, 2)}\n`;
   const privremeno = path.join(path.dirname(KURS), ".kurs-studio.tmp");
   fs.writeFileSync(privremeno, telo);

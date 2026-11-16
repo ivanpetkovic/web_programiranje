@@ -2292,12 +2292,84 @@ function osveziTrakuUredjivanja() {
   trakaUredjivanja.append(natpis, unazad, napred, razdelnikTrake(), koraci, ikonaStanja());
 }
 
+let toastZatvaranje = 0;
+
+function zatvoriToast() {
+  window.clearTimeout(toastZatvaranje);
+  document.querySelector("#toast-greska")?.remove();
+}
+
+async function kopirajUMedjuspremnik(tekst) {
+  if (navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(tekst);
+      return true;
+    } catch {
+      /* pregledač je odbio clipboard, pa ide izbor u polju */
+    }
+  }
+  const polje = document.createElement("textarea");
+  polje.value = tekst;
+  polje.setAttribute("readonly", "");
+  polje.style.position = "fixed";
+  polje.style.opacity = "0";
+  document.body.append(polje);
+  polje.select();
+  let uspelo = false;
+  try {
+    uspelo = document.execCommand("copy");
+  } catch {
+    uspelo = false;
+  }
+  polje.remove();
+  return uspelo;
+}
+
+function pokaziToastGreske(poruka, izvestaj) {
+  zatvoriToast();
+  const toast = document.createElement("div");
+  toast.id = "toast-greska";
+  toast.className = "toast-greska";
+  toast.setAttribute("role", "alert");
+  const tekst = document.createElement("p");
+  tekst.textContent = poruka;
+  const kopiraj = document.createElement("button");
+  kopiraj.type = "button";
+  kopiraj.className = "toast-kopiraj";
+  kopiraj.setAttribute("aria-label", "Kopiraj detalje greške");
+  kopiraj.title = "Kopiraj detalje greške";
+  saIkonom(kopiraj, "copy", "");
+  if (!kopiraj.querySelector(".ikona")) kopiraj.textContent = "Kopiraj";
+  kopiraj.addEventListener("click", async (dogadjaj) => {
+    dogadjaj.stopPropagation();
+    const uspelo = await kopirajUMedjuspremnik(izvestaj);
+    if (!uspelo) {
+      kopiraj.setAttribute("aria-label", "Kopiranje nije uspelo");
+      return;
+    }
+    kopiraj.setAttribute("aria-label", "Detalji su kopirani");
+    kopiraj.title = "Detalji su kopirani";
+    saIkonom(kopiraj, "check", "");
+  });
+  toast.addEventListener("click", () => zatvoriToast());
+  toast.append(tekst, kopiraj);
+  document.body.append(toast);
+  toastZatvaranje = window.setTimeout(zatvoriToast, 3000);
+}
+
+function zapamtiGresku(greska) {
+  const poruka = greska?.message || "Greška pri čuvanju.";
+  urediSadrzaj.greska = poruka;
+  pokaziToastGreske(poruka, greska?.detalji || poruka);
+}
+
 async function upisiKursNaServer() {
   dokument.trajanjeTema = dokument.teme.length;
   await sacuvajKursNaServeru(dokument);
   urediSadrzaj.istorija.osveziReferencu();
   urediSadrzaj.prljavo = false;
   urediSadrzaj.greska = "";
+  zatvoriToast();
 }
 
 let redUpisa = Promise.resolve();
@@ -2346,7 +2418,7 @@ async function upisiNacrte(revizija) {
     osveziLekcije();
     await upisiKursNaServer();
   } catch (greska) {
-    urediSadrzaj.greska = greska.message || "Greška pri čuvanju.";
+    zapamtiGresku(greska);
   } finally {
     urediSadrzaj.sacuvava = false;
     if (revizija === revizijaNacrta) urediSadrzaj.nesacuvano = Boolean(urediSadrzaj.greska);
@@ -2366,7 +2438,7 @@ async function korakIstorije(unazad) {
     osveziLekcije();
     await upisiKursNaServer();
   } catch (greska) {
-    urediSadrzaj.greska = greska.message || "Greška pri čuvanju.";
+    zapamtiGresku(greska);
   } finally {
     urediSadrzaj.sacuvava = false;
     renderLecture();
@@ -2401,7 +2473,7 @@ async function potvrdiIzmenuSadrzaja(info, id) {
       await upisiKursNaServer();
       urediSadrzaj.nesacuvano = false;
     } catch (greska) {
-      urediSadrzaj.greska = greska.message || "Greška pri čuvanju.";
+      zapamtiGresku(greska);
       urediSadrzaj.nesacuvano = true;
     } finally {
       urediSadrzaj.sacuvava = false;
@@ -2431,7 +2503,7 @@ async function otkaziIzmenu(id) {
       await upisiKursNaServer();
       urediSadrzaj.nesacuvano = false;
     } catch (greska) {
-      urediSadrzaj.greska = greska.message || "Greška pri čuvanju.";
+      zapamtiGresku(greska);
       urediSadrzaj.nesacuvano = true;
     } finally {
       urediSadrzaj.sacuvava = false;
@@ -2447,7 +2519,7 @@ async function sacuvajKurs() {
   try {
     await upisiKursNaServer();
   } catch (greska) {
-    urediSadrzaj.greska = greska.message || "Greška pri čuvanju.";
+    zapamtiGresku(greska);
   } finally {
     urediSadrzaj.sacuvava = false;
     osveziTrakuUredjivanja();
@@ -2465,7 +2537,7 @@ async function izmeniStrukturu(primeni) {
     osveziLekcije();
     await upisiKursNaServer();
   } catch (greska) {
-    urediSadrzaj.greska = greska.message || "Greška pri čuvanju.";
+    zapamtiGresku(greska);
   } finally {
     urediSadrzaj.sacuvava = false;
     renderLecture();
