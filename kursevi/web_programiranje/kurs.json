@@ -5562,28 +5562,28 @@
               "id": "k10q2",
               "vrsta": "pitanje",
               "oblik": "izbor",
-              "tekst": "10.2. Da li se funkcija može pozvati pre nego što je deklarisana?\n\n```javascript\nconsole.log(saberi(2, 3));\n\nfunction saberi(a, b) {\n  return a + b;\n}\n```",
+              "tekst": "10.2. Da li se funkcija može pozvati pre nego što je deklarisana? Da li isto važi za funkcijski izraz?\n\n```javascript\nconsole.log(saberi(2, 3));\n\nfunction saberi(a, b) {\n  return a + b;\n}\n```\n\n```javascript\nconsole.log(pomnozi(2, 3));\n\nconst pomnozi = function(a, b) {\n  return a * b;\n};\n```\n\nKako se razlikuju rezultati?",
               "opcije": [
                 {
                   "key": "A",
-                  "text": "Ne, nastaje `ReferenceError`.",
+                  "text": "Oba poziva daju `ReferenceError`.",
                   "ok": false,
-                  "why": "Deklaracija funkcije priprema se pre izvršavanja naredbi u tom kontekstu."
+                  "why": "Greška važi za funkcijski izraz. Deklaracija funkcije priprema se pre izvršavanja naredbi."
                 },
                 {
                   "key": "B",
-                  "text": "Da, rezultat je `5`.",
+                  "text": "Prvi kod ispisuje `5`. Drugi daje `ReferenceError`.",
                   "ok": true,
-                  "why": "Deklaracija funkcije je dostupna pre reda u kome je napisana."
+                  "why": "`saberi` je deklaracija funkcije i dostupna je pre svog reda. `pomnozi` je funkcijski izraz i nastaje tek na liniji dodele."
                 },
                 {
                   "key": "C",
-                  "text": "Samo kada se koristi `var`.",
+                  "text": "Oba poziva rade. Prvi ispisuje `5`, drugi `6`.",
                   "ok": false,
-                  "why": "Ovo ponašanje pripada deklaraciji funkcije, ne deklaraciji pomoću `var`."
+                  "why": "Funkcijski izraz nije deklaracija funkcije. `const` pre inicijalizacije daje grešku."
                 }
               ],
-              "analiza": "Odgovor: B.\n\nJavaScript engine u prolazu definicija upiše deklaraciju funkcije, pa u prolazu izvršenja izvršava naredbe. Zato je `saberi` dostupna pre reda u kome je napisana.\n\nOvo ponašanje je deo mehanizma koji se naziva hoisting.",
+              "analiza": "Odgovor: B.\n\n`saberi` je deklaracija funkcije. JavaScript engine je upiše u prolazu definicija, pa poziv pre reda u kome je napisana vraća `5`.\n\n`pomnozi` je funkcijski izraz dodeljen pomoću `const`. U prolazu definicija upiše se samo ime. Funkcija nastaje u prolazu izvršenja, na liniji dodele. Do tada ime stoji u temporal dead zone, pa poziv daje `ReferenceError`.\n\nHoisting imenuje posledice prolaza definicija. Funkcijski izraz je dodela, a dodela se u tom prolazu ne izvršava.",
               "dodatno": "Da li JavaScript stvarno premešta tekst funkcije na početak datoteke?",
               "dodatniOdgovor": "Ne. Hoisting imenuje posledice prolaza definicija: JavaScript engine pri stvaranju konteksta upiše deklaracije, pa u prolazu izvršenja izvršava naredbe i dodele. Izvorni kod ostaje na svom mestu."
             },
@@ -5661,28 +5661,28 @@
               "odgovor": "Glavni program poziva `izracunaj(3)`, koja zatim poziva `kvadrat(3)`. Funkcija `kvadrat` vraća `9`, funkcija `izracunaj` vraća `10`, pa se nastavlja izvršavanje glavnog programa.\n\nSvaki aktivni poziv ima svoj kontekst izvršavanja (execution context), a JavaScript prati aktivne pozive pomoću steka (call stack)."
             },
             {
-              "pitalica": "10.2. Da li se funkcija može pozvati pre nego što je deklarisana?\n\n```javascript\nconsole.log(saberi(2, 3));\n\nfunction saberi(a, b) {\n  return a + b;\n}\n```",
+              "pitalica": "10.2. Da li se funkcija može pozvati pre nego što je deklarisana? Da li isto važi za funkcijski izraz?\n\n```javascript\nconsole.log(saberi(2, 3));\n\nfunction saberi(a, b) {\n  return a + b;\n}\n```\n\n```javascript\nconsole.log(pomnozi(2, 3));\n\nconst pomnozi = function(a, b) {\n  return a * b;\n};\n```\n\nKako se razlikuju rezultati?",
               "opcije": [
                 {
                   "key": "A",
-                  "text": "Ne, nastaje `ReferenceError`.",
+                  "text": "Oba poziva daju `ReferenceError`.",
                   "ok": false,
-                  "why": "Deklaracija funkcije priprema se pre izvršavanja naredbi u tom kontekstu."
+                  "why": "Greška važi za funkcijski izraz. Deklaracija funkcije priprema se pre izvršavanja naredbi."
                 },
                 {
                   "key": "B",
-                  "text": "Da, rezultat je `5`.",
+                  "text": "Prvi kod ispisuje `5`. Drugi daje `ReferenceError`.",
                   "ok": true,
-                  "why": "Deklaracija funkcije je dostupna pre reda u kome je napisana."
+                  "why": "`saberi` je deklaracija funkcije i dostupna je pre svog reda. `pomnozi` je funkcijski izraz i nastaje tek na liniji dodele."
                 },
                 {
                   "key": "C",
-                  "text": "Samo kada se koristi `var`.",
+                  "text": "Oba poziva rade. Prvi ispisuje `5`, drugi `6`.",
                   "ok": false,
-                  "why": "Ovo ponašanje pripada deklaraciji funkcije, ne deklaraciji pomoću `var`."
+                  "why": "Funkcijski izraz nije deklaracija funkcije. `const` pre inicijalizacije daje grešku."
                 }
               ],
-              "analizaPitalice": "Odgovor: B.\n\nJavaScript engine u prolazu definicija upiše deklaraciju funkcije, pa u prolazu izvršenja izvršava naredbe. Zato je `saberi` dostupna pre reda u kome je napisana.\n\nOvo ponašanje je deo mehanizma koji se naziva hoisting."
+              "analizaPitalice": "Odgovor: B.\n\n`saberi` je deklaracija funkcije. JavaScript engine je upiše u prolazu definicija, pa poziv pre reda u kome je napisana vraća `5`.\n\n`pomnozi` je funkcijski izraz dodeljen pomoću `const`. U prolazu definicija upiše se samo ime. Funkcija nastaje u prolazu izvršenja, na liniji dodele. Do tada ime stoji u temporal dead zone, pa poziv daje `ReferenceError`.\n\nHoisting imenuje posledice prolaza definicija. Funkcijski izraz je dodela, a dodela se u tom prolazu ne izvršava."
             },
             {
               "pitalica": "10.3. Zašto `var` vraća `undefined`, dok `let` izaziva grešku?\n\n```javascript\nconsole.log(a);\nvar a = 10;\n```\n\n```javascript\nconsole.log(b);\nlet b = 10;\n```\n\nKako se razlikuju rezultati?",
