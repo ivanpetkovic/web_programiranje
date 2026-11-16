@@ -173,6 +173,11 @@ test("leksički opseg i leksičko okruženje razlikuju strukturu i primerak", ()
   assert.match(blok.tekst, /odnosu klase i objekta/);
   assert.match(blok.tekst, /Leksički opseg je ta struktura u kodu/);
   assert.match(blok.tekst, /Leksičko okruženje je primerak/);
+  const pitanje = dokument.teme[2].steps[8].diskusija.find((stavka) => stavka.id === "k09q3");
+  assert.match(pitanje.tekst, /Koja je razlika između ta dva\?/);
+  assert.match(pitanje.odgovor, /odnosu klase i objekta/);
+  assert.match(pitanje.odgovor, /Leksički opseg je ta struktura u kodu/);
+  assert.match(pitanje.odgovor, /Leksičko okruženje je primerak/);
   assert.equal(lekcijePojma(dokument, "leksički opseg").prvi.tema, 3);
   assert.equal(lekcijePojma(dokument, "leksičko okruženje").prvi.tema, 3);
 });
