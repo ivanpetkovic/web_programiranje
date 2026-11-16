@@ -1,6 +1,7 @@
 import { blokoviKoraka, diskusijaKoraka, naslovKoda } from "./blokovi-lekcije.js";
 import { blokOd } from "./blokovi/index.js";
 import { izvorMermaida } from "./blokovi/mermaid.js";
+import { svgRasporeda } from "./proto-dijagram.js";
 import { modelStrukture, svgStrukture } from "./struktura-crtez.js";
 import { imaTekst, jedanRed, zastitiOgrade } from "./blokovi/md.js";
 import { blokoviTeksta } from "./mermaid.js";
@@ -143,6 +144,10 @@ function htmlBloka(blok) {
     const izvor = izvorMermaida(blok.tekst);
     return `${htmlNaslovBloka(blok.naslov || "Dijagram")}<div class="figura-mermaid">${escapeHtml(izvor)}</div>`;
   }
+  if (blok.vrsta === "raspored") {
+    const legenda = imaTekst(blok.tekst) ? htmlProze(blok.tekst) : "";
+    return `${htmlNaslovBloka(blok.naslov || "Prototipski lanac")}<div class="figura-raspored">${svgRasporeda()}</div>${legenda}`;
+  }
   if (blok.vrsta === "struktura") {
     let crtez = "<p>Dijagram se ne crta.</p>";
     try {
@@ -207,7 +212,7 @@ function htmlOmot(naslov, telo) {
   blockquote { margin-left: 0; padding-left: 0.85rem; border-left: 3px solid #c4a15a; }
   table { border-collapse: collapse; width: 100%; }
   th, td { border: 1px solid #d9d3c7; padding: 0.35rem 0.5rem; text-align: left; }
-  .figura-mermaid svg { max-width: 100%; height: auto; }
+  .figura-mermaid svg, .figura-raspored svg { max-width: 100%; height: auto; }
   code { font-family: ui-monospace, "Cascadia Code", monospace; }
 </style>
 </head>

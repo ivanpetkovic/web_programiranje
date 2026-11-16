@@ -46,6 +46,7 @@ import { dopunaMesta, procitajMesto, sastaviMesto } from "./adresa.js";
 import { nacrtajFiguru } from "./crtez.js";
 import { mermaidFigura } from "./figura.js";
 import { blokoviTeksta, imaMermaid, nacrtajMermaid, osveziMermaid } from "./mermaid.js";
+import { svgRasporeda } from "./proto-dijagram.js";
 import { modelStrukture, svgStrukture } from "./struktura-crtez.js";
 import {
   htmlKoraka,
@@ -1378,6 +1379,27 @@ function odaberiPredlog(stavka) {
   otvoriTemu(stavka.tema, stavka.korak);
 }
 
+function prikazRasporeda(blok, dijagrami) {
+  const kartica = document.createElement("figure");
+  kartica.className = "isecak isecak-raspored";
+  const glava = document.createElement("header");
+  const naslov = document.createElement("span");
+  saIkonom(naslov, ikonaSekcije(blok), natpisSekcije(blok));
+  glava.append(naslov);
+  const figura = document.createElement("div");
+  figura.className = "figura figura-raspored";
+  figura.innerHTML = svgRasporeda();
+  kartica.append(glava, figura);
+  const legenda = String(blok.tekst || "").trim();
+  if (legenda) {
+    const telo = document.createElement("div");
+    telo.className = "raspored-legenda";
+    telo.append(...cvoroviProze(legenda, dijagrami));
+    kartica.append(telo);
+  }
+  return kartica;
+}
+
 function prikazStrukture(blok) {
   const kartica = document.createElement("figure");
   kartica.className = "isecak isecak-struktura";
@@ -1443,6 +1465,7 @@ function placeholderSekcije(blok) {
   if (blok.vrsta === "dijagram") return "Tekstualni dijagram.";
   if (blok.vrsta === "mermaid") return "Mermaid izvor, na primer flowchart LR.";
   if (blok.vrsta === "struktura") return "JSON crteža: kod, okviri i lifo.";
+  if (blok.vrsta === "raspored") return "Legenda ispod crteža prototipskog lanca.";
   return "Kod ove sekcije.";
 }
 
@@ -1960,6 +1983,9 @@ function teloSekcije(sirovi, blok, dijagrami, prviTekst, vezi, prefiks, crtez) {
   }
   if (blok.vrsta === "struktura") {
     return omotUredjivog(urediSadrzaj, id, prikazStrukture(blok), () => uredjivacSekcije(sirovi, blok, vezi), bezOlovke());
+  }
+  if (blok.vrsta === "raspored") {
+    return omotUredjivog(urediSadrzaj, id, prikazRasporeda(blok, dijagrami), () => uredjivacSekcije(sirovi, blok, vezi), bezOlovke());
   }
   const natpis = blok.vrsta === "kod" ? naslovKoda(blok) : natpisSekcije(blok);
   const kartica = nacrtajTekstBloka(blok.tekst || "", natpis, ikonaSekcije(blok));
