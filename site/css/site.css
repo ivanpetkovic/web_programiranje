@@ -888,6 +888,7 @@ button.sve-beleske-korak:hover { color: var(--amber); }
 }
 .kviz-segment button:disabled { opacity: 0.45; }
 .kviz-ocena { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+.kviz-ocena:has(input:disabled) { opacity: 0.55; }
 .kviz-kreni, .kviz-sporedno {
   border-radius: 10px;
   padding: 10px 16px;
@@ -939,6 +940,7 @@ html[data-pozadina-koda="crna"] .kviz-kod { background: #111111; color: #f4efe4;
 .kviz-proza { display: grid; gap: 0.45rem; margin: 0; }
 .kviz-proza p { margin: 0; }
 .kviz-tacno { margin: 0; color: var(--good); font-weight: 700; }
+.kviz-tacan { margin: 0; }
 .kviz-netacno { margin: 0; color: var(--bad); font-weight: 700; }
 .kviz-skor { margin: 0; font-size: 2rem; font-weight: 700; color: var(--naslov); }
 .kviz-spisak { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }

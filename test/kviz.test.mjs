@@ -11,6 +11,7 @@ import {
   izPostojeceg,
   oceni,
   sazetakPitanja,
+  seOcenjuje,
   temeSaKvizom,
   zbir,
 } from "../site/js/kviz-logika.js";
@@ -80,6 +81,39 @@ test("izbor po temi, celom gradivu, dužini i oceni", () => {
   const kratko = izaberiPitanja(pitanja, { opseg: "sve", maksimum: 1, ocenjivanje: false, rng: redosled });
   assert.equal(kratko.length, 1);
   assert.equal(kratko[0].id, "t1a");
+});
+
+test("neograničen izbor se ne ocenjuje, a po temi uzima n iz svake", () => {
+  const pitanja = [
+    { id: "t1a", tema: 1, vrsta: "izbor" },
+    { id: "t1b", tema: 1, vrsta: "tekst" },
+    { id: "t1c", tema: 1, vrsta: "ispravka" },
+    { id: "t1d", tema: 1, vrsta: "izbor" },
+    { id: "t2a", tema: 2, vrsta: "izbor" },
+    { id: "t2b", tema: 2, vrsta: "tekst" },
+    { id: "t3a", tema: 3, vrsta: "izbor" },
+  ];
+  const redosled = () => 0.999;
+  assert.equal(seOcenjuje({ maksimum: null, ocenjivanje: true }), false);
+  assert.equal(seOcenjuje({ maksimum: null, poTemi: 1, ocenjivanje: true }), true);
+  assert.equal(seOcenjuje({ maksimum: 10, ocenjivanje: false }), false);
+
+  const neograniceno = izaberiPitanja(pitanja, {
+    opseg: "sve",
+    maksimum: null,
+    ocenjivanje: true,
+    rng: redosled,
+  });
+  assert.deepEqual(neograniceno.map((pitanje) => pitanje.id), ["t1a", "t1b", "t1c", "t1d", "t2a", "t2b", "t3a"]);
+
+  const jedno = izaberiPitanja(pitanja, { opseg: "sve", poTemi: 1, ocenjivanje: false, rng: redosled });
+  assert.deepEqual(jedno.map((pitanje) => pitanje.id), ["t1a", "t2a", "t3a"]);
+
+  const tri = izaberiPitanja(pitanja, { opseg: "sve", poTemi: 3, ocenjivanje: true, rng: redosled });
+  assert.deepEqual(tri.map((pitanje) => pitanje.id), ["t1a", "t1c", "t1d", "t2a", "t3a"]);
+
+  const jednaTema = izaberiPitanja(pitanja, { opseg: "tema", tema: 2, poTemi: 3, ocenjivanje: false, rng: redosled });
+  assert.deepEqual(jednaTema.map((pitanje) => pitanje.id), ["t2a", "t2b"]);
 });
 
 test("kviz pokriva prve četiri teme i svaki njihov korak ima bar deset pitanja", () => {

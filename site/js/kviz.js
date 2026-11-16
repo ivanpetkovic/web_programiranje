@@ -1,13 +1,15 @@
 import { ikonica } from "./ikonice.js";
 import { novaPitanja } from "./kviz-banka.js";
-import { bazen, deloviKvizTeksta, izaberiPitanja, mozeOcena, oceni, sazetakPitanja, temeSaKvizom, zbir } from "./kviz-logika.js";
+import { bazen, deloviKvizTeksta, izaberiPitanja, mozeOcena, oceni, sazetakPitanja, seOcenjuje, temeSaKvizom, zbir } from "./kviz-logika.js";
 import { nacrtajMermaid } from "./mermaid.js";
 import { deloviReda } from "./proza.js";
 
 const MAKSIMUMI = [
-  { vrednost: 3, natpis: "3" },
-  { vrednost: 10, natpis: "10" },
-  { vrednost: null, natpis: "Neograničeno" },
+  { id: "3", maksimum: 3, natpis: "3" },
+  { id: "10", maksimum: 10, natpis: "10" },
+  { id: "po-temi-1", poTemi: 1, natpis: "1 po temi" },
+  { id: "po-temi-3", poTemi: 3, natpis: "3 po temi" },
+  { id: "sve", natpis: "Neograničeno" },
 ];
 
 function el(oznaka, klasa, tekst) {
@@ -34,7 +36,7 @@ export function napraviKviz(ctx) {
   let povratak = null;
   let stanje = {
     opseg: "tema",
-    maksimum: 10,
+    maksimumId: "10",
     ocenjivanje: true,
   };
   let runda = null;
@@ -79,10 +81,10 @@ export function napraviKviz(ctx) {
 
     telo.append(grupaOpsega(sada, imaTemu, pokriveno));
     telo.append(grupa("Najviše pitanja", MAKSIMUMI.map((stavka) => ({
-      pritisnuto: stanje.maksimum === stavka.vrednost,
+      pritisnuto: stanje.maksimumId === stavka.id,
       natpis: stavka.natpis,
       onClick: () => {
-        stanje.maksimum = stavka.vrednost;
+        stanje.maksimumId = stavka.id;
         nacrtajPodesavanja();
       },
     }))));
@@ -90,17 +92,18 @@ export function napraviKviz(ctx) {
     const ocenjivanje = el("label", "kviz-ocena");
     const kvacica = document.createElement("input");
     kvacica.type = "checkbox";
-    kvacica.checked = stanje.ocenjivanje;
+    kvacica.checked = ocenjujeSe();
+    kvacica.disabled = neograniceno();
     kvacica.addEventListener("change", () => {
       stanje.ocenjivanje = kvacica.checked;
+      const napomena = telo.querySelector("[data-kviz-ocena]");
+      if (napomena) napomena.textContent = tekstOcene();
     });
     ocenjivanje.append(kvacica, el("span", "", "Oceni kviz"));
     telo.append(ocenjivanje);
-    telo.append(el(
-      "p",
-      "kviz-napomena",
-      "Ocena važi za ABC pitanja i ispravke koda. Kod se poredi bez belina. Kad je ocena uključena, otvorena pitanja ne ulaze u izbor.",
-    ));
+    const napomenaOcene = el("p", "kviz-napomena", tekstOcene());
+    napomenaOcene.dataset.kvizOcena = "";
+    telo.append(napomenaOcene);
 
     const kreni = el("button", "kviz-kreni", "Počni");
     kreni.type = "button";
@@ -157,13 +160,38 @@ export function napraviKviz(ctx) {
     return omot;
   }
 
-  function pokreni(sada) {
-    const izabrana = izaberiPitanja(pitanja(), {
+  function neograniceno() {
+    return stanje.maksimumId === "sve";
+  }
+
+  function parametriIzbora(sada) {
+    const stavka = MAKSIMUMI.find((kandidat) => kandidat.id === stanje.maksimumId) || MAKSIMUMI[1];
+    return {
       opseg: stanje.opseg,
       tema: sada?.tema,
-      maksimum: stanje.maksimum,
+      maksimum: "maksimum" in stavka ? stavka.maksimum : null,
+      poTemi: stavka.poTemi,
       ocenjivanje: stanje.ocenjivanje,
-    });
+    };
+  }
+
+  function ocenjujeSe() {
+    return seOcenjuje(parametriIzbora());
+  }
+
+  function tekstOcene() {
+    if (neograniceno()) {
+      return "Neograničen broj pitanja nema ocenu. Tačan odgovor i objašnjenje vide se čim izabereš opciju.";
+    }
+    if (!stanje.ocenjivanje) {
+      return "Bez ocene, tačan odgovor i objašnjenje vide se čim izabereš opciju. Otvorena pitanja ulaze u izbor.";
+    }
+    return "Ocena važi za ABC pitanja i ispravke koda. Kod se poredi bez belina. Kad je ocena uključena, otvorena pitanja ne ulaze u izbor.";
+  }
+
+  function pokreni(sada) {
+    const izbor = parametriIzbora(sada);
+    const izabrana = izaberiPitanja(pitanja(), izbor);
     if (!izabrana.length) {
       telo.querySelector(".kviz-prazno")?.remove();
       telo.append(el("p", "kviz-prazno", "Nema pitanja za ovaj izbor."));
@@ -174,7 +202,7 @@ export function napraviKviz(ctx) {
       indeks: 0,
       odgovori: {},
       otkriveno: new Set(),
-      ocenjivanje: stanje.ocenjivanje,
+      ocenjivanje: seOcenjuje(izbor),
       predato: false,
     };
     nacrtajPitanje();
@@ -259,6 +287,7 @@ export function napraviKviz(ctx) {
       dugme.addEventListener("click", () => {
         if (runda.predato) return;
         runda.odgovori[pitanje.id] = opcija.key;
+        if (!runda.ocenjivanje) runda.otkriveno.add(pitanje.id);
         nacrtajPitanje();
       });
       mreza.append(dugme);
@@ -288,6 +317,16 @@ export function napraviKviz(ctx) {
     const okvir = el("div", "kviz-odgovor");
     if (ocena.ocenjivo) {
       okvir.append(el("p", ocena.tacno ? "kviz-tacno" : "kviz-netacno", ocena.tacno ? "Tačno." : "Nije tačno."));
+    }
+    if (pitanje.vrsta === "izbor") {
+      for (const tacna of (pitanje.opcije || []).filter((opcija) => opcija.ok)) {
+        const red = el("p", "kviz-tacan");
+        const jak = document.createElement("strong");
+        jak.textContent = `Tačan odgovor: ${tacna.key}. `;
+        red.append(jak);
+        dodajDelove(red, tacna.text);
+        okvir.append(red);
+      }
     }
     if (pitanje.vrsta === "ispravka") {
       okvir.append(el("p", "meta", "Rešenje"));
