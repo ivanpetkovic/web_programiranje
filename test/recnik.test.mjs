@@ -161,6 +161,22 @@ test("opseg važenja i opseg izvršavanja nose engleske nazive", () => {
   assert.equal(lekcijePojma(dokument, "opseg izvršavanja").prvi.tema, 3);
 });
 
+test("leksički opseg i leksičko okruženje razlikuju strukturu i primerak", () => {
+  const trazi = (ime) => pojmovi.find((pojam) => pojam.ime === ime);
+  const opseg = trazi("leksički opseg");
+  const okruzenje = trazi("leksičko okruženje");
+  assert.match(opseg.definicija, /lexical scope/);
+  assert.match(opseg.izbegava, /Leksičko okruženje/);
+  assert.match(okruzenje.definicija, /lexical environment/);
+  assert.match(okruzenje.izbegava, /Leksički opseg/);
+  const blok = dokument.teme[2].steps[8].blokovi.find((stavka) => stavka.id === "k09b13");
+  assert.match(blok.tekst, /odnosu klase i objekta/);
+  assert.match(blok.tekst, /Leksički opseg je ta struktura u kodu/);
+  assert.match(blok.tekst, /Leksičko okruženje je primerak/);
+  assert.equal(lekcijePojma(dokument, "leksički opseg").prvi.tema, 3);
+  assert.equal(lekcijePojma(dokument, "leksičko okruženje").prvi.tema, 3);
+});
+
 test("CSS model kutije je pojam rečnika i stoji u gradivu", () => {
   const pojam = pojmovi.find((stavka) => stavka.ime === "CSS model kutije");
   assert.match(pojam.definicija, /box model/);
