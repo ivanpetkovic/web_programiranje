@@ -898,12 +898,37 @@ button.sve-beleske-korak:hover { color: var(--amber); }
 .kviz-meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0; color: var(--muted); font-size: 14px; }
 .kviz-bedz { border: 1px solid var(--line); border-radius: 999px; padding: 2px 8px; font-size: 12px; }
 .kviz-zamka { border-color: var(--amber); color: var(--amber); }
-.kviz-tekst { margin: 0; font-size: 1.15rem; line-height: 1.4; }
-.kviz-kod { margin: 0; }
+.kviz-tekst { display: grid; gap: 0.7rem; margin: 0; }
+.kviz-tekst h3,
+.kviz-tekst .kviz-nastavak { margin: 0; font-size: 1.15rem; line-height: 1.45; }
+.kviz-tekst h3 { font-weight: 700; }
+.kviz-proza .kviz-nastavak { margin: 0; line-height: 1.45; }
+.kviz-tekst code,
+.kviz-dijalog .option code,
+.kviz-dijalog .why code,
+.kviz-proza code,
+.kviz-stavka-dugme code {
+  font-family: ui-monospace, SFMono-Regular, "Cascadia Code", monospace;
+  font-size: 0.92em;
+}
+.kviz-kod {
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  overflow: auto;
+  border-radius: 10px;
+  background: #f7f1e6;
+  color: #1c1a16;
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+.kviz-kod code { font: inherit; }
+html[data-pozadina-koda="crna"] .kviz-kod { background: #111111; color: #f4efe4; }
 .kviz-polje { width: 100%; min-height: 9rem; }
 .kviz-navigacija { display: flex; justify-content: space-between; gap: 8px; }
 .kviz-odgovor { display: grid; gap: 6px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; }
-.kviz-proza { margin: 0; white-space: pre-wrap; }
+.kviz-proza { display: grid; gap: 0.45rem; margin: 0; }
+.kviz-proza p { margin: 0; }
 .kviz-tacno { margin: 0; color: var(--good); font-weight: 700; }
 .kviz-netacno { margin: 0; color: var(--bad); font-weight: 700; }
 .kviz-skor { margin: 0; font-size: 2rem; font-weight: 700; color: var(--naslov); }
