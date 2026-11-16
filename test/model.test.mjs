@@ -51,6 +51,7 @@ test("adapter čita dokument i ne drži naslove", () => {
     ["ikona", "layers"],
     ["slika", "assets/prozor.svg"],
     ["slika", "assets/js.svg"],
+    ["ikona", "code-xml"],
     ["ikona", "monitor"],
     ["ikona", "server"],
     ["ikona", "clock"],
@@ -68,8 +69,8 @@ test("adapter čita dokument i ne drži naslove", () => {
   });
   assert.equal(lectures[1].slika, "assets/prozor.svg");
   assert.equal(lectures[0].ikona, "layers");
-  assert.equal(dokument.trajanjeTema, 11);
-  assert.equal(lectures.length, 11);
+  assert.equal(dokument.trajanjeTema, 12);
+  assert.equal(lectures.length, 12);
   assert.equal(lectures[0].title, "Zašto Web postoji: zahtevi i protokoli");
   assert.equal(lectures[1].title, "Browser: HTML, CSS i prikaz");
   assert.equal(lectures[0].steps[0].nivo, "Osnovno");

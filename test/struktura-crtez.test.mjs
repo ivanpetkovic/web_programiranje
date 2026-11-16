@@ -21,7 +21,7 @@ test("oznaka u kodu ostaje tekst, ne oznaka", () => {
 });
 
 test("okviri steka idu odozgo nadole, a LIFO stoji samo uz stek", () => {
-  const kontekst = dokument.teme[2].steps[9];
+  const kontekst = dokument.teme[3].steps[1];
   const stek = kontekst.blokovi.find((blok) => blok.naslov === "Stek poziva i leksička okruženja");
   const svg = svgStrukture(JSON.parse(stek.tekst));
   assert.ok(yOkvira(svg, "kvadrat") < yOkvira(svg, "izracunaj"));
@@ -30,7 +30,7 @@ test("okviri steka idu odozgo nadole, a LIFO stoji samo uz stek", () => {
   const strelica = /data-strelica="kvadrat"[^>]*y1="([\d.]+)"[^>]*y2="([\d.]+)"/.exec(svg);
   assert.equal(strelica[1], strelica[2]);
 
-  const opseg = dokument.teme[2].steps[8];
+  const opseg = dokument.teme[3].steps[0];
   const leksicko = svgStrukture(JSON.parse(opseg.blokovi.find((blok) => blok.id === "k09b18").tekst));
   assert.equal(leksicko.includes(">LIFO<"), false);
   assert.ok(yOkvira(leksicko, "prikazi") < yOkvira(leksicko, "pozovi"));
@@ -38,7 +38,7 @@ test("okviri steka idu odozgo nadole, a LIFO stoji samo uz stek", () => {
 });
 
 test("opseg izvršavanja crta samo aktivan lanac", () => {
-  const kontekst = dokument.teme[2].steps[9];
+  const kontekst = dokument.teme[3].steps[1];
   const blok = kontekst.blokovi.find((blok) => blok.id === "k10b18");
   const svg = svgStrukture(JSON.parse(blok.tekst)).split("<svg").slice(1);
   assert.equal(svg.length, 2);

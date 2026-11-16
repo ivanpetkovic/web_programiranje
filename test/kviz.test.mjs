@@ -82,8 +82,8 @@ test("izbor po temi, celom gradivu, dužini i oceni", () => {
   assert.equal(kratko[0].id, "t1a");
 });
 
-test("kviz pokriva samo prve tri teme i svaki njihov korak ima bar deset pitanja", () => {
-  assert.deepEqual(temeSaKvizom(novaPitanja), [1, 2, 3]);
+test("kviz pokriva prve četiri teme i svaki njihov korak ima bar deset pitanja", () => {
+  assert.deepEqual(temeSaKvizom(novaPitanja), [1, 2, 3, 4]);
   const sve = bazen(lectures, novaPitanja);
   const idjevi = new Set();
   for (const pitanje of sve) {
@@ -100,7 +100,7 @@ test("kviz pokriva samo prve tri teme i svaki njihov korak ima bar deset pitanja
       assert.ok(bezBelih(pitanje.resenje), pitanje.id);
     }
   }
-  for (const tema of [1, 2, 3]) {
+  for (const tema of [1, 2, 3, 4]) {
     const lekcija = lectures.find((stavka) => stavka.n === tema);
     lekcija.steps.forEach((korak, indeks) => {
       const zaKorak = sve.filter((pitanje) => pitanje.tema === tema && pitanje.korak === indeks);
@@ -111,11 +111,11 @@ test("kviz pokriva samo prve tri teme i svaki njihov korak ima bar deset pitanja
       assert.ok(ocenjiva.some((pitanje) => pitanje.vrsta === "ispravka"), `${tema}.${indeks + 1} nema ispravku`);
     });
   }
-  assert.equal(sve.some((pitanje) => pitanje.tema > 3), false);
+  assert.equal(sve.some((pitanje) => pitanje.tema > 4), false);
 });
 
 test("ograda u pitanju postaje blok koda, a kratki kod u opciji ostaje bez navodnika", () => {
-  const pitanje = lectures.find((lekcija) => lekcija.n === 3).steps[8].pitalice
+  const pitanje = lectures.find((lekcija) => lekcija.n === 4).steps[0].pitalice
     .find((stavka) => stavka.pitalica.includes("tamo gde je pozvana"));
   const delovi = deloviKvizTeksta(pitanje.pitalica);
   assert.deepEqual(delovi.map((deo) => deo.vrsta), ["proza", "kod", "proza"]);

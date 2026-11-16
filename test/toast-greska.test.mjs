@@ -35,7 +35,7 @@ async function stranica(t) {
 }
 
 async function otvoriDodatno(strana, portSajta) {
-  await strana.idi(`http://127.0.0.1:${portSajta}/tema/3/k/9/deo/diskusija/blok/k09q2?edit=true`);
+  await strana.idi(`http://127.0.0.1:${portSajta}/tema/4/k/1/deo/diskusija/blok/k09q2?edit=true`);
   let spremno = false;
   for (let i = 0; i < 40 && !spremno; i += 1) {
     await pauza(100);
@@ -73,7 +73,7 @@ test("izmena dodatnog pitanja 9.2 ostaje sačuvana", { timeout: 40000 }, async (
   assert.equal(await strana.vrednost(`document.querySelector("#toast-greska")`), null);
   const snimak = await strana.posalji("Page.captureScreenshot", { format: "png" });
   writeFileSync(path.join(snimci, "dodatno-92-sacuvano.png"), Buffer.from(snimak.data, "base64"));
-  const dodatno = await strana.vrednost(`fetch("/kurs.json?sveze=" + Date.now(), { cache: "no-store" }).then((odgovor) => odgovor.json()).then((kurs) => kurs.teme[2].steps[8].diskusija.find((blok) => blok.id === "k09q2").dodatno)`);
+  const dodatno = await strana.vrednost(`fetch("/kurs.json?sveze=" + Date.now(), { cache: "no-store" }).then((odgovor) => odgovor.json()).then((kurs) => kurs.teme[3].steps[0].diskusija.find((blok) => blok.id === "k09q2").dodatno)`);
   assert.equal(dodatno, marker);
 });
 

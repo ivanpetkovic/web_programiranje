@@ -14,7 +14,7 @@ function tekst(korak) {
 }
 
 test("uvod stoji pre tema i nije tema", () => {
-  assert.equal(dokument.teme.length, 11);
+  assert.equal(dokument.teme.length, 12);
   assert.equal(dokument.teme.some((tema) => tema.naslov === "Uvod"), false);
   assert.match(dokument.uvod.cilj, /Kontrolne sobe/);
   assert.ok(dokument.uvod.ocekivanje.length >= 3);
@@ -198,12 +198,13 @@ test("TCP i UDP poredi zakasneli kadar sa bajtom dokumenta", () => {
   assert.equal("opcije" in korak, false);
 });
 
-test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
-  assert.equal(lectures.length, 11);
+test("dvanaest časova ima naslov i 7 do 22 koraka", () => {
+  assert.equal(lectures.length, 12);
   const naslovi = [
     "Zašto Web postoji: zahtevi i protokoli",
     "Browser: HTML, CSS i prikaz",
-    "JavaScript, jezik, objekti i model izvršavanja",
+    "JavaScript: vrednosti, objekti i funkcije",
+    "JavaScript: leksičko okruženje, prototip i modul",
     "DOM, događaji i prikaz stanja",
     "Od mrežnog prenosa do HTTP-a i Node.js-a",
     "Asinhronost, event loop i neuspeh",
@@ -216,7 +217,7 @@ test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
   lectures.forEach((cas, i) => {
     assert.equal(cas.n, i + 1);
     assert.equal(cas.title, naslovi[i]);
-    assert.ok(cas.steps.length >= 10 && cas.steps.length <= 22, `čas ${cas.n}: ${cas.steps.length}`);
+    assert.ok(cas.steps.length >= 7 && cas.steps.length <= 22, `čas ${cas.n}: ${cas.steps.length}`);
     for (const korak of cas.steps) {
       assert.ok(korak.primer);
       assert.ok(korak.objasnjenje);
@@ -237,32 +238,8 @@ test("jedanaest časova ima naslov i 10 do 22 koraka", () => {
   });
 });
 
-test("tema jezika ima 15 koraka, diskusiju po koraku i fajl po koraku", () => {
-  const tema = dokument.teme[2];
-  const cas = lectures[2];
-  assert.equal(tema.naslov, "JavaScript, jezik, objekti i model izvršavanja");
-  assert.equal(tema.steps.length, 15);
-  assert.equal(tema.steps.reduce((zbir, korak) => zbir + korak.minuta, 0), 55);
-  assert.match(tema.izlaz, /okruženju/);
-  const naslovi = [
-    "Šta je JavaScript i kako se izvršava?",
-    "Vrednosti, tipovi podataka i promenljive",
-    "Objekti, svojstva, reference i mutacija",
-    "Izrazi, operatori i poređenja",
-    "Kontrola toka programa",
-    "Funkcije kao vrednosti",
-    "Nizovi i obrada kolekcija",
-    "Destrukturiranje i savremena sintaksa",
-    "Opseg važenja i leksičko okruženje",
-    "Execution context, call stack i hoisting",
-    "Closure: kako funkcija zadržava pristup svom okruženju",
-    "Metode objekata i this",
-    "Prototipi, prototipski lanac i klase",
-    "Greške, izuzeci i debagovanje",
-    "Moduli, JSON i priprema za Web",
-  ];
-  assert.deepEqual(tema.steps.map((korak) => korak.naslov), naslovi);
-  const ocekivano = [3, 3, 4, 4, 3, 7, 5, 3, 5, 5, 3, 3, 4, 3, 4];
+function proveriKorakeJezika(tema, cas, ocekivano) {
+  assert.equal(tema.steps.length, ocekivano.length);
   tema.steps.forEach((korak, i) => {
     const pitanja = korak.diskusija.filter((blok) => blok.vrsta === "pitanje");
     assert.equal(pitanja.length, ocekivano[i], korak.naslov);
@@ -281,6 +258,25 @@ test("tema jezika ima 15 koraka, diskusiju po koraku i fajl po koraku", () => {
     assert.equal(cas.steps[i].putanja, korak.putanja);
     assert.equal(cas.steps[i].delic, korak.delic);
   });
+}
+
+test("tema vrednosti ima osam koraka, diskusiju po koraku i fajl po koraku", () => {
+  const tema = dokument.teme[2];
+  const cas = lectures[2];
+  assert.equal(tema.naslov, "JavaScript: vrednosti, objekti i funkcije");
+  assert.equal(tema.steps.reduce((zbir, korak) => zbir + korak.minuta, 0), 32);
+  assert.match(tema.izlaz, /okruženju/);
+  assert.deepEqual(tema.steps.map((korak) => korak.naslov), [
+    "Šta je JavaScript i kako se izvršava?",
+    "Vrednosti, tipovi podataka i promenljive",
+    "Objekti, svojstva, reference i mutacija",
+    "Izrazi, operatori i poređenja",
+    "Kontrola toka programa",
+    "Funkcije kao vrednosti",
+    "Nizovi i obrada kolekcija",
+    "Destrukturiranje i savremena sintaksa",
+  ]);
+  proveriKorakeJezika(tema, cas, [3, 3, 4, 4, 3, 7, 5, 3]);
   assert.match(tema.steps[1].delic, /\/\/ const x = 5;/);
   assert.match(tema.steps[5].tekst, /### Funkcije višeg reda/);
   assert.match(tema.steps[5].tekst, /Callback je funkcija koja se prosleđuje/);
@@ -288,10 +284,29 @@ test("tema jezika ima 15 koraka, diskusiju po koraku i fajl po koraku", () => {
   assert.match(tema.steps[6].tekst, /map\(\)/);
   assert.match(tema.steps[6].tekst, /funkcija višeg reda/);
   assert.match(tema.steps[6].delic, /brojevi\.map/);
-  assert.match(tema.steps[14].delic, /export function saberi/);
-  assert.match(tema.steps[14].delic, /JSON\.parse/);
-  assert.match(tema.steps[14].delic, /\/\/ import \{ saberi, PI \}/);
-  const moduli = tema.steps[14].blokovi.find((blok) => blok.naslov === "main.js");
+});
+
+test("tema okruženja počinje od opsega i završava modulima", () => {
+  const tema = dokument.teme[3];
+  const cas = lectures[3];
+  assert.equal(tema.naslov, "JavaScript: leksičko okruženje, prototip i modul");
+  assert.equal(tema.preduslov, lectures[2].outcome);
+  assert.equal(tema.steps.reduce((zbir, korak) => zbir + korak.minuta, 0), 23);
+  assert.match(tema.izlaz, /modul/);
+  assert.deepEqual(tema.steps.map((korak) => korak.naslov), [
+    "Opseg važenja i leksičko okruženje",
+    "Execution context, call stack i hoisting",
+    "Closure: kako funkcija zadržava pristup svom okruženju",
+    "Metode objekata i this",
+    "Prototipi, prototipski lanac i klase",
+    "Greške, izuzeci i debagovanje",
+    "Moduli, JSON i priprema za Web",
+  ]);
+  proveriKorakeJezika(tema, cas, [5, 5, 3, 3, 4, 3, 4]);
+  assert.match(tema.steps[6].delic, /export function saberi/);
+  assert.match(tema.steps[6].delic, /JSON\.parse/);
+  assert.match(tema.steps[6].delic, /\/\/ import \{ saberi, PI \}/);
+  const moduli = tema.steps[6].blokovi.find((blok) => blok.naslov === "main.js");
   assert.match(moduli.tekst, /import \{ saberi, PI \}/);
 });
 
@@ -306,8 +321,8 @@ test("čas istorije nema Node, čas stranice ima client/index.html", () => {
   assert.match(stranica.options.find((opcija) => opcija.ok).why, /Osvežavanje vraća dokument/);
 });
 
-test("čas 5 stavlja HTTP posle TCP, pa createServer pa listen", () => {
-  const cas = lectures[4];
+test("čas 6 stavlja HTTP posle TCP, pa createServer pa listen", () => {
+  const cas = lectures[5];
   const naslov = (ime) => cas.steps.findIndex((korak) => korak.naslov === ime);
   const tcp = naslov("TCP");
   const http = naslov("HTTP");
@@ -322,8 +337,8 @@ test("čas 5 stavlja HTTP posle TCP, pa createServer pa listen", () => {
   assert.match(cas.steps[adresa].primer, /fetch dolazi kasnije/);
 });
 
-test("čas 5 otvara adresu posle komande, fetch je u tom objašnjenju", () => {
-  const cas = lectures[4];
+test("čas 6 otvara adresu posle komande, fetch je u tom objašnjenju", () => {
+  const cas = lectures[5];
   const saNode = cas.steps.findIndex((korak) => tekst(korak).includes("node server/server.js"));
   const saAdresom = cas.steps.findIndex((korak) => tekst(korak).includes("127.0.0.1"));
   const saFetch = cas.steps.findIndex((korak) => /\bfetch\b/.test(tekst(korak)));
@@ -411,6 +426,7 @@ test("rezerve 1–9 imaju pitanje, čas 10 nema glasanje", () => {
   const trag = [
     /CSS/,
     /Strogo poređenje/,
+    /Metoda stoji jednom/,
     /Funkcija čeka klik/,
     /404/,
     /Drugi klik/,
@@ -423,14 +439,14 @@ test("rezerve 1–9 imaju pitanje, čas 10 nema glasanje", () => {
   const tekstIstorije = [istorija.rezerva.problem, ...istorija.rezerva.options.map((opcija) => opcija.text)].join("\n");
   assert.match(tekstIstorije, /Kadar sme da se odbaci/);
   assert.match(tekstIstorije, /dokument ne sme da izgubi bajt/);
-  lectures.slice(1, 10).forEach((cas, i) => {
+  lectures.slice(1, 11).forEach((cas, i) => {
     assert.ok(cas.rezerva);
     assert.ok(cas.rezerva.options.length >= 2);
     assert.equal(cas.rezerva.options.filter((opcija) => opcija.ok).length, 1);
     const tekstRezerve = [cas.rezerva.problem, ...cas.rezerva.options.map((opcija) => opcija.text)].join("\n");
     assert.match(tekstRezerve, trag[i]);
   });
-  const poslednji = lectures[10];
+  const poslednji = lectures[11];
   assert.equal(poslednji.rezerva ?? null, null);
   assert.match(poslednji.izlaz, /gde se proverava pravo/i);
   assert.match(poslednji.izlaz, /gde stoji stanje/);
@@ -506,8 +522,8 @@ test("svaki korak nosi pitalice redom, prva ostaje postojeća", () => {
   assert.ok(kljucevi.A > 40 && kljucevi.B > 40);
 });
 
-test("čas 11 ne tvrdi da je upis prošao", () => {
-  const cas = lectures[10];
+test("čas 12 ne tvrdi da je upis prošao", () => {
+  const cas = lectures[11];
   const tacno = cas.options.find((opcija) => opcija.ok);
   assert.match(tacno.text, /Ne znamo ishod/);
   assert.doesNotMatch(cas.outcome, /upis jeste prošao/);

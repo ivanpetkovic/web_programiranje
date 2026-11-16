@@ -6,7 +6,7 @@
   "slika": "assets/kurs.png",
   "oznaka": "MP",
   "grb": "assets/elfak_logo.png",
-  "trajanjeTema": 11,
+  "trajanjeTema": 12,
   "verzija": "4.1",
   "revizija": "4.1-provera-izvrsavanja",
   "statusIzvrsavanja": "izvrsavanje-delimicno-provereno",
@@ -2680,10 +2680,10 @@
       ]
     },
     {
-      "naslov": "JavaScript, jezik, objekti i model izvršavanja",
+      "naslov": "JavaScript: vrednosti, objekti i funkcije",
       "slika": "assets/js.svg",
-      "podnaslov": "Kako JavaScript predstavlja podatke, izvršava program i organizuje kod.",
-      "ishod": "Kako JavaScript predstavlja podatke, izvršava program i organizuje kod.",
+      "podnaslov": "Kako JavaScript predstavlja podatke i piše program.",
+      "ishod": "Kako JavaScript predstavlja podatke i piše program.",
       "minuta": 90,
       "predavanjeMinuta": 55,
       "diskusijaMinuta": 35,
@@ -2750,22 +2750,6 @@
           "hint": "dva imena, isti objekat",
           "body": "Dodela primitivne vrednosti kopira vrednost. Dodela objekta kopira referencu. const brani novu dodelu imena, ne mutaciju svojstava.",
           "code": "const prvi = { ime: \"Ana\" };\nconst drugi = prvi;\ndrugi.ime = \"Marko\";",
-          "codeLanguage": "javascript"
-        },
-        {
-          "id": "closure",
-          "name": "Closure",
-          "hint": "funkcija zadržava veze",
-          "body": "Unutrašnja funkcija i dalje pristupa leksičkom okruženju u kome je nastala. Closure drži vezu sa promenljivom, ne nužno kopiju njene vrednosti.",
-          "code": "function napraviBrojac() {\n  let broj = 0;\n  return function () {\n    broj++;\n    return broj;\n  };\n}",
-          "codeLanguage": "javascript"
-        },
-        {
-          "id": "prototip",
-          "name": "Prototip",
-          "hint": "pretraga duž lanca",
-          "body": "Ako objekat nema sopstveno svojstvo, JavaScript ga traži u prototipu, pa dalje do null. class organizuje konstruktor i metode, a nasleđivanje ostaje prototipsko.",
-          "code": "const korisnik = Object.create(zajednicko);\nObject.hasOwn(korisnik, \"pozdrav\"); // false",
           "codeLanguage": "javascript"
         }
       ],
@@ -2952,8 +2936,7 @@
               "odgovor": "`2 + 3` je izraz koji se izračunava i daje vrednost `5`. Prvi red koristi taj izraz kao naredbu, ali rezultat nigde ne čuva niti prikazuje. Drugi red poziva funkciju `console.log`, kojoj prosleđuje izračunatu vrednost."
             }
           ],
-          "pitalica": "1.1. Zašto nam je potreban JavaScript ako već imamo HTML i CSS?\n\nPretpostavimo da imamo Web stranicu sa dugmetom koje, nakon klika, treba da promeni neki podatak i prikaže rezultat.\n\nKoja tehnologija je odgovorna za koji deo?"
-,
+          "pitalica": "1.1. Zašto nam je potreban JavaScript ako već imamo HTML i CSS?\n\nPretpostavimo da imamo Web stranicu sa dugmetom koje, nakon klika, treba da promeni neki podatak i prikaže rezultat.\n\nKoja tehnologija je odgovorna za koji deo?",
           "opcije": [
             {
               "key": "A",
@@ -2974,8 +2957,7 @@
               "why": "HTML, CSS i JavaScript nemaju istu namenu."
             }
           ],
-          "analizaPitalice": "Odgovor: A.\n\nHTML opisuje strukturu dokumenta, CSS način prikazivanja, a JavaScript omogućava programsko ponašanje. JavaScript može obrađivati podatke, izvršavati uslove, pozivati funkcije i koristiti API-je okruženja."
-,
+          "analizaPitalice": "Odgovor: A.\n\nHTML opisuje strukturu dokumenta, CSS način prikazivanja, a JavaScript omogućava programsko ponašanje. JavaScript može obrađivati podatke, izvršavati uslove, pozivati funkcije i koristiti API-je okruženja.",
           "putanja": "client/lekcije/01-izvrsavanje.js",
           "isecakNaslov": "Šta je JavaScript i kako se izvršava?",
           "isecakJezik": "javascript",
@@ -3206,8 +3188,7 @@
               "odgovor": "`a` sadrži `undefined`, `b` sadrži `null`, a `c` sadrži `NaN`.\n\n`undefined` obično označava odsustvo dodeljene vrednosti. `null` se koristi za namerno odsustvo vrednosti. `NaN` je posebna numerička vrednost koja označava nevalidan numerički rezultat."
             }
           ],
-          "pitalica": "2.1. Da li promenljiva ima trajno određen tip?\n\n```javascript\nlet podatak = 10;\npodatak = \"deset\";\npodatak = true;\n```\n\nŠta će se dogoditi?"
-,
+          "pitalica": "2.1. Da li promenljiva ima trajno određen tip?\n\n```javascript\nlet podatak = 10;\npodatak = \"deset\";\npodatak = true;\n```\n\nŠta će se dogoditi?",
           "opcije": [
             {
               "key": "A",
@@ -3228,8 +3209,7 @@
               "why": "Dodela stringa ili `true` ne pretvara tu vrednost u broj."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\nU JavaScriptu tip pripada vrednosti, a promenljiva može tokom izvršavanja sadržati vrednosti različitih tipova. To je suština dinamičke tipizacije."
-,
+          "analizaPitalice": "Odgovor: B.\n\nU JavaScriptu tip pripada vrednosti, a promenljiva može tokom izvršavanja sadržati vrednosti različitih tipova. To je suština dinamičke tipizacije.",
           "putanja": "client/lekcije/02-vrednosti.js",
           "isecakNaslov": "Vrednosti, tipovi podataka i promenljive",
           "isecakJezik": "javascript",
@@ -3539,8 +3519,7 @@
               "analizaPitalice": "Odgovor: B.\n\nPrva operacija menja svojstvo postojećeg objekta. To je mutacija.\n\nDruga pokušava ponovnu dodelu promenljivoj deklarisanoj pomoću `const`, što nije dozvoljeno."
             }
           ],
-          "pitalica": "3.1. Kako predstaviti više povezanih vrednosti?\n\nImamo ime, godine i informaciju da li je korisnik aktivan. Umesto tri odvojene promenljive, želimo jednu strukturu.\n\n```javascript\nconst korisnik = {\n  ime: \"Ana\",\n  godine: 22,\n  aktivan: true\n};\n```\n\nKako pristupamo svojstvima, i da li su `korisnik.ime` i `korisnik[\"ime\"]` ekvivalentni?"
-,
+          "pitalica": "3.1. Kako predstaviti više povezanih vrednosti?\n\nImamo ime, godine i informaciju da li je korisnik aktivan. Umesto tri odvojene promenljive, želimo jednu strukturu.\n\n```javascript\nconst korisnik = {\n  ime: \"Ana\",\n  godine: 22,\n  aktivan: true\n};\n```\n\nKako pristupamo svojstvima, i da li su `korisnik.ime` i `korisnik[\"ime\"]` ekvivalentni?",
           "putanja": "client/lekcije/03-objekti.js",
           "isecakNaslov": "Objekti, svojstva, reference i mutacija",
           "isecakJezik": "javascript",
@@ -3794,8 +3773,7 @@
               "odgovor": "`a` je `100`, `b` je `42`, a `c` je `5`.\n\n`||` vraća prvi truthy operand, odnosno poslednji operand ako nijedan nije truthy. `&&` vraća prvi falsy operand, odnosno poslednji ako su svi prethodni truthy.\n\nIzraz `nepoznataPromenljiva` se u trećem slučaju uopšte ne izračunava, jer je levi operand već truthy."
             }
           ],
-          "pitalica": "4.1. Zašto isti podaci daju različite rezultate sa različitim operatorima?\n\n```javascript\nconsole.log(10 + \"5\");\nconsole.log(10 - \"5\");\n```"
-,
+          "pitalica": "4.1. Zašto isti podaci daju različite rezultate sa različitim operatorima?\n\n```javascript\nconsole.log(10 + \"5\");\nconsole.log(10 - \"5\");\n```",
           "opcije": [
             {
               "key": "A",
@@ -3816,8 +3794,7 @@
               "why": "Oba izraza se izvršavaju. Razlikuje se pravilo operatora."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\nOperator `+` može predstavljati sabiranje brojeva ili spajanje stringova. Kada se operand pretvori u string, izvršava se konkatenacija.\n\nOperator `-` nema značenje spajanja stringova, pa se vrednost `\"5\"` konvertuje u broj."
-,
+          "analizaPitalice": "Odgovor: B.\n\nOperator `+` može predstavljati sabiranje brojeva ili spajanje stringova. Kada se operand pretvori u string, izvršava se konkatenacija.\n\nOperator `-` nema značenje spajanja stringova, pa se vrednost `\"5\"` konvertuje u broj.",
           "putanja": "client/lekcije/04-izrazi.js",
           "isecakNaslov": "Izrazi, operatori i poređenja",
           "isecakJezik": "javascript",
@@ -3991,8 +3968,7 @@
               "odgovor": "`0`, `1`, `3`.\n\n`continue` preskače ostatak trenutne iteracije. `break` potpuno prekida petlju.\n\n`for` je pogodan kada je struktura ponavljanja poznata, dok `while` naglašava uslov koji mora ostati zadovoljen."
             }
           ],
-          "pitalica": "5.1. Kako program odlučuje koji kod se izvršava?\n\n```javascript\nconst broj = 0;\n\nif (broj) {\n  console.log(\"A\");\n} else {\n  console.log(\"B\");\n}\n```\n\nŠta se ispisuje i zašto?"
-,
+          "pitalica": "5.1. Kako program odlučuje koji kod se izvršava?\n\n```javascript\nconst broj = 0;\n\nif (broj) {\n  console.log(\"A\");\n} else {\n  console.log(\"B\");\n}\n```\n\nŠta se ispisuje i zašto?",
           "putanja": "client/lekcije/05-tok.js",
           "isecakNaslov": "Kontrola toka programa",
           "isecakJezik": "javascript",
@@ -4683,8 +4659,7 @@
               "analizaPitalice": "Odgovor: B.\n\n`map()` pravi novi spoljašnji niz, ali to ne sprečava callback da menja postojeće objekte.\n\nOvo je ključna razlika između pravljenja nove kolekcije i pravljenja potpuno nezavisnih podataka."
             }
           ],
-          "pitalica": "7.1. Šta je niz i kako se razlikuje od običnog objekta?\n\n```javascript\nconst brojevi = [10, 20, 30];\n\nbrojevi.push(40);\n\nconsole.log(brojevi[0]);\nconsole.log(brojevi.length);\n```\n\nŠta se ispisuje i da li je operacija `push` dozvoljena ako je niz deklarisan sa `const`?"
-,
+          "pitalica": "7.1. Šta je niz i kako se razlikuje od običnog objekta?\n\n```javascript\nconst brojevi = [10, 20, 30];\n\nbrojevi.push(40);\n\nconsole.log(brojevi[0]);\nconsole.log(brojevi.length);\n```\n\nŠta se ispisuje i da li je operacija `push` dozvoljena ako je niz deklarisan sa `const`?",
           "putanja": "client/lekcije/07-nizovi.js",
           "isecakNaslov": "Nizovi i obrada kolekcija",
           "isecakJezik": "javascript",
@@ -4955,7 +4930,178 @@
           "isecakNaslov": "Destrukturiranje i savremena sintaksa",
           "isecakJezik": "javascript",
           "delic": "// Destrukturiranje i savremena sintaksa\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Destrukturiranje objekta\nconst korisnik = {\n  ime: \"Ana\",\n  godine: 22\n};\n\nconst { ime, godine } = korisnik;\n\nconsole.log(ime);    // \"Ana\"\nconsole.log(godine); // 22\n\n// Drugo ime promenljive\nconst { ime: korisnickoIme } = korisnik;\n\n// Destrukturiranje niza\nconst brojevi = [10, 20, 30];\n\nconst [prvi, drugi] = brojevi;\n\nconsole.log(prvi);  // 10\nconsole.log(drugi); // 20\n\n// Rest\nconst [prvi, ...ostali] = [1, 2, 3, 4];\n\nconsole.log(prvi);   // 1\nconsole.log(ostali); // [2, 3, 4]\n\n// Spread niza\nconst prvi = [1, 2];\nconst drugi = [...prvi, 3, 4];\n\nconsole.log(drugi); // [1, 2, 3, 4]\n\n// Spread objekta\nconst korisnik = {\n  ime: \"Ana\",\n  aktivan: true\n};\n\nconst kopija = {\n  ...korisnik,\n  aktivan: false\n};\n\n// Plitka kopija\nconst original = {\n  podesavanja: {\n    tema: \"tamna\"\n  }\n};\n\nconst kopija = { ...original };\n\nkopija.podesavanja.tema = \"svetla\";\n\nconsole.log(original.podesavanja.tema);\n// \"svetla\"\n\n// Template literal\nconst ime = \"Ana\";\nconst poeni = 95;\n\nconst poruka = `${ime} ima ${poeni} poena.`;\n\n// Opciono ulančavanje\nconst korisnik = {\n  ime: \"Ana\"\n};\n\nconsole.log(korisnik.adresa?.grad);\n// undefined\n\n// Nullish coalescing\nconst broj = 0;\n\nconsole.log(broj || 10); // 10\nconsole.log(broj ?? 10); // 0\n\n// ?. i ??\nconst korisnik = {\n  profil: null\n};\n\nconst grad = korisnik.profil?.grad ?? \"Nepoznat\";\n"
+        }
+      ],
+      "samostalnoUcenje": {
+        "uvod": "Tema pokriva jezik do funkcije i kolekcije. Svaki korak uvodi mehanizam kratkim primerom. Diskusija svakog koraka nosi pitanja kojima se predviđa ponašanje koda. U editoru je fajl tog koraka, odvojen od Kontrolne sobe.",
+        "detaljnoGradivo": [
+          "JavaScript jezik izvršava engine. Browser i Node dodaju API-je. document nije deo jezika. console jeste mogućnost uobičajenog okruženja. Program se u sinhronom slučaju izvršava naredbu po naredbu.",
+          "Tip pripada vrednosti. let i const određuju sme li se ime ponovo dodeliti, ne tip. const ne zamrzava objekat. Dodela objekta kopira referencu, pa mutacija kroz jedno ime vidi se kroz drugo.",
+          "=== ne pretvara tipove. Objekti se porede po identitetu. && i || vraćaju operand, ne nužno true ili false. if i petlje biraju i ponavljaju naredbe, a ne menjaju pravila izraza.",
+          "Funkcija je vrednost. Nizovi se obrađuju transformacijom, izborom, pronalaženjem, svođenjem ili sporednim efektom. map, filter i reduce ne menjaju strukturu izvornog niza. Spread pravi plitku kopiju."
+        ],
+        "tokRada": "1) Pročitaj korak i označi koji mehanizam uvodi. 2) Pre pokretanja napiši šta očekuješ da primer uradi. 3) Otvori fajl koraka u editoru i uporedi ga sa isečcima u gradivu. 4) Promeni jednu vrednost i ponovo predvidi ishod. 5) U tabu Diskusija odgovori na pitanje koraka pre nego što otvoriš objašnjenje.",
+        "graniceZnanja": "Gradivo objašnjava sinhroni jezik do funkcije i niza: vrednosti, reference, izraze, tok i kolekcije. Leksičko okruženje, kontekst izvršavanja, closure, prototip i moduli dolaze u sledećoj temi. Primeri su nezavisni i ne grade Kontrolnu sobu.",
+        "proveraRazumevanja": "Za jedan korak napiši šta izraz radi i zašto, pa pokaži red u fajlu tog koraka koji to potvrđuje. Posebno razdvoj jezik od API-ja okruženja."
+      },
+      "dodatniPrimeri": [
+        {
+          "id": "03-e01",
+          "vrsta": "predvidi",
+          "jezik": "javascript",
+          "nivo": "Treca godina",
+          "izvrsavanje": "izolovano",
+          "okruzenje": "javascript-izolovano",
+          "odgovorOdlozen": true,
+          "uticajNaAplikaciju": "nema",
+          "editorPrimer": true,
+          "naslov": "const i objekat",
+          "uvod": "Najpre predvidi rezultat bez pokretanja. Objasni jednu pretpostavku na kojoj tvoj odgovor počiva. Zatim pokreni primer ili ga proveri u odgovarajućem okruženju, pa uporedi sa objašnjenjem.",
+          "kod": "const a = {t:24};\nconst b = a;\nb.t = 25;\nconsole.log(a.t);",
+          "pitanje": "Šta se ispisuje?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "24",
+              "why": "Ova pretpostavka ne važi: 24. const sprečava novu dodelu promenljivoj a, ali ne zamrzava svojstva objekta. Dodela b=a kopira referencu, a ne objekat; zato oba imena upućuju na isto mesto.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "TypeError",
+              "why": "Ova pretpostavka ne važi: TypeError. const sprečava novu dodelu promenljivoj a, ali ne zamrzava svojstva objekta. Dodela b=a kopira referencu, a ne objekat; zato oba imena upućuju na isto mesto.",
+              "ok": false
+            },
+            {
+              "key": "C",
+              "text": "25",
+              "why": "const sprečava novu dodelu promenljivoj a, ali ne zamrzava svojstva objekta. Dodela b=a kopira referencu, a ne objekat; zato oba imena upućuju na isto mesto.",
+              "ok": true
+            }
+          ],
+          "tacanOdgovor": "25",
+          "objasnjenje": "const sprečava novu dodelu promenljivoj a, ali ne zamrzava svojstva objekta. Dodela b=a kopira referencu, a ne objekat; zato oba imena upućuju na isto mesto. Posledica je važna kada više funkcija deli stanje Kontrolne sobe: promena u jednom delu može biti vidljiva u drugom i bez eksplicitne povratne vrednosti.",
+          "promeniIProveri": "Promeni jedan uslov iz primera, napiši novo očekivanje i tek onda ponovi proveru. Kod sa browserom koristi DOM okruženje, a HTTP/SQL scenarije pokreći samo u odgovarajućem simuliranom servisu.",
+          "vezaSaAplikacijom": "JavaScript promenljive sadrže primitivne vrednosti ili reference na objekte; prototipski lanac određuje nasleđenu pretragu svojstava.",
+          "ocekivaniRezultat": "25"
         },
+        {
+          "id": "03-e04",
+          "vrsta": "predvidi",
+          "jezik": "javascript",
+          "nivo": "Treca godina",
+          "izvrsavanje": "izolovano",
+          "okruzenje": "javascript-izolovano",
+          "odgovorOdlozen": true,
+          "uticajNaAplikaciju": "nema",
+          "editorPrimer": true,
+          "naslov": "map ne menja izvornu listu",
+          "uvod": "Najpre predvidi rezultat bez pokretanja. Objasni jednu pretpostavku na kojoj tvoj odgovor počiva. Zatim pokreni primer ili ga proveri u odgovarajućem okruženju, pa uporedi sa objašnjenjem.",
+          "kod": "const a=[20,21];\nconst b=a.map(x=>x+1);\nconsole.log(a[0],b[0]);",
+          "pitanje": "Šta se ispisuje?",
+          "opcije": [
+            {
+              "key": "A",
+              "text": "21 21",
+              "why": "Ova pretpostavka ne važi: 21 21. map pravi novi niz rezultata primene funkcije na svaki član; sama operacija ne menja izvorni niz. Kod brojeva je razlika jednostavna.",
+              "ok": false
+            },
+            {
+              "key": "B",
+              "text": "20 20",
+              "why": "Ova pretpostavka ne važi: 20 20. map pravi novi niz rezultata primene funkcije na svaki član; sama operacija ne menja izvorni niz. Kod brojeva je razlika jednostavna.",
+              "ok": false
+            },
+            {
+              "key": "C",
+              "text": "20 21",
+              "why": "map pravi novi niz rezultata primene funkcije na svaki član; sama operacija ne menja izvorni niz. Kod brojeva je razlika jednostavna.",
+              "ok": true
+            }
+          ],
+          "tacanOdgovor": "20 21",
+          "objasnjenje": "map pravi novi niz rezultata primene funkcije na svaki član; sama operacija ne menja izvorni niz. Kod brojeva je razlika jednostavna. Ako elementi predstavljaju objekte, map može vratiti reference na postojeće objekte, pa mutiranje tih objekata zahteva dodatnu pažnju. U grafiku temperature lako je zadržati originalna očitavanja odvojeno od transformisanog prikaza.",
+          "promeniIProveri": "Promeni jedan uslov iz primera, napiši novo očekivanje i tek onda ponovi proveru. Kod sa browserom koristi DOM okruženje, a HTTP/SQL scenarije pokreći samo u odgovarajućem simuliranom servisu.",
+          "vezaSaAplikacijom": "JavaScript promenljive sadrže primitivne vrednosti ili reference na objekte; prototipski lanac određuje nasleđenu pretragu svojstava.",
+          "ocekivaniRezultat": "20 21"
+        }
+      ]
+    },
+    {
+      "naslov": "JavaScript: leksičko okruženje, prototip i modul",
+      "ikona": "code-xml",
+      "podnaslov": "Funkcija traži ime u leksičkom okruženju, poziv ima kontekst izvršavanja, svojstvo ide prototipom, a modul drži svoj opseg.",
+      "ishod": "Funkcija traži ime u leksičkom okruženju, poziv ima kontekst izvršavanja, svojstvo ide prototipom, a modul drži svoj opseg.",
+      "minuta": 90,
+      "predavanjeMinuta": 55,
+      "diskusijaMinuta": 35,
+      "samostalniZadaci": "van-casa",
+      "preduslov": "Kako JavaScript predstavlja podatke i piše program.",
+      "problem": "Funkcija prikazi ispisuje x. Pozvala ju je funkcija pozovi, u kojoj je x jednako 20. Izvan obe funkcije x je 10. Šta se ispisuje?",
+      "pretpostavka": "Funkcija vidi promenljive onoga ko je poziva, jer je taj poziv na steku.",
+      "options": [
+        {
+          "key": "A",
+          "text": "10. prikazi je napisana tamo gde je x jednako 10.",
+          "why": "Leksičko okruženje prati mesto u kodu. Stek poziva pamti ko čeka rezultat.",
+          "ok": true
+        },
+        {
+          "key": "B",
+          "text": "20. pozovi stoji na steku, a tu je x jednako 20.",
+          "why": "Stek pokazuje poziv. Ne otvara lokalne promenljive pozivaoca funkciji napisanoj spolja.",
+          "ok": false
+        },
+        {
+          "key": "C",
+          "text": "Greška. Dva imena x ne mogu da stoje u istom programu.",
+          "why": "Svako leksičko okruženje drži svoje x. Traženje staje u lancu funkcije prikazi.",
+          "ok": false
+        },
+        {
+          "key": "D",
+          "text": "20, jer je poziv bliži od zapisa izvan funkcija.",
+          "why": "Blizina poziva nije pravilo po kome se ime traži.",
+          "ok": false
+        }
+      ],
+      "rezerva": {
+        "problem": "class Korisnik ima metodu pozdrav. Da li new pravi sopstvenu kopiju te metode na svakom objektu?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Ne. Metoda stoji jednom, na prototipu.",
+            "why": "class organizuje konstruktor i metode. Nasleđivanje ostaje prototipsko.",
+            "ok": true
+          },
+          {
+            "key": "B",
+            "text": "Da. Svaki objekat dobija svoju kopiju pozdrav.",
+            "why": "Instance dele Korisnik.prototype. pozdrav nije polje koje se kopira pri new.",
+            "ok": false
+          }
+        ]
+      },
+      "izlaz": "Gde funkcija traži ime, gde stoji metoda, i šta modul drži van tuđeg opsega?",
+      "pojmoviCasa": [
+        {
+          "id": "closure",
+          "name": "Closure",
+          "hint": "funkcija zadržava veze",
+          "body": "Unutrašnja funkcija i dalje pristupa leksičkom okruženju u kome je nastala. Closure drži vezu sa promenljivom, ne nužno kopiju njene vrednosti.",
+          "code": "function napraviBrojac() {\n  let broj = 0;\n  return function () {\n    broj++;\n    return broj;\n  };\n}",
+          "codeLanguage": "javascript"
+        },
+        {
+          "id": "prototip",
+          "name": "Prototip",
+          "hint": "pretraga duž lanca",
+          "body": "Ako objekat nema sopstveno svojstvo, JavaScript ga traži u prototipu, pa dalje do null. class organizuje konstruktor i metode, a nasleđivanje ostaje prototipsko.",
+          "code": "const korisnik = Object.create(zajednicko);\nObject.hasOwn(korisnik, \"pozdrav\"); // false",
+          "codeLanguage": "javascript"
+        }
+      ],
+      "steps": [
         {
           "naslov": "Opseg važenja i leksičko okruženje",
           "nivo": "Primena",
@@ -5263,8 +5409,7 @@
               "odgovor": "`a` je dostupna, dok pristup `b` izaziva `ReferenceError`.\n\n`var` ima funkcijski opseg, dok `let` i `const` imaju blokovski opseg."
             }
           ],
-          "pitalica": "9.1. Zašto promenljiva definisana unutar funkcije nije dostupna izvan nje?\n\n```javascript\nconst a = 10;\n\nfunction primer() {\n  const b = 20;\n  console.log(a + b);\n}\n\nprimer();\nconsole.log(b);\n```\n\nŠta se događa?"
-,
+          "pitalica": "9.1. Zašto promenljiva definisana unutar funkcije nije dostupna izvan nje?\n\n```javascript\nconst a = 10;\n\nfunction primer() {\n  const b = 20;\n  console.log(a + b);\n}\n\nprimer();\nconsole.log(b);\n```\n\nŠta se događa?",
           "opcije": [
             {
               "key": "A",
@@ -5285,8 +5430,7 @@
               "why": "Funkcija sme da čita promenljivu iz spoljašnjeg leksičkog opsega."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\nFunkcija ima sopstveni opseg. Njene lokalne promenljive nisu dostupne izvan tog opsega, ali funkcija može pristupati promenljivama iz spoljašnjeg leksičkog opsega."
-,
+          "analizaPitalice": "Odgovor: B.\n\nFunkcija ima sopstveni opseg. Njene lokalne promenljive nisu dostupne izvan tog opsega, ali funkcija može pristupati promenljivama iz spoljašnjeg leksičkog opsega.",
           "putanja": "client/lekcije/09-opseg.js",
           "isecakNaslov": "Opseg važenja i leksičko okruženje",
           "isecakJezik": "javascript",
@@ -5593,8 +5737,7 @@
               "analizaPitalice": "Odgovor: B.\n\nU prolazu definicija engine upiše ime `kvadrat`, ali funkciju još ne dodeli. `const` do linije dodele stoji u temporal dead zone, pa poziv daje `ReferenceError`.\n\nFunkcijski izraz je dodela. Dodela se izvršava u prolazu izvršenja, na liniji na kojoj je napisana. Deklaracija `function kvadrat` bila bi pozivljiva već posle prvog prolaza. Ovde `kvadrat` nije deklaracija funkcije."
             }
           ],
-          "pitalica": "10.1. Kako JavaScript zna gde da nastavi izvršavanje kada se funkcija završi?\n\n```javascript\nfunction kvadrat(x) {\n  return x * x;\n}\n\nfunction izracunaj(x) {\n  return kvadrat(x) + 1;\n}\n\nconsole.log(izracunaj(3));\n```\n\nKojim redosledom se pozivaju i završavaju funkcije?"
-,
+          "pitalica": "10.1. Kako JavaScript zna gde da nastavi izvršavanje kada se funkcija završi?\n\n```javascript\nfunction kvadrat(x) {\n  return x * x;\n}\n\nfunction izracunaj(x) {\n  return kvadrat(x) + 1;\n}\n\nconsole.log(izracunaj(3));\n```\n\nKojim redosledom se pozivaju i završavaju funkcije?",
           "putanja": "client/lekcije/10-kontekst.js",
           "isecakNaslov": "Execution context, call stack i hoisting",
           "isecakJezik": "javascript",
@@ -5759,8 +5902,7 @@
               "odgovor": "Ispisuje se `150`.\n\n`stanje` je lokalna promenljiva funkcije `napraviRacun`, a nije svojstvo vraćenog objekta.\n\nVraćene metode imaju pristup toj promenljivoj zahvaljujući closure-u."
             }
           ],
-          "pitalica": "11.1. Kako funkcija može da koristi lokalnu promenljivu druge funkcije koja se već završila?\n\n```javascript\nfunction napraviBrojac() {\n  let broj = 0;\n\n  return function() {\n    broj++;\n    return broj;\n  };\n}\n\nconst brojac = napraviBrojac();\n\nconsole.log(brojac());\nconsole.log(brojac());\n```\n\nŠta se ispisuje?"
-,
+          "pitalica": "11.1. Kako funkcija može da koristi lokalnu promenljivu druge funkcije koja se već završila?\n\n```javascript\nfunction napraviBrojac() {\n  let broj = 0;\n\n  return function() {\n    broj++;\n    return broj;\n  };\n}\n\nconst brojac = napraviBrojac();\n\nconsole.log(brojac());\nconsole.log(brojac());\n```\n\nŠta se ispisuje?",
           "opcije": [
             {
               "key": "A",
@@ -5781,8 +5923,7 @@
               "why": "Kontekst spoljašnje funkcije silazi sa steka, ali veze njenog okruženja ostaju dostupne."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\nVraćena funkcija zadržava pristup leksičkom okruženju u kome je definisana, uključujući promenljivu `broj`.\n\nTaj mehanizam naziva se closure.\n\nKontekst izvršavanja spoljašnje funkcije više nije na steku, ali neophodne veze njenog leksičkog okruženja ostaju dostupne vraćenoj funkciji."
-,
+          "analizaPitalice": "Odgovor: B.\n\nVraćena funkcija zadržava pristup leksičkom okruženju u kome je definisana, uključujući promenljivu `broj`.\n\nTaj mehanizam naziva se closure.\n\nKontekst izvršavanja spoljašnje funkcije više nije na steku, ali neophodne veze njenog leksičkog okruženja ostaju dostupne vraćenoj funkciji.",
           "putanja": "client/lekcije/11-closure.js",
           "isecakNaslov": "Closure",
           "isecakJezik": "javascript",
@@ -6016,8 +6157,7 @@
               "analizaPitalice": "Odgovor: B.\n\nObična funkcija pri pozivu metode dobija odgovarajući objekat kao `this`.\n\nArrow funkcija koristi `this` iz spoljašnjeg leksičkog konteksta, pa `objekat` ne postaje automatski njena vrednost `this`."
             }
           ],
-          "pitalica": "12.1. Na koji objekat upućuje `this` unutar metode?\n\n```javascript\nconst prvi = {\n  ime: \"Ana\",\n  procitajIme() {\n    return this.ime;\n  }\n};\n\nconst drugi = {\n  ime: \"Marko\",\n  procitajIme: prvi.procitajIme\n};\n\nconsole.log(drugi.procitajIme());\n```\n\nŠta će biti rezultat?"
-,
+          "pitalica": "12.1. Na koji objekat upućuje `this` unutar metode?\n\n```javascript\nconst prvi = {\n  ime: \"Ana\",\n  procitajIme() {\n    return this.ime;\n  }\n};\n\nconst drugi = {\n  ime: \"Marko\",\n  procitajIme: prvi.procitajIme\n};\n\nconsole.log(drugi.procitajIme());\n```\n\nŠta će biti rezultat?",
           "opcije": [
             {
               "key": "A",
@@ -6038,8 +6178,7 @@
               "why": "Ista funkcija može biti pozvana kroz drugi objekat."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\nMetoda je funkcija koja se poziva kroz svojstvo objekta.\n\nKod običnih funkcija `this` uglavnom zavisi od načina pozivanja. U izrazu `drugi.procitajIme()`, `this` je objekat `drugi`."
-,
+          "analizaPitalice": "Odgovor: B.\n\nMetoda je funkcija koja se poziva kroz svojstvo objekta.\n\nKod običnih funkcija `this` uglavnom zavisi od načina pozivanja. U izrazu `drugi.procitajIme()`, `this` je objekat `drugi`.",
           "putanja": "client/lekcije/12-this.js",
           "isecakNaslov": "Metode objekata i this",
           "isecakJezik": "javascript",
@@ -6317,8 +6456,7 @@
               "odgovor": "Zato što `extends` uspostavlja odgovarajuće veze prototipskog nasleđivanja. Metoda se pronalazi kroz prototipski lanac.\n\nKlase predstavljaju savremen način definisanja konstruktora, metoda i nasleđivanja, ali JavaScript i dalje koristi prototipski model."
             }
           ],
-          "pitalica": "13.1. Kako objekat može imati metodu koja nije direktno definisana na njemu?\n\n```javascript\nconst zajednicko = {\n  pozdrav() {\n    return \"Zdravo\";\n  }\n};\n\nconst korisnik = Object.create(zajednicko);\n\nconsole.log(korisnik.pozdrav());\n```\n\nZašto ovaj kod radi?"
-,
+          "pitalica": "13.1. Kako objekat može imati metodu koja nije direktno definisana na njemu?\n\n```javascript\nconst zajednicko = {\n  pozdrav() {\n    return \"Zdravo\";\n  }\n};\n\nconst korisnik = Object.create(zajednicko);\n\nconsole.log(korisnik.pozdrav());\n```\n\nZašto ovaj kod radi?",
           "opcije": [
             {
               "key": "A",
@@ -6339,8 +6477,7 @@
               "why": "Dostupnost metode ne dolazi otuda što je objekat globalan."
             }
           ],
-          "analizaPitalice": "Odgovor: B.\n\n`Object.create(zajednicko)` stvara novi objekat čiji je prototip `zajednicko`.\n\nKada svojstvo `pozdrav` ne postoji direktno na objektu `korisnik`, JavaScript nastavlja pretragu u njegovom prototipu."
-,
+          "analizaPitalice": "Odgovor: B.\n\n`Object.create(zajednicko)` stvara novi objekat čiji je prototip `zajednicko`.\n\nKada svojstvo `pozdrav` ne postoji direktno na objektu `korisnik`, JavaScript nastavlja pretragu u njegovom prototipu.",
           "putanja": "client/lekcije/13-prototipi.js",
           "isecakNaslov": "Prototipi, prototipski lanac i klase",
           "isecakJezik": "javascript",
@@ -6499,8 +6636,7 @@
               "odgovor": "Izuzetak je bačen u funkciji `treca`, koju je pozvala `druga`, a nju `prva`.\n\nStack trace omogućava da se vidi lanac aktivnih poziva koji je doveo do greške."
             }
           ],
-          "pitalica": "14.1. Da li je svaka programska greška JavaScript izuzetak?\n\nRazmotrite tri slučaja:\n\n```javascript\n// A\nconst x = ;\n\n// B\nconst osoba = null;\nconsole.log(osoba.ime);\n\n// C\nfunction povrsina(a, b) {\n  return a + b;\n}\n```\n\nKoji primer predstavlja sintaksnu grešku, koji grešku tokom izvršavanja, a koji logičku grešku?"
-,
+          "pitalica": "14.1. Da li je svaka programska greška JavaScript izuzetak?\n\nRazmotrite tri slučaja:\n\n```javascript\n// A\nconst x = ;\n\n// B\nconst osoba = null;\nconsole.log(osoba.ime);\n\n// C\nfunction povrsina(a, b) {\n  return a + b;\n}\n```\n\nKoji primer predstavlja sintaksnu grešku, koji grešku tokom izvršavanja, a koji logičku grešku?",
           "putanja": "client/lekcije/14-greske.js",
           "isecakNaslov": "Greške, izuzeci i debagovanje",
           "isecakJezik": "javascript",
@@ -6758,8 +6894,7 @@
               "analizaPitalice": "Odgovor: B.\n\nJavaScript u browser-u koristi dostupne Web API-je za komunikaciju sa serverom. Kada primi JSON podatke i oni budu parsirani, aplikacija može da ih obrađuje kao JavaScript vrednosti i objekte."
             }
           ],
-          "pitalica": "15.1. Zašto ne bismo sav JavaScript kod napisali u jednoj datoteci?\n\nPretpostavimo da imamo više funkcija i vrednosti koje koriste različiti delovi programa.\n\nKako možemo organizovati kod tako da drugi deo programa koristi samo potrebne funkcije, bez oslanjanja na globalne promenljive?"
-,
+          "pitalica": "15.1. Zašto ne bismo sav JavaScript kod napisali u jednoj datoteci?\n\nPretpostavimo da imamo više funkcija i vrednosti koje koriste različiti delovi programa.\n\nKako možemo organizovati kod tako da drugi deo programa koristi samo potrebne funkcije, bez oslanjanja na globalne promenljive?",
           "putanja": "client/lekcije/15-moduli.js",
           "isecakNaslov": "Moduli, JSON i priprema za Web",
           "isecakJezik": "javascript",
@@ -6767,61 +6902,17 @@
         }
       ],
       "samostalnoUcenje": {
-        "uvod": "Tema pokriva jezik, ne jedan projekat. Svaki korak uvodi mehanizam kratkim primerom. Diskusija svakog koraka nosi pitanja kojima se predviđa ponašanje koda. U editoru je fajl tog koraka, odvojen od Kontrolne sobe.",
+        "uvod": "Tema pokriva kako se program izvršava i kako se kod deli. Svaki korak uvodi mehanizam kratkim primerom. Diskusija svakog koraka nosi pitanja kojima se predviđa ponašanje koda. U editoru je fajl tog koraka, odvojen od Kontrolne sobe.",
         "detaljnoGradivo": [
-          "JavaScript jezik izvršava engine. Browser i Node dodaju API-je. document nije deo jezika. console jeste mogućnost uobičajenog okruženja. Program se u sinhronom slučaju izvršava naredbu po naredbu.",
-          "Tip pripada vrednosti. let i const određuju sme li se ime ponovo dodeliti, ne tip. const ne zamrzava objekat. Dodela objekta kopira referencu, pa mutacija kroz jedno ime vidi se kroz drugo.",
-          "=== ne pretvara tipove. Objekti se porede po identitetu. && i || vraćaju operand, ne nužno true ili false. if i petlje biraju i ponavljaju naredbe, a ne menjaju pravila izraza.",
-          "Funkcija je vrednost. Nizovi se obrađuju transformacijom, izborom, pronalaženjem, svođenjem ili sporednim efektom. map, filter i reduce ne menjaju strukturu izvornog niza. Spread pravi plitku kopiju.",
           "Opseg je leksički: funkcija vidi okruženje u kome je napisana. Svaki poziv dobija kontekst izvršavanja, a call stack pamti ko čeka rezultat. let i const učestvuju u pripremi, ali su u temporal dead zone do inicijalizacije.",
           "Closure zadržava vezu sa promenljivom spoljašnjeg okruženja. this obične funkcije zavisi od poziva. Arrow funkcija preuzima this iz okolnog konteksta. Prototipski lanac traži svojstvo koje objekat nema kao sopstveno. class ne ukida taj model.",
           "try i catch hvataju izuzetak. Deljenje nulom daje Infinity, ne izuzetak. Moduli imaju sopstveni opseg. JSON je tekst, a JSON.parse pravi vrednost. DOM, fetch i setTimeout pripadaju okruženju, ne jeziku."
         ],
         "tokRada": "1) Pročitaj korak i označi koji mehanizam uvodi. 2) Pre pokretanja napiši šta očekuješ da primer uradi. 3) Otvori fajl koraka u editoru i uporedi ga sa isečcima u gradivu. 4) Promeni jednu vrednost i ponovo predvidi ishod. 5) U tabu Diskusija odgovori na pitanje koraka pre nego što otvoriš objašnjenje.",
-        "graniceZnanja": "Gradivo objašnjava sinhroni jezik: vrednosti, reference, opseg, kontekst, closure, this, prototipe, izuzetke, module i JSON. Asinhroni model, DOM i HTTP dolaze u narednim temama. Primeri su nezavisni i ne grade Kontrolnu sobu.",
-        "proveraRazumevanja": "Za jedan korak napiši šta izraz radi i zašto, pa pokaži red u fajlu tog koraka koji to potvrđuje. Posebno razdvoj jezik od API-ja okruženja."
+        "graniceZnanja": "Gradivo objašnjava gde ime živi, šta poziv drži, kako se svojstvo traži i kako modul deli kod. Asinhroni model, DOM i HTTP dolaze u narednim temama. Primeri su nezavisni i ne grade Kontrolnu sobu.",
+        "proveraRazumevanja": "Za jedan korak napiši gde se ime traži ili gde svojstvo stoji, pa pokaži red u fajlu tog koraka koji to potvrđuje. Razdvoj leksičko okruženje od konteksta izvršavanja, i jezik od API-ja okruženja."
       },
       "dodatniPrimeri": [
-        {
-          "id": "03-e01",
-          "vrsta": "predvidi",
-          "jezik": "javascript",
-          "nivo": "Treca godina",
-          "izvrsavanje": "izolovano",
-          "okruzenje": "javascript-izolovano",
-          "odgovorOdlozen": true,
-          "uticajNaAplikaciju": "nema",
-          "editorPrimer": true,
-          "naslov": "const i objekat",
-          "uvod": "Najpre predvidi rezultat bez pokretanja. Objasni jednu pretpostavku na kojoj tvoj odgovor počiva. Zatim pokreni primer ili ga proveri u odgovarajućem okruženju, pa uporedi sa objašnjenjem.",
-          "kod": "const a = {t:24};\nconst b = a;\nb.t = 25;\nconsole.log(a.t);",
-          "pitanje": "Šta se ispisuje?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "24",
-              "why": "Ova pretpostavka ne važi: 24. const sprečava novu dodelu promenljivoj a, ali ne zamrzava svojstva objekta. Dodela b=a kopira referencu, a ne objekat; zato oba imena upućuju na isto mesto.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "TypeError",
-              "why": "Ova pretpostavka ne važi: TypeError. const sprečava novu dodelu promenljivoj a, ali ne zamrzava svojstva objekta. Dodela b=a kopira referencu, a ne objekat; zato oba imena upućuju na isto mesto.",
-              "ok": false
-            },
-            {
-              "key": "C",
-              "text": "25",
-              "why": "const sprečava novu dodelu promenljivoj a, ali ne zamrzava svojstva objekta. Dodela b=a kopira referencu, a ne objekat; zato oba imena upućuju na isto mesto.",
-              "ok": true
-            }
-          ],
-          "tacanOdgovor": "25",
-          "objasnjenje": "const sprečava novu dodelu promenljivoj a, ali ne zamrzava svojstva objekta. Dodela b=a kopira referencu, a ne objekat; zato oba imena upućuju na isto mesto. Posledica je važna kada više funkcija deli stanje Kontrolne sobe: promena u jednom delu može biti vidljiva u drugom i bez eksplicitne povratne vrednosti.",
-          "promeniIProveri": "Promeni jedan uslov iz primera, napiši novo očekivanje i tek onda ponovi proveru. Kod sa browserom koristi DOM okruženje, a HTTP/SQL scenarije pokreći samo u odgovarajućem simuliranom servisu.",
-          "vezaSaAplikacijom": "JavaScript promenljive sadrže primitivne vrednosti ili reference na objekte; prototipski lanac određuje nasleđenu pretragu svojstava.",
-          "ocekivaniRezultat": "25"
-        },
         {
           "id": "03-e02",
           "vrsta": "predvidi",
@@ -6904,46 +6995,6 @@
           "predlogPopravke": "const f=prikaz.show.bind(prikaz);",
           "provera-popravke": "potrebna",
           "ocekivani-izuzetak": "TypeError"
-        },
-        {
-          "id": "03-e04",
-          "vrsta": "predvidi",
-          "jezik": "javascript",
-          "nivo": "Treca godina",
-          "izvrsavanje": "izolovano",
-          "okruzenje": "javascript-izolovano",
-          "odgovorOdlozen": true,
-          "uticajNaAplikaciju": "nema",
-          "editorPrimer": true,
-          "naslov": "map ne menja izvornu listu",
-          "uvod": "Najpre predvidi rezultat bez pokretanja. Objasni jednu pretpostavku na kojoj tvoj odgovor počiva. Zatim pokreni primer ili ga proveri u odgovarajućem okruženju, pa uporedi sa objašnjenjem.",
-          "kod": "const a=[20,21];\nconst b=a.map(x=>x+1);\nconsole.log(a[0],b[0]);",
-          "pitanje": "Šta se ispisuje?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "21 21",
-              "why": "Ova pretpostavka ne važi: 21 21. map pravi novi niz rezultata primene funkcije na svaki član; sama operacija ne menja izvorni niz. Kod brojeva je razlika jednostavna.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "20 20",
-              "why": "Ova pretpostavka ne važi: 20 20. map pravi novi niz rezultata primene funkcije na svaki član; sama operacija ne menja izvorni niz. Kod brojeva je razlika jednostavna.",
-              "ok": false
-            },
-            {
-              "key": "C",
-              "text": "20 21",
-              "why": "map pravi novi niz rezultata primene funkcije na svaki član; sama operacija ne menja izvorni niz. Kod brojeva je razlika jednostavna.",
-              "ok": true
-            }
-          ],
-          "tacanOdgovor": "20 21",
-          "objasnjenje": "map pravi novi niz rezultata primene funkcije na svaki član; sama operacija ne menja izvorni niz. Kod brojeva je razlika jednostavna. Ako elementi predstavljaju objekte, map može vratiti reference na postojeće objekte, pa mutiranje tih objekata zahteva dodatnu pažnju. U grafiku temperature lako je zadržati originalna očitavanja odvojeno od transformisanog prikaza.",
-          "promeniIProveri": "Promeni jedan uslov iz primera, napiši novo očekivanje i tek onda ponovi proveru. Kod sa browserom koristi DOM okruženje, a HTTP/SQL scenarije pokreći samo u odgovarajućem simuliranom servisu.",
-          "vezaSaAplikacijom": "JavaScript promenljive sadrže primitivne vrednosti ili reference na objekte; prototipski lanac određuje nasleđenu pretragu svojstava.",
-          "ocekivaniRezultat": "20 21"
         },
         {
           "id": "03-r01",
