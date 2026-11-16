@@ -160,21 +160,20 @@ export const pitanja = [
     ["B", "Zato što jedan fajl ne sme da ima više od jedne funkcije.", false],
     ["C", "Zato što browser ne učitava fajl duži od stranice.", false],
   ], "Modul kaže šta izvozi i šta uvozi."),
-  izbor(4, 6, 2, "JavaScript objekat i JSON su isto.", [
-    ["A", "Da. Viticaste zagrade su JSON.", false],
-    ["B", "Ne. JSON je tekst. Objekat je vrednost u memoriji.", true],
-  ], "JSON ne prenosi funkcije ni prototip. Tekst treba parsirati.", { ...z, ...kod("const osoba = { ime: \"Ana\", aktivan: true };") }),
+  izbor(4, 6, 2, "Ime iz import vidi svaki drugi fajl, i bez svog importa.", [
+    ["A", "Da. import stavlja ime u globalni opseg.", false],
+    ["B", "Ne. Ime živi u modulu koji ga je uveo.", true],
+  ], "matematika.js izvozi saberi. main.js ga vidi tek posle svog importa.", { ...z, ...kod("import { saberi } from \"./matematika.js\";") }),
   izbor(4, 6, 3, "Šta od ovoga daje okruženje browsera, a ne jezik?", [
     ["A", "document.querySelector", true],
-    ["B", "JSON.parse", false],
+    ["B", "Promise", false],
     ["C", "Array.prototype.map", false],
-  ], "map i JSON.parse putuju sa jezikom. document je API browsera.", kod("document.querySelector(\".digit\")")),
-  ispravka(4, 6, 4, "JSON tekst treba da postane objekat. Sada se niska samo dodeljuje.", "const tekst = '{\"temperatura\":24}';\nconst soba = tekst;", "const tekst = '{\"temperatura\":24}';\nconst soba = JSON.parse(tekst);", "Bez parse, soba je niska. soba.temperatura ne čita polje.", js),
-  izbor(4, 6, 5, "Kako podaci sa servera uđu u program?", [
-    ["A", "Browser preko mrežnog API-ja dobije tekst odgovora. JavaScript ga zatim čita kao podatak, na primer JSON.parse.", true],
-    ["B", "JavaScript čita memoriju servera direktno.", false],
-    ["C", "JSON sam izvrši funkcije koje stoje na serveru.", false],
-  ], "Mreža donese reprezentaciju. Jezik je protumači. To nisu isti koraci."),
+  ], "map i Promise putuju sa jezikom. document je API browsera.", kod("document.querySelector(\".digit\")")),
+  ispravka(4, 6, 4, "Poziv saberi nema uvezeno ime. Dodaj import iz matematika.js.", "console.log(saberi(2, 3));", "import { saberi } from \"./matematika.js\";\n\nconsole.log(saberi(2, 3));", "Bez importa modul ne vidi tuđe ime.", js),
+  izbor(4, 6, 5, "Običan script vidi export iz drugog fajla bez importa.", [
+    ["A", "Ne. export pripada modulu, a običan script nije taj uvoz.", true],
+    ["B", "Da. Svaki fajl deli sva imena sa svakim drugim fajlom.", false],
+  ], "Ulazni modul u browseru traži script type=module. Ime ulazi samo kroz import.", kod("export const PI = 3.14159;")),
   izbor(4, 6, 6, "export šalje vrednost drugom fajlu. Bez uvoza taj fajl ne vidi lokalno ime.", [
     ["A", "Da. Modul ne deli svako lokalno ime sa svima.", true],
     ["B", "Ne. Svaka const postane globalna čim fajl postoji.", false],
