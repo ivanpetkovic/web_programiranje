@@ -87,7 +87,7 @@ test("toast greške stoji dole desno, krije detalje i nestaje na klik ili posle 
       if (String(url).includes("/api/kurs") && init.method === "PUT") {
         return Promise.resolve(new Response(JSON.stringify({
           greska: "dokument nije kurs",
-          detalji: ["kurs/teme/2/steps/8/blokovi/12/vrsta: vrednost nije dozvoljena."],
+          detalji: ["kurs/teme/3/steps/0/diskusija/2/oblik: vrednost nije dozvoljena."],
         }), {
           status: 400,
           statusText: "Bad Request",
@@ -129,9 +129,9 @@ test("toast greške stoji dole desno, krije detalje i nestaje na klik ili posle 
     })()`);
   }
   assert.ok(toast, "toast nije prikazan");
-  assert.match(toast.tekst, /tema 3/);
-  assert.match(toast.tekst, /korak 9/);
-  assert.match(toast.tekst, /vrsta: vrednost nije dozvoljena/);
+  assert.match(toast.tekst, /^Tema 4, korak 1, pitanje 9\.2: „izbor” nije dozvoljena vrednost za oblik\./);
+  assert.equal(toast.tekst.includes("gradivo"), false);
+  assert.equal(toast.tekst.includes("JavaScript"), false);
   assert.equal(toast.tekst.includes("dokument nije kurs"), false);
   assert.equal(toast.html.includes("PUT"), false);
   assert.equal(toast.html.includes("\"detalji\""), false);
@@ -154,7 +154,7 @@ test("toast greške stoji dole desno, krije detalje i nestaje na klik ili posle 
   })()`);
   assert.match(kopirano.tekst, /PUT \/api\/kurs/);
   assert.match(kopirano.tekst, /HTTP 400 Bad Request/);
-  assert.match(kopirano.tekst, /vrsta: vrednost nije dozvoljena/);
+  assert.match(kopirano.tekst, /oblik: vrednost nije dozvoljena/);
   assert.match(kopirano.tekst, /"toast"/);
   assert.equal(kopirano.oznaka, "Detalji su kopirani");
   assert.equal(kopirano.toast, true);

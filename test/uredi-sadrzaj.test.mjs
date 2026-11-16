@@ -30,13 +30,17 @@ test("opozovi i ponovi su ikonice, a Potvrdi ne otvara prozor", () => {
   assert.equal(main.includes("window.confirm"), false);
 });
 
-test("odbijanje kursa kaže gde šema nije prošla", () => {
+test("odbijanje kursa kaže gde šema nije prošla i koja je vrednost", () => {
   const dokument = {
     teme: [{}, {}, {
       naslov: "Opseg",
       steps: [...Array(8).fill({ naslov: "Ranije" }), {
         naslov: "Leksičko okruženje",
         blokovi: [...Array(12).fill({}), { id: "k09b18", vrsta: "struktura" }],
+        diskusija: [
+          { vrsta: "tekst", tekst: "uvod" },
+          { vrsta: "pitanje", tekst: "9.2. Zašto?", opcije: [{ key: "A", text: 3 }] },
+        ],
       }],
     }],
   };
@@ -49,13 +53,23 @@ test("odbijanje kursa kaže gde šema nije prošla", () => {
   }, dokument);
   assert.equal(
     poruka,
-    "tema 3 (Opseg), korak 9 (Leksičko okruženje), gradivo k09b18 (struktura), vrsta: vrednost nije dozvoljena.\ntrajanjeTema se ne slaže sa brojem tema.",
+    "Tema 3, korak 9, strukturni dijagram: „struktura” nije dozvoljena vrednost za vrsta.\ntrajanjeTema se ne slaže sa brojem tema.",
   );
+  assert.equal(poruka.includes("Opseg"), false);
+  assert.equal(poruka.includes("gradivo"), false);
   assert.equal(porukaOdbijanja({ greska: "neispravan json" }), "neispravan json");
   assert.equal(porukaOdbijanja({}), "Čuvanje nije uspelo.");
   assert.equal(
-    porukaOdbijanja({ detalji: ["kurs/teme/0/steps/0/diskusija/1/opcije/0/text: očekivan je tekst."] }),
-    "tema 1, korak 1, diskusija 2, opcije 1, text: očekivan je tekst.",
+    porukaOdbijanja({
+      detalji: ["kurs/teme/2/steps/8/diskusija/1/opcije/0/text: očekivan je tekst."],
+    }, dokument),
+    "Tema 3, korak 9, pitanje 9.2, odgovor A, tekst: očekivan je tekst, a upisano je 3.",
+  );
+  assert.equal(
+    porukaOdbijanja({
+      detalji: ["kurs/teme/2/steps/8/diskusija/1/oblik: vrednost nije dozvoljena."],
+    }, { teme: [{}, {}, { steps: [...Array(8).fill({}), { diskusija: [{}, { vrsta: "pitanje", tekst: "Bez broja.", oblik: "izbor" }] }] }] }),
+    "Tema 3, korak 9, pitanje 1: „izbor” nije dozvoljena vrednost za oblik.",
   );
 });
 

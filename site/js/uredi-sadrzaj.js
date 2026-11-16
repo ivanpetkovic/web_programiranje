@@ -444,42 +444,126 @@ export function porukaOdbijanja(telo, dokument) {
   return detalji.map((red) => objasniPut(red, dokument)).join("\n");
 }
 
+const VRSTA_BLOKA = {
+  tekst: "tekst",
+  highlight: "istaknuto",
+  kod: "kod",
+  dijagram: "dijagram",
+  mermaid: "crtež",
+  struktura: "strukturni dijagram",
+};
+
+const NAZIV_POLJA = {
+  text: "tekst",
+  why: "obrazloženje",
+  key: "oznaka",
+  ok: "tačno",
+  dodatno: "dodatno pitanje",
+  dodatniOdgovor: "odgovor na dodatno",
+  analiza: "obrazloženje",
+};
+
 function objasniPut(red, dokument) {
   const razdvajanje = red.indexOf(": ");
   if (!red.startsWith("kurs") || razdvajanje < 0) return red;
   const delovi = red.slice(0, razdvajanje).split("/");
   const razlog = red.slice(razdvajanje + 2);
-  const recenica = [];
   let cvor = dokument;
+  let tema = 0;
+  let korak = 0;
+  let lista = null;
+  let blok = null;
+  let blokBroj = 0;
+  let polje = "";
+  const medju = [];
   for (let i = 1; i < delovi.length; i += 1) {
     const kljuc = delovi[i];
     const sledi = delovi[i + 1];
     if (/^\d+$/.test(kljuc)) continue;
     if (/^\d+$/.test(sledi)) {
       const n = Number(sledi);
-      const niz = cvor?.[kljuc];
-      cvor = Array.isArray(niz) ? niz[n] : undefined;
-      recenica.push(mestoUPutu(kljuc, n, cvor));
+      const niz = Array.isArray(cvor?.[kljuc]) ? cvor[kljuc] : null;
+      const stavka = niz ? niz[n] : undefined;
+      if (kljuc === "teme") tema = n + 1;
+      else if (kljuc === "steps") korak = n + 1;
+      else if (kljuc === "blokovi" || kljuc === "diskusija") {
+        lista = niz;
+        blok = stavka;
+        blokBroj = n + 1;
+      } else medju.push(oznakaStavke(kljuc, n, stavka));
+      cvor = stavka;
       i += 1;
+    } else if (i === delovi.length - 1) {
+      polje = kljuc;
+      cvor = cvor?.[kljuc];
     } else {
-      recenica.push(kljuc);
+      medju.push(nazivPolja(kljuc));
       cvor = cvor?.[kljuc];
     }
   }
-  return `${recenica.length ? recenica.join(", ") : "kurs"}: ${razlog}`;
+  const mesto = [];
+  if (tema) mesto.push(`Tema ${tema}`);
+  if (korak) mesto.push(`korak ${korak}`);
+  if (blokBroj) mesto.push(oznakaBloka(lista, blok, blokBroj));
+  mesto.push(...medju);
+  return sastaviPoruku(mesto, polje, cvor, razlog);
 }
 
-function mestoUPutu(kljuc, n, cvor) {
-  const broj = n + 1;
-  if (kljuc === "teme") return cvor?.naslov ? `tema ${broj} (${cvor.naslov})` : `tema ${broj}`;
-  if (kljuc === "steps") return cvor?.naslov ? `korak ${broj} (${cvor.naslov})` : `korak ${broj}`;
-  if (kljuc === "blokovi" || kljuc === "diskusija") {
-    const gde = kljuc === "diskusija" ? "diskusija" : "gradivo";
-    const oznaka = cvor?.id || String(broj);
-    const vrsta = cvor?.vrsta ? ` (${cvor.vrsta})` : "";
-    return `${gde} ${oznaka}${vrsta}`;
+function oznakaBloka(lista, blok, broj) {
+  if (blok?.vrsta === "pitanje") {
+    const oznaka = brojPitanja(lista, blok);
+    return oznaka ? `pitanje ${oznaka}` : `pitanje ${broj}`;
   }
-  return `${kljuc} ${broj}`;
+  if (blok?.vrsta) return VRSTA_BLOKA[blok.vrsta] || blok.vrsta;
+  return `blok ${broj}`;
+}
+
+function brojPitanja(lista, blok) {
+  const tekst = String(blok?.tekst || "").trim();
+  const izTeksta = tekst.match(/^(\d+(?:\.\d+)*)(?=\.|\s|$)/);
+  if (izTeksta) return izTeksta[1];
+  if (!Array.isArray(lista)) return "";
+  const redni = lista.filter((stavka) => stavka?.vrsta === "pitanje").indexOf(blok);
+  return redni >= 0 ? String(redni + 1) : "";
+}
+
+function oznakaStavke(kljuc, n, stavka) {
+  if (kljuc === "opcije") return `odgovor ${stavka?.key || String.fromCharCode(65 + n)}`;
+  return `${nazivPolja(kljuc)} ${n + 1}`;
+}
+
+function nazivPolja(ime) {
+  return NAZIV_POLJA[ime] || ime;
+}
+
+function sastaviPoruku(mesto, polje, vrednost, razlog) {
+  const gde = mesto.filter(Boolean).join(", ");
+  const ime = polje ? nazivPolja(polje) : "";
+  const ima = vrednost !== undefined;
+  if (ime && razlog.startsWith("vrednost nije dozvoljena") && ima) {
+    return `${gde}: ${prikazVrednosti(vrednost)} nije dozvoljena vrednost za ${ime}.`;
+  }
+  if (ime && ima && jesteSkalar(vrednost)) {
+    const rec = razlog.endsWith(".") ? razlog.slice(0, -1) : razlog;
+    return `${gde}${gde ? ", " : ""}${ime}: ${rec}, a upisano je ${prikazVrednosti(vrednost)}.`;
+  }
+  if (ime) return `${gde}${gde ? ", " : ""}${ime}: ${razlog}`;
+  return gde ? `${gde}: ${razlog}` : razlog;
+}
+
+function jesteSkalar(vrednost) {
+  return vrednost === null || ["string", "number", "boolean"].includes(typeof vrednost);
+}
+
+function prikazVrednosti(vrednost) {
+  if (typeof vrednost === "string") {
+    const tekst = vrednost.replace(/\s+/g, " ").trim();
+    const kratko = tekst.length > 80 ? `${tekst.slice(0, 77)}…` : tekst;
+    return `„${kratko}”`;
+  }
+  if (typeof vrednost === "number" || typeof vrednost === "boolean") return String(vrednost);
+  if (vrednost === null) return "null";
+  return Array.isArray(vrednost) ? "niz" : "objekat";
 }
 
 export function izvestajGreske({ poruka, zahtev, odgovor, uzrok }) {
