@@ -93,8 +93,8 @@ test("markdown pitanja nosi oznake po kojima se čita izbor ili tekst", () => {
 });
 
 test("HTTP i komanda su kod blokovi gradiva", () => {
-  const http = dokument.teme.flatMap((tema) => tema.steps).find((korak) => korak.naslov === "HTTP" && korak.isecak?.startsWith("GET "));
-  const komanda = dokument.teme.flatMap((tema) => tema.steps).find((korak) => korak.naslov === "Komanda" && korak.isecak?.startsWith("node "));
+  const http = dokument.teme[5].steps.find((korak) => korak.naslov === "Anatomija HTTP zahteva i odgovora");
+  const komanda = dokument.teme[5].steps.find((korak) => korak.naslov === "Projekat, moduli i npm");
   const httpBlok = blokoviKoraka(http).find((blok) => blok.veza === "http");
   const komandaBlok = blokoviKoraka(komanda).find((blok) => blok.veza === "komanda");
   assert.equal(httpBlok.vrsta, "kod");
@@ -102,7 +102,7 @@ test("HTTP i komanda su kod blokovi gradiva", () => {
   assert.match(httpBlok.tekst, /^GET /);
   assert.equal(komandaBlok.vrsta, "kod");
   assert.equal(komandaBlok.naslov, "Komanda");
-  assert.match(komandaBlok.tekst, /^node /);
+  assert.match(komandaBlok.tekst, /^npm /);
   assert.match(markdownKoraka(http), /```text\nGET /);
-  assert.match(markdownKoraka(komanda), /```text\nnode /);
+  assert.match(markdownKoraka(komanda), /```text\nnpm /);
 });

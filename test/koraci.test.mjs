@@ -206,7 +206,7 @@ test("dvanaest časova ima naslov i 7 do 22 koraka", () => {
     "JavaScript: vrednosti, objekti i funkcije",
     "JavaScript: leksičko okruženje, prototip i modul",
     "DOM, događaji i prikaz stanja",
-    "Od mrežnog prenosa do HTTP-a i Node.js-a",
+    "Node.js, HTTP server i Web API",
     "Asinhronost, event loop i neuspeh",
     "API komande, validacija i idempotentnost",
     "PostgreSQL, transakcije i Docker",
@@ -375,41 +375,54 @@ test("čas istorije nema Node, čas stranice ima client/index.html", () => {
   assert.match(stranica.options.find((opcija) => opcija.ok).why, /Osvežavanje vraća dokument/);
 });
 
-test("čas 6 stavlja HTTP posle TCP, pa createServer pa listen", () => {
+test("čas 6 ide od Node okruženja do provere API-ja", () => {
+  const tema = dokument.teme[5];
   const cas = lectures[5];
-  const naslov = (ime) => cas.steps.findIndex((korak) => korak.naslov === ime);
-  const tcp = naslov("TCP");
-  const http = naslov("HTTP");
-  const kreiraj = naslov("createServer");
-  const slusaj = naslov("listen");
-  const komanda = naslov("Komanda");
-  const adresa = naslov("Adresa");
-  assert.ok(tcp < http && http < kreiraj && kreiraj < slusaj && slusaj < komanda && komanda < adresa);
-  const json = naslov("JSON tekst, ne objekat");
-  const odgovor = naslov("Odgovor kao JSON tekst");
-  assert.ok(adresa < json && json < odgovor);
-  assert.match(cas.steps[json].samostalniPrimer.tekst, /temperatura: 24/);
-  assert.match(cas.steps[json].tekst, /JSON\.stringify/);
-  assert.match(cas.steps[json].tekst, /JSON\.parse/);
-  assert.match(cas.steps[odgovor].original, /JSON\.stringify\(\{ temperatura, ukljucen \}\)/);
+  assert.equal(tema.naslov, "Node.js, HTTP server i Web API");
+  assert.equal(tema.preduslov, lectures[4].outcome);
+  assert.equal(dokument.teme[6].preduslov, tema.ishod);
+  assert.equal(tema.steps.reduce((zbir, korak) => zbir + korak.minuta, 0), 90);
+  assert.match(tema.rezerva.options.find((opcija) => opcija.ok).text, /404/);
+  const naslovi = [
+    "JavaScript izvan browsera",
+    "Projekat, moduli i npm",
+    "Od programa do HTTP servera",
+    "Anatomija HTTP zahteva i odgovora",
+    "Prva ruta bez frameworka",
+    "Više ruta, parametri i složenost",
+    "JSON ulazni podaci i POST zahtev",
+    "Projektovanje jednostavnijeg servera",
+    "Uvođenje Express.js-a",
+    "Middleware",
+    "Resursi, REST i CRUD",
+    "Parametri, validacija i statusni kodovi",
+    "Organizacija koda i obrada grešaka",
+    "Provera celog API-ja",
+  ];
+  assert.deepEqual(tema.steps.map((korak) => korak.naslov), naslovi);
+  tema.steps.forEach((korak, indeks) => {
+    const pitanja = korak.diskusija.filter((blok) => blok.vrsta === "pitanje");
+    assert.equal(pitanja.length, 3, korak.naslov);
+    assert.equal(cas.steps[indeks].pitalice.length, 3, korak.naslov);
+    pitanja.forEach((blok, red) => {
+      assert.equal(blok.oblik, "tekst", blok.id);
+      assert.match(blok.tekst, new RegExp(`^${indeks + 1}\\.${red + 1}\\.`));
+      assert.ok(blok.odgovor.trim(), blok.id);
+    });
+    assert.match(korak.putanja, /^client\/lekcije\/\d{2}-.+\.js$/);
+    assert.match(korak.original, /\/\/ Kontrolna soba:/);
+    assert.equal(/\bErr\b/.test(korak.delic), false);
+    assert.equal(korak.putanja.startsWith("server/"), false);
+  });
+  const server = tema.steps.find((korak) => korak.naslov === "Od programa do HTTP servera");
+  assert.match(server.original, /import http from 'node:http'/);
+  assert.match(server.original, /http\.createServer/);
+  assert.match(server.original, /server\.listen\(3000/);
+  assert.match(server.original, /res\.end\('Zdravo sa servera'\)/);
   const moduli = lectures[3].steps.find((korak) => korak.naslov.startsWith("Moduli"));
   assert.equal(moduli.tekst.includes("JSON.stringify"), false);
   assert.equal(moduli.delic.includes("JSON.parse"), false);
-  assert.match(cas.steps[kreiraj].original, /const http = require\("http"\)/);
-  assert.match(cas.steps[kreiraj].isecak, /http\.createServer\(obrada\)/);
-  assert.equal(cas.steps[kreiraj].isecak.includes("require"), false);
-  assert.match(cas.steps[adresa].primer, /fetch dolazi kasnije/);
-});
-
-test("čas 6 otvara adresu posle komande, fetch je u tom objašnjenju", () => {
-  const cas = lectures[5];
-  const saNode = cas.steps.findIndex((korak) => tekst(korak).includes("node server/server.js"));
-  const saAdresom = cas.steps.findIndex((korak) => tekst(korak).includes("127.0.0.1"));
-  const saFetch = cas.steps.findIndex((korak) => /\bfetch\b/.test(tekst(korak)));
-  assert.ok(saNode > 0);
-  assert.ok(saAdresom > saNode);
-  assert.equal(saFetch, saAdresom);
-  assert.equal(cas.steps.some((korak) => /\bErr\b/.test(korak.delic)), false);
+  assert.match(tema.steps.at(-1).tekst, /\bfetch\b/);
 });
 
 test("preduslov časa 1 je priča pre stranice, a časa 2 je ishod istorije", () => {

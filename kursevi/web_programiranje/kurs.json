@@ -9847,1201 +9847,1118 @@
       ]
     },
     {
-      "naslov": "Od mrežnog prenosa do HTTP-a i Node.js-a",
+      "naslov": "Node.js, HTTP server i Web API",
       "ikona": "server",
-      "podnaslov": "Jedan zahtev i jedan odgovor. Kutija drži temperaturu.",
-      "ishod": "Jedan zahtev i jedan odgovor. Kutija drži temperaturu.",
+      "podnaslov": "Node izvršava JavaScript van browsera. HTTP server vraća odgovor.",
+      "ishod": "Node izvršava JavaScript van browsera. HTTP server vraća odgovor.",
       "minuta": 90,
       "predavanjeMinuta": 55,
       "diskusijaMinuta": 35,
       "samostalniZadaci": "van-casa",
       "preduslov": "Događaj menja stanje. Poseban kod upisuje prikaz u DOM.",
-      "problem": "Handler u Node-u pozove document i ugasi dugme. Šta se desi?",
-      "pretpostavka": "Server vidi isti dokument, ili 404 i ugašen port jesu isto.",
+      "problem": "Node program pozove document.querySelector i očekuje da ugasi dugme u browseru. Šta se desi?",
+      "pretpostavka": "Isti JavaScript znači isti document, ili npm install sam pokrene server.",
       "options": [
         {
           "key": "A",
-          "text": "Server vrati podatak, a browser menja prikaz kad obradi odgovor.",
-          "why": "DOM ostaje u browseru. Handler vraća JSON ili dokument.",
+          "text": "Node nema document. Server šalje HTTP odgovor, a browser menja prikaz.",
+          "why": "DOM ostaje u browseru. Handler vraća podatke, ne gasi dugme.",
           "ok": true
         },
         {
           "key": "B",
-          "text": "Server vidi isto dugme i ugasi ga.",
-          "why": "Poziv DOM-a na serveru ne menja dugme u browseru.",
+          "text": "Node vidi isto dugme i ugasi ga.",
+          "why": "document u Node procesu obično ne postoji.",
           "ok": false
         },
         {
           "key": "C",
-          "text": "404 i ugašen port jesu ista tišina.",
-          "why": "404 ima status. Ugašen port nema HTTP status.",
+          "text": "npm install sam pokrene server i promeni stranicu.",
+          "why": "Instalacija paketa nije pokretanje servera.",
           "ok": false
         }
       ],
       "rezerva": {
-        "problem": "Putanja koje nema i ugašen port. Da li je ista greška?",
+        "problem": "Kod se izvrši, a uređaj nije pronađen. Da li je 200 sa tekstom Greška ispravan odgovor?",
         "options": [
           {
             "key": "A",
-            "text": "Nije. 404 ima status. Ugašen port nema HTTP status.",
-            "why": "Network razlikuje ta dva reda.",
+            "text": "Nije. Status 404 kaže da resursa nema.",
+            "why": "Status opisuje ishod zahteva, ne to da li se program srušio.",
             "ok": true
           },
           {
             "key": "B",
-            "text": "Jeste. Oba znače da odgovora nema.",
-            "why": "404 jeste odgovor.",
+            "text": "Jeste. Program se nije srušio, pa je 200 tačan.",
+            "why": "200 bi rekao da je traženi resurs pronađen.",
             "ok": false
           }
         ]
       },
-      "izlaz": "Čiji je DOM, a ko vraća JSON?",
+      "izlaz": "Ko izvršava JavaScript, a ko vraća HTTP odgovor?",
       "pojmoviCasa": [
         {
-          "id": "http",
-          "name": "HTTP zahtev",
-          "hint": "metod, putanja, status",
-          "body": "HTTP daje smisao toku bajtova: metod, putanja, zaglavlja, telo, status. Ovde je to HTTP/1.1.",
-          "code": "GET /api/soba HTTP/1.1\n\nHTTP/1.1 200 OK",
-          "codeLanguage": "text"
+          "id": "node",
+          "name": "Node.js",
+          "hint": "okruženje, ne DOM",
+          "body": "Node.js izvršava JavaScript van browsera. Nema document. Program u njemu može da postane HTTP server.",
+          "code": "console.log(typeof document);",
+          "codeLanguage": "javascript"
         },
         {
-          "id": "json",
-          "name": "JSON",
-          "hint": "tekst, ne objekat",
-          "body": "Telo je tekst. Panel pravi vrednost tek kad pročita taj tekst.",
-          "code": "const tekst = await response.text();\nconst soba = JSON.parse(tekst);",
+          "id": "ruta",
+          "name": "Ruta",
+          "hint": "metoda i putanja",
+          "body": "Ruta povezuje metodu i putanju sa handlerom. GET i POST na istoj putanji nisu ista operacija.",
+          "code": "app.get('/uredjaji/:id', handler);",
+          "codeLanguage": "javascript"
+        },
+        {
+          "id": "middleware",
+          "name": "Middleware",
+          "hint": "next ili odgovor",
+          "body": "Middleware učestvuje u obradi zahteva pre ili umesto handlera. Ili pošalje odgovor, ili pozove next.",
+          "code": "app.use(express.json());",
           "codeLanguage": "javascript"
         }
       ],
       "steps": [
         {
-          "naslov": "Cela poruka",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Soba prekidača pošalje jednu celu poruku i čeka da stigne cela. Primer naivnog slanja služi da otkrije skrivene pretpostavke o celovitosti poruke. TCP je tok bajtova, a ne protokol poruka: aplikacija mora definisati gde jedan zapis počinje i gde se završava, čak i kada je isporuka pouzdana.",
-          "kljucnaIdeja": "Naivan prenos pretpostavlja celu poruku, redom.",
-          "putanja": "server/server.js",
-          "isecakNaslov": "Cela poruka",
-          "isecakJezik": "text",
-          "isecak": "pošalji(celaPoruka)",
-          "delic": "pošalji(celaPoruka)",
-          "original": "pošalji(celaPoruka);",
-          "originalJezik": "text",
-          "pitalica": "Šta ovaj prenos pretpostavlja?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Da delovi smeju da zamene red.",
-              "why": "To pretpostavka još ne priznaje. Primer naivnog slanja služi da otkrije skrivene pretpostavke o celovitosti poruke.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Da poruka stigne cela i redom.",
-              "why": "Naivan prenos. Primer naivnog slanja služi da otkrije skrivene pretpostavke o celovitosti poruke. TCP je tok bajtova, a ne protokol poruka: aplikacija mora definisati gde jedan zapis počinje i gde se završava, čak i kada je isporuka pouzdana.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "Primer naivnog slanja služi da otkrije skrivene pretpostavke o celovitosti poruke. TCP je tok bajtova, a ne protokol poruka: aplikacija mora definisati gde jedan zapis počinje i gde se završava, čak i kada je isporuka pouzdana.",
-          "pitalice": [
-            {
-              "pitalica": "Šta ovaj prenos pretpostavlja?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Da delovi smeju da zamene red.",
-                  "why": "To pretpostavka još ne priznaje. Primer naivnog slanja služi da otkrije skrivene pretpostavke o celovitosti poruke.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Da poruka stigne cela i redom.",
-                  "why": "Naivan prenos. Primer naivnog slanja služi da otkrije skrivene pretpostavke o celovitosti poruke. TCP je tok bajtova, a ne protokol poruka: aplikacija mora definisati gde jedan zapis počinje i gde se završava, čak i kada je isporuka pouzdana.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Primer naivnog slanja služi da otkrije skrivene pretpostavke o celovitosti poruke. TCP je tok bajtova, a ne protokol poruka: aplikacija mora definisati gde jedan zapis počinje i gde se završava, čak i kada je isporuka pouzdana."
-            },
-            {
-              "pitalica": "Zašto je pretpostavka cele poruke, redom, krhka?",
-              "opcije": [
-                {
-                  "key": "B",
-                  "text": "Zato što mreža paketa ne obećava ni celinu ni red, a ovaj prenos to ipak traži.",
-                  "why": "Naivan model nastaje iz želje da aplikacija vidi jednu poruku. Mreža tu želju ne ispunjava sama.",
-                  "ok": true
-                },
-                {
-                  "key": "A",
-                  "text": "Zato što delovi smeju da zamene red, pa pretpostavka to već uračunava.",
-                  "why": "Pretpostavka upravo brani zamenu reda. Zato padne kad red nije zajamčen.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "Korak imenuje pretpostavku pre protokola. Ko je usvoji kao činjenicu mreže, ne vidi zašto TCP uopšte nastaje."
-            }
-          ]
-        },
-        {
-          "naslov": "Pad pretpostavke",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Poruka se izgubi, ili dve polovine zamene red. Kada mreža izgubi ili preuredi datagrame, pretpostavka 'stiglo je jednom i redom' više ne važi. Ne rešavamo to samim imenovanjem TCP-a, već razumemo redne brojeve, potvrde i ponovno slanje.",
-          "kljucnaIdeja": "Pretpostavka padne pre nego što se bilo koji protokol imenuje.",
-          "putanja": "server/server.js",
-          "isecakNaslov": "Pad pretpostavke",
-          "isecakJezik": "text",
-          "isecak": "polovina B stiže pre polovine A",
-          "delic": "polovina B stiže pre polovine A",
-          "original": "// poruka nije stigla cela",
-          "originalJezik": "javascript",
-          "pitalica": "Šta je time palo?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "HTTP status.",
-              "why": "HTTP još nije imenovan. Kada mreža izgubi ili preuredi datagrame, pretpostavka 'stiglo je jednom i redom' više ne važi.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Pretpostavka da cela poruka stigne redom.",
-              "why": "Zato treba delovi i redni brojevi. Kada mreža izgubi ili preuredi datagrame, pretpostavka 'stiglo je jednom i redom' više ne važi. Ne rešavamo to samim imenovanjem TCP-a, već razumemo redne brojeve, potvrde i ponovno slanje.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "Kada mreža izgubi ili preuredi datagrame, pretpostavka 'stiglo je jednom i redom' više ne važi. Ne rešavamo to samim imenovanjem TCP-a, već razumemo redne brojeve, potvrde i ponovno slanje.",
-          "pitalice": [
-            {
-              "pitalica": "Šta je time palo?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "HTTP status.",
-                  "why": "HTTP još nije imenovan. Kada mreža izgubi ili preuredi datagrame, pretpostavka 'stiglo je jednom i redom' više ne važi.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Pretpostavka da cela poruka stigne redom.",
-                  "why": "Zato treba delovi i redni brojevi. Kada mreža izgubi ili preuredi datagrame, pretpostavka 'stiglo je jednom i redom' više ne važi. Ne rešavamo to samim imenovanjem TCP-a, već razumemo redne brojeve, potvrde i ponovno slanje.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Kada mreža izgubi ili preuredi datagrame, pretpostavka 'stiglo je jednom i redom' više ne važi. Ne rešavamo to samim imenovanjem TCP-a, već razumemo redne brojeve, potvrde i ponovno slanje."
-            },
-            {
-              "pitalica": "Šta je palo, a šta još nije ni imenovano?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Pala je pretpostavka da cela poruka stigne redom. Protokol još nije imenovan.",
-                  "why": "Pad je razlog da se traži potvrda i red, ne razlog da se krivi status.",
-                  "ok": true
-                },
-                {
-                  "key": "B",
-                  "text": "Pao je HTTP status 404.",
-                  "why": "Status još ne postoji u ovom koraku. Palo je očekivanje o poruci.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "Ako se pad odmah nazove HTTP greškom, preskočen je sloj. Potvrda prijema nastaje iz ove rupe, ne iz statusnog koda."
-            }
-          ]
-        },
-        {
-          "naslov": "Potvrda",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Popravka još nema ime: delovi, redni brojevi, potvrda prijema. Potvrda prijema govori nešto o dostavljenom delu toka, ne o tome da je korisnički zahtev izvršen. ACK mrežnog protokola ne može biti dokaz da se ventilator uključio.",
-          "kljucnaIdeja": "Delovi, redni brojevi i potvrda prijema popravljaju naivan prenos.",
-          "putanja": "server/server.js",
-          "isecakNaslov": "Potvrda",
-          "isecakJezik": "text",
-          "isecak": "deo, redniBroj, potvrda",
-          "delic": "deo, redniBroj, potvrda",
-          "original": "potvrdi(redniBroj);",
-          "originalJezik": "text",
-          "pitalica": "Šta potvrda kaže pošiljaocu?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Koji je ventilator uključen.",
-              "why": "Smisao zahteva još ne postoji. Potvrda prijema govori nešto o dostavljenom delu toka, ne o tome da je korisnički zahtev izvršen.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Koji deo je primljen.",
-              "why": "Red se popravlja bez imena protokola. Potvrda prijema govori nešto o dostavljenom delu toka, ne o tome da je korisnički zahtev izvršen. ACK mrežnog protokola ne može biti dokaz da se ventilator uključio.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "Potvrda prijema govori nešto o dostavljenom delu toka, ne o tome da je korisnički zahtev izvršen. ACK mrežnog protokola ne može biti dokaz da se ventilator uključio.",
-          "pitalice": [
-            {
-              "pitalica": "Šta potvrda kaže pošiljaocu?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Koji je ventilator uključen.",
-                  "why": "Smisao zahteva još ne postoji. Potvrda prijema govori nešto o dostavljenom delu toka, ne o tome da je korisnički zahtev izvršen.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Koji deo je primljen.",
-                  "why": "Red se popravlja bez imena protokola. Potvrda prijema govori nešto o dostavljenom delu toka, ne o tome da je korisnički zahtev izvršen. ACK mrežnog protokola ne može biti dokaz da se ventilator uključio.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Potvrda prijema govori nešto o dostavljenom delu toka, ne o tome da je korisnički zahtev izvršen. ACK mrežnog protokola ne može biti dokaz da se ventilator uključio."
-            },
-            {
-              "pitalica": "Zašto potvrda ne kaže koji je ventilator uključen?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Zato što potvrda stiže tek kad uređaj fizički promeni stanje.",
-                  "why": "Potvrda prijema nije efekat lopatice. Šalje je primalac bajtova.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Zato što potvrda govori koji deo poruke je primljen, ne šta bajt znači u sobi.",
-                  "why": "Redni broj i potvrda popravljaju prenos. Značenje komande je iznad.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Potvrda postoji da pošiljalac zna šta da ponovi. Iz nje ne sledi uključen ventilator."
-            }
-          ]
-        },
-        {
-          "naslov": "TCP",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Tek sada se imenuje pouzdan tok bajtova. TCP daje aplikaciji uređeni tok bajtova uz detekciju i oporavak od nekih mrežnih gubitaka, ali prekid veze može sprečiti završetak razmene. TCP ne interpretira HTTP metodu ili JSON telo.",
-          "kljucnaIdeja": "TCP je pouzdan tok bajtova. Još ne znači „uključi ventilator”.",
-          "putanja": "server/server.js",
-          "isecakNaslov": "TCP",
-          "isecakJezik": "text",
-          "isecak": "TCP",
-          "delic": "TCP",
-          "original": "// TCP: pouzdan tok bajtova",
-          "originalJezik": "javascript",
-          "pitalica": "Šta TCP garantuje ovde?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Da će ventilator biti uključen.",
-              "why": "Tok bajtova nema taj smisao. TCP daje aplikaciji uređeni tok bajtova uz detekciju i oporavak od nekih mrežnih gubitaka, ali prekid veze može sprečiti završetak razmene.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Da bajtovi stignu pouzdano i redom.",
-              "why": "Segmentacija TCP-a nije IP fragmentacija. TCP daje aplikaciji uređeni tok bajtova uz detekciju i oporavak od nekih mrežnih gubitaka, ali prekid veze može sprečiti završetak razmene. TCP ne interpretira HTTP metodu ili JSON telo.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "TCP daje aplikaciji uređeni tok bajtova uz detekciju i oporavak od nekih mrežnih gubitaka, ali prekid veze može sprečiti završetak razmene. TCP ne interpretira HTTP metodu ili JSON telo.",
-          "pitalice": [
-            {
-              "pitalica": "Šta TCP garantuje ovde?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Da će ventilator biti uključen.",
-                  "why": "Tok bajtova nema taj smisao. TCP daje aplikaciji uređeni tok bajtova uz detekciju i oporavak od nekih mrežnih gubitaka, ali prekid veze može sprečiti završetak razmene.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Da bajtovi stignu pouzdano i redom.",
-                  "why": "Segmentacija TCP-a nije IP fragmentacija. TCP daje aplikaciji uređeni tok bajtova uz detekciju i oporavak od nekih mrežnih gubitaka, ali prekid veze može sprečiti završetak razmene. TCP ne interpretira HTTP metodu ili JSON telo.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "TCP daje aplikaciji uređeni tok bajtova uz detekciju i oporavak od nekih mrežnih gubitaka, ali prekid veze može sprečiti završetak razmene. TCP ne interpretira HTTP metodu ili JSON telo."
-            },
-            {
-              "pitalica": "Šta pouzdan tok bajtova ne garantuje?",
-              "opcije": [
-                {
-                  "key": "B",
-                  "text": "Da bajtovi stignu redom dok veza radi.",
-                  "why": "To TCP upravo garantuje. Ne garantuje smisao tih bajtova.",
-                  "ok": false
-                },
-                {
-                  "key": "A",
-                  "text": "Da će ventilator biti uključen.",
-                  "why": "TCP ne čita komandu. Garantuje isporuku bajtova redom, ne efekat.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "TCP nastaje da pad pretpostavke ne ostane na aplikaciji. Ko iz pouzdanog toka zaključi da je komanda izvršena, vratio se na pogrešan sloj."
-            }
-          ]
-        },
-        {
-          "naslov": "Putanja i metod čine rutu",
-          "nivo": "Primena",
-          "minuta": 4,
-          "tipPrimer": "eksperiment",
-          "tekst": "Ista putanja nije isto što i ista operacija. Isti URL može prihvatiti različite HTTP metode i time predstavljati različite operacije. GET po ugovoru treba da bude bezbedan za čitanje; promena stanja ne sme biti skrivena iza GET zahteva.",
-          "kljucnaIdeja": "HTTP metod utiče na značenje zahteva; server odlučuje koju kombinaciju podržava.",
-          "samostalniPrimer": {
-            "jezik": "text",
-            "izolovan": true,
-            "tekst": "GET /api/soba HTTP/1.1\nPUT /api/soba HTTP/1.1\nPOST /api/soba HTTP/1.1"
-          },
-          "pitalica": "Koji zahtev mora automatski izmeniti temperaturu?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "GET",
-              "why": "GET je bezbedna metoda koja ne bi trebalo da menja stanje po zahtevu klijenta.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "PUT",
-              "why": "PUT obično postavlja reprezentaciju resursa, ali to ne znači da je svaki PUT endpoint podržan.",
-              "ok": false
-            },
-            {
-              "key": "C",
-              "text": "Nijedan: implementacija i ugovor odlučuju šta je dozvoljeno.",
-              "why": "API ugovor definiše podržane rute i način izmene. Isti URL može prihvatiti različite HTTP metode i time predstavljati različite operacije. GET po ugovoru treba da bude bezbedan za čitanje; promena stanja ne sme biti skrivena iza GET zahteva.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "Isti URL može prihvatiti različite HTTP metode i time predstavljati različite operacije. GET po ugovoru treba da bude bezbedan za čitanje; promena stanja ne sme biti skrivena iza GET zahteva.",
-          "pitalice": [
-            {
-              "pitalica": "Koji zahtev mora automatski izmeniti temperaturu?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "GET",
-                  "why": "GET je bezbedna metoda koja ne bi trebalo da menja stanje po zahtevu klijenta.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "PUT",
-                  "why": "PUT obično postavlja reprezentaciju resursa, ali to ne znači da je svaki PUT endpoint podržan.",
-                  "ok": false
-                },
-                {
-                  "key": "C",
-                  "text": "Nijedan: implementacija i ugovor odlučuju šta je dozvoljeno.",
-                  "why": "API ugovor definiše podržane rute i način izmene. Isti URL može prihvatiti različite HTTP metode i time predstavljati različite operacije. GET po ugovoru treba da bude bezbedan za čitanje; promena stanja ne sme biti skrivena iza GET zahteva.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Isti URL može prihvatiti različite HTTP metode i time predstavljati različite operacije. GET po ugovoru treba da bude bezbedan za čitanje; promena stanja ne sme biti skrivena iza GET zahteva."
-            },
-            {
-              "pitalica": "Zašto GET ne mora automatski da izmeni temperaturu?",
-              "opcije": [
-                {
-                  "key": "B",
-                  "text": "Zato što metod menja značenje, a ugovor i implementacija odlučuju šta je dozvoljeno.",
-                  "why": "Ista putanja sa drugim metodom nije ista ruta. GET nije prečica za upis.",
-                  "ok": true
-                },
-                {
-                  "key": "A",
-                  "text": "Zato što PUT uvek menja temperaturu, a GET uvek menja režim.",
-                  "why": "Nijedan metod sam ne nameće efekat. Server bira koje kombinacije podržava.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "Ruta postoji da metod i putanja zajedno imaju smisao. Iz imena GET ne sledi ni čitanje ni izmena, dok ugovor to ne kaže."
-            },
-            {
-              "pitalica": "Šta bi sledilo iz pravila „svaki PUT menja temperaturu”?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Da ugovor više nije potreban, jer metod sam zna efekat.",
-                  "why": "To pravilo je lažno. PUT /api/ventilator u ovom kursu ne nosi temperaturu.",
-                  "ok": true
-                },
-                {
-                  "key": "B",
-                  "text": "Samo da jedna konkretna ruta sme da ima taj efekat ako je tako dogovoreno.",
-                  "why": "To bi bilo tačno za ugovor, ali ne sledi iz golosti metoda.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "Lažno pravilo briše razliku između metode i rute. Zato nijedan zahtev ne menja temperaturu samim tim što je PUT ili GET."
-            }
-          ]
-        },
-        {
-          "naslov": "HTTP",
-          "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Na tok se stavi metod, putanja, zaglavlja, telo i status. HTTP dodaje semantiku zahteva i odgovora na tok prenetih podataka. Metod, putanja, zaglavlja, telo i status nisu ukrasi nego nezavisni delovi protokola koje klijent i server zajednički tumače.",
-          "kljucnaIdeja": "HTTP daje smisao. Protokol koji čas gleda jeste HTTP/1.1.",
-          "putanja": "server/server.js",
-          "isecakNaslov": "HTTP",
-          "isecakJezik": "text",
-          "isecak": "GET /api/soba HTTP/1.1",
-          "delic": "GET /api/soba HTTP/1.1",
-          "pitalica": "Šta HTTP doda na TCP?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Još jedan redni broj.",
-              "why": "Red već drži TCP. HTTP dodaje semantiku zahteva i odgovora na tok prenetih podataka.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Smisao: šta se traži i koji je status odgovora.",
-              "why": "Metod, putanja, zaglavlja, telo, status. HTTP dodaje semantiku zahteva i odgovora na tok prenetih podataka. Metod, putanja, zaglavlja, telo i status nisu ukrasi nego nezavisni delovi protokola koje klijent i server zajednički tumače.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "HTTP dodaje semantiku zahteva i odgovora na tok prenetih podataka. Metod, putanja, zaglavlja, telo i status nisu ukrasi nego nezavisni delovi protokola koje klijent i server zajednički tumače.",
-          "pitalice": [
-            {
-              "pitalica": "Šta HTTP doda na TCP?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Još jedan redni broj.",
-                  "why": "Red već drži TCP. HTTP dodaje semantiku zahteva i odgovora na tok prenetih podataka.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Smisao: šta se traži i koji je status odgovora.",
-                  "why": "Metod, putanja, zaglavlja, telo, status. HTTP dodaje semantiku zahteva i odgovora na tok prenetih podataka. Metod, putanja, zaglavlja, telo i status nisu ukrasi nego nezavisni delovi protokola koje klijent i server zajednički tumače.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "HTTP dodaje semantiku zahteva i odgovora na tok prenetih podataka. Metod, putanja, zaglavlja, telo i status nisu ukrasi nego nezavisni delovi protokola koje klijent i server zajednički tumače."
-            },
-            {
-              "pitalica": "Zašto TCP-u treba HTTP da bi GET / imao smisao?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Zato što TCP već nosi redni broj paketa, pa je smisao u tom broju.",
-                  "why": "Redni broj nije metod ni status. HTTP dodaje šta se traži i kako se odgovor tumači.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Zato što tok bajtova ne kaže gde je zahtev, koji je metod ni koji je status.",
-                  "why": "HTTP nastaje kao dogovor iznad pouzdanog toka.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Bez statusa uspešan TCP i dalje ne zna da li je resurs nađen. 404 je smisao, ne redni broj."
-            }
-          ]
-        },
-        {
-          "naslov": "createServer",
-          "nivo": "Osnovno",
-          "minuta": 3,
-          "tipPrimer": "aplikacija",
-          "tekst": "Običan Node, nema framework. http.createServer kreira serverski objekat i registruje funkciju obrade, ali ne otvara automatski browser. Node-ov HTTP server prima req/res objekte, različite od browser DOM API-ja.",
-          "kljucnaIdeja": "http.createServer dolazi pre slušanja porta.",
-          "putanja": "server/server.js",
-          "isecakNaslov": "createServer",
-          "isecakJezik": "javascript",
-          "isecak": "const server = http.createServer(obrada);",
-          "delic": "const server = http.createServer(obrada);",
-          "pitalica": "Šta ova linija uradi?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Otvori browser.",
-              "why": "Browser je druga strana. http.createServer kreira serverski objekat i registruje funkciju obrade, ali ne otvara automatski browser.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Napravi server koji za svaki zahtev zove obradu.",
-              "why": "Još ne sluša port. http.createServer kreira serverski objekat i registruje funkciju obrade, ali ne otvara automatski browser. Node-ov HTTP server prima req/res objekte, različite od browser DOM API-ja.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "http.createServer kreira serverski objekat i registruje funkciju obrade, ali ne otvara automatski browser. Node-ov HTTP server prima req/res objekte, različite od browser DOM API-ja.",
-          "proveraPitalice": "predvidi-pa-proveri",
-          "original": "const http = require(\"http\");\nconst server = http.createServer(obrada);\n",
-          "originalJezik": "javascript",
-          "pitalice": [
-            {
-              "pitalica": "Šta ova linija uradi?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Otvori browser.",
-                  "why": "Browser je druga strana. http.createServer kreira serverski objekat i registruje funkciju obrade, ali ne otvara automatski browser.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Napravi server koji za svaki zahtev zove obradu.",
-                  "why": "Još ne sluša port. http.createServer kreira serverski objekat i registruje funkciju obrade, ali ne otvara automatski browser. Node-ov HTTP server prima req/res objekte, različite od browser DOM API-ja.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "http.createServer kreira serverski objekat i registruje funkciju obrade, ali ne otvara automatski browser. Node-ov HTTP server prima req/res objekte, različite od browser DOM API-ja."
-            },
-            {
-              "pitalica": "Šta ova linija ne otvori?",
-              "opcije": [
-                {
-                  "key": "B",
-                  "text": "Ne napravi objekat koji ume da primi zahtev.",
-                  "why": "Upravo ga napravi. Ne sledi da je adresa već živa.",
-                  "ok": false
-                },
-                {
-                  "key": "A",
-                  "text": "Ne otvori browser niti port.",
-                  "why": "Napravi funkciju servera koja će za svaki zahtev zvati obradu. Slušanje je sledeći korak.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "createServer postoji pre listen da se obrada odvoji od otvaranja porta. Ko očekuje stranicu iz te linije, preskače slušanje."
-            }
-          ]
-        },
-        {
-          "naslov": "listen",
-          "nivo": "Osnovno",
-          "minuta": 3,
-          "tipPrimer": "aplikacija",
-          "tekst": "Server kaže na kom portu čeka. listen određuje port na kome server prihvata veze. To ne šalje zahtev niti garantuje da port može da se dosegne sa druge mašine: konfiguracija hosta i mrežni firewall utiču na dostupnost.",
-          "kljucnaIdeja": "listen otvara port. Zahtev još nije poslat.",
-          "putanja": "server/server.js",
-          "isecakNaslov": "listen",
-          "isecakJezik": "text",
-          "isecak": "server.listen(8787);",
-          "delic": "server.listen(8787);",
-          "pitalica": "Da li je adresa već u browseru?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Da, listen otvori i stranicu.",
-              "why": "listen samo čeka vezu. Port je otvoren, stranicu još niko nije tražio.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Ne. Port je otvoren, stranicu još niko nije tražio.",
-              "why": "Adresa dolazi sledeća. listen određuje port na kome server prihvata veze. To ne šalje zahtev niti garantuje da port može da se dosegne sa druge mašine: konfiguracija hosta i mrežni firewall utiču na dostupnost.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "Port je otvoren, stranicu još niko nije tražio. listen određuje port na kome server prihvata veze. To ne šalje zahtev niti garantuje da port može da se dosegne sa druge mašine: konfiguracija hosta i mrežni firewall utiču na dostupnost.",
-          "pitalice": [
-            {
-              "pitalica": "Da li je adresa već u browseru?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Da, listen otvori i stranicu.",
-                  "why": "listen samo čeka vezu. Port je otvoren, stranicu još niko nije tražio.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Ne. Port je otvoren, stranicu još niko nije tražio.",
-                  "why": "Adresa dolazi sledeća. listen određuje port na kome server prihvata veze. To ne šalje zahtev niti garantuje da port može da se dosegne sa druge mašine: konfiguracija hosta i mrežni firewall utiču na dostupnost.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Port je otvoren, stranicu još niko nije tražio. listen određuje port na kome server prihvata veze. To ne šalje zahtev niti garantuje da port može da se dosegne sa druge mašine: konfiguracija hosta i mrežni firewall utiču na dostupnost."
-            },
-            {
-              "pitalica": "Zašto otvoren port nije stranica u browseru?",
-              "opcije": [
-                {
-                  "key": "B",
-                  "text": "Zato što port čeka zahtev, a zahtev šalje neko drugi.",
-                  "why": "Slušanje nije navigacija. Adresa u browseru je poseban korak.",
-                  "ok": true
-                },
-                {
-                  "key": "A",
-                  "text": "Zato što listen i otvori karticu.",
-                  "why": "listen veže port. Niko još nije poslao zahtev.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "Ako student posle listen gleda prazan ekran i kaže da server nije radio, traži prikaz tamo gde još nema klijenta."
-            }
-          ]
-        },
-        {
-          "naslov": "Komanda",
-          "nivo": "Osnovno",
-          "minuta": 3,
-          "tipPrimer": "aplikacija",
-          "tekst": "Proces se podiže iz terminala. Komanda node server/server.js podiže proces na serveru. Da bi primer bio izvršiv, modul mora učitati http i definisati handler; fragment sa samo createServer nije samostalan program.",
-          "kljucnaIdeja": "Komanda je node server/server.js. Browser je i dalje poseban korak.",
-          "putanja": "server/server.js",
-          "isecakNaslov": "Komanda",
-          "isecakJezik": "text",
-          "isecak": "node server/server.js",
-          "delic": "node server/server.js",
-          "pitalica": "Šta ova komanda pokrene?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Samo CSS sobe.",
-              "why": "To nije Node. Komanda node server/server.js podiže proces na serveru.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Node proces koji sluša port.",
-              "why": "Isti fajl koji ima createServer i listen. Komanda node server/server.js podiže proces na serveru. Da bi primer bio izvršiv, modul mora učitati http i definisati handler; fragment sa samo createServer nije samostalan program.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "Komanda node server/server.js podiže proces na serveru. Da bi primer bio izvršiv, modul mora učitati http i definisati handler; fragment sa samo createServer nije samostalan program.",
-          "pitalice": [
-            {
-              "pitalica": "Šta ova komanda pokrene?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Samo CSS sobe.",
-                  "why": "To nije Node. Komanda node server/server.js podiže proces na serveru.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Node proces koji sluša port.",
-                  "why": "Isti fajl koji ima createServer i listen. Komanda node server/server.js podiže proces na serveru. Da bi primer bio izvršiv, modul mora učitati http i definisati handler; fragment sa samo createServer nije samostalan program.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Komanda node server/server.js podiže proces na serveru. Da bi primer bio izvršiv, modul mora učitati http i definisati handler; fragment sa samo createServer nije samostalan program."
-            },
-            {
-              "pitalica": "Zašto node server/server.js nije CSS sobe?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Zato što komanda pokrene proces koji sluša port, a stil ostaje fajl browsera.",
-                  "why": "Proces i dokument su različiti programi. Jedna komanda ne crta sobu.",
-                  "ok": true
-                },
-                {
-                  "key": "B",
-                  "text": "Zato što Node otvori browser i učita stil umesto servera.",
-                  "why": "Komanda ne otvara browser. Browser je i dalje poseban korak.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "Komanda postoji da proces uopšte živi. Iz nje ne sledi da je čitanje sobe već prikazano."
-            }
-          ]
-        },
-        {
-          "naslov": "Konkurentni zahtevi",
-          "nivo": "Primena",
-          "minuta": 4,
-          "tipPrimer": "eksperiment",
-          "tekst": "Dva klijenta istovremeno traže podatke. Jedan dug sinhroni CPU zadatak u Node event loop-u sprečava obradu drugih zahteva dok traje. Asinhroni I/O ne znači da je težak račun automatski paralelan, pa arhitektura mora razlikovati te dve vrste rada.",
-          "kljucnaIdeja": "Node event loop omogućava obradu događaja; blokirajući kod i dalje može zaustaviti odziv.",
-          "samostalniPrimer": {
-            "jezik": "javascript",
-            "izolovan": true,
-            "tekst": "http.createServer(async (req, res) => {\n  // obrada dva različita zahteva\n});"
-          },
-          "pitalica": "Šta je opasno ako handler radi dug CPU izračun bez predaha?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Sledeći događaji mogu čekati.",
-              "why": "JS handler može blokirati glavni event loop. Jedan dug sinhroni CPU zadatak u Node event loop-u sprečava obradu drugih zahteva dok traje. Asinhroni I/O ne znači da je težak račun automatski paralelan, pa arhitektura mora razlikovati te dve vrste rada.",
-              "ok": true
-            },
-            {
-              "key": "B",
-              "text": "Node automatski pokreće jedan JS thread po HTTP zahtevu.",
-              "why": "Node ne daje svaki zahtev zasebnom JS thread-u po ovom modelu. Jedan dug sinhroni CPU zadatak u Node event loop-u sprečava obradu drugih zahteva dok traje.",
-              "ok": false
-            },
-            {
-              "key": "C",
-              "text": "TCP automatski rešava spor JS kod.",
-              "why": "TCP ne upravlja izvršavanjem JavaScript koda. Jedan dug sinhroni CPU zadatak u Node event loop-u sprečava obradu drugih zahteva dok traje.",
-              "ok": false
-            }
-          ],
-          "analizaPitalice": "Jedan dug sinhroni CPU zadatak u Node event loop-u sprečava obradu drugih zahteva dok traje. Asinhroni I/O ne znači da je težak račun automatski paralelan, pa arhitektura mora razlikovati te dve vrste rada.",
-          "pitalice": [
-            {
-              "pitalica": "Šta je opasno ako handler radi dug CPU izračun bez predaha?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Sledeći događaji mogu čekati.",
-                  "why": "JS handler može blokirati glavni event loop. Jedan dug sinhroni CPU zadatak u Node event loop-u sprečava obradu drugih zahteva dok traje. Asinhroni I/O ne znači da je težak račun automatski paralelan, pa arhitektura mora razlikovati te dve vrste rada.",
-                  "ok": true
-                },
-                {
-                  "key": "B",
-                  "text": "Node automatski pokreće jedan JS thread po HTTP zahtevu.",
-                  "why": "Node ne daje svaki zahtev zasebnom JS thread-u po ovom modelu. Jedan dug sinhroni CPU zadatak u Node event loop-u sprečava obradu drugih zahteva dok traje.",
-                  "ok": false
-                },
-                {
-                  "key": "C",
-                  "text": "TCP automatski rešava spor JS kod.",
-                  "why": "TCP ne upravlja izvršavanjem JavaScript koda. Jedan dug sinhroni CPU zadatak u Node event loop-u sprečava obradu drugih zahteva dok traje.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "Jedan dug sinhroni CPU zadatak u Node event loop-u sprečava obradu drugih zahteva dok traje. Asinhroni I/O ne znači da je težak račun automatski paralelan, pa arhitektura mora razlikovati te dve vrste rada."
-            },
-            {
-              "pitalica": "Zašto dugo računanje u handleru može da zaustavi sledeći zahtev?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Zato što TCP sam prekine spor handler i time reši čekanje.",
-                  "why": "TCP ne ubrzava JavaScript. Dok handler računa, drugi događaji čekaju.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Zato što event loop izvršava JavaScript na jednom toku, pa CPU rad bez predaha drži red.",
-                  "why": "Node ne pokreće novi JS thread po zahtevu. Blokada je u tom toku.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Konkurentnost ovde nije „jedan thread po zahtevu”. Nastaje iz reda događaja. Ko doda tešku petlju, vidi zastoj iako je mreža živa."
-            }
-          ]
-        },
-        {
-          "naslov": "Adresa",
-          "nivo": "Osnovno",
-          "minuta": 3,
-          "tipPrimer": "aplikacija",
-          "tekst": "Ista adresa se otvori u browseru, kao stranica, ne iz koda. Otvaranje /api/soba direktno u browseru već šalje HTTP GET. fetch dolazi kasnije kao način da isti zahtev pokrene skripta i pročita odgovor bez zamene dokumenta.",
-          "kljucnaIdeja": "Čitanje sobe se prvo otvara direktno u browseru. U telu je JSON tekst.",
-          "putanja": "server/soba.js",
-          "isecakNaslov": "Adresa",
-          "isecakJezik": "text",
-          "isecak": "http://127.0.0.1:8787/api/soba",
-          "delic": "http://127.0.0.1:8787/api/soba",
-          "original": "GET /api/soba HTTP/1.1",
-          "originalJezik": "text",
-          "pitalica": "Kako čas prvi put vidi čitanje?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Pozivom iz koda stranice.",
-              "why": "Poziv iz koda dolazi kasnije. Otvaranje /api/soba direktno u browseru već šalje HTTP GET.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "Tako što se adresa otvori u browseru.",
-              "why": "Odgovor se vidi i u logu procesa. Otvaranje /api/soba direktno u browseru već šalje HTTP GET. fetch dolazi kasnije kao način da isti zahtev pokrene skripta i pročita odgovor bez zamene dokumenta.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "Otvaranje /api/soba direktno u browseru već šalje HTTP GET. fetch dolazi kasnije kao način da isti zahtev pokrene skripta i pročita odgovor bez zamene dokumenta.",
-          "pitalice": [
-            {
-              "pitalica": "Kako čas prvi put vidi čitanje?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Pozivom iz koda stranice.",
-                  "why": "Poziv iz koda dolazi kasnije. Otvaranje /api/soba direktno u browseru već šalje HTTP GET.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Tako što se adresa otvori u browseru.",
-                  "why": "Odgovor se vidi i u logu procesa. Otvaranje /api/soba direktno u browseru već šalje HTTP GET. fetch dolazi kasnije kao način da isti zahtev pokrene skripta i pročita odgovor bez zamene dokumenta.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Otvaranje /api/soba direktno u browseru već šalje HTTP GET. fetch dolazi kasnije kao način da isti zahtev pokrene skripta i pročita odgovor bez zamene dokumenta."
-            },
-            {
-              "pitalica": "Zašto čas prvo otvara adresu, a ne fetch iz koda stranice?",
-              "opcije": [
-                {
-                  "key": "B",
-                  "text": "Zato što adresa u browseru ne važi kao HTTP zahtev.",
-                  "why": "Važi. Isti odgovor će kasnije doći i iz koda. Red je da se telo vidi pre klijentskog poziva.",
-                  "ok": false
-                },
-                {
-                  "key": "A",
-                  "text": "Zato što treba videti JSON tekst pre nego što ga stranica sakrije u prikaz.",
-                  "why": "Direktno čitanje pokazuje šta ruta vraća, bez DOM-a kao posrednika.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Adresa postoji kao najtanji klijent. Ko krene od fetch-a, ne vidi da je odgovor već bio tu."
-            }
-          ]
-        },
-        {
-          "naslov": "Ruta",
-          "nivo": "Osnovno",
-          "minuta": 3,
-          "tipPrimer": "aplikacija",
-          "tekst": "Poznata putanja vraća temperaturu i režim. Nepoznata putanja može dobiti HTTP 404 sa validnim odgovorom, dok ugašen proces ne može vratiti status uopšte. Server treba da razlikuje i metod: isti put sa pogrešnom metodom nije nužno isti problem.",
-          "kljucnaIdeja": "Poznata putanja vraća temperaturu i režim. Ostale vraćaju 404.",
-          "putanja": "server/soba.js",
-          "isecakNaslov": "Ruta",
-          "isecakJezik": "javascript",
-          "isecak": "if (putanja === \"/api/soba\") return 200;",
-          "delic": "if (putanja === \"/api/soba\") return 200;",
-          "original": "if (putanja !== \"/api/soba\") return 404;",
-          "originalJezik": "javascript",
-          "pitalica": "Šta nepoznata putanja vrati?",
-          "opcije": [
-            {
-              "key": "A",
-              "text": "Isti JSON, da panel ne pukne.",
-              "why": "Nepoznata putanja nije soba. Nepoznata putanja može dobiti HTTP 404 sa validnim odgovorom, dok ugašen proces ne može vratiti status uopšte.",
-              "ok": false
-            },
-            {
-              "key": "B",
-              "text": "404.",
-              "why": "Status postoji. To nije ugašen port. Nepoznata putanja može dobiti HTTP 404 sa validnim odgovorom, dok ugašen proces ne može vratiti status uopšte. Server treba da razlikuje i metod: isti put sa pogrešnom metodom nije nužno isti problem.",
-              "ok": true
-            }
-          ],
-          "analizaPitalice": "Nepoznata putanja može dobiti HTTP 404 sa validnim odgovorom, dok ugašen proces ne može vratiti status uopšte. Server treba da razlikuje i metod: isti put sa pogrešnom metodom nije nužno isti problem.",
-          "proveraPitalice": "predvidi-pa-proveri",
-          "pitalice": [
-            {
-              "pitalica": "Šta nepoznata putanja vrati?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Isti JSON, da panel ne pukne.",
-                  "why": "Nepoznata putanja nije soba. Nepoznata putanja može dobiti HTTP 404 sa validnim odgovorom, dok ugašen proces ne može vratiti status uopšte.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "404.",
-                  "why": "Status postoji. To nije ugašen port. Nepoznata putanja može dobiti HTTP 404 sa validnim odgovorom, dok ugašen proces ne može vratiti status uopšte. Server treba da razlikuje i metod: isti put sa pogrešnom metodom nije nužno isti problem.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Nepoznata putanja može dobiti HTTP 404 sa validnim odgovorom, dok ugašen proces ne može vratiti status uopšte. Server treba da razlikuje i metod: isti put sa pogrešnom metodom nije nužno isti problem."
-            },
-            {
-              "pitalica": "Zašto nepoznata putanja ne vrati isti JSON da panel ne pukne?",
-              "opcije": [
-                {
-                  "key": "B",
-                  "text": "Zato što 404 kaže da ruta nije podržana, a lažan JSON bi sakrio grešku.",
-                  "why": "Poznata putanja nosi temperaturu i režim. Ostale moraju da se razlikuju.",
-                  "ok": true
-                },
-                {
-                  "key": "A",
-                  "text": "Zato što svaki status osim 200 ruši proces.",
-                  "why": "404 je odgovor, ne pad procesa. Panel sme da vidi razliku.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "404 postoji da se pogrešna putanja ne pretvori u izmišljenu sobu. Mekši JSON bi učinio dijagnozu nemogućom."
-            }
-          ]
-        },
-        {
-          "naslov": "JSON tekst, ne objekat",
+          "naslov": "JavaScript izvan browsera",
           "nivo": "Osnovno",
           "minuta": 4,
           "tipPrimer": "eksperiment",
-          "tekst": "Adresa /api/soba već vraća telo. To telo nije objekat iz memorije servera. HTTP nosi bajtove, a JSON je tekstualni zapis.\n\nJSON podseća na objekat u jeziku, ali ima sopstvenu gramatiku. Imena svojstava su stringovi u dvostrukim navodnicima. Dozvoljeni su objekat, niz, string, broj, true, false i null. Nema funkcije, undefined ni kružne reference. Zarez posle poslednjeg polja nije JSON.\n\nSoba u handleru je vrednost. JSON.stringify je pretvara u tekst koji ruta šalje. JSON.parse od tog teksta pravi novu vrednost. typeof pre parse-a je string, posle je object, a temperatura je polje te vrednosti.\n\nTo nije klon objekta sa servera. Nema prototipa ni metode. Svojstvo čija je vrednost undefined stringify izostavi, a null ostane. JSON.parse baci izuzetak kad tekst nije validan JSON. Uspešan parse i dalje ne znači da polja i tipovi odgovaraju ugovoru sobe.",
-          "kljucnaIdeja": "JSON na žici je tekst sobe. JavaScript vrednost nastaje tek posle JSON.parse.",
-          "samostalniPrimer": {
-            "jezik": "javascript",
-            "izolovan": true,
-            "tekst": "const soba = { temperatura: 24, ukljucen: false };\nconst tekst = JSON.stringify(soba);\nconsole.log(typeof tekst, typeof JSON.parse(tekst));\nconsole.log(JSON.parse(tekst).temperatura);"
-          },
-          "pitalica": "Šta ispisuje typeof pre i posle parse?",
-          "opcije": [
+          "tekst": "**Problem:** JavaScript smo do sada pokretali u browseru. Šta ako želimo da isti jezik čita podatke na serveru, prima HTTP zahteve ili komunicira sa bazom?\n\n**JavaScript je programski jezik, a Node.js izvršno okruženje.** Browser obezbeđuje Web API-je, poput `document`, DOM-a i `window`. Node.js obezbeđuje druge API-je, na primer za mrežu (`node:http`) i rad sa fajlovima (`node:fs`). I browser i Node.js izvršavaju JavaScript, ali **ne nude iste mogućnosti**.\n\nServer je proces koji obrađuje zahteve klijenata. Ne mora da ima grafički interfejs i ne mora da generiše HTML. Često šalje JSON podatke koje kasnije može koristiti browser, mobilna aplikacija ili drugi server.\n\nU standardnom Node.js procesu `typeof document` ispisuje `'undefined'`. Node.js nije Web server sam po sebi: to je okruženje u kome možemo napisati program koji postaje Web server. Nije isto što i Express, biblioteka koja radi povrh Node.js-a.\n\nAko Node.js izvršava JavaScript, `document.querySelector('h1')` ipak ne mora da radi: `document` obično ne postoji van browsera.",
+          "kljucnaIdeja": "Isti jezik, različito okruženje: Node.js nema document i nije sam po sebi Web server.",
+          "blokovi": [
             {
-              "key": "A",
-              "text": "object object",
-              "why": "Pre parse promenljiva s drži string, ne objekat. HTTP telo stiže kao niz bajtova koji se čita kao tekst.",
-              "ok": false
+              "id": "k601b1",
+              "vrsta": "tekst",
+              "tekst": "**Problem:** JavaScript smo do sada pokretali u browseru. Šta ako želimo da isti jezik čita podatke na serveru, prima HTTP zahteve ili komunicira sa bazom?\n\n**JavaScript je programski jezik, a Node.js izvršno okruženje.** Browser obezbeđuje Web API-je, poput `document`, DOM-a i `window`. Node.js obezbeđuje druge API-je, na primer za mrežu (`node:http`) i rad sa fajlovima (`node:fs`). I browser i Node.js izvršavaju JavaScript, ali **ne nude iste mogućnosti**.\n\nServer je proces koji obrađuje zahteve klijenata. Ne mora da ima grafički interfejs i ne mora da generiše HTML. Često šalje JSON podatke koje kasnije može koristiti browser, mobilna aplikacija ili drugi server."
             },
             {
-              "key": "B",
-              "text": "string object",
-              "why": "JSON tekst je string dok ga ne parsiraš. JSON.parse pravi vrednost, ali ne proverava da li polja i tipovi odgovaraju našem API ugovoru.",
-              "ok": true
+              "id": "k601b2",
+              "vrsta": "tekst",
+              "tekst": "U standardnom Node.js procesu `typeof document` ispisuje `'undefined'`. Node.js nije Web server sam po sebi: to je okruženje u kome možemo napisati program koji postaje Web server. Nije isto što i Express, biblioteka koja radi povrh Node.js-a.\n\nAko Node.js izvršava JavaScript, `document.querySelector('h1')` ipak ne mora da radi: `document` obično ne postoji van browsera."
             },
             {
-              "key": "C",
-              "text": "string number",
-              "why": "typeof JSON.parse(s) je object, ne number. HTTP telo stiže kao niz bajtova koji se čita kao tekst.",
-              "ok": false
+              "id": "k601b3",
+              "vrsta": "highlight",
+              "uloga": "kljucna",
+              "tekst": "Isti jezik, različito okruženje: Node.js nema document i nije sam po sebi Web server."
             }
           ],
-          "analizaPitalice": "JSON tekst je string dok ga ne parsiraš. JSON.parse pravi vrednost, ali ne proverava da li polja i tipovi odgovaraju našem API ugovoru.",
-          "proveraPitalice": "predvidi-pa-proveri",
+          "diskusija": [
+            {
+              "id": "k601q1",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "1.1. [OBAVEZNO] Zašto nije dovoljno da sav kod aplikacije izvršava browser?",
+              "odgovor": "Neke operacije moraju da se odvijaju na strani koju kontroliše servis: zajednički podaci korisnika, poslovna pravila, pristup bazi, čuvanje poverljivih podataka. Kod u browseru kontroliše korisnik. Ako se pravilo proverava samo u browseru, klijent može da ga zaobiđe drugačijim HTTP zahtevom."
+            },
+            {
+              "id": "k601q2",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "1.2. [OBAVEZNO] Da li JavaScript u Node.js-u automatski ima document i window? Šta zapravo predstavlja Node.js?",
+              "odgovor": "Ne. Node.js je izvršno okruženje sa API-jima prilagođenim serveru; DOM pripada browserovom okruženju. Sam Node.js nije ni browser ni obavezno HTTP server."
+            },
+            {
+              "id": "k601q3",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "1.3. [REZERVA] Da li činjenica da frontend i backend koriste isti jezik znači da mogu da koriste identične API-je?",
+              "odgovor": "Ne. Jezik može biti isti, ali okruženja nude različite mogućnosti. Deo obične JS logike može biti zajednički."
+            }
+          ],
           "pitalice": [
             {
-              "pitalica": "Šta ispisuje typeof pre i posle parse?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "object object",
-                  "why": "Pre parse promenljiva s drži string, ne objekat. HTTP telo stiže kao niz bajtova koji se čita kao tekst.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "string object",
-                  "why": "JSON tekst je string dok ga ne parsiraš. JSON.parse pravi vrednost, ali ne proverava da li polja i tipovi odgovaraju našem API ugovoru.",
-                  "ok": true
-                },
-                {
-                  "key": "C",
-                  "text": "string number",
-                  "why": "typeof JSON.parse(s) je object, ne number. HTTP telo stiže kao niz bajtova koji se čita kao tekst.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "JSON tekst je string dok ga ne parsiraš. JSON.parse pravi vrednost, ali ne proverava da li polja i tipovi odgovaraju našem API ugovoru."
+              "pitalica": "1.1. [OBAVEZNO] Zašto nije dovoljno da sav kod aplikacije izvršava browser?",
+              "odgovor": "Neke operacije moraju da se odvijaju na strani koju kontroliše servis: zajednički podaci korisnika, poslovna pravila, pristup bazi, čuvanje poverljivih podataka. Kod u browseru kontroliše korisnik. Ako se pravilo proverava samo u browseru, klijent može da ga zaobiđe drugačijim HTTP zahtevom."
             },
             {
-              "pitalica": "Zašto je pre parse-a tip string?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Zato što je JSON na žici tekst, a objekat nastaje tek kad se tekst protumači.",
-                  "why": "typeof pre i posle to pokazuje: string, pa object.",
-                  "ok": true
-                },
-                {
-                  "key": "B",
-                  "text": "Zato što JSON.parse pretvara tekst u broj temperature i ništa više.",
-                  "why": "Posle parse-a tip je object, ne number. Broj je polje, ako ugovor tako kaže.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "Parse postoji jer mreža ne prenosi referencu. Ko pošalje objekat u glavi, ne vidi zašto je prvi typeof string."
+              "pitalica": "1.2. [OBAVEZNO] Da li JavaScript u Node.js-u automatski ima document i window? Šta zapravo predstavlja Node.js?",
+              "odgovor": "Ne. Node.js je izvršno okruženje sa API-jima prilagođenim serveru; DOM pripada browserovom okruženju. Sam Node.js nije ni browser ni obavezno HTTP server."
             },
             {
-              "pitalica": "Šta iz uspešnog parse-a ne sledi?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Da tekst više nije sirov niz znakova u toj promenljivoj.",
-                  "why": "To sledi: vrednost posle parse-a nije onaj string.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Da telo jeste tražena soba, sa ispravnim poljima.",
-                  "why": "Parse kaže da je tekst bio JSON. Ne kaže da ugovor važi.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Validacija dolazi kasnije baš zato što parse nije ugovor. Objekat pogrešnog oblika i dalje jeste objekat."
+              "pitalica": "1.3. [REZERVA] Da li činjenica da frontend i backend koriste isti jezik znači da mogu da koriste identične API-je?",
+              "odgovor": "Ne. Jezik može biti isti, ali okruženja nude različite mogućnosti. Deo obične JS logike može biti zajednički."
             }
-          ]
+          ],
+          "putanja": "client/lekcije/34-van-browsera.js",
+          "isecakNaslov": "JavaScript izvan browsera",
+          "isecakJezik": "javascript",
+          "isecak": "console.log('JavaScript radi i bez browsera');\nconsole.log(typeof document);",
+          "delic": "// JavaScript izvan browsera\n// Kontrolna soba: dugme i prikaz ostaju u browseru; Node proces nema document.\n\nconsole.log('JavaScript radi i bez browsera');\nconsole.log(typeof document);\n",
+          "original": "// JavaScript izvan browsera\n// Kontrolna soba: dugme i prikaz ostaju u browseru; Node proces nema document.\n\nconsole.log('JavaScript radi i bez browsera');\nconsole.log(typeof document);\n",
+          "originalJezik": "javascript"
         },
         {
-          "naslov": "Odgovor kao JSON tekst",
+          "naslov": "Projekat, moduli i npm",
           "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Handler drži sobu kao vrednost u memoriji: temperaturu i režim ventilatora. Preko mreže ne ide ta vrednost. JSON.stringify pravi tekst, a writeHead kaže da je telo JSON.\n\nres.writeHead(200, { \"Content-Type\": \"application/json; charset=utf-8\" });\nres.end(JSON.stringify({ temperatura, ukljucen }));\n\nZaglavlje opisuje telo. Ne stoji umesto njega. Browser i dalje vidi tekst. Ista dva poziva, stringify na serveru i parse na klijentu, spajaju memoriju handlera sa prikazom.",
-          "kljucnaIdeja": "Handler šalje JSON tekst i zaglavlje application/json.",
-          "putanja": "server/soba.js",
-          "isecakNaslov": "JSON telo",
-          "isecakJezik": "javascript",
-          "isecak": "JSON.stringify({ temperatura, ukljucen })",
-          "delic": "JSON.stringify({ temperatura, ukljucen })",
-          "original": "res.writeHead(200, { \"Content-Type\": \"application/json; charset=utf-8\" });\nres.end(JSON.stringify({ temperatura, ukljucen }));",
-          "originalJezik": "javascript",
-          "pitalica": "Šta handler stvarno šalje preko mreže?",
-          "opcije": [
+          "minuta": 5,
+          "tipPrimer": "eksperiment",
+          "tekst": "**Problem:** Kako organizovati kod kada program koristi više datoteka i biblioteke koje nismo sami napisali?\n\nNode.js može da pokrene datoteku naredbom `node ime-fajla.js`. **Moduli** omogućavaju razdvajanje koda i kontrolu toga šta je iz jedne datoteke dostupno drugim datotekama. U kursu koristimo standardne JavaScript **ES module** (`import` i `export`).\n\nDatoteka `package.json` sadrži metapodatke o projektu, skripte i deklarisane zavisnosti. **npm** je alat za rad sa paketima i zavisnostima; **Node.js** je okruženje koje izvršava aplikaciju. Ugrađeni moduli poput `node:http` ne zahtevaju instalaciju.\n\nPokretanje je `npm start`. U ovoj fazi program samo ispiše poruku i završava se. Naredni korak uvodi proces koji ostaje aktivan jer osluškuje HTTP zahteve.\n\n`npm install` ne pokreće server; instalira pakete. `npm start` pokreće skriptu koja je upisana u `package.json`.",
+          "kljucnaIdeja": "npm install ne pokreće server. ES modul deli kod, a node:http dolazi uz Node.js.",
+          "blokovi": [
             {
-              "key": "A",
-              "text": "JavaScript objekat koji browser automatski razume.",
-              "why": "Mrežom idu bajtovi teksta. Server ne šalje JavaScript objekat preko mreže, već JSON tekst.",
-              "ok": false
+              "id": "k602b1",
+              "vrsta": "tekst",
+              "tekst": "**Problem:** Kako organizovati kod kada program koristi više datoteka i biblioteke koje nismo sami napisali?\n\nNode.js može da pokrene datoteku naredbom `node ime-fajla.js`. **Moduli** omogućavaju razdvajanje koda i kontrolu toga šta je iz jedne datoteke dostupno drugim datotekama. U kursu koristimo standardne JavaScript **ES module** (`import` i `export`).\n\nDatoteka `package.json` sadrži metapodatke o projektu, skripte i deklarisane zavisnosti. **npm** je alat za rad sa paketima i zavisnostima; **Node.js** je okruženje koje izvršava aplikaciju. Ugrađeni moduli poput `node:http` ne zahtevaju instalaciju."
             },
             {
-              "key": "B",
-              "text": "JSON tekst i zaglavlje koje opisuje medijski tip.",
-              "why": "JSON.stringify i Content-Type opisuju telo. Server ne šalje JavaScript objekat preko mreže, već JSON tekst.",
-              "ok": true
+              "id": "k602b2",
+              "vrsta": "kod",
+              "naslov": "Projekat",
+              "jezik": "text",
+              "tekst": "mkdir moj-api\ncd moj-api\nnpm init -y\nnpm pkg set type=module\nnpm pkg set scripts.start=\"node server.js\"\nnode --version"
             },
             {
-              "key": "C",
-              "text": "Referencu na objekat u memoriji servera.",
-              "why": "Preko mreže ne ide referenca ni deljeni objekat. Mrežom idu bajtovi teksta.",
-              "ok": false
+              "id": "k602b3",
+              "vrsta": "kod",
+              "naslov": "poruke.js",
+              "jezik": "javascript",
+              "tekst": "export function pozdrav(ime) {\n  return `Zdravo, ${ime}`;\n}"
+            },
+            {
+              "id": "k602b4",
+              "vrsta": "kod",
+              "naslov": "server.js",
+              "jezik": "javascript",
+              "tekst": "import { pozdrav } from './poruke.js';\nconsole.log(pozdrav('Ana'));"
+            },
+            {
+              "id": "k602b5",
+              "vrsta": "tekst",
+              "tekst": "Pokretanje je `npm start`. U ovoj fazi program samo ispiše poruku i završava se. Naredni korak uvodi proces koji ostaje aktivan jer osluškuje HTTP zahteve.\n\n`npm install` ne pokreće server; instalira pakete. `npm start` pokreće skriptu koja je upisana u `package.json`."
+            },
+            {
+              "id": "k602b6",
+              "vrsta": "highlight",
+              "uloga": "kljucna",
+              "tekst": "npm install ne pokreće server. ES modul deli kod, a node:http dolazi uz Node.js."
             }
           ],
-          "analizaPitalice": "JSON.stringify i Content-Type opisuju telo. Klijent tek posle čitanja i parse-a gradi vrednost u memoriji.",
-          "proveraPitalice": "predvidi-pa-proveri",
-          "pitalice": [
+          "diskusija": [
             {
-              "pitalica": "Šta handler stvarno šalje preko mreže?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "JavaScript objekat koji browser automatski razume.",
-                  "why": "Mrežom idu bajtovi teksta. Server ne šalje JavaScript objekat preko mreže, već JSON tekst.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "JSON tekst i zaglavlje koje opisuje medijski tip.",
-                  "why": "JSON.stringify i Content-Type opisuju telo. Server ne šalje JavaScript objekat preko mreže, već JSON tekst.",
-                  "ok": true
-                },
-                {
-                  "key": "C",
-                  "text": "Referencu na objekat u memoriji servera.",
-                  "why": "Preko mreže ne ide referenca ni deljeni objekat. Mrežom idu bajtovi teksta.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "JSON.stringify i Content-Type opisuju telo. Klijent tek posle čitanja i parse-a gradi vrednost u memoriji."
+              "id": "k602q1",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "2.1. [OBAVEZNO] Imamo tri datoteke i dve biblioteke drugih autora. Kako organizovati projekat i deliti funkcije?",
+              "odgovor": "Moduli sa export i import; package.json i npm za upravljanje paketima i skriptama. node:http dolazi sa Node.js-om i ne instalira se."
             },
             {
-              "pitalica": "Zašto handler ne pošalje objekat iz memorije?",
-              "opcije": [
-                {
-                  "key": "B",
-                  "text": "Zato što zaglavlje zamenjuje telo, pa se JSON ne šalje.",
-                  "why": "Zaglavlje opisuje telo. Ne stoji umesto njega.",
-                  "ok": false
-                },
-                {
-                  "key": "A",
-                  "text": "Zato što preko mreže ide tekst i zaglavlje medijskog tipa, ne referenca.",
-                  "why": "application/json opisuje telo. Browser i dalje mora da ga protumači.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Ako student veruje da browser „dobije objekat”, preskočiće i parse i pogrešan medijski tip."
+              "id": "k602q2",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "2.2. [OBAVEZNO] Ako ukucamo npm install express, da li server sada radi?",
+              "odgovor": "Ne. Instalacija biblioteke nije pokretanje servera; server mora da bude napisan i pokrenut, na primer npm start."
+            },
+            {
+              "id": "k602q3",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "2.3. [REZERVA] Zašto u importu lokalnog modula navodimo relativnu putanju, a u importu node:http ne?",
+              "odgovor": "Prvi import upućuje na lokalnu datoteku, drugi na ugrađeni modul Node.js-a. Za instalirani paket koristi se ime paketa."
             }
-          ]
+          ],
+          "pitalice": [
+            {
+              "pitalica": "2.1. [OBAVEZNO] Imamo tri datoteke i dve biblioteke drugih autora. Kako organizovati projekat i deliti funkcije?",
+              "odgovor": "Moduli sa export i import; package.json i npm za upravljanje paketima i skriptama. node:http dolazi sa Node.js-om i ne instalira se."
+            },
+            {
+              "pitalica": "2.2. [OBAVEZNO] Ako ukucamo npm install express, da li server sada radi?",
+              "odgovor": "Ne. Instalacija biblioteke nije pokretanje servera; server mora da bude napisan i pokrenut, na primer npm start."
+            },
+            {
+              "pitalica": "2.3. [REZERVA] Zašto u importu lokalnog modula navodimo relativnu putanju, a u importu node:http ne?",
+              "odgovor": "Prvi import upućuje na lokalnu datoteku, drugi na ugrađeni modul Node.js-a. Za instalirani paket koristi se ime paketa."
+            }
+          ],
+          "putanja": "client/lekcije/35-moduli.js",
+          "isecakNaslov": "Projekat, moduli i npm",
+          "isecakJezik": "text",
+          "isecak": "npm start",
+          "delic": "// Projekat, moduli i npm\n// Kontrolna soba: paket i modul organizuju kod; proces sobe i dalje pokreće posebna komanda.\n\nexport function pozdrav(ime) {\n  return `Zdravo, ${ime}`;\n}\n\n// import { pozdrav } from './poruke.js';\n// console.log(pozdrav('Ana'));\n",
+          "original": "// Projekat, moduli i npm\n// Kontrolna soba: paket i modul organizuju kod; proces sobe i dalje pokreće posebna komanda.\n\nexport function pozdrav(ime) {\n  return `Zdravo, ${ime}`;\n}\n\n// import { pozdrav } from './poruke.js';\n// console.log(pozdrav('Ana'));\n",
+          "originalJezik": "javascript"
         },
         {
-          "naslov": "Bez Err",
+          "naslov": "Od programa do HTTP servera",
           "nivo": "Osnovno",
-          "minuta": 4,
-          "tipPrimer": "aplikacija",
-          "tekst": "Isečak ovog časa nema granu koja piše Err. Kada zahtev ne uspe, bez odgovarajuće grane displej ne prikazuje automatski 'Err'. Ako zadatak predviđa crtice do uspešnog čitanja, taj prikaz je odluka aplikacije, ne ugrađeno ponašanje fetch-a.",
-          "kljucnaIdeja": "Neuspeh na času 4 ostavlja crte. Dugme Pročitaj šalje jedno čitanje. Sledeći korak na klijentu više nije izvor temperature.",
-          "putanja": "server/soba.js",
-          "isecakNaslov": "Bez Err",
-          "isecakJezik": "javascript",
-          "isecak": "if (response.ok) displej.textContent = telo.temperatura;",
-          "delic": "if (response.ok) displej.textContent = telo.temperatura;",
-          "original": "if (response.ok) displej.textContent = String(telo.temperatura);",
-          "originalJezik": "javascript",
-          "pitalica": "Šta neuspeh uradi displeju?",
-          "opcije": [
+          "minuta": 7,
+          "tipPrimer": "eksperiment",
+          "tekst": "**Problem:** Kako program može da odgovori na zahtev koji stigne nakon njegovog pokretanja?\n\nServer treba da **osluškuje** mrežni port. Ugrađeni modul `node:http` omogućava da otvorimo HTTP server. Pozivna funkcija koju predajemo `createServer` biće izvršena pri obradi svakog primljenog HTTP zahteva. `req` opisuje zahtev, a `res` koristimo da sastavimo odgovor.\n\n`listen(3000)` započinje osluškivanje porta 3000. Proces ostaje aktivan dok server radi. `res.end()` završava HTTP odgovor; bez završetka odgovora klijent može nastaviti da čeka.\n\n`localhost` znači isti računar; broj iza dvotačke određuje port. Nema potrebe da otvaramo browser da bismo testirali HTTP server.\n\n**Klijent šalje zahtev → server dobija `req` → server formira `res` → klijent prima odgovor.** Server ne poziva browserovu funkciju za prikaz stranice; on šalje podatke u HTTP odgovoru.",
+          "kljucnaIdeja": "Klijent šalje zahtev, handler dobija req i res, res.end završava odgovor.",
+          "blokovi": [
             {
-              "key": "A",
-              "text": "Upiše Err.",
-              "why": "Tu grane još nema. Kada zahtev ne uspe, bez odgovarajuće grane displej ne prikazuje automatski 'Err'.",
-              "ok": false
+              "id": "k603b1",
+              "vrsta": "tekst",
+              "tekst": "**Problem:** Kako program može da odgovori na zahtev koji stigne nakon njegovog pokretanja?\n\nServer treba da **osluškuje** mrežni port. Ugrađeni modul `node:http` omogućava da otvorimo HTTP server. Pozivna funkcija koju predajemo `createServer` biće izvršena pri obradi svakog primljenog HTTP zahteva. `req` opisuje zahtev, a `res` koristimo da sastavimo odgovor.\n\n`listen(3000)` započinje osluškivanje porta 3000. Proces ostaje aktivan dok server radi. `res.end()` završava HTTP odgovor; bez završetka odgovora klijent može nastaviti da čeka."
             },
             {
-              "key": "B",
-              "text": "Ostavi crte.",
-              "why": "Nema broja za neuspeh i nema reči Err. Kada zahtev ne uspe, bez odgovarajuće grane displej ne prikazuje automatski 'Err'. Ako zadatak predviđa crtice do uspešnog čitanja, taj prikaz je odluka aplikacije, ne ugrađeno ponašanje fetch-a.",
-              "ok": true
+              "id": "k603b2",
+              "vrsta": "kod",
+              "naslov": "Proba",
+              "jezik": "text",
+              "tekst": "curl -i http://localhost:3000"
+            },
+            {
+              "id": "k603b3",
+              "vrsta": "tekst",
+              "tekst": "`localhost` znači isti računar; broj iza dvotačke određuje port. Nema potrebe da otvaramo browser da bismo testirali HTTP server.\n\n**Klijent šalje zahtev → server dobija `req` → server formira `res` → klijent prima odgovor.** Server ne poziva browserovu funkciju za prikaz stranice; on šalje podatke u HTTP odgovoru."
+            },
+            {
+              "id": "k603b4",
+              "vrsta": "highlight",
+              "uloga": "kljucna",
+              "tekst": "Klijent šalje zahtev, handler dobija req i res, res.end završava odgovor."
             }
           ],
-          "analizaPitalice": "Kada zahtev ne uspe, bez odgovarajuće grane displej ne prikazuje automatski 'Err'. Ako zadatak predviđa crtice do uspešnog čitanja, taj prikaz je odluka aplikacije, ne ugrađeno ponašanje fetch-a.",
-          "proveraPitalice": "predvidi-pa-proveri",
-          "pitalice": [
+          "diskusija": [
             {
-              "pitalica": "Šta neuspeh uradi displeju?",
-              "opcije": [
-                {
-                  "key": "A",
-                  "text": "Upiše Err.",
-                  "why": "Tu grane još nema. Kada zahtev ne uspe, bez odgovarajuće grane displej ne prikazuje automatski 'Err'.",
-                  "ok": false
-                },
-                {
-                  "key": "B",
-                  "text": "Ostavi crte.",
-                  "why": "Nema broja za neuspeh i nema reči Err. Kada zahtev ne uspe, bez odgovarajuće grane displej ne prikazuje automatski 'Err'. Ako zadatak predviđa crtice do uspešnog čitanja, taj prikaz je odluka aplikacije, ne ugrađeno ponašanje fetch-a.",
-                  "ok": true
-                }
-              ],
-              "analizaPitalice": "Kada zahtev ne uspe, bez odgovarajuće grane displej ne prikazuje automatski 'Err'. Ako zadatak predviđa crtice do uspešnog čitanja, taj prikaz je odluka aplikacije, ne ugrađeno ponašanje fetch-a."
+              "id": "k603q1",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "3.1. [OBAVEZNO] Klijent će poslati zahtev za 20 sekundi. Šta naš program mora da radi do tada?",
+              "odgovor": "Da ostane aktivan i osluškuje odgovarajući port. Server reaguje na zahteve kada stignu; nije potrebno unapred pozvati handler za svaki zahtev."
             },
             {
-              "pitalica": "Zašto neuspeh na ovom času ostavlja crte, a ne reč Err?",
-              "opcije": [
-                {
-                  "key": "B",
-                  "text": "Zato što crte znače da čitanje nema broj za upis, a Err je kasnija grana prikaza.",
-                  "why": "Displej još ne razlikuje vrste neuspeha slovima. Sledeći korak na klijentu više nije izvor temperature.",
-                  "ok": true
-                },
-                {
-                  "key": "A",
-                  "text": "Zato što crte znače da je server vratio temperaturu 0.",
-                  "why": "Crte nisu cifra. Nisu ni nula ni Err.",
-                  "ok": false
-                }
-              ],
-              "analizaPitalice": "Crte postoje da prazan prikaz ne izgleda kao uspeh. Ko upiše Err ovde, uvodi stanje koje čas još nije odvojio."
+              "id": "k603q2",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "3.2. [OBAVEZNO] Zašto createServer dobija funkciju sa req i res, i ko je poziva?",
+              "odgovor": "Node-ov HTTP server je poziva pri obradi svakog primljenog zahteva. req je zahtev, res je odgovor koji server gradi."
+            },
+            {
+              "id": "k603q3",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "3.3. [REZERVA] Šta se dešava ako handler napiše res.write('OK'), ali nikad ne pozove res.end()?",
+              "odgovor": "Odgovor nije označen kao završen; klijent može ostati da čeka. To je greška u obradi odgovora, ne problem browsera."
             }
-          ]
+          ],
+          "pitalice": [
+            {
+              "pitalica": "3.1. [OBAVEZNO] Klijent će poslati zahtev za 20 sekundi. Šta naš program mora da radi do tada?",
+              "odgovor": "Da ostane aktivan i osluškuje odgovarajući port. Server reaguje na zahteve kada stignu; nije potrebno unapred pozvati handler za svaki zahtev."
+            },
+            {
+              "pitalica": "3.2. [OBAVEZNO] Zašto createServer dobija funkciju sa req i res, i ko je poziva?",
+              "odgovor": "Node-ov HTTP server je poziva pri obradi svakog primljenog zahteva. req je zahtev, res je odgovor koji server gradi."
+            },
+            {
+              "pitalica": "3.3. [REZERVA] Šta se dešava ako handler napiše res.write('OK'), ali nikad ne pozove res.end()?",
+              "odgovor": "Odgovor nije označen kao završen; klijent može ostati da čeka. To je greška u obradi odgovora, ne problem browsera."
+            }
+          ],
+          "putanja": "client/lekcije/36-http-server.js",
+          "isecakNaslov": "Od programa do HTTP servera",
+          "isecakJezik": "javascript",
+          "isecak": "import http from 'node:http';\n\nconst server = http.createServer((req, res) => {\n  res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });\n  res.end('Zdravo sa servera');\n});\n\nserver.listen(3000, () => {\n  console.log('Server: http://localhost:3000');\n});",
+          "delic": "// Od programa do HTTP servera\n// Kontrolna soba: server šalje HTTP odgovor; browser tek posle toga menja prikaz.\n\nimport http from 'node:http';\n\nconst server = http.createServer((req, res) => {\n  res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });\n  res.end('Zdravo sa servera');\n});\n\nserver.listen(3000, () => {\n  console.log('Server: http://localhost:3000');\n});\n",
+          "original": "// Od programa do HTTP servera\n// Kontrolna soba: server šalje HTTP odgovor; browser tek posle toga menja prikaz.\n\nimport http from 'node:http';\n\nconst server = http.createServer((req, res) => {\n  res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });\n  res.end('Zdravo sa servera');\n});\n\nserver.listen(3000, () => {\n  console.log('Server: http://localhost:3000');\n});\n",
+          "originalJezik": "javascript"
+        },
+        {
+          "naslov": "Anatomija HTTP zahteva i odgovora",
+          "nivo": "Osnovno",
+          "minuta": 6,
+          "tipPrimer": "eksperiment",
+          "tekst": "**Problem:** Ako isti server pruža različite informacije, kako klijent kaže šta traži i kako server označava rezultat?\n\nHTTP zahtev sadrži **metodu** (`GET`, `POST`, `PUT`, `DELETE`...), **cilj zahteva** (putanju i eventualne parametre upita), **zaglavlja** i, po potrebi, **telo**. Odgovor sadrži **statusni kod**, zaglavlja i eventualno telo. Port je deo mrežnog odredišta, a ne HTTP metoda.\n\nU Node.js-u `req.method` predstavlja metodu, `req.url` sadrži cilj zahteva (obično putanju i query string), a `req.headers` zaglavlja. `req.url` ne treba poistovećivati sa punom adresom; za izdvajanje putanje i parametara koristimo `URL`.\n\nZa zahtev `GET /uredjaji?tip=senzor` putanja je `/uredjaji`, a `tip=senzor` je parametar upita. Parametar upita nije isto što i telo zahteva.\n\n**Status 200** označava uspeh; **404** da traženi resurs nije pronađen; **500** da je server naišao na neočekivanu grešku. Ne treba vraćati 200 za svaki ishod samo zato što se program uspešno izvršio.",
+          "kljucnaIdeja": "Metoda kaže nameru, putanja resurs, upit filter, status ishod. 200 nije znak da programa nema.",
+          "blokovi": [
+            {
+              "id": "k604b1",
+              "vrsta": "tekst",
+              "tekst": "**Problem:** Ako isti server pruža različite informacije, kako klijent kaže šta traži i kako server označava rezultat?\n\nHTTP zahtev sadrži **metodu** (`GET`, `POST`, `PUT`, `DELETE`...), **cilj zahteva** (putanju i eventualne parametre upita), **zaglavlja** i, po potrebi, **telo**. Odgovor sadrži **statusni kod**, zaglavlja i eventualno telo. Port je deo mrežnog odredišta, a ne HTTP metoda.\n\nU Node.js-u `req.method` predstavlja metodu, `req.url` sadrži cilj zahteva (obično putanju i query string), a `req.headers` zaglavlja. `req.url` ne treba poistovećivati sa punom adresom; za izdvajanje putanje i parametara koristimo `URL`."
+            },
+            {
+              "id": "k604b2",
+              "vrsta": "tekst",
+              "tekst": "Za zahtev `GET /uredjaji?tip=senzor` putanja je `/uredjaji`, a `tip=senzor` je parametar upita. Parametar upita nije isto što i telo zahteva.\n\n**Status 200** označava uspeh; **404** da traženi resurs nije pronađen; **500** da je server naišao na neočekivanu grešku. Ne treba vraćati 200 za svaki ishod samo zato što se program uspešno izvršio."
+            },
+            {
+              "id": "k604b3",
+              "vrsta": "highlight",
+              "uloga": "kljucna",
+              "tekst": "Metoda kaže nameru, putanja resurs, upit filter, status ishod. 200 nije znak da programa nema."
+            }
+          ],
+          "diskusija": [
+            {
+              "id": "k604q1",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "4.1. [OBAVEZNO] Imamo GET /uredjaji?tip=senzor. Koja informacija kaže šta želimo da uradimo, koja nad čim, a koja sa kojim filterom?",
+              "odgovor": "Metoda GET, putanja /uredjaji, parametar upita tip=senzor. Nisu isto putanja i puni URL."
+            },
+            {
+              "id": "k604q2",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "4.2. [OBAVEZNO] Server izvrši kod bez izuzetka, ali uređaj nije pronađen. Da li je ispravno vratiti 200 sa tekstom Greška?",
+              "odgovor": "Ne. HTTP status treba da iskaže ishod zahteva. Tipično 404, uz jasno telo odgovora. Status nije samo to da li se program srušio."
+            },
+            {
+              "id": "k604q3",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "4.3. [REZERVA] Da li server mora da vrati HTML?",
+              "odgovor": "Ne. Može vratiti JSON, tekst, sliku, datoteku ili odgovor bez tela. Zaglavlje Content-Type opisuje medijski tip tela."
+            }
+          ],
+          "pitalice": [
+            {
+              "pitalica": "4.1. [OBAVEZNO] Imamo GET /uredjaji?tip=senzor. Koja informacija kaže šta želimo da uradimo, koja nad čim, a koja sa kojim filterom?",
+              "odgovor": "Metoda GET, putanja /uredjaji, parametar upita tip=senzor. Nisu isto putanja i puni URL."
+            },
+            {
+              "pitalica": "4.2. [OBAVEZNO] Server izvrši kod bez izuzetka, ali uređaj nije pronađen. Da li je ispravno vratiti 200 sa tekstom Greška?",
+              "odgovor": "Ne. HTTP status treba da iskaže ishod zahteva. Tipično 404, uz jasno telo odgovora. Status nije samo to da li se program srušio."
+            },
+            {
+              "pitalica": "4.3. [REZERVA] Da li server mora da vrati HTML?",
+              "odgovor": "Ne. Može vratiti JSON, tekst, sliku, datoteku ili odgovor bez tela. Zaglavlje Content-Type opisuje medijski tip tela."
+            }
+          ],
+          "putanja": "client/lekcije/37-zahtev.js",
+          "isecakNaslov": "Anatomija HTTP zahteva i odgovora",
+          "isecakJezik": "text",
+          "isecak": "GET /uredjaji?tip=senzor HTTP/1.1",
+          "delic": "// Anatomija HTTP zahteva i odgovora\n// Kontrolna soba: status i telo opisuju ishod; prikaz sobe i dalje nastaje u browseru.\n\nconst url = new URL(req.url, 'http://localhost');\nconsole.log(req.method);\nconsole.log(url.pathname);\nconsole.log(url.searchParams.get('tip'));\n",
+          "original": "// Anatomija HTTP zahteva i odgovora\n// Kontrolna soba: status i telo opisuju ishod; prikaz sobe i dalje nastaje u browseru.\n\nconst url = new URL(req.url, 'http://localhost');\nconsole.log(req.method);\nconsole.log(url.pathname);\nconsole.log(url.searchParams.get('tip'));\n",
+          "originalJezik": "javascript"
+        },
+        {
+          "naslov": "Prva ruta bez frameworka",
+          "nivo": "Osnovno",
+          "minuta": 5,
+          "tipPrimer": "eksperiment",
+          "tekst": "**Problem:** Kako jedan server može da vrati različite odgovore za različite putanje?\n\n**Ruta** povezuje uslov nad zahtevom sa kodom koji će ga obraditi. Najmanje proveravamo metodu i putanju. Putanja sama po sebi nije dovoljna: `GET /uredjaji` i `POST /uredjaji` mogu predstavljati dve različite operacije.\n\n`return` sprečava da se posle uspešnog odgovora izvrši i grana za grešku. `JSON.stringify` pretvara JavaScript vrednost u JSON tekst. Samo postavljanje `Content-Type` zaglavlja **ne pretvara** objekat u JSON.",
+          "kljucnaIdeja": "Ruta je metoda i putanja. Posle res.end treba stati, a Content-Type ne pravi JSON.",
+          "blokovi": [
+            {
+              "id": "k605b1",
+              "vrsta": "tekst",
+              "tekst": "**Problem:** Kako jedan server može da vrati različite odgovore za različite putanje?\n\n**Ruta** povezuje uslov nad zahtevom sa kodom koji će ga obraditi. Najmanje proveravamo metodu i putanju. Putanja sama po sebi nije dovoljna: `GET /uredjaji` i `POST /uredjaji` mogu predstavljati dve različite operacije."
+            },
+            {
+              "id": "k605b2",
+              "vrsta": "tekst",
+              "tekst": "`return` sprečava da se posle uspešnog odgovora izvrši i grana za grešku. `JSON.stringify` pretvara JavaScript vrednost u JSON tekst. Samo postavljanje `Content-Type` zaglavlja **ne pretvara** objekat u JSON."
+            },
+            {
+              "id": "k605b3",
+              "vrsta": "highlight",
+              "uloga": "kljucna",
+              "tekst": "Ruta je metoda i putanja. Posle res.end treba stati, a Content-Type ne pravi JSON."
+            }
+          ],
+          "diskusija": [
+            {
+              "id": "k605q1",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "5.1. [OBAVEZNO] Da li su GET /uredjaji i POST /uredjaji ista ruta za našu aplikaciju?",
+              "odgovor": "Ista putanja, ali različite kombinacije metode i putanje; obično različiti handleri."
+            },
+            {
+              "id": "k605q2",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "5.2. [OBAVEZNO] Šta nije u redu ako, nakon uspešnog res.end, program nastavi i pozove res.end za 404?",
+              "odgovor": "Pokušava da pošalje odgovor pošto je već završen. Handler treba da prekine dalju obradu (return) ili da koristi odgovarajuću granajuću strukturu."
+            },
+            {
+              "id": "k605q3",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "5.3. [REZERVA] Ako postavimo Content-Type: application/json, možemo li res.end pozvati sa objektom?",
+              "odgovor": "Ne. Zaglavlje ne serijalizuje objekat; u standardnom Node HTTP kodu treba pripremiti JSON tekst, na primer JSON.stringify."
+            }
+          ],
+          "pitalice": [
+            {
+              "pitalica": "5.1. [OBAVEZNO] Da li su GET /uredjaji i POST /uredjaji ista ruta za našu aplikaciju?",
+              "odgovor": "Ista putanja, ali različite kombinacije metode i putanje; obično različiti handleri."
+            },
+            {
+              "pitalica": "5.2. [OBAVEZNO] Šta nije u redu ako, nakon uspešnog res.end, program nastavi i pozove res.end za 404?",
+              "odgovor": "Pokušava da pošalje odgovor pošto je već završen. Handler treba da prekine dalju obradu (return) ili da koristi odgovarajuću granajuću strukturu."
+            },
+            {
+              "pitalica": "5.3. [REZERVA] Ako postavimo Content-Type: application/json, možemo li res.end pozvati sa objektom?",
+              "odgovor": "Ne. Zaglavlje ne serijalizuje objekat; u standardnom Node HTTP kodu treba pripremiti JSON tekst, na primer JSON.stringify."
+            }
+          ],
+          "putanja": "client/lekcije/38-prva-ruta.js",
+          "isecakNaslov": "Prva ruta bez frameworka",
+          "isecakJezik": "javascript",
+          "isecak": "import http from 'node:http';\n\nhttp.createServer((req, res) => {\n  const { pathname } = new URL(req.url, 'http://localhost');\n  res.setHeader('Content-Type', 'application/json; charset=utf-8');\n\n  if (req.method === 'GET' && pathname === '/uredjaji') {\n    res.end(JSON.stringify([{ id: 1, naziv: 'Termometar' }]));\n    return;\n  }\n\n  res.writeHead(404);\n  res.end(JSON.stringify({ greska: 'Ruta nije pronađena' }));\n}).listen(3000);",
+          "delic": "// Prva ruta bez frameworka\n// Kontrolna soba: ruta bira odgovor; DOM stranice se ne menja iz handlera.\n\nimport http from 'node:http';\n\nhttp.createServer((req, res) => {\n  const { pathname } = new URL(req.url, 'http://localhost');\n  res.setHeader('Content-Type', 'application/json; charset=utf-8');\n\n  if (req.method === 'GET' && pathname === '/uredjaji') {\n    res.end(JSON.stringify([{ id: 1, naziv: 'Termometar' }]));\n    return;\n  }\n\n  res.writeHead(404);\n  res.end(JSON.stringify({ greska: 'Ruta nije pronađena' }));\n}).listen(3000);\n",
+          "original": "// Prva ruta bez frameworka\n// Kontrolna soba: ruta bira odgovor; DOM stranice se ne menja iz handlera.\n\nimport http from 'node:http';\n\nhttp.createServer((req, res) => {\n  const { pathname } = new URL(req.url, 'http://localhost');\n  res.setHeader('Content-Type', 'application/json; charset=utf-8');\n\n  if (req.method === 'GET' && pathname === '/uredjaji') {\n    res.end(JSON.stringify([{ id: 1, naziv: 'Termometar' }]));\n    return;\n  }\n\n  res.writeHead(404);\n  res.end(JSON.stringify({ greska: 'Ruta nije pronađena' }));\n}).listen(3000);\n",
+          "originalJezik": "javascript"
+        },
+        {
+          "naslov": "Više ruta, parametri i složenost",
+          "nivo": "Osnovno",
+          "minuta": 6,
+          "tipPrimer": "eksperiment",
+          "tekst": "**Problem:** Kako obraditi `/uredjaji/7`, `/uredjaji/8` i stotine sličnih URL-ova bez posebnog `if` uslova za svaki?\n\nDelovi putanje mogu imati **promenljive vrednosti**. `/uredjaji/:id` je obrazac, dok je `/uredjaji/7` konkretan URL. Bez frameworka, obrazac možemo prepoznati, na primer, regularnim izrazom. Zatim moramo da proverimo tip identifikatora, potražimo podatak i odgovorimo odgovarajućim statusom.\n\nZamislimo zatim nove rute, validaciju, različite formate tela zahteva, autentifikaciju i obradu grešaka. Ručno rutiranje i zajednička logika se prepliću, a svaka nova funkcionalnost povećava rizik od ponavljanja i grešaka.\n\nProblem nije što se HTTP server ne može napraviti bez frameworka. Problem je kako ga održavati kada se broj zahteva i pravila poveća.",
+          "kljucnaIdeja": "Parametar putanje izdvaja id. Ručni if za svaku rutu teško se održava.",
+          "blokovi": [
+            {
+              "id": "k606b1",
+              "vrsta": "tekst",
+              "tekst": "**Problem:** Kako obraditi `/uredjaji/7`, `/uredjaji/8` i stotine sličnih URL-ova bez posebnog `if` uslova za svaki?\n\nDelovi putanje mogu imati **promenljive vrednosti**. `/uredjaji/:id` je obrazac, dok je `/uredjaji/7` konkretan URL. Bez frameworka, obrazac možemo prepoznati, na primer, regularnim izrazom. Zatim moramo da proverimo tip identifikatora, potražimo podatak i odgovorimo odgovarajućim statusom."
+            },
+            {
+              "id": "k606b2",
+              "vrsta": "tekst",
+              "tekst": "Zamislimo zatim nove rute, validaciju, različite formate tela zahteva, autentifikaciju i obradu grešaka. Ručno rutiranje i zajednička logika se prepliću, a svaka nova funkcionalnost povećava rizik od ponavljanja i grešaka.\n\nProblem nije što se HTTP server ne može napraviti bez frameworka. Problem je kako ga održavati kada se broj zahteva i pravila poveća."
+            },
+            {
+              "id": "k606b3",
+              "vrsta": "highlight",
+              "uloga": "kljucna",
+              "tekst": "Parametar putanje izdvaja id. Ručni if za svaku rutu teško se održava."
+            }
+          ],
+          "diskusija": [
+            {
+              "id": "k606q1",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "6.1. [OBAVEZNO] Kako biste bez frameworka podržali /uredjaji/1, /uredjaji/2 i proizvoljan numerički ID?",
+              "odgovor": "Prepoznati obrazac putanje, izdvojiti ID, proveriti njegov oblik, pa potražiti resurs. Jedno if pravilo po uređaju nije rešenje."
+            },
+            {
+              "id": "k606q2",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "6.2. [OBAVEZNO] Kada aplikacija dobije 50 ruta, koje greške očekujete od velikog lanca if/else grana?",
+              "odgovor": "Dupliranje, loša preglednost, pogrešan redosled, teško testiranje, neujednačeni odgovori. Prepoznavanje rute treba razdvojiti od same obrade."
+            },
+            {
+              "id": "k606q3",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "6.3. [REZERVA] Ako nema uređaja 10, da li je to problem sintakse putanje ili nepostojanje resursa?",
+              "odgovor": "Putanja sa numeričkim ID-om je ispravna, ali resurs ne postoji: 404. Neispravan oblik ID-a u ovom API-ju obrađujemo kao 400."
+            }
+          ],
+          "pitalice": [
+            {
+              "pitalica": "6.1. [OBAVEZNO] Kako biste bez frameworka podržali /uredjaji/1, /uredjaji/2 i proizvoljan numerički ID?",
+              "odgovor": "Prepoznati obrazac putanje, izdvojiti ID, proveriti njegov oblik, pa potražiti resurs. Jedno if pravilo po uređaju nije rešenje."
+            },
+            {
+              "pitalica": "6.2. [OBAVEZNO] Kada aplikacija dobije 50 ruta, koje greške očekujete od velikog lanca if/else grana?",
+              "odgovor": "Dupliranje, loša preglednost, pogrešan redosled, teško testiranje, neujednačeni odgovori. Prepoznavanje rute treba razdvojiti od same obrade."
+            },
+            {
+              "pitalica": "6.3. [REZERVA] Ako nema uređaja 10, da li je to problem sintakse putanje ili nepostojanje resursa?",
+              "odgovor": "Putanja sa numeričkim ID-om je ispravna, ali resurs ne postoji: 404. Neispravan oblik ID-a u ovom API-ju obrađujemo kao 400."
+            }
+          ],
+          "putanja": "client/lekcije/39-parametri.js",
+          "isecakNaslov": "Više ruta, parametri i složenost",
+          "isecakJezik": "javascript",
+          "isecak": "const putanja = new URL(req.url, 'http://localhost').pathname;\nconst poklapanje = /^\\/uredjaji\\/(\\d+)$/.exec(putanja);\n\nif (req.method === 'GET' && poklapanje) {\n  const id = Number(poklapanje[1]);\n}",
+          "delic": "// Više ruta, parametri i složenost\n// Kontrolna soba: jedan obrazac putanje pokriva sve uređaje, umesto posebnog if za svaki.\n\nconst putanja = new URL(req.url, 'http://localhost').pathname;\nconst poklapanje = /^\\/uredjaji\\/(\\d+)$/.exec(putanja);\n\nif (req.method === 'GET' && poklapanje) {\n  const id = Number(poklapanje[1]);\n}\n",
+          "original": "// Više ruta, parametri i složenost\n// Kontrolna soba: jedan obrazac putanje pokriva sve uređaje, umesto posebnog if za svaki.\n\nconst putanja = new URL(req.url, 'http://localhost').pathname;\nconst poklapanje = /^\\/uredjaji\\/(\\d+)$/.exec(putanja);\n\nif (req.method === 'GET' && poklapanje) {\n  const id = Number(poklapanje[1]);\n}\n",
+          "originalJezik": "javascript"
+        },
+        {
+          "naslov": "JSON ulazni podaci i POST zahtev",
+          "nivo": "Osnovno",
+          "minuta": 5,
+          "tipPrimer": "eksperiment",
+          "tekst": "**Problem:** Kod `POST /uredjaji`, gde se nalaze podaci za novi uređaj i kako ih server čita?\n\nPodaci o novom resursu obično stižu u **telu HTTP zahteva**. Ugrađeni Node.js HTTP modul pruža telo kao tok podataka, a ne automatski parsiran JavaScript objekat. Moramo sakupiti pristigle delove, dekodirati ih i parsirati JSON. U realnim aplikacijama neophodno je i ograničiti veličinu tela i obraditi neispravan format.\n\nPrimer je konceptualna demonstracija, ne produkcioni parser.\n\nPrimer je namerno nepotpun: treba dodati limit veličine i slanje uspešnog odgovora, a kod grešaka prekinuti dalju obradu. Kompletan parser nećemo pisati u kursu; cilj je da razumemo posao koji biblioteka preuzima.\n\n**Parsiranje** odgovara na pitanje da li je ovo ispravan JSON. **Validacija** odgovara na pitanje da li su dobijeni podaci dozvoljeni i smisleni za našu aplikaciju.",
+          "kljucnaIdeja": "Parsiranje pita da li je JSON ispravan. Validacija pita da li su podaci dozvoljeni.",
+          "blokovi": [
+            {
+              "id": "k607b1",
+              "vrsta": "tekst",
+              "tekst": "**Problem:** Kod `POST /uredjaji`, gde se nalaze podaci za novi uređaj i kako ih server čita?\n\nPodaci o novom resursu obično stižu u **telu HTTP zahteva**. Ugrađeni Node.js HTTP modul pruža telo kao tok podataka, a ne automatski parsiran JavaScript objekat. Moramo sakupiti pristigle delove, dekodirati ih i parsirati JSON. U realnim aplikacijama neophodno je i ograničiti veličinu tela i obraditi neispravan format.\n\nPrimer je konceptualna demonstracija, ne produkcioni parser."
+            },
+            {
+              "id": "k607b2",
+              "vrsta": "tekst",
+              "tekst": "Primer je namerno nepotpun: treba dodati limit veličine i slanje uspešnog odgovora, a kod grešaka prekinuti dalju obradu. Kompletan parser nećemo pisati u kursu; cilj je da razumemo posao koji biblioteka preuzima.\n\n**Parsiranje** odgovara na pitanje da li je ovo ispravan JSON. **Validacija** odgovara na pitanje da li su dobijeni podaci dozvoljeni i smisleni za našu aplikaciju."
+            },
+            {
+              "id": "k607b3",
+              "vrsta": "highlight",
+              "uloga": "kljucna",
+              "tekst": "Parsiranje pita da li je JSON ispravan. Validacija pita da li su podaci dozvoljeni."
+            }
+          ],
+          "diskusija": [
+            {
+              "id": "k607q1",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "7.1. [OBAVEZNO] Gde biste poslali podatke za kreiranje uređaja: u putanji, query stringu ili telu POST zahteva? Zašto?",
+              "odgovor": "Tipično u telu. Putanja identifikuje kolekciju, a telo opisuje podatke koje šaljemo. Uloga različitih delova zahteva je različita."
+            },
+            {
+              "id": "k607q2",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "7.2. [OBAVEZNO] Ako server uspešno parsira objekat u kome je naziv broj, znači li to da zahtev zadovoljava pravila aplikacije?",
+              "odgovor": "Ne. To je ispravan JSON, ali poslovno možda nevažeći, jer naziv treba da bude neprazan string. Razlikovati parsiranje od validacije."
+            },
+            {
+              "id": "k607q3",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "7.3. [REZERVA] Zašto je čitanje tela u ugrađenom HTTP serveru složenije od čitanja req.body u Express-u?",
+              "odgovor": "U osnovnom Node API-ju telo je tok bajtova; treba ga sakupiti, parsirati, ograničiti veličinu i obraditi greške. Express pruža gotov middleware za JSON format."
+            }
+          ],
+          "pitalice": [
+            {
+              "pitalica": "7.1. [OBAVEZNO] Gde biste poslali podatke za kreiranje uređaja: u putanji, query stringu ili telu POST zahteva? Zašto?",
+              "odgovor": "Tipično u telu. Putanja identifikuje kolekciju, a telo opisuje podatke koje šaljemo. Uloga različitih delova zahteva je različita."
+            },
+            {
+              "pitalica": "7.2. [OBAVEZNO] Ako server uspešno parsira objekat u kome je naziv broj, znači li to da zahtev zadovoljava pravila aplikacije?",
+              "odgovor": "Ne. To je ispravan JSON, ali poslovno možda nevažeći, jer naziv treba da bude neprazan string. Razlikovati parsiranje od validacije."
+            },
+            {
+              "pitalica": "7.3. [REZERVA] Zašto je čitanje tela u ugrađenom HTTP serveru složenije od čitanja req.body u Express-u?",
+              "odgovor": "U osnovnom Node API-ju telo je tok bajtova; treba ga sakupiti, parsirati, ograničiti veličinu i obraditi greške. Express pruža gotov middleware za JSON format."
+            }
+          ],
+          "putanja": "client/lekcije/40-post-json.js",
+          "isecakNaslov": "JSON ulazni podaci i POST zahtev",
+          "isecakJezik": "javascript",
+          "isecak": "async function procitajTelo(req, res) {\n  const delovi = [];\n  for await (const deo of req) {\n    delovi.push(deo);\n  }\n\n  try {\n    const uredjaj = JSON.parse(Buffer.concat(delovi).toString('utf8'));\n    console.log(uredjaj.naziv);\n  } catch {\n    res.writeHead(400, { 'Content-Type': 'application/json' });\n    res.end(JSON.stringify({ greska: 'Neispravan JSON' }));\n  }\n}",
+          "delic": "// JSON ulazni podaci i POST zahtev\n// Kontrolna soba: telo zahteva je tekst; pravila sobe proveravaju smisao, ne samo sintaksu.\n\nasync function procitajTelo(req, res) {\n  const delovi = [];\n  for await (const deo of req) {\n    delovi.push(deo);\n  }\n\n  try {\n    const uredjaj = JSON.parse(Buffer.concat(delovi).toString('utf8'));\n    console.log(uredjaj.naziv);\n  } catch {\n    res.writeHead(400, { 'Content-Type': 'application/json' });\n    res.end(JSON.stringify({ greska: 'Neispravan JSON' }));\n  }\n}\n",
+          "original": "// JSON ulazni podaci i POST zahtev\n// Kontrolna soba: telo zahteva je tekst; pravila sobe proveravaju smisao, ne samo sintaksu.\n\nasync function procitajTelo(req, res) {\n  const delovi = [];\n  for await (const deo of req) {\n    delovi.push(deo);\n  }\n\n  try {\n    const uredjaj = JSON.parse(Buffer.concat(delovi).toString('utf8'));\n    console.log(uredjaj.naziv);\n  } catch {\n    res.writeHead(400, { 'Content-Type': 'application/json' });\n    res.end(JSON.stringify({ greska: 'Neispravan JSON' }));\n  }\n}\n",
+          "originalJezik": "javascript"
+        },
+        {
+          "naslov": "Projektovanje jednostavnijeg servera",
+          "nivo": "Osnovno",
+          "minuta": 7,
+          "tipPrimer": "eksperiment",
+          "tekst": "**Problem:** Kako bismo dizajnirali mali alat da ne pišemo iznova prepoznavanje putanja, izdvajanje parametara i obradu zajedničkih poslova?\n\nIzdvojimo tri odgovornosti. **Ruter** pronalazi funkciju zaduženu za traženu kombinaciju metode i putanje. **Handler** sprovodi jednu operaciju i formira odgovor. **Zajednička obrada** izvršava poslove koji nisu specifični za pojedinačnu rutu, poput logovanja i parsiranja JSON-a.\n\nPrvo predlažemo interfejs sopstvenog rutera: šta bi trebalo da znači `get('/uredjaji/:id', funkcija)`? Kako bi handler dobio `id`? Kako bi se uključila zajednička obrada? Tek posle ove diskusije otkriva se postojeće rešenje.\n\nOvo **nije** kod za standardni `http.Server`, nego skica interfejsa koji bismo želeli. Express u velikoj meri nudi upravo takve mogućnosti.",
+          "kljucnaIdeja": "Ruter, handler i middleware su tri odgovornosti. Skica nije http.Server.",
+          "blokovi": [
+            {
+              "id": "k608b1",
+              "vrsta": "tekst",
+              "tekst": "**Problem:** Kako bismo dizajnirali mali alat da ne pišemo iznova prepoznavanje putanja, izdvajanje parametara i obradu zajedničkih poslova?\n\nIzdvojimo tri odgovornosti. **Ruter** pronalazi funkciju zaduženu za traženu kombinaciju metode i putanje. **Handler** sprovodi jednu operaciju i formira odgovor. **Zajednička obrada** izvršava poslove koji nisu specifični za pojedinačnu rutu, poput logovanja i parsiranja JSON-a.\n\nPrvo predlažemo interfejs sopstvenog rutera: šta bi trebalo da znači `get('/uredjaji/:id', funkcija)`? Kako bi handler dobio `id`? Kako bi se uključila zajednička obrada? Tek posle ove diskusije otkriva se postojeće rešenje."
+            },
+            {
+              "id": "k608b2",
+              "vrsta": "tekst",
+              "tekst": "Ovo **nije** kod za standardni `http.Server`, nego skica interfejsa koji bismo želeli. Express u velikoj meri nudi upravo takve mogućnosti."
+            },
+            {
+              "id": "k608b3",
+              "vrsta": "highlight",
+              "uloga": "kljucna",
+              "tekst": "Ruter, handler i middleware su tri odgovornosti. Skica nije http.Server."
+            }
+          ],
+          "diskusija": [
+            {
+              "id": "k608q1",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "8.1. [OBAVEZNO] Osmislite interfejs koji bi zamenio ručni if za svaku metodu i putanju. Kako bi izgledala registracija handlera?",
+              "odgovor": "Nešto poput get('/uredjaji/:id', pronadji) ili register('GET', obrazac, funkcija). Nije bitno pogoditi Express sintaksu; važno je identifikovati odgovornosti rutera."
+            },
+            {
+              "id": "k608q2",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "8.2. [OBAVEZNO] Trideset ruta mora da zabeleži metodu i URL. Da li biste kopirali console.log trideset puta ili ga izdvojili? Kako se izvršavanje vraća ruti?",
+              "odgovor": "Izdvojiti zajednički korak u lancu obrade. Nakon logovanja proslediti kontrolu sledećem koraku. To je motivacija za middleware."
+            },
+            {
+              "id": "k608q3",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "8.3. [REZERVA] Koja je cena sopstvenog rutera, čak i kada početna implementacija izgleda jednostavno?",
+              "odgovor": "Moramo sami da rešavamo parametre, konflikt ruta, greške, parser, kompatibilnost i testiranje. Biblioteka umanjuje taj infrastrukturni trošak, ali uvodi zavisnost i apstrakciju."
+            }
+          ],
+          "pitalice": [
+            {
+              "pitalica": "8.1. [OBAVEZNO] Osmislite interfejs koji bi zamenio ručni if za svaku metodu i putanju. Kako bi izgledala registracija handlera?",
+              "odgovor": "Nešto poput get('/uredjaji/:id', pronadji) ili register('GET', obrazac, funkcija). Nije bitno pogoditi Express sintaksu; važno je identifikovati odgovornosti rutera."
+            },
+            {
+              "pitalica": "8.2. [OBAVEZNO] Trideset ruta mora da zabeleži metodu i URL. Da li biste kopirali console.log trideset puta ili ga izdvojili? Kako se izvršavanje vraća ruti?",
+              "odgovor": "Izdvojiti zajednički korak u lancu obrade. Nakon logovanja proslediti kontrolu sledećem koraku. To je motivacija za middleware."
+            },
+            {
+              "pitalica": "8.3. [REZERVA] Koja je cena sopstvenog rutera, čak i kada početna implementacija izgleda jednostavno?",
+              "odgovor": "Moramo sami da rešavamo parametre, konflikt ruta, greške, parser, kompatibilnost i testiranje. Biblioteka umanjuje taj infrastrukturni trošak, ali uvodi zavisnost i apstrakciju."
+            }
+          ],
+          "putanja": "client/lekcije/41-ruter.js",
+          "isecakNaslov": "Projektovanje jednostavnijeg servera",
+          "isecakJezik": "javascript",
+          "isecak": "const server = {\n  get(putanja, handler) {\n    return handler;\n  },\n  post(putanja, handler) {\n    return handler;\n  },\n  use(middleware) {\n    return middleware;\n  },\n};\n\nfunction listaUredjaja() {}\nfunction pronadjiUredjaj() {}\nfunction dodajUredjaj() {}\nfunction logujZahtev() {}\n\nserver.get('/uredjaji', listaUredjaja);\nserver.get('/uredjaji/:id', pronadjiUredjaj);\nserver.post('/uredjaji', dodajUredjaj);\nserver.use(logujZahtev);",
+          "delic": "// Projektovanje jednostavnijeg servera\n// Kontrolna soba: ruter bira operaciju, handler pravi odgovor, zajednička obrada važi za više ruta.\n\nconst server = {\n  get(putanja, handler) {\n    return handler;\n  },\n  post(putanja, handler) {\n    return handler;\n  },\n  use(middleware) {\n    return middleware;\n  },\n};\n\nfunction listaUredjaja() {}\nfunction pronadjiUredjaj() {}\nfunction dodajUredjaj() {}\nfunction logujZahtev() {}\n\nserver.get('/uredjaji', listaUredjaja);\nserver.get('/uredjaji/:id', pronadjiUredjaj);\nserver.post('/uredjaji', dodajUredjaj);\nserver.use(logujZahtev);\n",
+          "original": "// Projektovanje jednostavnijeg servera\n// Kontrolna soba: ruter bira operaciju, handler pravi odgovor, zajednička obrada važi za više ruta.\n\nconst server = {\n  get(putanja, handler) {\n    return handler;\n  },\n  post(putanja, handler) {\n    return handler;\n  },\n  use(middleware) {\n    return middleware;\n  },\n};\n\nfunction listaUredjaja() {}\nfunction pronadjiUredjaj() {}\nfunction dodajUredjaj() {}\nfunction logujZahtev() {}\n\nserver.get('/uredjaji', listaUredjaja);\nserver.get('/uredjaji/:id', pronadjiUredjaj);\nserver.post('/uredjaji', dodajUredjaj);\nserver.use(logujZahtev);\n",
+          "originalJezik": "javascript"
+        },
+        {
+          "naslov": "Uvođenje Express.js-a",
+          "nivo": "Osnovno",
+          "minuta": 7,
+          "tipPrimer": "eksperiment",
+          "tekst": "**Problem:** Možemo li koristiti provereno rešenje umesto održavanja sopstvenog rutera i pomoćnih funkcija?\n\n**Express je minimalistički Web framework za Node.js.** Pruža rutiranje, middleware mehanizam i praktične metode za HTTP zahteve i odgovore. Ne zamenjuje Node.js, HTTP, bazu niti poslovnu logiku.\n\n`req.params.id` je **string** (`'7'`), čak i kada u URL-u izgleda kao broj. `res.json` serijalizuje vrednost u JSON i šalje odgovor. U nastavku se koristi Express **5**, tako da važe pravila te verzije.\n\nStudenti su već upoznali problem. Biblioteka je njegov odgovor, a ne magičan skup metoda koje treba memorisati.",
+          "kljucnaIdeja": "Express je framework povrh Node.js-a. req.params.id je string.",
+          "blokovi": [
+            {
+              "id": "k609b1",
+              "vrsta": "tekst",
+              "tekst": "**Problem:** Možemo li koristiti provereno rešenje umesto održavanja sopstvenog rutera i pomoćnih funkcija?\n\n**Express je minimalistički Web framework za Node.js.** Pruža rutiranje, middleware mehanizam i praktične metode za HTTP zahteve i odgovore. Ne zamenjuje Node.js, HTTP, bazu niti poslovnu logiku."
+            },
+            {
+              "id": "k609b2",
+              "vrsta": "kod",
+              "naslov": "Instalacija",
+              "jezik": "text",
+              "tekst": "npm install express"
+            },
+            {
+              "id": "k609b3",
+              "vrsta": "tekst",
+              "tekst": "`req.params.id` je **string** (`'7'`), čak i kada u URL-u izgleda kao broj. `res.json` serijalizuje vrednost u JSON i šalje odgovor. U nastavku se koristi Express **5**, tako da važe pravila te verzije.\n\nStudenti su već upoznali problem. Biblioteka je njegov odgovor, a ne magičan skup metoda koje treba memorisati."
+            },
+            {
+              "id": "k609b4",
+              "vrsta": "highlight",
+              "uloga": "kljucna",
+              "tekst": "Express je framework povrh Node.js-a. req.params.id je string."
+            }
+          ],
+          "diskusija": [
+            {
+              "id": "k609q1",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "9.1. [OBAVEZNO] Šta Express zapravo dodaje: novi mrežni protokol, novu JS mašinu ili organizaciju HTTP obrade?",
+              "odgovor": "Organizaciju HTTP obrade kroz rute, middleware i pomoćne metode. Ispod ostaju Node.js i HTTP."
+            },
+            {
+              "id": "k609q2",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "9.2. [OBAVEZNO] Šta ispisuje typeof req.params.id za GET /uredjaji/7 u Express ruti /uredjaji/:id?",
+              "odgovor": "'string'. Parametri putanje su tekst; konverzija i validacija su posao aplikacije."
+            },
+            {
+              "id": "k609q3",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "9.3. [REZERVA] Ako Express olakšava kod, da li više ne moramo da razumemo HTTP?",
+              "odgovor": "Moramo. Express ne odlučuje koji status i koje podatke je smisleno vratiti, niti šta metoda semantički znači."
+            }
+          ],
+          "pitalice": [
+            {
+              "pitalica": "9.1. [OBAVEZNO] Šta Express zapravo dodaje: novi mrežni protokol, novu JS mašinu ili organizaciju HTTP obrade?",
+              "odgovor": "Organizaciju HTTP obrade kroz rute, middleware i pomoćne metode. Ispod ostaju Node.js i HTTP."
+            },
+            {
+              "pitalica": "9.2. [OBAVEZNO] Šta ispisuje typeof req.params.id za GET /uredjaji/7 u Express ruti /uredjaji/:id?",
+              "odgovor": "'string'. Parametri putanje su tekst; konverzija i validacija su posao aplikacije."
+            },
+            {
+              "pitalica": "9.3. [REZERVA] Ako Express olakšava kod, da li više ne moramo da razumemo HTTP?",
+              "odgovor": "Moramo. Express ne odlučuje koji status i koje podatke je smisleno vratiti, niti šta metoda semantički znači."
+            }
+          ],
+          "putanja": "client/lekcije/42-express.js",
+          "isecakNaslov": "Uvođenje Express.js-a",
+          "isecakJezik": "javascript",
+          "isecak": "import express from 'express';\n\nconst app = express();\n\napp.get('/uredjaji/:id', (req, res) => {\n  res.json({ id: req.params.id });\n});\n\napp.listen(3000);",
+          "delic": "// Uvođenje Express.js-a\n// Kontrolna soba: Express organizuje rute unutar Node procesa; prikaz i dalje pripada browseru.\n\nimport express from 'express';\n\nconst app = express();\n\napp.get('/uredjaji/:id', (req, res) => {\n  res.json({ id: req.params.id });\n});\n\napp.listen(3000);\n",
+          "original": "// Uvođenje Express.js-a\n// Kontrolna soba: Express organizuje rute unutar Node procesa; prikaz i dalje pripada browseru.\n\nimport express from 'express';\n\nconst app = express();\n\napp.get('/uredjaji/:id', (req, res) => {\n  res.json({ id: req.params.id });\n});\n\napp.listen(3000);\n",
+          "originalJezik": "javascript"
+        },
+        {
+          "naslov": "Middleware",
+          "nivo": "Osnovno",
+          "minuta": 7,
+          "tipPrimer": "eksperiment",
+          "tekst": "**Problem:** Ako svaka ruta treba da evidentira dolazni zahtev i parsira JSON, zašto kopirati isti kod u svaku funkciju?\n\n**Middleware** je funkcija koja učestvuje u obradi zahteva. Može da izmeni zahtev, pošalje odgovor ili prepusti kontrolu sledećem koraku pozivom `next()`. Redosled registracije middleware-a je bitan. Ako ne pošalje odgovor **niti** pozove `next()`, zahtev može ostati bez završenog odgovora.\n\n`express.json()` parsira odgovarajuće JSON telo i postavlja `req.body`. Ako telo izostaje ili tip zahteva ne odgovara parseru, `req.body` može biti `undefined`. Koristimo validaciju pre pristupa poljima.\n\nMiddleware nije isto što i jedna ruta. Može da važi za više ruta, za određeni podskup putanja ili samo za jednu rutu.",
+          "kljucnaIdeja": "Middleware šalje odgovor ili zove next. express.json ide pre handlera koji čita req.body.",
+          "blokovi": [
+            {
+              "id": "k610b1",
+              "vrsta": "tekst",
+              "tekst": "**Problem:** Ako svaka ruta treba da evidentira dolazni zahtev i parsira JSON, zašto kopirati isti kod u svaku funkciju?\n\n**Middleware** je funkcija koja učestvuje u obradi zahteva. Može da izmeni zahtev, pošalje odgovor ili prepusti kontrolu sledećem koraku pozivom `next()`. Redosled registracije middleware-a je bitan. Ako ne pošalje odgovor **niti** pozove `next()`, zahtev može ostati bez završenog odgovora."
+            },
+            {
+              "id": "k610b2",
+              "vrsta": "tekst",
+              "tekst": "`express.json()` parsira odgovarajuće JSON telo i postavlja `req.body`. Ako telo izostaje ili tip zahteva ne odgovara parseru, `req.body` može biti `undefined`. Koristimo validaciju pre pristupa poljima.\n\nMiddleware nije isto što i jedna ruta. Može da važi za više ruta, za određeni podskup putanja ili samo za jednu rutu."
+            },
+            {
+              "id": "k610b3",
+              "vrsta": "highlight",
+              "uloga": "kljucna",
+              "tekst": "Middleware šalje odgovor ili zove next. express.json ide pre handlera koji čita req.body."
+            }
+          ],
+          "diskusija": [
+            {
+              "id": "k610q1",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "10.1. [OBAVEZNO] Šta se dešava ako middleware niti pošalje odgovor niti pozove next()?",
+              "odgovor": "Lanac obrade se zaustavlja; klijent može ostati bez završenog odgovora."
+            },
+            {
+              "id": "k610q2",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "10.2. [OBAVEZNO] Zašto app.use(express.json()) obično stavljamo pre POST ruta koje koriste req.body?",
+              "odgovor": "Middleware se izvršava redom. Parser mora da se izvrši pre handlera koji očekuje parsirano telo."
+            },
+            {
+              "id": "k610q3",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "10.3. [REZERVA] Da li middleware mora da se primenjuje na sve rute?",
+              "odgovor": "Ne. Može biti globalan, vezan za prefiks putanje ili određen handler. To postaje važno kod autentifikacije."
+            }
+          ],
+          "pitalice": [
+            {
+              "pitalica": "10.1. [OBAVEZNO] Šta se dešava ako middleware niti pošalje odgovor niti pozove next()?",
+              "odgovor": "Lanac obrade se zaustavlja; klijent može ostati bez završenog odgovora."
+            },
+            {
+              "pitalica": "10.2. [OBAVEZNO] Zašto app.use(express.json()) obično stavljamo pre POST ruta koje koriste req.body?",
+              "odgovor": "Middleware se izvršava redom. Parser mora da se izvrši pre handlera koji očekuje parsirano telo."
+            },
+            {
+              "pitalica": "10.3. [REZERVA] Da li middleware mora da se primenjuje na sve rute?",
+              "odgovor": "Ne. Može biti globalan, vezan za prefiks putanje ili određen handler. To postaje važno kod autentifikacije."
+            }
+          ],
+          "putanja": "client/lekcije/43-middleware.js",
+          "isecakNaslov": "Middleware",
+          "isecakJezik": "javascript",
+          "isecak": "app.use((req, res, next) => {\n  console.log(req.method, req.url);\n  next();\n});\n\napp.use(express.json());\n\napp.post('/uredjaji', (req, res) => {\n  res.status(201).json({ primljeno: req.body });\n});",
+          "delic": "// Middleware\n// Kontrolna soba: zajednička obrada važi pre rute; redosled odlučuje da li handler vidi telo.\n\napp.use((req, res, next) => {\n  console.log(req.method, req.url);\n  next();\n});\n\napp.use(express.json());\n\napp.post('/uredjaji', (req, res) => {\n  res.status(201).json({ primljeno: req.body });\n});\n",
+          "original": "// Middleware\n// Kontrolna soba: zajednička obrada važi pre rute; redosled odlučuje da li handler vidi telo.\n\napp.use((req, res, next) => {\n  console.log(req.method, req.url);\n  next();\n});\n\napp.use(express.json());\n\napp.post('/uredjaji', (req, res) => {\n  res.status(201).json({ primljeno: req.body });\n});\n",
+          "originalJezik": "javascript"
+        },
+        {
+          "naslov": "Resursi, REST i CRUD",
+          "nivo": "Osnovno",
+          "minuta": 8,
+          "tipPrimer": "eksperiment",
+          "tekst": "**Problem:** Ako želimo da klijenti pristupaju uređajima, da li treba praviti rute `/dodajUredjaj`, `/obrisiUredjaj`, `/procitajUredjaj` ili postoji dosledniji način?\n\nWeb API predstavlja ugovor kojim klijent komunicira sa serverom. **Resurs** je nešto čime server upravlja, na primer uređaj. U uobičajenom HTTP API dizajnu koristimo imenice u putanjama, a HTTP metode za nameru operacije. CRUD označava četiri operacije nad podacima, ali **REST nije isto što i CRUD**: REST obuhvata i arhitektonska ograničenja, poput stateless zahteva i uniformnog interfejsa.\n\n`GET` treba da bude **bezbedna** metoda: klijent ne traži izmenu stanja resursa. `PUT` i `DELETE` su **idempotentne** po nameravanoj semantici: ponavljanje istog zahteva ima isti nameravani efekat na stanje resursa kao jedan zahtev. To ne znači da su status ili odgovor pri svakom ponavljanju isti. `POST` nije opšte idempotentan. `204` nema telo odgovora.",
+          "kljucnaIdeja": "REST nije CRUD. GET je bezbedan, PUT i DELETE su idempotentni po efektu, ne po istom statusu.",
+          "blokovi": [
+            {
+              "id": "k611b1",
+              "vrsta": "tekst",
+              "tekst": "**Problem:** Ako želimo da klijenti pristupaju uređajima, da li treba praviti rute `/dodajUredjaj`, `/obrisiUredjaj`, `/procitajUredjaj` ili postoji dosledniji način?\n\nWeb API predstavlja ugovor kojim klijent komunicira sa serverom. **Resurs** je nešto čime server upravlja, na primer uređaj. U uobičajenom HTTP API dizajnu koristimo imenice u putanjama, a HTTP metode za nameru operacije. CRUD označava četiri operacije nad podacima, ali **REST nije isto što i CRUD**: REST obuhvata i arhitektonska ograničenja, poput stateless zahteva i uniformnog interfejsa."
+            },
+            {
+              "id": "k611b2",
+              "vrsta": "tekst",
+              "tekst": "`GET` treba da bude **bezbedna** metoda: klijent ne traži izmenu stanja resursa. `PUT` i `DELETE` su **idempotentne** po nameravanoj semantici: ponavljanje istog zahteva ima isti nameravani efekat na stanje resursa kao jedan zahtev. To ne znači da su status ili odgovor pri svakom ponavljanju isti. `POST` nije opšte idempotentan. `204` nema telo odgovora."
+            },
+            {
+              "id": "k611b3",
+              "vrsta": "highlight",
+              "uloga": "kljucna",
+              "tekst": "REST nije CRUD. GET je bezbedan, PUT i DELETE su idempotentni po efektu, ne po istom statusu."
+            }
+          ],
+          "diskusija": [
+            {
+              "id": "k611q1",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "11.1. [OBAVEZNO] Kako biste predstavili listanje, kreiranje i brisanje uređaja uz resursno orijentisan API?",
+              "odgovor": "GET /uredjaji, POST /uredjaji, DELETE /uredjaji/:id. Ne moramo praviti glagolske putanje poput /obrisiUredjaj."
+            },
+            {
+              "id": "k611q2",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "11.2. [OBAVEZNO] Ako dvaput pošaljemo isti DELETE, da li idempotentnost zahteva da oba puta dobijemo 204?",
+              "odgovor": "Ne. Idempotentnost se odnosi na nameravani efekat na stanje resursa. Posle prvog brisanja drugi zahtev može vratiti 404, a stanje je i dalje isto kao posle jednog brisanja."
+            },
+            {
+              "id": "k611q3",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "11.3. [REZERVA] Da li REST i CRUD znače isto?",
+              "odgovor": "Ne. CRUD su tipične operacije nad podacima, a REST je arhitektonski stil sa širim ograničenjima, uključujući uniformni interfejs i odsustvo serverskog stanja sesije između zahteva."
+            }
+          ],
+          "pitalice": [
+            {
+              "pitalica": "11.1. [OBAVEZNO] Kako biste predstavili listanje, kreiranje i brisanje uređaja uz resursno orijentisan API?",
+              "odgovor": "GET /uredjaji, POST /uredjaji, DELETE /uredjaji/:id. Ne moramo praviti glagolske putanje poput /obrisiUredjaj."
+            },
+            {
+              "pitalica": "11.2. [OBAVEZNO] Ako dvaput pošaljemo isti DELETE, da li idempotentnost zahteva da oba puta dobijemo 204?",
+              "odgovor": "Ne. Idempotentnost se odnosi na nameravani efekat na stanje resursa. Posle prvog brisanja drugi zahtev može vratiti 404, a stanje je i dalje isto kao posle jednog brisanja."
+            },
+            {
+              "pitalica": "11.3. [REZERVA] Da li REST i CRUD znače isto?",
+              "odgovor": "Ne. CRUD su tipične operacije nad podacima, a REST je arhitektonski stil sa širim ograničenjima, uključujući uniformni interfejs i odsustvo serverskog stanja sesije između zahteva."
+            }
+          ],
+          "putanja": "client/lekcije/44-rest.js",
+          "isecakNaslov": "Resursi, REST i CRUD",
+          "isecakJezik": "javascript",
+          "isecak": "// GET /uredjaji            lista, 200\n// GET /uredjaji/7         jedan, 200\n// POST /uredjaji          kreiranje, 201\n// PUT /uredjaji/7         zamena, 200 ili 204\n// DELETE /uredjaji/7      brisanje, 204",
+          "delic": "// Resursi, REST i CRUD\n// Kontrolna soba: putanja imenuje resurs sobe, metoda imenuje nameru, status imenuje ishod.\n\n// GET /uredjaji            lista, 200\n// GET /uredjaji/7         jedan, 200\n// POST /uredjaji          kreiranje, 201\n// PUT /uredjaji/7         zamena, 200 ili 204\n// DELETE /uredjaji/7      brisanje, 204\n",
+          "original": "// Resursi, REST i CRUD\n// Kontrolna soba: putanja imenuje resurs sobe, metoda imenuje nameru, status imenuje ishod.\n\n// GET /uredjaji            lista, 200\n// GET /uredjaji/7         jedan, 200\n// POST /uredjaji          kreiranje, 201\n// PUT /uredjaji/7         zamena, 200 ili 204\n// DELETE /uredjaji/7      brisanje, 204\n",
+          "originalJezik": "javascript"
+        },
+        {
+          "naslov": "Parametri, validacija i statusni kodovi",
+          "nivo": "Osnovno",
+          "minuta": 7,
+          "tipPrimer": "eksperiment",
+          "tekst": "**Problem:** Da li je `GET /uredjaji/abc` isto što i `GET /uredjaji/999`, ako uređaji imaju numeričke identifikatore?\n\n**Parametar putanje** (`/uredjaji/:id`) označava resurs. **Parametar upita** (`?aktivan=true`) obično filtrira ili menja način prikaza liste. **Telo** nosi podatke koje treba obraditi. Sva tri su nepouzdani ulazni podaci.\n\nČak i ako je `req.params.id` tekst `'7'`, server mora da proveri da li je to dozvoljen identifikator. Parametar `req.query.aktivan` najčešće je tekst i nije automatski boolean.\n\n**400 Bad Request**: zahtev ne zadovoljava definisana pravila ulaza. **404 Not Found**: zahtevani resurs ne postoji. **201 Created**: kreiran je resurs. **500 Internal Server Error**: neočekivana greška servera. **409 Conflict** kada zahtev nije moguće dovršiti zbog konflikta sa trenutnim stanjem resursa. Status 400 za neispravan oblik `id` je projektna odluka ovog API-ja, a ne jedini mogući izbor.",
+          "kljucnaIdeja": "400 je loš ulaz, 404 je odsutan resurs. String 'false' je truthy.",
+          "blokovi": [
+            {
+              "id": "k612b1",
+              "vrsta": "tekst",
+              "tekst": "**Problem:** Da li je `GET /uredjaji/abc` isto što i `GET /uredjaji/999`, ako uređaji imaju numeričke identifikatore?\n\n**Parametar putanje** (`/uredjaji/:id`) označava resurs. **Parametar upita** (`?aktivan=true`) obično filtrira ili menja način prikaza liste. **Telo** nosi podatke koje treba obraditi. Sva tri su nepouzdani ulazni podaci.\n\nČak i ako je `req.params.id` tekst `'7'`, server mora da proveri da li je to dozvoljen identifikator. Parametar `req.query.aktivan` najčešće je tekst i nije automatski boolean."
+            },
+            {
+              "id": "k612b2",
+              "vrsta": "tekst",
+              "tekst": "**400 Bad Request**: zahtev ne zadovoljava definisana pravila ulaza. **404 Not Found**: zahtevani resurs ne postoji. **201 Created**: kreiran je resurs. **500 Internal Server Error**: neočekivana greška servera. **409 Conflict** kada zahtev nije moguće dovršiti zbog konflikta sa trenutnim stanjem resursa. Status 400 za neispravan oblik `id` je projektna odluka ovog API-ja, a ne jedini mogući izbor."
+            },
+            {
+              "id": "k612b3",
+              "vrsta": "highlight",
+              "uloga": "kljucna",
+              "tekst": "400 je loš ulaz, 404 je odsutan resurs. String 'false' je truthy."
+            }
+          ],
+          "diskusija": [
+            {
+              "id": "k612q1",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "12.1. [OBAVEZNO] Uporedite GET /uredjaji/abc i GET /uredjaji/999 ako API dopušta samo pozitivne numeričke ID-jeve, a 999 ne postoji.",
+              "odgovor": "U dogovoru ovog API-ja: prvi je 400 (nedozvoljen oblik), drugi 404 (važeći oblik, resurs ne postoji). Status za loš obrazac može se drugačije modelovati, ali mora biti dosledan."
+            },
+            {
+              "id": "k612q2",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "12.2. [OBAVEZNO] Ako klijent pošalje ?aktivan=false, zašto if (req.query.aktivan) može dati pogrešan rezultat?",
+              "odgovor": "Tekst 'false' je truthy; treba eksplicitno parsirati dozvoljene vrednosti."
+            },
+            {
+              "id": "k612q3",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "12.3. [REZERVA] Šta je odgovarajuće za uspešno kreiranje, a šta za uspešno brisanje bez povratnog tela?",
+              "odgovor": "201 za kreiranje i 204 za brisanje bez tela. Ne slati JSON telo uz 204."
+            }
+          ],
+          "pitalice": [
+            {
+              "pitalica": "12.1. [OBAVEZNO] Uporedite GET /uredjaji/abc i GET /uredjaji/999 ako API dopušta samo pozitivne numeričke ID-jeve, a 999 ne postoji.",
+              "odgovor": "U dogovoru ovog API-ja: prvi je 400 (nedozvoljen oblik), drugi 404 (važeći oblik, resurs ne postoji). Status za loš obrazac može se drugačije modelovati, ali mora biti dosledan."
+            },
+            {
+              "pitalica": "12.2. [OBAVEZNO] Ako klijent pošalje ?aktivan=false, zašto if (req.query.aktivan) može dati pogrešan rezultat?",
+              "odgovor": "Tekst 'false' je truthy; treba eksplicitno parsirati dozvoljene vrednosti."
+            },
+            {
+              "pitalica": "12.3. [REZERVA] Šta je odgovarajuće za uspešno kreiranje, a šta za uspešno brisanje bez povratnog tela?",
+              "odgovor": "201 za kreiranje i 204 za brisanje bez tela. Ne slati JSON telo uz 204."
+            }
+          ],
+          "putanja": "client/lekcije/45-validacija.js",
+          "isecakNaslov": "Parametri, validacija i statusni kodovi",
+          "isecakJezik": "javascript",
+          "isecak": "app.get('/uredjaji/:id', (req, res) => {\n  if (!/^[1-9]\\d*$/.test(req.params.id)) {\n    return res.status(400).json({ greska: 'ID mora biti pozitivan ceo broj' });\n  }\n  const id = Number(req.params.id);\n  if (!Number.isSafeInteger(id)) {\n    return res.status(400).json({ greska: 'ID je van dozvoljenog opsega' });\n  }\n\n  const uredjaj = uredjaji.find((x) => x.id === id);\n  if (!uredjaj) {\n    return res.status(404).json({ greska: 'Uređaj ne postoji' });\n  }\n  res.json(uredjaj);\n});",
+          "delic": "// Parametri, validacija i statusni kodovi\n// Kontrolna soba: loš oblik id i nepostojeći uređaj nisu isti ishod u odgovoru.\n\napp.get('/uredjaji/:id', (req, res) => {\n  if (!/^[1-9]\\d*$/.test(req.params.id)) {\n    return res.status(400).json({ greska: 'ID mora biti pozitivan ceo broj' });\n  }\n  const id = Number(req.params.id);\n  if (!Number.isSafeInteger(id)) {\n    return res.status(400).json({ greska: 'ID je van dozvoljenog opsega' });\n  }\n\n  const uredjaj = uredjaji.find((x) => x.id === id);\n  if (!uredjaj) {\n    return res.status(404).json({ greska: 'Uređaj ne postoji' });\n  }\n  res.json(uredjaj);\n});\n",
+          "original": "// Parametri, validacija i statusni kodovi\n// Kontrolna soba: loš oblik id i nepostojeći uređaj nisu isti ishod u odgovoru.\n\napp.get('/uredjaji/:id', (req, res) => {\n  if (!/^[1-9]\\d*$/.test(req.params.id)) {\n    return res.status(400).json({ greska: 'ID mora biti pozitivan ceo broj' });\n  }\n  const id = Number(req.params.id);\n  if (!Number.isSafeInteger(id)) {\n    return res.status(400).json({ greska: 'ID je van dozvoljenog opsega' });\n  }\n\n  const uredjaj = uredjaji.find((x) => x.id === id);\n  if (!uredjaj) {\n    return res.status(404).json({ greska: 'Uređaj ne postoji' });\n  }\n  res.json(uredjaj);\n});\n",
+          "originalJezik": "javascript"
+        },
+        {
+          "naslov": "Organizacija koda i obrada grešaka",
+          "nivo": "Osnovno",
+          "minuta": 10,
+          "tipPrimer": "eksperiment",
+          "tekst": "**Problem:** Ako API ima 30 ruta, da li sav kod treba da ostane u `server.js`? Šta ako bilo koja ruta neočekivano zakaže?\n\nKorisno je razdvojiti **rute** (koji zahtev obrađujemo), **kontrolere** (pretvaranje zahteva u odgovor) i **poslovnu logiku** (pravila aplikacije). U ovoj temi ne uvodimo bazu; podaci su u memoriji. Sledeća tema o bazi menja način čuvanja, ne ugovor API-ja.\n\n`express.Router()` grupiše povezane rute. Middleware za obradu grešaka ima **četiri argumenta**: `(err, req, res, next)`. U Express-u 5, greške iz ruta i middleware-a koji vraćaju odbačen Promise automatski se prosleđuju obradi grešaka. To ne znači da Express hvata svaku grešku proizvoljno pokrenutog asinhronog koda koji nije vraćen iz handlera.\n\n**Greška korisnika nije isto što i greška servera.** Neispravan JSON ne treba tretirati kao uspešan zahtev, a neočekivan izuzetak ne treba nekritički vraćati klijentu sa internim detaljima.",
+          "kljucnaIdeja": "Ruta, kontroler i pravilo se razdvajaju. Greška ide u middleware sa četiri argumenta.",
+          "blokovi": [
+            {
+              "id": "k613b1",
+              "vrsta": "tekst",
+              "tekst": "**Problem:** Ako API ima 30 ruta, da li sav kod treba da ostane u `server.js`? Šta ako bilo koja ruta neočekivano zakaže?\n\nKorisno je razdvojiti **rute** (koji zahtev obrađujemo), **kontrolere** (pretvaranje zahteva u odgovor) i **poslovnu logiku** (pravila aplikacije). U ovoj temi ne uvodimo bazu; podaci su u memoriji. Sledeća tema o bazi menja način čuvanja, ne ugovor API-ja.\n\n`express.Router()` grupiše povezane rute. Middleware za obradu grešaka ima **četiri argumenta**: `(err, req, res, next)`. U Express-u 5, greške iz ruta i middleware-a koji vraćaju odbačen Promise automatski se prosleđuju obradi grešaka. To ne znači da Express hvata svaku grešku proizvoljno pokrenutog asinhronog koda koji nije vraćen iz handlera."
+            },
+            {
+              "id": "k613b2",
+              "vrsta": "kod",
+              "naslov": "Direktorijum",
+              "jezik": "text",
+              "tekst": "src/\n  app.js\n  routes/uredjaji.js\n  controllers/uredjaji.js\n  services/uredjaji.js"
+            },
+            {
+              "id": "k613b3",
+              "vrsta": "tekst",
+              "tekst": "**Greška korisnika nije isto što i greška servera.** Neispravan JSON ne treba tretirati kao uspešan zahtev, a neočekivan izuzetak ne treba nekritički vraćati klijentu sa internim detaljima."
+            },
+            {
+              "id": "k613b4",
+              "vrsta": "highlight",
+              "uloga": "kljucna",
+              "tekst": "Ruta, kontroler i pravilo se razdvajaju. Greška ide u middleware sa četiri argumenta."
+            }
+          ],
+          "diskusija": [
+            {
+              "id": "k613q1",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "13.1. [OBAVEZNO] Ako kontroler istovremeno parsira HTTP zahtev, proverava pravila i menja bazu, šta će biti teško promeniti ili testirati?",
+              "odgovor": "Mešaju se odgovornosti. Ruter identifikuje rutu, kontroler radi sa HTTP-om, servis sprovodi pravila, sloj podataka čuva podatke. U ovoj temi servis još koristi memoriju."
+            },
+            {
+              "id": "k613q2",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "13.2. [OBAVEZNO] Kako razlikovati loš korisnički zahtev od neočekivane greške servera i zašto greške skupljati na jednom mestu?",
+              "odgovor": "Korisničku grešku tipično označiti 4xx, nepredviđenu grešku 5xx. Centralizovana obrada izjednačava format odgovora, logovanje i sprečava otkrivanje internih detalja."
+            },
+            {
+              "id": "k613q3",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "13.3. [REZERVA] U Express-u 5 async handler odbaci Promise. Moramo li u svakoj ruti ručno pozvati next(err)?",
+              "odgovor": "Ne kada handler vraća taj Promise: Express 5 ga automatski prosleđuje obradi grešaka. Nepovezani pozadinski asinhroni poslovi nisu time automatski obuhvaćeni."
+            }
+          ],
+          "pitalice": [
+            {
+              "pitalica": "13.1. [OBAVEZNO] Ako kontroler istovremeno parsira HTTP zahtev, proverava pravila i menja bazu, šta će biti teško promeniti ili testirati?",
+              "odgovor": "Mešaju se odgovornosti. Ruter identifikuje rutu, kontroler radi sa HTTP-om, servis sprovodi pravila, sloj podataka čuva podatke. U ovoj temi servis još koristi memoriju."
+            },
+            {
+              "pitalica": "13.2. [OBAVEZNO] Kako razlikovati loš korisnički zahtev od neočekivane greške servera i zašto greške skupljati na jednom mestu?",
+              "odgovor": "Korisničku grešku tipično označiti 4xx, nepredviđenu grešku 5xx. Centralizovana obrada izjednačava format odgovora, logovanje i sprečava otkrivanje internih detalja."
+            },
+            {
+              "pitalica": "13.3. [REZERVA] U Express-u 5 async handler odbaci Promise. Moramo li u svakoj ruti ručno pozvati next(err)?",
+              "odgovor": "Ne kada handler vraća taj Promise: Express 5 ga automatski prosleđuje obradi grešaka. Nepovezani pozadinski asinhroni poslovi nisu time automatski obuhvaćeni."
+            }
+          ],
+          "putanja": "client/lekcije/46-greske.js",
+          "isecakNaslov": "Organizacija koda i obrada grešaka",
+          "isecakJezik": "javascript",
+          "isecak": "app.use((err, req, res, next) => {\n  console.error(err);\n  const status = Number.isInteger(err.status) && err.status >= 400 && err.status <= 599\n    ? err.status\n    : 500;\n  res.status(status).json({\n    greska: status >= 500 ? 'Greška servera' : 'Neispravan zahtev',\n  });\n});",
+          "delic": "// Organizacija koda i obrada grešaka\n// Kontrolna soba: ugovor API-ja ostaje isti kada memoriju kasnije zameni baza.\n\napp.use((err, req, res, next) => {\n  console.error(err);\n  const status = Number.isInteger(err.status) && err.status >= 400 && err.status <= 599\n    ? err.status\n    : 500;\n  res.status(status).json({\n    greska: status >= 500 ? 'Greška servera' : 'Neispravan zahtev',\n  });\n});\n",
+          "original": "// Organizacija koda i obrada grešaka\n// Kontrolna soba: ugovor API-ja ostaje isti kada memoriju kasnije zameni baza.\n\napp.use((err, req, res, next) => {\n  console.error(err);\n  const status = Number.isInteger(err.status) && err.status >= 400 && err.status <= 599\n    ? err.status\n    : 500;\n  res.status(status).json({\n    greska: status >= 500 ? 'Greška servera' : 'Neispravan zahtev',\n  });\n});\n",
+          "originalJezik": "javascript"
+        },
+        {
+          "naslov": "Provera celog API-ja",
+          "nivo": "Osnovno",
+          "minuta": 6,
+          "tipPrimer": "eksperiment",
+          "tekst": "**Problem:** Kako znamo da imamo API, a ne samo nekoliko nasumičnih ruta?\n\nAPI mora da ima dosledan skup resursa, jasne HTTP metode, očekivane odgovore i obradu grešaka. Jednostavan projekat za čas je upravljanje uređajima sa atributima `id`, `naziv` i `aktivan`. Podaci su namerno u memoriji, tako da restart servera briše izmene. To je ograničenje i motivacija za temu o bazama.\n\nNode.js izvršava server, HTTP definiše komunikaciju, Express organizuje obradu zahteva, a poslovna logika odlučuje šta aplikacija radi. Naredna tema: browser šalje zahtev pomoću `fetch`, prikazuje odgovor i rešava problem asinhronog izvršavanja.\n\nZavršni zadatak, ako ostane vremena: `POST /uredjaji` sa telom `{ \"naziv\": \"\", \"aktivan\": \"da\" }`. JSON je sintaksno ispravan i middleware može da ga parsira. Aplikacija utvrđuje da je `naziv` prazan, a `aktivan` pogrešnog tipa; vraća 400 i ništa ne upisuje. Express sam po sebi ne zna poslovna pravila.",
+          "kljucnaIdeja": "API ima dosledne resurse, statuse i obradu grešaka. Memorija nije trajno skladište.",
+          "blokovi": [
+            {
+              "id": "k614b1",
+              "vrsta": "tekst",
+              "tekst": "**Problem:** Kako znamo da imamo API, a ne samo nekoliko nasumičnih ruta?\n\nAPI mora da ima dosledan skup resursa, jasne HTTP metode, očekivane odgovore i obradu grešaka. Jednostavan projekat za čas je upravljanje uređajima sa atributima `id`, `naziv` i `aktivan`. Podaci su namerno u memoriji, tako da restart servera briše izmene. To je ograničenje i motivacija za temu o bazama."
+            },
+            {
+              "id": "k614b2",
+              "vrsta": "tekst",
+              "tekst": "Node.js izvršava server, HTTP definiše komunikaciju, Express organizuje obradu zahteva, a poslovna logika odlučuje šta aplikacija radi. Naredna tema: browser šalje zahtev pomoću `fetch`, prikazuje odgovor i rešava problem asinhronog izvršavanja.\n\nZavršni zadatak, ako ostane vremena: `POST /uredjaji` sa telom `{ \"naziv\": \"\", \"aktivan\": \"da\" }`. JSON je sintaksno ispravan i middleware može da ga parsira. Aplikacija utvrđuje da je `naziv` prazan, a `aktivan` pogrešnog tipa; vraća 400 i ništa ne upisuje. Express sam po sebi ne zna poslovna pravila."
+            },
+            {
+              "id": "k614b3",
+              "vrsta": "highlight",
+              "uloga": "kljucna",
+              "tekst": "API ima dosledne resurse, statuse i obradu grešaka. Memorija nije trajno skladište."
+            }
+          ],
+          "diskusija": [
+            {
+              "id": "k614q1",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "14.1. [OBAVEZNO] Nacrtajte ceo put zahteva POST /uredjaji i označite gde su Node.js, HTTP, Express, middleware i handler.",
+              "odgovor": "Klijent šalje HTTP zahtev, Node HTTP server ga prima, Express prolazi kroz middleware (na primer JSON parser), ruter bira handler, handler validira i poziva logiku, server šalje HTTP odgovor. Express radi unutar Node procesa."
+            },
+            {
+              "id": "k614q2",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "14.2. [OBAVEZNO] API radi, ali posle restarta nema novog uređaja. Da li je greška u Express-u, HTTP-u ili modelu čuvanja podataka?",
+              "odgovor": "U očekivanom ograničenju čuvanja u memoriji. To je motivacija za povezivanje sa bazom u sledećim temama."
+            },
+            {
+              "id": "k614q3",
+              "vrsta": "pitanje",
+              "oblik": "tekst",
+              "tekst": "14.3. [REZERVA] Kada biste namerno odabrali samo node:http, bez Express-a?",
+              "odgovor": "Za vežbu osnovnih principa, mali specijalizovani servis ili tamo gde je kontrola nad slojem obrade važnija od praktičnosti frameworka. Izbor zavisi od problema."
+            }
+          ],
+          "pitalice": [
+            {
+              "pitalica": "14.1. [OBAVEZNO] Nacrtajte ceo put zahteva POST /uredjaji i označite gde su Node.js, HTTP, Express, middleware i handler.",
+              "odgovor": "Klijent šalje HTTP zahtev, Node HTTP server ga prima, Express prolazi kroz middleware (na primer JSON parser), ruter bira handler, handler validira i poziva logiku, server šalje HTTP odgovor. Express radi unutar Node procesa."
+            },
+            {
+              "pitalica": "14.2. [OBAVEZNO] API radi, ali posle restarta nema novog uređaja. Da li je greška u Express-u, HTTP-u ili modelu čuvanja podataka?",
+              "odgovor": "U očekivanom ograničenju čuvanja u memoriji. To je motivacija za povezivanje sa bazom u sledećim temama."
+            },
+            {
+              "pitalica": "14.3. [REZERVA] Kada biste namerno odabrali samo node:http, bez Express-a?",
+              "odgovor": "Za vežbu osnovnih principa, mali specijalizovani servis ili tamo gde je kontrola nad slojem obrade važnija od praktičnosti frameworka. Izbor zavisi od problema."
+            }
+          ],
+          "putanja": "client/lekcije/47-provera.js",
+          "isecakNaslov": "Provera celog API-ja",
+          "isecakJezik": "javascript",
+          "isecak": "const provere = [\n  'GET /uredjaji vraća kolekciju',\n  'POST /uredjaji sa ispravnim JSON-om vraća 201',\n  'GET /uredjaji/:id vraća kreirani uređaj',\n  'PUT /uredjaji/:id zamenjuje podatke',\n  'DELETE /uredjaji/:id vraća 204',\n  'nepostojeći ID vraća 404, neispravan ulaz 400',\n  'ponovljeni GET ne menja listu',\n];\nconsole.log(provere.length);",
+          "delic": "// Provera celog API-ja\n// Kontrolna soba: uređaji u memoriji nestaju restartom; to je razlog za bazu, ne kvar Express-a.\n\nconst provere = [\n  'GET /uredjaji vraća kolekciju',\n  'POST /uredjaji sa ispravnim JSON-om vraća 201',\n  'GET /uredjaji/:id vraća kreirani uređaj',\n  'PUT /uredjaji/:id zamenjuje podatke',\n  'DELETE /uredjaji/:id vraća 204',\n  'nepostojeći ID vraća 404, neispravan ulaz 400',\n  'ponovljeni GET ne menja listu',\n];\nconsole.log(provere.length);\n",
+          "original": "// Provera celog API-ja\n// Kontrolna soba: uređaji u memoriji nestaju restartom; to je razlog za bazu, ne kvar Express-a.\n\nconst provere = [\n  'GET /uredjaji vraća kolekciju',\n  'POST /uredjaji sa ispravnim JSON-om vraća 201',\n  'GET /uredjaji/:id vraća kreirani uređaj',\n  'PUT /uredjaji/:id zamenjuje podatke',\n  'DELETE /uredjaji/:id vraća 204',\n  'nepostojeći ID vraća 404, neispravan ulaz 400',\n  'ponovljeni GET ne menja listu',\n];\nconsole.log(provere.length);\n",
+          "originalJezik": "javascript"
         }
       ],
       "samostalnoUcenje": {
-        "uvod": "Ova tema razvija Kontrolnu sobu kroz poznat problem. HTTP odvaja metod, adresu i status od samog TCP prenosa; Node handler formira odgovor i ne može direktno menjati DOM udaljenog browsera. Pre nego što otvoriš objašnjenje pitalice, napiši sopstvenu pretpostavku, pokreni kod i uporedi stvarni ishod sa očekivanjem.",
+        "uvod": "Ova tema prati kako JavaScript program postaje HTTP server, pa Express API za uređaje. Primeri u koracima su nezavisni. Kontrolna soba i dalje živi u kasnijim časovima: browser crta prikaz, server vraća podatke. Pre objašnjenja zapiši pretpostavku.",
         "detaljnoGradivo": [
-          "TCP prenosi uređeni tok bajtova, ali ne određuje značenje poruke. HTTP preko odgovarajućeg transporta daje semantiku: metod označava nameru, putanja resurs, zaglavlja metapodatke, a status ishod obrade. GET je namenjen čitanju i ne treba da izaziva komandovanje uređajem, dok se promena željenog stanja izražava odgovarajućim mutirajućim zahtevom.",
-          "Node.js pokreće serverski JavaScript izvan browsera. Zato server nema neposredan pristup DOM-u klijenta: formira HTTP odgovor, a browser odlučuje kako da ga predstavi. HTTP 404 jeste odgovor, dok zatvoren port ili neuspešno uspostavljanje veze mogu značiti da HTTP odgovora uopšte nema.",
-          "JSON je tekstualni format razmene. Tek posle parsiranja nastaje JavaScript vrednost, čija stvarna struktura zahteva proveru. U Kontrolnoj sobi GET /api/soba vraća temperaturu i režim; sledeći koraci uče kako klijent asinhrono čeka taj odgovor i kako razlikuje neuspeh servera od neuspeha komunikacije.",
-          "JSON dozvoljava samo podskup JavaScript vrednosti: nema funkcija, undefined ni komentara; null je dozvoljen. Ključevi objekta i stringovi su u UTF-8 tekstu. Zato HTTP telo uvek prvo gledamo kao tekst, pa tek onda kao podatak.",
-          "Počni od konkretne HTTP razmene. GET /api/soba traži reprezentaciju trenutnog stanja; odgovor uključuje status, Content-Type i JSON telo. HTTP 404 znači da server postoji i da je poslao odgovor za nepoznati resurs. Odbijena TCP veza ili DNS greška ne donose HTTP status. To su različita opažanja u Network panelu.",
-          "U Node-u nema browserovog document objekta. Server dobija req/res i odlučuje šta će poslati nazad; browser je taj koji kasnije menja prikaz. Handler mora razlikovati metod i putanju, proveriti ulaz i poslati jasno definisan odgovor. Status 200 nije zamena za validan JSON i eksplicitni Content-Type.",
-          "Za konkurentne zahteve odvoj I/O od CPU posla. Node može čekati mrežu i bazu bez blokiranja događaja, ali duga sinhrona petlja zauzima event loop i odlaže druge klijente. Zato 'asinhrono' ne znači automatski 'paralelno' niti 'uvek brzo'."
+          "Node.js je izvršno okruženje, ne framework i ne baza. Browser daje document, Node daje node:http i node:fs. Isti jezik ne znači iste API-je.",
+          "package.json i npm drže zavisnosti i skripte. npm install ne pokreće server. ES moduli koriste import i export; node:http se ne instalira.",
+          "createServer registruje handler za svaki zahtev. listen drži proces na portu. res.end završava odgovor. localhost i port nisu HTTP metoda.",
+          "Metoda, putanja, upit, zaglavlja i telo imaju različite uloge. Status 404 znači da resursa nema. Content-Type opisuje telo i ne poziva JSON.stringify.",
+          "Express 5 daje ruter i middleware povrh Node.js-a. req.params.id je string. express.json() mora da se izvrši pre handlera koji čita req.body. Middleware koji ne zove next i ne šalje odgovor ostavlja klijenta da čeka.",
+          "REST nije isto što i CRUD. 400 je loš ulaz, 404 je odsutan resurs, 201 je kreiranje, 204 je uspeh bez tela. String 'false' je truthy. Podaci u nizu nestaju restartom procesa."
         ],
-        "tokRada": "1) Pročitaj problem i opiši šta očekuješ. 2) Odgovori bez izvršavanja. 3) Otvori detaljno objašnjenje svih opcija. 4) Pokreni primer u izolovanom editoru. 5) Izmeni jedan detalj i ponovi eksperiment. 6) Vrati se Kontrolnoj sobi i poveži naučeno sa njenim fajlovima.",
-        "graniceZnanja": "HTTP odvaja metod, adresu i status od samog TCP prenosa; Node handler formira odgovor i ne može direktno menjati DOM udaljenog browsera. Pretpostavke o serveru, browseru i bazi moraš navesti eksplicitno; kada zavise od konfiguracije, odgovor nije univerzalan.",
-        "proveraRazumevanja": "Na kraju teme navedi jednu pogrešnu pretpostavku koju si promenio, pokaži konkretan red koda ili HTTP zapis koji je razotkriva i objasni kako bi isti problem nastao u Kontrolnoj sobi."
+        "tokRada": "1) Pročitaj problem koraka. 2) Odgovori na pitanje pre pokretanja. 3) Uporedi sa napomenom nastavnika. 4) Otvori primer u editoru. 5) Poveži ideju sa tim ko drži DOM, a ko vraća JSON.",
+        "graniceZnanja": "Primeri objašnjavaju jedan pojam. Nisu produkcioni parser, autentifikacija ni baza. Express ne zna poslovna pravila aplikacije. Izvori: Node.js HTTP, Express 5 middleware i obrada grešaka, RFC 9110.",
+        "proveraRazumevanja": "Na kraju teme reci jednu pogrešnu pretpostavku koju si promenio: document u Node-u, npm install kao pokretanje, 200 umesto 404, ili string 'false' kao boolean."
       },
       "dodatniPrimeri": [
         {
@@ -11427,7 +11344,7 @@
       "predavanjeMinuta": 55,
       "diskusijaMinuta": 35,
       "samostalniZadaci": "van-casa",
-      "preduslov": "Jedan zahtev i jedan odgovor. Kutija drži temperaturu.",
+      "preduslov": "Node izvršava JavaScript van browsera. HTTP server vraća odgovor.",
       "problem": "fetch je dobio HTTP 500. Da li je to catch?",
       "pretpostavka": "Svaki neuspeh je catch, ili 500 znači da odgovora nema.",
       "options": [

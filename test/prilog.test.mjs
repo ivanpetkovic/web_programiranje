@@ -30,19 +30,16 @@ function ranijeDo(indeksKoraka, putanja) {
 }
 
 test("komanda nije red imenovanog fajla", () => {
-  const i = indeks("Komanda");
+  const i = indeks("Projekat, moduli i npm");
   const korak = koraci[i];
-  const tekst = stabloDo(koraci, i).verzije["server/server.js"];
-  const prikaz = prikazPriloga(korak, ranijeDo(i, "server/server.js"));
-  assert.equal(prikaz.fajl.ime, "server.js");
-  assert.equal(prikaz.komanda, "node server/server.js");
-  assert.equal(tekst.includes("node server/server.js"), false);
+  const tekst = stabloDo(koraci, i).verzije["client/lekcije/35-moduli.js"];
+  const prikaz = prikazPriloga(korak, ranijeDo(i, korak.putanja));
+  assert.equal(prikaz.fajl.ime, "35-moduli.js");
+  assert.equal(prikaz.komanda, "npm start");
+  assert.equal(tekst.includes("npm start"), false);
   assert.equal(prikaz.fajl.linije.some((linija) => jeShell(linija.tekst)), false);
-  assert.match(tekst, /const http = require\("http"\)/);
-  assert.match(tekst, /http\.createServer/);
-  assert.match(tekst, /server\.listen\(8787\);/);
-  assert.ok(greskaSintakse("node server/server.js", "server.js"));
-  assert.equal(greskaSintakse("const server = http.createServer(obrada);\nserver.listen(8787);\n", "server.js"), null);
+  assert.match(tekst, /export function pozdrav/);
+  assert.ok(greskaSintakse("npm start", "35-moduli.js"));
 });
 
 test("docker nije red baza.js", () => {
@@ -79,39 +76,37 @@ test("nijedan sklopljeni js fajl ne sadrži shell liniju", () => {
   }
 });
 
-test("HTTP red nije u server.js, a sklopljeni fajl prolazi proveru", () => {
-  const http = indeks("HTTP");
-  const komanda = indeks("Komanda");
-  const prikaz = prikazPriloga(koraci[http], ranijeDo(http, "server/server.js"));
-  const tekst = stabloDo(koraci, komanda).verzije["server/server.js"];
-  assert.equal(prikaz.http, "GET /api/soba HTTP/1.1");
-  assert.equal(prikaz.fajl.ime, "server.js");
-  assert.equal(prikaz.fajl.linije.some((linija) => linija.tekst.includes("GET /api/soba")), false);
-  assert.equal(tekst.includes("GET /api/soba"), false);
-  assert.equal(tekst.includes("node server/server.js"), false);
-  assert.match(tekst, /require\("http"\)/);
-  assert.match(tekst, /createServer/);
-  assert.match(tekst, /listen/);
-  assert.equal(greskaSintakse(tekst, "server/server.js"), null);
+test("HTTP red nije u fajlu lekcije", () => {
+  const http = indeks("Anatomija HTTP zahteva i odgovora");
+  const korak = koraci[http];
+  const prikaz = prikazPriloga(korak, ranijeDo(http, korak.putanja));
+  const tekst = stabloDo(koraci, http).verzije[korak.putanja];
+  assert.equal(prikaz.http, "GET /uredjaji?tip=senzor HTTP/1.1");
+  assert.equal(prikaz.fajl.ime, "37-zahtev.js");
+  assert.equal(prikaz.fajl.linije.some((linija) => linija.tekst.includes("GET /uredjaji")), false);
+  assert.equal(tekst.includes("GET /uredjaji"), false);
+  assert.match(tekst, /url\.pathname/);
 });
 
-test("korak sa celim fajlom označi samo nove redove, na svom mestu", () => {
-  const i = indeks("createServer");
+test("korak sa celim fajlom pokazuje ceo HTTP server", () => {
+  const i = indeks("Od programa do HTTP servera");
   const korak = koraci[i];
   const prikaz = prikazPriloga(korak, ranijeDo(i, korak.putanja));
   const tekst = prikaz.fajl.linije.map((linija) => linija.tekst).join("\n");
   assert.equal(`${tekst}\n`, korak.original);
-  const dodato = prikaz.fajl.linije.filter((linija) => linija.tip === "dodato").map((linija) => linija.tekst);
-  assert.deepEqual(dodato, ['const http = require("http");', "const server = http.createServer(obrada);"]);
-  const requireRed = prikaz.fajl.linije.findIndex((linija) => linija.tekst.includes('require("http")'));
-  const createRed = prikaz.fajl.linije.findIndex((linija) => linija.tekst.includes("http.createServer"));
-  assert.ok(requireRed >= 0 && requireRed < createRed);
+  assert.match(tekst, /import http from 'node:http'/);
+  assert.match(tekst, /http\.createServer/);
+  const kraj = tekst.indexOf("res.end('Zdravo sa servera')");
+  const slusanje = tekst.indexOf("server.listen(3000");
+  assert.ok(kraj > 0 && kraj < slusanje);
+  assert.equal(prikaz.fajl.linije.every((linija) => linija.tip === "isto"), true);
 });
 
-test("komanda posle koraka sa celim fajlom pokazuje ceo server.js", () => {
-  const i = indeks("Komanda");
-  const prikaz = prikazPriloga(koraci[i], ranijeDo(i, "server/server.js"));
+test("komanda posle celog fajla ne ulazi u taj fajl", () => {
+  const i = indeks("Od programa do HTTP servera");
+  const prikaz = prikazPriloga(koraci[i], ranijeDo(i, koraci[i].putanja));
   const tekst = prikaz.fajl.linije.map((linija) => linija.tekst).join("\n");
-  assert.equal(`${tekst}\n`, stabloDo(koraci, i).verzije["server/server.js"]);
-  assert.equal(prikaz.fajl.linije.some((linija) => linija.tip === "dodato"), false);
+  assert.equal(`${tekst}\n`, stabloDo(koraci, i).verzije[koraci[i].putanja]);
+  assert.equal(tekst.includes("curl"), false);
+  assert.equal(prikaz.fajl.linije.some((linija) => jeShell(linija.tekst)), false);
 });

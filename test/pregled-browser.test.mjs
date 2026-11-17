@@ -197,7 +197,7 @@ test("pregled pokreće primere, uključujući ES modul", { timeout: 50000 }, asy
   }
 });
 
-test("tema 5 drži require u editoru i ne upisuje server.js", { timeout: 40000 }, async (t) => {
+test("tema 6 drži HTTP server u editoru i ne upisuje server.js", { timeout: 40000 }, async (t) => {
   const portSajta = await slobodanPort();
   const portChrome = await slobodanPort();
   const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
@@ -218,33 +218,23 @@ test("tema 5 drži require u editoru i ne upisuje server.js", { timeout: 40000 }
       deviceScaleFactor: 1,
       mobile: false,
     });
-    await strana.idi(`http://127.0.0.1:${portSajta}/#cas-5`);
+    await strana.idi(`http://127.0.0.1:${portSajta}/#cas-6`);
     const { sačekaj, snimi } = await saAlatom(strana);
     await strana.vrednost(`(() => {
-      const dugme = [...document.querySelectorAll("#nav .korak-red")].find((b) => b.textContent === "7 createServer");
-      if (!dugme) throw new Error("nema koraka createServer");
+      const dugme = [...document.querySelectorAll("#nav .korak-red")].find((b) => b.textContent === "3 Od programa do HTTP servera");
+      if (!dugme) throw new Error("nema koraka HTTP servera");
       dugme.click();
     })()`);
     await strana.vrednost(`document.querySelector("#tab-editor").click()`);
-    const create = await sačekaj(
-      (s) => s.putanja === "server/server.js" && s.tekst.includes('require("http")') && s.tekst.includes("http.createServer"),
+    const serverLekcije = await sačekaj(
+      (s) => s.putanja === "client/lekcije/36-http-server.js" && s.tekst.includes("http.createServer") && s.tekst.includes("server.listen(3000"),
     );
-    assert.match(create.tekst, /^const http = require\("http"\);/);
-    await strana.vrednost(`(() => {
-      const dugme = [...document.querySelectorAll("#nav .korak-red")].find((b) => b.textContent === "8 listen");
-      if (!dugme) throw new Error("nema koraka listen");
-      dugme.click();
-    })()`);
-    const listen = await sačekaj(
-      (s) => s.putanja === "server/server.js" && s.tekst.includes("server.listen(8787);") && s.tekst.includes('require("http")'),
-    );
-    assert.match(listen.tekst, /^const http = require\("http"\);/);
-    assert.match(listen.tekst, /const server = http\.createServer\(obrada\);/);
-    assert.match(listen.napomena, /samo kad krene/);
+    assert.match(serverLekcije.tekst, /import http from 'node:http'/);
+    assert.match(serverLekcije.tekst, /res\.end\('Zdravo sa servera'\)/);
     await pauza(400);
     assert.equal(readFileSync(fajl, "utf8"), pre);
-    belezi(`tema 5 listen: ${listen.napomena}`);
-    await snimi("tema-5-listen");
+    belezi(`tema 6 HTTP server: ${serverLekcije.putanja}`);
+    await snimi("tema-6-http-server");
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
     throw greska;
