@@ -452,7 +452,7 @@ test("tema stranice drži isečke dokumenta, bez ugrađenog originala", () => {
   const redosled = [
     "Stranica", "Glava", "Naslov", "CSS model kutije", "Broj", "Dugme", "Veza",
     "Specifičnost selektora", "Selektor", "Okvir", "Osvežavanje", "Raspored pri uskom ekranu",
-    "Alati", "Dva zahteva", "Semantika",
+    "Dev alati", "Dva zahteva", "Semantika",
   ];
   const sirovi = dokument.teme[1].steps;
   assert.deepEqual(sirovi.map((korak) => korak.naslov), redosled);

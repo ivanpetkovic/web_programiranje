@@ -12,7 +12,7 @@ const PREPRAVKE = {
   "postojece-2-4-1": "Zašto broj 24 u ovom pasusu ne dokazuje merenje?",
   "postojece-2-5-0": "Klik na ovo dugme, dok još nema handlera. Šta se desi?",
   "postojece-2-7-2": "Šta iz crvene boje, uz ove deklaracije, ne sledi?",
-  "postojece-2-12-0": "U alatima se izvrši element.textContent = \"10\", a fajl i dalje kaže 24. Šta je time promenjeno?",
+  "postojece-2-12-0": "U dev alatima se izvrši element.textContent = \"10\", a fajl i dalje kaže 24. Šta je time promenjeno?",
 };
 
 export function bezBelih(kod) {

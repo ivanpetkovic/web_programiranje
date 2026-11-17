@@ -300,7 +300,7 @@ export const pitanja = [
     ["B", "Da. Heksadecimalni broj je senzor.", false],
   ], "Boja nije merenje sobe.", z),
 
-  izbor(2, 10, 1, "U alatima broj privremeno postane 10. Šta osvežavanje uradi?", [
+  izbor(2, 10, 1, "U dev alatima broj privremeno postane 10. Šta osvežavanje uradi?", [
     ["A", "Vrati dokument, opet 24, ako fajl i dalje kaže 24.", true],
     ["B", "Upiše 10 u fajl.", false],
     ["C", "Pošalje 10 kao novo merenje.", false],
@@ -309,12 +309,12 @@ export const pitanja = [
     ["A", "Da. Reload je čuvanje.", false],
     ["B", "Ne. Reload ponovo čita fajl. Lokalna izmena prikaza nestane.", true],
   ], "Prikaz i fajl nisu isti zapis.", z),
-  izbor(2, 10, 3, "Ako u fajlu piše 24, a na ekranu posle izmene u alatima piše 10, šta je dokument?", [
+  izbor(2, 10, 3, "Ako u fajlu piše 24, a na ekranu posle izmene u dev alatima piše 10, šta je dokument?", [
     ["A", "I dalje 24.", true],
     ["B", "10, jer ekran jeste fajl.", false],
   ], "Ekran može da laže o fajlu dok se ne osveži."),
   ispravka(2, 10, 4, "Komentar meša prikaz i fajl. Ispravi ga.", "// Osvežavanje upisuje 10 u fajl.", "// Osvežavanje vraća 24 iz fajla.", "10 nije upisan. Fajl i dalje drži 24.", { jezik: "js" }),
-  izbor(2, 10, 5, "U alatima broj privremeno postane 10, a fajl i dalje kaže 24. Zašto 10 nestane posle osvežavanja?", [
+  izbor(2, 10, 5, "U dev alatima broj privremeno postane 10, a fajl i dalje kaže 24. Zašto 10 nestane posle osvežavanja?", [
     ["A", "Zato što je 10 bio lokalni prikaz, a fajl i dalje kaže 24.", true],
     ["B", "Zato što browser pri reload-u uvek upisuje 24 u fajl.", false],
   ], "24 se vraća jer je u fajlu, ne jer ga reload izmišlja."),
@@ -357,31 +357,31 @@ export const pitanja = [
     ["B", "Da. gap upisuje novi natpis.", false],
   ], "Razmak nije sadržaj.", z),
 
-  izbor(2, 12, 1, "Izmena u alatima browsera promeni fajl na disku.", [
+  izbor(2, 12, 1, "Izmena u dev alatima promeni fajl na disku.", [
     ["A", "Ne. Menja lokalni prikaz u ovom browseru. Dokument ostaje.", true],
-    ["B", "Da. Alati šalju novi HTML na server.", false],
+    ["B", "Da. Dev alati šalju novi HTML na server.", false],
     ["C", "Da. Time se menja i merenje senzora.", false],
-  ], "Alati menjaju sliku. Fajl se ne čuva sam.", z),
-  izbor(2, 12, 2, "Zašto izmena u alatima ne preživi osvežavanje?", [
+  ], "Dev alati menjaju sliku. Fajl se ne čuva sam.", z),
+  izbor(2, 12, 2, "Zašto izmena u dev alatima ne preživi osvežavanje?", [
     ["A", "Zato što je promena lokalni prikaz, a dokument u fajlu ostaje.", true],
     ["B", "Zato što osvežavanje uvek briše CSS sa diska.", false],
   ], "Isto pravilo kao kad broj privremeno postane 10."),
-  izbor(2, 12, 3, "Šta je time promenjeno ako u alatima piše 10, a u fajlu 24?", [
+  izbor(2, 12, 3, "Šta je time promenjeno ako u dev alatima piše 10, a u fajlu 24?", [
     ["A", "Lokalni prikaz, ne dokument i ne merenje.", true],
     ["B", "I merenje i dokument.", false],
     ["C", "Samo server.", false],
   ], "Tri stvari ostaju odvojene: ekran, fajl, senzor."),
-  ispravka(2, 12, 4, "Ispravi komentar iznad izmene u alatima.", "// element.textContent = \"10\" čuva 10 u fajlu.", "// element.textContent = \"10\" menja samo lokalni prikaz.", "textContent u alatima ne snima fajl.", { jezik: "js" }),
-  izbor(2, 12, 5, "Isti broj u dva browsera znači da oba čitaju isti fajl, ne da alati jednog važe i u drugom.", [
+  ispravka(2, 12, 4, "Ispravi komentar iznad izmene u dev alatima.", "// element.textContent = \"10\" čuva 10 u fajlu.", "// element.textContent = \"10\" menja samo lokalni prikaz.", "textContent u dev alatima ne snima fajl.", { jezik: "js" }),
+  izbor(2, 12, 5, "Isti broj u dva browsera znači da oba čitaju isti fajl, ne da dev alati jednog važe i u drugom.", [
     ["A", "Da. Lokalna izmena jednog browsera ne putuje sama.", true],
-    ["B", "Ne. Alati su deo fajla.", false],
+    ["B", "Ne. Dev alati su deo fajla.", false],
   ], "Prikaz je u tom browseru."),
-  izbor(2, 12, 6, "Ako posle izmene u alatima sačuvaš fajl iz editora lekcije, šta postaje dokument?", [
-    ["A", "Ono što editor upiše u fajl, ne ono što je slučajno ostalo u alatima.", true],
-    ["B", "Uvek poslednji broj iz alata, i bez čuvanja.", false],
+  izbor(2, 12, 6, "Ako posle izmene u dev alatima sačuvaš fajl iz editora lekcije, šta postaje dokument?", [
+    ["A", "Ono što editor upiše u fajl, ne ono što je slučajno ostalo u dev alatima.", true],
+    ["B", "Uvek poslednji broj iz dev alata, i bez čuvanja.", false],
   ], "Čuvanje fajla i privremeni prikaz nisu isti gest."),
   ispravka(2, 12, 7, "Vrati tekst čvora na dokument. U fajlu je 24.", "element.textContent = \"10\"", "element.textContent = \"24\"", "10 je lokalna zamena. Dokument kaže 24.", { jezik: "js" }),
-  izbor(2, 12, 8, "Alati mogu da pokažu kako bi stil izgledao. To još nije nova verzija fajla.", [
+  izbor(2, 12, 8, "Dev alati mogu da pokažu kako bi stil izgledao. To još nije nova verzija fajla.", [
     ["A", "Da.", true],
     ["B", "Ne. Svaki pregled je čuvanje.", false],
   ], "Pokus u browseru nije upis dok ga neko ne sačuva."),

@@ -1065,7 +1065,7 @@
       "diskusijaMinuta": 35,
       "samostalniZadaci": "van-casa",
       "preduslov": "Web je usluga na Internetu. Stranica je dokument. server/ još nema fajlove.",
-      "problem": "U alatima browsera „24 °C” postane „10 °C”. Šta je promenjeno?",
+      "problem": "U dev alatima „24 °C” postane „10 °C”. Šta je promenjeno?",
       "pretpostavka": "Ekran jeste stanje kutije.",
       "options": [
         {
@@ -1083,7 +1083,7 @@
         {
           "key": "C",
           "text": "Lokalni prikaz u ovom browseru.",
-          "why": "Alati menjaju sliku u ovom browseru. Osvežavanje vraća dokument sa 24.",
+          "why": "Dev alati menjaju sliku u ovom browseru. Osvežavanje vraća dokument sa 24.",
           "ok": true
         },
         {
@@ -1122,8 +1122,8 @@
           "id": "prikaz",
           "name": "Prikaz",
           "hint": "ono što ovaj browser crta",
-          "body": "Prikaz je slika dokumenta u jednom browseru. Izmena u alatima ostaje u toj slici.",
-          "code": "<p>24</p>\n<!-- alati pokažu 10, dokument i dalje kaže 24 -->",
+          "body": "Prikaz je slika dokumenta u jednom browseru. Izmena u dev alatima ostaje u toj slici.",
+          "code": "<p>24</p>\n<!-- dev alati pokažu 10, dokument i dalje kaže 24 -->",
           "codeLanguage": "html"
         },
         {
@@ -1905,51 +1905,51 @@
           "nivo": "Osnovno",
           "minuta": 3,
           "tipPrimer": "aplikacija",
-          "tekst": "U alatima je neko prekucao 24 u 10. Izmena textContent u DevTools-u menja trenutno DOM stablo, ne izvorni fajl niti serverski odgovor. Pri novom učitavanju browser iznova dobija dokument ili verziju iz cache-a i od njega gradi prikaz.",
+          "tekst": "U dev alatima je neko prekucao 24 u 10. Izmena textContent u dev alatima menja trenutno DOM stablo, ne izvorni fajl niti serverski odgovor. Pri novom učitavanju browser iznova dobija dokument ili verziju iz cache-a i od njega gradi prikaz.",
           "kljucnaIdeja": "Osvežavanje vraća dokument. 10 je bio samo lokalni prikaz.",
           "putanja": "client/index.html",
           "isecakNaslov": "Osvežavanje",
           "isecakJezik": "html",
           "isecak": "<!-- osvežavanje vraća dokument -->",
           "delic": "<!-- osvežavanje vraća dokument -->",
-          "pitalica": "U alatima je neko prekucao 24 u 10. Fajl i dalje kaže 24. Šta osvežavanje uradi?",
+          "pitalica": "U dev alatima je neko prekucao 24 u 10. Fajl i dalje kaže 24. Šta osvežavanje uradi?",
           "opcije": [
             {
               "key": "A",
               "text": "Upisuje 10 u fajl.",
-              "why": "Alati nisu sačuvali fajl. Izmena textContent u DevTools-u menja trenutno DOM stablo, ne izvorni fajl niti serverski odgovor.",
+              "why": "Dev alati nisu sačuvali fajl. Izmena textContent u dev alatima menja trenutno DOM stablo, ne izvorni fajl niti serverski odgovor.",
               "ok": false
             },
             {
               "key": "B",
               "text": "Vraća dokument, opet 24.",
-              "why": "Prikaz se pravi iznova iz fajla. Izmena textContent u DevTools-u menja trenutno DOM stablo, ne izvorni fajl niti serverski odgovor. Pri novom učitavanju browser iznova dobija dokument ili verziju iz cache-a i od njega gradi prikaz.",
+              "why": "Prikaz se pravi iznova iz fajla. Izmena textContent u dev alatima menja trenutno DOM stablo, ne izvorni fajl niti serverski odgovor. Pri novom učitavanju browser iznova dobija dokument ili verziju iz cache-a i od njega gradi prikaz.",
               "ok": true
             }
           ],
-          "analizaPitalice": "Izmena textContent u DevTools-u menja trenutno DOM stablo, ne izvorni fajl niti serverski odgovor. Pri novom učitavanju browser iznova dobija dokument ili verziju iz cache-a i od njega gradi prikaz.",
+          "analizaPitalice": "Izmena textContent u dev alatima menja trenutno DOM stablo, ne izvorni fajl niti serverski odgovor. Pri novom učitavanju browser iznova dobija dokument ili verziju iz cache-a i od njega gradi prikaz.",
           "proveraPitalice": "predvidi-pa-proveri",
           "pitalice": [
             {
-              "pitalica": "U alatima je neko prekucao 24 u 10. Fajl i dalje kaže 24. Šta osvežavanje uradi?",
+              "pitalica": "U dev alatima je neko prekucao 24 u 10. Fajl i dalje kaže 24. Šta osvežavanje uradi?",
               "opcije": [
                 {
                   "key": "A",
                   "text": "Upisuje 10 u fajl.",
-                  "why": "Alati nisu sačuvali fajl. Izmena textContent u DevTools-u menja trenutno DOM stablo, ne izvorni fajl niti serverski odgovor.",
+                  "why": "Dev alati nisu sačuvali fajl. Izmena textContent u dev alatima menja trenutno DOM stablo, ne izvorni fajl niti serverski odgovor.",
                   "ok": false
                 },
                 {
                   "key": "B",
                   "text": "Vraća dokument, opet 24.",
-                  "why": "Prikaz se pravi iznova iz fajla. Izmena textContent u DevTools-u menja trenutno DOM stablo, ne izvorni fajl niti serverski odgovor. Pri novom učitavanju browser iznova dobija dokument ili verziju iz cache-a i od njega gradi prikaz.",
+                  "why": "Prikaz se pravi iznova iz fajla. Izmena textContent u dev alatima menja trenutno DOM stablo, ne izvorni fajl niti serverski odgovor. Pri novom učitavanju browser iznova dobija dokument ili verziju iz cache-a i od njega gradi prikaz.",
                   "ok": true
                 }
               ],
-              "analizaPitalice": "Izmena textContent u DevTools-u menja trenutno DOM stablo, ne izvorni fajl niti serverski odgovor. Pri novom učitavanju browser iznova dobija dokument ili verziju iz cache-a i od njega gradi prikaz."
+              "analizaPitalice": "Izmena textContent u dev alatima menja trenutno DOM stablo, ne izvorni fajl niti serverski odgovor. Pri novom učitavanju browser iznova dobija dokument ili verziju iz cache-a i od njega gradi prikaz."
             },
             {
-              "pitalica": "U alatima broj privremeno postane 10, a fajl i dalje kaže 24. Zašto 10 nestane posle osvežavanja?",
+              "pitalica": "U dev alatima broj privremeno postane 10, a fajl i dalje kaže 24. Zašto 10 nestane posle osvežavanja?",
               "opcije": [
                 {
                   "key": "A",
@@ -1964,7 +1964,7 @@
                   "ok": true
                 }
               ],
-              "analizaPitalice": "Ovo je razlog što alati i privremeni tekst nisu izvor istine. Bez fajla kao izvora, 10 bi ostao i posle osvežavanja."
+              "analizaPitalice": "Ovo je razlog što dev alati i privremeni tekst nisu izvor istine. Bez fajla kao izvora, 10 bi ostao i posle osvežavanja."
             }
           ]
         },
@@ -2049,14 +2049,14 @@
           ]
         },
         {
-          "naslov": "Alati",
+          "naslov": "Dev alati",
           "nivo": "Osnovno",
           "minuta": 3,
           "tipPrimer": "aplikacija",
-          "tekst": "Izmena u alatima vidi se odmah na ekranu. DevTools prikazuje trenutni DOM, izračunate stilove i mrežni saobraćaj, ali nije alat koji automatski upisuje izmene na server. Razlikuj lokalnu mutaciju DOM-a od promene izvora podataka.",
-          "kljucnaIdeja": "Alati menjaju sliku u ovom browseru. Dokument ostaje.",
+          "tekst": "Izmena u dev alatima vidi se odmah na ekranu. Dev alati prikazuju trenutni DOM, izračunate stilove i mrežni saobraćaj, ali ne upisuju izmene na server. Razlikuj lokalnu mutaciju DOM-a od promene izvora podataka.",
+          "kljucnaIdeja": "Dev alati menjaju sliku u ovom browseru. Dokument ostaje.",
           "putanja": "client/index.html",
-          "isecakNaslov": "Alati",
+          "isecakNaslov": "Dev alati",
           "isecakJezik": "text",
           "isecak": "element.textContent = \"10\"",
           "delic": "element.textContent = \"10\"",
@@ -2067,23 +2067,23 @@
             {
               "key": "A",
               "text": "Merenje.",
-              "why": "Merenje nismo dirali. DevTools prikazuje trenutni DOM, izračunate stilove i mrežni saobraćaj, ali nije alat koji automatski upisuje izmene na server.",
+              "why": "Merenje nismo dirali. Dev alati prikazuju trenutni DOM, izračunate stilove i mrežni saobraćaj, ali ne upisuju izmene na server.",
               "ok": false
             },
             {
               "key": "B",
               "text": "Lokalni prikaz, ne dokument.",
-              "why": "Fajl i dalje kaže 24. DevTools prikazuje trenutni DOM, izračunate stilove i mrežni saobraćaj, ali nije alat koji automatski upisuje izmene na server. Razlikuj lokalnu mutaciju DOM-a od promene izvora podataka.",
+              "why": "Fajl i dalje kaže 24. Dev alati prikazuju trenutni DOM, izračunate stilove i mrežni saobraćaj, ali ne upisuju izmene na server. Razlikuj lokalnu mutaciju DOM-a od promene izvora podataka.",
               "ok": true
             },
             {
               "key": "C",
               "text": "I merenje i dokument.",
-              "why": "Dokument se nije sačuvao. DevTools prikazuje trenutni DOM, izračunate stilove i mrežni saobraćaj, ali nije alat koji automatski upisuje izmene na server.",
+              "why": "Dokument se nije sačuvao. Dev alati prikazuju trenutni DOM, izračunate stilove i mrežni saobraćaj, ali ne upisuju izmene na server.",
               "ok": false
             }
           ],
-          "analizaPitalice": "DevTools prikazuje trenutni DOM, izračunate stilove i mrežni saobraćaj, ali nije alat koji automatski upisuje izmene na server. Razlikuj lokalnu mutaciju DOM-a od promene izvora podataka.",
+          "analizaPitalice": "Dev alati prikazuju trenutni DOM, izračunate stilove i mrežni saobraćaj, ali ne upisuju izmene na server. Razlikuj lokalnu mutaciju DOM-a od promene izvora podataka.",
           "pitalice": [
             {
               "pitalica": "Šta je time promenjeno?",
@@ -2091,26 +2091,26 @@
                 {
                   "key": "A",
                   "text": "Merenje.",
-                  "why": "Merenje nismo dirali. DevTools prikazuje trenutni DOM, izračunate stilove i mrežni saobraćaj, ali nije alat koji automatski upisuje izmene na server.",
+                  "why": "Merenje nismo dirali. Dev alati prikazuju trenutni DOM, izračunate stilove i mrežni saobraćaj, ali ne upisuju izmene na server.",
                   "ok": false
                 },
                 {
                   "key": "B",
                   "text": "Lokalni prikaz, ne dokument.",
-                  "why": "Fajl i dalje kaže 24. DevTools prikazuje trenutni DOM, izračunate stilove i mrežni saobraćaj, ali nije alat koji automatski upisuje izmene na server. Razlikuj lokalnu mutaciju DOM-a od promene izvora podataka.",
+                  "why": "Fajl i dalje kaže 24. Dev alati prikazuju trenutni DOM, izračunate stilove i mrežni saobraćaj, ali ne upisuju izmene na server. Razlikuj lokalnu mutaciju DOM-a od promene izvora podataka.",
                   "ok": true
                 },
                 {
                   "key": "C",
                   "text": "I merenje i dokument.",
-                  "why": "Dokument se nije sačuvao. DevTools prikazuje trenutni DOM, izračunate stilove i mrežni saobraćaj, ali nije alat koji automatski upisuje izmene na server.",
+                  "why": "Dokument se nije sačuvao. Dev alati prikazuju trenutni DOM, izračunate stilove i mrežni saobraćaj, ali ne upisuju izmene na server.",
                   "ok": false
                 }
               ],
-              "analizaPitalice": "DevTools prikazuje trenutni DOM, izračunate stilove i mrežni saobraćaj, ali nije alat koji automatski upisuje izmene na server. Razlikuj lokalnu mutaciju DOM-a od promene izvora podataka."
+              "analizaPitalice": "Dev alati prikazuju trenutni DOM, izračunate stilove i mrežni saobraćaj, ali ne upisuju izmene na server. Razlikuj lokalnu mutaciju DOM-a od promene izvora podataka."
             },
             {
-              "pitalica": "Zašto izmena u alatima ne preživi osvežavanje?",
+              "pitalica": "Zašto izmena u dev alatima ne preživi osvežavanje?",
               "opcije": [
                 {
                   "key": "B",
@@ -2120,12 +2120,12 @@
                 },
                 {
                   "key": "A",
-                  "text": "Zato što alati šalju novi HTML na server.",
-                  "why": "Na ovom času nema upisa. Alati diraju prikaz u ovom browseru.",
+                  "text": "Zato što dev alati šalju novi HTML na server.",
+                  "why": "Na ovom času nema upisa. Dev alati diraju prikaz u ovom browseru.",
                   "ok": false
                 }
               ],
-              "analizaPitalice": "Alati postoje da se vidi razlika. Ko sačuva izmenu alata kao da je sačuvao dokument, ponoviće je posle svakog reload-a."
+              "analizaPitalice": "Dev alati postoje da se vidi razlika. Ko sačuva izmenu dev alata kao da je sačuvao dokument, ponoviće je posle svakog reload-a."
             }
           ]
         },
@@ -2290,9 +2290,9 @@
         "detaljnoGradivo": [
           "HTML opisuje strukturu i značenje, ne samo vizuelni rezultat. Naslov ostaje naslov čak i kada promenimo njegovu veličinu ili boju. Semantički elementi pomažu navigaciji, pristupačnosti i razumevanju dokumenta. CSS određuje pravila prikaza preko selektora, kaskade, nasleđivanja i pojma CSS model kutije.",
           "Kada CSS pravila ciljaju isti element, rezultat ne zavisi samo od poslednjeg reda. Porede se izvor i važnost pravila, slojevi, specifičnost i redosled. Dimenzije elementa zavise i od box-sizing: width može opisivati sadržaj ili ukupnu širinu sa unutrašnjim razmakom i ivicom. Zato predviđanje renderovanog rezultata ima više vrednosti od pamćenja svojstava.",
-          "Kontrolna soba koristi Flexbox i Grid za raspored prekidača i displeja. Media query menja broj kolona na užem ekranu, ali ne menja sadržaj ni stanje aplikacije. DevTools služi za eksperimente: privremena izmena DOM-a i stila nije trajna promena izvornog fajla niti izmena očitavanja na serveru.",
+          "Kontrolna soba koristi Flexbox i Grid za raspored prekidača i displeja. Media query menja broj kolona na užem ekranu, ali ne menja sadržaj ni stanje aplikacije. Dev alati služe za eksperimente: privremena izmena DOM-a i stila nije trajna promena izvornog fajla niti izmena očitavanja na serveru.",
           "Prikaz brojke u Kontrolnoj sobi počinje kao čisti HTML. Prvo odredi ulogu svake informacije: h1 je naslov, p je tekst očitavanja, button je interaktivna kontrola. Tek potom opiši izgled u CSS-u. Tako se čuvaju smisao dokumenta, navigacija tastaturom i podaci važni asistivnim tehnologijama čak i kada dizajn bude promenjen.",
-          "CSS model kutije uči se računanjem, ne nabrajanjem: width:200px uz padding:20px i border:2px daje spolja 244px kod content-box. Proveri isto sa border-box. Kaskada zatim određuje koja deklaracija važi kada se selektori sukobe: važnost, poreklo, slojevi, specifičnost i redosled igraju ulogu. DevTools Styles i Computed panel služe kao dokaz, ne kao zamena za predviđanje.",
+          "CSS model kutije uči se računanjem, ne nabrajanjem: width:200px uz padding:20px i border:2px daje spolja 244px kod content-box. Proveri isto sa border-box. Kaskada zatim određuje koja deklaracija važi kada se selektori sukobe: važnost, poreklo, slojevi, specifičnost i redosled igraju ulogu. Paneli Styles i Computed u dev alatima služe kao dokaz, ne kao zamena za predviđanje.",
           "Responsive raspored rešava problem: dva panela koja izgledaju dobro na velikom monitoru postaju nečitljiva na telefonu. CSS Grid i Flexbox mogu promeniti organizaciju bez promene HTML semantike ili podatka. Pri proveri smanji viewport, povećaj font, navigiraj Tab tasterom i posmatraj da li fokus i oznake i dalje imaju smisla."
         ],
         "tokRada": "1) Pročitaj problem i opiši šta očekuješ. 2) Odgovori bez izvršavanja. 3) Otvori detaljno objašnjenje svih opcija. 4) Pokreni primer u izolovanom editoru. 5) Izmeni jedan detalj i ponovi eksperiment. 6) Vrati se Kontrolnoj sobi i poveži naučeno sa njenim fajlovima.",
@@ -2416,7 +2416,7 @@
             }
           ],
           "tacanOdgovor": "Crvene, zato što ID selektor ima veću specifičnost.",
-          "objasnjenje": "Dva pravila ciljaju isti element i isto svojstvo. Kada su origin, importance i drugi koraci kaskade isti, ID selektor je specifičniji od class selektora. Redosled u fajlu presuđuje tek kad su raniji kriterijumi izjednačeni. Ne rešavaj sukob selektora dodavanjem !important nasumično; prvo proveri kaskadu u DevTools-u.",
+          "objasnjenje": "Dva pravila ciljaju isti element i isto svojstvo. Kada su origin, importance i drugi koraci kaskade isti, ID selektor je specifičniji od class selektora. Redosled u fajlu presuđuje tek kad su raniji kriterijumi izjednačeni. Ne rešavaj sukob selektora dodavanjem !important nasumično; prvo proveri kaskadu u dev alatima.",
           "promeniIProveri": "Promeni jedan uslov iz primera, napiši novo očekivanje i tek onda ponovi proveru. Kod sa browserom koristi DOM okruženje, a HTTP/SQL scenarije pokreći samo u odgovarajućem simuliranom servisu.",
           "vezaSaAplikacijom": "HTML opisuje značenje sadržaja, CSS njegov raspored i izgled, a DOM je model dokumenta u browseru. Prikaz nije istovetan merenju.",
           "ocekivaniRezultat": "Crvene, zato što ID selektor ima veću specifičnost."
@@ -2456,7 +2456,7 @@
             }
           ],
           "tacanOdgovor": "Selektor #temperatura traži id; treba .temperatura ili id na elementu.",
-          "objasnjenje": "HTML koristi class=\"temperatura\", a CSS selektor sa # odgovara id atributu. Pravilo zato ne nalazi element. Zameni # sa . ili promeni HTML tako da sadrži id=\"temperatura\". U devtools panelu Styles vidi se koje pravilo je zaista primenjeno, pa se greška potvrđuje bez nagađanja.",
+          "objasnjenje": "HTML koristi class=\"temperatura\", a CSS selektor sa # odgovara id atributu. Pravilo zato ne nalazi element. Zameni # sa . ili promeni HTML tako da sadrži id=\"temperatura\". U dev alatima, panel Styles vidi se koje pravilo je zaista primenjeno, pa se greška potvrđuje bez nagađanja.",
           "promeniIProveri": "Promeni jedan uslov iz primera, napiši novo očekivanje i tek onda ponovi proveru. Kod sa browserom koristi DOM okruženje, a HTTP/SQL scenarije pokreći samo u odgovarajućem simuliranom servisu.",
           "vezaSaAplikacijom": "HTML opisuje značenje sadržaja, CSS njegov raspored i izgled, a DOM je model dokumenta u browseru. Prikaz nije istovetan merenju.",
           "ocekivaniRezultat": "Selektor #temperatura traži id; treba .temperatura ili id na elementu.",
@@ -6494,7 +6494,7 @@
           "nivo": "Primena",
           "minuta": 3,
           "tipPrimer": "eksperiment",
-          "tekst": "Program ne mora uvek da se izvrši onako kako je programer zamislio.\n\nGreške mogu nastati zbog neispravne sintakse, neispravne operacije ili pogrešne programske logike.\n\n### Vrste grešaka\n\nSintaksne greške nastaju kada kod ne poštuje gramatiku jezika.\n\nOvaj kod nije ispravan JavaScript i ne može biti uspešno parsiran.\n\nGreške tokom izvršavanja nastaju kada je kod sintaksno ispravan, ali neka operacija nije dozvoljena.\n\nLogičke greške nastaju kada se program izvršava bez izuzetka, ali daje pogrešan rezultat.\n\nJavaScript ne može automatski da zna da je namera programera bila množenje.\n\n### Izuzeci\n\nKada tokom izvršavanja nastane određena greška, JavaScript može baciti izuzetak (exception).\n\nIzuzetak prekida uobičajeni tok izvršavanja dok se ne pronađe odgovarajuća obrada ili dok se izvršavanje ne završi zbog neobrađene greške.\n\nProgramer može i sam baciti izuzetak pomoću `throw`.\n\nU ovom slučaju programer je definisao pravilo funkcije i izuzetak za neispravan argument.\n\nVažno je znati da u JavaScriptu samo deljenje sa nulom ne mora izazvati izuzetak: na primer, `10 / 0` daje `Infinity`.\n\n### Obrada izuzetaka\n\nZa obradu izuzetaka koriste se `try`, `catch` i `finally`.\n\n`try` označava kod u kome može nastati izuzetak.\n\n`catch` obrađuje izuzetak koji je nastao tokom izvršavanja odgovarajućeg `try` bloka.\n\n`finally` predstavlja kod koji se izvršava nakon odgovarajuće obrade, bez obzira na to da li je došlo do izuzetka, uz posebna pravila kada se izvršavanje naglo prekida.\n\n### Error objekti\n\nJavaScript ima standardne vrste grešaka, među kojima su:\n\n- `SyntaxError`: problem sa sintaksom.\n- `ReferenceError`: neispravan pristup identifikatoru ili promenljivoj.\n- `TypeError`: operacija nije odgovarajuća za datu vrednost.\n- `RangeError`: vrednost je izvan dozvoljenog opsega.\n\nObjekti grešaka mogu sadržati poruku (`message`) i informacije o steku poziva (`stack`).\n\n### Stack trace\n\nStack trace prikazuje putanju aktivnih poziva koja je dovela do greške.\n\nPošto studenti već poznaju call stack, sada mogu da razumeju zašto stack trace navodi funkcije i mesta poziva kroz koja je izvršavanje prošlo.\n\nTo je važna veza između teorijskog modela izvršavanja i praktičnog debagovanja.\n\n### Debugger\n\nBrowser razvojni alati omogućavaju:\n\n- Postavljanje prekidnih tačaka (breakpoints).\n- Izvršavanje naredbu po naredbu.\n- Ulazak u funkciju (step into) i prelazak preko poziva (step over).\n- Posmatranje trenutnih vrednosti promenljivih.\n- Pregled steka poziva.\n\n`console.log()` je koristan za jednostavnu proveru vrednosti, ali debugger omogućava sistematično praćenje izvršavanja.",
+          "tekst": "Program ne mora uvek da se izvrši onako kako je programer zamislio.\n\nGreške mogu nastati zbog neispravne sintakse, neispravne operacije ili pogrešne programske logike.\n\n### Vrste grešaka\n\nSintaksne greške nastaju kada kod ne poštuje gramatiku jezika.\n\nOvaj kod nije ispravan JavaScript i ne može biti uspešno parsiran.\n\nGreške tokom izvršavanja nastaju kada je kod sintaksno ispravan, ali neka operacija nije dozvoljena.\n\nLogičke greške nastaju kada se program izvršava bez izuzetka, ali daje pogrešan rezultat.\n\nJavaScript ne može automatski da zna da je namera programera bila množenje.\n\n### Izuzeci\n\nKada tokom izvršavanja nastane određena greška, JavaScript može baciti izuzetak (exception).\n\nIzuzetak prekida uobičajeni tok izvršavanja dok se ne pronađe odgovarajuća obrada ili dok se izvršavanje ne završi zbog neobrađene greške.\n\nProgramer može i sam baciti izuzetak pomoću `throw`.\n\nU ovom slučaju programer je definisao pravilo funkcije i izuzetak za neispravan argument.\n\nVažno je znati da u JavaScriptu samo deljenje sa nulom ne mora izazvati izuzetak: na primer, `10 / 0` daje `Infinity`.\n\n### Obrada izuzetaka\n\nZa obradu izuzetaka koriste se `try`, `catch` i `finally`.\n\n`try` označava kod u kome može nastati izuzetak.\n\n`catch` obrađuje izuzetak koji je nastao tokom izvršavanja odgovarajućeg `try` bloka.\n\n`finally` predstavlja kod koji se izvršava nakon odgovarajuće obrade, bez obzira na to da li je došlo do izuzetka, uz posebna pravila kada se izvršavanje naglo prekida.\n\n### Error objekti\n\nJavaScript ima standardne vrste grešaka, među kojima su:\n\n- `SyntaxError`: problem sa sintaksom.\n- `ReferenceError`: neispravan pristup identifikatoru ili promenljivoj.\n- `TypeError`: operacija nije odgovarajuća za datu vrednost.\n- `RangeError`: vrednost je izvan dozvoljenog opsega.\n\nObjekti grešaka mogu sadržati poruku (`message`) i informacije o steku poziva (`stack`).\n\n### Stack trace\n\nStack trace prikazuje putanju aktivnih poziva koja je dovela do greške.\n\nPošto studenti već poznaju call stack, sada mogu da razumeju zašto stack trace navodi funkcije i mesta poziva kroz koja je izvršavanje prošlo.\n\nTo je važna veza između teorijskog modela izvršavanja i praktičnog debagovanja.\n\n### Debugger\n\nDev alati browsera omogućavaju:\n\n- Postavljanje prekidnih tačaka (breakpoints).\n- Izvršavanje naredbu po naredbu.\n- Ulazak u funkciju (step into) i prelazak preko poziva (step over).\n- Posmatranje trenutnih vrednosti promenljivih.\n- Pregled steka poziva.\n\n`console.log()` je koristan za jednostavnu proveru vrednosti, ali debugger omogućava sistematično praćenje izvršavanja.",
           "kljucnaIdeja": "Izuzeci su mehanizam kojim se prekida normalan tok programa i signalizira problem. Debagovanje zahteva razumevanje stvarnog redosleda izvršavanja, stanja promenljivih i call stack-a.",
           "blokovi": [
             {
@@ -6590,7 +6590,7 @@
             {
               "id": "k14b17",
               "vrsta": "tekst",
-              "tekst": "### Debugger\n\nBrowser razvojni alati omogućavaju:\n\n- Postavljanje prekidnih tačaka (breakpoints).\n- Izvršavanje naredbu po naredbu.\n- Ulazak u funkciju (step into) i prelazak preko poziva (step over).\n- Posmatranje trenutnih vrednosti promenljivih.\n- Pregled steka poziva.\n\n`console.log()` je koristan za jednostavnu proveru vrednosti, ali debugger omogućava sistematično praćenje izvršavanja."
+              "tekst": "### Debugger\n\nDev alati browsera omogućavaju:\n\n- Postavljanje prekidnih tačaka (breakpoints).\n- Izvršavanje naredbu po naredbu.\n- Ulazak u funkciju (step into) i prelazak preko poziva (step over).\n- Posmatranje trenutnih vrednosti promenljivih.\n- Pregled steka poziva.\n\n`console.log()` je koristan za jednostavnu proveru vrednosti, ali debugger omogućava sistematično praćenje izvršavanja."
             },
             {
               "id": "k14b18",
@@ -7239,7 +7239,7 @@
               "id": "k16q4",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "1.4. Uzrok i posledica. Ako u DevTools promenimo tekst naslova, da li smo promenili fajl na serveru? Šta očekujete posle osvežavanja stranice?",
+              "tekst": "1.4. Uzrok i posledica. Ako u dev alatima promenimo tekst naslova, da li smo promenili fajl na serveru? Šta očekujete posle osvežavanja stranice?",
               "odgovor": "Menja se živi dokument u memoriji, ne originalni fajl. Po ponovnom učitavanju najčešće se dobija početni dokument, osim ako druga logika ili skladište ne vrate promenu."
             },
             {
@@ -7278,7 +7278,7 @@
               "odgovor": "`p` ima tekstualni čvor `Zdravo ` i element `strong`, koji ima tekstualni čvor `svete`. Element i čvor nisu sinonimi."
             },
             {
-              "pitalica": "1.4. Uzrok i posledica. Ako u DevTools promenimo tekst naslova, da li smo promenili fajl na serveru? Šta očekujete posle osvežavanja stranice?",
+              "pitalica": "1.4. Uzrok i posledica. Ako u dev alatima promenimo tekst naslova, da li smo promenili fajl na serveru? Šta očekujete posle osvežavanja stranice?",
               "odgovor": "Menja se živi dokument u memoriji, ne originalni fajl. Po ponovnom učitavanju najčešće se dobija početni dokument, osim ako druga logika ili skladište ne vrate promenu."
             },
             {
@@ -7298,7 +7298,7 @@
           "putanja": "client/lekcije/16-dom.js",
           "isecakNaslov": "Šta je DOM i zašto postoji?",
           "isecakJezik": "javascript",
-          "delic": "// Šta je DOM i zašto postoji?\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Kontrolna soba\n// Napraviti `index.html`, `style.css` i `app.js`. Statički panel sadrži naslov, trenutnu temperaturu, status uređaja, dugme za povećanje temperature, formu za zadavanje ciljne temperature i prazan prostor za senzore. `app.js` učitati kao modul. U DevTools → Elements pronaći odgovarajuće DOM čvorove.\n//\n// Provera: Dokument se prikazuje bez JavaScript grešaka; objašnjeno je koje promene pripadaju HTML-u, a koje će se kasnije raditi nad DOM-om.\n\n// HTML\n/*\n<main>\n  <h1 id=\"naslov\">Vesti</h1>\n  <p>Najnovije objave</p>\n</main>\n*/\n\n// Dijagram\n// document\n// └── html\n//     └── body\n//         └── main\n//             ├── h1#naslov\n//             │   └── #text \"Vesti\"\n//             └── p\n//                 └── #text \"Najnovije objave\"\n\n// HTML 2\n/*\n<script type=\"module\" src=\"app.js\"></script>\n*/\n"
+          "delic": "// Šta je DOM i zašto postoji?\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Kontrolna soba\n// Napraviti `index.html`, `style.css` i `app.js`. Statički panel sadrži naslov, trenutnu temperaturu, status uređaja, dugme za povećanje temperature, formu za zadavanje ciljne temperature i prazan prostor za senzore. `app.js` učitati kao modul. U dev alatima, panel Elements, pronaći odgovarajuće DOM čvorove.\n//\n// Provera: Dokument se prikazuje bez JavaScript grešaka; objašnjeno je koje promene pripadaju HTML-u, a koje će se kasnije raditi nad DOM-om.\n\n// HTML\n/*\n<main>\n  <h1 id=\"naslov\">Vesti</h1>\n  <p>Najnovije objave</p>\n</main>\n*/\n\n// Dijagram\n// document\n// └── html\n//     └── body\n//         └── main\n//             ├── h1#naslov\n//             │   └── #text \"Vesti\"\n//             └── p\n//                 └── #text \"Najnovije objave\"\n\n// HTML 2\n/*\n<script type=\"module\" src=\"app.js\"></script>\n*/\n"
         },
         {
           "naslov": "Pronalaženje elemenata",
@@ -7658,7 +7658,7 @@
               "vrsta": "pitanje",
               "oblik": "tekst",
               "tekst": "4.6. Zamka u dizajnu. JS stavlja `.alarm`, CSS podešava `color: red`, ali drugi selektor ipak nadjačava boju. Da li je logika stanja pogrešna? Šta prvo proveriti?",
-              "odgovor": "Moguće je da je stanje ispravno, a problem u kaskadi/specifičnosti CSS-a. DevTools Computed/Styles pomažu da se razdvoje DOM stanje i konačni izgled."
+              "odgovor": "Moguće je da je stanje ispravno, a problem u kaskadi/specifičnosti CSS-a. Paneli Computed i Styles u dev alatima pomažu da se razdvoje DOM stanje i konačni izgled."
             },
             {
               "id": "k19q7",
@@ -7691,7 +7691,7 @@
             },
             {
               "pitalica": "4.6. Zamka u dizajnu. JS stavlja `.alarm`, CSS podešava `color: red`, ali drugi selektor ipak nadjačava boju. Da li je logika stanja pogrešna? Šta prvo proveriti?",
-              "odgovor": "Moguće je da je stanje ispravno, a problem u kaskadi/specifičnosti CSS-a. DevTools Computed/Styles pomažu da se razdvoje DOM stanje i konačni izgled."
+              "odgovor": "Moguće je da je stanje ispravno, a problem u kaskadi/specifičnosti CSS-a. Paneli Computed i Styles u dev alatima pomažu da se razdvoje DOM stanje i konačni izgled."
             },
             {
               "pitalica": "4.7. Primena. Kako bi kontrolna soba saopštila alarm i korisniku koji ne razlikuje boje?",
@@ -9411,7 +9411,7 @@
           "nivo": "Primena",
           "minuta": 3,
           "tipPrimer": "eksperiment",
-          "tekst": "**Problem:** Klik postoji, vrednost se možda menja, ali rezultat je pogrešan. Kako utvrditi gde je greška, umesto nasumičnog menjanja koda?\n\nKorisno je proveravati tok u jasno odvojenim tačkama:\n\n**Tipične greške i prvi tragovi:**\n\n| Simptom | Prva provera |\n| --- | --- |\n| Klik ne radi | Pogrešan selektor, nepostojeći element, listener nije registrovan |\n| Funkcija radi pri učitavanju, ne na klik | Prosleđen `handler()` umesto `handler` |\n| Jedan klik menja stanje dvaput | Dva listenera ili propagacija i dodatni handler |\n| Stanje je novo, tekst star | `render` nije pozvan ili čita pogrešan podatak |\n| Obrisana stavka se vraća | Uklonjen DOM čvor, ali nije promenjen model |\n| Vrednost nestaje posle reload-a | Nije sačuvana ili nije obnovljena iz skladišta |\n| Dugme ne radi posle ponovnog renderovanja | Stari element zamenjen, a listener bio samo na njemu |\n\nU DevTools korisni su **Elements** za DOM, **Console** za vrednosti i greške, **Sources** za breakpoint-e i praćenje poziva, i **Event Listener Breakpoints** za zaustavljanje na događajima. Logovanje pojedinačnih faza pomaže, ali nije zamena za proveru konkretne pretpostavke.\n\n`structuredClone` ovde služi samo za snimak odgovarajućeg klonabilnog objekta tokom dijagnostike; za jednostavne vrednosti dovoljno je logovati neposredne podatke. Prednost jasne podele na akciju, stanje i prikaz jeste to što grešku možemo lokalizovati.",
+          "tekst": "**Problem:** Klik postoji, vrednost se možda menja, ali rezultat je pogrešan. Kako utvrditi gde je greška, umesto nasumičnog menjanja koda?\n\nKorisno je proveravati tok u jasno odvojenim tačkama:\n\n**Tipične greške i prvi tragovi:**\n\n| Simptom | Prva provera |\n| --- | --- |\n| Klik ne radi | Pogrešan selektor, nepostojeći element, listener nije registrovan |\n| Funkcija radi pri učitavanju, ne na klik | Prosleđen `handler()` umesto `handler` |\n| Jedan klik menja stanje dvaput | Dva listenera ili propagacija i dodatni handler |\n| Stanje je novo, tekst star | `render` nije pozvan ili čita pogrešan podatak |\n| Obrisana stavka se vraća | Uklonjen DOM čvor, ali nije promenjen model |\n| Vrednost nestaje posle reload-a | Nije sačuvana ili nije obnovljena iz skladišta |\n| Dugme ne radi posle ponovnog renderovanja | Stari element zamenjen, a listener bio samo na njemu |\n\nU dev alatima korisni su **Elements** za DOM, **Console** za vrednosti i greške, **Sources** za breakpoint-e i praćenje poziva, i **Event Listener Breakpoints** za zaustavljanje na događajima. Logovanje pojedinačnih faza pomaže, ali nije zamena za proveru konkretne pretpostavke.\n\n`structuredClone` ovde služi samo za snimak odgovarajućeg klonabilnog objekta tokom dijagnostike; za jednostavne vrednosti dovoljno je logovati neposredne podatke. Prednost jasne podele na akciju, stanje i prikaz jeste to što grešku možemo lokalizovati.",
           "kljucnaIdeja": "Pre popravke ustanoviti **koji korak toka nije ispunio svoj ugovor**.",
           "blokovi": [
             {
@@ -9428,7 +9428,7 @@
             {
               "id": "k33b3",
               "vrsta": "tekst",
-              "tekst": "**Tipične greške i prvi tragovi:**\n\n| Simptom | Prva provera |\n| --- | --- |\n| Klik ne radi | Pogrešan selektor, nepostojeći element, listener nije registrovan |\n| Funkcija radi pri učitavanju, ne na klik | Prosleđen `handler()` umesto `handler` |\n| Jedan klik menja stanje dvaput | Dva listenera ili propagacija i dodatni handler |\n| Stanje je novo, tekst star | `render` nije pozvan ili čita pogrešan podatak |\n| Obrisana stavka se vraća | Uklonjen DOM čvor, ali nije promenjen model |\n| Vrednost nestaje posle reload-a | Nije sačuvana ili nije obnovljena iz skladišta |\n| Dugme ne radi posle ponovnog renderovanja | Stari element zamenjen, a listener bio samo na njemu |\n\nU DevTools korisni su **Elements** za DOM, **Console** za vrednosti i greške, **Sources** za breakpoint-e i praćenje poziva, i **Event Listener Breakpoints** za zaustavljanje na događajima. Logovanje pojedinačnih faza pomaže, ali nije zamena za proveru konkretne pretpostavke."
+              "tekst": "**Tipične greške i prvi tragovi:**\n\n| Simptom | Prva provera |\n| --- | --- |\n| Klik ne radi | Pogrešan selektor, nepostojeći element, listener nije registrovan |\n| Funkcija radi pri učitavanju, ne na klik | Prosleđen `handler()` umesto `handler` |\n| Jedan klik menja stanje dvaput | Dva listenera ili propagacija i dodatni handler |\n| Stanje je novo, tekst star | `render` nije pozvan ili čita pogrešan podatak |\n| Obrisana stavka se vraća | Uklonjen DOM čvor, ali nije promenjen model |\n| Vrednost nestaje posle reload-a | Nije sačuvana ili nije obnovljena iz skladišta |\n| Dugme ne radi posle ponovnog renderovanja | Stari element zamenjen, a listener bio samo na njemu |\n\nU dev alatima korisni su **Elements** za DOM, **Console** za vrednosti i greške, **Sources** za breakpoint-e i praćenje poziva, i **Event Listener Breakpoints** za zaustavljanje na događajima. Logovanje pojedinačnih faza pomaže, ali nije zamena za proveru konkretne pretpostavke."
             },
             {
               "id": "k33b4",
@@ -9483,7 +9483,7 @@
               "vrsta": "pitanje",
               "oblik": "tekst",
               "tekst": "18.5. Dizajn dijagnostike. Kako biste postavili četiri `console.log` poruke ili breakpoint-a da razdvojite događaj, promenu modela, render i stvarni DOM rezultat?",
-              "odgovor": "Svaka granica ima opažljiv uslov; u DevTools Elements/Console/Sources proverava se po jedna pretpostavka, a ne nasumična promena koda."
+              "odgovor": "Svaka granica ima opažljiv uslov; u dev alatima, u panelima Elements, Console i Sources, proverava se po jedna pretpostavka, a ne nasumična promena koda."
             },
             {
               "id": "k33q6",
@@ -9519,7 +9519,7 @@
             },
             {
               "pitalica": "18.5. Dizajn dijagnostike. Kako biste postavili četiri `console.log` poruke ili breakpoint-a da razdvojite događaj, promenu modela, render i stvarni DOM rezultat?",
-              "odgovor": "Svaka granica ima opažljiv uslov; u DevTools Elements/Console/Sources proverava se po jedna pretpostavka, a ne nasumična promena koda."
+              "odgovor": "Svaka granica ima opažljiv uslov; u dev alatima, u panelima Elements, Console i Sources, proverava se po jedna pretpostavka, a ne nasumična promena koda."
             },
             {
               "pitalica": "18.6. Procena. Da li je bolje „popraviti izgled” ručnim upisom u DOM ili otkriti zašto se promena nije propagirala od modela do prikaza?",
@@ -9534,7 +9534,7 @@
           "putanja": "client/lekcije/33-dijagnostika.js",
           "isecakNaslov": "Dijagnostika: kada stanje i ekran nisu usklađeni",
           "isecakJezik": "javascript",
-          "delic": "// Dijagnostika: kada stanje i ekran nisu usklađeni\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Kontrolna soba\n// Pripremiti tri namerne greške: (1) pogrešan selektor; (2) pozivanje funkcije pri registraciji listenera; (3) brisanje samo DOM kartice bez promene niza senzora. Student otkriva uzrok pomoću DevTools, popravlja grešku i objašnjava šta je dokaz da je popravka ispravna.\n//\n// Provera: Student može da prati kompletan tok od akcije do prikaza, a ne samo da „natera broj da se promeni”.\n//\n// ---\n\n// Dijagram\n// korisnička akcija\n//        ↓\n// da li je događaj stigao do handlera?\n//        ↓\n// da li je izvršena odgovarajuća akcija?\n//        ↓\n// da li je stanje zaista promenjeno?\n//        ↓\n// da li je pozvan render i ažuriran pravi DOM element?\n//        ↓\n// da li je prikaz vidljiv i ispravan?\n\n// naKlik\nfunction naKlik() {\n  console.log(\"1: događaj je stigao\");\n  promeniStanje();\n  console.log(\"2: stanje\", structuredClone(stanje));\n  render();\n  console.log(\"3: prikaz ažuriran\");\n}\n"
+          "delic": "// Dijagnostika: kada stanje i ekran nisu usklađeni\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Kontrolna soba\n// Pripremiti tri namerne greške: (1) pogrešan selektor; (2) pozivanje funkcije pri registraciji listenera; (3) brisanje samo DOM kartice bez promene niza senzora. Student otkriva uzrok pomoću dev alata, popravlja grešku i objašnjava šta je dokaz da je popravka ispravna.\n//\n// Provera: Student može da prati kompletan tok od akcije do prikaza, a ne samo da „natera broj da se promeni”.\n//\n// ---\n\n// Dijagram\n// korisnička akcija\n//        ↓\n// da li je događaj stigao do handlera?\n//        ↓\n// da li je izvršena odgovarajuća akcija?\n//        ↓\n// da li je stanje zaista promenjeno?\n//        ↓\n// da li je pozvan render i ažuriran pravi DOM element?\n//        ↓\n// da li je prikaz vidljiv i ispravan?\n\n// naKlik\nfunction naKlik() {\n  console.log(\"1: događaj je stigao\");\n  promeniStanje();\n  console.log(\"2: stanje\", structuredClone(stanje));\n  render();\n  console.log(\"3: prikaz ažuriran\");\n}\n"
         }
       ],
       "samostalnoUcenje": {
@@ -17579,7 +17579,7 @@
           "nivo": "Primena",
           "minuta": 5,
           "tipPrimer": "aplikacija",
-          "tekst": "Posmatrač nema vidljivo dugme, ali može poslati HTTP zahtev. Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz DevTools-a ili HTTP klijent mogu sastaviti zahtev. Autorizaciju uvek proverava server pre promene stanja.",
+          "tekst": "Posmatrač nema vidljivo dugme, ali može poslati HTTP zahtev. Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz dev alata ili HTTP klijent mogu sastaviti zahtev. Autorizaciju uvek proverava server pre promene stanja.",
           "kljucnaIdeja": "Autorizacija mora biti proverena na serveru za svaki osetljiv zahtev.",
           "putanja": "server/sesija.js",
           "isecakNaslov": "Sakriveno dugme nije autorizacija",
@@ -17591,23 +17591,23 @@
             {
               "key": "A",
               "text": "Da, browser ga briše iz Interneta.",
-              "why": "DOM nije mrežni pristupni mehanizam. Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz DevTools-a ili HTTP klijent mogu sastaviti zahtev.",
+              "why": "DOM nije mrežni pristupni mehanizam. Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz dev alata ili HTTP klijent mogu sastaviti zahtev.",
               "ok": false
             },
             {
               "key": "B",
               "text": "Ne, server mora da odbije neovlašćen zahtev.",
-              "why": "Server mora proveriti identitet i prava. Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz DevTools-a ili HTTP klijent mogu sastaviti zahtev. Autorizaciju uvek proverava server pre promene stanja.",
+              "why": "Server mora proveriti identitet i prava. Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz dev alata ili HTTP klijent mogu sastaviti zahtev. Autorizaciju uvek proverava server pre promene stanja.",
               "ok": true
             },
             {
               "key": "C",
               "text": "Da, ako postoji CSS display:none.",
-              "why": "CSS samo utiče na prikaz. Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz DevTools-a ili HTTP klijent mogu sastaviti zahtev.",
+              "why": "CSS samo utiče na prikaz. Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz dev alata ili HTTP klijent mogu sastaviti zahtev.",
               "ok": false
             }
           ],
-          "analizaPitalice": "Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz DevTools-a ili HTTP klijent mogu sastaviti zahtev. Autorizaciju uvek proverava server pre promene stanja.",
+          "analizaPitalice": "Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz dev alata ili HTTP klijent mogu sastaviti zahtev. Autorizaciju uvek proverava server pre promene stanja.",
           "proveraPitalice": "predvidi-pa-proveri",
           "pitalice": [
             {
@@ -17616,23 +17616,23 @@
                 {
                   "key": "A",
                   "text": "Da, browser ga briše iz Interneta.",
-                  "why": "DOM nije mrežni pristupni mehanizam. Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz DevTools-a ili HTTP klijent mogu sastaviti zahtev.",
+                  "why": "DOM nije mrežni pristupni mehanizam. Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz dev alata ili HTTP klijent mogu sastaviti zahtev.",
                   "ok": false
                 },
                 {
                   "key": "B",
                   "text": "Ne, server mora da odbije neovlašćen zahtev.",
-                  "why": "Server mora proveriti identitet i prava. Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz DevTools-a ili HTTP klijent mogu sastaviti zahtev. Autorizaciju uvek proverava server pre promene stanja.",
+                  "why": "Server mora proveriti identitet i prava. Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz dev alata ili HTTP klijent mogu sastaviti zahtev. Autorizaciju uvek proverava server pre promene stanja.",
                   "ok": true
                 },
                 {
                   "key": "C",
                   "text": "Da, ako postoji CSS display:none.",
-                  "why": "CSS samo utiče na prikaz. Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz DevTools-a ili HTTP klijent mogu sastaviti zahtev.",
+                  "why": "CSS samo utiče na prikaz. Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz dev alata ili HTTP klijent mogu sastaviti zahtev.",
                   "ok": false
                 }
               ],
-              "analizaPitalice": "Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz DevTools-a ili HTTP klijent mogu sastaviti zahtev. Autorizaciju uvek proverava server pre promene stanja."
+              "analizaPitalice": "Sakriveno dugme ne blokira direktno poslat PUT; JavaScript iz dev alata ili HTTP klijent mogu sastaviti zahtev. Autorizaciju uvek proverava server pre promene stanja."
             },
             {
               "pitalica": "Zašto display:none ne spreči PUT?",

@@ -14,7 +14,7 @@ export const pitanja = [
     ["B", "Interni raspored memorije baš tog browsera.", false],
     ["C", "HTML fajl sa servera, kao jedini objekat.", false],
   ], "Browser sme da čuva dokument kako hoće. Program vidi DOM i API, ne tu memoriju."),
-  izbor(5, 0, 2, "U DevTools se promeni tekst naslova. Ništa drugo ne čuva izmenu. Šta je posle osvežavanja?", [
+  izbor(5, 0, 2, "U dev alatima se promeni tekst naslova. Ništa drugo ne čuva izmenu. Šta je posle osvežavanja?", [
     ["A", "Fajl na serveru ostaje izmenjen.", false],
     ["B", "Najčešće početni dokument. Menjana je živa stranica.", true],
     ["C", "Browser sam upiše izmenu u localStorage.", false],

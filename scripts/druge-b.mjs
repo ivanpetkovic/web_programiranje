@@ -58,20 +58,20 @@ analizaPitalice:"Bez selektora svako pravilo bi bilo globalno. Klasa ne menja te
 {key:"B",text:"Zato što border sme da menja samo marginu.",why:"Border i margina su različiti delovi pojma CSS model kutije. Ovde se ne menja ni margina ni broj.",ok:false}],
 analizaPitalice:"Ivica postoji da se vidi CSS model kutije. Ko iz okvira zaključi da se merenje promenilo, pomešao je sloj prikaza i sadržaj."}],
 "2:Osvežavanje": [
-{pitalica:"U alatima broj privremeno postane 10, a fajl i dalje kaže 24. Zašto 10 nestane posle osvežavanja?",opcije:[
+{pitalica:"U dev alatima broj privremeno postane 10, a fajl i dalje kaže 24. Zašto 10 nestane posle osvežavanja?",opcije:[
 {key:"A",text:"Zato što browser pri reload-u upisuje 24 u fajl.",why:"Osvežavanje čita fajl. Ne piše u njega.",ok:false},
 {key:"B",text:"Zato što je 10 bio lokalni prikaz, a fajl i dalje kaže 24.",why:"Prikaz može da se odvoji od dokumenta. Reload vraća dokument.",ok:true}],
-analizaPitalice:"Ovo je razlog što alati i privremeni tekst nisu izvor istine. Bez fajla kao izvora, 10 bi ostao i posle osvežavanja."}],
+analizaPitalice:"Ovo je razlog što dev alati i privremeni tekst nisu izvor istine. Bez fajla kao izvora, 10 bi ostao i posle osvežavanja."}],
 "2:Raspored pri uskom ekranu": [
 {pitalica:"Zašto jedna kolona nije brisanje druge kontrole?",opcije:[
 {key:"A",text:"Zato što grid menja raspored, a kontrola ostaje u dokumentu.",why:"Nema mesta za dve minimalne širine, pa kolone postanu jedna. DOM se ne seče.",ok:true},
 {key:"B",text:"Zato što uski ekran uvek izazove horizontalni overflow i time sačuva obe kolone.",why:"To je upravo ishod koji grid ovde izbegava. Overflow nije jedini mogući raspored.",ok:false}],
 analizaPitalice:"Prilagođeni raspored nastaje da sadržaj ostane dostižan. Iz jedne kolone ne sledi da je druga kontrola uklonjena iz fajla."}],
-"2:Alati": [
-{pitalica:"Zašto izmena u alatima ne preživi osvežavanje?",opcije:[
-{key:"A",text:"Zato što alati šalju novi HTML na server.",why:"Na ovom času nema upisa. Alati diraju prikaz u ovom browseru.",ok:false},
+"2:Dev alati": [
+{pitalica:"Zašto izmena u dev alatima ne preživi osvežavanje?",opcije:[
+{key:"A",text:"Zato što dev alati šalju novi HTML na server.",why:"Na ovom času nema upisa. Dev alati diraju prikaz u ovom browseru.",ok:false},
 {key:"B",text:"Zato što je promena lokalni prikaz, a dokument u fajlu ostaje.",why:"Isti razlog kao broj 10: prikaz nije fajl.",ok:true}],
-analizaPitalice:"Alati postoje da se vidi razlika. Ko sačuva izmenu alata kao da je sačuvao dokument, ponoviće je posle svakog reload-a."}],
+analizaPitalice:"Dev alati postoje da se vidi razlika. Ko sačuva izmenu dev alata kao da je sačuvao dokument, ponoviće je posle svakog reload-a."}],
 "2:Dva zahteva": [
 {pitalica:"Zašto broj 24 ne dokazuje zahtev za sobu?",opcije:[
 {key:"A",text:"Zato što Network vidi dokument i stil, a API sobe još nema.",why:"Dva zahteva objašnjavaju prikaz fajlova. Broj je u HTML-u.",ok:true},
