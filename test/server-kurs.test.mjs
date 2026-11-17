@@ -1,6 +1,5 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import vm from "node:vm";
 import { lectures } from "../site/js/lectures.js";
 import { proveriJs } from "../site/js/provera-izvora.js";
 import { stabloDo } from "../site/js/stablo.js";
@@ -18,14 +17,14 @@ function indeks(tema, naslov) {
   return pocetak + i;
 }
 
-test("sklopljen server.js učitava http pre createServer i listen", () => {
-  const tekst = stabloDo(koraci, indeks(5, "listen")).verzije["server/server.js"];
-  assert.match(tekst, /^const http = require\("http"\);\n/);
-  assert.match(tekst, /const server = http\.createServer\(obrada\);/);
-  assert.match(tekst, /server\.listen\(8787\);/);
-  assert.equal(tekst.includes("node server/server.js"), false);
-  assert.equal(tekst.includes("GET /api/soba"), false);
-  assert.doesNotThrow(() => new vm.Script(tekst, { filename: "server.js" }));
+test("čas 6 sklapa HTTP server u fajlu lekcije", () => {
+  const korak = lectures[5].steps.find((stavka) => stavka.naslov === "Od programa do HTTP servera");
+  const tekst = stabloDo(koraci, indeks(6, "Od programa do HTTP servera")).verzije[korak.putanja];
+  assert.match(tekst, /import http from 'node:http'/);
+  assert.match(tekst, /http\.createServer/);
+  assert.match(tekst, /server\.listen\(3000/);
+  assert.match(tekst, /res\.end\('Zdravo sa servera'\)/);
+  assert.equal(tekst.includes("npm start"), false);
   assert.equal(proveriJs(tekst).includes("http"), false);
 });
 
@@ -41,8 +40,8 @@ test("svaki sklopljeni serverski fajl koji zove http ima require", () => {
   }
 });
 
-test("izvučen kabl u 6. temi: ventilator vraća 500", () => {
-  const i = indeks(6, "Izvučen kabl");
+test("izvučen kabl u 7. temi: ventilator vraća 500", () => {
+  const i = indeks(7, "Izvučen kabl");
   assert.equal(koraci[i].putanja, "server/ventilator.js");
   const tekst = stabloDo(koraci, i).verzije["server/ventilator.js"];
   assert.match(tekst, /return \{ status: 500 \}/);
@@ -56,13 +55,22 @@ test("kurs se završava snimcima iz predavanja, ne pripremljenim modulima", () =
   assert.match(kraj["server/sesija.js"], /401 → 403 → 400 → 500 → 200/);
 });
 
-test("5. tema uvodi server redom: TCP, HTTP, createServer, listen, komanda, adresa", () => {
-  const redosled = ["TCP", "HTTP", "createServer", "listen", "Komanda", "Adresa", "Ruta"].map((naslov) => indeks(5, naslov));
+test("čas 6 uvodi server redom od okruženja do provere API-ja", () => {
+  const redosled = [
+    "JavaScript izvan browsera",
+    "Projekat, moduli i npm",
+    "Od programa do HTTP servera",
+    "Anatomija HTTP zahteva i odgovora",
+    "Prva ruta bez frameworka",
+    "Više ruta, parametri i složenost",
+    "JSON ulazni podaci i POST zahtev",
+    "Projektovanje jednostavnijeg servera",
+    "Uvođenje Express.js-a",
+    "Middleware",
+    "Resursi, REST i CRUD",
+    "Parametri, validacija i statusni kodovi",
+    "Organizacija koda i obrada grešaka",
+    "Provera celog API-ja",
+  ].map((naslov) => indeks(6, naslov));
   assert.deepEqual([...redosled].sort((a, b) => a - b), redosled);
-  const samostalni = ["Putanja i metod čine rutu", "Konkurentni zahtevi"];
-  for (const naslov of samostalni) {
-    const korak = koraci[indeks(5, naslov)];
-    assert.equal(korak.putanja, undefined, naslov);
-    assert.ok(korak.samostalniPrimer?.tekst, naslov);
-  }
 });

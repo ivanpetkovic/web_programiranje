@@ -116,8 +116,8 @@ test("neograničen izbor se ne ocenjuje, a po temi uzima n iz svake", () => {
   assert.deepEqual(jednaTema.map((pitanje) => pitanje.id), ["t2a", "t2b"]);
 });
 
-test("kviz pokriva prvih pet tema i svaki njihov korak ima bar deset pitanja", () => {
-  assert.deepEqual(temeSaKvizom(novaPitanja), [1, 2, 3, 4, 5]);
+test("kviz pokriva prvih šest tema i svaki korak prvih pet ima bar deset pitanja", () => {
+  assert.deepEqual(temeSaKvizom(novaPitanja), [1, 2, 3, 4, 5, 6]);
   const sve = bazen(lectures, novaPitanja);
   const idjevi = new Set();
   for (const pitanje of sve) {
@@ -145,7 +145,20 @@ test("kviz pokriva prvih pet tema i svaki njihov korak ima bar deset pitanja", (
       assert.ok(ocenjiva.some((pitanje) => pitanje.vrsta === "ispravka"), `${tema}.${indeks + 1} nema ispravku`);
     });
   }
-  assert.equal(sve.some((pitanje) => pitanje.tema > 5), false);
+  assert.equal(sve.some((pitanje) => pitanje.tema > 6), false);
+  const node = sve.filter((pitanje) => pitanje.tema === 6 && pitanje.izvor === "novo");
+  assert.equal(node.length, 38);
+  for (const pitanje of node) {
+    assert.equal(pitanje.vrsta, "izbor", pitanje.id);
+    assert.equal(pitanje.opcije.filter((opcija) => opcija.ok).length, 1, pitanje.id);
+    assert.ok(pitanje.analiza.trim(), pitanje.id);
+  }
+  const lekcijaNode = lectures.find((stavka) => stavka.n === 6);
+  lekcijaNode.steps.forEach((korak, indeks) => {
+    const zaKorak = sve.filter((pitanje) => pitanje.tema === 6 && pitanje.korak === indeks);
+    assert.ok(zaKorak.filter((pitanje) => pitanje.izvor === "novo").length >= 2, korak.naslov);
+    assert.equal(zaKorak.filter((pitanje) => pitanje.izvor === "postojece").length, 3, korak.naslov);
+  });
   const dom = sve.filter((pitanje) => pitanje.tema === 5);
   assert.ok(dom.length >= 18 * 10);
   for (const pitanje of dom) {
