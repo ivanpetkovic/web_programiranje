@@ -80,9 +80,13 @@ export function napraviPogled(roditelj) {
   });
 }
 
-export function postaviPogled(pogled, { tekst, samoCitaj, linije, put, onPromena }) {
+export function dokumentEditora({ tekst, linije }) {
   const izLinija = Array.isArray(linije) && linije.length ? linije.map((linija) => linija.tekst).join("\n") : "";
-  const doc = izLinija || tekst || "";
+  return izLinija || tekst || "";
+}
+
+export function postaviPogled(pogled, { tekst, samoCitaj, linije, put, onPromena }) {
+  const doc = dokumentEditora({ tekst, linije });
   pogled.setState(
     EditorState.create({
       doc,
