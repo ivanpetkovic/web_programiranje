@@ -78,7 +78,7 @@ export const pitanja = [
     ["B", "Sve je duboko kopirano, uključujući svako ugnježdeno svojstvo.", false],
   ], "Plitka kopija ne preseca unutrašnje reference."),
   ispravka(3, 2, 4, "b treba da bude nov objekat sa istim n, ne isto vezivanje. Ispravi drugu liniju.", "const a = { n: 1 };\nconst b = a;", "const a = { n: 1 };\nconst b = { n: a.n };", "Dodela imena deli objekat. Novi literal dobija svoju vrednost n.", js),
-  izbor(3, 2, 5, "Šta ispiše drugi log?", [
+  izbor(3, 2, 5, "Šta ispiše `console.log(s1)`?", [
     ["A", "\"Ana\"", true],
     ["B", "\"Mia\"", false],
   ], "s2 je nova niska. Zamena s2 ne menja s1. Niske se ne mutiraju ovom dodelom.", kod("let s1 = \"Ana\";\nlet s2 = s1;\ns2 = \"Mia\";\nconsole.log(s1);")),
@@ -184,7 +184,7 @@ export const pitanja = [
     ["A", "\"bela\"", true],
     ["B", "\"crna\"", false],
     ["C", "greška", false],
-  ], "Razmak pravi nov spoljašnji objekat. opcije je i dalje isti unutrašnji objekat.", { ...z, ...kod("const a = { opcije: { boja: \"crna\" } };\nconst b = { ...a };\nb.opcije.boja = \"bela\";") }),
+  ], "Razmak pravi nov spoljašnji objekat. opcije je i dalje isti unutrašnji objekat.", { ...z, ...kod("const a = { opcije: { boja: \"crna\" } };\nconst b = { ...a };\nb.opcije.boja = \"bela\";\nconsole.log(b.opcije.boja);") }),
   izbor(3, 7, 3, "Šta su a i b?", [
     ["A", "a je 10, b je 0", true],
     ["B", "oba su 10", false],

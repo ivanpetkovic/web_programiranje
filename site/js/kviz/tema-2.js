@@ -267,7 +267,7 @@ export const pitanja = [
     ["B", "Ne. Nema klase, nema poklapanja.", true],
   ], "Selektor gleda dokument koji je učitan.", z),
   ispravka(2, 8, 7, "Razmak slova treba da bude 0.08em, na klasi digit.", ".digit { letter-spacing: 8px; }", ".digit { letter-spacing: 0.08em; }", "Vrednost iz koraka je 0.08em, ne 8px.", css),
-  izbor(2, 8, 8, "Zašto .digit ne oboji svaki element?", [
+  izbor(2, 8, 8, "Zašto `.digit { letter-spacing: 0.08em; }` ne važi za svaki element?", [
     ["A", "Zato što se poklapa samo element koji ima tu klasu.", true],
     ["B", "Zato što CSS važi samo za h1.", false],
   ], "Uslov selektora je klasa, ne „sve”."),
@@ -314,7 +314,7 @@ export const pitanja = [
     ["B", "10, jer ekran jeste fajl.", false],
   ], "Ekran može da laže o fajlu dok se ne osveži."),
   ispravka(2, 10, 4, "Komentar meša prikaz i fajl. Ispravi ga.", "// Osvežavanje upisuje 10 u fajl.", "// Osvežavanje vraća 24 iz fajla.", "10 nije upisan. Fajl i dalje drži 24.", { jezik: "js" }),
-  izbor(2, 10, 5, "Zašto 10 nestane posle osvežavanja?", [
+  izbor(2, 10, 5, "U alatima broj privremeno postane 10, a fajl i dalje kaže 24. Zašto 10 nestane posle osvežavanja?", [
     ["A", "Zato što je 10 bio lokalni prikaz, a fajl i dalje kaže 24.", true],
     ["B", "Zato što browser pri reload-u uvek upisuje 24 u fajl.", false],
   ], "24 se vraća jer je u fajlu, ne jer ga reload izmišlja."),

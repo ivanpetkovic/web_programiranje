@@ -48,7 +48,7 @@ analizaPitalice:"Cascade postoji jer „poslednji red u fajlu” nije dovoljan d
 {key:"B",text:"Da je, uz istu važnost, ID pobedio klasu.",why:"To upravo sledi iz ovog primera. Šira zabrana ne sledi.",ok:false}],
 analizaPitalice:"Tačan odgovor na boju nije teorija da ID zauvek pobeđuje. Sledeći čas koji uvede !important ne sme da se čita ovim primerom."}],
 "2:Selektor": [
-{pitalica:"Zašto .digit ne oboji svaki element?",opcije:[
+{pitalica:"Zašto `.digit { letter-spacing: 0.08em; }` ne važi za svaki element?",opcije:[
 {key:"A",text:"Zato što tačka u selektoru znači samo prvi element na strani.",why:"Tačka znači klasu. Redosled u dokumentu nije značenje tačke.",ok:false},
 {key:"B",text:"Zato što se poklapa samo element koji ima tu klasu.",why:"Selektor postoji da stil pogodi nameru, ne celu stranu.",ok:true}],
 analizaPitalice:"Bez selektora svako pravilo bi bilo globalno. Klasa ne menja tekst 24; bira kome izgled pripada."}],
@@ -58,7 +58,7 @@ analizaPitalice:"Bez selektora svako pravilo bi bilo globalno. Klasa ne menja te
 {key:"B",text:"Zato što border sme da menja samo marginu.",why:"Border i margina su različiti delovi pojma CSS model kutije. Ovde se ne menja ni margina ni broj.",ok:false}],
 analizaPitalice:"Ivica postoji da se vidi CSS model kutije. Ko iz okvira zaključi da se merenje promenilo, pomešao je sloj prikaza i sadržaj."}],
 "2:Osvežavanje": [
-{pitalica:"Zašto 10 nestane posle osvežavanja?",opcije:[
+{pitalica:"U alatima broj privremeno postane 10, a fajl i dalje kaže 24. Zašto 10 nestane posle osvežavanja?",opcije:[
 {key:"A",text:"Zato što browser pri reload-u upisuje 24 u fajl.",why:"Osvežavanje čita fajl. Ne piše u njega.",ok:false},
 {key:"B",text:"Zato što je 10 bio lokalni prikaz, a fajl i dalje kaže 24.",why:"Prikaz može da se odvoji od dokumenta. Reload vraća dokument.",ok:true}],
 analizaPitalice:"Ovo je razlog što alati i privremeni tekst nisu izvor istine. Bez fajla kao izvora, 10 bi ostao i posle osvežavanja."}],

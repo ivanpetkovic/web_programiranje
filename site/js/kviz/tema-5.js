@@ -29,7 +29,7 @@ export const pitanja = [
     ["A", "1. Stari NodeList se ne dopunjava.", true],
     ["B", "2. Svaka lista prati DOM uživo.", false],
     ["C", "0. append briše prethodnu pretragu.", false],
-  ], "querySelectorAll vraća statičan NodeList. Novi poziv vidi 2.", { ...z, ...kod("const stavke = document.querySelectorAll(\"li\");\ndocument.querySelector(\"ul\").append(document.createElement(\"li\"));\nconsole.log(stavke.length);") }),
+  ], "querySelectorAll vraća statičan NodeList. Novi poziv vidi 2.", { ...z, ...kod("const stavke = document.querySelectorAll(\"li\");\ndocument.querySelector(\"ul\").append(document.createElement(\"li\"));\nconsole.log(stavke.length);\nconsole.log(document.querySelectorAll(\"li\").length);") }),
   izbor(5, 1, 2, "Čime se .kartica.aktivna razlikuje od .kartica .aktivna?", [
     ["A", "Ničim. Razmak u selektoru se ignoriše.", false],
     ["B", "Prvi traži isti element sa obe klase. Drugi traži potomka.", true],

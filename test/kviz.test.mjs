@@ -214,4 +214,45 @@ test("pitanje kviza ne poziva na kontekst koji kartica ne pokazuje", () => {
   const veza = sve.find((pitanje) => pitanje.id === "postojece-1-5-0");
   assert.match(veza.dijagram, /flowchart LR/);
   assert.match(veza.dijagram, /Veza/);
+
+  const nadji = (id) => sve.find((pitanje) => pitanje.id === id);
+  const naslov = nadji("postojece-2-2-0");
+  assert.match(naslov.tekst, /<h1>Soba prekidača<\/h1>/);
+  assert.match(naslov.tekst, /Šta osvežavanje uradi/);
+  assert.match(naslov.kod, /<h1>Soba prekidača<\/h1>/);
+  assert.doesNotMatch(naslov.analiza, /čitač ekrana/);
+  assert.match(naslov.opcije.find((opcija) => opcija.ok).why, /Dokument se čita iznova/);
+
+  const digit = nadji("postojece-2-8-0");
+  assert.match(digit.tekst, /\.digit \{ letter-spacing: 0\.08em; \}/);
+  assert.equal(digit.kod, undefined);
+
+  const klasa = nadji("postojece-2-8-1");
+  assert.match(klasa.tekst, /\.digit \{ letter-spacing: 0\.08em; \}/);
+  assert.match(nadji("novo-2-8-8").tekst, /\.digit \{ letter-spacing: 0\.08em; \}/);
+
+  const osvezi = nadji("postojece-2-10-0");
+  assert.match(osvezi.tekst, /prekucao 24 u 10/);
+  assert.match(osvezi.tekst, /Fajl i dalje kaže 24/);
+  assert.match(nadji("postojece-2-10-1").tekst, /fajl i dalje kaže 24/);
+  assert.match(nadji("novo-2-10-5").tekst, /fajl i dalje kaže 24/);
+
+  const niska = nadji("novo-3-2-5");
+  assert.match(niska.tekst, /console\.log\(s1\)/);
+  assert.equal(niska.opcije.find((opcija) => opcija.ok).text, '"Ana"');
+  assert.match(niska.kod, /console\.log\(s1\);/);
+  assert.equal((niska.kod.match(/console\.log/g) || []).length, 1);
+
+  const boja = nadji("novo-3-7-2");
+  assert.match(boja.kod, /console\.log\(b\.opcije\.boja\);/);
+  assert.equal(boja.opcije.find((opcija) => opcija.ok).text, '"bela"');
+
+  const primer = nadji("novo-4-0-3");
+  assert.match(primer.kod, /primer\(\);/);
+  assert.equal(primer.opcije.find((opcija) => opcija.ok).text, '"Unutra"');
+
+  const lista = nadji("novo-5-1-1");
+  assert.match(lista.kod, /console\.log\(stavke\.length\);/);
+  assert.match(lista.kod, /console\.log\(document\.querySelectorAll\("li"\)\.length\);/);
+  assert.equal(lista.opcije.find((opcija) => opcija.ok).key, "A");
 });
