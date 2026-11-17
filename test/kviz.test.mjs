@@ -232,10 +232,12 @@ test("pitanje kviza ne poziva na kontekst koji kartica ne pokazuje", () => {
   assert.match(nadji("novo-2-8-8").tekst, /\.digit \{ letter-spacing: 0\.08em; \}/);
 
   const osvezi = nadji("postojece-2-10-0");
+  assert.match(osvezi.tekst, /U dev alatima/);
   assert.match(osvezi.tekst, /prekucao 24 u 10/);
   assert.match(osvezi.tekst, /Fajl i dalje kaže 24/);
-  assert.match(nadji("postojece-2-10-1").tekst, /fajl i dalje kaže 24/);
-  assert.match(nadji("novo-2-10-5").tekst, /fajl i dalje kaže 24/);
+  assert.match(nadji("postojece-2-10-1").tekst, /dev alatima/);
+  assert.match(nadji("novo-2-10-5").tekst, /dev alatima/);
+  assert.match(nadji("postojece-2-12-0").tekst, /dev alatima/);
 
   const niska = nadji("novo-3-2-5");
   assert.match(niska.tekst, /console\.log\(s1\)/);

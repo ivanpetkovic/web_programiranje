@@ -76,9 +76,9 @@ _Avoid_: Režim editora, verzija.
 Snimak jednog fajla na otvorenom koraku.
 _Avoid_: Režim, fajl sa diska
 
-**Alati browsera**:
-Ugrađeni alati u kojima se gleda i menja prikaz ove stranice. Dokument ostaje isti. Engleski naziv je DevTools.
-_Avoid_: Izmena fajla, čuvanje dokumenta.
+**dev alati**:
+Ugrađeni alati browsera u kojima se gleda i menja prikaz ove stranice. Dokument ostaje isti. Engleski naziv je DevTools.
+_Avoid_: alati, Izmena fajla, čuvanje dokumenta.
 
 ## Stanje
 

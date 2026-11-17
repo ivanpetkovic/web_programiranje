@@ -63,22 +63,24 @@ test("rečnik nosi nastavni model, a ne rekvizit povezujućeg primera", () => {
   assert.equal(lekcijePojma(dokument, "Autorizacija").prvi.korak >= 0, true);
 });
 
-test("Alati browsera dolaze iz GLOSSARY.md, a alat van browsera nije taj pojam", () => {
-  const alati = pojmovi.find((pojam) => pojam.ime === "Alati browsera");
+test("dev alati dolaze iz GLOSSARY.md, a alat van browsera nije taj pojam", () => {
+  const alati = pojmovi.find((pojam) => pojam.ime === "dev alati");
   assert.match(alati.definicija, /DevTools/);
   assert.match(alati.definicija, /prikaz/);
+  assert.match(alati.izbegava, /alati/);
   assert.match(alati.izbegava, /Izmena fajla/);
   const kurs = {
     teme: [
       {
         steps: [
-          { tekst: "Alati browsera menjaju prikaz.", kljucnaIdeja: "", pitalica: "?", isecak: "", opcije: [] },
+          { tekst: "dev alati menjaju prikaz.", kljucnaIdeja: "", pitalica: "?", isecak: "", opcije: [] },
           { tekst: "Alat van browsera pročita telo.", kljucnaIdeja: "", pitalica: "?", isecak: "", opcije: [] },
         ],
       },
     ],
   };
-  assert.deepEqual(lekcijePojma(kurs, "Alati browsera").pogoci, [{ tema: 1, korak: 0 }]);
+  assert.deepEqual(lekcijePojma(kurs, "dev alati").pogoci, [{ tema: 1, korak: 0 }]);
+  assert.ok(lekcijePojma(dokument, "dev alati").pogoci.length > 0);
 });
 
 test("pogodak deli teme i ćuti kad glave nema", () => {
