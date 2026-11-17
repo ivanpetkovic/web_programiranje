@@ -246,12 +246,14 @@ export function napraviKviz(ctx) {
     nazad.type = "button";
     nazad.disabled = runda.indeks === 0;
     nazad.addEventListener("click", () => {
+      upamtiTekucuIspravku();
       runda.indeks -= 1;
       nacrtajPitanje();
     });
     const dalje = el("button", "kviz-kreni", runda.indeks === runda.pitanja.length - 1 ? (runda.ocenjivanje ? "Predaj" : "Završi") : "Dalje");
     dalje.type = "button";
     dalje.addEventListener("click", () => {
+      upamtiTekucuIspravku();
       if (runda.indeks === runda.pitanja.length - 1) nacrtajRezultat();
       else {
         runda.indeks += 1;
@@ -305,9 +307,11 @@ export function napraviKviz(ctx) {
     polje.setAttribute("aria-label", "Ispravljen kod");
     polje.value = runda.odgovori[pitanje.id] ?? pitanje.polazno ?? "";
     if (runda.predato) polje.readOnly = true;
-    polje.addEventListener("input", () => {
+    const upisi = () => {
       runda.odgovori[pitanje.id] = polje.value;
-    });
+    };
+    polje.addEventListener("input", upisi);
+    polje.addEventListener("change", upisi);
     omot.append(el("p", "kviz-napomena", "Ispravi kod. Pri oceni beline se odbacuju: razmaci, tabovi i novi redovi."));
     omot.append(polje);
     return omot;
@@ -376,7 +380,16 @@ export function napraviKviz(ctx) {
     return okvir;
   }
 
+  function upamtiTekucuIspravku() {
+    if (!runda || runda.predato) return;
+    const pitanje = runda.pitanja[runda.indeks];
+    const polje = telo.querySelector("textarea.kviz-polje");
+    if (!polje || pitanje?.vrsta !== "ispravka") return;
+    runda.odgovori[pitanje.id] = polje.value;
+  }
+
   function nacrtajRezultat() {
+    upamtiTekucuIspravku();
     runda.predato = true;
     const zbirno = zbir(runda.pitanja, runda.odgovori);
     naslov.textContent = runda.ocenjivanje ? "Rezultat" : "Pregled";
