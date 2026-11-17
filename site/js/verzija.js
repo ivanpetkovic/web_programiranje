@@ -156,12 +156,17 @@ function uskladi(sesija, kontekst) {
   return { sesija: sledeca, fajlovi, stablo };
 }
 
+function serverNaUskom(kontekst, putanja) {
+  return Boolean(kontekst.usko) && String(putanja || "").startsWith("server/");
+}
+
 function prikazEditora(sesija, kontekst, stablo, dogadaj) {
   const putanja = puna(sesija);
   if (!putanja) {
     return { putanja: "", tekst: "", samoCitaj: true, linije: [], prazno: true };
   }
-  if (dogadaj.tip === "unos") {
+  const zakljucan = serverNaUskom(kontekst, putanja);
+  if (dogadaj.tip === "unos" && !zakljucan) {
     return { putanja, tekst: dogadaj.tekst, samoCitaj: false, linije: null, prazno: false };
   }
   const original = stablo.verzije[putanja] || "";
@@ -175,7 +180,7 @@ function prikazEditora(sesija, kontekst, stablo, dogadaj) {
   const linije = izbor.razlika
     ? razlikaOriginala(prethodnaVerzija(kontekst.koraci, kontekst.indeks, putanja), original, sesija.radne[putanja])
     : null;
-  return { putanja, tekst: izbor.tekst, samoCitaj: izbor.samoCitaj, linije, prazno: false };
+  return { putanja, tekst: izbor.tekst, samoCitaj: izbor.samoCitaj || zakljucan, linije, prazno: false };
 }
 
 function mapaKlijenta(stablo, sesija) {
@@ -212,7 +217,7 @@ export function primeni(sesija, dogadaj, kontekst) {
     forsiraj = true;
   } else if (dogadaj.tip === "unos") {
     const putanja = puna(sesija);
-    if (putanja) {
+    if (putanja && !serverNaUskom(kontekst, putanja)) {
       upis = { putanja, tekst: dogadaj.tekst };
       sledeca.verzija = "radna";
       sledeca.radne[putanja] = dogadaj.tekst;
@@ -228,7 +233,7 @@ export function primeni(sesija, dogadaj, kontekst) {
   } else if (dogadaj.tip === "reset") {
     const stablo = stabloDo(kontekst.koraci, kontekst.indeks);
     const putanja = puna(sesija);
-    if (putanja) {
+    if (putanja && !serverNaUskom(kontekst, putanja)) {
       const tekst = stablo.verzije[putanja] || "";
       upis = { putanja, tekst };
       sledeca.radne[putanja] = tekst;
@@ -238,17 +243,19 @@ export function primeni(sesija, dogadaj, kontekst) {
     }
   } else if (dogadaj.tip === "sacuvaj" && sesija.verzija === "radna") {
     const putanja = puna(sesija);
-    if (putanja) {
+    if (putanja && !serverNaUskom(kontekst, putanja)) {
       upis = { putanja, tekst: dogadaj.tekst };
       sledeca.radne[putanja] = dogadaj.tekst;
     }
+  } else if (dogadaj.tip === "ekran") {
+    forsiraj = true;
   }
 
   const uskladjen = uskladi(sledeca, kontekst);
   const editor = prikazEditora(uskladjen.sesija, kontekst, uskladjen.stablo, dogadaj);
   const kljuc = editor.prazno
     ? ""
-    : `${uskladjen.sesija.strana}:${uskladjen.sesija.otvoreno[uskladjen.sesija.strana]}:${uskladjen.sesija.verzija}:${kontekst.indeks}`;
+    : `${uskladjen.sesija.strana}:${uskladjen.sesija.otvoreno[uskladjen.sesija.strana]}:${uskladjen.sesija.verzija}:${kontekst.indeks}${kontekst.usko ? ":usko" : ""}`;
   const osvezi = editor.prazno || forsiraj || kljuc !== uskladjen.sesija.otvoreniKljuc;
   const izlaz = kopija(uskladjen.sesija);
   izlaz.otvoreniKljuc = editor.prazno || osvezi ? kljuc : uskladjen.sesija.otvoreniKljuc;
@@ -261,7 +268,7 @@ export function primeni(sesija, dogadaj, kontekst) {
       editor,
       fajlovi: uskladjen.fajlovi,
       klijent: mapaKlijenta(uskladjen.stablo, izlaz),
-      server: tekstoviServera(uskladjen.stablo.verzije, izlaz.radne, izlaz.verzija),
+      server: kontekst.usko ? {} : tekstoviServera(uskladjen.stablo.verzije, izlaz.radne, izlaz.verzija),
     },
   };
 }

@@ -113,7 +113,7 @@ The site MUST NOT execute a server file in the browser. The running Node process
 - **THEN** the browser does not run that file as the room handler
 
 ### Requirement: Šta važi posle čuvanja
-The running process MUST keep reading `server/soba.js`, `server/ventilator.js`, and `server/sesija.js` from disk on the next request, and `server/server.js`, `server/stanje.js`, and `server/baza.js` only when the process starts. While Editor is open, the preview MUST replace each of those per-request server files in the open step's tree with the text of the active Moj kod / Lekcija switch. The preview MUST NOT write `server/server.js`, `server/stanje.js`, or `server/baza.js`. When one of those files is open, the editor MUST say that the text stays in the editor and that the process reads that file only when it starts. If the process is not up, the panel MUST say so beside the editor and the network record MUST have no successful status for that request.
+The running process MUST keep reading `server/soba.js`, `server/ventilator.js`, and `server/sesija.js` from disk on the next request, and `server/server.js`, `server/stanje.js`, and `server/baza.js` only when the process starts. While Editor is open on a layout wider than one column, the preview MUST replace each of those per-request server files in the open step's tree with the text of the active Moj kod / Lekcija switch. The preview MUST NOT write `server/server.js`, `server/stanje.js`, or `server/baza.js`. When one of those files is open on that wider layout, the editor MUST say that the text stays in the editor and that the process reads that file only when it starts. On a single-column layout the preview MUST NOT write any server file, and the open server file follows the phone requirement below. If the process is not up, the panel MUST say so beside the editor and the network record MUST have no successful status for that request.
 
 #### Scenario: Saved room module
 - **WHEN** the teacher changes `server/soba.js` in the editor and the browser sends the next room read
@@ -813,8 +813,23 @@ A client URL in the loaded document that is not a file in the editor tree MUST N
 - **WHEN** `client/index.html` links `css/soba.css` and that file is not yet in the tree
 - **THEN** the iframe does not receive the finished stylesheet from disk
 
+### Requirement: Server fajl na jednoj koloni
+On a single-column layout a file under `server/` MUST open in the editor and MUST be read-only. The editor MUST say that the phone only reads the file and that the server runs on the computer. Reset and save MUST NOT change that file's working copy. The preview MUST NOT send server files to `POST /api/fajl`. Opening the file MUST bring the editor into view. A file under `client/` on that layout MUST stay editable, and its text MUST still update the iframe. On a wider layout the same server file MUST be editable again, and the preview MUST send the per-request server files.
+
+#### Scenario: Phone shows the server file and does not write it
+- **WHEN** the layout is a single column and the open file is `server/soba.js`
+- **THEN** the editor shows that file as read-only, says the phone only reads it, and does not post it
+
+#### Scenario: Phone still edits the client
+- **WHEN** the layout is a single column and the teacher edits `client/index.html`
+- **THEN** the working copy changes and the iframe uses that text
+
+#### Scenario: Wide layout edits the server file
+- **WHEN** the layout is wider than one column and the teacher edits `server/soba.js`
+- **THEN** the editor accepts the text and the preview posts the per-request server files
+
 ### Requirement: Server prati Moj kod i Lekciju
-The preview MUST send every server file in the open step's tree to `POST /api/fajl` as the whole text the Moj kod / Lekcija switch selects. The Node process MUST write that text and reload `soba.js`, `ventilator.js`, and `sesija.js` from disk. The browser MUST NOT run that file.
+On a layout wider than one column, the preview MUST send every server file in the open step's tree to `POST /api/fajl` as the whole text the Moj kod / Lekcija switch selects. The Node process MUST write that text and reload `soba.js`, `ventilator.js`, and `sesija.js` from disk. The browser MUST NOT run that file. On a single-column layout this write MUST NOT happen.
 
 #### Scenario: Lekcija writes the snapshot
 - **WHEN** the teacher selects Lekcija and the tree contains `server/soba.js`

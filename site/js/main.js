@@ -3470,11 +3470,34 @@ async function upisiServere(tela) {
   }
 }
 
+const NAPOMENA_TELEFON = "Na telefonu se ovaj fajl samo čita. Server radi na računaru.";
+const NAPOMENA_START = "Izmene ostaju u editoru. Proces ovaj fajl čita samo kad krene.";
+
+function serverNaTelefonu(putanja) {
+  return usko() && Boolean(putanja) && putanja.startsWith("server/");
+}
+
 function osveziNapomenu(putanja) {
   if (!editorNapomena) return;
-  const prikaz = Boolean(putanja) && putanja.startsWith("server/") && !modulPoZahtevu(putanja);
+  const server = Boolean(putanja) && putanja.startsWith("server/");
+  const telefon = serverNaTelefonu(putanja);
+  const start = server && !modulPoZahtevu(putanja);
+  const prikaz = telefon || start;
   editorNapomena.hidden = !prikaz;
-  editorNapomena.textContent = prikaz ? "Izmene ostaju u editoru. Proces ovaj fajl čita samo kad krene." : "";
+  editorNapomena.textContent = telefon ? NAPOMENA_TELEFON : prikaz ? NAPOMENA_START : "";
+}
+
+function zakljucajServerNaTelefonu(putanja) {
+  const zakljucan = serverNaTelefonu(putanja);
+  const resetuj = document.querySelector("#resetuj");
+  const sacuvaj = document.querySelector("#sacuvaj-radnu");
+  if (resetuj) resetuj.disabled = zakljucan;
+  if (sacuvaj) sacuvaj.disabled = zakljucan;
+}
+
+function pokaziEditor() {
+  if (!usko() || deo !== "editor") return;
+  document.querySelector("#editor-wrap")?.scrollIntoView({ block: "start" });
 }
 
 function postaviEditor(editor) {
@@ -3500,6 +3523,7 @@ function nacrtajPrikaz(rezultat, sacuvano, dogadaj) {
     paintTree([], "");
     putanja.textContent = "";
     osveziNapomenu("");
+    zakljucajServerNaTelefonu("");
     if (pogled) postaviPogled(pogled, { tekst: "", samoCitaj: true, linije: [], put: "", onPromena() {} });
     const adresa = document.querySelector("#pregled-adresa");
     if (adresa) adresa.textContent = "";
@@ -3508,6 +3532,7 @@ function nacrtajPrikaz(rezultat, sacuvano, dogadaj) {
   paintTree(rezultat.prikaz.fajlovi, otvorenUStablu());
   putanja.textContent = editor.putanja;
   osveziNapomenu(editor.putanja);
+  zakljucajServerNaTelefonu(editor.putanja);
   markOpen(otvorenUStablu());
   osveziAdresu();
   osveziSegment();
@@ -3521,6 +3546,7 @@ function nacrtajPrikaz(rezultat, sacuvano, dogadaj) {
   if (!primerAktivan()) upisiServere(rezultat.prikaz.server);
   editorErr.textContent = "";
   if (!sacuvano) editorErr.textContent = "Pregledač nije sačuvao radnu verziju.";
+  if (dogadaj.tip === "otvori" || (dogadaj.tip === "strana" && sesija.strana === "server")) pokaziEditor();
 }
 
 function uskladiSobu() {
@@ -3544,7 +3570,7 @@ function primeniDogadaj(dogadaj) {
     return;
   }
   const pre = sesija;
-  const rezultat = primeni(sesija, dogadaj, { koraci: kursKoraci(), indeks: indeksUKursu(), tema: cas });
+  const rezultat = primeni(sesija, dogadaj, { koraci: kursKoraci(), indeks: indeksUKursu(), tema: cas, usko: usko() });
   sesija = rezultat.sesija;
   let sacuvano = true;
   if (rezultat.upis) {
@@ -4286,6 +4312,7 @@ window.addEventListener("resize", () => {
     if (sadaMobil) navOtvoren = false;
     else if (!navOtvoren) navOtvoren = true;
     bioMobil = sadaMobil;
+    if (deo === "editor") primeniDogadaj({ tip: "ekran" });
   }
   prikaziNav();
   prikaziMobilProfil();

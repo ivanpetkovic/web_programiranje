@@ -2872,6 +2872,10 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
   .traka-fajla > .birac-akcije,
   .traka-fajla > .segment { grid-column: 1 / -1; }
   .traka-fajla button { min-height: 2.5rem; }
+  .traka-fajla button:disabled { opacity: 0.45; cursor: default; }
+  .tree { overflow: auto; -webkit-overflow-scrolling: touch; }
+  .tree button { min-height: 2.25rem; padding: 0.4rem 0.35rem; }
+  #editor-wrap { scroll-margin-top: calc(var(--visina-vrha, 3.65rem) + 0.5rem); }
   .typeahead { max-height: 50vh; }
   #pomoc-dijalog { width: min(100vw - 1.5rem, 28rem); }
   body.editor-pun .file-layout {
@@ -2882,6 +2886,11 @@ body.rezim-uredjivanja .uredi-opcija-ukloni { justify-self: start; font-size: 1.
     overflow: hidden;
     display: grid;
     grid-template-rows: auto minmax(0, 1fr);
+  }
+  body.editor-pun .stablo-kolona .tree {
+    min-height: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
   }
   body.editor-pun #editor-wrap { min-height: 14rem; }
   #pregled-strana { min-height: 14rem; }
