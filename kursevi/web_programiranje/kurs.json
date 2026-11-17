@@ -1294,41 +1294,41 @@
           "isecakJezik": "html",
           "isecak": "<h1>Soba prekidača</h1>",
           "delic": "<h1>Soba prekidača</h1>",
-          "pitalica": "Osvežavanje stranice...",
+          "pitalica": "Fajl i dalje ima `<h1>Soba prekidača</h1>`. Šta osvežavanje uradi sa tim naslovom?",
           "opcije": [
             {
               "key": "A",
               "text": "Zaboravlja naslov.",
-              "why": "Naslov je u fajlu. Semantički h1 predstavlja glavnu temu dokumenta.",
+              "why": "Naslov je u fajlu. Osvežavanje ga ne zaboravlja.",
               "ok": false
             },
             {
               "key": "B",
               "text": "Ponovo učita naslov iz fajla.",
-              "why": "Dokument se čita iznova. Semantički h1 predstavlja glavnu temu dokumenta. Promena fonta kroz CSS ne menja njegovu ulogu; čitač ekrana i struktura naslova i dalje koriste tu informaciju.",
+              "why": "Dokument se čita iznova. Naslov je u fajlu, pa se vrati.",
               "ok": true
             }
           ],
-          "analizaPitalice": "Semantički h1 predstavlja glavnu temu dokumenta. Promena fonta kroz CSS ne menja njegovu ulogu; čitač ekrana i struktura naslova i dalje koriste tu informaciju.",
+          "analizaPitalice": "Naslov je u fajlu. Osvežavanje ponovo čita taj fajl, ne pamti prethodni prikaz.",
           "proveraPitalice": "predvidi-pa-proveri",
           "pitalice": [
             {
-              "pitalica": "Osvežavanje stranice...",
+              "pitalica": "Fajl i dalje ima `<h1>Soba prekidača</h1>`. Šta osvežavanje uradi sa tim naslovom?",
               "opcije": [
                 {
                   "key": "A",
                   "text": "Zaboravlja naslov.",
-                  "why": "Naslov je u fajlu. Semantički h1 predstavlja glavnu temu dokumenta.",
+                  "why": "Naslov je u fajlu. Osvežavanje ga ne zaboravlja.",
                   "ok": false
                 },
                 {
                   "key": "B",
                   "text": "Ponovo učita naslov iz fajla.",
-                  "why": "Dokument se čita iznova. Semantički h1 predstavlja glavnu temu dokumenta. Promena fonta kroz CSS ne menja njegovu ulogu; čitač ekrana i struktura naslova i dalje koriste tu informaciju.",
+                  "why": "Dokument se čita iznova. Naslov je u fajlu, pa se vrati.",
                   "ok": true
                 }
               ],
-              "analizaPitalice": "Semantički h1 predstavlja glavnu temu dokumenta. Promena fonta kroz CSS ne menja njegovu ulogu; čitač ekrana i struktura naslova i dalje koriste tu informaciju."
+              "analizaPitalice": "Naslov je u fajlu. Osvežavanje ponovo čita taj fajl, ne pamti prethodni prikaz."
             },
             {
               "pitalica": "Zašto osvežavanje ne zaboravi h1?",
@@ -1776,7 +1776,7 @@
           "isecakJezik": "css",
           "isecak": "letter-spacing: 0.08em;",
           "delic": "letter-spacing: 0.08em;",
-          "pitalica": "Šta .digit bira?",
+          "pitalica": "Šta `.digit` bira?\n\n```css\n.digit { letter-spacing: 0.08em; }\n```",
           "opcije": [
             {
               "key": "A",
@@ -1795,7 +1795,7 @@
           "proveraPitalice": "predvidi-pa-proveri",
           "pitalice": [
             {
-              "pitalica": "Šta .digit bira?",
+              "pitalica": "Šta `.digit` bira?\n\n```css\n.digit { letter-spacing: 0.08em; }\n```",
               "opcije": [
                 {
                   "key": "A",
@@ -1813,7 +1813,7 @@
               "analizaPitalice": "Tačka .digit bira elemente sa odgovarajućom klasom, dok #digit bira id. Pošto browser može imati više elemenata iste klase, stil displeja možemo ponovo koristiti bez kopiranja CSS pravila."
             },
             {
-              "pitalica": "Zašto .digit ne oboji svaki element?",
+              "pitalica": "Zašto `.digit { letter-spacing: 0.08em; }` ne važi za svaki element?",
               "opcije": [
                 {
                   "key": "B",
@@ -1912,7 +1912,7 @@
           "isecakJezik": "html",
           "isecak": "<!-- osvežavanje vraća dokument -->",
           "delic": "<!-- osvežavanje vraća dokument -->",
-          "pitalica": "Šta osvežavanje uradi?",
+          "pitalica": "U alatima je neko prekucao 24 u 10. Fajl i dalje kaže 24. Šta osvežavanje uradi?",
           "opcije": [
             {
               "key": "A",
@@ -1931,7 +1931,7 @@
           "proveraPitalice": "predvidi-pa-proveri",
           "pitalice": [
             {
-              "pitalica": "Šta osvežavanje uradi?",
+              "pitalica": "U alatima je neko prekucao 24 u 10. Fajl i dalje kaže 24. Šta osvežavanje uradi?",
               "opcije": [
                 {
                   "key": "A",
@@ -1949,7 +1949,7 @@
               "analizaPitalice": "Izmena textContent u DevTools-u menja trenutno DOM stablo, ne izvorni fajl niti serverski odgovor. Pri novom učitavanju browser iznova dobija dokument ili verziju iz cache-a i od njega gradi prikaz."
             },
             {
-              "pitalica": "Zašto 10 nestane posle osvežavanja?",
+              "pitalica": "U alatima broj privremeno postane 10, a fajl i dalje kaže 24. Zašto 10 nestane posle osvežavanja?",
               "opcije": [
                 {
                   "key": "A",

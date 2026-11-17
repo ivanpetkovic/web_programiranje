@@ -1775,7 +1775,7 @@ function prikazPitanja(blok) {
   const pitanjeUnutra = document.createElement("section");
   pitanjeUnutra.className = "pitanje-blok";
   const pitanje = document.createElement("h3");
-  if (naslov) pitanje.append(fragmentTeksta(naslov));
+  if (naslov) pitanje.append(cvorDelova(deloviReda(naslov)));
   else if (urediSadrzaj.aktivan) {
     const prazno = document.createElement("span");
     prazno.className = "meta";

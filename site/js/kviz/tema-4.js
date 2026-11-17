@@ -20,7 +20,7 @@ export const pitanja = [
   izbor(4, 0, 3, "Šta ispiše primer?", [
     ["A", "\"Unutra\"", true],
     ["B", "\"Spolja\"", false],
-  ], "Unutrašnje ime senči spoljašnje u telu funkcije.", kod("const poruka = \"Spolja\";\nfunction primer() {\n  const poruka = \"Unutra\";\n  console.log(poruka);\n}")),
+  ], "Unutrašnje ime senči spoljašnje u telu funkcije.", kod("const poruka = \"Spolja\";\nfunction primer() {\n  const poruka = \"Unutra\";\n  console.log(poruka);\n}\nprimer();")),
   ispravka(4, 0, 4, "b je let unutar bloka i ne sme da se čita napolju. Prebaci let u opseg u kome se čita.", "if (true) {\n  let b = 20;\n}\nconsole.log(b);", "let b = 20;\nif (true) {\n  b = 20;\n}\nconsole.log(b);", "let je vidljiv od bloka u kome je uveden, ne izvan njega.", js),
   izbor(4, 0, 5, "Šta var uradi, a let ne, u ovom if bloku?", [
     ["A", "var a vidi se i posle bloka. let b ne.", true],
