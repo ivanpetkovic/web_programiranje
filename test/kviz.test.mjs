@@ -5,6 +5,7 @@ import { novaPitanja } from "../site/js/kviz-banka.js";
 import {
   bazen,
   bezBelih,
+  bezOznake,
   deloviKvizTeksta,
   DIJAGRAM_KUTIJE_244,
   izaberiPitanja,
@@ -20,6 +21,18 @@ import { deloviReda } from "../site/js/proza.js";
 test("belina se odbacuje, ostali znakovi ostaju", () => {
   assert.equal(bezBelih("a b\n\tc"), "abc");
   assert.equal(bezBelih("  "), "");
+});
+
+test("oznaka obavezno i rezerva ne ulazi u tekst kviza", () => {
+  assert.equal(bezOznake("1.1. [OBAVEZNO] Zašto?"), "1.1. Zašto?");
+  assert.equal(bezOznake("1.3. [REZERVA] Da li?"), "1.3. Da li?");
+  assert.equal(bezOznake("  [obavezno]  Ostaje."), "Ostaje.");
+  const sve = bazen(lectures, novaPitanja);
+  for (const pitanje of sve) {
+    assert.equal(/\[(?:OBAVEZNO|REZERVA)\]/i.test(pitanje.tekst), false, `${pitanje.id}: ${pitanje.tekst}`);
+  }
+  const prvo = sve.find((pitanje) => pitanje.id === "postojece-6-0-0");
+  assert.equal(prvo.tekst, "1.1. Zašto nije dovoljno da sav kod aplikacije izvršava browser?");
 });
 
 test("ABC i ispravka ulaze u ocenu, otvoreno pitanje ne", () => {

@@ -322,3 +322,63 @@ test("ispravka pamti unešeni kod i pokazuje ga u rezultatu", { timeout: 60000 }
   writeFileSync(`${snimci}/kviz-ispravka-tvoj-kod.png`, Buffer.from(slika.data, "base64"));
   assert.equal(await strana.vrednost(`(${otvoriStavkuSaKodom.toString()})(${JSON.stringify(unos)})`), unos);
 });
+
+function staniNaPitanjeDiskusije() {
+  const oznaka = /\[(?:OBAVEZNO|REZERVA)\]/i;
+  for (let i = 0; i < 120; i += 1) {
+    const tekst = document.querySelector("#kviz .kviz-tekst")?.innerText || "";
+    if (oznaka.test(document.querySelector("#kviz")?.innerText || "")) return { greska: tekst };
+    if (tekst.startsWith("1.1. Zašto nije dovoljno")) return { tekst };
+    const dalje = [...document.querySelectorAll("#kviz button")].find((dugme) => dugme.textContent === "Dalje");
+    if (!dalje) return { kraj: tekst };
+    dalje.click();
+  }
+  return { kraj: "previse" };
+}
+
+test("kviz teme 6 skida oznaku obavezno iz teksta pitanja", { timeout: 60000 }, async (t) => {
+  const portSajta = await slobodanPort();
+  const portChrome = await slobodanPort();
+  const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
+  let strana;
+  t.after(() => {
+    strana?.zatvori();
+    ugasi(server);
+  });
+  await cekajHttp(`http://127.0.0.1:${portSajta}/`);
+  strana = await otvoriStranu(portChrome, { paleta: "ugalj" });
+  await strana.posalji("Emulation.setDeviceMetricsOverride", {
+    width: 1100,
+    height: 900,
+    deviceScaleFactor: 1,
+    mobile: false,
+  });
+  await strana.idi(`http://127.0.0.1:${portSajta}/#cas-6`);
+  const kraj = Date.now() + 15000;
+  let spremno = false;
+  while (Date.now() < kraj) {
+    spremno = await strana.vrednost(`(() => {
+      document.querySelector("#kviz-dugme")?.click();
+      const dijalog = document.querySelector("#kviz");
+      const tema = [...dijalog?.querySelectorAll("button") || []].some((dugme) => dugme.textContent.includes("Node.js, HTTP server"));
+      return Boolean(dijalog?.open && tema);
+    })()`);
+    if (spremno) break;
+    await pauza(40);
+  }
+  assert.equal(spremno, true, "kviz teme 6 nije otvoren");
+  assert.equal(await strana.vrednost(`(${pritisniBroj.toString()})("Neograničeno")`), true);
+  await strana.vrednost(`(${kreni.toString()})()`);
+  const nadjeno = await strana.vrednost(`(${staniNaPitanjeDiskusije.toString()})()`);
+  assert.equal(nadjeno.greska, undefined, nadjeno.greska);
+  assert.equal(nadjeno.tekst, "1.1. Zašto nije dovoljno da sav kod aplikacije izvršava browser?");
+  await pauza(80);
+  const slika = await strana.posalji("Page.captureScreenshot", { format: "png" });
+  writeFileSync(`${snimci}/kviz-bez-oznake.png`, Buffer.from(slika.data, "base64"));
+  await strana.vrednost(`document.querySelector("#kviz .kviz-zatvori")?.click()`);
+  const diskusija = await strana.vrednost(`document.querySelector("#sekcija-diskusija")?.innerText || ""`);
+  assert.equal(/\[(?:OBAVEZNO|REZERVA)\]/i.test(diskusija), false);
+  assert.match(diskusija, /1\.3\. Da li činjenica da frontend i backend/);
+  const slikaDiskusije = await strana.posalji("Page.captureScreenshot", { format: "png" });
+  writeFileSync(`${snimci}/diskusija-bez-oznake.png`, Buffer.from(slikaDiskusije.data, "base64"));
+});
