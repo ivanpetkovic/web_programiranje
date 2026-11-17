@@ -1,6 +1,6 @@
 import { ikonica } from "./ikonice.js";
 import { novaPitanja } from "./kviz-banka.js";
-import { bazen, deloviKvizTeksta, izaberiPitanja, mozeOcena, oceni, sazetakPitanja, seOcenjuje, temeSaKvizom, zbir } from "./kviz-logika.js";
+import { bazen, bezBelih, deloviKvizTeksta, izaberiPitanja, mozeOcena, oceni, sazetakPitanja, seOcenjuje, temeSaKvizom, zbir } from "./kviz-logika.js";
 import { nacrtajMermaid } from "./mermaid.js";
 import { deloviReda } from "./proza.js";
 
@@ -313,33 +313,66 @@ export function napraviKviz(ctx) {
     return omot;
   }
 
+  function redOdgovora(klasa, uvod, tekst) {
+    const red = el("p", klasa);
+    const jak = document.createElement("strong");
+    jak.textContent = uvod;
+    red.append(jak);
+    dodajDelove(red, tekst);
+    return red;
+  }
+
+  function cvoroviResenja(pitanje, { saTvojim = false } = {}) {
+    const cvorovi = [];
+    if (pitanje.vrsta === "izbor") {
+      const uneto = String(runda.odgovori[pitanje.id] ?? "");
+      const izabrana = (pitanje.opcije || []).find((opcija) => opcija.key === uneto);
+      if (saTvojim && !izabrana?.ok) {
+        cvorovi.push(izabrana
+          ? redOdgovora("kviz-tvoj", `Tvoj odgovor: ${izabrana.key}. `, izabrana.text)
+          : el("p", "kviz-tvoj", "Nisi izabrao odgovor."));
+      }
+      for (const tacna of (pitanje.opcije || []).filter((opcija) => opcija.ok)) {
+        cvorovi.push(redOdgovora("kviz-tacan", `Tačan odgovor: ${tacna.key}. `, tacna.text));
+      }
+    } else if (pitanje.vrsta === "ispravka") {
+      const uneto = typeof runda.odgovori[pitanje.id] === "string" ? runda.odgovori[pitanje.id] : "";
+      const poklapa = bezBelih(uneto).length > 0 && bezBelih(uneto) === bezBelih(pitanje.resenje);
+      if (saTvojim && !poklapa) {
+        if (bezBelih(uneto)) {
+          cvorovi.push(el("p", "meta", "Tvoj kod"));
+          cvorovi.push(blokKoda(uneto));
+        } else cvorovi.push(el("p", "kviz-tvoj", "Nisi uneo ispravku."));
+      }
+      cvorovi.push(el("p", "meta", "Rešenje"));
+      cvorovi.push(blokKoda(pitanje.resenje || ""));
+    } else if (pitanje.odgovor) {
+      cvorovi.push(el("p", "meta", "Odgovor iz gradiva"));
+      cvorovi.push(prozaBlok(pitanje.odgovor));
+    }
+    if (pitanje.analiza) {
+      cvorovi.push(el("p", "meta", "Obrazloženje"));
+      cvorovi.push(prozaBlok(pitanje.analiza));
+    }
+    return cvorovi;
+  }
+
   function prikazOdgovora(pitanje) {
     const ocena = oceni(pitanje, runda.odgovori[pitanje.id]);
     const okvir = el("div", "kviz-odgovor");
     if (ocena.ocenjivo) {
       okvir.append(el("p", ocena.tacno ? "kviz-tacno" : "kviz-netacno", ocena.tacno ? "Tačno." : "Nije tačno."));
     }
-    if (pitanje.vrsta === "izbor") {
-      for (const tacna of (pitanje.opcije || []).filter((opcija) => opcija.ok)) {
-        const red = el("p", "kviz-tacan");
-        const jak = document.createElement("strong");
-        jak.textContent = `Tačan odgovor: ${tacna.key}. `;
-        red.append(jak);
-        dodajDelove(red, tacna.text);
-        okvir.append(red);
-      }
-    }
-    if (pitanje.vrsta === "ispravka") {
-      okvir.append(el("p", "meta", "Rešenje"));
-      okvir.append(blokKoda(pitanje.resenje || ""));
-    } else if (pitanje.vrsta === "tekst" && pitanje.odgovor) {
-      okvir.append(el("p", "meta", "Odgovor iz gradiva"));
-      okvir.append(prozaBlok(pitanje.odgovor));
-    }
-    if (pitanje.analiza) {
-      okvir.append(el("p", "meta", "Obrazloženje"));
-      okvir.append(prozaBlok(pitanje.analiza));
-    }
+    const cvorovi = cvoroviResenja(pitanje);
+    if (cvorovi.length) okvir.append(...cvorovi);
+    return okvir;
+  }
+
+  function prikazResenja(pitanje) {
+    const cvorovi = cvoroviResenja(pitanje, { saTvojim: true });
+    if (!cvorovi.length) return null;
+    const okvir = el("div", "kviz-resenje");
+    okvir.append(...cvorovi);
     return okvir;
   }
 
@@ -373,6 +406,8 @@ export function napraviKviz(ctx) {
       stavka.append(glava);
       if (ocena.ocenjivo) stavka.append(el("p", "meta", ocena.tacno ? "Tačno" : "Nije tačno"));
       else stavka.append(el("p", "meta", "Bez ocene"));
+      const resenje = prikazResenja(pitanje);
+      if (resenje) stavka.append(resenje);
       spisak.append(stavka);
     });
     telo.append(spisak);

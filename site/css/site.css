@@ -908,7 +908,8 @@ button.sve-beleske-korak:hover { color: var(--amber); }
 .kviz-dijalog .option code,
 .kviz-dijalog .why code,
 .kviz-proza code,
-.kviz-stavka-dugme code {
+.kviz-stavka-dugme code,
+.kviz-resenje code {
   font-family: ui-monospace, SFMono-Regular, "Cascadia Code", monospace;
   font-size: 0.92em;
 }
@@ -941,12 +942,18 @@ html[data-pozadina-koda="crna"] .kviz-kod { background: #111111; color: #f4efe4;
 .kviz-proza p { margin: 0; }
 .kviz-tacno { margin: 0; color: var(--good); font-weight: 700; }
 .kviz-tacan { margin: 0; }
+.kviz-tacan strong { color: var(--good); }
+.kviz-tvoj { margin: 0; color: var(--muted); }
+.kviz-tvoj strong { color: var(--bad); }
 .kviz-netacno { margin: 0; color: var(--bad); font-weight: 700; }
 .kviz-skor { margin: 0; font-size: 2rem; font-weight: 700; color: var(--naslov); }
 .kviz-spisak { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.kviz-stavka { display: grid; gap: 4px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; }
+.kviz-stavka { display: grid; gap: 6px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; }
 .kviz-stavka.tacno { border-color: var(--good); }
 .kviz-stavka.netacno { border-color: var(--bad); }
+.kviz-resenje { display: grid; gap: 6px; }
+.kviz-resenje p { margin: 0; }
+.kviz-resenje .kviz-kod { font-size: 0.84rem; }
 .kviz-stavka-dugme { border: 0; background: transparent; color: var(--ink); text-align: left; font-weight: 700; padding: 0; }
 .option.kviz-promaseno { outline: 2px solid var(--bad); }
 .kviz-dijalog button:focus-visible, .kviz-dijalog textarea:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
