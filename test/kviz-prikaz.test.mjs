@@ -86,8 +86,67 @@ function stanjeRezultata() {
       pitanje: stavka.querySelector(".kviz-stavka-dugme")?.textContent || "",
       status: stavka.querySelector(":scope > .meta")?.textContent || "",
       resenje: stavka.querySelector(".kviz-resenje")?.innerText || "",
+      kodovi: [...stavka.querySelectorAll(".kviz-kod code")].map((kod) => kod.textContent),
     })),
   };
+}
+
+function pripremiOcenjenKviz() {
+  const celo = [...document.querySelectorAll("#kviz .kviz-segment button")].find((dugme) => dugme.textContent.includes("Celo gradivo"));
+  celo?.click();
+  const deset = [...document.querySelectorAll("#kviz .kviz-segment button")].find((dugme) => dugme.textContent === "10");
+  deset?.click();
+  const kvacica = document.querySelector("#kviz .kviz-ocena input");
+  if (kvacica && !kvacica.disabled && !kvacica.checked) kvacica.click();
+  document.querySelector("#kviz .kviz-kreni")?.click();
+  return document.querySelector("#kviz-naslov")?.textContent === "Kviz";
+}
+
+function upisiIspravkuBezDogadjaja(tekst) {
+  for (let i = 0; i < 12; i += 1) {
+    const polje = document.querySelector("#kviz .kviz-polje");
+    if (polje && !polje.readOnly) {
+      polje.value = tekst;
+      return { upisano: true, nazad: !document.querySelector("#kviz .kviz-navigacija .kviz-sporedno")?.disabled };
+    }
+    const dalje = [...document.querySelectorAll("#kviz button")].find((dugme) => dugme.textContent === "Dalje");
+    if (!dalje) return { upisano: false, nazad: false };
+    dalje.click();
+  }
+  return { upisano: false, nazad: false };
+}
+
+function predjiDalje() {
+  const dalje = [...document.querySelectorAll("#kviz button")].find((dugme) =>
+    dugme.textContent === "Dalje" || dugme.textContent === "Predaj");
+  if (!dalje) return "";
+  dalje.click();
+  return document.querySelector("#kviz-naslov")?.textContent || "";
+}
+
+function vratiSe() {
+  const nazad = [...document.querySelectorAll("#kviz button")].find((dugme) => dugme.textContent === "Nazad");
+  if (!nazad || nazad.disabled) return "";
+  nazad.click();
+  return document.querySelector("#kviz .kviz-polje")?.value || "";
+}
+
+function zavrsiBezMenjanjaPolja() {
+  for (let i = 0; i < 15; i += 1) {
+    if (document.querySelector("#kviz-naslov")?.textContent === "Rezultat") return true;
+    const dalje = [...document.querySelectorAll("#kviz button")].find((dugme) =>
+      dugme.textContent === "Dalje" || dugme.textContent === "Predaj");
+    if (!dalje) return false;
+    dalje.click();
+  }
+  return document.querySelector("#kviz-naslov")?.textContent === "Rezultat";
+}
+
+function otvoriStavkuSaKodom(tekst) {
+  const stavka = [...document.querySelectorAll("#kviz .kviz-stavka")].find((cvor) =>
+    [...cvor.querySelectorAll(".kviz-kod code")].some((kod) => kod.textContent === tekst));
+  stavka?.querySelector(".kviz-stavka-dugme")?.click();
+  return document.querySelector("#kviz .kviz-polje")?.value || "";
 }
 
 test("kviz bez ocene odmah pokazuje tačan odgovor, neograničeno gasi ocenu", { timeout: 60000 }, async (t) => {
@@ -197,4 +256,69 @@ test("kviz bez ocene odmah pokazuje tačan odgovor, neograničeno gasi ocenu", {
     assert.match(stavka.resenje, /Tvoj odgovor:|Tvoj kod|Nisi /, stavka.pitanje);
   }
   await snimi("kviz-rezultat-resenja");
+});
+
+test("ispravka pamti unešeni kod i pokazuje ga u rezultatu", { timeout: 60000 }, async (t) => {
+  const unos = "if (temperatura === 24) {\n  radi();\n}\n// moja ispravka";
+  const portSajta = await slobodanPort();
+  const portChrome = await slobodanPort();
+  const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
+  let strana;
+  t.after(() => {
+    strana?.zatvori();
+    ugasi(server);
+  });
+  await cekajHttp(`http://127.0.0.1:${portSajta}/`);
+  strana = await otvoriStranu(portChrome, { paleta: "ugalj" });
+  await strana.posalji("Emulation.setDeviceMetricsOverride", {
+    width: 1100,
+    height: 1400,
+    deviceScaleFactor: 1,
+    mobile: false,
+  });
+  await strana.idi(`http://127.0.0.1:${portSajta}/`);
+  const kraj = Date.now() + 15000;
+  let otvoren = false;
+  while (Date.now() < kraj) {
+    otvoren = await strana.vrednost(`(() => { document.querySelector("#kviz-dugme")?.click(); return Boolean(document.querySelector("#kviz")?.open); })()`);
+    if (otvoren) break;
+    await pauza(40);
+  }
+  assert.equal(otvoren, true);
+
+  let upis = { upisano: false, nazad: false };
+  for (let pokusaj = 0; pokusaj < 6 && !upis.upisano; pokusaj += 1) {
+    assert.equal(await strana.vrednost(`(${pripremiOcenjenKviz.toString()})()`), true);
+    upis = await strana.vrednost(`(${upisiIspravkuBezDogadjaja.toString()})(${JSON.stringify(unos)})`);
+    if (!upis.upisano) {
+      await strana.vrednost(`(() => {
+        const zatvori = [...document.querySelectorAll("#kviz button")].find((dugme) => dugme.textContent === "Zatvori" || dugme.textContent === "Novi izbor");
+        (zatvori || document.querySelector("#kviz .kviz-zatvori"))?.click();
+        document.querySelector("#kviz-dugme")?.click();
+      })()`);
+    }
+  }
+  assert.equal(upis.upisano, true, "nema pitanja sa ispravkom koda");
+
+  const posleOdlaska = await strana.vrednost(`(${predjiDalje.toString()})()`);
+  let vraceno = unos;
+  if (posleOdlaska !== "Rezultat" && upis.nazad) {
+    vraceno = await strana.vrednost(`(${vratiSe.toString()})()`);
+    assert.equal(vraceno, unos);
+  }
+  assert.equal(await strana.vrednost(`(${zavrsiBezMenjanjaPolja.toString()})()`), true);
+  const rezultat = await strana.vrednost(`(${stanjeRezultata.toString()})()`);
+  const stavka = rezultat.stavke.find((red) => red.kodovi.includes(unos));
+  assert.ok(stavka, JSON.stringify(rezultat.stavke.map((red) => red.kodovi)));
+  assert.match(stavka.resenje, /Rešenje/);
+  await strana.vrednost(`(() => {
+    const trazeno = ${JSON.stringify(unos)};
+    const red = [...document.querySelectorAll("#kviz .kviz-stavka")].find((cvor) =>
+      [...cvor.querySelectorAll(".kviz-kod code")].some((kod) => kod.textContent === trazeno));
+    red?.scrollIntoView({ block: "center" });
+  })()`);
+  await pauza(80);
+  const slika = await strana.posalji("Page.captureScreenshot", { format: "png" });
+  writeFileSync(`${snimci}/kviz-ispravka-tvoj-kod.png`, Buffer.from(slika.data, "base64"));
+  assert.equal(await strana.vrednost(`(${otvoriStavkuSaKodom.toString()})(${JSON.stringify(unos)})`), unos);
 });
