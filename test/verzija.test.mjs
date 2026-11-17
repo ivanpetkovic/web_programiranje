@@ -154,6 +154,40 @@ test("kucanje script oznake odmah dodaje fajl u stablo", () => {
   assert.equal(posle.prikaz.editor.tekst, '<script src="js/korak.js"></script>');
 });
 
+test("uska kolona čita server fajl i ne šalje ga procesu", () => {
+  const usko = { ...kontekst(1, 5), usko: true };
+  const otvoren = primeni(
+    praznaSesija({ "server/soba.js": "moj takt\n" }),
+    { tip: "fokus", putanja: "server/soba.js", kljuc: "5:1" },
+    usko,
+  );
+  assert.equal(otvoren.prikaz.editor.putanja, "server/soba.js");
+  assert.equal(otvoren.prikaz.editor.tekst, "moj takt\n");
+  assert.equal(otvoren.prikaz.editor.samoCitaj, true);
+  assert.deepEqual(otvoren.prikaz.server, {});
+  const unos = primeni(otvoren.sesija, { tip: "unos", tekst: "pokvareno\n" }, usko);
+  assert.equal(unos.upis, null);
+  assert.equal(unos.sesija.radne["server/soba.js"], "moj takt\n");
+  assert.equal(unos.prikaz.editor.tekst, "moj takt\n");
+  assert.equal(unos.prikaz.editor.samoCitaj, true);
+  const reset = primeni(otvoren.sesija, { tip: "reset" }, usko);
+  assert.equal(reset.upis, null);
+  assert.equal(reset.sesija.radne["server/soba.js"], "moj takt\n");
+  const sacuvaj = primeni(otvoren.sesija, { tip: "sacuvaj", tekst: "drugo\n" }, usko);
+  assert.equal(sacuvaj.upis, null);
+  const klijent = primeni(praznaSesija(), { tip: "fokus", putanja: "client/index.html", kljuc: "5:1" }, usko);
+  const izmena = primeni(klijent.sesija, { tip: "unos", tekst: "<p>telefon</p>" }, usko);
+  assert.equal(izmena.prikaz.editor.samoCitaj, false);
+  assert.equal(izmena.prikaz.editor.tekst, "<p>telefon</p>");
+  assert.equal(izmena.prikaz.klijent["client/index.html"], "<p>telefon</p>");
+  assert.deepEqual(izmena.prikaz.server, {});
+  const siroko = primeni(otvoren.sesija, { tip: "ekran" }, kontekst(1, 5));
+  assert.equal(siroko.prikaz.editor.samoCitaj, false);
+  assert.equal(siroko.prikaz.editor.tekst, "moj takt\n");
+  assert.equal(siroko.prikaz.server["server/soba.js"], "moj takt\n");
+  assert.equal(siroko.osvezi, true);
+});
+
 test("promena strane bira radnu verziju", () => {
   const otvoreno = primeni(praznaSesija(), { tip: "fokus", putanja: "client/index.html", kljuc: "5:1" }, kontekst(1, 5));
   const ugradjena = primeni(otvoreno.sesija, { tip: "ugradjena" }, kontekst(1, 5));
