@@ -4,15 +4,41 @@ const POCETAK = "<!-- povezi-pocetak -->";
 const KRAJ = "<!-- povezi-kraj -->";
 const kes = new WeakMap();
 
-function ceoTekst(korak) {
-  if (korak.ugradjen) return String(korak.original ?? "");
-  if (typeof korak.original === "string" && korak.original !== korak.delic) return korak.original;
-  return null;
+function imaPosebanOriginal(korak) {
+  return korak.ugradjen || (typeof korak.original === "string" && korak.original !== korak.delic);
+}
+
+function jeCeoFajl(korak, trenutni) {
+  if (!imaPosebanOriginal(korak)) return false;
+  const orig = String(korak.original ?? "").trim();
+  const baza = skiniPovez(String(trenutni ?? "")).trim();
+  if (!orig) return false;
+  if (!baza) return true;
+  if (orig.includes(baza)) return true;
+  if (/^<!doctype\b/i.test(orig) || /^<html\b/i.test(orig)) return true;
+  const delic = String(korak.delic ?? "").trim();
+  if (delic && !orig.includes(delic)) return false;
+  const uvodi = /\brequire\s*\(|^import\s|^export\s|\bfunction\s|\bclass\s/m.test(orig);
+  const bazaJe = /\brequire\s*\(|^import\s|^export\s|\bfunction\s|\bclass\s|<html\b|<!doctype/i.test(baza);
+  return uvodi && !bazaJe;
+}
+
+function ceoTekst(korak, trenutni) {
+  if (!jeCeoFajl(korak, trenutni)) return null;
+  return String(korak.original ?? "");
+}
+
+function fragmentOriginala(korak, trenutni) {
+  if (ceoTekst(korak, trenutni) !== null) return false;
+  const orig = String(korak.original ?? "").trim();
+  const delic = String(korak.delic ?? "").trim();
+  return Boolean(orig) && orig !== delic && imaPosebanOriginal(korak);
 }
 
 function doprinos(korak, trenutni) {
-  const ceo = ceoTekst(korak);
+  const ceo = ceoTekst(korak, trenutni);
   if (ceo !== null) return ceo;
+  if (fragmentOriginala(korak, trenutni)) return String(korak.original);
   const delic = String(korak.delic ?? "").trim();
   const isecak = String(korak.isecak ?? "").trim();
   const klasa = isecak.match(/^class\s+([A-Za-z0-9_]+)/);
@@ -81,6 +107,33 @@ function ubaciUHtml(html, telo) {
   return ubaciUTelo(html, `<!-- ${trim.replace(/--/g, "")} -->`);
 }
 
+function sklopivo(tekst) {
+  try {
+    new Function(String(tekst ?? ""));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function kaoKomentar(telo) {
+  return `/* ${String(telo).replace(/\*\//g, "* /")} */`;
+}
+
+function spojiTekst(baza, telo, putanja) {
+  const js = String(putanja).endsWith(".js");
+  if (!baza.trim()) {
+    if (js && !sklopivo(telo) && !/\b(?:function|class|export|import|require|const|let|var)\b/.test(telo)) {
+      return `${kaoKomentar(telo)}\n`;
+    }
+    return `${telo}\n`;
+  }
+  const sirovo = `${baza.trimEnd()}\n\n${telo}\n`;
+  if (!js || sklopivo(sirovo) || !sklopivo(baza)) return sirovo;
+  const komentar = `${baza.trimEnd()}\n\n${kaoKomentar(telo)}\n`;
+  return sklopivo(komentar) ? komentar : sirovo;
+}
+
 function dopuni(putanja, tekst) {
   if (putanja !== "client/js/korak.js") return tekst;
   if (!/\bfunction\s+korak\b/.test(tekst) || !/\bdelta\b/.test(tekst)) return tekst;
@@ -91,7 +144,17 @@ function dopuni(putanja, tekst) {
 function spoj(trenutni, korak) {
   const baza = skiniPovez(trenutni);
   const dodatak = doprinos(korak, baza);
-  if (ceoTekst(korak) !== null) return dodatak;
+  if (ceoTekst(korak, baza) !== null) {
+    if (
+      String(korak.putanja).endsWith(".js") &&
+      !baza.trim() &&
+      !sklopivo(dodatak) &&
+      !/\b(?:function|class|export|import|require|const|let|var)\b/.test(dodatak)
+    ) {
+      return `${kaoKomentar(dodatak.trim())}\n`;
+    }
+    return dodatak;
+  }
   const telo = dodatak.trim();
   if (!telo) return baza;
   if (korak.putanja === "client/index.html" && (/<html\b|<\/html>|<\/body>/i.test(baza) || !baza.trim())) {
@@ -100,8 +163,7 @@ function spoj(trenutni, korak) {
     return ugradjen.endsWith("\n") ? ugradjen : `${ugradjen}\n`;
   }
   if (vecIma(baza, telo)) return baza.endsWith("\n") || baza === "" ? baza : `${baza}\n`;
-  if (!baza.trim()) return `${telo}\n`;
-  return `${baza.trimEnd()}\n\n${telo}\n`;
+  return spojiTekst(baza, telo, korak.putanja);
 }
 
 function deklarisano(tekstovi, ime) {
@@ -172,13 +234,16 @@ function izgradi(koraci) {
   const redosled = [];
   const snimci = [];
   for (const korak of koraci) {
-    if (korak && korak.putanja && (ulaziUFajl(korak.delic) || ceoTekst(korak) !== null)) {
+    const bazaKoraka = skiniPovez(korak?.putanja ? verzije.get(korak.putanja) || "" : "");
+    const ceo = korak ? ceoTekst(korak, bazaKoraka) : null;
+    const fragment = korak ? fragmentOriginala(korak, bazaKoraka) : false;
+    if (korak && korak.putanja && (ulaziUFajl(korak.delic) || ceo !== null || fragment)) {
       let cilj = korak.putanja;
       let zaSpajanje = korak;
-      if (cilj === "client/index.html" && jeSkript(korak.delic) && ceoTekst(korak) === null) {
+      if (cilj === "client/index.html" && jeSkript(korak.delic) && ceo === null && !fragment) {
         cilj = "client/js/strana.js";
         const kod = kodZaStranu(korak);
-        zaSpajanje = { ...korak, putanja: cilj, delic: kod, isecak: kod };
+        zaSpajanje = { ...korak, putanja: cilj, delic: kod, isecak: kod, original: kod, ugradjen: false };
       }
       if (!verzije.has(cilj)) redosled.push(cilj);
       verzije.set(cilj, dopuni(cilj, spoj(verzije.get(cilj) || "", zaSpajanje)));
