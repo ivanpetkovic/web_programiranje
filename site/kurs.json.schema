@@ -5,452 +5,946 @@
   "description": "Dokument koji čas i studio čitaju. Isporučeni kurs je kursevi/web_programiranje/kurs.json. Putanja slike bez kose crte na početku je relativna u odnosu na folder kursa.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["naslov", "trajanjeTema", "teme"],
+  "required": [
+    "title",
+    "themeCount",
+    "topics"
+  ],
   "properties": {
-    "ustanova": { "type": "string" },
-    "ustanovaRed": { "type": "string" },
-    "ustanovaBok": { "type": "string" },
-    "naslov": { "type": "string" },
-    "slika": { "type": "string" },
-    "oznaka": { "type": "string" },
-    "grb": { "type": "string" },
-    "trajanjeTema": { "type": "number" },
-    "verzija": { "type": "string" },
-    "revizija": { "type": "string" },
-    "statusIzvrsavanja": { "type": "string" },
-    "ciljnaGrupa": { "type": "string" },
-    "uvod": { "$ref": "#/$defs/uvod" },
-    "preduslovPrve": { "type": "string" },
-    "povezujuciPrimer": { "$ref": "#/$defs/povezujuciPrimer" },
-    "nastavniObrazac": { "$ref": "#/$defs/nastavniObrazac" },
-    "dopunaGlosara": {
-      "type": "array",
-      "items": { "$ref": "#/$defs/glosar" }
+    "institution": {
+      "type": "string"
     },
-    "napomeneZaIntegraciju": {
-      "type": "array",
-      "items": { "type": "string" }
+    "institutionLine": {
+      "type": "string"
     },
-    "teme": {
+    "institutionSide": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "image": {
+      "type": "string"
+    },
+    "badge": {
+      "type": "string"
+    },
+    "emblem": {
+      "type": "string"
+    },
+    "themeCount": {
+      "type": "number"
+    },
+    "version": {
+      "type": "string"
+    },
+    "revision": {
+      "type": "string"
+    },
+    "executionStatus": {
+      "type": "string"
+    },
+    "targetGroup": {
+      "type": "string"
+    },
+    "introduction": {
+      "$ref": "#/$defs/uvod"
+    },
+    "firstPrerequisite": {
+      "type": "string"
+    },
+    "connectingExample": {
+      "$ref": "#/$defs/povezujuciPrimer"
+    },
+    "teachingPattern": {
+      "$ref": "#/$defs/nastavniObrazac"
+    },
+    "glossaryAdditions": {
       "type": "array",
-      "items": { "$ref": "#/$defs/tema" }
+      "items": {
+        "$ref": "#/$defs/glosar"
+      }
+    },
+    "integrationNotes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "topics": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/tema"
+      }
     }
   },
   "$defs": {
     "uvod": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["naslov", "cilj", "ocekivanje", "osnov"],
+      "required": [
+        "title",
+        "goal",
+        "expectations",
+        "foundations"
+      ],
       "properties": {
-        "naslov": { "type": "string" },
-        "ikona": { "type": "string" },
-        "slika": { "type": "string" },
-        "cilj": { "type": "string" },
-        "ocekivanje": {
+        "title": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "goal": {
+          "type": "string"
+        },
+        "expectations": {
           "type": "array",
           "minItems": 1,
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "osnov": {
+        "foundations": {
           "type": "array",
           "minItems": 1,
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["naziv", "recenica"],
+            "required": [
+              "name",
+              "sentence"
+            ],
             "properties": {
-              "naziv": { "type": "string" },
-              "veza": { "type": "string" },
-              "recenica": { "type": "string" }
+              "name": {
+                "type": "string"
+              },
+              "link": {
+                "type": "string"
+              },
+              "sentence": {
+                "type": "string"
+              }
             }
           }
         },
-        "napomenaOsnova": { "type": "string" }
+        "foundationsNote": {
+          "type": "string"
+        }
       }
     },
     "jezik": {
       "type": "string",
-      "enum": ["html", "css", "text", "javascript", "json", "sql", "typescript"]
+      "enum": [
+        "html",
+        "css",
+        "text",
+        "javascript",
+        "json",
+        "sql",
+        "typescript"
+      ]
     },
     "opcija": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["key", "text", "ok", "why"],
+      "required": [
+        "key",
+        "text",
+        "ok",
+        "why"
+      ],
       "properties": {
-        "key": { "type": "string" },
-        "text": { "type": "string" },
-        "ok": { "type": "boolean" },
-        "why": { "type": "string" }
+        "key": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "ok": {
+          "type": "boolean"
+        },
+        "why": {
+          "type": "string"
+        }
       }
     },
     "pitalicaKoraka": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["pitalica"],
+      "required": [
+        "prompt"
+      ],
       "properties": {
-        "pitalica": { "type": "string" },
-        "odgovor": { "type": "string" },
-        "opcije": {
+        "prompt": {
+          "type": "string"
+        },
+        "answer": {
+          "type": "string"
+        },
+        "options": {
           "type": "array",
           "minItems": 2,
-          "items": { "$ref": "#/$defs/opcija" }
+          "items": {
+            "$ref": "#/$defs/opcija"
+          }
         },
-        "analizaPitalice": { "type": "string" }
+        "promptAnalysis": {
+          "type": "string"
+        }
       }
     },
     "cvor": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "natpis"],
+      "required": [
+        "id",
+        "label"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "natpis": { "type": "string" }
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        }
       }
     },
     "oznaka": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["godina", "natpis"],
+      "required": [
+        "year",
+        "label"
+      ],
       "properties": {
-        "godina": { "type": "string" },
-        "natpis": { "type": "string" }
+        "year": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        }
       }
     },
     "figura": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["vrsta"],
+      "required": [
+        "kind"
+      ],
       "properties": {
-        "vrsta": { "type": "string", "enum": ["put", "linija"] },
-        "pokret": { "type": "string", "enum": ["redom", "jednom"] },
-        "cvorovi": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/cvor" }
+        "kind": {
+          "type": "string",
+          "enum": [
+            "put",
+            "linija"
+          ]
         },
-        "oznake": {
+        "motion": {
+          "type": "string",
+          "enum": [
+            "redom",
+            "jednom"
+          ]
+        },
+        "nodes": {
           "type": "array",
-          "items": { "$ref": "#/$defs/oznaka" }
+          "items": {
+            "$ref": "#/$defs/cvor"
+          }
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/oznaka"
+          }
         }
       }
     },
     "dijagram": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["format", "tekst"],
+      "required": [
+        "format",
+        "text"
+      ],
       "properties": {
-        "format": { "type": "string" },
-        "tekst": { "type": "string" }
+        "format": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
       }
     },
     "samostalniPrimer": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["jezik", "izolovan", "tekst"],
+      "required": [
+        "language",
+        "isolated",
+        "text"
+      ],
       "properties": {
-        "jezik": { "$ref": "#/$defs/jezik" },
-        "izolovan": { "type": "boolean" },
-        "tekst": { "type": "string" }
+        "language": {
+          "$ref": "#/$defs/jezik"
+        },
+        "isolated": {
+          "type": "boolean"
+        },
+        "text": {
+          "type": "string"
+        }
       }
     },
     "pojam": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name", "hint", "body", "code"],
+      "required": [
+        "id",
+        "name",
+        "hint",
+        "body",
+        "code"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "name": { "type": "string" },
-        "hint": { "type": "string" },
-        "body": { "type": "string" },
-        "code": { "type": "string" },
-        "codeLanguage": { "$ref": "#/$defs/jezik" }
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "hint": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "codeLanguage": {
+          "$ref": "#/$defs/jezik"
+        }
       }
     },
     "glosar": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name", "hint", "body"],
+      "required": [
+        "id",
+        "name",
+        "hint",
+        "body"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "name": { "type": "string" },
-        "hint": { "type": "string" },
-        "body": { "type": "string" },
-        "uKursu": { "type": "string" }
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "hint": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "inCourse": {
+          "type": "string"
+        }
       }
     },
     "rezerva": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["problem", "options"],
+      "required": [
+        "problem",
+        "options"
+      ],
       "properties": {
-        "problem": { "type": "string" },
+        "problem": {
+          "type": "string"
+        },
         "options": {
           "type": "array",
-          "items": { "$ref": "#/$defs/opcija" }
+          "items": {
+            "$ref": "#/$defs/opcija"
+          }
         }
       }
     },
     "samostalno": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["uvod", "detaljnoGradivo", "tokRada", "graniceZnanja", "proveraRazumevanja"],
+      "required": [
+        "introduction",
+        "detailedMaterial",
+        "workflow",
+        "knowledgeBounds",
+        "comprehensionCheck"
+      ],
       "properties": {
-        "uvod": { "type": "string" },
-        "detaljnoGradivo": {
-          "type": "array",
-          "items": { "type": "string" }
+        "introduction": {
+          "type": "string"
         },
-        "tokRada": { "type": "string" },
-        "graniceZnanja": { "type": "string" },
-        "proveraRazumevanja": { "type": "string" }
+        "detailedMaterial": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "workflow": {
+          "type": "string"
+        },
+        "knowledgeBounds": {
+          "type": "string"
+        },
+        "comprehensionCheck": {
+          "type": "string"
+        }
       }
     },
     "primer": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "editorPrimer",
+        "editorExample",
         "id",
-        "izvrsavanje",
-        "jezik",
-        "kod",
-        "naslov",
-        "nivo",
-        "objasnjenje",
-        "ocekivaniRezultat",
-        "odgovorOdlozen",
-        "okruzenje",
-        "opcije",
-        "pitanje",
-        "promeniIProveri",
-        "tacanOdgovor",
-        "uticajNaAplikaciju",
-        "uvod",
-        "vezaSaAplikacijom",
-        "vrsta"
+        "execution",
+        "language",
+        "code",
+        "title",
+        "level",
+        "explanation",
+        "expectedResult",
+        "deferredAnswer",
+        "environment",
+        "options",
+        "question",
+        "changeAndVerify",
+        "correctAnswer",
+        "applicationImpact",
+        "introduction",
+        "applicationRelation",
+        "kind"
       ],
       "properties": {
-        "editorPrimer": { "type": "boolean" },
-        "id": { "type": "string" },
-        "izvrsavanje": {
+        "editorExample": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "execution": {
           "type": "string",
-          "enum": ["konceptualno", "izolovano", "uz-pripremljeno-okruzenje", "uz-postgres-lab", "uz-typescript-okolinu"]
+          "enum": [
+            "konceptualno",
+            "izolovano",
+            "uz-pripremljeno-okruzenje",
+            "uz-postgres-lab",
+            "uz-typescript-okolinu"
+          ]
         },
-        "jezik": { "$ref": "#/$defs/jezik" },
-        "kod": { "type": "string" },
-        "naslov": { "type": "string" },
-        "nivo": { "type": "string" },
-        "objasnjenje": { "type": "string" },
-        "ocekivaniRezultat": { "type": "string" },
-        "ocekivani-izuzetak": { "type": "string" },
-        "odgovorOdlozen": { "type": "boolean" },
-        "odgovor_odlozen": { "type": "string" },
-        "okruzenje": { "type": "string" },
-        "opcije": {
+        "language": {
+          "$ref": "#/$defs/jezik"
+        },
+        "code": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "level": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "expectedResult": {
+          "type": "string"
+        },
+        "expectedException": {
+          "type": "string"
+        },
+        "deferredAnswer": {
+          "type": "boolean"
+        },
+        "deferredAnswerText": {
+          "type": "string"
+        },
+        "environment": {
+          "type": "string"
+        },
+        "options": {
           "type": "array",
-          "items": { "$ref": "#/$defs/opcija" }
+          "items": {
+            "$ref": "#/$defs/opcija"
+          }
         },
-        "pitanje": { "type": "string" },
-        "predlogPopravke": { "type": "string" },
-        "pripremaTestOkruzenja": { "type": "string" },
-        "promeniIProveri": { "type": "string" },
-        "provera-popravke": { "type": "string" },
-        "tacanOdgovor": { "type": "string" },
-        "uticajNaAplikaciju": { "type": ["string", "null"] },
-        "uticaj_na_aplikaciju": { "type": "string" },
-        "uvod": { "type": "string" },
-        "vezaSaAplikacijom": { "type": "string" },
-        "vrsta": { "type": "string", "enum": ["predvidi", "ispravi-gresku"] }
+        "question": {
+          "type": "string"
+        },
+        "fixSuggestion": {
+          "type": "string"
+        },
+        "testEnvironmentSetup": {
+          "type": "string"
+        },
+        "changeAndVerify": {
+          "type": "string"
+        },
+        "fixCheck": {
+          "type": "string"
+        },
+        "correctAnswer": {
+          "type": "string"
+        },
+        "applicationImpact": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "applicationImpactText": {
+          "type": "string"
+        },
+        "introduction": {
+          "type": "string"
+        },
+        "applicationRelation": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "predvidi",
+            "ispravi-gresku"
+          ]
+        }
       }
     },
     "blokLekcije": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "vrsta", "tekst"],
+      "required": [
+        "id",
+        "kind",
+        "text"
+      ],
       "properties": {
-        "id": { "type": "string", "minLength": 1 },
-        "vrsta": { "type": "string", "enum": ["tekst", "highlight", "kod", "dijagram", "mermaid", "struktura", "raspored", "pitanje"] },
-        "tekst": { "type": "string" },
-        "uloga": { "type": "string", "enum": ["kljucna", "obicna"] },
-        "naslov": { "type": "string" },
-        "pozadina": { "type": "string", "enum": ["bela", "crna"] },
-        "jezik": { "$ref": "#/$defs/jezik" },
-        "veza": { "type": "string", "enum": ["samostalniPrimer", "dijagram", "prica", "fajl", "figura", "http", "komanda"] },
-        "oblik": { "type": "string", "enum": ["tekst", "izbor"] },
-        "odgovor": { "type": "string" },
-        "analiza": { "type": "string" },
-        "dodatno": { "type": "string" },
-        "dodatniOdgovor": { "type": "string" },
-        "opcije": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "tekst",
+            "highlight",
+            "kod",
+            "dijagram",
+            "mermaid",
+            "struktura",
+            "raspored",
+            "pitanje"
+          ]
+        },
+        "text": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "kljucna",
+            "obicna"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "background": {
+          "type": "string",
+          "enum": [
+            "bela",
+            "crna"
+          ]
+        },
+        "language": {
+          "$ref": "#/$defs/jezik"
+        },
+        "link": {
+          "type": "string",
+          "enum": [
+            "samostalniPrimer",
+            "dijagram",
+            "prica",
+            "fajl",
+            "figura",
+            "http",
+            "komanda"
+          ]
+        },
+        "form": {
+          "type": "string",
+          "enum": [
+            "tekst",
+            "izbor"
+          ]
+        },
+        "answer": {
+          "type": "string"
+        },
+        "analysis": {
+          "type": "string"
+        },
+        "extra": {
+          "type": "string"
+        },
+        "extraAnswer": {
+          "type": "string"
+        },
+        "options": {
           "type": "array",
           "minItems": 2,
-          "items": { "$ref": "#/$defs/opcija" }
+          "items": {
+            "$ref": "#/$defs/opcija"
+          }
         }
       }
     },
     "korak": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["naslov"],
+      "required": [
+        "title"
+      ],
       "properties": {
-        "naslov": { "type": "string" },
-        "nivo": { "type": "string" },
-        "minuta": { "type": "number" },
-        "tekst": { "type": "string" },
-        "prica": { "type": "string" },
-        "kljucnaIdeja": { "type": "string" },
-        "pitalica": { "type": "string" },
-        "opcije": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/opcija" }
+        "title": {
+          "type": "string"
         },
-        "analizaPitalice": { "type": "string" },
-        "pitalice": {
+        "level": {
+          "type": "string"
+        },
+        "minutes": {
+          "type": "number"
+        },
+        "text": {
+          "type": "string"
+        },
+        "story": {
+          "type": "string"
+        },
+        "keyIdea": {
+          "type": "string"
+        },
+        "prompt": {
+          "type": "string"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/opcija"
+          }
+        },
+        "promptAnalysis": {
+          "type": "string"
+        },
+        "prompts": {
           "type": "array",
           "minItems": 1,
-          "items": { "$ref": "#/$defs/pitalicaKoraka" }
+          "items": {
+            "$ref": "#/$defs/pitalicaKoraka"
+          }
         },
-        "proveraPitalice": { "type": "string" },
-        "tipPrimer": { "type": "string", "enum": ["aplikacija", "eksperiment", "pitalica-kod"] },
-        "putanja": { "type": "string" },
-        "isecak": { "type": "string" },
-        "isecakNaslov": { "type": "string" },
-        "isecakJezik": { "$ref": "#/$defs/jezik" },
-        "delic": { "type": "string" },
-        "original": { "type": "string" },
-        "originalJezik": { "$ref": "#/$defs/jezik" },
-        "figura": { "$ref": "#/$defs/figura" },
-        "dijagram": { "$ref": "#/$defs/dijagram" },
-        "samostalniPrimer": { "$ref": "#/$defs/samostalniPrimer" },
-        "blokovi": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/blokLekcije" }
+        "promptCheck": {
+          "type": "string"
         },
-        "diskusija": {
+        "exampleKind": {
+          "type": "string",
+          "enum": [
+            "aplikacija",
+            "eksperiment",
+            "pitalica-kod"
+          ]
+        },
+        "path": {
+          "type": "string"
+        },
+        "snippet": {
+          "type": "string"
+        },
+        "snippetTitle": {
+          "type": "string"
+        },
+        "snippetLanguage": {
+          "$ref": "#/$defs/jezik"
+        },
+        "fragment": {
+          "type": "string"
+        },
+        "original": {
+          "type": "string"
+        },
+        "originalLanguage": {
+          "$ref": "#/$defs/jezik"
+        },
+        "figure": {
+          "$ref": "#/$defs/figura"
+        },
+        "diagram": {
+          "$ref": "#/$defs/dijagram"
+        },
+        "standaloneExample": {
+          "$ref": "#/$defs/samostalniPrimer"
+        },
+        "blocks": {
           "type": "array",
-          "items": { "$ref": "#/$defs/blokLekcije" }
+          "items": {
+            "$ref": "#/$defs/blokLekcije"
+          }
+        },
+        "discussion": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/blokLekcije"
+          }
         }
       }
     },
     "tema": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["naslov", "steps"],
+      "required": [
+        "title",
+        "steps"
+      ],
       "properties": {
-        "naslov": { "type": "string" },
-        "ikona": { "type": "string" },
-        "slika": { "type": "string" },
-        "podnaslov": { "type": "string" },
-        "ishod": { "type": "string" },
-        "minuta": { "type": "number" },
-        "predavanjeMinuta": { "type": "number" },
-        "diskusijaMinuta": { "type": "number" },
-        "preduslov": { "type": "string" },
-        "problem": { "type": "string" },
-        "pretpostavka": { "type": "string" },
+        "title": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "outcome": {
+          "type": "string"
+        },
+        "minutes": {
+          "type": "number"
+        },
+        "lectureMinutes": {
+          "type": "number"
+        },
+        "discussionMinutes": {
+          "type": "number"
+        },
+        "prerequisite": {
+          "type": "string"
+        },
+        "problem": {
+          "type": "string"
+        },
+        "assumption": {
+          "type": "string"
+        },
         "options": {
           "type": "array",
-          "items": { "$ref": "#/$defs/opcija" }
+          "items": {
+            "$ref": "#/$defs/opcija"
+          }
         },
-        "rezerva": { "$ref": "#/$defs/rezerva" },
-        "rezervaNapomena": { "type": "string" },
-        "izlaz": { "type": "string" },
-        "pojmoviCasa": {
+        "reserve": {
+          "$ref": "#/$defs/rezerva"
+        },
+        "reserveNote": {
+          "type": "string"
+        },
+        "exit": {
+          "type": "string"
+        },
+        "lessonTerms": {
           "type": "array",
-          "items": { "$ref": "#/$defs/pojam" }
+          "items": {
+            "$ref": "#/$defs/pojam"
+          }
         },
-        "dodatniPrimeri": {
+        "extraExamples": {
           "type": "array",
-          "items": { "$ref": "#/$defs/primer" }
+          "items": {
+            "$ref": "#/$defs/primer"
+          }
         },
-        "samostalniZadaci": { "type": "string" },
-        "samostalnoUcenje": { "$ref": "#/$defs/samostalno" },
+        "independentTasks": {
+          "type": "string"
+        },
+        "independentLearning": {
+          "$ref": "#/$defs/samostalno"
+        },
         "steps": {
           "type": "array",
           "minItems": 1,
-          "items": { "$ref": "#/$defs/korak" }
+          "items": {
+            "$ref": "#/$defs/korak"
+          }
         }
       }
     },
     "faza": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["naziv", "minuta", "opis"],
+      "required": [
+        "name",
+        "minutes",
+        "description"
+      ],
       "properties": {
-        "naziv": { "type": "string" },
-        "minuta": { "type": "number" },
-        "opis": { "type": "string" }
+        "name": {
+          "type": "string"
+        },
+        "minutes": {
+          "type": "number"
+        },
+        "description": {
+          "type": "string"
+        }
       }
     },
     "povezujuciPrimer": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["naziv", "opis"],
+      "required": [
+        "name",
+        "description"
+      ],
       "properties": {
-        "naziv": { "type": "string" },
-        "opis": { "type": "string" }
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
       }
     },
     "nastavniObrazac": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "napomenaKoraka",
-        "pedagoskaNapomena",
-        "tipoviPrimer",
-        "redosledKoraka",
-        "diskusijaFaze",
-        "izlazOblik"
+        "stepNote",
+        "pedagogicalNote",
+        "exampleKinds",
+        "stepOrder",
+        "discussionPhases",
+        "exitForm"
       ],
       "properties": {
-        "napomenaKoraka": { "type": "string" },
-        "pedagoskaNapomena": { "type": "string" },
-        "tipoviPrimer": {
+        "stepNote": {
+          "type": "string"
+        },
+        "pedagogicalNote": {
+          "type": "string"
+        },
+        "exampleKinds": {
           "type": "array",
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["id", "naziv", "opis"],
+            "required": [
+              "id",
+              "name",
+              "description"
+            ],
             "properties": {
-              "id": { "type": "string" },
-              "naziv": { "type": "string" },
-              "opis": { "type": "string" }
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
             }
           }
         },
-        "redosledKoraka": {
+        "stepOrder": {
           "type": "array",
-          "items": { "type": "string" }
-        },
-        "diskusijaFaze": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["budzetMinuta", "faze", "posle", "napomena"],
-          "properties": {
-            "budzetMinuta": { "type": "number" },
-            "faze": {
-              "type": "array",
-              "items": { "$ref": "#/$defs/faza" }
-            },
-            "posle": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": ["minuta", "opis"],
-              "properties": {
-                "minuta": { "type": "number" },
-                "opis": { "type": "string" }
-              }
-            },
-            "napomena": { "type": "string" }
+          "items": {
+            "type": "string"
           }
         },
-        "izlazOblik": { "type": "string" },
-        "samostalnoUcenje": { "type": "string" },
-        "editorDodatniPrimeri": { "type": "string" },
-        "nemaReacta": { "type": "string" },
-        "ucenjeBezNastavnika": { "type": "string" },
-        "proveraKoda": { "type": "string" },
-        "raspodelaVremena": { "type": "string" },
-        "statusIzvrsavanja": { "type": "string" }
+        "discussionPhases": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "budgetMinutes",
+            "phases",
+            "after",
+            "note"
+          ],
+          "properties": {
+            "budgetMinutes": {
+              "type": "number"
+            },
+            "phases": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/faza"
+              }
+            },
+            "after": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "minutes",
+                "description"
+              ],
+              "properties": {
+                "minutes": {
+                  "type": "number"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "exitForm": {
+          "type": "string"
+        },
+        "independentLearning": {
+          "type": "string"
+        },
+        "editorExtraExamples": {
+          "type": "string"
+        },
+        "noReact": {
+          "type": "string"
+        },
+        "learningWithoutInstructor": {
+          "type": "string"
+        },
+        "codeCheck": {
+          "type": "string"
+        },
+        "timeAllocation": {
+          "type": "string"
+        },
+        "executionStatus": {
+          "type": "string"
+        }
       }
     }
   }

@@ -1,3 +1,4 @@
+import { izEngleskog, uEngleski } from "./kljucevi-kursa.js";
 import { proveriSemu } from "./sema.js";
 
 const POLJA_FAJLA = ["putanja", "isecak", "isecakNaslov", "delic", "original"];
@@ -20,20 +21,24 @@ export function procitajTekst(tekst) {
     return { ok: false, greska: "Neispravan JSON.", kurs: null, napomena: "" };
   }
   uskladiStareKljuceve(kurs);
-  if (!kurs || typeof kurs !== "object" || Array.isArray(kurs) || !Array.isArray(kurs.teme)) {
+  kurs = uEngleski(kurs);
+  if (!kurs || typeof kurs !== "object" || Array.isArray(kurs) || !Array.isArray(kurs.topics)) {
     return { ok: false, greska: "Dokument nema spisak tema.", kurs: null, napomena: "" };
   }
-  const napomena = kurs.trajanjeTema !== kurs.teme.length ? "Trajanje je usklađeno sa brojem tema." : "";
-  kurs.trajanjeTema = kurs.teme.length;
+  const napomena = kurs.themeCount !== kurs.topics.length ? "Trajanje je usklađeno sa brojem tema." : "";
+  kurs.themeCount = kurs.topics.length;
   if (!semaKursa) return { ok: false, greska: "Šema kursa nije učitana.", kurs: null, napomena: "" };
   const provera = proveriSemu(semaKursa, kurs);
   if (!provera.ok) return { ok: false, greska: provera.greske[0], kurs: null, napomena: "" };
-  return { ok: true, greska: "", napomena, kurs };
+  return { ok: true, greska: "", napomena, kurs: izEngleskog(kurs) };
 }
 
 export function spremiTekst(kurs) {
-  kurs.trajanjeTema = Array.isArray(kurs.teme) ? kurs.teme.length : 0;
-  return `${JSON.stringify(kurs, null, 2)}\n`;
+  const broj = Array.isArray(kurs.teme) ? kurs.teme.length : Array.isArray(kurs.topics) ? kurs.topics.length : 0;
+  if (Array.isArray(kurs.teme)) kurs.trajanjeTema = broj;
+  const engleski = uEngleski(kurs);
+  engleski.themeCount = broj;
+  return `${JSON.stringify(engleski, null, 2)}\n`;
 }
 
 export function prazanKurs() {

@@ -73,7 +73,7 @@ test("izmena dodatnog pitanja 9.2 ostaje sačuvana", { timeout: 40000 }, async (
   assert.equal(await strana.vrednost(`document.querySelector("#toast-greska")`), null);
   const snimak = await strana.posalji("Page.captureScreenshot", { format: "png" });
   writeFileSync(path.join(snimci, "dodatno-92-sacuvano.png"), Buffer.from(snimak.data, "base64"));
-  const dodatno = await strana.vrednost(`fetch("/kurs.json?sveze=" + Date.now(), { cache: "no-store" }).then((odgovor) => odgovor.json()).then((kurs) => kurs.teme[3].steps[0].diskusija.find((blok) => blok.id === "k09q2").dodatno)`);
+    const dodatno = await strana.vrednost(`fetch("/kurs.json?sveze=" + Date.now(), { cache: "no-store" }).then((odgovor) => odgovor.json()).then((kurs) => kurs.topics[3].steps[0].discussion.find((blok) => blok.id === "k09q2").extra)`);
   assert.equal(dodatno, marker);
 });
 

@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const { state, dovodi, trenutnoStanje, objaviStanje } = require("./stanje");
 const { pripremiBazu, dohvatiBazu } = require("./baza");
+const { uEngleski } = require("../site/js/kljucevi-kursa.js");
 const { greskeDokumenta, skiniMinuteBlokova } = require("./kurs");
 const { spisakPrimera, ucitajPrimer } = require("./primeri");
 
@@ -378,6 +379,7 @@ async function sacuvajKurs(zahtev, odgovor) {
   } catch {
     return posaljiJson(odgovor, 400, { greska: "neispravan json" });
   }
+  kurs = uEngleski(kurs);
   skiniMinuteBlokova(kurs);
   const greske = greskeDokumenta(kurs);
   if (greske.length) return posaljiJson(odgovor, 400, { greska: "dokument nije kurs", detalji: greske });

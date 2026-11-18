@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
+import { uEngleski } from "../site/js/kljucevi-kursa.js";
 import { proveriSemu } from "../site/js/sema.js";
 import { prazanKurs, praznaTema, procitajTekst, spremiTekst } from "../site/js/studio.js";
 
@@ -34,7 +35,7 @@ test("json je dozvoljen jezik samostalnog primera i koda pojma", () => {
   }];
   dokument.teme = [tema];
   dokument.trajanjeTema = 1;
-  assert.deepEqual(proveriSemu(sema, dokument).greske, []);
+  assert.deepEqual(proveriSemu(sema, uEngleski(dokument)).greske, []);
 });
 
 test("isporučeni kurs.json prolazi šemu", () => {
@@ -50,13 +51,13 @@ test("slika kursa ostaje putanja pri čitanju", () => {
   const procitan = procitajTekst(JSON.stringify({ ...prazanKurs(), slika: "/img/kurs.png" }));
   assert.equal(procitan.ok, true);
   assert.equal(procitan.kurs.slika, "/img/kurs.png");
-  assert.match(spremiTekst(procitan.kurs), /"slika": "\/img\/kurs.png"/);
+  assert.match(spremiTekst(procitan.kurs), /"image": "\/img\/kurs.png"/);
 });
 
 test("slika kursa koja nije tekst ne prolazi šemu", () => {
   const procitan = procitajTekst(JSON.stringify({ ...prazanKurs(), slika: 1 }));
   assert.equal(procitan.ok, false);
-  assert.match(procitan.greska, /slika: očekivan je tekst/);
+  assert.match(procitan.greska, /image: očekivan je tekst/);
 });
 
 test("prazan kurs i nova tema prolaze istu šemu", () => {
@@ -75,7 +76,7 @@ test("šema odbija pogrešan tip, nepoznato polje i korak bez naslova", () => {
     teme: [{ naslov: "A", steps: [{}] }],
   }));
   assert.equal(bezNaslova.ok, false);
-  assert.match(bezNaslova.greska, /naslov/);
+  assert.match(bezNaslova.greska, /title/);
 
   const minuta = prazanKurs();
   const tema = praznaTema();
@@ -83,17 +84,17 @@ test("šema odbija pogrešan tip, nepoznato polje i korak bez naslova", () => {
   minuta.teme = [tema];
   const losaMinuta = procitajTekst(JSON.stringify(minuta));
   assert.equal(losaMinuta.ok, false);
-  assert.match(losaMinuta.greska, /minuta/);
+  assert.match(losaMinuta.greska, /minutes/);
 
   const visak = procitajTekst(JSON.stringify({ ...prazanKurs(), nepoznato: true }));
   assert.equal(visak.ok, false);
   assert.match(visak.greska, /nepoznato/);
 
   const figura = structuredClone(kurs);
-  figura.teme[0].steps[0].figura = { vrsta: "kocka" };
+  figura.topics[0].steps[0].figure = { kind: "kocka" };
   const losaFigura = proveriSemu(sema, figura);
   assert.equal(losaFigura.ok, false);
-  assert.match(losaFigura.greske[0], /vrsta/);
+  assert.match(losaFigura.greske[0], /kind/);
 });
 
 test("uvoz i dalje poravnava trajanje i odbija dokument bez tema", () => {

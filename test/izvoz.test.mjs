@@ -11,6 +11,7 @@ import {
   markdownKoraka,
   markdownTeme,
 } from "../site/js/izvoz.js";
+import { izEngleskog, uEngleski } from "../site/js/kljucevi-kursa.js";
 import { proveriSemu } from "../site/js/sema.js";
 import { prazanKurs, praznaTema } from "../site/js/studio.js";
 
@@ -138,11 +139,11 @@ test("šema prima mermaid sekciju", () => {
   ];
   dokument.teme = [tema];
   dokument.trajanjeTema = 1;
-  assert.deepEqual(proveriSemu(sema, dokument).greske, []);
+  assert.deepEqual(proveriSemu(sema, uEngleski(dokument)).greske, []);
 });
 
 test("fajl koraka izlazi kao obična ograda, bez posebnog delića", () => {
-  const kurs = JSON.parse(fs.readFileSync(new URL("../kursevi/web_programiranje/kurs.json", import.meta.url), "utf8"));
+  const kurs = izEngleskog(JSON.parse(fs.readFileSync(new URL("../kursevi/web_programiranje/kurs.json", import.meta.url), "utf8")));
   const korak = kurs.teme[2].steps[0];
   const md = markdownKoraka(korak);
   assert.equal(markdownJeIspravan(md), true);
@@ -153,7 +154,7 @@ test("fajl koraka izlazi kao obična ograda, bez posebnog delića", () => {
 });
 
 test("postojeći korak kursa ostaje ispravan markdown", () => {
-  const kurs = JSON.parse(fs.readFileSync(new URL("../kursevi/web_programiranje/kurs.json", import.meta.url), "utf8"));
+  const kurs = izEngleskog(JSON.parse(fs.readFileSync(new URL("../kursevi/web_programiranje/kurs.json", import.meta.url), "utf8")));
   const tema = kurs.teme[0];
   const md = markdownTeme(tema);
   assert.equal(markdownJeIspravan(md), true);

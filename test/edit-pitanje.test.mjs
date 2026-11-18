@@ -45,9 +45,9 @@ test("izmena pitanja ostaje posle reload-a kad kvačica kaže sačuvano", { time
     if (ikona === "Sačuvano") break;
   }
   assert.equal(ikona, "Sačuvano");
-  const upisano = await strana.vrednost(`fetch("/kurs.json?sveze=" + Date.now(), { cache: "no-store" }).then((odgovor) => odgovor.json()).then((kurs) => kurs.teme[0].steps[0].pitalice[1])`);
-  assert.equal(upisano.pitalica, marker);
-  assert.match(upisano.odgovor, /ODGOVOR-POSLE-RELOADA-2743/);
+    const upisano = await strana.vrednost(`fetch("/kurs.json?sveze=" + Date.now(), { cache: "no-store" }).then((odgovor) => odgovor.json()).then((kurs) => kurs.topics[0].steps[0].prompts[1])`);
+  assert.equal(upisano.prompt, marker);
+  assert.match(upisano.answer, /ODGOVOR-POSLE-RELOADA-2743/);
 
   await strana.idi("about:blank");
   await strana.idi(adresa);

@@ -43,28 +43,28 @@ test("upis kursa ide preko privremenog fajla", () => {
 test("dokument kursa poznaje isporučeni kurs.json", () => {
   const kurs = JSON.parse(fs.readFileSync(path.join(KORENI, "kursevi", "web_programiranje", "kurs.json"), "utf8"));
   assert.equal(dokumentJeKurs(kurs), true);
-  assert.equal(dokumentJeKurs({ trajanjeTema: 1, teme: [] }), false);
-  assert.equal(dokumentJeKurs({ trajanjeTema: 1, teme: [{ steps: [null] }] }), false);
+  assert.equal(dokumentJeKurs({ themeCount: 1, topics: [] }), false);
+  assert.equal(dokumentJeKurs({ themeCount: 1, topics: [{ steps: [null] }] }), false);
 });
 
 test("čuvanje skida minute sa pitanja, a ostavlja minute koraka", () => {
   const kurs = {
-    naslov: "Proba",
-    trajanjeTema: 1,
-    teme: [{
-      naslov: "Jedna",
-      minuta: 90,
+    title: "Proba",
+    themeCount: 1,
+    topics: [{
+      title: "Jedna",
+      minutes: 90,
       steps: [{
-        naslov: "Korak",
-        minuta: 4,
-        diskusija: [{ id: "q", vrsta: "pitanje", tekst: "A", minuta: 3, dodatno: "Još?" }],
+        title: "Korak",
+        minutes: 4,
+        discussion: [{ id: "q", kind: "pitanje", text: "A", minutes: 3, extra: "Još?" }],
       }],
     }],
   };
   skiniMinuteBlokova(kurs);
-  assert.equal(kurs.teme[0].minuta, 90);
-  assert.equal(kurs.teme[0].steps[0].minuta, 4);
-  assert.equal(Object.hasOwn(kurs.teme[0].steps[0].diskusija[0], "minuta"), false);
+  assert.equal(kurs.topics[0].minutes, 90);
+  assert.equal(kurs.topics[0].steps[0].minutes, 4);
+  assert.equal(Object.hasOwn(kurs.topics[0].steps[0].discussion[0], "minutes"), false);
   assert.equal(dokumentJeKurs(kurs), true);
 });
 
@@ -101,9 +101,9 @@ test("čuvanje kursa piše JSON i odbija dokument koji čas ne bi učitao", asyn
     });
 
     const kurs = {
-      naslov: "Proba",
-      trajanjeTema: 1,
-      teme: [{ naslov: "Jedna", steps: [{ naslov: "Korak" }] }],
+      title: "Proba",
+      themeCount: 1,
+      topics: [{ title: "Jedna", steps: [{ title: "Korak" }] }],
     };
     const sacuvan = await zahtev("PUT", "/api/kurs", JSON.stringify(kurs), {
       "content-type": "application/json",
@@ -119,20 +119,20 @@ test("čuvanje kursa piše JSON i odbija dokument koji čas ne bi učitao", asyn
     const trajanje = await zahtev(
       "PUT",
       "/api/kurs",
-      JSON.stringify({ trajanjeTema: 3, teme: [{ naslov: "A", steps: [{}] }] }),
+      JSON.stringify({ themeCount: 3, topics: [{ title: "A", steps: [{}] }] }),
       { "content-type": "application/json" }
     );
     assert.equal(trajanje.status, 400);
-    assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).naslov, "Proba");
+    assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).title, "Proba");
 
     const struktura = {
-      naslov: "Proba",
-      trajanjeTema: 1,
-      teme: [{
-        naslov: "Jedna",
+      title: "Proba",
+      themeCount: 1,
+      topics: [{
+        title: "Jedna",
         steps: [{
-          naslov: "Korak",
-          blokovi: [{ id: "s1", vrsta: "struktura", tekst: "{\"kod\":[]}" }],
+          title: "Korak",
+          blocks: [{ id: "s1", kind: "struktura", text: "{\"kod\":[]}" }],
         }],
       }],
     };
@@ -140,16 +140,16 @@ test("čuvanje kursa piše JSON i odbija dokument koji čas ne bi učitao", asyn
       "content-type": "application/json",
     });
     assert.equal(saStrukturom.status, 200);
-    assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).teme[0].steps[0].blokovi[0].vrsta, "struktura");
+    assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).topics[0].steps[0].blocks[0].kind, "struktura");
 
     const nepoznato = {
-      naslov: "Proba",
-      trajanjeTema: 1,
-      teme: [{
-        naslov: "Jedna",
+      title: "Proba",
+      themeCount: 1,
+      topics: [{
+        title: "Jedna",
         steps: [{
-          naslov: "Korak",
-          blokovi: [{ id: "s1", vrsta: "nepoznato", tekst: "" }],
+          title: "Korak",
+          blocks: [{ id: "s1", kind: "nepoznato", text: "" }],
         }],
       }],
     };
@@ -159,26 +159,26 @@ test("čuvanje kursa piše JSON i odbija dokument koji čas ne bi učitao", asyn
     assert.equal(odbijen.status, 400);
     const teloOdbijenog = JSON.parse(odbijen.body);
     assert.equal(teloOdbijenog.greska, "dokument nije kurs");
-    assert.match(teloOdbijenog.detalji.join("\n"), /vrsta: vrednost nije dozvoljena/);
-    assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).teme[0].steps[0].blokovi[0].vrsta, "struktura");
+    assert.match(teloOdbijenog.detalji.join("\n"), /kind: vrednost nije dozvoljena/);
+    assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).topics[0].steps[0].blocks[0].kind, "struktura");
 
     const saViskom = {
-      naslov: "Proba",
-      trajanjeTema: 1,
-      teme: [{ naslov: "Jedna", visak: "ostaje", steps: [{ naslov: "Korak" }] }],
+      title: "Proba",
+      themeCount: 1,
+      topics: [{ title: "Jedna", visak: "ostaje", steps: [{ title: "Korak" }] }],
     };
     const visak = await zahtev("PUT", "/api/kurs", JSON.stringify(saViskom), {
       "content-type": "application/json",
     });
     assert.equal(visak.status, 200);
-    assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).teme[0].visak, "ostaje");
+    assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).topics[0].visak, "ostaje");
 
     const preveliko = await zahtev("PUT", "/api/kurs", "x".repeat(2_000_001), {
       "content-type": "application/json",
     });
     assert.equal(preveliko.status, 400);
     assert.equal(JSON.parse(preveliko.body).greska, "telo je preveliko");
-    assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).teme[0].visak, "ostaje");
+    assert.equal(JSON.parse(fs.readFileSync(DATOTEKA, "utf8")).topics[0].visak, "ostaje");
 
     const serverFajl = path.join(KORENI, "server", "server.js");
     const preServera = fs.readFileSync(serverFajl, "utf8");
