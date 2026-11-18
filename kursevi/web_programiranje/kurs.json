@@ -13,7 +13,7 @@
   "ciljnaGrupa": "3. godina studija računarstva",
   "uvod": {
     "naslov": "Pre prve teme",
-    "ikona": "book-open",
+    "slika": "/icons/uvod.svg",
     "cilj": "Predmet prati jednu radnju Kontrolne sobe od browsera, preko Node procesa, do PostgreSQL baze. Panel ima temperaturu i jedan ventilator. Nema stvarnog hardvera. Posle kursa student razlikuje prikaz od stanja, obrazloži grešku, izostanak odgovora i ponovljeni zahtev, i kaže šta sme da veruje ekranu, a šta mora da proveri server.",
     "ocekivanje": [
       "Preduslov je objektno programiranje, algoritmi i SQL. Prethodni web kurs nije potreban.",
@@ -237,7 +237,7 @@
   "teme": [
     {
       "naslov": "Zašto Web postoji: zahtevi i protokoli",
-      "ikona": "layers",
+      "slika": "/icons/tema-01.svg",
       "podnaslov": "Web je usluga na Internetu. Stranica je dokument. server/ još nema fajlove.",
       "ishod": "Web je usluga na Internetu. Stranica je dokument. server/ još nema fajlove.",
       "minuta": 90,
@@ -1057,7 +1057,7 @@
     },
     {
       "naslov": "Browser: HTML, CSS i prikaz",
-      "slika": "assets/prozor.svg",
+      "slika": "/icons/tema-02.svg",
       "podnaslov": "Dokument, prikaz i merenje nisu ista stvar.",
       "ishod": "Dokument, prikaz i merenje nisu ista stvar.",
       "minuta": 90,
@@ -2681,7 +2681,7 @@
     },
     {
       "naslov": "JavaScript: vrednosti, objekti i funkcije",
-      "slika": "assets/js.svg",
+      "slika": "/icons/tema-03.svg",
       "podnaslov": "Kako JavaScript predstavlja podatke i piše program.",
       "ishod": "Kako JavaScript predstavlja podatke i piše program.",
       "minuta": 90,
@@ -5029,7 +5029,7 @@
     },
     {
       "naslov": "JavaScript: leksičko okruženje, prototip i modul",
-      "ikona": "code-xml",
+      "slika": "/icons/tema-04.svg",
       "podnaslov": "Funkcija traži ime u leksičkom okruženju, poziv ima kontekst izvršavanja, svojstvo ide prototipom, a modul drži svoj opseg.",
       "ishod": "Funkcija traži ime u leksičkom okruženju, poziv ima kontekst izvršavanja, svojstvo ide prototipom, a modul drži svoj opseg.",
       "minuta": 90,
@@ -7088,7 +7088,7 @@
     },
     {
       "naslov": "DOM, događaji i prikaz stanja",
-      "ikona": "monitor",
+      "slika": "/icons/tema-05.svg",
       "podnaslov": "Događaj menja stanje. Poseban kod upisuje prikaz u DOM.",
       "ishod": "Događaj menja stanje. Poseban kod upisuje prikaz u DOM.",
       "minuta": 90,
@@ -9848,7 +9848,7 @@
     },
     {
       "naslov": "Node.js, HTTP server i Web API",
-      "ikona": "server",
+      "slika": "/icons/tema-06.svg",
       "podnaslov": "Node izvršava JavaScript van browsera. HTTP server vraća odgovor.",
       "ishod": "Node izvršava JavaScript van browsera. HTTP server vraća odgovor.",
       "minuta": 90,
@@ -11337,7 +11337,7 @@
     },
     {
       "naslov": "Asinhronost, event loop i neuspeh",
-      "ikona": "clock",
+      "slika": "/icons/tema-07.svg",
       "podnaslov": "Čekanje, podatak i greška. 200 nije 500, a 500 nije ugašen port.",
       "ishod": "Čekanje, podatak i greška. 200 nije 500, a 500 nije ugašen port.",
       "minuta": 90,
@@ -12728,7 +12728,7 @@
     },
     {
       "naslov": "API komande, validacija i idempotentnost",
-      "slika": "assets/api.svg",
+      "slika": "/icons/tema-08.svg",
       "podnaslov": "Željeno stanje, provera tela i smisao ponavljanja.",
       "ishod": "Željeno stanje, provera tela i smisao ponavljanja.",
       "minuta": 90,
@@ -14312,7 +14312,7 @@
     },
     {
       "naslov": "PostgreSQL, transakcije i Docker",
-      "ikona": "database",
+      "slika": "/icons/tema-09.svg",
       "podnaslov": "Režim i istorija su jedna transakcija.",
       "ishod": "Režim i istorija su jedna transakcija.",
       "minuta": 90,
@@ -15730,7 +15730,7 @@
     },
     {
       "naslov": "Svežina podataka, periodično čitanje i push",
-      "ikona": "refresh-cw",
+      "slika": "/icons/tema-10.svg",
       "podnaslov": "Displej čuva poslednje čitanje. Takt ga ne pomera.",
       "ishod": "Displej čuva poslednje čitanje. Takt ga ne pomera.",
       "minuta": 90,
@@ -17132,7 +17132,7 @@
     },
     {
       "naslov": "Bezbednost, sesije i prava pristupa",
-      "ikona": "user-round",
+      "slika": "/icons/tema-11.svg",
       "podnaslov": "Cookie nosi ključ. Kutija drži ulogu.",
       "ishod": "Cookie nosi ključ. Kutija drži ulogu.",
       "minuta": 90,
@@ -18550,7 +18550,7 @@
     },
     {
       "naslov": "Ceo sistem, dijagnostika i LLM",
-      "ikona": "lightbulb",
+      "slika": "/icons/tema-12.svg",
       "podnaslov": "Ekran „uključeno” nije dokaz upisa. Ćutanje nije ni dokaz ni opovrgavanje.",
       "ishod": "Ekran „uključeno” nije dokaz upisa. Ćutanje nije ni dokaz ni opovrgavanje.",
       "minuta": 90,

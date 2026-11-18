@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Ceo sistem, dijagnostika i LLM">
+<title>Ceo sistem, dijagnostika i LLM</title>
+<rect width="64" height="64" rx="15" fill="#3C63BB"/>
+<g transform="translate(9 9) scale(1.9167)" fill="none" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2.3"/><path d="M9 2v3M9 19v3"/><path d="M15 2v3M15 19v3"/><path d="M2 9h3M19 9h3"/><path d="M2 15h3M19 15h3"/></g><text x="32" y="39" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="19" letter-spacing="-0.7" fill="white">AI</text>
+</svg>

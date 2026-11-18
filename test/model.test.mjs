@@ -46,29 +46,38 @@ test("adapter čita dokument i ne drži naslove", () => {
   assert.equal(dokument.ustanova, "Elektronski fakultet");
   assert.equal(dokument.ustanovaRed, "Univerzitet u Nišu");
   assert.equal(dokument.grb, "assets/elfak_logo.png");
-  assert.equal(dokument.uvod.ikona, "book-open");
+  assert.equal(dokument.uvod.slika, "/icons/uvod.svg");
+  assert.equal(dokument.uvod.ikona, undefined);
+  const uvodSvg = fs.readFileSync(new URL("../site/icons/uvod.svg", import.meta.url), "utf8");
+  assert.match(uvodSvg, /viewBox="0 0 64 64"/);
+  assert.match(uvodSvg, /aria-label="Uvod"/);
   const znakovi = [
-    ["ikona", "layers"],
-    ["slika", "assets/prozor.svg"],
-    ["slika", "assets/js.svg"],
-    ["ikona", "code-xml"],
-    ["ikona", "monitor"],
-    ["ikona", "server"],
-    ["ikona", "clock"],
-    ["slika", "assets/api.svg"],
-    ["ikona", "database"],
-    ["ikona", "refresh-cw"],
-    ["ikona", "user-round"],
-    ["ikona", "lightbulb"],
+    ["/icons/tema-01.svg", "Zašto Web postoji: zahtevi i protokoli"],
+    ["/icons/tema-02.svg", "Browser: HTML, CSS i prikaz"],
+    ["/icons/tema-03.svg", "JavaScript: vrednosti, objekti i funkcije"],
+    ["/icons/tema-04.svg", "JavaScript: leksičko okruženje, prototip i modul"],
+    ["/icons/tema-05.svg", "DOM, događaji i prikaz stanja"],
+    ["/icons/tema-06.svg", "Node.js, HTTP server i Web API"],
+    ["/icons/tema-07.svg", "Asinhronost, event loop i neuspeh"],
+    ["/icons/tema-08.svg", "API komande, validacija i idempotentnost"],
+    ["/icons/tema-09.svg", "PostgreSQL, transakcije i Docker"],
+    ["/icons/tema-10.svg", "Svežina podataka, periodično čitanje i push"],
+    ["/icons/tema-11.svg", "Bezbednost, sesije i prava pristupa"],
+    ["/icons/tema-12.svg", "Ceo sistem, dijagnostika i LLM"],
   ];
   dokument.teme.forEach((tema, i) => {
-    const [kljuc, vrednost] = znakovi[i];
-    assert.equal(tema[kljuc], vrednost, tema.naslov);
-    assert.equal(Boolean(tema.ikona && tema.slika), false, tema.naslov);
-    if (kljuc === "slika") assert.equal(fs.existsSync(new URL(`../kursevi/web_programiranje/${vrednost}`, import.meta.url)), true);
+    const [slika, naslov] = znakovi[i];
+    assert.equal(tema.naslov, naslov);
+    assert.equal(tema.slika, slika, tema.naslov);
+    assert.equal(tema.ikona, undefined, tema.naslov);
+    const fajl = fs.readFileSync(new URL(`../site${slika}`, import.meta.url), "utf8");
+    assert.match(fajl, /viewBox="0 0 64 64"/, slika);
+    assert.match(fajl, new RegExp(`aria-label="${naslov.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`), slika);
+    assert.equal(fajl.includes("<script"), false, slika);
   });
-  assert.equal(lectures[1].slika, "assets/prozor.svg");
-  assert.equal(lectures[0].ikona, "layers");
+  assert.equal(lectures[1].slika, "/icons/tema-02.svg");
+  assert.equal(lectures[0].slika, "/icons/tema-01.svg");
+  assert.equal(lectures[0].ikona, "");
   assert.equal(dokument.trajanjeTema, 12);
   assert.equal(lectures.length, 12);
   assert.equal(lectures[0].title, "Zašto Web postoji: zahtevi i protokoli");
