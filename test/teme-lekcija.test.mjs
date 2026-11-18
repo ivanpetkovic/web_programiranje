@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { lectures } from "../site/js/lectures.js";
 import { stabloDo } from "../site/js/stablo.js";
-import { imeLekcije, prikazLekcije, resiLekciju, stranaLekcije, temaZaFajl, temeLekcija } from "../site/js/teme-lekcija.js";
+import { fajloviKorakaLekcije, imeLekcije, prikazLekcije, resiLekciju, stranaLekcije, temaZaFajl, temeLekcija } from "../site/js/teme-lekcija.js";
 import { praznaSesija, primeni } from "../site/js/verzija.js";
 
 const koraci = lectures.flatMap((tema) => tema.steps);
@@ -52,6 +52,36 @@ test("teme lekcija drže samo svoje js fajlove", () => {
   assert.equal(tok, null);
   assert.equal(resiLekciju(teme, "client/lekcije/tok.js", "tema-5").put, "lekcije/27-tok.js");
   assert.equal(resiLekciju(teme, "server/lekcije/zahtev.js", "tema-6").put, "lekcije/37-zahtev.js");
+});
+
+test("korak lekcije drži samo svoj fajl i index.html sobe", () => {
+  const teme = temeLekcija(lectures);
+  const jezik = teme[0];
+  const dom = teme[2];
+  const server = teme[3];
+  const soba = {
+    fajlovi: ["index.html", "css/soba.css"],
+    verzije: { "index.html": "<h1>Soba</h1>\n", "css/soba.css": ".digit { color: red; }\n" },
+  };
+  const nizovi = fajloviKorakaLekcije(jezik, "lekcije/07-nizovi.js", soba);
+  assert.deepEqual(nizovi.poStrani.client, ["lekcije/07-nizovi.js", "index.html", "css/soba.css"]);
+  assert.deepEqual(nizovi.poStrani.server, []);
+  assert.equal(nizovi.poStrani.client.includes("lekcije/01-izvrsavanje.js"), false);
+  assert.equal(nizovi.poStrani.client.includes("lekcije/08-sintaksa.js"), false);
+  assert.match(nizovi.verzije["lekcije/07-nizovi.js"], /brojevi\.map/);
+  assert.equal(nizovi.verzije["index.html"], soba.verzije["index.html"]);
+
+  const formular = fajloviKorakaLekcije(dom, "lekcije/24-formular.js", soba);
+  assert.equal(formular.poStrani.client.includes("lekcije/16-dom.js"), false);
+  assert.equal(formular.poStrani.client.includes("lekcije/24-formular.js"), true);
+  assert.equal(formular.poStrani.client.includes("index.html"), true);
+
+  const http = fajloviKorakaLekcije(server, "lekcije/36-http-server.js", soba);
+  assert.deepEqual(http.poStrani.server, ["lekcije/36-http-server.js"]);
+  assert.equal(http.poStrani.server.includes("lekcije/35-moduli.js"), false);
+  assert.equal(http.poStrani.server.includes("index.html"), false);
+  assert.deepEqual(http.poStrani.client, ["index.html", "css/soba.css"]);
+  assert.equal(fajloviKorakaLekcije(jezik, "lekcije/36-http-server.js", soba), null);
 });
 
 test("kontrolna soba ne nosi fajlove lekcija", () => {

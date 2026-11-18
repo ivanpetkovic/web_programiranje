@@ -217,11 +217,15 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
 
     await korak("Nizovi i obrada kolekcija");
     const poslePrvogKoraka = await sačekaj(
-      (s) => s.putanja === "client/js/nizovi.js" && s.tekst.includes(filter),
+      (s) => s.putanja === "client/js/nizovi.js" && s.tekst.includes(filter) && s.pregled && !s.pregled.prazan,
     );
     assert.equal(poslePrvogKoraka.otvoren, "lekcije/07-nizovi.js");
     assert.equal(poslePrvogKoraka.tekst.includes("console.log(2 + 3)"), false);
+    assert.equal(poslePrvogKoraka.fajlovi?.includes("lekcije/01-izvrsavanje.js"), false);
+    assert.equal(poslePrvogKoraka.fajlovi?.includes("lekcije/08-sintaksa.js"), false);
+    assert.equal(poslePrvogKoraka.fajlovi?.includes("index.html"), true);
     assert.equal(poslePrvogKoraka.fajlovi?.includes("lekcije/09-opseg.js"), false);
+    assert.equal(poslePrvogKoraka.pregled?.prazan, false);
 
     await strana.vrednost(`document.querySelector("#primer").click()`);
     const krajMeni = Date.now() + 5000;

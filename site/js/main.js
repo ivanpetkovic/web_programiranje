@@ -41,7 +41,7 @@ import { pomeriTemu, ucitajKurs } from "./model.js";
 import { lekcijePojma, pojmoviIzTeksta, poljaPojma, predlozi } from "./recnik.js";
 import { deloviReda } from "./proza.js";
 import { PORUKA, modulPoZahtevu, porukaKonzole, sklopiDokument, trajanjeLopatica, ubaciMostKonzole } from "./pregled.js";
-import { procitajRadne, serverTabVidljiv, upisiRadnu } from "./radna.js";
+import { procitajRadne, serverTabVidljiv, tekstPrikaza, upisiRadnu } from "./radna.js";
 import { adresaPregleda, izborFajla, popunaKoraka, prikaziIzlaz, rasporedBiraca } from "./birac.js";
 import { dopunaMesta, procitajMesto, sastaviMesto } from "./adresa.js";
 import { nacrtajFiguru } from "./crtez.js";
@@ -61,8 +61,9 @@ import {
 } from "./izvoz.js";
 import { blokoviProze } from "./proza.js";
 import { potez, praznoStanje, prikaz as prikazDiskusije } from "./diskusija.js";
-import { PODRAZUMEVANI_PRIMER, pocetniFajl, primeniPrimer } from "./primer.js";
-import { jeTemaLekcije, prikazLekcije, resiLekciju, stranaLekcije, temaZaFajl, temeLekcija } from "./teme-lekcija.js";
+import { PODRAZUMEVANI_PRIMER, kljucRadne, pocetniFajl, primeniPrimer } from "./primer.js";
+import { fajloviStrane, stabloDo } from "./stablo.js";
+import { fajloviKorakaLekcije, jeTemaLekcije, prikazLekcije, resiLekciju, stranaLekcije, temaZaFajl, temeLekcija } from "./teme-lekcija.js";
 import { praznaSesija, primeni } from "./verzija.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
@@ -281,7 +282,10 @@ function mestoBloka(indeks = trenutniIndeks(), ime = deo) {
 function trenutniFajl() {
   if (drzaniFajl) return drzaniFajl;
   if (primerAktivan() && jeTemaLekcije(primerId)) {
-    return stanjePrimera.otvoreno ? `${stranaLekcije(primerId)}/${prikazLekcije(stanjePrimera.otvoreno, stranaLekcije(primerId))}` : "";
+    const put = stanjePrimera.otvoreno;
+    if (!put) return "";
+    if (put.startsWith("lekcije/")) return `${stranaLekcije(primerId)}/${prikazLekcije(put, stranaLekcije(primerId))}`;
+    return `${stanjePrimera.strana || "client"}/${put}`;
   }
   if (primerAktivan()) return stanjePrimera.otvoreno ? `primeri/${stanjePrimera.id}/${stanjePrimera.otvoreno}` : "";
   const put = sesija.otvoreno[sesija.strana];
@@ -404,7 +408,15 @@ function primeniFajlIzAdrese(putanja) {
   if (putanja.endsWith(".js")) {
     const reseno = resiLekciju(temeLekcijaSpisak, putanja, `tema-${cas}`);
     if (reseno) {
-      otvoriPrimerTeme(reseno.tema, reseno.put, { strana: stranaLekcije(reseno.tema.id), zapamti: true, zakljucaj: true });
+      otvoriPrimerTeme(reseno.tema, reseno.put, { strana: stranaLekcije(reseno.tema.id), zapamti: true, zakljucaj: true, korak: true });
+      return;
+    }
+  }
+  if (jeTemaLekcije(primerId) && stanjePrimera?.poStrani && (putanja === "client/index.html" || putanja.startsWith("client/css/"))) {
+    const rel = putanja.slice("client/".length);
+    if ((stanjePrimera.poStrani.client || []).includes(rel)) {
+      if (stanjePrimera.strana !== "client") prikaziStranuTeme("client");
+      if (stanjePrimera.otvoreno !== rel) primeniDogadaj({ tip: "otvori", put: rel });
       return;
     }
   }
@@ -3289,7 +3301,7 @@ function fitPanel() {
   const lekcija = izbor.startsWith("client/lekcije/");
   if (promenaKoraka && !diskPrimer) {
     const tema = temaZaFajl(temeLekcijaSpisak, izbor);
-    if (tema) otvoriPrimerTeme(tema, izbor.slice("client/".length));
+    if (tema) otvoriPrimerTeme(tema, izbor.slice("client/".length), { korak: true });
     else if (naTemi) {
       vratiKontrolnuSobu();
       primeniDogadaj({ tip: "fokus", putanja: izbor, kljuc: kljucKoraka });
@@ -3472,9 +3484,11 @@ function osveziAdresu() {
   if (!el) return;
   if (primerAktivan()) {
     const put = stanjePrimera.otvoreno;
-    const koren = jeTemaLekcije(primerId) ? stranaLekcije(primerId) : `primeri/${stanjePrimera.id}`;
-    const relativan = jeTemaLekcije(primerId) ? prikazLekcije(put, koren) : put;
-    el.textContent = put ? adresaPregleda(location.origin, `${koren}/${relativan}`) : "";
+    if (jeTemaLekcije(primerId)) {
+      el.textContent = put ? adresaPregleda(location.origin, natpisPutanje(put)) : "";
+      return;
+    }
+    el.textContent = put ? adresaPregleda(location.origin, `primeri/${stanjePrimera.id}/${put}`) : "";
     return;
   }
   const put = sesija.otvoreno[sesija.strana];
@@ -3505,11 +3519,29 @@ function dodajZapisKonzole(zapis) {
   if (konzolaTelo) konzolaTelo.scrollTop = konzolaTelo.scrollHeight;
 }
 
+function tekstUPrimeru(put) {
+  return tekstPrikaza({
+    putanja: kljucRadne(stanjePrimera.id, put),
+    original: stanjePrimera.verzije?.[put] || "",
+    radne: sesija.radne,
+    verzija: stanjePrimera.verzija,
+    binarni: false,
+  }).tekst;
+}
+
 function mapaPregleda(klijent) {
-  if (!primerAktivan() || klijent["index.html"]) return klijent;
+  if (!primerAktivan()) return klijent;
+  let mapa = klijent;
+  if (!mapa["index.html"] && stanjePrimera.verzije?.["index.html"]) {
+    mapa = { ...mapa, "index.html": tekstUPrimeru("index.html") };
+    if (stanjePrimera.verzije["css/soba.css"] && !mapa["css/soba.css"]) {
+      mapa = { ...mapa, "css/soba.css": tekstUPrimeru("css/soba.css") };
+    }
+  }
+  if (mapa["index.html"]) return mapa;
   const html = stanjePrimera.putanje.find((put) => put.endsWith(".html") && !put.includes("/"));
-  if (!html || !klijent[html]) return klijent;
-  return { ...klijent, "index.html": klijent[html] };
+  if (!html || !mapa[html]) return mapa;
+  return { ...mapa, "index.html": mapa[html] };
 }
 
 function sklopiIframe(klijent) {
@@ -3633,18 +3665,19 @@ function uskladiSobu() {
 function primeniDogadaj(dogadaj) {
   uskladiSobu();
   if (primerAktivan() && dogadaj.tip !== "fokus") {
-    if (jeTemaLekcije(primerId) && stanjePrimera.strana && stanjePrimera.strana !== stranaLekcije(primerId)) {
+    if (jeTemaLekcije(primerId) && stanjePrimera.strana && !listaStraneTeme(stanjePrimera, stanjePrimera.strana).length) {
       nacrtajPrikaz(prazanPrikaz(), true, dogadaj);
       return;
     }
     const pre = sesija;
     const strana = stanjePrimera.strana;
+    const poStrani = stanjePrimera.poStrani || null;
     const otvorenoPoStrani = { ...(stanjePrimera.otvorenoPoStrani || {}) };
-    const rezultat = primeniPrimer(stanjePrimera, pre.radne, dogadaj);
+    const ulaz = poStrani ? { ...stanjePrimera, putanje: (poStrani[strana] || []).slice() } : stanjePrimera;
+    const rezultat = primeniPrimer(ulaz, pre.radne, dogadaj);
     if (jeTemaLekcije(stanjePrimera.id)) {
-      const prirodna = stranaLekcije(stanjePrimera.id);
-      if (strana === prirodna) otvorenoPoStrani[prirodna] = rezultat.stanje.otvoreno;
-      stanjePrimera = { ...rezultat.stanje, strana, otvorenoPoStrani };
+      if (strana) otvorenoPoStrani[strana] = rezultat.stanje.otvoreno;
+      stanjePrimera = { ...rezultat.stanje, strana, otvorenoPoStrani, poStrani };
     } else stanjePrimera = rezultat.stanje;
     sacuvaniPrimeri.set(stanjePrimera.id, stanjePrimera);
     let sacuvano = true;
@@ -3688,10 +3721,11 @@ function naslovPrimera(id) {
 }
 
 function natpisPutanje(put) {
-  if (jeTemaLekcije(primerId) && put && !put.startsWith("client/") && !put.startsWith("server/")) {
-    return `${stranaLekcije(primerId)}/${prikazLekcije(put, stranaLekcije(primerId))}`;
-  }
-  return put || "";
+  if (!put) return "";
+  if (!jeTemaLekcije(primerId)) return put;
+  if (put.startsWith("lekcije/")) return `${stranaLekcije(primerId)}/${prikazLekcije(put, stranaLekcije(primerId))}`;
+  if (put.startsWith("client/") || put.startsWith("server/")) return put;
+  return `${stanjePrimera?.strana || "client"}/${put}`;
 }
 
 function vratiKontrolnuSobu() {
@@ -3718,27 +3752,44 @@ function stranaZaTemu(tema, opcije = {}) {
   return strana;
 }
 
+function sobaKoraka() {
+  const stablo = stabloDo(kursKoraci(), indeksUKursu());
+  const fajlovi = fajloviStrane(stablo, "client").filter((put) => !put.startsWith("lekcije/"));
+  const verzije = {};
+  for (const put of fajlovi) verzije[put] = stablo.verzije[`client/${put}`] || "";
+  return { fajlovi, verzije };
+}
+
+function listaStraneTeme(stanje, strana) {
+  if (stanje?.poStrani) return stanje.poStrani[strana] || [];
+  if (!stanje || strana !== stranaLekcije(stanje.id)) return [];
+  return stanje.putanje || [];
+}
+
 function otvoriPrimerTeme(tema, relativan, opcije = {}) {
   if (stanjePrimera && stanjePrimera.id !== tema.id) sacuvaniPrimeri.set(stanjePrimera.id, stanjePrimera);
   const isti = stanjePrimera?.id === tema.id ? stanjePrimera : sacuvaniPrimeri.get(tema.id);
   const prirodna = stranaLekcije(tema.id);
-  const otvorenoPoStrani = { client: "", server: "", ...(isti?.otvorenoPoStrani || {}) };
-  if (tema.fajlovi.includes(relativan)) otvorenoPoStrani[prirodna] = relativan;
+  const korak = opcije.korak && tema.fajlovi.includes(relativan) ? fajloviKorakaLekcije(tema, relativan, sobaKoraka()) : null;
+  const poStrani = korak?.poStrani || null;
+  const verzije = korak?.verzije || tema.verzije;
+  const otvorenoPoStrani = { client: "", server: "", ...(korak ? {} : isti?.otvorenoPoStrani || {}) };
+  if ((poStrani ? [...poStrani.client, ...poStrani.server] : tema.fajlovi).includes(relativan)) otvorenoPoStrani[prirodna] = relativan;
   const strana = stranaZaTemu(tema, opcije);
   if (!usko()) uskladiSesijuSaStranom(stranaModa);
-  const otvoreno = strana === prirodna
-    ? (tema.fajlovi.includes(otvorenoPoStrani[strana]) ? otvorenoPoStrani[strana] : pocetniFajl(tema.fajlovi))
-    : "";
+  const lista = poStrani ? poStrani[strana] || [] : strana === prirodna ? tema.fajlovi : [];
+  const otvoreno = lista.includes(otvorenoPoStrani[strana]) ? otvorenoPoStrani[strana] : lista.length ? pocetniFajl(lista) : "";
   primerId = tema.id;
   stanjePrimera = {
     id: tema.id,
     otvoreno,
     verzija: isti?.verzija || "radna",
-    putanje: tema.fajlovi.slice(),
-    verzije: tema.verzije,
+    putanje: (poStrani ? lista : tema.fajlovi).slice(),
+    verzije,
     kljuc: "",
     strana,
     otvorenoPoStrani,
+    poStrani,
   };
   osveziDugmePrimera();
   editorErr.textContent = "";
@@ -3752,7 +3803,8 @@ function otvoriPrimerTeme(tema, relativan, opcije = {}) {
   stanjePrimera = {
     ...rezultat.stanje,
     strana,
-    otvorenoPoStrani: { ...otvorenoPoStrani, [prirodna]: rezultat.stanje.otvoreno },
+    poStrani,
+    otvorenoPoStrani: { ...otvorenoPoStrani, [strana]: rezultat.stanje.otvoreno },
   };
   sacuvaniPrimeri.set(tema.id, stanjePrimera);
   nacrtajPrikaz(rezultat, true, dogadaj);
@@ -3760,14 +3812,20 @@ function otvoriPrimerTeme(tema, relativan, opcije = {}) {
 
 function prikaziStranuTeme(strana) {
   const prirodna = stranaLekcije(stanjePrimera.id);
+  const poStrani = stanjePrimera.poStrani || null;
   const otvorenoPoStrani = {
     ...(stanjePrimera.otvorenoPoStrani || {}),
   };
-  if (stanjePrimera.strana === prirodna && stanjePrimera.otvoreno) otvorenoPoStrani[prirodna] = stanjePrimera.otvoreno;
-  const otvoreno = strana === prirodna
-    ? (stanjePrimera.putanje.includes(otvorenoPoStrani[strana]) ? otvorenoPoStrani[strana] : pocetniFajl(stanjePrimera.putanje))
-    : "";
-  stanjePrimera = { ...stanjePrimera, strana, otvoreno, otvorenoPoStrani };
+  if (stanjePrimera.strana && stanjePrimera.otvoreno) otvorenoPoStrani[stanjePrimera.strana] = stanjePrimera.otvoreno;
+  const lista = poStrani ? poStrani[strana] || [] : strana === prirodna ? stanjePrimera.putanje : [];
+  const otvoreno = lista.includes(otvorenoPoStrani[strana]) ? otvorenoPoStrani[strana] : lista.length ? pocetniFajl(lista) : "";
+  stanjePrimera = {
+    ...stanjePrimera,
+    strana,
+    otvoreno,
+    otvorenoPoStrani,
+    putanje: poStrani ? lista.slice() : stanjePrimera.putanje,
+  };
   sacuvaniPrimeri.set(stanjePrimera.id, stanjePrimera);
   if (!otvoreno) {
     nacrtajPrikaz(prazanPrikaz(), true, { tip: "strana" });
@@ -3777,7 +3835,8 @@ function prikaziStranuTeme(strana) {
   stanjePrimera = {
     ...rezultat.stanje,
     strana,
-    otvorenoPoStrani: { ...otvorenoPoStrani, [prirodna]: rezultat.stanje.otvoreno },
+    poStrani,
+    otvorenoPoStrani: { ...otvorenoPoStrani, [strana]: rezultat.stanje.otvoreno },
   };
   sacuvaniPrimeri.set(stanjePrimera.id, stanjePrimera);
   nacrtajPrikaz(rezultat, true, { tip: "otvori" });
