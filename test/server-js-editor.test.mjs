@@ -5,7 +5,7 @@ import test from "node:test";
 import { lectures } from "../site/js/lectures.js";
 import { primeniPrimer } from "../site/js/primer.js";
 import { fajloviStrane, stabloDo } from "../site/js/stablo.js";
-import { stranaLekcije, temeLekcija } from "../site/js/teme-lekcija.js";
+import { prikazLekcije, stranaLekcije, temeLekcija } from "../site/js/teme-lekcija.js";
 import { praznaSesija, primeni } from "../site/js/verzija.js";
 import { cekajHttp, otvoriStranu, pauza, pokreni, slobodanPort, snimci, ugasi } from "./chrome.mjs";
 
@@ -213,8 +213,7 @@ test("editor na strani prikazuje ceo serverski js", { timeout: 90000 }, async (t
     if (!putanja.startsWith("client/lekcije/")) return putanja;
     const rel = putanja.slice("client/".length);
     const tema = temeLekcija(lectures).find((stavka) => stavka.fajlovi.includes(rel));
-    const prikaz = rel.replace(/(^|\/)\d{2}-/g, "$1");
-    return tema ? `${stranaLekcije(tema.id)}/${prikaz}` : putanja;
+    return tema ? `${stranaLekcije(tema.id)}/${prikazLekcije(rel, stranaLekcije(tema.id))}` : putanja;
   }
 
   async function otvoriFajl(tema, korak, putanja, { uredljiv = "true" } = {}) {

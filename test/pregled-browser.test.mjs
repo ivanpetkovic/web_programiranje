@@ -92,7 +92,7 @@ test("tema 5 formular drži preventDefault u fajlu lekcije, ne u tekstu stranice
     await strana.vrednost(klikNaFajl("lekcije/24-formular.js"));
     let pomeraj = 0;
     const formular = await sačekaj((s) => {
-      if (s.putanja === "client/lekcije/formular.js" && s.tekst.includes("preventDefault")) return true;
+      if (s.putanja === "client/js/formular.js" && s.tekst.includes("preventDefault")) return true;
       pomeraj += 400;
       void strana.vrednost(`document.scrollingElement.scrollTop = ${pomeraj}`);
       return false;
@@ -100,6 +100,7 @@ test("tema 5 formular drži preventDefault u fajlu lekcije, ne u tekstu stranice
     assert.match(formular.tekst, /Kontrolna soba/);
     assert.match(formular.tekst, /preventDefault/);
     assert.equal(formular.fajlovi.includes("lekcije/16-dom.js"), true);
+    assert.equal(await strana.vrednost(`document.querySelector("#tree .dir")?.textContent || ""`), "js/");
     assert.equal(formular.fajlovi.includes("lekcije/34-van-browsera.js"), false);
     assert.equal(formular.fajlovi.includes("index.html"), false);
     await snimi("tema-5-formular");
@@ -247,7 +248,7 @@ test("tema 6 drži HTTP server u editoru i ne upisuje server.js", { timeout: 400
     })()`);
     await strana.vrednost(`document.querySelector("#tab-editor").click()`);
     const serverLekcije = await sačekaj(
-      (s) => s.putanja === "server/lekcije/http-server.js" && s.tekst.includes("http.createServer") && s.tekst.includes("server.listen(3000"),
+      (s) => s.putanja === "server/http-server.js" && s.tekst.includes("http.createServer") && s.tekst.includes("server.listen(3000"),
     );
     assert.match(serverLekcije.tekst, /import http from 'node:http'/);
     assert.match(serverLekcije.tekst, /res\.end\('Zdravo sa servera'\)/);
@@ -257,6 +258,7 @@ test("tema 6 drži HTTP server u editoru i ne upisuje server.js", { timeout: 400
       await strana.vrednost(`document.querySelector("#tree button[aria-current='true']")?.textContent?.trim() || ""`),
       "http-server.js",
     );
+    assert.equal(await strana.vrednost(`document.querySelector("#tree .dir")?.textContent || ""`), "");
     assert.equal(serverLekcije.fajlovi.includes("lekcije/16-dom.js"), false);
     assert.equal(serverLekcije.fajlovi.includes("index.html"), false);
     await pauza(400);
@@ -335,11 +337,11 @@ test("izabrana kartica Klijent ili Server ostaje dok se menjaju koraci", { timeo
   assert.equal(prazanKlijent.fajlovi.length, 0);
 
   await strana.vrednost(`document.querySelector("#tab-back").click()`);
-  const http = await sačekaj((s) => s.putanja === "server/lekcije/http-server.js" && s.fajlovi.includes("lekcije/36-http-server.js"));
+  const http = await sačekaj((s) => s.putanja === "server/http-server.js" && s.fajlovi.includes("lekcije/36-http-server.js"));
   assert.equal(await kartica(), "tab-back");
   assert.equal(http.fajlovi.includes("lekcije/16-dom.js"), false);
   await korak("4 Anatomija HTTP zahteva i odgovora");
-  const sledeci = await sačekaj((s) => s.putanja === "server/lekcije/zahtev.js");
+  const sledeci = await sačekaj((s) => s.putanja === "server/zahtev.js");
   assert.equal(await kartica(), "tab-back");
   assert.equal(sledeci.fajlovi.includes("lekcije/37-zahtev.js"), true);
   await snimi("strana-ostaje-server");

@@ -18,10 +18,16 @@ export function imeLekcije(put) {
   return String(put || "").replace(/(^|\/)\d{2}-/g, "$1");
 }
 
+export function prikazLekcije(put, strana) {
+  const ime = String(put || "").split("/").pop().replace(/^\d{2}-/, "");
+  if (!ime) return "";
+  return strana === "server" ? ime : `js/${ime}`;
+}
+
 export function resiLekciju(teme, putanja, idTeme) {
   const rel = fajlLekcije(putanja);
-  if (!rel) return null;
   const lista = teme || [];
+  if (!rel) return prikazanaLekcija(lista, putanja, idTeme);
   const tacan = lista.find((tema) => tema.fajlovi.includes(rel));
   if (tacan) return { tema: tacan, put: rel };
   const kratak = imeLekcije(rel);
@@ -39,6 +45,28 @@ export function resiLekciju(teme, putanja, idTeme) {
     if (pogodci.length === 1) return pogodci[0];
   }
   return null;
+}
+
+function prikazanaLekcija(lista, putanja, idTeme) {
+  const strana = putanja.startsWith("server/") && !putanja.slice("server/".length).includes("/")
+    ? "server"
+    : putanja.startsWith("client/js/")
+      ? "client"
+      : "";
+  if (!strana || !putanja.endsWith(".js")) return null;
+  const ime = putanja.split("/").pop();
+  const kandidati = lista.filter((tema) => stranaLekcije(tema.id) === strana);
+  const nadji = (tema) => tema.fajlovi.find((stavka) => stavka.split("/").pop().replace(/^\d{2}-/, "") === ime) || "";
+  if (idTeme) {
+    const tema = kandidati.find((stavka) => stavka.id === idTeme);
+    const put = tema ? nadji(tema) : "";
+    if (put) return { tema, put };
+  }
+  const prikazani = kandidati.flatMap((tema) => {
+    const put = nadji(tema);
+    return put ? [{ tema, put }] : [];
+  });
+  return prikazani.length === 1 ? prikazani[0] : null;
 }
 
 export function temeLekcija(lekcije) {
