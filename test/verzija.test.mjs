@@ -123,8 +123,7 @@ test("moj kod koji učitava lokalni skript vidi taj fajl pre koraka koji ga uvod
     "client/../tajna.js": "ne",
   });
   const rezultat = primeni(sesija, { tip: "fokus", putanja: "client/index.html", kljuc: "3:7" }, kontekst);
-  assert.equal(rezultat.prikaz.fajlovi.includes("lekcije/08-sintaksa.js"), true);
-  assert.equal(rezultat.prikaz.fajlovi.includes("lekcije/09-opseg.js"), false);
+  assert.equal(rezultat.prikaz.fajlovi.some((put) => put.startsWith("lekcije/")), false);
   assert.equal(rezultat.prikaz.fajlovi.includes("js/korak.js"), true);
   assert.equal(rezultat.prikaz.fajlovi.includes("js/nema.js"), true);
   assert.equal(rezultat.prikaz.fajlovi.includes("../server/soba.js"), false);

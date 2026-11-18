@@ -130,10 +130,14 @@ function dopuniFajlove(fajlovi, stablo, sesija) {
   return red;
 }
 
+function bezLekcija(fajlovi) {
+  return fajlovi.filter((put) => put !== "lekcije" && !put.startsWith("lekcije/"));
+}
+
 function klijentskiFajlovi(stablo, sesija) {
   const osnovni = fajloviStrane(stablo, "client");
   if (!osnovni.length) return [];
-  return dopuniFajlove(osnovni, stablo, { ...sesija, strana: "client" });
+  return bezLekcija(dopuniFajlove(osnovni, stablo, { ...sesija, strana: "client" }));
 }
 
 function uskladi(sesija, kontekst) {
@@ -145,7 +149,11 @@ function uskladi(sesija, kontekst) {
   const stablo = stabloDo(kontekst.koraci, kontekst.indeks);
   let fajlovi = fajloviStrane(stablo, sledeca.strana);
   if (!fajlovi.length) return { sesija: sledeca, fajlovi, stablo };
-  fajlovi = dopuniFajlove(fajlovi, stablo, sledeca);
+  fajlovi = bezLekcija(dopuniFajlove(fajlovi, stablo, sledeca));
+  if (!fajlovi.length) {
+    sledeca.otvoreno[sledeca.strana] = "";
+    return { sesija: sledeca, fajlovi, stablo };
+  }
   if (!fajlovi.includes(sledeca.otvoreno[sledeca.strana])) {
     const korak = kontekst.koraci[kontekst.indeks];
     const putanja = korak && typeof korak.putanja === "string" ? korak.putanja : "";

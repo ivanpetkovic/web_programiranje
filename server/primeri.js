@@ -6,6 +6,7 @@ const PRESKOCI_FAJL = new Set(["primer.json", "package-lock.json"]);
 const TEKSTUALNI = new Set([".html", ".css", ".js", ".mjs", ".json", ".md", ".txt", ".svg", ".ts", ".tsx", ".jsx"]);
 const GRANICA = 200000;
 const UGRADJENI = { id: "kontrolna-soba", naslov: "Kontrolna soba" };
+const STARI_PRIMERI = new Set(["1_htm, css, js", "2_fje", "3_proto", "4-oop", "5-async", "6_ts_vite"]);
 
 function idJeBezbedan(id) {
   if (typeof id !== "string" || id.length === 0 || id.length > 120) return false;
@@ -35,6 +36,7 @@ function spisakPrimera(koren) {
     })
     .sort((a, b) => a.localeCompare(b, "sr"));
   for (const ime of imena) {
+    if (STARI_PRIMERI.has(ime)) continue;
     primeri.push({ id: ime, naslov: procitajNaslov(path.join(koren, ime), ime) });
   }
   return primeri;

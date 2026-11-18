@@ -14,8 +14,10 @@ test("spisak stavlja kontrolnu sobu prvu, pa foldere iz primeri/", () => {
   const primeri = spisakPrimera(PRIMERI);
   assert.equal(primeri[0].id, "kontrolna-soba");
   assert.equal(primeri[0].naslov, "Kontrolna soba");
-  assert.equal(primeri.some((primer) => primer.id === "2_fje" && primer.naslov === "Funkcije"), true);
-  assert.equal(primeri.some((primer) => primer.id === "1_htm, css, js" && primer.naslov === "HTML, CSS i JS"), true);
+  assert.equal(primeri.some((primer) => primer.id === "7_tipovi" && primer.naslov === "Tipovi"), true);
+  assert.equal(primeri.some((primer) => primer.id === "2_fje"), false);
+  assert.equal(primeri.some((primer) => primer.id === "6_ts_vite"), false);
+  assert.equal(primeri.some((primer) => primer.id === "1_htm, css, js"), false);
   assert.equal(primeri.some((primer) => primer.id === "node_modules"), false);
 });
 
@@ -99,7 +101,9 @@ test("GET /api/primeri servira foldere, ne kontrolnu sobu sa diska", async () =>
     const telo = JSON.parse(spisak.body);
     assert.equal(telo.podrazumevani, "kontrolna-soba");
     assert.equal(telo.primeri[0].id, "kontrolna-soba");
-    assert.equal(telo.primeri.some((primer) => primer.naslov === "Funkcije"), true);
+    assert.equal(telo.primeri.some((primer) => primer.naslov === "Tipovi"), true);
+    assert.equal(telo.primeri.some((primer) => primer.naslov === "Funkcije"), false);
+    assert.equal(telo.primeri.some((primer) => primer.naslov === "TypeScript"), false);
 
     const funkcije = await zahtev(`/api/primeri/fajlovi?id=${encodeURIComponent("2_fje")}`);
     assert.equal(funkcije.status, 200);
