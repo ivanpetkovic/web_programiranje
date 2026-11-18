@@ -61,7 +61,7 @@ import {
 import { blokoviProze } from "./proza.js";
 import { potez, praznoStanje, prikaz as prikazDiskusije } from "./diskusija.js";
 import { PODRAZUMEVANI_PRIMER, pocetniFajl, primeniPrimer } from "./primer.js";
-import { jeTemaLekcije, stranaLekcije, temaZaFajl, temeLekcija } from "./teme-lekcija.js";
+import { imeLekcije, jeTemaLekcije, resiLekciju, stranaLekcije, temaZaFajl, temeLekcija } from "./teme-lekcija.js";
 import { praznaSesija, primeni } from "./verzija.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
@@ -280,7 +280,7 @@ function mestoBloka(indeks = trenutniIndeks(), ime = deo) {
 function trenutniFajl() {
   if (drzaniFajl) return drzaniFajl;
   if (primerAktivan() && jeTemaLekcije(primerId)) {
-    return stanjePrimera.otvoreno ? `${stranaLekcije(primerId)}/${stanjePrimera.otvoreno}` : "";
+    return stanjePrimera.otvoreno ? `${stranaLekcije(primerId)}/${imeLekcije(stanjePrimera.otvoreno)}` : "";
   }
   if (primerAktivan()) return stanjePrimera.otvoreno ? `primeri/${stanjePrimera.id}/${stanjePrimera.otvoreno}` : "";
   const put = sesija.otvoreno[sesija.strana];
@@ -401,9 +401,9 @@ function primeniFajlIzAdrese(putanja) {
     return;
   }
   if ((putanja.startsWith("client/lekcije/") || putanja.startsWith("server/lekcije/")) && putanja.endsWith(".js")) {
-    const tema = temaZaFajl(temeLekcijaSpisak, putanja);
-    if (tema) {
-      otvoriPrimerTeme(tema, putanja.slice(putanja.indexOf("/") + 1), { strana: stranaLekcije(tema.id), zapamti: true, zakljucaj: true });
+    const reseno = resiLekciju(temeLekcijaSpisak, putanja, `tema-${cas}`);
+    if (reseno) {
+      otvoriPrimerTeme(reseno.tema, reseno.put, { strana: stranaLekcije(reseno.tema.id), zapamti: true, zakljucaj: true });
       return;
     }
   }
@@ -3407,7 +3407,8 @@ function renderNode(node, otvoren) {
     button.type = "button";
     const list = ikonica("file-text");
     if (list) button.append(list);
-    button.append(document.createTextNode(file.name));
+    const natpis = jeTemaLekcije(primerId) ? imeLekcije(file.name) : file.name;
+    button.append(document.createTextNode(natpis));
     button.dataset.put = file.put;
     button.setAttribute("aria-current", file.put === otvoren ? "true" : "false");
     button.addEventListener("click", () => {
@@ -3682,7 +3683,7 @@ function naslovPrimera(id) {
 
 function natpisPutanje(put) {
   if (jeTemaLekcije(primerId) && put && !put.startsWith("client/") && !put.startsWith("server/")) {
-    return `${stranaLekcije(primerId)}/${put}`;
+    return `${stranaLekcije(primerId)}/${imeLekcije(put)}`;
   }
   return put || "";
 }

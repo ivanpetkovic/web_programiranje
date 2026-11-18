@@ -211,8 +211,10 @@ test("editor na strani prikazuje ceo serverski js", { timeout: 90000 }, async (t
 
   function natpis(putanja) {
     if (!putanja.startsWith("client/lekcije/")) return putanja;
-    const tema = temeLekcija(lectures).find((stavka) => stavka.fajlovi.includes(putanja.slice("client/".length)));
-    return tema ? `${stranaLekcije(tema.id)}/${putanja.slice("client/".length)}` : putanja;
+    const rel = putanja.slice("client/".length);
+    const tema = temeLekcija(lectures).find((stavka) => stavka.fajlovi.includes(rel));
+    const prikaz = rel.replace(/(^|\/)\d{2}-/g, "$1");
+    return tema ? `${stranaLekcije(tema.id)}/${prikaz}` : putanja;
   }
 
   async function otvoriFajl(tema, korak, putanja, { uredljiv = "true" } = {}) {

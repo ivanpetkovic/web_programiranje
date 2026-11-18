@@ -14,6 +14,33 @@ function fajlLekcije(putanja) {
   return "";
 }
 
+export function imeLekcije(put) {
+  return String(put || "").replace(/(^|\/)\d{2}-/g, "$1");
+}
+
+export function resiLekciju(teme, putanja, idTeme) {
+  const rel = fajlLekcije(putanja);
+  if (!rel) return null;
+  const lista = teme || [];
+  const tacan = lista.find((tema) => tema.fajlovi.includes(rel));
+  if (tacan) return { tema: tacan, put: rel };
+  const kratak = imeLekcije(rel);
+  if (kratak === rel) {
+    const uTemiKratko = (tema) => tema.fajlovi.find((put) => imeLekcije(put) === kratak) || "";
+    if (idTeme) {
+      const tema = lista.find((stavka) => stavka.id === idTeme);
+      const put = tema ? uTemiKratko(tema) : "";
+      if (put) return { tema, put };
+    }
+    const pogodci = lista.flatMap((tema) => {
+      const put = uTemiKratko(tema);
+      return put ? [{ tema, put }] : [];
+    });
+    if (pogodci.length === 1) return pogodci[0];
+  }
+  return null;
+}
+
 export function temeLekcija(lekcije) {
   const izlaz = [];
   for (const tema of lekcije || []) {
@@ -40,7 +67,5 @@ export function temeLekcija(lekcije) {
 }
 
 export function temaZaFajl(teme, putanja) {
-  const rel = fajlLekcije(putanja);
-  if (!rel) return null;
-  return (teme || []).find((tema) => tema.fajlovi.includes(rel)) || null;
+  return resiLekciju(teme, putanja)?.tema || null;
 }
