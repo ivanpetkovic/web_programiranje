@@ -19,3 +19,7 @@ Ikonice su čiste vektorske rekonstrukcije stilizovane prema prikazanom UI konce
 Glavno pitanje u diskusiji koristi `question`. Dodatno pitanje, ono koje se pojavi tek pošto se glavno otvori, koristi `question-plus`: isti upitnik, uz plus.
 
 Za Opcije i beleške dodate su `settings`, `a-large-small`, `layers`, `database`, `upload`, `download`, `trash`, `external-link`, `book-open-text`, `monitor-code`, `sticky-note` i `bookmark-filled` (ispuna `currentColor`).
+
+## Ikonice tema
+
+`uvod.svg` i `tema-01.svg` … `tema-12.svg` su bedževi uvoda i dvanaest tema kursa. Svaki je 64 × 64, u svojoj boji, sa zaobljenim uglovima. Spisak tema ih crta preko polja `slika` u `kurs.json` (`/icons/uvod.svg`, `/icons/tema-01.svg`, …). Nisu u `sprite.svg` i ne koriste `currentColor`.

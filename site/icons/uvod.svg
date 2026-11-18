@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Uvod">
+<title>Uvod</title>
+<rect width="64" height="64" rx="15" fill="#61738F"/>
+<g transform="translate(9 9) scale(1.9167)" fill="none" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.7 8.3-2.5 4.9-4.9 2.5 2.5-4.9z"/><circle cx="12" cy="12" r=".8" fill="white" stroke="none"/></g>
+</svg>
