@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { lectures } from "../site/js/lectures.js";
 import { stabloDo } from "../site/js/stablo.js";
-import { imeLekcije, resiLekciju, stranaLekcije, temaZaFajl, temeLekcija } from "../site/js/teme-lekcija.js";
+import { imeLekcije, prikazLekcije, resiLekciju, stranaLekcije, temaZaFajl, temeLekcija } from "../site/js/teme-lekcija.js";
 import { praznaSesija, primeni } from "../site/js/verzija.js";
 
 const koraci = lectures.flatMap((tema) => tema.steps);
@@ -39,6 +39,13 @@ test("teme lekcija drže samo svoje js fajlove", () => {
   assert.equal(teme[3].fajlovi.every((put) => Number(put.slice("lekcije/".length, "lekcije/".length + 2)) >= 34), true);
   assert.equal(imeLekcije("lekcije/37-zahtev.js"), "lekcije/zahtev.js");
   assert.equal(imeLekcije("37-zahtev.js"), "zahtev.js");
+  assert.equal(prikazLekcije("lekcije/37-zahtev.js", "server"), "zahtev.js");
+  assert.equal(prikazLekcije("lekcije/24-formular.js", "client"), "js/formular.js");
+  assert.equal(resiLekciju(teme, "server/zahtev.js", "tema-6").put, "lekcije/37-zahtev.js");
+  assert.equal(resiLekciju(teme, "client/js/formular.js", "tema-5").put, "lekcije/24-formular.js");
+  assert.equal(resiLekciju(teme, "client/js/moduli.js", "tema-4").put, "lekcije/15-moduli.js");
+  assert.equal(resiLekciju(teme, "server/moduli.js", "tema-6").put, "lekcije/35-moduli.js");
+  assert.equal(resiLekciju(teme, "server/ventilator.js"), null);
   assert.equal(temaZaFajl(teme, "client/lekcije/15-moduli.js").id, "tema-4");
   assert.equal(temaZaFajl(teme, "client/lekcije/35-moduli.js").id, "tema-6");
   const tok = resiLekciju(teme, "client/lekcije/tok.js");

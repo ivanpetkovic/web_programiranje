@@ -61,7 +61,7 @@ import {
 import { blokoviProze } from "./proza.js";
 import { potez, praznoStanje, prikaz as prikazDiskusije } from "./diskusija.js";
 import { PODRAZUMEVANI_PRIMER, pocetniFajl, primeniPrimer } from "./primer.js";
-import { imeLekcije, jeTemaLekcije, resiLekciju, stranaLekcije, temaZaFajl, temeLekcija } from "./teme-lekcija.js";
+import { jeTemaLekcije, prikazLekcije, resiLekciju, stranaLekcije, temaZaFajl, temeLekcija } from "./teme-lekcija.js";
 import { praznaSesija, primeni } from "./verzija.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
@@ -280,7 +280,7 @@ function mestoBloka(indeks = trenutniIndeks(), ime = deo) {
 function trenutniFajl() {
   if (drzaniFajl) return drzaniFajl;
   if (primerAktivan() && jeTemaLekcije(primerId)) {
-    return stanjePrimera.otvoreno ? `${stranaLekcije(primerId)}/${imeLekcije(stanjePrimera.otvoreno)}` : "";
+    return stanjePrimera.otvoreno ? `${stranaLekcije(primerId)}/${prikazLekcije(stanjePrimera.otvoreno, stranaLekcije(primerId))}` : "";
   }
   if (primerAktivan()) return stanjePrimera.otvoreno ? `primeri/${stanjePrimera.id}/${stanjePrimera.otvoreno}` : "";
   const put = sesija.otvoreno[sesija.strana];
@@ -400,7 +400,7 @@ function primeniFajlIzAdrese(putanja) {
     });
     return;
   }
-  if ((putanja.startsWith("client/lekcije/") || putanja.startsWith("server/lekcije/")) && putanja.endsWith(".js")) {
+  if (putanja.endsWith(".js")) {
     const reseno = resiLekciju(temeLekcijaSpisak, putanja, `tema-${cas}`);
     if (reseno) {
       otvoriPrimerTeme(reseno.tema, reseno.put, { strana: stranaLekcije(reseno.tema.id), zapamti: true, zakljucaj: true });
@@ -3375,10 +3375,15 @@ function otvorenUStablu() {
   return primerAktivan() ? stanjePrimera.otvoreno : sesija.otvoreno[sesija.strana];
 }
 
+function putStabla(put) {
+  if (jeTemaLekcije(primerId) && put.startsWith("lekcije/")) return prikazLekcije(put, stranaLekcije(primerId));
+  return put;
+}
+
 function paintTree(paths, otvoren) {
   const root = { dirs: new Map(), files: [] };
   for (const put of paths) {
-    const parts = put.split("/");
+    const parts = putStabla(put).split("/");
     let node = root;
     for (let i = 0; i < parts.length - 1; i += 1) {
       if (!node.dirs.has(parts[i])) node.dirs.set(parts[i], { dirs: new Map(), files: [] });
@@ -3407,8 +3412,7 @@ function renderNode(node, otvoren) {
     button.type = "button";
     const list = ikonica("file-text");
     if (list) button.append(list);
-    const natpis = jeTemaLekcije(primerId) ? imeLekcije(file.name) : file.name;
-    button.append(document.createTextNode(natpis));
+    button.append(document.createTextNode(file.name));
     button.dataset.put = file.put;
     button.setAttribute("aria-current", file.put === otvoren ? "true" : "false");
     button.addEventListener("click", () => {
@@ -3468,7 +3472,8 @@ function osveziAdresu() {
   if (primerAktivan()) {
     const put = stanjePrimera.otvoreno;
     const koren = jeTemaLekcije(primerId) ? stranaLekcije(primerId) : `primeri/${stanjePrimera.id}`;
-    el.textContent = put ? adresaPregleda(location.origin, `${koren}/${put}`) : "";
+    const relativan = jeTemaLekcije(primerId) ? prikazLekcije(put, koren) : put;
+    el.textContent = put ? adresaPregleda(location.origin, `${koren}/${relativan}`) : "";
     return;
   }
   const put = sesija.otvoreno[sesija.strana];
@@ -3683,7 +3688,7 @@ function naslovPrimera(id) {
 
 function natpisPutanje(put) {
   if (jeTemaLekcije(primerId) && put && !put.startsWith("client/") && !put.startsWith("server/")) {
-    return `${stranaLekcije(primerId)}/${imeLekcije(put)}`;
+    return `${stranaLekcije(primerId)}/${prikazLekcije(put, stranaLekcije(primerId))}`;
   }
   return put || "";
 }
