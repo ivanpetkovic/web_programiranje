@@ -22,4 +22,4 @@ Za Opcije i beleške dodate su `settings`, `a-large-small`, `layers`, `database`
 
 ## Ikonice tema
 
-`uvod.svg` i `tema-01.svg` … `tema-12.svg` su bedževi uvoda i dvanaest tema kursa. Svaki je 64 × 64, u svojoj boji, sa zaobljenim uglovima. Spisak tema ih crta preko polja `slika` u `kurs.json` (`/icons/uvod.svg`, `/icons/tema-01.svg`, …). Nisu u `sprite.svg` i ne koriste `currentColor`.
+`uvod.svg`, `tema-11.svg` i `tema-12.svg` su vektori 64 × 64, u svojoj boji, sa zaobljenim uglovima. `tema-01.png` … `tema-10.png` su rasterski bedževi 256 × 256, providna pozadina, isti zaobljeni oblik. Spisak tema ih crta preko polja `slika` u `kurs.json` (`/icons/uvod.svg`, `/icons/tema-01.png`, …, `/icons/tema-11.svg`). Nisu u `sprite.svg` i ne koriste `currentColor`.
