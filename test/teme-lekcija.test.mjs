@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { lectures } from "../site/js/lectures.js";
 import { stabloDo } from "../site/js/stablo.js";
-import { temaZaFajl, temeLekcija } from "../site/js/teme-lekcija.js";
+import { stranaLekcije, temaZaFajl, temeLekcija } from "../site/js/teme-lekcija.js";
 import { praznaSesija, primeni } from "../site/js/verzija.js";
 
 const koraci = lectures.flatMap((tema) => tema.steps);
@@ -32,6 +32,11 @@ test("teme lekcija drže samo svoje js fajlove", () => {
   const pogodak = temaZaFajl(teme, "client/lekcije/24-formular.js");
   assert.equal(pogodak.id, "tema-5");
   assert.equal(temaZaFajl(teme, "client/index.html"), null);
+  assert.equal(stranaLekcije("tema-3"), "client");
+  assert.equal(stranaLekcije("tema-4"), "client");
+  assert.equal(stranaLekcije("tema-5"), "client");
+  assert.equal(stranaLekcije(teme[3].id), "server");
+  assert.equal(teme[3].fajlovi.every((put) => Number(put.slice("lekcije/".length, "lekcije/".length + 2)) >= 34), true);
 });
 
 test("kontrolna soba ne nosi fajlove lekcija", () => {

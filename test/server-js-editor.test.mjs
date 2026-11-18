@@ -5,7 +5,7 @@ import test from "node:test";
 import { lectures } from "../site/js/lectures.js";
 import { primeniPrimer } from "../site/js/primer.js";
 import { fajloviStrane, stabloDo } from "../site/js/stablo.js";
-import { temeLekcija } from "../site/js/teme-lekcija.js";
+import { stranaLekcije, temeLekcija } from "../site/js/teme-lekcija.js";
 import { praznaSesija, primeni } from "../site/js/verzija.js";
 import { cekajHttp, otvoriStranu, pauza, pokreni, slobodanPort, snimci, ugasi } from "./chrome.mjs";
 
@@ -209,10 +209,16 @@ test("editor na strani prikazuje ceo serverski js", { timeout: 90000 }, async (t
     );
   }
 
+  function natpis(putanja) {
+    if (!putanja.startsWith("client/lekcije/")) return putanja;
+    const tema = temeLekcija(lectures).find((stavka) => stavka.fajlovi.includes(putanja.slice("client/".length)));
+    return tema ? `${stranaLekcije(tema.id)}/${putanja.slice("client/".length)}` : putanja;
+  }
+
   async function otvoriFajl(tema, korak, putanja, { uredljiv = "true" } = {}) {
     const ocekivano = stabloDo(koraci, indeksTeme(tema - 1, korak - 1)).verzije[putanja];
     await strana.idi(`http://127.0.0.1:${portSajta}/tema/${tema}/k/${korak}/deo/editor/fajl/${putanja}`);
-    const ekran = await sačekaj((s) => s.putanja === putanja && s.tekst === ocekivano);
+    const ekran = await sačekaj((s) => s.putanja === natpis(putanja) && s.tekst === ocekivano);
     assert.equal(ekran.linije, ocekivano.split("\n").length, putanja);
     assert.equal(ekran.uredljiv, uredljiv, putanja);
     return ekran;

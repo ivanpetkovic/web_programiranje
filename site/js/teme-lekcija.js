@@ -4,9 +4,14 @@ export function jeTemaLekcije(id) {
   return typeof id === "string" && /^tema-\d+$/.test(id);
 }
 
+export function stranaLekcije(id) {
+  return id === "tema-6" ? "server" : "client";
+}
+
 function fajlLekcije(putanja) {
-  if (typeof putanja !== "string" || !putanja.startsWith("client/lekcije/") || !putanja.endsWith(".js")) return "";
-  return putanja.slice("client/".length);
+  if (typeof putanja !== "string" || !putanja.endsWith(".js")) return "";
+  if (putanja.startsWith("client/lekcije/") || putanja.startsWith("server/lekcije/")) return putanja.slice(putanja.indexOf("/") + 1);
+  return "";
 }
 
 export function temeLekcija(lekcije) {

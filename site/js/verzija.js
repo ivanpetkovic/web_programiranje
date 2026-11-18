@@ -29,7 +29,7 @@ function puna(sesija) {
   return put ? `${sesija.strana}/${put}` : "";
 }
 
-function fokus(sesija, dogadaj, tema) {
+function fokus(sesija, dogadaj, tema, zadrziStranu) {
   const sledeca = kopija(sesija);
   if (!dogadaj.putanja) {
     const kljuc = `${dogadaj.kljuc}:prazno`;
@@ -42,10 +42,10 @@ function fokus(sesija, dogadaj, tema) {
   const put = dogadaj.putanja.slice(dogadaj.putanja.indexOf("/") + 1);
   if (!serverTabVidljiv(tema) && side === "server") return sesija;
   const kljuc = `${dogadaj.kljuc}:${side}:${put}`;
-  if (sledeca.kljucFokusa === kljuc) return sesija;
+  if (sledeca.kljucFokusa === kljuc && (zadrziStranu || sledeca.strana === side)) return sesija;
   sledeca.kljucFokusa = kljuc;
-  sledeca.strana = side;
   sledeca.otvoreno[side] = put;
+  if (!zadrziStranu) sledeca.strana = side;
   sledeca.verzija = "radna";
   sledeca.otvoreniKljuc = "";
   return sledeca;
@@ -212,7 +212,7 @@ export function primeni(sesija, dogadaj, kontekst) {
   let forsiraj = false;
 
   if (dogadaj.tip === "fokus") {
-    sledeca = fokus(sesija, dogadaj, kontekst.tema);
+    sledeca = fokus(sesija, dogadaj, kontekst.tema, Boolean(kontekst.zadrziStranu));
   } else if (dogadaj.tip === "strana" && dogadaj.strana !== sesija.strana) {
     sledeca.strana = dogadaj.strana;
     sledeca.verzija = "radna";

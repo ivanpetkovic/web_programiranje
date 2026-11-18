@@ -61,7 +61,7 @@ import {
 import { blokoviProze } from "./proza.js";
 import { potez, praznoStanje, prikaz as prikazDiskusije } from "./diskusija.js";
 import { PODRAZUMEVANI_PRIMER, pocetniFajl, primeniPrimer } from "./primer.js";
-import { jeTemaLekcije, temaZaFajl, temeLekcija } from "./teme-lekcija.js";
+import { jeTemaLekcije, stranaLekcije, temaZaFajl, temeLekcija } from "./teme-lekcija.js";
 import { praznaSesija, primeni } from "./verzija.js";
 import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
@@ -208,6 +208,8 @@ const KONZOLA_REDOVA = 200;
 const poslato = { takt: false, uloge: false, baza: false };
 let dovod = null;
 let sesija = praznaSesija(procitajRadne(localStorage));
+let stranaModa = "client";
+let stranaRucno = false;
 let primerId = PODRAZUMEVANI_PRIMER;
 let stanjePrimera = null;
 let temeLekcijaSpisak = temeLekcija(lectures);
@@ -278,7 +280,7 @@ function mestoBloka(indeks = trenutniIndeks(), ime = deo) {
 function trenutniFajl() {
   if (drzaniFajl) return drzaniFajl;
   if (primerAktivan() && jeTemaLekcije(primerId)) {
-    return stanjePrimera.otvoreno ? `client/${stanjePrimera.otvoreno}` : "";
+    return stanjePrimera.otvoreno ? `${stranaLekcije(primerId)}/${stanjePrimera.otvoreno}` : "";
   }
   if (primerAktivan()) return stanjePrimera.otvoreno ? `primeri/${stanjePrimera.id}/${stanjePrimera.otvoreno}` : "";
   const put = sesija.otvoreno[sesija.strana];
@@ -398,10 +400,10 @@ function primeniFajlIzAdrese(putanja) {
     });
     return;
   }
-  if (putanja.startsWith("client/lekcije/") && putanja.endsWith(".js")) {
+  if ((putanja.startsWith("client/lekcije/") || putanja.startsWith("server/lekcije/")) && putanja.endsWith(".js")) {
     const tema = temaZaFajl(temeLekcijaSpisak, putanja);
     if (tema) {
-      otvoriPrimerTeme(tema, putanja.slice("client/".length));
+      otvoriPrimerTeme(tema, putanja.slice(putanja.indexOf("/") + 1), { strana: stranaLekcije(tema.id), zapamti: true, zakljucaj: true });
       return;
     }
   }
@@ -412,6 +414,8 @@ function primeniFajlIzAdrese(putanja) {
   const put = putanja.slice(kosa + 1);
   if (side !== "client" && side !== "server") return;
   if (side === "server" && !serverTabVidljiv(cas)) return;
+  stranaModa = side;
+  stranaRucno = true;
   if (sesija.strana !== side) primeniDogadaj({ tip: "strana", strana: side });
   if (sesija.otvoreno[sesija.strana] !== put) primeniDogadaj({ tip: "otvori", put });
 }
@@ -3243,6 +3247,23 @@ function nacrtajDiskusijuTeme(item) {
   return blok;
 }
 
+function kontekstVerzije() {
+  return {
+    koraci: kursKoraci(),
+    indeks: indeksUKursu(),
+    tema: cas,
+    usko: usko(),
+    zadrziStranu: !usko() && (stranaRucno || jeTemaLekcije(primerId)),
+  };
+}
+
+function uskladiSesijuSaStranom(strana) {
+  if (sesija.strana === strana) return;
+  if (strana === "server" && !serverTabVidljiv(cas)) return;
+  const rezultat = primeni(sesija, { tip: "strana", strana }, kontekstVerzije());
+  sesija = rezultat.sesija;
+}
+
 function fitPanel() {
   const local = cas < 5;
   sobaMasina.hidden = local;
@@ -3255,6 +3276,7 @@ function fitPanel() {
   kabl.hidden = cas < 6;
   sesije.hidden = cas < 10;
   starost.hidden = cas < 9;
+  if (stranaRucno && !usko() && serverTabVidljiv(cas)) uskladiSesijuSaStranom(stranaModa);
   osveziSpisakTema();
   osveziDugmePrimera();
   const kljucKoraka = `${cas}:${indeksKoraka()}`;
@@ -3408,10 +3430,29 @@ function markOpen(put) {
 
 function osveziStrane() {
   const strane = document.querySelector("#strane");
-  const ugradjen = !primerAktivan();
-  if (strane) strane.hidden = !ugradjen;
-  tabFront.hidden = !ugradjen;
-  tabBack.hidden = !ugradjen || !serverTabVidljiv(cas);
+  const vidljive = !primerAktivan() || jeTemaLekcije(primerId);
+  if (strane) strane.hidden = !vidljive;
+  tabFront.hidden = !vidljive;
+  tabBack.hidden = !vidljive || !serverTabVidljiv(cas);
+}
+
+function oznaciStranu() {
+  const strana = jeTemaLekcije(primerId) && stanjePrimera?.strana ? stanjePrimera.strana : sesija.strana;
+  tabFront.setAttribute("aria-selected", String(strana === "client"));
+  tabBack.setAttribute("aria-selected", String(strana === "server"));
+}
+
+function prazanPrikaz() {
+  return {
+    osvezi: true,
+    zivo: false,
+    prikaz: {
+      editor: { putanja: "", tekst: "", samoCitaj: true, linije: [], prazno: true },
+      fajlovi: [],
+      klijent: {},
+      server: {},
+    },
+  };
 }
 
 function osveziSegment() {
@@ -3425,7 +3466,7 @@ function osveziAdresu() {
   if (!el) return;
   if (primerAktivan()) {
     const put = stanjePrimera.otvoreno;
-    const koren = jeTemaLekcije(primerId) ? "client" : `primeri/${stanjePrimera.id}`;
+    const koren = jeTemaLekcije(primerId) ? stranaLekcije(primerId) : `primeri/${stanjePrimera.id}`;
     el.textContent = put ? adresaPregleda(location.origin, `${koren}/${put}`) : "";
     return;
   }
@@ -3546,10 +3587,7 @@ function postaviEditor(editor) {
 
 function nacrtajPrikaz(rezultat, sacuvano, dogadaj) {
   osveziStrane();
-  if (!primerAktivan()) {
-    tabFront.setAttribute("aria-selected", String(sesija.strana === "client"));
-    tabBack.setAttribute("aria-selected", String(sesija.strana === "server"));
-  }
+  oznaciStranu();
   const editor = rezultat.prikaz.editor;
   if (editor.prazno) {
     paintTree([], "");
@@ -3588,9 +3626,19 @@ function uskladiSobu() {
 function primeniDogadaj(dogadaj) {
   uskladiSobu();
   if (primerAktivan() && dogadaj.tip !== "fokus") {
+    if (jeTemaLekcije(primerId) && stanjePrimera.strana && stanjePrimera.strana !== stranaLekcije(primerId)) {
+      nacrtajPrikaz(prazanPrikaz(), true, dogadaj);
+      return;
+    }
     const pre = sesija;
+    const strana = stanjePrimera.strana;
+    const otvorenoPoStrani = { ...(stanjePrimera.otvorenoPoStrani || {}) };
     const rezultat = primeniPrimer(stanjePrimera, pre.radne, dogadaj);
-    stanjePrimera = rezultat.stanje;
+    if (jeTemaLekcije(stanjePrimera.id)) {
+      const prirodna = stranaLekcije(stanjePrimera.id);
+      if (strana === prirodna) otvorenoPoStrani[prirodna] = rezultat.stanje.otvoreno;
+      stanjePrimera = { ...rezultat.stanje, strana, otvorenoPoStrani };
+    } else stanjePrimera = rezultat.stanje;
     sacuvaniPrimeri.set(stanjePrimera.id, stanjePrimera);
     let sacuvano = true;
     if (rezultat.upis) {
@@ -3602,8 +3650,9 @@ function primeniDogadaj(dogadaj) {
     return;
   }
   const pre = sesija;
-  const rezultat = primeni(sesija, dogadaj, { koraci: kursKoraci(), indeks: indeksUKursu(), tema: cas, usko: usko() });
+  const rezultat = primeni(sesija, dogadaj, kontekstVerzije());
   sesija = rezultat.sesija;
+  if (!stranaRucno && !usko() && !jeTemaLekcije(primerId)) stranaModa = sesija.strana;
   let sacuvano = true;
   if (rezultat.upis) {
     const upis = upisiRadnu(localStorage, pre.radne, rezultat.upis.putanja, rezultat.upis.tekst);
@@ -3632,7 +3681,9 @@ function naslovPrimera(id) {
 }
 
 function natpisPutanje(put) {
-  if (jeTemaLekcije(primerId) && put && !put.startsWith("client/") && !put.startsWith("server/")) return `client/${put}`;
+  if (jeTemaLekcije(primerId) && put && !put.startsWith("client/") && !put.startsWith("server/")) {
+    return `${stranaLekcije(primerId)}/${put}`;
+  }
   return put || "";
 }
 
@@ -3643,14 +3694,34 @@ function vratiKontrolnuSobu() {
   osveziDugmePrimera();
 }
 
-function otvoriPrimerTeme(tema, relativan) {
+function stranaZaTemu(tema, opcije = {}) {
+  const prirodna = stranaLekcije(tema.id);
+  const tab = serverTabVidljiv(cas);
+  let strana;
+  if (opcije.strana === "client" || opcije.strana === "server") strana = opcije.strana;
+  else if (stranaRucno && tab) strana = stranaModa;
+  else if (!stranaRucno && tab && stranaModa !== prirodna) strana = prirodna;
+  else strana = tab ? stranaModa : "client";
+  if (strana === "server" && !tab) strana = "client";
+  if (!stranaRucno && tab && strana !== stranaModa) stranaModa = strana;
+  if (opcije.zapamti && (strana === "client" || tab)) {
+    stranaModa = strana;
+    stranaRucno = Boolean(opcije.zakljucaj);
+  }
+  return strana;
+}
+
+function otvoriPrimerTeme(tema, relativan, opcije = {}) {
   if (stanjePrimera && stanjePrimera.id !== tema.id) sacuvaniPrimeri.set(stanjePrimera.id, stanjePrimera);
   const isti = stanjePrimera?.id === tema.id ? stanjePrimera : sacuvaniPrimeri.get(tema.id);
-  const otvoreno = tema.fajlovi.includes(relativan)
-    ? relativan
-    : isti?.otvoreno && tema.fajlovi.includes(isti.otvoreno)
-      ? isti.otvoreno
-      : pocetniFajl(tema.fajlovi);
+  const prirodna = stranaLekcije(tema.id);
+  const otvorenoPoStrani = { client: "", server: "", ...(isti?.otvorenoPoStrani || {}) };
+  if (tema.fajlovi.includes(relativan)) otvorenoPoStrani[prirodna] = relativan;
+  const strana = stranaZaTemu(tema, opcije);
+  if (!usko()) uskladiSesijuSaStranom(stranaModa);
+  const otvoreno = strana === prirodna
+    ? (tema.fajlovi.includes(otvorenoPoStrani[strana]) ? otvorenoPoStrani[strana] : pocetniFajl(tema.fajlovi))
+    : "";
   primerId = tema.id;
   stanjePrimera = {
     id: tema.id,
@@ -3659,14 +3730,50 @@ function otvoriPrimerTeme(tema, relativan) {
     putanje: tema.fajlovi.slice(),
     verzije: tema.verzije,
     kljuc: "",
+    strana,
+    otvorenoPoStrani,
   };
   osveziDugmePrimera();
   editorErr.textContent = "";
+  if (!otvoreno) {
+    sacuvaniPrimeri.set(tema.id, stanjePrimera);
+    nacrtajPrikaz(prazanPrikaz(), true, { tip: "otvori" });
+    return;
+  }
   const dogadaj = stanjePrimera.verzija === "ugradjena" ? { tip: "ugradjena" } : { tip: "otvori", put: otvoreno };
   const rezultat = primeniPrimer(stanjePrimera, sesija.radne, dogadaj);
-  stanjePrimera = rezultat.stanje;
+  stanjePrimera = {
+    ...rezultat.stanje,
+    strana,
+    otvorenoPoStrani: { ...otvorenoPoStrani, [prirodna]: rezultat.stanje.otvoreno },
+  };
   sacuvaniPrimeri.set(tema.id, stanjePrimera);
   nacrtajPrikaz(rezultat, true, dogadaj);
+}
+
+function prikaziStranuTeme(strana) {
+  const prirodna = stranaLekcije(stanjePrimera.id);
+  const otvorenoPoStrani = {
+    ...(stanjePrimera.otvorenoPoStrani || {}),
+  };
+  if (stanjePrimera.strana === prirodna && stanjePrimera.otvoreno) otvorenoPoStrani[prirodna] = stanjePrimera.otvoreno;
+  const otvoreno = strana === prirodna
+    ? (stanjePrimera.putanje.includes(otvorenoPoStrani[strana]) ? otvorenoPoStrani[strana] : pocetniFajl(stanjePrimera.putanje))
+    : "";
+  stanjePrimera = { ...stanjePrimera, strana, otvoreno, otvorenoPoStrani };
+  sacuvaniPrimeri.set(stanjePrimera.id, stanjePrimera);
+  if (!otvoreno) {
+    nacrtajPrikaz(prazanPrikaz(), true, { tip: "strana" });
+    return;
+  }
+  const rezultat = primeniPrimer(stanjePrimera, sesija.radne, { tip: "otvori", put: otvoreno });
+  stanjePrimera = {
+    ...rezultat.stanje,
+    strana,
+    otvorenoPoStrani: { ...otvorenoPoStrani, [prirodna]: rezultat.stanje.otvoreno },
+  };
+  sacuvaniPrimeri.set(stanjePrimera.id, stanjePrimera);
+  nacrtajPrikaz(rezultat, true, { tip: "otvori" });
 }
 
 function osveziDugmePrimera() {
@@ -3734,7 +3841,7 @@ async function izaberiPrimer(id) {
   if (tema) {
     const izbor = izborFajla(trenutniKorak()) || "";
     const rel = izbor.startsWith("client/") ? izbor.slice("client/".length) : "";
-    otvoriPrimerTeme(tema, tema.fajlovi.includes(rel) ? rel : "");
+    otvoriPrimerTeme(tema, tema.fajlovi.includes(rel) ? rel : "", { strana: stranaLekcije(tema.id), zapamti: true });
     uskladiAdresu();
     return;
   }
@@ -3913,20 +4020,25 @@ document.querySelector("#ses-pos").addEventListener("click", () => chooseSession
 document.querySelector("#ses-ope").addEventListener("click", () => chooseSession("operater"));
 document.querySelector("#ses-ne").addEventListener("click", () => chooseSession(""));
 
-tabFront.addEventListener("click", () => {
-  if (sesija.strana === "client") return;
+function izaberiKarticu(strana) {
+  if (strana === "server" && !serverTabVidljiv(cas)) return;
+  stranaRucno = true;
+  stranaModa = strana;
   cekajFokus = false;
   fokusIzAdrese = null;
-  primeniDogadaj({ tip: "strana", strana: "client" });
+  if (jeTemaLekcije(primerId) && stanjePrimera) {
+    uskladiSesijuSaStranom(strana);
+    prikaziStranuTeme(strana);
+    uskladiAdresu();
+    return;
+  }
+  if (sesija.strana === strana) return;
+  primeniDogadaj({ tip: "strana", strana });
   uskladiAdresu();
-});
-tabBack.addEventListener("click", () => {
-  if (sesija.strana === "server") return;
-  cekajFokus = false;
-  fokusIzAdrese = null;
-  primeniDogadaj({ tip: "strana", strana: "server" });
-  uskladiAdresu();
-});
+}
+
+tabFront.addEventListener("click", () => izaberiKarticu("client"));
+tabBack.addEventListener("click", () => izaberiKarticu("server"));
 
 const dugmeStabla = document.querySelector("#sklopi-stablo");
 
