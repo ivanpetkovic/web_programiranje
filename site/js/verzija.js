@@ -29,7 +29,7 @@ function puna(sesija) {
   return put ? `${sesija.strana}/${put}` : "";
 }
 
-function fokus(sesija, dogadaj, tema) {
+function fokus(sesija, dogadaj, tema, zadrziStranu) {
   const sledeca = kopija(sesija);
   if (!dogadaj.putanja) {
     const kljuc = `${dogadaj.kljuc}:prazno`;
@@ -42,10 +42,10 @@ function fokus(sesija, dogadaj, tema) {
   const put = dogadaj.putanja.slice(dogadaj.putanja.indexOf("/") + 1);
   if (!serverTabVidljiv(tema) && side === "server") return sesija;
   const kljuc = `${dogadaj.kljuc}:${side}:${put}`;
-  if (sledeca.kljucFokusa === kljuc) return sesija;
+  if (sledeca.kljucFokusa === kljuc && (zadrziStranu || sledeca.strana === side)) return sesija;
   sledeca.kljucFokusa = kljuc;
-  sledeca.strana = side;
   sledeca.otvoreno[side] = put;
+  if (!zadrziStranu) sledeca.strana = side;
   sledeca.verzija = "radna";
   sledeca.otvoreniKljuc = "";
   return sledeca;
@@ -130,10 +130,14 @@ function dopuniFajlove(fajlovi, stablo, sesija) {
   return red;
 }
 
+function bezLekcija(fajlovi) {
+  return fajlovi.filter((put) => put !== "lekcije" && !put.startsWith("lekcije/"));
+}
+
 function klijentskiFajlovi(stablo, sesija) {
   const osnovni = fajloviStrane(stablo, "client");
   if (!osnovni.length) return [];
-  return dopuniFajlove(osnovni, stablo, { ...sesija, strana: "client" });
+  return bezLekcija(dopuniFajlove(osnovni, stablo, { ...sesija, strana: "client" }));
 }
 
 function uskladi(sesija, kontekst) {
@@ -145,7 +149,11 @@ function uskladi(sesija, kontekst) {
   const stablo = stabloDo(kontekst.koraci, kontekst.indeks);
   let fajlovi = fajloviStrane(stablo, sledeca.strana);
   if (!fajlovi.length) return { sesija: sledeca, fajlovi, stablo };
-  fajlovi = dopuniFajlove(fajlovi, stablo, sledeca);
+  fajlovi = bezLekcija(dopuniFajlove(fajlovi, stablo, sledeca));
+  if (!fajlovi.length) {
+    sledeca.otvoreno[sledeca.strana] = "";
+    return { sesija: sledeca, fajlovi, stablo };
+  }
   if (!fajlovi.includes(sledeca.otvoreno[sledeca.strana])) {
     const korak = kontekst.koraci[kontekst.indeks];
     const putanja = korak && typeof korak.putanja === "string" ? korak.putanja : "";
@@ -204,7 +212,7 @@ export function primeni(sesija, dogadaj, kontekst) {
   let forsiraj = false;
 
   if (dogadaj.tip === "fokus") {
-    sledeca = fokus(sesija, dogadaj, kontekst.tema);
+    sledeca = fokus(sesija, dogadaj, kontekst.tema, Boolean(kontekst.zadrziStranu));
   } else if (dogadaj.tip === "strana" && dogadaj.strana !== sesija.strana) {
     sledeca.strana = dogadaj.strana;
     sledeca.verzija = "radna";

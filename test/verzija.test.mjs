@@ -86,6 +86,25 @@ test("isti prekidač bira tekst serverskih fajlova", () => {
   assert.equal(ugradjena.prikaz.server["server/soba.js"], "takt\n");
 });
 
+test("zaključana strana ostaje kad korak otvara fajl druge strane", () => {
+  const naServeru = primeni(praznaSesija(), { tip: "strana", strana: "server" }, kontekst(1, 5));
+  const posle = primeni(
+    naServeru.sesija,
+    { tip: "fokus", putanja: "client/index.html", kljuc: "5:2" },
+    { ...kontekst(2, 5), zadrziStranu: true },
+  );
+  assert.equal(posle.sesija.strana, "server");
+  assert.equal(posle.sesija.otvoreno.client, "index.html");
+  assert.equal(posle.prikaz.editor.putanja, "server/soba.js");
+  const prati = primeni(
+    naServeru.sesija,
+    { tip: "fokus", putanja: "client/index.html", kljuc: "5:3" },
+    kontekst(2, 5),
+  );
+  assert.equal(prati.sesija.strana, "client");
+  assert.equal(prati.prikaz.editor.putanja, "client/index.html");
+});
+
 test("fajl servera pre pete teme ne otvara karticu Server", () => {
   const rezultat = primeni(praznaSesija(), { tip: "fokus", putanja: "server/soba.js", kljuc: "1:1" }, kontekst(1, 1));
   assert.equal(rezultat.sesija.strana, "client");
@@ -123,8 +142,7 @@ test("moj kod koji učitava lokalni skript vidi taj fajl pre koraka koji ga uvod
     "client/../tajna.js": "ne",
   });
   const rezultat = primeni(sesija, { tip: "fokus", putanja: "client/index.html", kljuc: "3:7" }, kontekst);
-  assert.equal(rezultat.prikaz.fajlovi.includes("lekcije/08-sintaksa.js"), true);
-  assert.equal(rezultat.prikaz.fajlovi.includes("lekcije/09-opseg.js"), false);
+  assert.equal(rezultat.prikaz.fajlovi.some((put) => put.startsWith("lekcije/")), false);
   assert.equal(rezultat.prikaz.fajlovi.includes("js/korak.js"), true);
   assert.equal(rezultat.prikaz.fajlovi.includes("js/nema.js"), true);
   assert.equal(rezultat.prikaz.fajlovi.includes("../server/soba.js"), false);

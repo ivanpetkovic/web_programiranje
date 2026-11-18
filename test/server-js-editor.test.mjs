@@ -3,7 +3,9 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import { lectures } from "../site/js/lectures.js";
+import { primeniPrimer } from "../site/js/primer.js";
 import { fajloviStrane, stabloDo } from "../site/js/stablo.js";
+import { stranaLekcije, temeLekcija } from "../site/js/teme-lekcija.js";
 import { praznaSesija, primeni } from "../site/js/verzija.js";
 import { cekajHttp, otvoriStranu, pauza, pokreni, slobodanPort, snimci, ugasi } from "./chrome.mjs";
 
@@ -62,24 +64,28 @@ function otvori(tema, korakI, put, opcije) {
 test("HTTP server otvara ceo primer, ne samo isecak handlera", () => {
   const i = indeks(6, "Od programa do HTTP servera");
   const korak = koraci[i];
-  const putanja = "client/lekcije/36-http-server.js";
-  const ocekivano = stabloDo(koraci, i).verzije[putanja];
-  const { ctx, otvoren } = otvoriPutanju(6, i - indeksTeme(5, 0), putanja);
+  const put = "lekcije/36-http-server.js";
+  const tema = temeLekcija(lectures).find((stavka) => stavka.id === "tema-6");
+  const ocekivano = tema.verzije[put];
+  assert.equal(ocekivano, stabloDo(koraci, i).verzije[`client/${put}`]);
+  const otvoren = primeniPrimer(
+    { id: tema.id, otvoreno: put, verzija: "radna", putanje: tema.fajlovi, verzije: tema.verzije, kljuc: "" },
+    {},
+    { tip: "otvori", put },
+  );
   isti(otvoren.prikaz.editor.tekst, ocekivano, "http-server");
-  assert.equal(otvoren.prikaz.editor.putanja, putanja);
-  assert.equal(otvoren.prikaz.editor.linije, null);
+  assert.equal(otvoren.prikaz.editor.putanja, put);
+  assert.equal(otvoren.prikaz.fajlovi.includes("lekcije/35-moduli.js"), true);
+  assert.equal(otvoren.prikaz.fajlovi.includes("lekcije/34-van-browsera.js"), true);
+  assert.equal(otvoren.prikaz.fajlovi.includes("index.html"), false);
   assert.match(ocekivano, /import http from 'node:http'/);
   assert.match(ocekivano, /http\.createServer/);
   assert.match(ocekivano, /res\.end\('Zdravo sa servera'\)/);
   assert.match(ocekivano, /server\.listen\(3000/);
   assert.ok(ocekivano.length > korak.isecak.length);
-  const lekcija = primeni(otvoren.sesija, { tip: "ugradjena" }, ctx);
+  const lekcija = primeniPrimer(otvoren.stanje, {}, { tip: "ugradjena" });
   isti(lekcija.prikaz.editor.tekst, ocekivano, "http-server lekcija");
-  isti(tekstBezObrisanih(lekcija.prikaz.editor.linije), bezKraja(ocekivano), "http-server linije");
-  const dokument = dokumentIzLinija(lekcija.prikaz.editor.linije);
-  assert.ok(dokument.length >= bezKraja(ocekivano).length, "http-server dokument");
-  assert.match(dokument, /import http from 'node:http'/);
-  assert.match(dokument, /server\.listen\(3000/);
+  assert.equal(lekcija.prikaz.editor.samoCitaj, true);
 });
 
 test("svaki serverski js na svakom koraku ostaje ceo u editoru", () => {
@@ -203,10 +209,18 @@ test("editor na strani prikazuje ceo serverski js", { timeout: 90000 }, async (t
     );
   }
 
+  function natpis(putanja) {
+    if (!putanja.startsWith("client/lekcije/")) return putanja;
+    const rel = putanja.slice("client/".length);
+    const tema = temeLekcija(lectures).find((stavka) => stavka.fajlovi.includes(rel));
+    const prikaz = rel.replace(/(^|\/)\d{2}-/g, "$1");
+    return tema ? `${stranaLekcije(tema.id)}/${prikaz}` : putanja;
+  }
+
   async function otvoriFajl(tema, korak, putanja, { uredljiv = "true" } = {}) {
     const ocekivano = stabloDo(koraci, indeksTeme(tema - 1, korak - 1)).verzije[putanja];
     await strana.idi(`http://127.0.0.1:${portSajta}/tema/${tema}/k/${korak}/deo/editor/fajl/${putanja}`);
-    const ekran = await sačekaj((s) => s.putanja === putanja && s.tekst === ocekivano);
+    const ekran = await sačekaj((s) => s.putanja === natpis(putanja) && s.tekst === ocekivano);
     assert.equal(ekran.linije, ocekivano.split("\n").length, putanja);
     assert.equal(ekran.uredljiv, uredljiv, putanja);
     return ekran;

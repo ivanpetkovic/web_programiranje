@@ -105,6 +105,7 @@ test("svaki fajl svake teme i koraka otvara se u editoru u celosti", () => {
           sesija = primeni(sesija, { tip: "strana", strana }, ctx).sesija;
         }
         const lista = primeni(sesija, { tip: "strana", strana }, ctx).prikaz.fajlovi;
+        assert.equal(lista.some((put) => put.startsWith("lekcije/")), false, `T${tema.n} ${korak.naslov}`);
         for (const put of lista) {
           const otvoren = primeni(sesija, { tip: "otvori", put }, ctx);
           const putanja = `${strana}/${put}`;
@@ -130,7 +131,7 @@ test("svaki fajl svake teme i koraka otvara se u editoru u celosti", () => {
 
 test("svaki fajl primera sa diska otvara se u editoru", () => {
   const spisak = spisakPrimera(primeriKoren).filter((primer) => primer.id !== "kontrolna-soba");
-  assert.ok(spisak.length >= 7);
+  assert.deepEqual(spisak.map((primer) => primer.id), ["7_tipovi"]);
   let otvoreno = 0;
   for (const stavka of spisak) {
     const primer = ucitajPrimer(primeriKoren, stavka.id);
@@ -153,7 +154,7 @@ test("svaki fajl primera sa diska otvara se u editoru", () => {
       otvoreno += 1;
     }
   }
-  assert.ok(otvoreno > 20, `otvoreno ${otvoreno}`);
+  assert.ok(otvoreno >= 11, `otvoreno ${otvoreno}`);
 });
 
 function klikNaKorak(naslov) {

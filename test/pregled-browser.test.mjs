@@ -92,17 +92,34 @@ test("tema 5 formular drži preventDefault u fajlu lekcije, ne u tekstu stranice
     await strana.vrednost(klikNaFajl("lekcije/24-formular.js"));
     let pomeraj = 0;
     const formular = await sačekaj((s) => {
-      if (s.putanja === "client/lekcije/24-formular.js" && s.tekst.includes("preventDefault")) return true;
+      if (s.putanja === "client/lekcije/formular.js" && s.tekst.includes("preventDefault")) return true;
       pomeraj += 400;
       void strana.vrednost(`document.scrollingElement.scrollTop = ${pomeraj}`);
       return false;
     });
     assert.match(formular.tekst, /Kontrolna soba/);
     assert.match(formular.tekst, /preventDefault/);
+    assert.equal(formular.fajlovi.includes("lekcije/16-dom.js"), true);
+    assert.equal(formular.fajlovi.includes("lekcije/34-van-browsera.js"), false);
+    assert.equal(formular.fajlovi.includes("index.html"), false);
     await snimi("tema-5-formular");
     await strana.vrednost(`document.scrollingElement.scrollTop = 0`);
+    await strana.vrednost(`document.querySelector("#primer").click()`);
+    const krajMeni = Date.now() + 5000;
+    let imaSobu = false;
+    while (Date.now() < krajMeni) {
+      imaSobu = await strana.vrednost(`[...document.querySelectorAll("#primer-meni button")].some((b) => b.textContent === "Kontrolna soba")`);
+      if (imaSobu) break;
+      await pauza(40);
+    }
+    assert.equal(imaSobu, true);
+    await strana.vrednost(`(() => {
+      const dugme = [...document.querySelectorAll("#primer-meni button")].find((b) => b.textContent === "Kontrolna soba");
+      dugme.click();
+    })()`);
     await strana.vrednost(klikNaFajl("index.html"));
     const html = await sačekaj((s) => s.putanja === "client/index.html" && s.tekst.includes("naslov je h1"));
+    assert.equal(html.fajlovi.some((put) => put.startsWith("lekcije/")), false);
     assert.equal(html.tekst.includes("preventDefault"), false);
     assert.equal(/preventDefault/.test(html.pasusi.join(" ")), false);
     belezi(`tema 5 formular: ${formular.tekst.slice(0, 180)}`);
@@ -113,7 +130,7 @@ test("tema 5 formular drži preventDefault u fajlu lekcije, ne u tekstu stranice
   }
 });
 
-test("pregled pokreće primere, uključujući ES modul", { timeout: 50000 }, async (t) => {
+test("meni primera drži teme lekcija i Tipove, bez starih primera", { timeout: 50000 }, async (t) => {
   const portSajta = await slobodanPort();
   const portChrome = await slobodanPort();
   const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
@@ -152,45 +169,48 @@ test("pregled pokreće primere, uključujući ES modul", { timeout: 50000 }, asy
       })()`);
     }
 
-    await primer("HTML, CSS i JS");
-    const html = await sačekaj((s) => s.pasusi.includes("Ja sam novi element"));
-    assert.deepEqual(ucitajGreske(html.konzola), []);
-    belezi(`HTML, CSS i JS: ${JSON.stringify(html.konzola)}`);
-
-    await primer("Funkcije");
-    const funkcije = await sačekaj((s) => s.dugmad.filter((natpis) => natpis.startsWith("Click ")).length === 3);
-    assert.deepEqual(ucitajGreske(funkcije.konzola), []);
-    assert.ok(funkcije.konzola.some((red) => red.includes("i=0")));
-    belezi(`Funkcije: ${JSON.stringify(funkcije.konzola)}`);
-
-    await primer("Prototip");
-    const prototip = await sačekaj((s) => s.konzola.some((red) => red.includes("Ime: marko")));
-    assert.deepEqual(ucitajGreske(prototip.konzola), []);
-    belezi(`Prototip: ${JSON.stringify(prototip.konzola)}`);
-
-    await primer("Klase");
-    const klase = await sačekaj((s) => s.dugmad.includes("Dodaj"));
-    assert.deepEqual(ucitajGreske(klase.konzola), []);
-    assert.equal(klase.fajlovi.includes("src/props/main.js"), true);
-    belezi(`Klase: ${JSON.stringify(klase.konzola)}`);
-    await snimi("primer-klase");
-
-    await primer("Async");
-    const asinhrono = await sačekaj(
-      (s) => s.konzola.some((red) => /Win!|⚠|Number /.test(red)),
-      4000,
-    );
-    assert.deepEqual(ucitajGreske(asinhrono.konzola), []);
-    belezi(`Async: ${JSON.stringify(asinhrono.konzola)}`);
-
-    for (const naslov of ["TypeScript", "Tipovi"]) {
-      await primer(naslov);
-      const prazan = await sačekaj((s) => s.fajlovi.includes("index.html") && s.spreman);
-      assert.equal(prazan.fajlovi.includes("dist/bundle.js"), false);
-      assert.equal(prazan.dugmad.length, 0);
-      assert.deepEqual(ucitajGreske(prazan.konzola), []);
-      belezi(`${naslov}: nema dist/bundle.js, iframe nema dugme`);
+    await strana.vrednost(`document.querySelector("#primer").click()`);
+    const krajMeni = Date.now() + 5000;
+    let natpisi = [];
+    while (Date.now() < krajMeni) {
+      natpisi = await strana.vrednost(`[...document.querySelectorAll("#primer-meni button")].map((b) => b.textContent)`);
+      if (natpisi.includes("JavaScript: vrednosti, objekti i funkcije") && natpisi.includes("Tipovi")) break;
+      await pauza(40);
     }
+    assert.equal(natpisi[0], "Kontrolna soba");
+    for (const naslov of ["HTML, CSS i JS", "Funkcije", "Prototip", "Klase", "Async", "TypeScript"]) {
+      assert.equal(natpisi.includes(naslov), false, naslov);
+    }
+    for (const naslov of [
+      "JavaScript: vrednosti, objekti i funkcije",
+      "JavaScript: leksičko okruženje, prototip i modul",
+      "DOM, događaji i prikaz stanja",
+      "Node.js, HTTP server i Web API",
+      "Tipovi",
+    ]) {
+      assert.equal(natpisi.includes(naslov), true, naslov);
+    }
+    await strana.vrednost(`document.querySelector("#primer").click()`);
+
+    await primer("JavaScript: vrednosti, objekti i funkcije");
+    const jezik = await sačekaj((s) => s.fajlovi.includes("lekcije/01-izvrsavanje.js") && s.fajlovi.includes("lekcije/08-sintaksa.js"));
+    assert.equal(jezik.fajlovi.includes("lekcije/09-opseg.js"), false);
+    assert.equal(jezik.fajlovi.includes("index.html"), false);
+    assert.equal(jezik.fajlovi.every((put) => put.startsWith("lekcije/") && put.endsWith(".js")), true);
+    belezi(`tema jezika: ${jezik.fajlovi.join(", ")}`);
+    await snimi("tema-lekcije");
+
+    await primer("Tipovi");
+    const tipovi = await sačekaj((s) => s.fajlovi.includes("index.html") && s.spreman);
+    assert.equal(tipovi.fajlovi.includes("dist/bundle.js"), false);
+    assert.equal(tipovi.dugmad.length, 0);
+    assert.deepEqual(ucitajGreske(tipovi.konzola), []);
+    belezi("Tipovi: nema dist/bundle.js, iframe nema dugme");
+
+    await primer("Kontrolna soba");
+    const soba = await sačekaj((s) => s.spreman && s.fajlovi.length > 0 && !s.fajlovi.some((put) => put.startsWith("lekcije/")));
+    assert.equal(soba.fajlovi.some((put) => put.startsWith("lekcije/")), false);
+    belezi(`kontrolna soba: ${soba.fajlovi.join(", ")}`);
   } catch (greska) {
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
     throw greska;
@@ -227,10 +247,18 @@ test("tema 6 drži HTTP server u editoru i ne upisuje server.js", { timeout: 400
     })()`);
     await strana.vrednost(`document.querySelector("#tab-editor").click()`);
     const serverLekcije = await sačekaj(
-      (s) => s.putanja === "client/lekcije/36-http-server.js" && s.tekst.includes("http.createServer") && s.tekst.includes("server.listen(3000"),
+      (s) => s.putanja === "server/lekcije/http-server.js" && s.tekst.includes("http.createServer") && s.tekst.includes("server.listen(3000"),
     );
     assert.match(serverLekcije.tekst, /import http from 'node:http'/);
     assert.match(serverLekcije.tekst, /res\.end\('Zdravo sa servera'\)/);
+    assert.equal(await strana.vrednost(`document.querySelector("#strane [aria-selected='true']")?.id || ""`), "tab-back");
+    assert.equal(serverLekcije.fajlovi.includes("lekcije/36-http-server.js"), true);
+    assert.equal(
+      await strana.vrednost(`document.querySelector("#tree button[aria-current='true']")?.textContent?.trim() || ""`),
+      "http-server.js",
+    );
+    assert.equal(serverLekcije.fajlovi.includes("lekcije/16-dom.js"), false);
+    assert.equal(serverLekcije.fajlovi.includes("index.html"), false);
     await pauza(400);
     assert.equal(readFileSync(fajl, "utf8"), pre);
     belezi(`tema 6 HTTP server: ${serverLekcije.putanja}`);
@@ -239,4 +267,80 @@ test("tema 6 drži HTTP server u editoru i ne upisuje server.js", { timeout: 400
     greska.message += `\nserver: ${server.izlaz().slice(-500)}`;
     throw greska;
   }
+});
+
+test("izabrana kartica Klijent ili Server ostaje dok se menjaju koraci", { timeout: 50000 }, async (t) => {
+  const portSajta = await slobodanPort();
+  const portChrome = await slobodanPort();
+  const server = pokreni(process.execPath, ["server/server.js"], { PORT: String(portSajta) });
+  let strana;
+  t.after(() => {
+    strana?.zatvori();
+    ugasi(server);
+  });
+  await cekajHttp(`http://127.0.0.1:${portSajta}/`);
+  strana = await otvoriStranu(portChrome);
+  await strana.posalji("Emulation.setDeviceMetricsOverride", {
+    width: 1400,
+    height: 900,
+    deviceScaleFactor: 1,
+    mobile: false,
+  });
+  const { sačekaj, snimi } = await saAlatom(strana);
+
+  async function kartica() {
+    return strana.vrednost(`document.querySelector("#strane [aria-selected='true']")?.id || ""`);
+  }
+  async function korak(natpis) {
+    await strana.vrednost(`(() => {
+      const dugme = [...document.querySelectorAll("#nav .korak-red")].find((b) => b.textContent === ${JSON.stringify(natpis)});
+      if (!dugme) throw new Error("nema koraka " + ${JSON.stringify(natpis)});
+      dugme.click();
+    })()`);
+  }
+
+  await strana.idi(`http://127.0.0.1:${portSajta}/#cas-7`);
+  await strana.vrednost(`document.querySelector("#tab-editor").click()`);
+  await korak("3 Izvučen kabl");
+  const ventilator = await sačekaj((s) => s.putanja === "server/ventilator.js");
+  assert.equal(await kartica(), "tab-back");
+  assert.equal(ventilator.fajlovi.includes("ventilator.js"), true);
+  assert.equal(ventilator.fajlovi.some((put) => put.startsWith("lekcije/")), false);
+
+  await strana.vrednost(`document.querySelector("#tab-front").click()`);
+  await korak("2 200");
+  const klijent = await sačekaj((s) => s.putanja === "client/js/displej.js");
+  assert.equal(await kartica(), "tab-front");
+  assert.match(klijent.putanja, /^client\//);
+
+  await korak("3 Izvučen kabl");
+  const ostaje = await sačekaj((s) => s.putanja.startsWith("client/"));
+  assert.equal(await kartica(), "tab-front");
+  assert.notEqual(ostaje.putanja, "server/ventilator.js");
+  await snimi("strana-ostaje-klijent");
+
+  await strana.vrednost(`location.hash = "cas-6"`);
+  const krajKoraka = Date.now() + 5000;
+  let imaKorak = false;
+  while (Date.now() < krajKoraka) {
+    imaKorak = await strana.vrednost(`[...document.querySelectorAll("#nav .korak-red")].some((b) => b.textContent === "3 Od programa do HTTP servera")`);
+    if (imaKorak) break;
+    await pauza(40);
+  }
+  assert.equal(imaKorak, true);
+  await strana.vrednost(`document.querySelector("#tab-editor").click()`);
+  await korak("3 Od programa do HTTP servera");
+  const prazanKlijent = await sačekaj((s) => s.putanja === "" && s.fajlovi.length === 0);
+  assert.equal(await kartica(), "tab-front");
+  assert.equal(prazanKlijent.fajlovi.length, 0);
+
+  await strana.vrednost(`document.querySelector("#tab-back").click()`);
+  const http = await sačekaj((s) => s.putanja === "server/lekcije/http-server.js" && s.fajlovi.includes("lekcije/36-http-server.js"));
+  assert.equal(await kartica(), "tab-back");
+  assert.equal(http.fajlovi.includes("lekcije/16-dom.js"), false);
+  await korak("4 Anatomija HTTP zahteva i odgovora");
+  const sledeci = await sačekaj((s) => s.putanja === "server/lekcije/zahtev.js");
+  assert.equal(await kartica(), "tab-back");
+  assert.equal(sledeci.fajlovi.includes("lekcije/37-zahtev.js"), true);
+  await snimi("strana-ostaje-server");
 });

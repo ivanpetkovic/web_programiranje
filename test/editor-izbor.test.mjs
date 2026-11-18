@@ -23,6 +23,7 @@ function stanjeEditora() {
   return {
     putanja: document.querySelector("#putanja")?.textContent || "",
     otvoren: otvoren?.dataset.put || "",
+    fajlovi: [...document.querySelectorAll("#tree button")].map((dugme) => dugme.dataset.put),
     tekst: sadrzaj ? sadrzaj.innerText.replace(/\s+$/g, "") : "",
     spreman: Boolean(sadrzaj && document.querySelector("#birac-meni button")),
     pregled: {
@@ -141,7 +142,7 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
     await strana.vrednost(klikNaKorak("Nizovi i obrada kolekcija"));
     await strana.vrednost(klikNaFajl("lekcije/07-nizovi.js"));
     const posleNiza = await sačekaj(
-      (s) => s.putanja === "client/lekcije/07-nizovi.js" && s.tekst.includes("brojevi.map"),
+      (s) => s.putanja === "client/lekcije/nizovi.js" && s.tekst.includes("brojevi.map"),
     );
     assert.equal(posleNiza.tekst.includes("<!DOCTYPE html>"), false);
     assert.equal(posleNiza.tekst.includes("letter-spacing"), false);
@@ -209,24 +210,41 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
     await strana.vrednost(`document.querySelector('#tab-editor').click()`);
     await strana.vrednost(klikNaFajl("lekcije/01-izvrsavanje.js"));
     const otvorenKorak = await sačekaj(
-      (s) => s.spreman && s.putanja === "client/lekcije/01-izvrsavanje.js" && s.tekst.includes("console.log(2 + 3)"),
+      (s) => s.spreman && s.putanja === "client/lekcije/izvrsavanje.js" && s.tekst.includes("console.log(2 + 3)"),
     );
     assert.equal(otvorenKorak.otvoren, "lekcije/01-izvrsavanje.js");
 
     await korak("Nizovi i obrada kolekcija");
     const poslePrvogKoraka = await sačekaj(
-      (s) => s.putanja === "client/lekcije/07-nizovi.js" && s.tekst.includes(filter),
+      (s) => s.putanja === "client/lekcije/nizovi.js" && s.tekst.includes(filter),
     );
     assert.equal(poslePrvogKoraka.otvoren, "lekcije/07-nizovi.js");
     assert.equal(poslePrvogKoraka.tekst.includes("console.log(2 + 3)"), false);
+    assert.equal(poslePrvogKoraka.fajlovi?.includes("lekcije/09-opseg.js"), false);
 
+    await strana.vrednost(`document.querySelector("#primer").click()`);
+    const krajMeni = Date.now() + 5000;
+    let imaSobu = false;
+    while (Date.now() < krajMeni) {
+      imaSobu = await strana.vrednost(`[...document.querySelectorAll("#primer-meni button")].some((b) => b.textContent === "Kontrolna soba")`);
+      if (imaSobu) break;
+      await pauza(40);
+    }
+    assert.equal(imaSobu, true);
+    await strana.vrednost(`(() => {
+      const dugme = [...document.querySelectorAll("#primer-meni button")].find((b) => b.textContent === "Kontrolna soba");
+      dugme.click();
+    })()`);
     await strana.vrednost(klikNaFajl("index.html"));
     const drugiFajl = await sačekaj(
       (s) => s.putanja === "client/index.html" && s.tekst.includes("naslov je h1"),
     );
     assert.equal(drugiFajl.otvoren, "index.html");
     assert.equal(drugiFajl.tekst.includes(filter), false);
+    assert.equal(drugiFajl.fajlovi.some((put) => put.startsWith("lekcije/")), false);
 
+    await strana.vrednost(`location.hash = "cas-4"`);
+    await strana.vrednost(`document.querySelector('#tab-editor').click()`);
     await korak("Moduli i priprema za Web");
     const posleDrugogKoraka = await (async () => {
       const kraj = Date.now() + 5000;
@@ -237,7 +255,7 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
           document.querySelector("#editor")?.scrollIntoView({ block: "end" });
           return (${stanjeEditora.toString()})();
         })()`);
-        if (poslednje.putanja === "client/lekcije/15-moduli.js" && poslednje.tekst.includes("export function saberi")) return poslednje;
+        if (poslednje.putanja === "client/lekcije/moduli.js" && poslednje.tekst.includes("export function saberi")) return poslednje;
         await pauza(40);
       }
       throw new Error(`editor nije stigao: ${JSON.stringify(poslednje)}`);
