@@ -97,3 +97,23 @@ export function temeLekcija(lekcije) {
 export function temaZaFajl(teme, putanja) {
   return resiLekciju(teme, putanja)?.tema || null;
 }
+
+export function fajloviKorakaLekcije(tema, put, soba = {}) {
+  if (!tema || typeof put !== "string" || !tema.fajlovi.includes(put)) return null;
+  const prirodna = stranaLekcije(tema.id);
+  const verzije = { [put]: tema.verzije?.[put] || "" };
+  const klijent = [];
+  for (const rel of Array.isArray(soba.fajlovi) ? soba.fajlovi : []) {
+    if (!rel || rel.startsWith("lekcije/") || rel === put) continue;
+    klijent.push(rel);
+    verzije[rel] = soba.verzije?.[rel] || "";
+  }
+  if (prirodna === "client") klijent.unshift(put);
+  return {
+    verzije,
+    poStrani: {
+      client: klijent,
+      server: prirodna === "server" ? [put] : [],
+    },
+  };
+}
