@@ -9953,35 +9953,35 @@
               "id": "k601q1",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "1.1. [OBAVEZNO] Zašto nije dovoljno da sav kod aplikacije izvršava browser?",
+              "tekst": "1.1. Zašto nije dovoljno da sav kod aplikacije izvršava browser?",
               "odgovor": "Neke operacije moraju da se odvijaju na strani koju kontroliše servis: zajednički podaci korisnika, poslovna pravila, pristup bazi, čuvanje poverljivih podataka. Kod u browseru kontroliše korisnik. Ako se pravilo proverava samo u browseru, klijent može da ga zaobiđe drugačijim HTTP zahtevom."
             },
             {
               "id": "k601q2",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "1.2. [OBAVEZNO] Da li JavaScript u Node.js-u automatski ima document i window? Šta zapravo predstavlja Node.js?",
+              "tekst": "1.2. Da li JavaScript u Node.js-u automatski ima document i window? Šta zapravo predstavlja Node.js?",
               "odgovor": "Ne. Node.js je izvršno okruženje sa API-jima prilagođenim serveru; DOM pripada browserovom okruženju. Sam Node.js nije ni browser ni obavezno HTTP server."
             },
             {
               "id": "k601q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "1.3. [REZERVA] Da li činjenica da frontend i backend koriste isti jezik znači da mogu da koriste identične API-je?",
+              "tekst": "1.3. Da li činjenica da frontend i backend koriste isti jezik znači da mogu da koriste identične API-je?",
               "odgovor": "Ne. Jezik može biti isti, ali okruženja nude različite mogućnosti. Deo obične JS logike može biti zajednički."
             }
           ],
           "pitalice": [
             {
-              "pitalica": "1.1. [OBAVEZNO] Zašto nije dovoljno da sav kod aplikacije izvršava browser?",
+              "pitalica": "1.1. Zašto nije dovoljno da sav kod aplikacije izvršava browser?",
               "odgovor": "Neke operacije moraju da se odvijaju na strani koju kontroliše servis: zajednički podaci korisnika, poslovna pravila, pristup bazi, čuvanje poverljivih podataka. Kod u browseru kontroliše korisnik. Ako se pravilo proverava samo u browseru, klijent može da ga zaobiđe drugačijim HTTP zahtevom."
             },
             {
-              "pitalica": "1.2. [OBAVEZNO] Da li JavaScript u Node.js-u automatski ima document i window? Šta zapravo predstavlja Node.js?",
+              "pitalica": "1.2. Da li JavaScript u Node.js-u automatski ima document i window? Šta zapravo predstavlja Node.js?",
               "odgovor": "Ne. Node.js je izvršno okruženje sa API-jima prilagođenim serveru; DOM pripada browserovom okruženju. Sam Node.js nije ni browser ni obavezno HTTP server."
             },
             {
-              "pitalica": "1.3. [REZERVA] Da li činjenica da frontend i backend koriste isti jezik znači da mogu da koriste identične API-je?",
+              "pitalica": "1.3. Da li činjenica da frontend i backend koriste isti jezik znači da mogu da koriste identične API-je?",
               "odgovor": "Ne. Jezik može biti isti, ali okruženja nude različite mogućnosti. Deo obične JS logike može biti zajednički."
             }
           ],
@@ -10044,35 +10044,35 @@
               "id": "k602q1",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "2.1. [OBAVEZNO] Imamo tri datoteke i dve biblioteke drugih autora. Kako organizovati projekat i deliti funkcije?",
+              "tekst": "2.1. Imamo tri datoteke i dve biblioteke drugih autora. Kako organizovati projekat i deliti funkcije?",
               "odgovor": "Moduli sa export i import; package.json i npm za upravljanje paketima i skriptama. node:http dolazi sa Node.js-om i ne instalira se."
             },
             {
               "id": "k602q2",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "2.2. [OBAVEZNO] Ako ukucamo npm install express, da li server sada radi?",
+              "tekst": "2.2. Ako ukucamo npm install express, da li server sada radi?",
               "odgovor": "Ne. Instalacija biblioteke nije pokretanje servera; server mora da bude napisan i pokrenut, na primer npm start."
             },
             {
               "id": "k602q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "2.3. [REZERVA] Zašto u importu lokalnog modula navodimo relativnu putanju, a u importu node:http ne?",
+              "tekst": "2.3. Zašto u importu lokalnog modula navodimo relativnu putanju, a u importu node:http ne?",
               "odgovor": "Prvi import upućuje na lokalnu datoteku, drugi na ugrađeni modul Node.js-a. Za instalirani paket koristi se ime paketa."
             }
           ],
           "pitalice": [
             {
-              "pitalica": "2.1. [OBAVEZNO] Imamo tri datoteke i dve biblioteke drugih autora. Kako organizovati projekat i deliti funkcije?",
+              "pitalica": "2.1. Imamo tri datoteke i dve biblioteke drugih autora. Kako organizovati projekat i deliti funkcije?",
               "odgovor": "Moduli sa export i import; package.json i npm za upravljanje paketima i skriptama. node:http dolazi sa Node.js-om i ne instalira se."
             },
             {
-              "pitalica": "2.2. [OBAVEZNO] Ako ukucamo npm install express, da li server sada radi?",
+              "pitalica": "2.2. Ako ukucamo npm install express, da li server sada radi?",
               "odgovor": "Ne. Instalacija biblioteke nije pokretanje servera; server mora da bude napisan i pokrenut, na primer npm start."
             },
             {
-              "pitalica": "2.3. [REZERVA] Zašto u importu lokalnog modula navodimo relativnu putanju, a u importu node:http ne?",
+              "pitalica": "2.3. Zašto u importu lokalnog modula navodimo relativnu putanju, a u importu node:http ne?",
               "odgovor": "Prvi import upućuje na lokalnu datoteku, drugi na ugrađeni modul Node.js-a. Za instalirani paket koristi se ime paketa."
             }
           ],
@@ -10121,35 +10121,35 @@
               "id": "k603q1",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "3.1. [OBAVEZNO] Klijent će poslati zahtev za 20 sekundi. Šta naš program mora da radi do tada?",
+              "tekst": "3.1. Klijent će poslati zahtev za 20 sekundi. Šta naš program mora da radi do tada?",
               "odgovor": "Da ostane aktivan i osluškuje odgovarajući port. Server reaguje na zahteve kada stignu; nije potrebno unapred pozvati handler za svaki zahtev."
             },
             {
               "id": "k603q2",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "3.2. [OBAVEZNO] Zašto createServer dobija funkciju sa req i res, i ko je poziva?",
+              "tekst": "3.2. Zašto createServer dobija funkciju sa req i res, i ko je poziva?",
               "odgovor": "Node-ov HTTP server je poziva pri obradi svakog primljenog zahteva. req je zahtev, res je odgovor koji server gradi."
             },
             {
               "id": "k603q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "3.3. [REZERVA] Šta se dešava ako handler napiše res.write('OK'), ali nikad ne pozove res.end()?",
+              "tekst": "3.3. Šta se dešava ako handler napiše res.write('OK'), ali nikad ne pozove res.end()?",
               "odgovor": "Odgovor nije označen kao završen; klijent može ostati da čeka. To je greška u obradi odgovora, ne problem browsera."
             }
           ],
           "pitalice": [
             {
-              "pitalica": "3.1. [OBAVEZNO] Klijent će poslati zahtev za 20 sekundi. Šta naš program mora da radi do tada?",
+              "pitalica": "3.1. Klijent će poslati zahtev za 20 sekundi. Šta naš program mora da radi do tada?",
               "odgovor": "Da ostane aktivan i osluškuje odgovarajući port. Server reaguje na zahteve kada stignu; nije potrebno unapred pozvati handler za svaki zahtev."
             },
             {
-              "pitalica": "3.2. [OBAVEZNO] Zašto createServer dobija funkciju sa req i res, i ko je poziva?",
+              "pitalica": "3.2. Zašto createServer dobija funkciju sa req i res, i ko je poziva?",
               "odgovor": "Node-ov HTTP server je poziva pri obradi svakog primljenog zahteva. req je zahtev, res je odgovor koji server gradi."
             },
             {
-              "pitalica": "3.3. [REZERVA] Šta se dešava ako handler napiše res.write('OK'), ali nikad ne pozove res.end()?",
+              "pitalica": "3.3. Šta se dešava ako handler napiše res.write('OK'), ali nikad ne pozove res.end()?",
               "odgovor": "Odgovor nije označen kao završen; klijent može ostati da čeka. To je greška u obradi odgovora, ne problem browsera."
             }
           ],
@@ -10191,35 +10191,35 @@
               "id": "k604q1",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "4.1. [OBAVEZNO] Imamo GET /uredjaji?tip=senzor. Koja informacija kaže šta želimo da uradimo, koja nad čim, a koja sa kojim filterom?",
+              "tekst": "4.1. Imamo GET /uredjaji?tip=senzor. Koja informacija kaže šta želimo da uradimo, koja nad čim, a koja sa kojim filterom?",
               "odgovor": "Metoda GET, putanja /uredjaji, parametar upita tip=senzor. Nisu isto putanja i puni URL."
             },
             {
               "id": "k604q2",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "4.2. [OBAVEZNO] Server izvrši kod bez izuzetka, ali uređaj nije pronađen. Da li je ispravno vratiti 200 sa tekstom Greška?",
+              "tekst": "4.2. Server izvrši kod bez izuzetka, ali uređaj nije pronađen. Da li je ispravno vratiti 200 sa tekstom Greška?",
               "odgovor": "Ne. HTTP status treba da iskaže ishod zahteva. Tipično 404, uz jasno telo odgovora. Status nije samo to da li se program srušio."
             },
             {
               "id": "k604q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "4.3. [REZERVA] Da li server mora da vrati HTML?",
+              "tekst": "4.3. Da li server mora da vrati HTML?",
               "odgovor": "Ne. Može vratiti JSON, tekst, sliku, datoteku ili odgovor bez tela. Zaglavlje Content-Type opisuje medijski tip tela."
             }
           ],
           "pitalice": [
             {
-              "pitalica": "4.1. [OBAVEZNO] Imamo GET /uredjaji?tip=senzor. Koja informacija kaže šta želimo da uradimo, koja nad čim, a koja sa kojim filterom?",
+              "pitalica": "4.1. Imamo GET /uredjaji?tip=senzor. Koja informacija kaže šta želimo da uradimo, koja nad čim, a koja sa kojim filterom?",
               "odgovor": "Metoda GET, putanja /uredjaji, parametar upita tip=senzor. Nisu isto putanja i puni URL."
             },
             {
-              "pitalica": "4.2. [OBAVEZNO] Server izvrši kod bez izuzetka, ali uređaj nije pronađen. Da li je ispravno vratiti 200 sa tekstom Greška?",
+              "pitalica": "4.2. Server izvrši kod bez izuzetka, ali uređaj nije pronađen. Da li je ispravno vratiti 200 sa tekstom Greška?",
               "odgovor": "Ne. HTTP status treba da iskaže ishod zahteva. Tipično 404, uz jasno telo odgovora. Status nije samo to da li se program srušio."
             },
             {
-              "pitalica": "4.3. [REZERVA] Da li server mora da vrati HTML?",
+              "pitalica": "4.3. Da li server mora da vrati HTML?",
               "odgovor": "Ne. Može vratiti JSON, tekst, sliku, datoteku ili odgovor bez tela. Zaglavlje Content-Type opisuje medijski tip tela."
             }
           ],
@@ -10261,35 +10261,35 @@
               "id": "k605q1",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "5.1. [OBAVEZNO] Da li su GET /uredjaji i POST /uredjaji ista ruta za našu aplikaciju?",
+              "tekst": "5.1. Da li su GET /uredjaji i POST /uredjaji ista ruta za našu aplikaciju?",
               "odgovor": "Ista putanja, ali različite kombinacije metode i putanje; obično različiti handleri."
             },
             {
               "id": "k605q2",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "5.2. [OBAVEZNO] Šta nije u redu ako, nakon uspešnog res.end, program nastavi i pozove res.end za 404?",
+              "tekst": "5.2. Šta nije u redu ako, nakon uspešnog res.end, program nastavi i pozove res.end za 404?",
               "odgovor": "Pokušava da pošalje odgovor pošto je već završen. Handler treba da prekine dalju obradu (return) ili da koristi odgovarajuću granajuću strukturu."
             },
             {
               "id": "k605q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "5.3. [REZERVA] Ako postavimo Content-Type: application/json, možemo li res.end pozvati sa objektom?",
+              "tekst": "5.3. Ako postavimo Content-Type: application/json, možemo li res.end pozvati sa objektom?",
               "odgovor": "Ne. Zaglavlje ne serijalizuje objekat; u standardnom Node HTTP kodu treba pripremiti JSON tekst, na primer JSON.stringify."
             }
           ],
           "pitalice": [
             {
-              "pitalica": "5.1. [OBAVEZNO] Da li su GET /uredjaji i POST /uredjaji ista ruta za našu aplikaciju?",
+              "pitalica": "5.1. Da li su GET /uredjaji i POST /uredjaji ista ruta za našu aplikaciju?",
               "odgovor": "Ista putanja, ali različite kombinacije metode i putanje; obično različiti handleri."
             },
             {
-              "pitalica": "5.2. [OBAVEZNO] Šta nije u redu ako, nakon uspešnog res.end, program nastavi i pozove res.end za 404?",
+              "pitalica": "5.2. Šta nije u redu ako, nakon uspešnog res.end, program nastavi i pozove res.end za 404?",
               "odgovor": "Pokušava da pošalje odgovor pošto je već završen. Handler treba da prekine dalju obradu (return) ili da koristi odgovarajuću granajuću strukturu."
             },
             {
-              "pitalica": "5.3. [REZERVA] Ako postavimo Content-Type: application/json, možemo li res.end pozvati sa objektom?",
+              "pitalica": "5.3. Ako postavimo Content-Type: application/json, možemo li res.end pozvati sa objektom?",
               "odgovor": "Ne. Zaglavlje ne serijalizuje objekat; u standardnom Node HTTP kodu treba pripremiti JSON tekst, na primer JSON.stringify."
             }
           ],
@@ -10331,35 +10331,35 @@
               "id": "k606q1",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "6.1. [OBAVEZNO] Kako biste bez frameworka podržali /uredjaji/1, /uredjaji/2 i proizvoljan numerički ID?",
+              "tekst": "6.1. Kako biste bez frameworka podržali /uredjaji/1, /uredjaji/2 i proizvoljan numerički ID?",
               "odgovor": "Prepoznati obrazac putanje, izdvojiti ID, proveriti njegov oblik, pa potražiti resurs. Jedno if pravilo po uređaju nije rešenje."
             },
             {
               "id": "k606q2",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "6.2. [OBAVEZNO] Kada aplikacija dobije 50 ruta, koje greške očekujete od velikog lanca if/else grana?",
+              "tekst": "6.2. Kada aplikacija dobije 50 ruta, koje greške očekujete od velikog lanca if/else grana?",
               "odgovor": "Dupliranje, loša preglednost, pogrešan redosled, teško testiranje, neujednačeni odgovori. Prepoznavanje rute treba razdvojiti od same obrade."
             },
             {
               "id": "k606q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "6.3. [REZERVA] Ako nema uređaja 10, da li je to problem sintakse putanje ili nepostojanje resursa?",
+              "tekst": "6.3. Ako nema uređaja 10, da li je to problem sintakse putanje ili nepostojanje resursa?",
               "odgovor": "Putanja sa numeričkim ID-om je ispravna, ali resurs ne postoji: 404. Neispravan oblik ID-a u ovom API-ju obrađujemo kao 400."
             }
           ],
           "pitalice": [
             {
-              "pitalica": "6.1. [OBAVEZNO] Kako biste bez frameworka podržali /uredjaji/1, /uredjaji/2 i proizvoljan numerički ID?",
+              "pitalica": "6.1. Kako biste bez frameworka podržali /uredjaji/1, /uredjaji/2 i proizvoljan numerički ID?",
               "odgovor": "Prepoznati obrazac putanje, izdvojiti ID, proveriti njegov oblik, pa potražiti resurs. Jedno if pravilo po uređaju nije rešenje."
             },
             {
-              "pitalica": "6.2. [OBAVEZNO] Kada aplikacija dobije 50 ruta, koje greške očekujete od velikog lanca if/else grana?",
+              "pitalica": "6.2. Kada aplikacija dobije 50 ruta, koje greške očekujete od velikog lanca if/else grana?",
               "odgovor": "Dupliranje, loša preglednost, pogrešan redosled, teško testiranje, neujednačeni odgovori. Prepoznavanje rute treba razdvojiti od same obrade."
             },
             {
-              "pitalica": "6.3. [REZERVA] Ako nema uređaja 10, da li je to problem sintakse putanje ili nepostojanje resursa?",
+              "pitalica": "6.3. Ako nema uređaja 10, da li je to problem sintakse putanje ili nepostojanje resursa?",
               "odgovor": "Putanja sa numeričkim ID-om je ispravna, ali resurs ne postoji: 404. Neispravan oblik ID-a u ovom API-ju obrađujemo kao 400."
             }
           ],
@@ -10401,35 +10401,35 @@
               "id": "k607q1",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "7.1. [OBAVEZNO] Gde biste poslali podatke za kreiranje uređaja: u putanji, query stringu ili telu POST zahteva? Zašto?",
+              "tekst": "7.1. Gde biste poslali podatke za kreiranje uređaja: u putanji, query stringu ili telu POST zahteva? Zašto?",
               "odgovor": "Tipično u telu. Putanja identifikuje kolekciju, a telo opisuje podatke koje šaljemo. Uloga različitih delova zahteva je različita."
             },
             {
               "id": "k607q2",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "7.2. [OBAVEZNO] Ako server uspešno parsira objekat u kome je naziv broj, znači li to da zahtev zadovoljava pravila aplikacije?",
+              "tekst": "7.2. Ako server uspešno parsira objekat u kome je naziv broj, znači li to da zahtev zadovoljava pravila aplikacije?",
               "odgovor": "Ne. To je ispravan JSON, ali poslovno možda nevažeći, jer naziv treba da bude neprazan string. Razlikovati parsiranje od validacije."
             },
             {
               "id": "k607q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "7.3. [REZERVA] Zašto je čitanje tela u ugrađenom HTTP serveru složenije od čitanja req.body u Express-u?",
+              "tekst": "7.3. Zašto je čitanje tela u ugrađenom HTTP serveru složenije od čitanja req.body u Express-u?",
               "odgovor": "U osnovnom Node API-ju telo je tok bajtova; treba ga sakupiti, parsirati, ograničiti veličinu i obraditi greške. Express pruža gotov middleware za JSON format."
             }
           ],
           "pitalice": [
             {
-              "pitalica": "7.1. [OBAVEZNO] Gde biste poslali podatke za kreiranje uređaja: u putanji, query stringu ili telu POST zahteva? Zašto?",
+              "pitalica": "7.1. Gde biste poslali podatke za kreiranje uređaja: u putanji, query stringu ili telu POST zahteva? Zašto?",
               "odgovor": "Tipično u telu. Putanja identifikuje kolekciju, a telo opisuje podatke koje šaljemo. Uloga različitih delova zahteva je različita."
             },
             {
-              "pitalica": "7.2. [OBAVEZNO] Ako server uspešno parsira objekat u kome je naziv broj, znači li to da zahtev zadovoljava pravila aplikacije?",
+              "pitalica": "7.2. Ako server uspešno parsira objekat u kome je naziv broj, znači li to da zahtev zadovoljava pravila aplikacije?",
               "odgovor": "Ne. To je ispravan JSON, ali poslovno možda nevažeći, jer naziv treba da bude neprazan string. Razlikovati parsiranje od validacije."
             },
             {
-              "pitalica": "7.3. [REZERVA] Zašto je čitanje tela u ugrađenom HTTP serveru složenije od čitanja req.body u Express-u?",
+              "pitalica": "7.3. Zašto je čitanje tela u ugrađenom HTTP serveru složenije od čitanja req.body u Express-u?",
               "odgovor": "U osnovnom Node API-ju telo je tok bajtova; treba ga sakupiti, parsirati, ograničiti veličinu i obraditi greške. Express pruža gotov middleware za JSON format."
             }
           ],
@@ -10471,35 +10471,35 @@
               "id": "k608q1",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "8.1. [OBAVEZNO] Osmislite interfejs koji bi zamenio ručni if za svaku metodu i putanju. Kako bi izgledala registracija handlera?",
+              "tekst": "8.1. Osmislite interfejs koji bi zamenio ručni if za svaku metodu i putanju. Kako bi izgledala registracija handlera?",
               "odgovor": "Nešto poput get('/uredjaji/:id', pronadji) ili register('GET', obrazac, funkcija). Nije bitno pogoditi Express sintaksu; važno je identifikovati odgovornosti rutera."
             },
             {
               "id": "k608q2",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "8.2. [OBAVEZNO] Trideset ruta mora da zabeleži metodu i URL. Da li biste kopirali console.log trideset puta ili ga izdvojili? Kako se izvršavanje vraća ruti?",
+              "tekst": "8.2. Trideset ruta mora da zabeleži metodu i URL. Da li biste kopirali console.log trideset puta ili ga izdvojili? Kako se izvršavanje vraća ruti?",
               "odgovor": "Izdvojiti zajednički korak u lancu obrade. Nakon logovanja proslediti kontrolu sledećem koraku. To je motivacija za middleware."
             },
             {
               "id": "k608q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "8.3. [REZERVA] Koja je cena sopstvenog rutera, čak i kada početna implementacija izgleda jednostavno?",
+              "tekst": "8.3. Koja je cena sopstvenog rutera, čak i kada početna implementacija izgleda jednostavno?",
               "odgovor": "Moramo sami da rešavamo parametre, konflikt ruta, greške, parser, kompatibilnost i testiranje. Biblioteka umanjuje taj infrastrukturni trošak, ali uvodi zavisnost i apstrakciju."
             }
           ],
           "pitalice": [
             {
-              "pitalica": "8.1. [OBAVEZNO] Osmislite interfejs koji bi zamenio ručni if za svaku metodu i putanju. Kako bi izgledala registracija handlera?",
+              "pitalica": "8.1. Osmislite interfejs koji bi zamenio ručni if za svaku metodu i putanju. Kako bi izgledala registracija handlera?",
               "odgovor": "Nešto poput get('/uredjaji/:id', pronadji) ili register('GET', obrazac, funkcija). Nije bitno pogoditi Express sintaksu; važno je identifikovati odgovornosti rutera."
             },
             {
-              "pitalica": "8.2. [OBAVEZNO] Trideset ruta mora da zabeleži metodu i URL. Da li biste kopirali console.log trideset puta ili ga izdvojili? Kako se izvršavanje vraća ruti?",
+              "pitalica": "8.2. Trideset ruta mora da zabeleži metodu i URL. Da li biste kopirali console.log trideset puta ili ga izdvojili? Kako se izvršavanje vraća ruti?",
               "odgovor": "Izdvojiti zajednički korak u lancu obrade. Nakon logovanja proslediti kontrolu sledećem koraku. To je motivacija za middleware."
             },
             {
-              "pitalica": "8.3. [REZERVA] Koja je cena sopstvenog rutera, čak i kada početna implementacija izgleda jednostavno?",
+              "pitalica": "8.3. Koja je cena sopstvenog rutera, čak i kada početna implementacija izgleda jednostavno?",
               "odgovor": "Moramo sami da rešavamo parametre, konflikt ruta, greške, parser, kompatibilnost i testiranje. Biblioteka umanjuje taj infrastrukturni trošak, ali uvodi zavisnost i apstrakciju."
             }
           ],
@@ -10548,35 +10548,35 @@
               "id": "k609q1",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "9.1. [OBAVEZNO] Šta Express zapravo dodaje: novi mrežni protokol, novu JS mašinu ili organizaciju HTTP obrade?",
+              "tekst": "9.1. Šta Express zapravo dodaje: novi mrežni protokol, novu JS mašinu ili organizaciju HTTP obrade?",
               "odgovor": "Organizaciju HTTP obrade kroz rute, middleware i pomoćne metode. Ispod ostaju Node.js i HTTP."
             },
             {
               "id": "k609q2",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "9.2. [OBAVEZNO] Šta ispisuje typeof req.params.id za GET /uredjaji/7 u Express ruti /uredjaji/:id?",
+              "tekst": "9.2. Šta ispisuje typeof req.params.id za GET /uredjaji/7 u Express ruti /uredjaji/:id?",
               "odgovor": "'string'. Parametri putanje su tekst; konverzija i validacija su posao aplikacije."
             },
             {
               "id": "k609q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "9.3. [REZERVA] Ako Express olakšava kod, da li više ne moramo da razumemo HTTP?",
+              "tekst": "9.3. Ako Express olakšava kod, da li više ne moramo da razumemo HTTP?",
               "odgovor": "Moramo. Express ne odlučuje koji status i koje podatke je smisleno vratiti, niti šta metoda semantički znači."
             }
           ],
           "pitalice": [
             {
-              "pitalica": "9.1. [OBAVEZNO] Šta Express zapravo dodaje: novi mrežni protokol, novu JS mašinu ili organizaciju HTTP obrade?",
+              "pitalica": "9.1. Šta Express zapravo dodaje: novi mrežni protokol, novu JS mašinu ili organizaciju HTTP obrade?",
               "odgovor": "Organizaciju HTTP obrade kroz rute, middleware i pomoćne metode. Ispod ostaju Node.js i HTTP."
             },
             {
-              "pitalica": "9.2. [OBAVEZNO] Šta ispisuje typeof req.params.id za GET /uredjaji/7 u Express ruti /uredjaji/:id?",
+              "pitalica": "9.2. Šta ispisuje typeof req.params.id za GET /uredjaji/7 u Express ruti /uredjaji/:id?",
               "odgovor": "'string'. Parametri putanje su tekst; konverzija i validacija su posao aplikacije."
             },
             {
-              "pitalica": "9.3. [REZERVA] Ako Express olakšava kod, da li više ne moramo da razumemo HTTP?",
+              "pitalica": "9.3. Ako Express olakšava kod, da li više ne moramo da razumemo HTTP?",
               "odgovor": "Moramo. Express ne odlučuje koji status i koje podatke je smisleno vratiti, niti šta metoda semantički znači."
             }
           ],
@@ -10618,35 +10618,35 @@
               "id": "k610q1",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "10.1. [OBAVEZNO] Šta se dešava ako middleware niti pošalje odgovor niti pozove next()?",
+              "tekst": "10.1. Šta se dešava ako middleware niti pošalje odgovor niti pozove next()?",
               "odgovor": "Lanac obrade se zaustavlja; klijent može ostati bez završenog odgovora."
             },
             {
               "id": "k610q2",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "10.2. [OBAVEZNO] Zašto app.use(express.json()) obično stavljamo pre POST ruta koje koriste req.body?",
+              "tekst": "10.2. Zašto app.use(express.json()) obično stavljamo pre POST ruta koje koriste req.body?",
               "odgovor": "Middleware se izvršava redom. Parser mora da se izvrši pre handlera koji očekuje parsirano telo."
             },
             {
               "id": "k610q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "10.3. [REZERVA] Da li middleware mora da se primenjuje na sve rute?",
+              "tekst": "10.3. Da li middleware mora da se primenjuje na sve rute?",
               "odgovor": "Ne. Može biti globalan, vezan za prefiks putanje ili određen handler. To postaje važno kod autentifikacije."
             }
           ],
           "pitalice": [
             {
-              "pitalica": "10.1. [OBAVEZNO] Šta se dešava ako middleware niti pošalje odgovor niti pozove next()?",
+              "pitalica": "10.1. Šta se dešava ako middleware niti pošalje odgovor niti pozove next()?",
               "odgovor": "Lanac obrade se zaustavlja; klijent može ostati bez završenog odgovora."
             },
             {
-              "pitalica": "10.2. [OBAVEZNO] Zašto app.use(express.json()) obično stavljamo pre POST ruta koje koriste req.body?",
+              "pitalica": "10.2. Zašto app.use(express.json()) obično stavljamo pre POST ruta koje koriste req.body?",
               "odgovor": "Middleware se izvršava redom. Parser mora da se izvrši pre handlera koji očekuje parsirano telo."
             },
             {
-              "pitalica": "10.3. [REZERVA] Da li middleware mora da se primenjuje na sve rute?",
+              "pitalica": "10.3. Da li middleware mora da se primenjuje na sve rute?",
               "odgovor": "Ne. Može biti globalan, vezan za prefiks putanje ili određen handler. To postaje važno kod autentifikacije."
             }
           ],
@@ -10688,35 +10688,35 @@
               "id": "k611q1",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "11.1. [OBAVEZNO] Kako biste predstavili listanje, kreiranje i brisanje uređaja uz resursno orijentisan API?",
+              "tekst": "11.1. Kako biste predstavili listanje, kreiranje i brisanje uređaja uz resursno orijentisan API?",
               "odgovor": "GET /uredjaji, POST /uredjaji, DELETE /uredjaji/:id. Ne moramo praviti glagolske putanje poput /obrisiUredjaj."
             },
             {
               "id": "k611q2",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "11.2. [OBAVEZNO] Ako dvaput pošaljemo isti DELETE, da li idempotentnost zahteva da oba puta dobijemo 204?",
+              "tekst": "11.2. Ako dvaput pošaljemo isti DELETE, da li idempotentnost zahteva da oba puta dobijemo 204?",
               "odgovor": "Ne. Idempotentnost se odnosi na nameravani efekat na stanje resursa. Posle prvog brisanja drugi zahtev može vratiti 404, a stanje je i dalje isto kao posle jednog brisanja."
             },
             {
               "id": "k611q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "11.3. [REZERVA] Da li REST i CRUD znače isto?",
+              "tekst": "11.3. Da li REST i CRUD znače isto?",
               "odgovor": "Ne. CRUD su tipične operacije nad podacima, a REST je arhitektonski stil sa širim ograničenjima, uključujući uniformni interfejs i odsustvo serverskog stanja sesije između zahteva."
             }
           ],
           "pitalice": [
             {
-              "pitalica": "11.1. [OBAVEZNO] Kako biste predstavili listanje, kreiranje i brisanje uređaja uz resursno orijentisan API?",
+              "pitalica": "11.1. Kako biste predstavili listanje, kreiranje i brisanje uređaja uz resursno orijentisan API?",
               "odgovor": "GET /uredjaji, POST /uredjaji, DELETE /uredjaji/:id. Ne moramo praviti glagolske putanje poput /obrisiUredjaj."
             },
             {
-              "pitalica": "11.2. [OBAVEZNO] Ako dvaput pošaljemo isti DELETE, da li idempotentnost zahteva da oba puta dobijemo 204?",
+              "pitalica": "11.2. Ako dvaput pošaljemo isti DELETE, da li idempotentnost zahteva da oba puta dobijemo 204?",
               "odgovor": "Ne. Idempotentnost se odnosi na nameravani efekat na stanje resursa. Posle prvog brisanja drugi zahtev može vratiti 404, a stanje je i dalje isto kao posle jednog brisanja."
             },
             {
-              "pitalica": "11.3. [REZERVA] Da li REST i CRUD znače isto?",
+              "pitalica": "11.3. Da li REST i CRUD znače isto?",
               "odgovor": "Ne. CRUD su tipične operacije nad podacima, a REST je arhitektonski stil sa širim ograničenjima, uključujući uniformni interfejs i odsustvo serverskog stanja sesije između zahteva."
             }
           ],
@@ -10758,35 +10758,35 @@
               "id": "k612q1",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "12.1. [OBAVEZNO] Uporedite GET /uredjaji/abc i GET /uredjaji/999 ako API dopušta samo pozitivne numeričke ID-jeve, a 999 ne postoji.",
+              "tekst": "12.1. Uporedite GET /uredjaji/abc i GET /uredjaji/999 ako API dopušta samo pozitivne numeričke ID-jeve, a 999 ne postoji.",
               "odgovor": "U dogovoru ovog API-ja: prvi je 400 (nedozvoljen oblik), drugi 404 (važeći oblik, resurs ne postoji). Status za loš obrazac može se drugačije modelovati, ali mora biti dosledan."
             },
             {
               "id": "k612q2",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "12.2. [OBAVEZNO] Ako klijent pošalje ?aktivan=false, zašto if (req.query.aktivan) može dati pogrešan rezultat?",
+              "tekst": "12.2. Ako klijent pošalje ?aktivan=false, zašto if (req.query.aktivan) može dati pogrešan rezultat?",
               "odgovor": "Tekst 'false' je truthy; treba eksplicitno parsirati dozvoljene vrednosti."
             },
             {
               "id": "k612q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "12.3. [REZERVA] Šta je odgovarajuće za uspešno kreiranje, a šta za uspešno brisanje bez povratnog tela?",
+              "tekst": "12.3. Šta je odgovarajuće za uspešno kreiranje, a šta za uspešno brisanje bez povratnog tela?",
               "odgovor": "201 za kreiranje i 204 za brisanje bez tela. Ne slati JSON telo uz 204."
             }
           ],
           "pitalice": [
             {
-              "pitalica": "12.1. [OBAVEZNO] Uporedite GET /uredjaji/abc i GET /uredjaji/999 ako API dopušta samo pozitivne numeričke ID-jeve, a 999 ne postoji.",
+              "pitalica": "12.1. Uporedite GET /uredjaji/abc i GET /uredjaji/999 ako API dopušta samo pozitivne numeričke ID-jeve, a 999 ne postoji.",
               "odgovor": "U dogovoru ovog API-ja: prvi je 400 (nedozvoljen oblik), drugi 404 (važeći oblik, resurs ne postoji). Status za loš obrazac može se drugačije modelovati, ali mora biti dosledan."
             },
             {
-              "pitalica": "12.2. [OBAVEZNO] Ako klijent pošalje ?aktivan=false, zašto if (req.query.aktivan) može dati pogrešan rezultat?",
+              "pitalica": "12.2. Ako klijent pošalje ?aktivan=false, zašto if (req.query.aktivan) može dati pogrešan rezultat?",
               "odgovor": "Tekst 'false' je truthy; treba eksplicitno parsirati dozvoljene vrednosti."
             },
             {
-              "pitalica": "12.3. [REZERVA] Šta je odgovarajuće za uspešno kreiranje, a šta za uspešno brisanje bez povratnog tela?",
+              "pitalica": "12.3. Šta je odgovarajuće za uspešno kreiranje, a šta za uspešno brisanje bez povratnog tela?",
               "odgovor": "201 za kreiranje i 204 za brisanje bez tela. Ne slati JSON telo uz 204."
             }
           ],
@@ -10835,35 +10835,35 @@
               "id": "k613q1",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "13.1. [OBAVEZNO] Ako kontroler istovremeno parsira HTTP zahtev, proverava pravila i menja bazu, šta će biti teško promeniti ili testirati?",
+              "tekst": "13.1. Ako kontroler istovremeno parsira HTTP zahtev, proverava pravila i menja bazu, šta će biti teško promeniti ili testirati?",
               "odgovor": "Mešaju se odgovornosti. Ruter identifikuje rutu, kontroler radi sa HTTP-om, servis sprovodi pravila, sloj podataka čuva podatke. U ovoj temi servis još koristi memoriju."
             },
             {
               "id": "k613q2",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "13.2. [OBAVEZNO] Kako razlikovati loš korisnički zahtev od neočekivane greške servera i zašto greške skupljati na jednom mestu?",
+              "tekst": "13.2. Kako razlikovati loš korisnički zahtev od neočekivane greške servera i zašto greške skupljati na jednom mestu?",
               "odgovor": "Korisničku grešku tipično označiti 4xx, nepredviđenu grešku 5xx. Centralizovana obrada izjednačava format odgovora, logovanje i sprečava otkrivanje internih detalja."
             },
             {
               "id": "k613q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "13.3. [REZERVA] U Express-u 5 async handler odbaci Promise. Moramo li u svakoj ruti ručno pozvati next(err)?",
+              "tekst": "13.3. U Express-u 5 async handler odbaci Promise. Moramo li u svakoj ruti ručno pozvati next(err)?",
               "odgovor": "Ne kada handler vraća taj Promise: Express 5 ga automatski prosleđuje obradi grešaka. Nepovezani pozadinski asinhroni poslovi nisu time automatski obuhvaćeni."
             }
           ],
           "pitalice": [
             {
-              "pitalica": "13.1. [OBAVEZNO] Ako kontroler istovremeno parsira HTTP zahtev, proverava pravila i menja bazu, šta će biti teško promeniti ili testirati?",
+              "pitalica": "13.1. Ako kontroler istovremeno parsira HTTP zahtev, proverava pravila i menja bazu, šta će biti teško promeniti ili testirati?",
               "odgovor": "Mešaju se odgovornosti. Ruter identifikuje rutu, kontroler radi sa HTTP-om, servis sprovodi pravila, sloj podataka čuva podatke. U ovoj temi servis još koristi memoriju."
             },
             {
-              "pitalica": "13.2. [OBAVEZNO] Kako razlikovati loš korisnički zahtev od neočekivane greške servera i zašto greške skupljati na jednom mestu?",
+              "pitalica": "13.2. Kako razlikovati loš korisnički zahtev od neočekivane greške servera i zašto greške skupljati na jednom mestu?",
               "odgovor": "Korisničku grešku tipično označiti 4xx, nepredviđenu grešku 5xx. Centralizovana obrada izjednačava format odgovora, logovanje i sprečava otkrivanje internih detalja."
             },
             {
-              "pitalica": "13.3. [REZERVA] U Express-u 5 async handler odbaci Promise. Moramo li u svakoj ruti ručno pozvati next(err)?",
+              "pitalica": "13.3. U Express-u 5 async handler odbaci Promise. Moramo li u svakoj ruti ručno pozvati next(err)?",
               "odgovor": "Ne kada handler vraća taj Promise: Express 5 ga automatski prosleđuje obradi grešaka. Nepovezani pozadinski asinhroni poslovi nisu time automatski obuhvaćeni."
             }
           ],
@@ -10905,35 +10905,35 @@
               "id": "k614q1",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "14.1. [OBAVEZNO] Nacrtajte ceo put zahteva POST /uredjaji i označite gde su Node.js, HTTP, Express, middleware i handler.",
+              "tekst": "14.1. Nacrtajte ceo put zahteva POST /uredjaji i označite gde su Node.js, HTTP, Express, middleware i handler.",
               "odgovor": "Klijent šalje HTTP zahtev, Node HTTP server ga prima, Express prolazi kroz middleware (na primer JSON parser), ruter bira handler, handler validira i poziva logiku, server šalje HTTP odgovor. Express radi unutar Node procesa."
             },
             {
               "id": "k614q2",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "14.2. [OBAVEZNO] API radi, ali posle restarta nema novog uređaja. Da li je greška u Express-u, HTTP-u ili modelu čuvanja podataka?",
+              "tekst": "14.2. API radi, ali posle restarta nema novog uređaja. Da li je greška u Express-u, HTTP-u ili modelu čuvanja podataka?",
               "odgovor": "U očekivanom ograničenju čuvanja u memoriji. To je motivacija za povezivanje sa bazom u sledećim temama."
             },
             {
               "id": "k614q3",
               "vrsta": "pitanje",
               "oblik": "tekst",
-              "tekst": "14.3. [REZERVA] Kada biste namerno odabrali samo node:http, bez Express-a?",
+              "tekst": "14.3. Kada biste namerno odabrali samo node:http, bez Express-a?",
               "odgovor": "Za vežbu osnovnih principa, mali specijalizovani servis ili tamo gde je kontrola nad slojem obrade važnija od praktičnosti frameworka. Izbor zavisi od problema."
             }
           ],
           "pitalice": [
             {
-              "pitalica": "14.1. [OBAVEZNO] Nacrtajte ceo put zahteva POST /uredjaji i označite gde su Node.js, HTTP, Express, middleware i handler.",
+              "pitalica": "14.1. Nacrtajte ceo put zahteva POST /uredjaji i označite gde su Node.js, HTTP, Express, middleware i handler.",
               "odgovor": "Klijent šalje HTTP zahtev, Node HTTP server ga prima, Express prolazi kroz middleware (na primer JSON parser), ruter bira handler, handler validira i poziva logiku, server šalje HTTP odgovor. Express radi unutar Node procesa."
             },
             {
-              "pitalica": "14.2. [OBAVEZNO] API radi, ali posle restarta nema novog uređaja. Da li je greška u Express-u, HTTP-u ili modelu čuvanja podataka?",
+              "pitalica": "14.2. API radi, ali posle restarta nema novog uređaja. Da li je greška u Express-u, HTTP-u ili modelu čuvanja podataka?",
               "odgovor": "U očekivanom ograničenju čuvanja u memoriji. To je motivacija za povezivanje sa bazom u sledećim temama."
             },
             {
-              "pitalica": "14.3. [REZERVA] Kada biste namerno odabrali samo node:http, bez Express-a?",
+              "pitalica": "14.3. Kada biste namerno odabrali samo node:http, bez Express-a?",
               "odgovor": "Za vežbu osnovnih principa, mali specijalizovani servis ili tamo gde je kontrola nad slojem obrade važnija od praktičnosti frameworka. Izbor zavisi od problema."
             }
           ],

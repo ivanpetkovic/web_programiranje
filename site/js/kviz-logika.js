@@ -15,8 +15,14 @@ const PREPRAVKE = {
   "postojece-2-12-0": "U dev alatima se izvrši element.textContent = \"10\", a fajl i dalje kaže 24. Šta je time promenjeno?",
 };
 
+const OZNAKA_ULOGE = /\s*\[(?:OBAVEZNO|REZERVA)\]/gi;
+
 export function bezBelih(kod) {
   return String(kod ?? "").replace(/\s+/g, "");
+}
+
+export function bezOznake(tekst) {
+  return String(tekst ?? "").replace(OZNAKA_ULOGE, "").replace(/[ \t]{2,}/g, " ").trim();
 }
 
 export function mozeOcena(pitanje) {
@@ -48,7 +54,7 @@ function dijagramKoraka(korak) {
 export function izPostojeceg(tema, korak, indeks, pitanje, okvir = {}) {
   const opcije = (pitanje?.opcije || []).filter((opcija) => imaTekst(opcija?.text));
   const id = `postojece-${tema}-${korak}-${indeks}`;
-  const tekst = PREPRAVKE[id] || String(pitanje?.pitalica || "").trim();
+  const tekst = bezOznake(PREPRAVKE[id] || pitanje?.pitalica || "");
   if (!tekst && opcije.length === 0) return null;
   const osnova = {
     id,
