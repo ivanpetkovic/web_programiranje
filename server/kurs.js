@@ -5,11 +5,11 @@ const { proveriSemu } = require("../site/js/sema.js");
 const sema = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "site", "kurs.json.schema"), "utf8"));
 
 function skiniMinuteBlokova(kurs) {
-  for (const tema of kurs?.teme || []) {
+  for (const tema of kurs?.topics || []) {
     for (const korak of tema?.steps || []) {
-      for (const polje of ["blokovi", "diskusija"]) {
+      for (const polje of ["blocks", "discussion"]) {
         for (const blok of korak?.[polje] || []) {
-          if (blok && typeof blok === "object") delete blok.minuta;
+          if (blok && typeof blok === "object") delete blok.minutes;
         }
       }
     }
@@ -18,9 +18,9 @@ function skiniMinuteBlokova(kurs) {
 
 function greskeDokumenta(kurs) {
   const greske = [...proveriSemu(sema, kurs).greske];
-  const teme = kurs?.teme;
-  if (!Array.isArray(teme) || kurs?.trajanjeTema !== teme.length) {
-    greske.push("trajanjeTema se ne slaže sa brojem tema.");
+  const teme = kurs?.topics;
+  if (!Array.isArray(teme) || kurs?.themeCount !== teme.length) {
+    greske.push("themeCount se ne slaže sa brojem tema.");
   }
   return greske;
 }

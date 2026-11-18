@@ -27,20 +27,27 @@ function izmesaj(p, indeks) {
 
 let indeks = 0;
 const vidjeno = new Set();
-for (const [ti, tema] of kurs.teme.entries()) {
+for (const [ti, tema] of kurs.topics.entries()) {
   for (const korak of tema.steps) {
-    const kljuc = `${ti + 1}:${korak.naslov}`;
+    const kljuc = `${ti + 1}:${korak.title}`;
     vidjeno.add(kljuc);
     const extra = druge[kljuc];
     if (!extra?.length) throw new Error(`nema druge pitalice: ${kljuc}`);
-    if (!korak.pitalica || !Array.isArray(korak.opcije)) throw new Error(`nema prvu: ${kljuc}`);
-    korak.pitalice = [
+    if (!korak.prompt || !Array.isArray(korak.options)) throw new Error(`nema prvu: ${kljuc}`);
+    korak.prompts = [
       {
-        pitalica: korak.pitalica,
-        opcije: korak.opcije,
-        analizaPitalice: korak.analizaPitalice || "",
+        prompt: korak.prompt,
+        options: korak.options,
+        promptAnalysis: korak.promptAnalysis || "",
       },
-      ...extra.map((p) => izmesaj(p, indeks++)),
+      ...extra.map((p) => {
+        const stavka = izmesaj(p, indeks++);
+        return {
+          prompt: stavka.pitalica,
+          options: stavka.opcije,
+          promptAnalysis: stavka.analizaPitalice,
+        };
+      }),
     ];
   }
 }

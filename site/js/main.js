@@ -1,4 +1,5 @@
 import { napraviPogled, postaviPogled } from "./cm-editor.js";
+import { izEngleskog } from "./kljucevi-kursa.js";
 import { dokument, lectures, osveziLekcije, putanjaAseta, sirovaTema, siroviKorak } from "./lectures.js";
 import {
   jeRezimUredjivanja,
@@ -4728,7 +4729,7 @@ async function pripremiUredjivanje() {
   try {
     const odgovor = await fetch(`/kurs.json?sveze=${Date.now()}`, { cache: "no-store" });
     if (!odgovor.ok) return;
-    const sveze = await odgovor.json();
+    const sveze = izEngleskog(await odgovor.json());
     for (const kljuc of Object.keys(dokument)) {
       if (!(kljuc in sveze)) delete dokument[kljuc];
     }

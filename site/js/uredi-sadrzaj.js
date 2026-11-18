@@ -1,3 +1,4 @@
+import { uEngleski } from "./kljucevi-kursa.js";
 import { dodajOpciju, oznaciOdgovor, ukloniOpciju } from "./studio.js";
 import { ikonica } from "./ikonice.js";
 
@@ -612,7 +613,7 @@ export async function sacuvajKursNaServeru(dokument) {
     method: "PUT",
     url: "/api/kurs",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify(dokument),
+    body: JSON.stringify(uEngleski(dokument)),
   };
   let odgovor;
   try {

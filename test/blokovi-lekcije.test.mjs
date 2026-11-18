@@ -21,6 +21,7 @@ import {
   uskladiNasledjenaPolja,
 } from "../site/js/blokovi-lekcije.js";
 import { listaPitalica } from "../site/js/lectures.js";
+import { uEngleski } from "../site/js/kljucevi-kursa.js";
 import { proveriSemu } from "../site/js/sema.js";
 import { prazanKurs, praznaTema } from "../site/js/studio.js";
 
@@ -156,7 +157,7 @@ test("doprinos fajla je sekcija koda i prati delic", () => {
   tema.steps[0].blokovi = [{ id: "fajl", vrsta: "kod", naslov: "a.js", jezik: "javascript", veza: "fajl", tekst: "1" }];
   dokument.teme = [tema];
   dokument.trajanjeTema = 1;
-  assert.deepEqual(proveriSemu(sema, dokument).greske, []);
+  assert.deepEqual(proveriSemu(sema, uEngleski(dokument)).greske, []);
 });
 
 test("meni ima jedan blok koda, bez tamne i svetle verzije", () => {
@@ -227,7 +228,7 @@ test("crtež koraka je dijagram blok u gradivu", () => {
   tema.steps[0].figura = { vrsta: "put", cvorovi: [{ id: "a", natpis: "A" }] };
   dokument.teme = [tema];
   dokument.trajanjeTema = 1;
-  assert.deepEqual(proveriSemu(sema, dokument).greske, []);
+  assert.deepEqual(proveriSemu(sema, uEngleski(dokument)).greske, []);
 });
 
 test("šema prima niz sekcija lekcije", () => {
@@ -243,7 +244,7 @@ test("šema prima niz sekcija lekcije", () => {
   ];
   dokument.teme = [tema];
   dokument.trajanjeTema = 1;
-  assert.deepEqual(proveriSemu(sema, dokument).greske, []);
+  assert.deepEqual(proveriSemu(sema, uEngleski(dokument)).greske, []);
 });
 
 test("diskusija se sklapa iz priče i oba oblika pitanja", () => {
@@ -302,5 +303,5 @@ test("diskusija se sklapa iz priče i oba oblika pitanja", () => {
   tema.steps[0] = korak;
   dokument.teme = [tema];
   dokument.trajanjeTema = 1;
-  assert.deepEqual(proveriSemu(sema, dokument).greske, []);
+  assert.deepEqual(proveriSemu(sema, uEngleski(dokument)).greske, []);
 });

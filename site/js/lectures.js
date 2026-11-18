@@ -1,4 +1,5 @@
-import kurs from "../../kursevi/web_programiranje/kurs.json" with { type: "json" };
+import kursIzDatoteke from "../../kursevi/web_programiranje/kurs.json" with { type: "json" };
+import { izEngleskog } from "./kljucevi-kursa.js";
 
 const KOREN_KURSA = new URL("../../kursevi/web_programiranje/", import.meta.url);
 
@@ -8,7 +9,7 @@ export function putanjaAseta(put) {
   return new URL(put, KOREN_KURSA).href;
 }
 
-export const dokument = kurs;
+export const dokument = izEngleskog(kursIzDatoteke);
 
 export function listaPitalica(korak) {
   if (Array.isArray(korak?.diskusija)) {

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import test from "node:test";
+import { izEngleskog } from "../site/js/kljucevi-kursa.js";
 import { cekajHttp, koren, otvoriStranu, pauza, pokreni, slobodanPort, ugasi } from "./chrome.mjs";
 
 function stanjeEditora() {
@@ -71,7 +72,7 @@ test("drugi fajl posle koraka pokazuje svoj sadržaj", { timeout: 30000 }, async
       `localStorage.setItem("radnaVerzija", ${JSON.stringify(JSON.stringify({ "client/index.html": "client/\nserver/\n" }))})`,
     );
     await strana.idi(`http://127.0.0.1:${portSajta}/?skica=1#cas-2`);
-    const kurs = JSON.parse(readFileSync(path.join(koren, "kursevi/web_programiranje/kurs.json"), "utf8"));
+    const kurs = izEngleskog(JSON.parse(readFileSync(path.join(koren, "kursevi/web_programiranje/kurs.json"), "utf8")));
     const prva = kurs.teme[1].steps;
     const htmlKoraka = prva.find((korak) => korak.naslov === "Stranica").delic.trim();
     const cssKoraka = prva.find((korak) => korak.naslov === "Selektor").delic.trim();
@@ -185,7 +186,7 @@ test("fajl, korak, drugi fajl, pa novi korak", { timeout: 30000 }, async (t) => 
     await cekajHttp(`http://127.0.0.1:${portSajta}/`);
     strana = await otvoriStranu(portChrome);
     await strana.idi(`http://127.0.0.1:${portSajta}/#cas-3`);
-    const kurs = JSON.parse(readFileSync(path.join(koren, "kursevi/web_programiranje/kurs.json"), "utf8"));
+    const kurs = izEngleskog(JSON.parse(readFileSync(path.join(koren, "kursevi/web_programiranje/kurs.json"), "utf8")));
     const nizKorak = kurs.teme[2].steps.find((korak) => korak.naslov === "Nizovi i obrada kolekcija");
     const filter = "brojevi.map";
     assert.match(nizKorak.delic, /brojevi\.map/);
