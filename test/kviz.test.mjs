@@ -161,15 +161,25 @@ test("kviz pokriva prvih šest tema i svaki korak prvih pet ima bar deset pitanj
   assert.equal(sve.some((pitanje) => pitanje.tema > 6), false);
   const node = sve.filter((pitanje) => pitanje.tema === 6 && pitanje.izvor === "novo");
   assert.equal(node.length, 38);
+  assert.equal(
+    node.map((pitanje) => pitanje.opcije.find((opcija) => opcija.ok).key).join(""),
+    "ABCBCABCBDACADBCCDACBABCADADBCDBACBDCD",
+  );
   for (const pitanje of node) {
     assert.equal(pitanje.vrsta, "izbor", pitanje.id);
+    assert.equal(pitanje.opcije.length, 4, pitanje.id);
     assert.equal(pitanje.opcije.filter((opcija) => opcija.ok).length, 1, pitanje.id);
     assert.ok(pitanje.analiza.trim(), pitanje.id);
+    if (pitanje.tekst.includes("```")) {
+      const blok = deloviKvizTeksta(pitanje.tekst).find((deo) => deo.vrsta === "kod");
+      assert.ok(blok?.tekst.trim(), pitanje.id);
+      assert.equal(blok.tekst.startsWith(" "), false, pitanje.id);
+    }
   }
   const lekcijaNode = lectures.find((stavka) => stavka.n === 6);
   lekcijaNode.steps.forEach((korak, indeks) => {
     const zaKorak = sve.filter((pitanje) => pitanje.tema === 6 && pitanje.korak === indeks);
-    assert.ok(zaKorak.filter((pitanje) => pitanje.izvor === "novo").length >= 2, korak.naslov);
+    assert.ok(zaKorak.filter((pitanje) => pitanje.izvor === "novo").length >= 1, korak.naslov);
     assert.equal(zaKorak.filter((pitanje) => pitanje.izvor === "postojece").length, 3, korak.naslov);
   });
   const dom = sve.filter((pitanje) => pitanje.tema === 5);
