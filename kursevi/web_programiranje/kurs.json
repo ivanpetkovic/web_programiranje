@@ -9928,21 +9928,40 @@
           "level": "Osnovno",
           "minutes": 4,
           "exampleKind": "eksperiment",
-          "text": "**Problem:** JavaScript smo do sada pokretali u browseru. Šta ako želimo da isti jezik čita podatke na serveru, prima HTTP zahteve ili komunicira sa bazom?\n\n**JavaScript je programski jezik, a Node.js izvršno okruženje.** Browser obezbeđuje Web API-je, poput `document`, DOM-a i `window`. Node.js obezbeđuje druge API-je, na primer za mrežu (`node:http`) i rad sa fajlovima (`node:fs`). I browser i Node.js izvršavaju JavaScript, ali **ne nude iste mogućnosti**.\n\nServer je proces koji obrađuje zahteve klijenata. Ne mora da ima grafički interfejs i ne mora da generiše HTML. Često šalje JSON podatke koje kasnije može koristiti browser, mobilna aplikacija ili drugi server.\n\nU standardnom Node.js procesu `typeof document` ispisuje `'undefined'`. Node.js nije Web server sam po sebi: to je okruženje u kome možemo napisati program koji postaje Web server. Nije isto što i Express, biblioteka koja radi povrh Node.js-a.\n\nAko Node.js izvršava JavaScript, `document.querySelector('h1')` ipak ne mora da radi: `document` obično ne postoji van browsera.",
+          "text": "**Problem:** JavaScript smo do sada pokretali u browseru. Šta ako želimo da isti jezik čita podatke na serveru, prima HTTP zahteve ili komunicira sa bazom?\n\n**JavaScript je programski jezik, a Node.js izvršno okruženje.** Browser obezbeđuje Web API-je, poput `document`, DOM-a i `window`. Node.js obezbeđuje druge API-je, na primer za mrežu (`node:http`) i rad sa fajlovima (`node:fs`). I browser i Node.js izvršavaju JavaScript, ali **ne nude iste mogućnosti**.\n\nServer je proces koji obrađuje zahteve klijenata. Ne mora da ima grafički interfejs i ne mora da generiše HTML. Često šalje JSON podatke koje kasnije može koristiti browser, mobilna aplikacija ili drugi server.\n\n**Važno:** Node.js nije Web server sam po sebi. To je okruženje u kome možemo napisati program koji postaje Web server. Takođe nije isto što i Express, koji je biblioteka/framework koji radi povrh Node.js-a.",
           "keyIdea": "Isti jezik, različito okruženje: Node.js nema document i nije sam po sebi Web server.",
           "blocks": [
             {
               "id": "k601b1",
               "kind": "tekst",
-              "text": "**Problem:** JavaScript smo do sada pokretali u browseru. Šta ako želimo da isti jezik čita podatke na serveru, prima HTTP zahteve ili komunicira sa bazom?\n\n**JavaScript je programski jezik, a Node.js izvršno okruženje.** Browser obezbeđuje Web API-je, poput `document`, DOM-a i `window`. Node.js obezbeđuje druge API-je, na primer za mrežu (`node:http`) i rad sa fajlovima (`node:fs`). I browser i Node.js izvršavaju JavaScript, ali **ne nude iste mogućnosti**.\n\nServer je proces koji obrađuje zahteve klijenata. Ne mora da ima grafički interfejs i ne mora da generiše HTML. Često šalje JSON podatke koje kasnije može koristiti browser, mobilna aplikacija ili drugi server."
+              "text": "**Problem:** JavaScript smo do sada pokretali u browseru. Šta ako želimo da isti jezik čita podatke na serveru, prima HTTP zahteve ili komunicira sa bazom?"
             },
             {
               "id": "k601b2",
               "kind": "tekst",
-              "text": "U standardnom Node.js procesu `typeof document` ispisuje `'undefined'`. Node.js nije Web server sam po sebi: to je okruženje u kome možemo napisati program koji postaje Web server. Nije isto što i Express, biblioteka koja radi povrh Node.js-a.\n\nAko Node.js izvršava JavaScript, `document.querySelector('h1')` ipak ne mora da radi: `document` obično ne postoji van browsera."
+              "text": "**JavaScript je programski jezik, a Node.js izvršno okruženje.** Browser obezbeđuje Web API-je, poput `document`, DOM-a i `window`. Node.js obezbeđuje druge API-je, na primer za mrežu (`node:http`) i rad sa fajlovima (`node:fs`). I browser i Node.js izvršavaju JavaScript, ali **ne nude iste mogućnosti**.\n\nServer je proces koji obrađuje zahteve klijenata. Ne mora da ima grafički interfejs i ne mora da generiše HTML. Često šalje JSON podatke koje kasnije može koristiti browser, mobilna aplikacija ili drugi server."
             },
             {
               "id": "k601b3",
+              "kind": "kod",
+              "language": "javascript",
+              "text": "console.log('JavaScript radi i bez browsera');\nconsole.log(typeof document); // u standardnom Node.js procesu: 'undefined'",
+              "title": "Primer"
+            },
+            {
+              "id": "k601b4",
+              "kind": "tekst",
+              "text": "**Važno:** Node.js nije Web server sam po sebi. To je okruženje u kome možemo napisati program koji postaje Web server. Takođe nije isto što i Express, koji je biblioteka/framework koji radi povrh Node.js-a."
+            },
+            {
+              "id": "k601b5",
+              "kind": "highlight",
+              "role": "obicna",
+              "title": "Proveri razumevanje",
+              "text": "Ako Node.js izvršava JavaScript, da li kod `document.querySelector('h1')` mora da radi u Node.js-u? Ne: `document` obično ne postoji van browsera."
+            },
+            {
+              "id": "k601b6",
               "kind": "highlight",
               "role": "kljucna",
               "text": "Isti jezik, različito okruženje: Node.js nema document i nije sam po sebi Web server."
@@ -9998,42 +10017,47 @@
           "level": "Osnovno",
           "minutes": 5,
           "exampleKind": "eksperiment",
-          "text": "**Problem:** Kako organizovati kod kada program koristi više datoteka i biblioteke koje nismo sami napisali?\n\nNode.js može da pokrene datoteku naredbom `node ime-fajla.js`. **Moduli** omogućavaju razdvajanje koda i kontrolu toga šta je iz jedne datoteke dostupno drugim datotekama. U kursu koristimo standardne JavaScript **ES module** (`import` i `export`).\n\nDatoteka `package.json` sadrži metapodatke o projektu, skripte i deklarisane zavisnosti. **npm** je alat za rad sa paketima i zavisnostima; **Node.js** je okruženje koje izvršava aplikaciju. Ugrađeni moduli poput `node:http` ne zahtevaju instalaciju.\n\nPokretanje je `npm start`. U ovoj fazi program samo ispiše poruku i završava se. Naredni korak uvodi proces koji ostaje aktivan jer osluškuje HTTP zahteve.\n\n`npm install` ne pokreće server; instalira pakete. `npm start` pokreće skriptu koja je upisana u `package.json`.",
+          "text": "**Problem:** Kako organizovati kod kada program koristi više datoteka i biblioteke koje nismo sami napisali?\n\nNode.js može da pokrene datoteku naredbom `node ime-fajla.js`. **Moduli** omogućavaju razdvajanje koda i kontrolu toga šta je iz jedne datoteke dostupno drugim datotekama. U kursu koristimo standardne JavaScript **ES module** (`import` i `export`).\n\nDatoteka `package.json` sadrži metapodatke o projektu, skripte i deklarisane zavisnosti. **npm** je alat za rad sa paketima i zavisnostima; **Node.js** je okruženje koje izvršava aplikaciju. Ugrađeni moduli poput `node:http` ne zahtevaju instalaciju.\n\nPokretanje: `npm start`. U ovoj fazi program samo ispiše poruku i završava se. Naredni korak uvodi proces koji ostaje aktivan jer osluškuje HTTP zahteve.\n\n**Česta zabuna:** `npm install` ne pokreće server; instalira pakete. `npm start` pokreće skriptu koja je upisana u `package.json`.",
           "keyIdea": "npm install ne pokreće server. ES modul deli kod, a node:http dolazi uz Node.js.",
           "blocks": [
             {
               "id": "k602b1",
               "kind": "tekst",
-              "text": "**Problem:** Kako organizovati kod kada program koristi više datoteka i biblioteke koje nismo sami napisali?\n\nNode.js može da pokrene datoteku naredbom `node ime-fajla.js`. **Moduli** omogućavaju razdvajanje koda i kontrolu toga šta je iz jedne datoteke dostupno drugim datotekama. U kursu koristimo standardne JavaScript **ES module** (`import` i `export`).\n\nDatoteka `package.json` sadrži metapodatke o projektu, skripte i deklarisane zavisnosti. **npm** je alat za rad sa paketima i zavisnostima; **Node.js** je okruženje koje izvršava aplikaciju. Ugrađeni moduli poput `node:http` ne zahtevaju instalaciju."
+              "text": "**Problem:** Kako organizovati kod kada program koristi više datoteka i biblioteke koje nismo sami napisali?"
             },
             {
               "id": "k602b2",
-              "kind": "kod",
-              "title": "Projekat",
-              "language": "text",
-              "text": "mkdir moj-api\ncd moj-api\nnpm init -y\nnpm pkg set type=module\nnpm pkg set scripts.start=\"node server.js\"\nnode --version"
+              "kind": "tekst",
+              "text": "Node.js može da pokrene datoteku naredbom `node ime-fajla.js`. **Moduli** omogućavaju razdvajanje koda i kontrolu toga šta je iz jedne datoteke dostupno drugim datotekama. U kursu koristimo standardne JavaScript **ES module** (`import` i `export`).\n\nDatoteka `package.json` sadrži metapodatke o projektu, skripte i deklarisane zavisnosti. **npm** je alat za rad sa paketima i zavisnostima; **Node.js** je okruženje koje izvršava aplikaciju. Ugrađeni moduli poput `node:http` ne zahtevaju instalaciju."
             },
             {
               "id": "k602b3",
               "kind": "kod",
-              "title": "poruke.js",
-              "language": "javascript",
-              "text": "export function pozdrav(ime) {\n  return `Zdravo, ${ime}`;\n}"
+              "language": "text",
+              "text": "mkdir moj-api\ncd moj-api\nnpm init -y\nnpm pkg set type=module\nnpm pkg set scripts.start=\"node server.js\"\nnode --version",
+              "title": "Projekat"
             },
             {
               "id": "k602b4",
               "kind": "kod",
-              "title": "server.js",
               "language": "javascript",
-              "text": "import { pozdrav } from './poruke.js';\nconsole.log(pozdrav('Ana'));"
+              "text": "export function pozdrav(ime) {\n  return `Zdravo, ${ime}`;\n}",
+              "title": "poruke.js"
             },
             {
               "id": "k602b5",
-              "kind": "tekst",
-              "text": "Pokretanje je `npm start`. U ovoj fazi program samo ispiše poruku i završava se. Naredni korak uvodi proces koji ostaje aktivan jer osluškuje HTTP zahteve.\n\n`npm install` ne pokreće server; instalira pakete. `npm start` pokreće skriptu koja je upisana u `package.json`."
+              "kind": "kod",
+              "language": "javascript",
+              "text": "import { pozdrav } from './poruke.js';\nconsole.log(pozdrav('Ana'));",
+              "title": "server.js"
             },
             {
               "id": "k602b6",
+              "kind": "tekst",
+              "text": "Pokretanje: `npm start`. U ovoj fazi program samo ispiše poruku i završava se. Naredni korak uvodi proces koji ostaje aktivan jer osluškuje HTTP zahteve.\n\n**Česta zabuna:** `npm install` ne pokreće server; instalira pakete. `npm start` pokreće skriptu koja je upisana u `package.json`."
+            },
+            {
+              "id": "k602b7",
               "kind": "highlight",
               "role": "kljucna",
               "text": "npm install ne pokreće server. ES modul deli kod, a node:http dolazi uz Node.js."
@@ -10089,28 +10113,47 @@
           "level": "Osnovno",
           "minutes": 7,
           "exampleKind": "eksperiment",
-          "text": "**Problem:** Kako program može da odgovori na zahtev koji stigne nakon njegovog pokretanja?\n\nServer treba da **osluškuje** mrežni port. Ugrađeni modul `node:http` omogućava da otvorimo HTTP server. Pozivna funkcija koju predajemo `createServer` biće izvršena pri obradi svakog primljenog HTTP zahteva. `req` opisuje zahtev, a `res` koristimo da sastavimo odgovor.\n\n`listen(3000)` započinje osluškivanje porta 3000. Proces ostaje aktivan dok server radi. `res.end()` završava HTTP odgovor; bez završetka odgovora klijent može nastaviti da čeka.\n\n`localhost` znači isti računar; broj iza dvotačke određuje port. Nema potrebe da otvaramo browser da bismo testirali HTTP server.\n\n**Klijent šalje zahtev → server dobija `req` → server formira `res` → klijent prima odgovor.** Server ne poziva browserovu funkciju za prikaz stranice; on šalje podatke u HTTP odgovoru.",
+          "text": "**Problem:** Kako program može da odgovori na zahtev koji stigne **nakon** njegovog pokretanja?\n\nServer treba da **osluškuje** mrežni port. Ugrađeni modul `node:http` omogućava da otvorimo HTTP server. Pozivna funkcija koju predajemo `createServer` biće izvršena pri obradi svakog primljenog HTTP zahteva. `req` opisuje zahtev, a `res` koristimo da sastavimo odgovor.\n\n`listen(3000)` započinje osluškivanje porta 3000. Proces ostaje aktivan dok server radi. `res.end()` završava HTTP odgovor; bez završetka odgovora klijent može nastaviti da čeka.\n\nOznaka `localhost` znači isti računar; broj iza dvotačke određuje port. Nema potrebe da otvaramo browser da bismo testirali HTTP server.",
           "keyIdea": "Klijent šalje zahtev, handler dobija req i res, res.end završava odgovor.",
           "blocks": [
             {
               "id": "k603b1",
               "kind": "tekst",
-              "text": "**Problem:** Kako program može da odgovori na zahtev koji stigne nakon njegovog pokretanja?\n\nServer treba da **osluškuje** mrežni port. Ugrađeni modul `node:http` omogućava da otvorimo HTTP server. Pozivna funkcija koju predajemo `createServer` biće izvršena pri obradi svakog primljenog HTTP zahteva. `req` opisuje zahtev, a `res` koristimo da sastavimo odgovor.\n\n`listen(3000)` započinje osluškivanje porta 3000. Proces ostaje aktivan dok server radi. `res.end()` završava HTTP odgovor; bez završetka odgovora klijent može nastaviti da čeka."
+              "text": "**Problem:** Kako program može da odgovori na zahtev koji stigne **nakon** njegovog pokretanja?"
             },
             {
               "id": "k603b2",
+              "kind": "tekst",
+              "text": "Server treba da **osluškuje** mrežni port. Ugrađeni modul `node:http` omogućava da otvorimo HTTP server. Pozivna funkcija koju predajemo `createServer` biće izvršena pri obradi svakog primljenog HTTP zahteva. `req` opisuje zahtev, a `res` koristimo da sastavimo odgovor.\n\n`listen(3000)` započinje osluškivanje porta 3000. Proces ostaje aktivan dok server radi. `res.end()` završava HTTP odgovor; bez završetka odgovora klijent može nastaviti da čeka."
+            },
+            {
+              "id": "k603b3",
+              "kind": "kod",
+              "language": "javascript",
+              "text": "import http from 'node:http';\n\nconst server = http.createServer((req, res) => {\n  res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });\n  res.end('Zdravo sa servera');\n});\n\nserver.listen(3000, () => {\n  console.log('Server: http://localhost:3000');\n});",
+              "title": "Primer"
+            },
+            {
+              "id": "k603b4",
               "kind": "kod",
               "title": "Proba",
               "language": "text",
               "text": "curl -i http://localhost:3000"
             },
             {
-              "id": "k603b3",
+              "id": "k603b5",
               "kind": "tekst",
-              "text": "`localhost` znači isti računar; broj iza dvotačke određuje port. Nema potrebe da otvaramo browser da bismo testirali HTTP server.\n\n**Klijent šalje zahtev → server dobija `req` → server formira `res` → klijent prima odgovor.** Server ne poziva browserovu funkciju za prikaz stranice; on šalje podatke u HTTP odgovoru."
+              "text": "Oznaka `localhost` znači isti računar; broj iza dvotačke određuje port. Nema potrebe da otvaramo browser da bismo testirali HTTP server."
             },
             {
-              "id": "k603b4",
+              "id": "k603b6",
+              "kind": "highlight",
+              "role": "obicna",
+              "title": "Mentalni model",
+              "text": "**Klijent šalje zahtev → server dobija `req` → server formira `res` → klijent prima odgovor.** Server ne poziva browserovu funkciju za prikaz stranice; on šalje podatke u HTTP odgovoru."
+            },
+            {
+              "id": "k603b7",
               "kind": "highlight",
               "role": "kljucna",
               "text": "Klijent šalje zahtev, handler dobija req i res, res.end završava odgovor."
@@ -10166,21 +10209,33 @@
           "level": "Osnovno",
           "minutes": 6,
           "exampleKind": "eksperiment",
-          "text": "**Problem:** Ako isti server pruža različite informacije, kako klijent kaže šta traži i kako server označava rezultat?\n\nHTTP zahtev sadrži **metodu** (`GET`, `POST`, `PUT`, `DELETE`...), **cilj zahteva** (putanju i eventualne parametre upita), **zaglavlja** i, po potrebi, **telo**. Odgovor sadrži **statusni kod**, zaglavlja i eventualno telo. Port je deo mrežnog odredišta, a ne HTTP metoda.\n\nU Node.js-u `req.method` predstavlja metodu, `req.url` sadrži cilj zahteva (obično putanju i query string), a `req.headers` zaglavlja. `req.url` ne treba poistovećivati sa punom adresom; za izdvajanje putanje i parametara koristimo `URL`.\n\nZa zahtev `GET /uredjaji?tip=senzor` putanja je `/uredjaji`, a `tip=senzor` je parametar upita. Parametar upita nije isto što i telo zahteva.\n\n**Status 200** označava uspeh; **404** da traženi resurs nije pronađen; **500** da je server naišao na neočekivanu grešku. Ne treba vraćati 200 za svaki ishod samo zato što se program uspešno izvršio.",
+          "text": "**Problem:** Ako isti server pruža različite informacije, kako klijent kaže šta traži i kako server označava rezultat?\n\nHTTP zahtev sadrži **metodu** (`GET`, `POST`, `PUT`, `DELETE`...), **cilj zahteva** (putanju i eventualne parametre upita), **zaglavlja** i, po potrebi, **telo**. Odgovor sadrži **statusni kod**, zaglavlja i eventualno telo. Port je deo mrežnog odredišta, a ne HTTP metoda.\n\nU Node.js-u `req.method` predstavlja metodu, `req.url` sadrži cilj zahteva (obično putanju i query string), a `req.headers` zaglavlja. `req.url` ne treba poistovećivati sa punom adresom `http://...`; za izdvajanje putanje i parametara koristimo `URL`.\n\nZa zahtev `GET /uredjaji?tip=senzor` putanja je `/uredjaji`, a `tip=senzor` je parametar upita. Parametar upita nije isto što i telo zahteva.\n\n**Status 200** označava uspeh; **404** da traženi resurs nije pronađen; **500** da je server naišao na neočekivanu grešku. Ne treba vraćati 200 za svaki ishod samo zato što se program uspešno izvršio.",
           "keyIdea": "Metoda kaže nameru, putanja resurs, upit filter, status ishod. 200 nije znak da programa nema.",
           "blocks": [
             {
               "id": "k604b1",
               "kind": "tekst",
-              "text": "**Problem:** Ako isti server pruža različite informacije, kako klijent kaže šta traži i kako server označava rezultat?\n\nHTTP zahtev sadrži **metodu** (`GET`, `POST`, `PUT`, `DELETE`...), **cilj zahteva** (putanju i eventualne parametre upita), **zaglavlja** i, po potrebi, **telo**. Odgovor sadrži **statusni kod**, zaglavlja i eventualno telo. Port je deo mrežnog odredišta, a ne HTTP metoda.\n\nU Node.js-u `req.method` predstavlja metodu, `req.url` sadrži cilj zahteva (obično putanju i query string), a `req.headers` zaglavlja. `req.url` ne treba poistovećivati sa punom adresom; za izdvajanje putanje i parametara koristimo `URL`."
+              "text": "**Problem:** Ako isti server pruža različite informacije, kako klijent kaže šta traži i kako server označava rezultat?"
             },
             {
               "id": "k604b2",
               "kind": "tekst",
-              "text": "Za zahtev `GET /uredjaji?tip=senzor` putanja je `/uredjaji`, a `tip=senzor` je parametar upita. Parametar upita nije isto što i telo zahteva.\n\n**Status 200** označava uspeh; **404** da traženi resurs nije pronađen; **500** da je server naišao na neočekivanu grešku. Ne treba vraćati 200 za svaki ishod samo zato što se program uspešno izvršio."
+              "text": "HTTP zahtev sadrži **metodu** (`GET`, `POST`, `PUT`, `DELETE`...), **cilj zahteva** (putanju i eventualne parametre upita), **zaglavlja** i, po potrebi, **telo**. Odgovor sadrži **statusni kod**, zaglavlja i eventualno telo. Port je deo mrežnog odredišta, a ne HTTP metoda.\n\nU Node.js-u `req.method` predstavlja metodu, `req.url` sadrži cilj zahteva (obično putanju i query string), a `req.headers` zaglavlja. `req.url` ne treba poistovećivati sa punom adresom `http://...`; za izdvajanje putanje i parametara koristimo `URL`."
             },
             {
               "id": "k604b3",
+              "kind": "kod",
+              "language": "javascript",
+              "text": "const url = new URL(req.url, 'http://localhost');\nconsole.log(req.method);             // npr. 'GET'\nconsole.log(url.pathname);           // '/uredjaji'\nconsole.log(url.searchParams.get('tip')); // npr. 'senzor'",
+              "title": "Primer"
+            },
+            {
+              "id": "k604b4",
+              "kind": "tekst",
+              "text": "Za zahtev `GET /uredjaji?tip=senzor` putanja je `/uredjaji`, a `tip=senzor` je parametar upita. Parametar upita nije isto što i telo zahteva.\n\n**Status 200** označava uspeh; **404** da traženi resurs nije pronađen; **500** da je server naišao na neočekivanu grešku. Ne treba vraćati 200 za svaki ishod samo zato što se program uspešno izvršio."
+            },
+            {
+              "id": "k604b5",
               "kind": "highlight",
               "role": "kljucna",
               "text": "Metoda kaže nameru, putanja resurs, upit filter, status ishod. 200 nije znak da programa nema."
@@ -10242,15 +10297,27 @@
             {
               "id": "k605b1",
               "kind": "tekst",
-              "text": "**Problem:** Kako jedan server može da vrati različite odgovore za različite putanje?\n\n**Ruta** povezuje uslov nad zahtevom sa kodom koji će ga obraditi. Najmanje proveravamo metodu i putanju. Putanja sama po sebi nije dovoljna: `GET /uredjaji` i `POST /uredjaji` mogu predstavljati dve različite operacije."
+              "text": "**Problem:** Kako jedan server može da vrati različite odgovore za različite putanje?"
             },
             {
               "id": "k605b2",
               "kind": "tekst",
-              "text": "`return` sprečava da se posle uspešnog odgovora izvrši i grana za grešku. `JSON.stringify` pretvara JavaScript vrednost u JSON tekst. Samo postavljanje `Content-Type` zaglavlja **ne pretvara** objekat u JSON."
+              "text": "**Ruta** povezuje uslov nad zahtevom sa kodom koji će ga obraditi. Najmanje proveravamo metodu i putanju. Putanja sama po sebi nije dovoljna: `GET /uredjaji` i `POST /uredjaji` mogu predstavljati dve različite operacije."
             },
             {
               "id": "k605b3",
+              "kind": "kod",
+              "language": "javascript",
+              "text": "import http from 'node:http';\n\nhttp.createServer((req, res) => {\n  const { pathname } = new URL(req.url, 'http://localhost');\n  res.setHeader('Content-Type', 'application/json; charset=utf-8');\n\n  if (req.method === 'GET' && pathname === '/uredjaji') {\n    res.end(JSON.stringify([{ id: 1, naziv: 'Termometar' }]));\n    return;\n  }\n\n  res.writeHead(404);\n  res.end(JSON.stringify({ greska: 'Ruta nije pronađena' }));\n}).listen(3000);",
+              "title": "Primer"
+            },
+            {
+              "id": "k605b4",
+              "kind": "tekst",
+              "text": "`return` sprečava da se posle uspešnog odgovora izvrši i grana za grešku. `JSON.stringify` pretvara JavaScript vrednost u JSON tekst. Samo postavljanje `Content-Type` zaglavlja **ne pretvara** objekat u JSON."
+            },
+            {
+              "id": "k605b5",
               "kind": "highlight",
               "role": "kljucna",
               "text": "Ruta je metoda i putanja. Posle res.end treba stati, a Content-Type ne pravi JSON."
@@ -10306,21 +10373,33 @@
           "level": "Osnovno",
           "minutes": 6,
           "exampleKind": "eksperiment",
-          "text": "**Problem:** Kako obraditi `/uredjaji/7`, `/uredjaji/8` i stotine sličnih URL-ova bez posebnog `if` uslova za svaki?\n\nDelovi putanje mogu imati **promenljive vrednosti**. `/uredjaji/:id` je obrazac, dok je `/uredjaji/7` konkretan URL. Bez frameworka, obrazac možemo prepoznati, na primer, regularnim izrazom. Zatim moramo da proverimo tip identifikatora, potražimo podatak i odgovorimo odgovarajućim statusom.\n\nZamislimo zatim nove rute, validaciju, različite formate tela zahteva, autentifikaciju i obradu grešaka. Ručno rutiranje i zajednička logika se prepliću, a svaka nova funkcionalnost povećava rizik od ponavljanja i grešaka.\n\nProblem nije što se HTTP server ne može napraviti bez frameworka. Problem je kako ga održavati kada se broj zahteva i pravila poveća.",
+          "text": "**Problem:** Kako obraditi `/uredjaji/7`, `/uredjaji/8` i stotine sličnih URL-ova bez posebnog `if` uslova za svaki?\n\nDelovi putanje mogu imati **promenljive vrednosti**. `/uredjaji/:id` je obrazac, dok je `/uredjaji/7` konkretan URL. Bez frameworka, obrazac možemo prepoznati, na primer, regularnim izrazom. Zatim moramo da proverimo tip identifikatora, potražimo podatak i odgovorimo odgovarajućim statusom.\n\nZamislimo zatim nove rute, validaciju, različite formate tela zahteva, autentifikaciju i obradu grešaka. Ručno rutiranje i zajednička logika se prepliću, a svaka nova funkcionalnost povećava rizik od ponavljanja i grešaka.\n\n**Zaključak:** Problem nije što se HTTP server ne može napraviti bez frameworka. Problem je kako ga održavati kada se broj zahteva i pravila poveća.",
           "keyIdea": "Parametar putanje izdvaja id. Ručni if za svaku rutu teško se održava.",
           "blocks": [
             {
               "id": "k606b1",
               "kind": "tekst",
-              "text": "**Problem:** Kako obraditi `/uredjaji/7`, `/uredjaji/8` i stotine sličnih URL-ova bez posebnog `if` uslova za svaki?\n\nDelovi putanje mogu imati **promenljive vrednosti**. `/uredjaji/:id` je obrazac, dok je `/uredjaji/7` konkretan URL. Bez frameworka, obrazac možemo prepoznati, na primer, regularnim izrazom. Zatim moramo da proverimo tip identifikatora, potražimo podatak i odgovorimo odgovarajućim statusom."
+              "text": "**Problem:** Kako obraditi `/uredjaji/7`, `/uredjaji/8` i stotine sličnih URL-ova bez posebnog `if` uslova za svaki?"
             },
             {
               "id": "k606b2",
               "kind": "tekst",
-              "text": "Zamislimo zatim nove rute, validaciju, različite formate tela zahteva, autentifikaciju i obradu grešaka. Ručno rutiranje i zajednička logika se prepliću, a svaka nova funkcionalnost povećava rizik od ponavljanja i grešaka.\n\nProblem nije što se HTTP server ne može napraviti bez frameworka. Problem je kako ga održavati kada se broj zahteva i pravila poveća."
+              "text": "Delovi putanje mogu imati **promenljive vrednosti**. `/uredjaji/:id` je obrazac, dok je `/uredjaji/7` konkretan URL. Bez frameworka, obrazac možemo prepoznati, na primer, regularnim izrazom. Zatim moramo da proverimo tip identifikatora, potražimo podatak i odgovorimo odgovarajućim statusom."
             },
             {
               "id": "k606b3",
+              "kind": "kod",
+              "language": "javascript",
+              "text": "const putanja = new URL(req.url, 'http://localhost').pathname;\nconst poklapanje = /^\\/uredjaji\\/(\\d+)$/.exec(putanja);\n\nif (req.method === 'GET' && poklapanje) {\n  const id = Number(poklapanje[1]);\n  // Sledi pronalaženje uređaja i slanje odgovora.\n}",
+              "title": "Primer"
+            },
+            {
+              "id": "k606b4",
+              "kind": "tekst",
+              "text": "Zamislimo zatim nove rute, validaciju, različite formate tela zahteva, autentifikaciju i obradu grešaka. Ručno rutiranje i zajednička logika se prepliću, a svaka nova funkcionalnost povećava rizik od ponavljanja i grešaka.\n\n**Zaključak:** Problem nije što se HTTP server ne može napraviti bez frameworka. Problem je kako ga održavati kada se broj zahteva i pravila poveća."
+            },
+            {
+              "id": "k606b5",
               "kind": "highlight",
               "role": "kljucna",
               "text": "Parametar putanje izdvaja id. Ručni if za svaku rutu teško se održava."
@@ -10376,21 +10455,38 @@
           "level": "Osnovno",
           "minutes": 5,
           "exampleKind": "eksperiment",
-          "text": "**Problem:** Kod `POST /uredjaji`, gde se nalaze podaci za novi uređaj i kako ih server čita?\n\nPodaci o novom resursu obično stižu u **telu HTTP zahteva**. Ugrađeni Node.js HTTP modul pruža telo kao tok podataka, a ne automatski parsiran JavaScript objekat. Moramo sakupiti pristigle delove, dekodirati ih i parsirati JSON. U realnim aplikacijama neophodno je i ograničiti veličinu tela i obraditi neispravan format.\n\nPrimer je konceptualna demonstracija, ne produkcioni parser.\n\nPrimer je namerno nepotpun: treba dodati limit veličine i slanje uspešnog odgovora, a kod grešaka prekinuti dalju obradu. Kompletan parser nećemo pisati u kursu; cilj je da razumemo posao koji biblioteka preuzima.\n\n**Parsiranje** odgovara na pitanje da li je ovo ispravan JSON. **Validacija** odgovara na pitanje da li su dobijeni podaci dozvoljeni i smisleni za našu aplikaciju.",
+          "text": "**Problem:** Kod `POST /uredjaji`, gde se nalaze podaci za novi uređaj i kako ih server čita?\n\nPodaci o novom resursu obično stižu u **telu HTTP zahteva**. Ugrađeni Node.js HTTP modul pruža telo kao tok podataka, a ne automatski parsiran JavaScript objekat. Moramo sakupiti pristigle delove, dekodirati ih i parsirati JSON. U realnim aplikacijama neophodno je i ograničiti veličinu tela i obraditi neispravan format.\n\n**Primer:** konceptualna demonstracija, ne produkcioni parser\n\nPrimer je namerno nepotpun: treba dodati limit veličine i slanje uspešnog odgovora, a kod grešaka prekinuti dalju obradu. To je **problem koji sledeći koraci treba da reše**. Kompletan parser nećemo pisati u kursu; cilj je da razumemo posao koji biblioteka preuzima.\n\n**Razlika koju treba zapamtiti:** **Parsiranje** odgovara na pitanje „da li je ovo ispravan JSON?“; **validacija** odgovara na pitanje „da li su dobijeni podaci dozvoljeni i smisleni za našu aplikaciju?“",
           "keyIdea": "Parsiranje pita da li je JSON ispravan. Validacija pita da li su podaci dozvoljeni.",
           "blocks": [
             {
               "id": "k607b1",
               "kind": "tekst",
-              "text": "**Problem:** Kod `POST /uredjaji`, gde se nalaze podaci za novi uređaj i kako ih server čita?\n\nPodaci o novom resursu obično stižu u **telu HTTP zahteva**. Ugrađeni Node.js HTTP modul pruža telo kao tok podataka, a ne automatski parsiran JavaScript objekat. Moramo sakupiti pristigle delove, dekodirati ih i parsirati JSON. U realnim aplikacijama neophodno je i ograničiti veličinu tela i obraditi neispravan format.\n\nPrimer je konceptualna demonstracija, ne produkcioni parser."
+              "text": "**Problem:** Kod `POST /uredjaji`, gde se nalaze podaci za novi uređaj i kako ih server čita?"
             },
             {
               "id": "k607b2",
               "kind": "tekst",
-              "text": "Primer je namerno nepotpun: treba dodati limit veličine i slanje uspešnog odgovora, a kod grešaka prekinuti dalju obradu. Kompletan parser nećemo pisati u kursu; cilj je da razumemo posao koji biblioteka preuzima.\n\n**Parsiranje** odgovara na pitanje da li je ovo ispravan JSON. **Validacija** odgovara na pitanje da li su dobijeni podaci dozvoljeni i smisleni za našu aplikaciju."
+              "text": "Podaci o novom resursu obično stižu u **telu HTTP zahteva**. Ugrađeni Node.js HTTP modul pruža telo kao tok podataka, a ne automatski parsiran JavaScript objekat. Moramo sakupiti pristigle delove, dekodirati ih i parsirati JSON. U realnim aplikacijama neophodno je i ograničiti veličinu tela i obraditi neispravan format."
             },
             {
               "id": "k607b3",
+              "kind": "tekst",
+              "text": "**Primer:** konceptualna demonstracija, ne produkcioni parser"
+            },
+            {
+              "id": "k607b4",
+              "kind": "kod",
+              "language": "javascript",
+              "text": "// Deo async funkcije za obradu POST zahteva:\nconst delovi = [];\nfor await (const deo of req) {\n  delovi.push(deo);\n}\n\ntry {\n  const uredjaj = JSON.parse(Buffer.concat(delovi).toString('utf8'));\n  console.log(uredjaj.naziv);\n} catch {\n  res.writeHead(400, { 'Content-Type': 'application/json' });\n  res.end(JSON.stringify({ greska: 'Neispravan JSON' }));\n}",
+              "title": "Primer"
+            },
+            {
+              "id": "k607b5",
+              "kind": "tekst",
+              "text": "Primer je namerno nepotpun: treba dodati limit veličine i slanje uspešnog odgovora, a kod grešaka prekinuti dalju obradu. To je **problem koji sledeći koraci treba da reše**. Kompletan parser nećemo pisati u kursu; cilj je da razumemo posao koji biblioteka preuzima.\n\n**Razlika koju treba zapamtiti:** **Parsiranje** odgovara na pitanje „da li je ovo ispravan JSON?“; **validacija** odgovara na pitanje „da li su dobijeni podaci dozvoljeni i smisleni za našu aplikaciju?“"
+            },
+            {
+              "id": "k607b6",
               "kind": "highlight",
               "role": "kljucna",
               "text": "Parsiranje pita da li je JSON ispravan. Validacija pita da li su podaci dozvoljeni."
@@ -10446,21 +10542,33 @@
           "level": "Osnovno",
           "minutes": 7,
           "exampleKind": "eksperiment",
-          "text": "**Problem:** Kako bismo dizajnirali mali alat da ne pišemo iznova prepoznavanje putanja, izdvajanje parametara i obradu zajedničkih poslova?\n\nIzdvojimo tri odgovornosti. **Ruter** pronalazi funkciju zaduženu za traženu kombinaciju metode i putanje. **Handler** sprovodi jednu operaciju i formira odgovor. **Zajednička obrada** izvršava poslove koji nisu specifični za pojedinačnu rutu, poput logovanja i parsiranja JSON-a.\n\nPrvo predlažemo interfejs sopstvenog rutera: šta bi trebalo da znači `get('/uredjaji/:id', funkcija)`? Kako bi handler dobio `id`? Kako bi se uključila zajednička obrada? Tek posle ove diskusije otkriva se postojeće rešenje.\n\nOvo **nije** kod za standardni `http.Server`, nego skica interfejsa koji bismo želeli. Express u velikoj meri nudi upravo takve mogućnosti.",
+          "text": "**Problem:** Kako bismo dizajnirali mali alat da ne pišemo iznova prepoznavanje putanja, izdvajanje parametara i obradu zajedničkih poslova?\n\nIzdvojimo tri odgovornosti:\n\n1. **Ruter** pronalazi funkciju zaduženu za traženu kombinaciju metode i putanje.\n2. **Handler (obrađivač)** sprovodi jednu operaciju i formira odgovor.\n3. **Zajednička obrada** izvršava poslove koji nisu specifični za pojedinačnu rutu, poput logovanja i parsiranja JSON-a.\n\nStudenti prvo predlažu interfejs sopstvenog rutera: šta bi trebalo da znači `get('/uredjaji/:id', funkcija)`? Kako bi handler dobio `id`? Kako bi se uključila zajednička obrada? Tek posle ove diskusije otkriva se postojeće rešenje.\n\nOvo **nije** kod za standardni `http.Server`, nego skica interfejsa koji bismo želeli. Express u velikoj meri nudi upravo takve mogućnosti.",
           "keyIdea": "Ruter, handler i middleware su tri odgovornosti. Skica nije http.Server.",
           "blocks": [
             {
               "id": "k608b1",
               "kind": "tekst",
-              "text": "**Problem:** Kako bismo dizajnirali mali alat da ne pišemo iznova prepoznavanje putanja, izdvajanje parametara i obradu zajedničkih poslova?\n\nIzdvojimo tri odgovornosti. **Ruter** pronalazi funkciju zaduženu za traženu kombinaciju metode i putanje. **Handler** sprovodi jednu operaciju i formira odgovor. **Zajednička obrada** izvršava poslove koji nisu specifični za pojedinačnu rutu, poput logovanja i parsiranja JSON-a.\n\nPrvo predlažemo interfejs sopstvenog rutera: šta bi trebalo da znači `get('/uredjaji/:id', funkcija)`? Kako bi handler dobio `id`? Kako bi se uključila zajednička obrada? Tek posle ove diskusije otkriva se postojeće rešenje."
+              "text": "**Problem:** Kako bismo dizajnirali mali alat da ne pišemo iznova prepoznavanje putanja, izdvajanje parametara i obradu zajedničkih poslova?"
             },
             {
               "id": "k608b2",
               "kind": "tekst",
-              "text": "Ovo **nije** kod za standardni `http.Server`, nego skica interfejsa koji bismo želeli. Express u velikoj meri nudi upravo takve mogućnosti."
+              "text": "Izdvojimo tri odgovornosti:\n\n1. **Ruter** pronalazi funkciju zaduženu za traženu kombinaciju metode i putanje.\n2. **Handler (obrađivač)** sprovodi jednu operaciju i formira odgovor.\n3. **Zajednička obrada** izvršava poslove koji nisu specifični za pojedinačnu rutu, poput logovanja i parsiranja JSON-a.\n\nStudenti prvo predlažu interfejs sopstvenog rutera: šta bi trebalo da znači `get('/uredjaji/:id', funkcija)`? Kako bi handler dobio `id`? Kako bi se uključila zajednička obrada? Tek posle ove diskusije otkriva se postojeće rešenje."
             },
             {
               "id": "k608b3",
+              "kind": "kod",
+              "language": "javascript",
+              "text": "server.get('/uredjaji', listaUredjaja);\nserver.get('/uredjaji/:id', pronadjiUredjaj);\nserver.post('/uredjaji', dodajUredjaj);\nserver.use(logujZahtev);",
+              "title": "Pseudokod"
+            },
+            {
+              "id": "k608b4",
+              "kind": "tekst",
+              "text": "Ovo **nije** kod za standardni `http.Server`, nego skica interfejsa koji bismo želeli. Express u velikoj meri nudi upravo takve mogućnosti."
+            },
+            {
+              "id": "k608b5",
               "kind": "highlight",
               "role": "kljucna",
               "text": "Ruter, handler i middleware su tri odgovornosti. Skica nije http.Server."
@@ -10516,28 +10624,40 @@
           "level": "Osnovno",
           "minutes": 7,
           "exampleKind": "eksperiment",
-          "text": "**Problem:** Možemo li koristiti provereno rešenje umesto održavanja sopstvenog rutera i pomoćnih funkcija?\n\n**Express je minimalistički Web framework za Node.js.** Pruža rutiranje, middleware mehanizam i praktične metode za HTTP zahteve i odgovore. Ne zamenjuje Node.js, HTTP, bazu niti poslovnu logiku.\n\n`req.params.id` je **string** (`'7'`), čak i kada u URL-u izgleda kao broj. `res.json` serijalizuje vrednost u JSON i šalje odgovor. U nastavku se koristi Express **5**, tako da važe pravila te verzije.\n\nStudenti su već upoznali problem. Biblioteka je njegov odgovor, a ne magičan skup metoda koje treba memorisati.",
+          "text": "**Problem:** Možemo li koristiti provereno rešenje umesto održavanja sopstvenog rutera i pomoćnih funkcija?\n\n**Express je minimalistički Web framework za Node.js.** Pruža rutiranje, middleware mehanizam i praktične metode za HTTP zahteve i odgovore. Ne zamenjuje Node.js, HTTP, bazu niti poslovnu logiku.\n\n`req.params.id` je **string** (`'7'`), čak i kada u URL-u izgleda kao broj. `res.json` serijalizuje vrednost u JSON i šalje odgovor. U nastavku će se koristiti Express **5**, tako da važe pravila te verzije.\n\n**Pedagoški smisao:** Studenti su već upoznali problem. Sada vide biblioteku kao njegov odgovor, a ne kao magičan skup metoda koje treba memorisati.",
           "keyIdea": "Express je framework povrh Node.js-a. req.params.id je string.",
           "blocks": [
             {
               "id": "k609b1",
               "kind": "tekst",
-              "text": "**Problem:** Možemo li koristiti provereno rešenje umesto održavanja sopstvenog rutera i pomoćnih funkcija?\n\n**Express je minimalistički Web framework za Node.js.** Pruža rutiranje, middleware mehanizam i praktične metode za HTTP zahteve i odgovore. Ne zamenjuje Node.js, HTTP, bazu niti poslovnu logiku."
+              "text": "**Problem:** Možemo li koristiti provereno rešenje umesto održavanja sopstvenog rutera i pomoćnih funkcija?"
             },
             {
               "id": "k609b2",
-              "kind": "kod",
-              "title": "Instalacija",
-              "language": "text",
-              "text": "npm install express"
+              "kind": "tekst",
+              "text": "**Express je minimalistički Web framework za Node.js.** Pruža rutiranje, middleware mehanizam i praktične metode za HTTP zahteve i odgovore. Ne zamenjuje Node.js, HTTP, bazu niti poslovnu logiku."
             },
             {
               "id": "k609b3",
-              "kind": "tekst",
-              "text": "`req.params.id` je **string** (`'7'`), čak i kada u URL-u izgleda kao broj. `res.json` serijalizuje vrednost u JSON i šalje odgovor. U nastavku se koristi Express **5**, tako da važe pravila te verzije.\n\nStudenti su već upoznali problem. Biblioteka je njegov odgovor, a ne magičan skup metoda koje treba memorisati."
+              "kind": "kod",
+              "language": "text",
+              "text": "npm install express",
+              "title": "Instalacija"
             },
             {
               "id": "k609b4",
+              "kind": "kod",
+              "language": "javascript",
+              "text": "import express from 'express';\nconst app = express();\n\napp.get('/uredjaji/:id', (req, res) => {\n  res.json({ id: req.params.id });\n});\n\napp.listen(3000);",
+              "title": "Primer"
+            },
+            {
+              "id": "k609b5",
+              "kind": "tekst",
+              "text": "`req.params.id` je **string** (`'7'`), čak i kada u URL-u izgleda kao broj. `res.json` serijalizuje vrednost u JSON i šalje odgovor. U nastavku će se koristiti Express **5**, tako da važe pravila te verzije.\n\n**Pedagoški smisao:** Studenti su već upoznali problem. Sada vide biblioteku kao njegov odgovor, a ne kao magičan skup metoda koje treba memorisati."
+            },
+            {
+              "id": "k609b6",
               "kind": "highlight",
               "role": "kljucna",
               "text": "Express je framework povrh Node.js-a. req.params.id je string."
@@ -10599,15 +10719,27 @@
             {
               "id": "k610b1",
               "kind": "tekst",
-              "text": "**Problem:** Ako svaka ruta treba da evidentira dolazni zahtev i parsira JSON, zašto kopirati isti kod u svaku funkciju?\n\n**Middleware** je funkcija koja učestvuje u obradi zahteva. Može da izmeni zahtev, pošalje odgovor ili prepusti kontrolu sledećem koraku pozivom `next()`. Redosled registracije middleware-a je bitan. Ako ne pošalje odgovor **niti** pozove `next()`, zahtev može ostati bez završenog odgovora."
+              "text": "**Problem:** Ako svaka ruta treba da evidentira dolazni zahtev i parsira JSON, zašto kopirati isti kod u svaku funkciju?"
             },
             {
               "id": "k610b2",
               "kind": "tekst",
-              "text": "`express.json()` parsira odgovarajuće JSON telo i postavlja `req.body`. Ako telo izostaje ili tip zahteva ne odgovara parseru, `req.body` može biti `undefined`. Koristimo validaciju pre pristupa poljima.\n\nMiddleware nije isto što i jedna ruta. Može da važi za više ruta, za određeni podskup putanja ili samo za jednu rutu."
+              "text": "**Middleware** je funkcija koja učestvuje u obradi zahteva. Može da izmeni zahtev, pošalje odgovor ili prepusti kontrolu sledećem koraku pozivom `next()`. Redosled registracije middleware-a je bitan. Ako ne pošalje odgovor **niti** pozove `next()`, zahtev može ostati bez završenog odgovora."
             },
             {
               "id": "k610b3",
+              "kind": "kod",
+              "language": "javascript",
+              "text": "app.use((req, res, next) => {\n  console.log(req.method, req.url);\n  next();\n});\n\napp.use(express.json());\n\napp.post('/uredjaji', (req, res) => {\n  res.status(201).json({ primljeno: req.body });\n});",
+              "title": "Primer"
+            },
+            {
+              "id": "k610b4",
+              "kind": "tekst",
+              "text": "`express.json()` parsira odgovarajuće JSON telo i postavlja `req.body`. Ako telo izostaje ili tip zahteva ne odgovara parseru, `req.body` može biti `undefined`. Koristimo validaciju pre pristupa poljima.\n\nMiddleware nije isto što i jedna ruta. Može da važi za više ruta, za određeni podskup putanja ili samo za jednu rutu."
+            },
+            {
+              "id": "k610b5",
               "kind": "highlight",
               "role": "kljucna",
               "text": "Middleware šalje odgovor ili zove next. express.json ide pre handlera koji čita req.body."
@@ -10663,18 +10795,18 @@
           "level": "Osnovno",
           "minutes": 8,
           "exampleKind": "eksperiment",
-          "text": "**Problem:** Ako želimo da klijenti pristupaju uređajima, da li treba praviti rute `/dodajUredjaj`, `/obrisiUredjaj`, `/procitajUredjaj` ili postoji dosledniji način?\n\nWeb API predstavlja ugovor kojim klijent komunicira sa serverom. **Resurs** je nešto čime server upravlja, na primer uređaj. U uobičajenom HTTP API dizajnu koristimo imenice u putanjama, a HTTP metode za nameru operacije. CRUD označava četiri operacije nad podacima, ali **REST nije isto što i CRUD**: REST obuhvata i arhitektonska ograničenja, poput stateless zahteva i uniformnog interfejsa.\n\n`GET` treba da bude **bezbedna** metoda: klijent ne traži izmenu stanja resursa. `PUT` i `DELETE` su **idempotentne** po nameravanoj semantici: ponavljanje istog zahteva ima isti nameravani efekat na stanje resursa kao jedan zahtev. To ne znači da su status ili odgovor pri svakom ponavljanju isti. `POST` nije opšte idempotentan. `204` nema telo odgovora.",
+          "text": "**Problem:** Ako želimo da klijenti pristupaju uređajima, da li treba praviti rute `/dodajUredjaj`, `/obrisiUredjaj`, `/procitajUredjaj` ili postoji dosledniji način?\n\nWeb API predstavlja ugovor kojim klijent komunicira sa serverom. **Resurs** je nešto čime server upravlja, na primer uređaj. U uobičajenom HTTP API dizajnu koristimo imenice u putanjama, a HTTP metode za nameru operacije. CRUD označava četiri operacije nad podacima (create, read, update, delete), ali **REST nije isto što i CRUD**: REST obuhvata i arhitektonska ograničenja, poput stateless zahteva i uniformnog interfejsa.\n\n| Zahtev | Značenje | Uobičajen uspešan status |\n|---|---|---|\n| `GET /uredjaji` | Lista uređaja | `200 OK` |\n| `GET /uredjaji/7` | Jedan uređaj | `200 OK` |\n| `POST /uredjaji` | Kreiranje uređaja | `201 Created` |\n| `PUT /uredjaji/7` | Zamena reprezentacije uređaja | `200 OK` ili `204 No Content` |\n| `DELETE /uredjaji/7` | Brisanje uređaja | `204 No Content` |\n\n`GET` treba da bude **bezbedna (safe)** metoda u HTTP smislu: klijent ne traži izmenu stanja resursa. `PUT` i `DELETE` su **idempotentne** po nameravanoj semantici: ponavljanje istog zahteva ima isti nameravani efekat na stanje resursa kao jedan zahtev. To **ne znači** da su status ili odgovor pri svakom ponavljanju isti. `POST` nije opšte idempotentan. `204` nema telo odgovora.",
           "keyIdea": "REST nije CRUD. GET je bezbedan, PUT i DELETE su idempotentni po efektu, ne po istom statusu.",
           "blocks": [
             {
               "id": "k611b1",
               "kind": "tekst",
-              "text": "**Problem:** Ako želimo da klijenti pristupaju uređajima, da li treba praviti rute `/dodajUredjaj`, `/obrisiUredjaj`, `/procitajUredjaj` ili postoji dosledniji način?\n\nWeb API predstavlja ugovor kojim klijent komunicira sa serverom. **Resurs** je nešto čime server upravlja, na primer uređaj. U uobičajenom HTTP API dizajnu koristimo imenice u putanjama, a HTTP metode za nameru operacije. CRUD označava četiri operacije nad podacima, ali **REST nije isto što i CRUD**: REST obuhvata i arhitektonska ograničenja, poput stateless zahteva i uniformnog interfejsa."
+              "text": "**Problem:** Ako želimo da klijenti pristupaju uređajima, da li treba praviti rute `/dodajUredjaj`, `/obrisiUredjaj`, `/procitajUredjaj` ili postoji dosledniji način?"
             },
             {
               "id": "k611b2",
               "kind": "tekst",
-              "text": "`GET` treba da bude **bezbedna** metoda: klijent ne traži izmenu stanja resursa. `PUT` i `DELETE` su **idempotentne** po nameravanoj semantici: ponavljanje istog zahteva ima isti nameravani efekat na stanje resursa kao jedan zahtev. To ne znači da su status ili odgovor pri svakom ponavljanju isti. `POST` nije opšte idempotentan. `204` nema telo odgovora."
+              "text": "Web API predstavlja ugovor kojim klijent komunicira sa serverom. **Resurs** je nešto čime server upravlja, na primer uređaj. U uobičajenom HTTP API dizajnu koristimo imenice u putanjama, a HTTP metode za nameru operacije. CRUD označava četiri operacije nad podacima (create, read, update, delete), ali **REST nije isto što i CRUD**: REST obuhvata i arhitektonska ograničenja, poput stateless zahteva i uniformnog interfejsa.\n\n| Zahtev | Značenje | Uobičajen uspešan status |\n|---|---|---|\n| `GET /uredjaji` | Lista uređaja | `200 OK` |\n| `GET /uredjaji/7` | Jedan uređaj | `200 OK` |\n| `POST /uredjaji` | Kreiranje uređaja | `201 Created` |\n| `PUT /uredjaji/7` | Zamena reprezentacije uređaja | `200 OK` ili `204 No Content` |\n| `DELETE /uredjaji/7` | Brisanje uređaja | `204 No Content` |\n\n`GET` treba da bude **bezbedna (safe)** metoda u HTTP smislu: klijent ne traži izmenu stanja resursa. `PUT` i `DELETE` su **idempotentne** po nameravanoj semantici: ponavljanje istog zahteva ima isti nameravani efekat na stanje resursa kao jedan zahtev. To **ne znači** da su status ili odgovor pri svakom ponavljanju isti. `POST` nije opšte idempotentan. `204` nema telo odgovora."
             },
             {
               "id": "k611b3",
@@ -10733,21 +10865,33 @@
           "level": "Osnovno",
           "minutes": 7,
           "exampleKind": "eksperiment",
-          "text": "**Problem:** Da li je `GET /uredjaji/abc` isto što i `GET /uredjaji/999`, ako uređaji imaju numeričke identifikatore?\n\n**Parametar putanje** (`/uredjaji/:id`) označava resurs. **Parametar upita** (`?aktivan=true`) obično filtrira ili menja način prikaza liste. **Telo** nosi podatke koje treba obraditi. Sva tri su nepouzdani ulazni podaci.\n\nČak i ako je `req.params.id` tekst `'7'`, server mora da proveri da li je to dozvoljen identifikator. Parametar `req.query.aktivan` najčešće je tekst i nije automatski boolean.\n\n**400 Bad Request**: zahtev ne zadovoljava definisana pravila ulaza. **404 Not Found**: zahtevani resurs ne postoji. **201 Created**: kreiran je resurs. **500 Internal Server Error**: neočekivana greška servera. **409 Conflict** kada zahtev nije moguće dovršiti zbog konflikta sa trenutnim stanjem resursa. Status 400 za neispravan oblik `id` je projektna odluka ovog API-ja, a ne jedini mogući izbor.",
+          "text": "**Problem:** Da li je `GET /uredjaji/abc` isto što i `GET /uredjaji/999`, ako uređaji imaju numeričke identifikatore?\n\nRazličiti izvori podataka u zahtevu imaju različitu namenu:\n\n- **Parametar putanje** (`/uredjaji/:id`) označava resurs.\n- **Parametar upita** (`?aktivan=true`) obično filtrira ili menja način prikaza liste.\n- **Telo** (`{ \"naziv\": \"Senzor\" }`) nosi podatke koje treba obraditi.\n\nSva tri su **nepouzdani ulazni podaci**. Čak i ako je `req.params.id` tekst `'7'`, server mora da proveri da li je to dozvoljen identifikator. Parametar `req.query.aktivan` najčešće je tekst i nije automatski boolean.\n\n**400 Bad Request**: zahtev ne zadovoljava definisana pravila ulaza; **404 Not Found**: zahtevani resurs ne postoji; **201 Created**: kreiran je resurs; **500 Internal Server Error**: neočekivana greška servera. Razlikujemo i **409 Conflict** kada zahtev nije moguće dovršiti zbog konflikta sa trenutnim stanjem resursa. Status 400 za neispravan oblik `id` je projektna odluka ovog API-ja, a ne jedini mogući izbor.",
           "keyIdea": "400 je loš ulaz, 404 je odsutan resurs. String 'false' je truthy.",
           "blocks": [
             {
               "id": "k612b1",
               "kind": "tekst",
-              "text": "**Problem:** Da li je `GET /uredjaji/abc` isto što i `GET /uredjaji/999`, ako uređaji imaju numeričke identifikatore?\n\n**Parametar putanje** (`/uredjaji/:id`) označava resurs. **Parametar upita** (`?aktivan=true`) obično filtrira ili menja način prikaza liste. **Telo** nosi podatke koje treba obraditi. Sva tri su nepouzdani ulazni podaci.\n\nČak i ako je `req.params.id` tekst `'7'`, server mora da proveri da li je to dozvoljen identifikator. Parametar `req.query.aktivan` najčešće je tekst i nije automatski boolean."
+              "text": "**Problem:** Da li je `GET /uredjaji/abc` isto što i `GET /uredjaji/999`, ako uređaji imaju numeričke identifikatore?"
             },
             {
               "id": "k612b2",
               "kind": "tekst",
-              "text": "**400 Bad Request**: zahtev ne zadovoljava definisana pravila ulaza. **404 Not Found**: zahtevani resurs ne postoji. **201 Created**: kreiran je resurs. **500 Internal Server Error**: neočekivana greška servera. **409 Conflict** kada zahtev nije moguće dovršiti zbog konflikta sa trenutnim stanjem resursa. Status 400 za neispravan oblik `id` je projektna odluka ovog API-ja, a ne jedini mogući izbor."
+              "text": "Različiti izvori podataka u zahtevu imaju različitu namenu:\n\n- **Parametar putanje** (`/uredjaji/:id`) označava resurs.\n- **Parametar upita** (`?aktivan=true`) obično filtrira ili menja način prikaza liste.\n- **Telo** (`{ \"naziv\": \"Senzor\" }`) nosi podatke koje treba obraditi.\n\nSva tri su **nepouzdani ulazni podaci**. Čak i ako je `req.params.id` tekst `'7'`, server mora da proveri da li je to dozvoljen identifikator. Parametar `req.query.aktivan` najčešće je tekst i nije automatski boolean."
             },
             {
               "id": "k612b3",
+              "kind": "kod",
+              "language": "javascript",
+              "text": "app.get('/uredjaji/:id', (req, res) => {\n  if (!/^[1-9]\\d*$/.test(req.params.id)) {\n    return res.status(400).json({ greska: 'ID mora biti pozitivan ceo broj' });\n  }\n  const id = Number(req.params.id);\n  if (!Number.isSafeInteger(id)) {\n    return res.status(400).json({ greska: 'ID je van dozvoljenog opsega' });\n  }\n\n  const uredjaj = uredjaji.find(x => x.id === id);\n  if (!uredjaj) {\n    return res.status(404).json({ greska: 'Uređaj ne postoji' });\n  }\n  res.json(uredjaj);\n});",
+              "title": "Primer"
+            },
+            {
+              "id": "k612b4",
+              "kind": "tekst",
+              "text": "**400 Bad Request**: zahtev ne zadovoljava definisana pravila ulaza; **404 Not Found**: zahtevani resurs ne postoji; **201 Created**: kreiran je resurs; **500 Internal Server Error**: neočekivana greška servera. Razlikujemo i **409 Conflict** kada zahtev nije moguće dovršiti zbog konflikta sa trenutnim stanjem resursa. Status 400 za neispravan oblik `id` je projektna odluka ovog API-ja, a ne jedini mogući izbor."
+            },
+            {
+              "id": "k612b5",
               "kind": "highlight",
               "role": "kljucna",
               "text": "400 je loš ulaz, 404 je odsutan resurs. String 'false' je truthy."
@@ -10803,28 +10947,40 @@
           "level": "Osnovno",
           "minutes": 10,
           "exampleKind": "eksperiment",
-          "text": "**Problem:** Ako API ima 30 ruta, da li sav kod treba da ostane u `server.js`? Šta ako bilo koja ruta neočekivano zakaže?\n\nKorisno je razdvojiti **rute** (koji zahtev obrađujemo), **kontrolere** (pretvaranje zahteva u odgovor) i **poslovnu logiku** (pravila aplikacije). U ovoj temi ne uvodimo bazu; podaci su u memoriji. Sledeća tema o bazi menja način čuvanja, ne ugovor API-ja.\n\n`express.Router()` grupiše povezane rute. Middleware za obradu grešaka ima **četiri argumenta**: `(err, req, res, next)`. U Express-u 5, greške iz ruta i middleware-a koji vraćaju odbačen Promise automatski se prosleđuju obradi grešaka. To ne znači da Express hvata svaku grešku proizvoljno pokrenutog asinhronog koda koji nije vraćen iz handlera.\n\n**Greška korisnika nije isto što i greška servera.** Neispravan JSON ne treba tretirati kao uspešan zahtev, a neočekivan izuzetak ne treba nekritički vraćati klijentu sa internim detaljima.",
+          "text": "**Problem:** Ako API ima 30 ruta, da li sav kod treba da ostane u `server.js`? Šta ako bilo koja ruta neočekivano zakaže?\n\nKorisno je razdvojiti **rute** (koji zahtev obrađujemo), **kontrolere/handlere** (pretvaranje zahteva u odgovor) i **poslovnu logiku** (pravila aplikacije). U ovoj temi ne uvodimo bazu; podaci su u memoriji. Sledeća tema o bazi će zameniti način čuvanja, ne ugovor API-ja.\n\n`express.Router()` grupiše povezane rute. Middleware za obradu grešaka ima **četiri argumenta**: `(err, req, res, next)`. U Express-u 5, greške iz ruta/middleware-a koji vraćaju odbačen Promise automatski se prosleđuju obradi grešaka. To ne znači da Express hvata svaku grešku proizvoljno pokrenutog asinhronog koda koji nije vraćen iz handlera.\n\n**Greška korisnika nije isto što i greška servera.** Neispravan JSON ne treba tretirati kao uspešan zahtev, a neočekivan izuzetak ne treba nekritički vraćati klijentu sa internim detaljima.",
           "keyIdea": "Ruta, kontroler i pravilo se razdvajaju. Greška ide u middleware sa četiri argumenta.",
           "blocks": [
             {
               "id": "k613b1",
               "kind": "tekst",
-              "text": "**Problem:** Ako API ima 30 ruta, da li sav kod treba da ostane u `server.js`? Šta ako bilo koja ruta neočekivano zakaže?\n\nKorisno je razdvojiti **rute** (koji zahtev obrađujemo), **kontrolere** (pretvaranje zahteva u odgovor) i **poslovnu logiku** (pravila aplikacije). U ovoj temi ne uvodimo bazu; podaci su u memoriji. Sledeća tema o bazi menja način čuvanja, ne ugovor API-ja.\n\n`express.Router()` grupiše povezane rute. Middleware za obradu grešaka ima **četiri argumenta**: `(err, req, res, next)`. U Express-u 5, greške iz ruta i middleware-a koji vraćaju odbačen Promise automatski se prosleđuju obradi grešaka. To ne znači da Express hvata svaku grešku proizvoljno pokrenutog asinhronog koda koji nije vraćen iz handlera."
+              "text": "**Problem:** Ako API ima 30 ruta, da li sav kod treba da ostane u `server.js`? Šta ako bilo koja ruta neočekivano zakaže?"
             },
             {
               "id": "k613b2",
-              "kind": "kod",
-              "title": "Direktorijum",
-              "language": "text",
-              "text": "src/\n  app.js\n  routes/uredjaji.js\n  controllers/uredjaji.js\n  services/uredjaji.js"
+              "kind": "tekst",
+              "text": "Korisno je razdvojiti **rute** (koji zahtev obrađujemo), **kontrolere/handlere** (pretvaranje zahteva u odgovor) i **poslovnu logiku** (pravila aplikacije). U ovoj temi ne uvodimo bazu; podaci su u memoriji. Sledeća tema o bazi će zameniti način čuvanja, ne ugovor API-ja.\n\n`express.Router()` grupiše povezane rute. Middleware za obradu grešaka ima **četiri argumenta**: `(err, req, res, next)`. U Express-u 5, greške iz ruta/middleware-a koji vraćaju odbačen Promise automatski se prosleđuju obradi grešaka. To ne znači da Express hvata svaku grešku proizvoljno pokrenutog asinhronog koda koji nije vraćen iz handlera."
             },
             {
               "id": "k613b3",
+              "kind": "kod",
+              "language": "text",
+              "text": "src/\n  app.js                 # konfiguracija Express-a i zajednički middleware\n  routes/uredjaji.js     # HTTP rute\n  controllers/uredjaji.js # rad sa req/res\n  services/uredjaji.js   # poslovna pravila",
+              "title": "Direktorijum"
+            },
+            {
+              "id": "k613b4",
+              "kind": "kod",
+              "language": "javascript",
+              "text": "// Posle ruta:\napp.use((err, req, res, next) => {\n  console.error(err); // dijagnostika na serveru\n  const status = Number.isInteger(err.status) && err.status >= 400 && err.status <= 599\n    ? err.status : 500;\n  res.status(status).json({\n    greska: status >= 500 ? 'Greška servera' : 'Neispravan zahtev'\n  });\n});",
+              "title": "Obrada grešaka"
+            },
+            {
+              "id": "k613b5",
               "kind": "tekst",
               "text": "**Greška korisnika nije isto što i greška servera.** Neispravan JSON ne treba tretirati kao uspešan zahtev, a neočekivan izuzetak ne treba nekritički vraćati klijentu sa internim detaljima."
             },
             {
-              "id": "k613b4",
+              "id": "k613b6",
               "kind": "highlight",
               "role": "kljucna",
               "text": "Ruta, kontroler i pravilo se razdvajaju. Greška ide u middleware sa četiri argumenta."
@@ -10880,21 +11036,31 @@
           "level": "Osnovno",
           "minutes": 6,
           "exampleKind": "eksperiment",
-          "text": "**Problem:** Kako znamo da imamo API, a ne samo nekoliko nasumičnih ruta?\n\nAPI mora da ima dosledan skup resursa, jasne HTTP metode, očekivane odgovore i obradu grešaka. Jednostavan projekat za čas je upravljanje uređajima sa atributima `id`, `naziv` i `aktivan`. Podaci su namerno u memoriji, tako da restart servera briše izmene. To je ograničenje i motivacija za temu o bazama.\n\nNode.js izvršava server, HTTP definiše komunikaciju, Express organizuje obradu zahteva, a poslovna logika odlučuje šta aplikacija radi. Naredna tema: browser šalje zahtev pomoću `fetch`, prikazuje odgovor i rešava problem asinhronog izvršavanja.\n\nZavršni zadatak, ako ostane vremena: `POST /uredjaji` sa telom `{ \"naziv\": \"\", \"aktivan\": \"da\" }`. JSON je sintaksno ispravan i middleware može da ga parsira. Aplikacija utvrđuje da je `naziv` prazan, a `aktivan` pogrešnog tipa; vraća 400 i ništa ne upisuje. Express sam po sebi ne zna poslovna pravila.",
+          "text": "**Problem:** Kako znamo da imamo API, a ne samo nekoliko nasumičnih ruta?\n\nAPI mora da ima dosledan skup resursa, jasne HTTP metode, očekivane odgovore i obradu grešaka. Jednostavan projekat za čas je **upravljanje uređajima** sa atributima `id`, `naziv`, `aktivan`. Podaci su namerno u memoriji, tako da restart servera briše izmene. Ovo je važno ograničenje i motivacija za buduću temu o bazama.\n\n### Minimalni plan provere\n\n1. `GET /uredjaji` vraća kolekciju.\n2. `POST /uredjaji` sa ispravnim JSON-om kreira resurs i vraća 201.\n3. `GET /uredjaji/:id` vraća kreirani uređaj.\n4. `PUT /uredjaji/:id` zamenjuje podatke.\n5. `DELETE /uredjaji/:id` uklanja resurs i vraća 204.\n6. Nepostojeći ID vraća 404, a neispravan ulaz 400.\n7. Ponovljeni GET ne menja listu uređaja.\n\n**Zaokruživanje:** Node.js izvršava server, HTTP definiše komunikaciju, Express organizuje obradu zahteva, a poslovna logika odlučuje šta aplikacija radi. Naredna tema: browser šalje zahtev pomoću `fetch`, prikazuje odgovor i rešava problem asinhronog izvršavanja.\n\nZavršni zadatak, ako ostane vremena: `POST /uredjaji` sa telom `{ \"naziv\": \"\", \"aktivan\": \"da\" }`. JSON je sintaksno ispravan i middleware može da ga parsira. Aplikacija utvrđuje da je `naziv` prazan, a `aktivan` pogrešnog tipa; vraća 400 i ništa ne upisuje. Express sam po sebi ne zna poslovna pravila.",
           "keyIdea": "API ima dosledne resurse, statuse i obradu grešaka. Memorija nije trajno skladište.",
           "blocks": [
             {
               "id": "k614b1",
               "kind": "tekst",
-              "text": "**Problem:** Kako znamo da imamo API, a ne samo nekoliko nasumičnih ruta?\n\nAPI mora da ima dosledan skup resursa, jasne HTTP metode, očekivane odgovore i obradu grešaka. Jednostavan projekat za čas je upravljanje uređajima sa atributima `id`, `naziv` i `aktivan`. Podaci su namerno u memoriji, tako da restart servera briše izmene. To je ograničenje i motivacija za temu o bazama."
+              "text": "**Problem:** Kako znamo da imamo API, a ne samo nekoliko nasumičnih ruta?"
             },
             {
               "id": "k614b2",
               "kind": "tekst",
-              "text": "Node.js izvršava server, HTTP definiše komunikaciju, Express organizuje obradu zahteva, a poslovna logika odlučuje šta aplikacija radi. Naredna tema: browser šalje zahtev pomoću `fetch`, prikazuje odgovor i rešava problem asinhronog izvršavanja.\n\nZavršni zadatak, ako ostane vremena: `POST /uredjaji` sa telom `{ \"naziv\": \"\", \"aktivan\": \"da\" }`. JSON je sintaksno ispravan i middleware može da ga parsira. Aplikacija utvrđuje da je `naziv` prazan, a `aktivan` pogrešnog tipa; vraća 400 i ništa ne upisuje. Express sam po sebi ne zna poslovna pravila."
+              "text": "API mora da ima dosledan skup resursa, jasne HTTP metode, očekivane odgovore i obradu grešaka. Jednostavan projekat za čas je **upravljanje uređajima** sa atributima `id`, `naziv`, `aktivan`. Podaci su namerno u memoriji, tako da restart servera briše izmene. Ovo je važno ograničenje i motivacija za buduću temu o bazama."
             },
             {
               "id": "k614b3",
+              "kind": "tekst",
+              "text": "### Minimalni plan provere\n\n1. `GET /uredjaji` vraća kolekciju.\n2. `POST /uredjaji` sa ispravnim JSON-om kreira resurs i vraća 201.\n3. `GET /uredjaji/:id` vraća kreirani uređaj.\n4. `PUT /uredjaji/:id` zamenjuje podatke.\n5. `DELETE /uredjaji/:id` uklanja resurs i vraća 204.\n6. Nepostojeći ID vraća 404, a neispravan ulaz 400.\n7. Ponovljeni GET ne menja listu uređaja.\n\n**Zaokruživanje:** Node.js izvršava server, HTTP definiše komunikaciju, Express organizuje obradu zahteva, a poslovna logika odlučuje šta aplikacija radi. Naredna tema: browser šalje zahtev pomoću `fetch`, prikazuje odgovor i rešava problem asinhronog izvršavanja."
+            },
+            {
+              "id": "k614b4",
+              "kind": "tekst",
+              "text": "Završni zadatak, ako ostane vremena: `POST /uredjaji` sa telom `{ \"naziv\": \"\", \"aktivan\": \"da\" }`. JSON je sintaksno ispravan i middleware može da ga parsira. Aplikacija utvrđuje da je `naziv` prazan, a `aktivan` pogrešnog tipa; vraća 400 i ništa ne upisuje. Express sam po sebi ne zna poslovna pravila."
+            },
+            {
+              "id": "k614b5",
               "kind": "highlight",
               "role": "kljucna",
               "text": "API ima dosledne resurse, statuse i obradu grešaka. Memorija nije trajno skladište."
@@ -10957,7 +11123,7 @@
           "REST nije isto što i CRUD. 400 je loš ulaz, 404 je odsutan resurs, 201 je kreiranje, 204 je uspeh bez tela. String 'false' je truthy. Podaci u nizu nestaju restartom procesa."
         ],
         "workflow": "1) Pročitaj problem koraka. 2) Odgovori na pitanje pre pokretanja. 3) Uporedi sa napomenom nastavnika. 4) Otvori primer u editoru. 5) Poveži ideju sa tim ko drži DOM, a ko vraća JSON.",
-        "knowledgeBounds": "Primeri objašnjavaju jedan pojam. Nisu produkcioni parser, autentifikacija ni baza. Express ne zna poslovna pravila aplikacije. Izvori: Node.js HTTP, Express 5 middleware i obrada grešaka, RFC 9110.",
+        "knowledgeBounds": "Primeri objašnjavaju jedan pojam. Nisu produkcioni parser, autentifikacija ni baza. Express ne zna poslovna pravila aplikacije. Izvori: Node.js HTTP (https://nodejs.org/api/http.html); Node.js paketi i ES moduli (https://nodejs.org/api/packages.html); Express 5 middleware (https://expressjs.com/en/5x/guide/using-middleware.html); Express 5 obrada grešaka (https://expressjs.com/en/5x/guide/error-handling.html); HTTP semantika, RFC 9110 (https://www.rfc-editor.org/rfc/rfc9110.html).",
         "comprehensionCheck": "Na kraju teme reci jednu pogrešnu pretpostavku koju si promenio: document u Node-u, npm install kao pokretanje, 200 umesto 404, ili string 'false' kao boolean."
       },
       "extraExamples": [
