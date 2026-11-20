@@ -184,6 +184,22 @@ test("leksički opseg i leksičko okruženje razlikuju strukturu i primerak", ()
   assert.equal(lekcijePojma(dokument, "leksičko okruženje").prvi.tema, 4);
 });
 
+test("izvršno okruženje nosi engleski naziv i stoji u Node.js času", () => {
+  const pojam = pojmovi.find((stavka) => stavka.ime === "izvršno okruženje");
+  assert.match(pojam.definicija, /API-jima kojih u jeziku nema/);
+  assert.match(pojam.definicija, /runtime environment/);
+  assert.match(pojam.izbegava, /JavaScript engine/);
+  assert.match(pojam.izbegava, /leksičko okruženje/);
+  assert.match(pojam.izbegava, /okruženje izvršavanja/);
+  assert.match(pojam.izbegava, /execution environment/);
+  const engine = pojmovi.find((stavka) => stavka.ime === "JavaScript engine");
+  assert.match(engine.definicija, /Izvršno okruženje dodaje API-je/);
+  assert.match(engine.izbegava, /izvršno okruženje/);
+  const pogoci = lekcijePojma(dokument, "izvršno okruženje");
+  assert.equal(pogoci.prvi.tema, 6);
+  assert.equal(pogoci.teme.includes(6), true);
+});
+
 test("CSS model kutije je pojam rečnika i stoji u gradivu", () => {
   const pojam = pojmovi.find((stavka) => stavka.ime === "CSS model kutije");
   assert.match(pojam.definicija, /box model/);
