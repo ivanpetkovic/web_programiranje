@@ -10164,7 +10164,7 @@
               "id": "k603q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "3.1. Klijent će poslati zahtev za 20 sekundi. Šta naš program mora da radi do tada?",
+              "text": "3.1. Server je pokrenut, a prvi zahtev stiže tek posle 20 sekundi. Šta proces mora da radi dok zahtev ne stigne, i da li handler za taj zahtev treba pozvati pre toga?",
               "answer": "Da ostane aktivan i osluškuje odgovarajući port. Server reaguje na zahteve kada stignu; nije potrebno unapred pozvati handler za svaki zahtev."
             },
             {
@@ -10184,7 +10184,7 @@
           ],
           "prompts": [
             {
-              "prompt": "3.1. Klijent će poslati zahtev za 20 sekundi. Šta naš program mora da radi do tada?",
+              "prompt": "3.1. Server je pokrenut, a prvi zahtev stiže tek posle 20 sekundi. Šta proces mora da radi dok zahtev ne stigne, i da li handler za taj zahtev treba pozvati pre toga?",
               "answer": "Da ostane aktivan i osluškuje odgovarajući port. Server reaguje na zahteve kada stignu; nije potrebno unapred pozvati handler za svaki zahtev."
             },
             {
