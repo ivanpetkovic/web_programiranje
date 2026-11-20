@@ -1417,7 +1417,38 @@ body.nav-skriven .kurs-zaglavlje { padding: 0; gap: 0; }
 .highlight-sadrzaj p { margin: 0; }
 .highlight-sadrzaj p + p { margin-top: 0.45rem; }
 .sekcija-lekcije[data-vrsta="kod"] .isecak pre { background: #f7f1e6; color: #1c1a16; }
+.sekcija-lekcije[data-vrsta="kod"] .isecak pre code { font: inherit; }
 html[data-pozadina-koda="crna"] .sekcija-lekcije[data-vrsta="kod"] .isecak pre { background: #111111; color: #f4efe4; }
+.kod-sintaksa .hljs-keyword,
+.kod-sintaksa .hljs-selector-tag,
+.kod-sintaksa .hljs-name,
+.kod-sintaksa .hljs-selector-class,
+.kod-sintaksa .hljs-selector-id,
+.kod-sintaksa .hljs-built_in { color: #9a3412; }
+.kod-sintaksa .hljs-string,
+.kod-sintaksa .hljs-literal { color: #3f6212; }
+.kod-sintaksa .hljs-number,
+.kod-sintaksa .hljs-attr,
+.kod-sintaksa .hljs-attribute,
+.kod-sintaksa .hljs-property { color: #1d4e89; }
+.kod-sintaksa .hljs-title { color: #7c3a00; }
+.kod-sintaksa .hljs-comment,
+.kod-sintaksa .hljs-meta { color: #6b6458; }
+html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-keyword,
+html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-selector-tag,
+html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-name,
+html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-selector-class,
+html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-selector-id,
+html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-title,
+html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-built_in { color: #ffb000; }
+html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-string,
+html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-literal { color: #d7e7a1; }
+html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-number,
+html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-attr,
+html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-attribute,
+html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-property { color: #9ec3ef; }
+html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-comment,
+html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-meta { color: #a39888; }
 .kod-boja { display: inline-flex; gap: 0.25rem; }
 .kod-boja button { padding: 0.15rem 0.5rem; font: inherit; font-size: 0.8rem; }
 .isecak-akcije { display: inline-flex; align-items: center; gap: 0.35rem; }

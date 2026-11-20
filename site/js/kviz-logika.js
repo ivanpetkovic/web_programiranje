@@ -186,6 +186,7 @@ export function deloviKvizTeksta(tekst) {
         delovi.push({
           vrsta: jezik === "mermaid" ? "mermaid" : "kod",
           tekst: kod.join("\n"),
+          jezik,
         });
         kod = null;
         jezik = "";

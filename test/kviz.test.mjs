@@ -202,6 +202,7 @@ test("ograda u pitanju postaje blok koda, a kratki kod u opciji ostaje bez navod
     .find((stavka) => stavka.pitalica.includes("tamo gde je pozvana"));
   const delovi = deloviKvizTeksta(pitanje.pitalica);
   assert.deepEqual(delovi.map((deo) => deo.vrsta), ["proza", "kod", "proza"]);
+  assert.equal(delovi[1].jezik, "javascript");
   assert.match(delovi[1].tekst, /function prikazi\(\)/);
   assert.equal(delovi.every((deo) => !deo.tekst.includes("```")), true);
   assert.equal(delovi[2].tekst, "Šta se ispisuje?");

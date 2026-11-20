@@ -1,4 +1,5 @@
 import { napraviPogled, postaviPogled } from "./cm-editor.js";
+import { popuniKod } from "./sintaksa.js";
 import { izEngleskog } from "./kljucevi-kursa.js";
 import { dokument, lectures, osveziLekcije, putanjaAseta, sirovaTema, siroviKorak } from "./lectures.js";
 import {
@@ -1198,6 +1199,7 @@ function cvoroviSaOgradama(tekst) {
   const cvorovi = [];
   let proza = [];
   let kod = null;
+  let jezik = "";
   const isprazniProzu = () => {
     const telo = proza.join("\n").trim();
     proza = [];
@@ -1209,16 +1211,19 @@ function cvoroviSaOgradama(tekst) {
         const pre = document.createElement("pre");
         pre.className = "pitanje-kod";
         const code = document.createElement("code");
-        code.textContent = kod.join("\n");
+        popuniKod(code, kod.join("\n"), jezik);
         pre.append(code);
         cvorovi.push(pre);
         kod = null;
+        jezik = "";
       } else kod.push(linija);
       continue;
     }
-    if (/^```[A-Za-z0-9_+-]*\s*$/.test(linija)) {
+    const otvor = /^```([A-Za-z0-9_+-]*)\s*$/.exec(linija);
+    if (otvor) {
       isprazniProzu();
       kod = [];
+      jezik = otvor[1].toLowerCase();
       continue;
     }
     proza.push(linija);
@@ -1475,7 +1480,7 @@ function prikazMermaida(blok, dijagrami, crtez) {
   return kartica;
 }
 
-function nacrtajTekstBloka(tekst, naslovTekst, ikona = "file-text") {
+function nacrtajTekstBloka(tekst, naslovTekst, ikona = "file-text", jezik = "") {
   const blok = document.createElement("section");
   blok.className = ikona === "book-open" ? "isecak isecak-knjiga" : "isecak";
   const glava = document.createElement("header");
@@ -1483,7 +1488,11 @@ function nacrtajTekstBloka(tekst, naslovTekst, ikona = "file-text") {
   saIkonom(naslov, ikona, naslovTekst);
   glava.append(naslov);
   const pre = document.createElement("pre");
-  pre.textContent = tekst;
+  if (jezik) {
+    const code = document.createElement("code");
+    popuniKod(code, tekst, jezik);
+    pre.append(code);
+  } else pre.textContent = tekst;
   blok.append(glava, pre);
   return blok;
 }
@@ -2019,7 +2028,7 @@ function teloSekcije(sirovi, blok, dijagrami, prviTekst, vezi, prefiks, crtez) {
     return omotUredjivog(urediSadrzaj, id, prikazRasporeda(blok, dijagrami), () => uredjivacSekcije(sirovi, blok, vezi), bezOlovke());
   }
   const natpis = blok.vrsta === "kod" ? naslovKoda(blok) : natpisSekcije(blok);
-  const kartica = nacrtajTekstBloka(blok.tekst || "", natpis, ikonaSekcije(blok));
+  const kartica = nacrtajTekstBloka(blok.tekst || "", natpis, ikonaSekcije(blok), blok.vrsta === "kod" ? blok.jezik : "");
   if (blok.vrsta === "kod" && !natpis) {
     const znak = kartica.querySelector("header span");
     znak?.setAttribute("role", "img");

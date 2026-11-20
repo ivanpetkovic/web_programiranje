@@ -1,4 +1,5 @@
 import { ikonica } from "./ikonice.js";
+import { popuniKod } from "./sintaksa.js";
 import { novaPitanja } from "./kviz-banka.js";
 import { bazen, bezBelih, deloviKvizTeksta, izaberiPitanja, mozeOcena, oceni, sazetakPitanja, seOcenjuje, temeSaKvizom, zbir } from "./kviz-logika.js";
 import { nacrtajMermaid } from "./mermaid.js";
@@ -223,7 +224,7 @@ export function napraviKviz(ctx) {
 
     telo.append(omotTeksta(pitanje.tekst));
     if (pitanje.dijagram) telo.append(figuraMermaid(pitanje.dijagram));
-    if (pitanje.kod) telo.append(blokKoda(pitanje.kod));
+    if (pitanje.kod) telo.append(blokKoda(pitanje.kod, pitanje.jezik));
 
     if (pitanje.vrsta === "izbor") telo.append(prikazIzbora(pitanje));
     else if (pitanje.vrsta === "ispravka") telo.append(prikazIspravke(pitanje));
@@ -345,11 +346,11 @@ export function napraviKviz(ctx) {
       if (saTvojim && !poklapa) {
         if (bezBelih(uneto)) {
           cvorovi.push(el("p", "meta", "Tvoj kod"));
-          cvorovi.push(blokKoda(uneto));
+          cvorovi.push(blokKoda(uneto, pitanje.jezik));
         } else cvorovi.push(el("p", "kviz-tvoj", "Nisi uneo ispravku."));
       }
       cvorovi.push(el("p", "meta", "Rešenje"));
-      cvorovi.push(blokKoda(pitanje.resenje || ""));
+      cvorovi.push(blokKoda(pitanje.resenje || "", pitanje.jezik));
     } else if (pitanje.odgovor) {
       cvorovi.push(el("p", "meta", "Odgovor iz gradiva"));
       cvorovi.push(prozaBlok(pitanje.odgovor));
@@ -471,7 +472,7 @@ export function napraviKviz(ctx) {
     let prvaProza = true;
     for (const deo of deloviKvizTeksta(tekst)) {
       if (deo.vrsta === "kod") {
-        cvorovi.push(blokKoda(deo.tekst));
+        cvorovi.push(blokKoda(deo.tekst, deo.jezik));
         continue;
       }
       if (deo.vrsta === "mermaid") {
@@ -517,10 +518,10 @@ export function napraviKviz(ctx) {
     }
   }
 
-  function blokKoda(tekst) {
+  function blokKoda(tekst, jezik = "") {
     const pre = el("pre", "kviz-kod");
     const code = document.createElement("code");
-    code.textContent = tekst;
+    popuniKod(code, tekst, jezik);
     pre.append(code);
     return pre;
   }
