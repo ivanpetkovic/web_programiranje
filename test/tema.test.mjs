@@ -170,6 +170,10 @@ test("gradivo, jedna kolona i birač", () => {
   assert.match(main, /domacin\.className = "birac-krug-domacin"/);
   assert.match(main, /item\.steps\.forEach\(\(korakNed, ki\) => \{[\s\S]*krug\.className = ki <= i \? "birac-krug birac-krug-dosegnut" : "birac-krug birac-krug-buduci"/);
   assert.match(main, /domacin\.setAttribute\("aria-label", `\$\{ki \+ 1\} \$\{korakNed\.naslov\}`\)/);
+  assert.match(main, /naziv\.className = "birac-krug-naziv"/);
+  assert.match(main, /naziv\.textContent = korakNed\.naslov/);
+  assert.match(main, /poravnajNazivKruga\(naziv, domacin\)/);
+  assert.match(main, /sakrijNazivKruga\(domacin, naziv\)/);
   assert.match(main, /domacin\.setAttribute\("aria-current", "step"\)/);
   assert.match(main, /domacin\.addEventListener\("click", \(\) => \{[\s\S]*?korakPoCasu\.set\(cas, ki\)/);
   assert.match(main, /domacin\.append\(krug\)/);
@@ -300,6 +304,9 @@ test("red koraka koristi ćilibar, a beleške ostaju prigušene", () => {
   assert.match(krug, /font-size:\s*0/);
   assert.match(css, /\.birac-krug-dosegnut\s*\{[^}]*background:\s*var\(--amber\)/);
   assert.match(css, /\.birac-krug-buduci\s*\{[^}]*background:\s*var\(--korak-buduci\)/);
+  assert.match(css, /\.birac-krug-naziv\.otvoren\s*\{[^}]*opacity:\s*1/);
+  assert.match(css, /\.birac-krug-naziv\.otvoren\s*\{[^}]*visibility:\s*visible/);
+  assert.match(blok(css, "\\.birac-krug-naziv\\s*\\{"), /pointer-events:\s*none/);
   assert.equal(ugalj.amber, "#ffb000");
   assert.equal(mornar.amber, "#ffb000");
   assert.match(css, /\.option\.izabrano\s*\{[^}]*border-color:\s*var\(--amber\)/);
