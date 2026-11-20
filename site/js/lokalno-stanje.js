@@ -1,3 +1,5 @@
+import { PODRAZUMEVANA_TEMA_KODA, temaKodaIz } from "./teme-koda.js";
+
 export const KLJUC_STANJA = "web-programiranje:stanje";
 export const VERZIJA_STANJA = 1;
 export const PALETE = ["mornar", "ugalj", "pesak", "terakota"];
@@ -15,7 +17,7 @@ export function podrazumevanoStanje() {
     verzija: VERZIJA_STANJA,
     mesto: { tema: null, uvod: false },
     napredak: {},
-    podesavanja: { mod: null, font: "1", stabloSklopljeno: false, pozadinaKoda: "bela" },
+    podesavanja: { mod: null, font: "1", stabloSklopljeno: false, pozadinaKoda: PODRAZUMEVANA_TEMA_KODA },
     paleta: null,
     beleske: [],
   };
@@ -50,12 +52,12 @@ function normalizujNapredak(sirovo) {
 }
 
 function normalizujPodesavanja(sirovo) {
-  const izlaz = { mod: null, font: "1", stabloSklopljeno: false, pozadinaKoda: "bela" };
+  const izlaz = { mod: null, font: "1", stabloSklopljeno: false, pozadinaKoda: PODRAZUMEVANA_TEMA_KODA };
   if (!objekat(sirovo)) return izlaz;
   if (MODOVI.includes(sirovo.mod)) izlaz.mod = sirovo.mod;
   if (SKALE_FONTA.includes(sirovo.font)) izlaz.font = sirovo.font;
   if (typeof sirovo.stabloSklopljeno === "boolean") izlaz.stabloSklopljeno = sirovo.stabloSklopljeno;
-  if (sirovo.pozadinaKoda === "crna" || sirovo.pozadinaKoda === "bela") izlaz.pozadinaKoda = sirovo.pozadinaKoda;
+  izlaz.pozadinaKoda = temaKodaIz(sirovo.pozadinaKoda);
   return izlaz;
 }
 

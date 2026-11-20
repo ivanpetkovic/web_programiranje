@@ -38,7 +38,7 @@ test("prazno skladište daje podrazumevano stanje", () => {
   assert.equal(stanje.paleta, null);
   assert.equal(stanje.podesavanja.mod, null);
   assert.equal(stanje.podesavanja.font, "1");
-  assert.equal(stanje.podesavanja.pozadinaKoda, "bela");
+  assert.equal(stanje.podesavanja.pozadinaKoda, "github");
   assert.deepEqual(stanje.napredak, {});
   assert.deepEqual(stanje.beleske, []);
 });
@@ -60,19 +60,22 @@ test("jedno loše polje pada na podrazumevano, ispravna ostaju", () => {
   assert.equal(stanje.podesavanja.mod, "samostalni");
   assert.equal(stanje.podesavanja.font, "1");
   assert.equal(stanje.podesavanja.stabloSklopljeno, false);
-  assert.equal(stanje.podesavanja.pozadinaKoda, "bela");
+  assert.equal(stanje.podesavanja.pozadinaKoda, "github");
   assert.equal(stanje.beleske.length, 1);
   assert.equal(stanje.beleske[0].komentar, "Razlika");
 });
 
-test("pozadina koda pamti belu ili crnu", () => {
-  assert.equal(podrazumevanoStanje().podesavanja.pozadinaKoda, "bela");
+test("tema koda pamti službenu temu i stara imena", () => {
+  assert.equal(podrazumevanoStanje().podesavanja.pozadinaKoda, "github");
   const crna = postaviPodesavanje(podrazumevanoStanje(), "pozadinaKoda", "crna");
-  assert.equal(crna.podesavanja.pozadinaKoda, "crna");
-  assert.equal(postaviPodesavanje(crna, "pozadinaKoda", "plava").podesavanja.pozadinaKoda, "bela");
+  assert.equal(crna.podesavanja.pozadinaKoda, "github-dark");
+  assert.equal(postaviPodesavanje(podrazumevanoStanje(), "pozadinaKoda", "bela").podesavanja.pozadinaKoda, "github");
+  const monokai = postaviPodesavanje(crna, "pozadinaKoda", "monokai");
+  assert.equal(monokai.podesavanja.pozadinaKoda, "monokai");
+  assert.equal(postaviPodesavanje(monokai, "pozadinaKoda", "plava").podesavanja.pozadinaKoda, "github");
   const uvoz = uveziStanje(izveziStanje(crna));
   assert.equal(uvoz.ok, true);
-  assert.equal(uvoz.stanje.podesavanja.pozadinaKoda, "crna");
+  assert.equal(uvoz.stanje.podesavanja.pozadinaKoda, "github-dark");
 });
 
 test("komentar se seče na 500 znakova", () => {

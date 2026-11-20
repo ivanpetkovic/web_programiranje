@@ -70,6 +70,7 @@ import { prihvatiOcitavanje } from "./svezina.js";
 import { ikonica, ucitajIkonice } from "./ikonice.js";
 import { napraviBeleske } from "./beleske.js";
 import { napraviKviz } from "./kviz.js";
+import { TEME_KODA, temaKodaIz } from "./teme-koda.js";
 import {
   napraviStanje,
   SKALE_FONTA,
@@ -2043,37 +2044,42 @@ function teloSekcije(sirovi, blok, dijagrami, prviTekst, vezi, prefiks, crtez) {
   return omotUredjivog(urediSadrzaj, id, kartica, () => uredjivacSekcije(sirovi, blok, vezi), bezOlovke());
 }
 
-function pozadinaKoda() {
-  return lokalno.stanje().podesavanja.pozadinaKoda === "crna" ? "crna" : "bela";
+function temaKodaSada() {
+  return temaKodaIz(lokalno.stanje().podesavanja.pozadinaKoda);
 }
 
-function postaviPozadinuKoda(vrednost) {
-  const sledeca = vrednost === "crna" ? "crna" : "bela";
-  document.documentElement.dataset.pozadinaKoda = sledeca;
+function postaviTemuKoda(vrednost) {
+  const sledeca = temaKodaIz(vrednost);
+  document.documentElement.dataset.temaKoda = sledeca;
   if (lokalno.stanje().podesavanja.pozadinaKoda !== sledeca) {
     lokalno.promeni((stanje) => postaviPodesavanje(stanje, "pozadinaKoda", sledeca));
   }
-  for (const dugme of document.querySelectorAll(".kod-boja button")) {
-    dugme.setAttribute("aria-pressed", String(dugme.dataset.pozadina === sledeca));
-  }
+  for (const izbor of document.querySelectorAll(".kod-boja select")) izbor.value = sledeca;
 }
 
 function prekidacPozadineKoda() {
   const grupa = document.createElement("div");
   grupa.className = "kod-boja";
-  grupa.setAttribute("role", "group");
-  grupa.setAttribute("aria-label", "Pozadina koda");
-  const sada = pozadinaKoda();
-  for (const [vrednost, natpis] of [["bela", "Bela"], ["crna", "Crna"]]) {
-    const dugme = document.createElement("button");
-    dugme.type = "button";
-    dugme.dataset.pozadina = vrednost;
-    dugme.textContent = natpis;
-    dugme.setAttribute("aria-label", `${natpis} pozadina`);
-    dugme.setAttribute("aria-pressed", String(sada === vrednost));
-    dugme.addEventListener("click", () => postaviPozadinuKoda(vrednost));
-    grupa.append(dugme);
+  const natpis = document.createElement("label");
+  natpis.append(document.createTextNode("Boje"));
+  const izbor = document.createElement("select");
+  izbor.setAttribute("aria-label", "Tema bojenja koda");
+  const sada = temaKodaSada();
+  for (const [tamna, naslov] of [[false, "Svetle"], [true, "Tamne"]]) {
+    const grupaOpcija = document.createElement("optgroup");
+    grupaOpcija.label = naslov;
+    for (const tema of TEME_KODA.filter((stavka) => stavka.tamna === tamna)) {
+      const opcija = document.createElement("option");
+      opcija.value = tema.id;
+      opcija.textContent = tema.natpis;
+      grupaOpcija.append(opcija);
+    }
+    izbor.append(grupaOpcija);
   }
+  izbor.value = sada;
+  izbor.addEventListener("change", () => postaviTemuKoda(izbor.value));
+  natpis.append(izbor);
+  grupa.append(natpis);
   return grupa;
 }
 
@@ -4126,7 +4132,7 @@ function postaviStablo(sklopljeno) {
 }
 
 postaviStablo(lokalno.stanje().podesavanja.stabloSklopljeno);
-document.documentElement.dataset.pozadinaKoda = lokalno.stanje().podesavanja.pozadinaKoda === "crna" ? "crna" : "bela";
+document.documentElement.dataset.temaKoda = temaKodaSada();
 
 dugmeStabla.addEventListener("click", () => {
   const sklopljeno = dugmeStabla.getAttribute("aria-expanded") === "true";
@@ -4411,7 +4417,7 @@ function primeniStanje() {
   else delete koren.dataset.tema;
   koren.dataset.mod = stanje.podesavanja.mod === "samostalni" ? "samostalni" : "predavanja";
   koren.style.setProperty("--skala-fonta", stanje.podesavanja.font);
-  koren.dataset.pozadinaKoda = stanje.podesavanja.pozadinaKoda === "crna" ? "crna" : "bela";
+  koren.dataset.temaKoda = temaKodaIz(stanje.podesavanja.pozadinaKoda);
   postaviStablo(stanje.podesavanja.stabloSklopljeno);
   korakPoCasu.clear();
   deo = podrazumevaniDeo();

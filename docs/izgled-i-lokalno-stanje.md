@@ -55,9 +55,9 @@ Ispod naslova teme, izvan Gradiva, stoji birač pune širine kolone. Čita Korak
 
 Raspored zavisi od širine same kontrole: od 900 px jedan red, od 760 px naslov ide ispod broja koraka, od 540 px krugovi idu uz akcije, ispod 540 px identitet, strelice i krugovi se slažu. Krugovi koji ne stanu prelamaju se u novi red.
 
-### Pozadina koda
+### Bojenje koda
 
-Na bloku koda su Bela i Crna. Izbor upisuje `podesavanja.pozadinaKoda` i važi za sve blokove koda, ne samo za otvoreni. Nije odeljak u Opcijama. Podrazumevano je bela. Inline skripta u `<head>` postavlja `data-pozadina-koda` pre prvog crtanja.
+Na bloku koda je izbor Boje. To su službene teme highlight.js 11.12.0, svetle i tamne. Izbor upisuje `podesavanja.pozadinaKoda` i važi za sve blokove koda, ne samo za otvoreni. Nije odeljak u Opcijama. Podrazumevana tema je `github`. Stari zapis `bela` čita se kao `github`, a `crna` kao `github-dark`. Inline skripta u `<head>` postavlja `data-tema-koda` pre prvog crtanja.
 
 ## Opcije
 
@@ -121,7 +121,7 @@ Sve što sajt pamti o studentu stoji u jednom zapisu u `localStorage`, pod klju�
   "verzija": 1,
   "mesto": { "tema": 3, "uvod": false },
   "napredak": { "3": { "vidjeni": [0, 1, 2], "poslednji": 2 } },
-  "podesavanja": { "mod": "predavanja", "font": "1", "stabloSklopljeno": false, "pozadinaKoda": "bela" },
+  "podesavanja": { "mod": "predavanja", "font": "1", "stabloSklopljeno": false, "pozadinaKoda": "github" },
   "paleta": "pesak",
   "beleske": [
     { "tema": 3, "korak": 2, "naslov": "Primitivna vrednost i referenca", "komentar": "Razlika u čuvanju u memoriji", "izmenjeno": "2026-11-04T08:00:00.000Z" }
@@ -137,7 +137,7 @@ Sve što sajt pamti o studentu stoji u jednom zapisu u `localStorage`, pod klju�
 | `podesavanja.mod` | `predavanja`, `samostalni` ili `null`. `null` znači da način korišćenja još nije izabran. |
 | `podesavanja.font` | Veličina teksta: `"0.875"` (A−), `"1"` (A) ili `"1.125"` (A+). |
 | `podesavanja.stabloSklopljeno` | Da li je stablo fajlova u editoru sklopljeno. |
-| `podesavanja.pozadinaKoda` | Pozadina bloka koda: `bela` ili `crna`. Važi za sve blokove koda. Podrazumevano je `bela`. |
+| `podesavanja.pozadinaKoda` | Tema bojenja koda, id službene teme highlight.js. Važi za sve blokove koda. Podrazumevano je `github`. Nepoznata vrednost pada na `github`. Stari `bela` i `crna` postaju `github` i `github-dark`. |
 | `paleta` | `mornar`, `ugalj`, `pesak`, `terakota` ili `null` (prati sistem). |
 | `beleske` | Jedna beleška po paru tema i korak: naslov koraka u trenutku čuvanja, komentar do 500 znakova i vreme izmene. |
 
@@ -162,7 +162,7 @@ Ništa iz stanja ne ide na server.
 
 ### Stanje pre prvog crtanja
 
-Inline skripta u `<head>` čita isti zapis pre učitavanja modula i odmah postavlja `data-tema`, `data-mod`, `data-pozadina-koda` i `--skala-fonta`. Zato se pri učitavanju ne vidi pogrešna paleta ni pogrešna pozadina koda. Kad zapisa nema, skripta čita stare ključeve, a pozadina koda ostaje bela. Prenos i brisanje radi samo modul.
+Inline skripta u `<head>` čita isti zapis pre učitavanja modula i odmah postavlja `data-tema`, `data-mod`, `data-tema-koda` i `--skala-fonta`. Zato se pri učitavanju ne vidi pogrešna paleta ni pogrešna tema koda. Kad zapisa nema, skripta čita stare ključeve, a tema koda ostaje `github`. Prenos i brisanje radi samo modul.
 
 ### Prenos starih ključeva
 
