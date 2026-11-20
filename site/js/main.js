@@ -2710,6 +2710,46 @@ function postaviRasporedBiraca(birac) {
   primeni();
 }
 
+function poravnajNazivKruga(naziv, sidro) {
+  const margina = 8;
+  if (!naziv.classList.contains("otvoren")) {
+    naziv.classList.remove("ispod");
+    naziv.style.left = "0px";
+    naziv.style.top = "0px";
+  }
+  const kutija = naziv.getBoundingClientRect();
+  const tacka = sidro.getBoundingClientRect();
+  if (kutija.width < 1 || tacka.width < 1) return;
+  if (tacka.bottom < 0 || tacka.top > window.innerHeight) {
+    naziv.classList.remove("otvoren");
+    return;
+  }
+  let left = tacka.left + tacka.width / 2 - kutija.width / 2;
+  left = Math.max(margina, Math.min(left, window.innerWidth - kutija.width - margina));
+  const iznad = tacka.top - kutija.height - 8;
+  const ispod = iznad < margina;
+  naziv.style.left = `${Math.round(left)}px`;
+  naziv.style.top = `${Math.round(ispod ? tacka.bottom + 8 : iznad)}px`;
+  const strelica = Math.max(12, Math.min(kutija.width - 12, tacka.left + tacka.width / 2 - left));
+  naziv.style.setProperty("--strelica", `${Math.round(strelica)}px`);
+  naziv.classList.toggle("ispod", ispod);
+  naziv.classList.add("otvoren");
+}
+
+function sakrijNazivKruga(domacin, naziv) {
+  if (domacin.matches(":hover") || domacin.matches(":focus-visible")) return;
+  naziv.classList.remove("otvoren");
+}
+
+function osveziNazivKruga() {
+  const naziv = document.querySelector(".birac-krug-naziv.otvoren");
+  const sidro = naziv?.closest(".birac-krug-domacin");
+  if (naziv && sidro) poravnajNazivKruga(naziv, sidro);
+}
+
+window.addEventListener("resize", osveziNazivKruga);
+window.addEventListener("scroll", osveziNazivKruga, true);
+
 function nacrtajBirac(item, i) {
   const korak = item.steps[i];
   const birac = document.createElement("div");
@@ -2821,6 +2861,19 @@ function nacrtajBirac(item, i) {
     const krug = document.createElement("span");
     krug.className = ki <= i ? "birac-krug birac-krug-dosegnut" : "birac-krug birac-krug-buduci";
     domacin.append(krug);
+    if (korakNed.naslov) {
+      const naziv = document.createElement("span");
+      naziv.className = "birac-krug-naziv";
+      naziv.setAttribute("aria-hidden", "true");
+      naziv.textContent = korakNed.naslov;
+      krug.append(naziv);
+      const poravnaj = () => poravnajNazivKruga(naziv, domacin);
+      const sakrij = () => sakrijNazivKruga(domacin, naziv);
+      domacin.addEventListener("pointerenter", poravnaj);
+      domacin.addEventListener("pointerleave", sakrij);
+      domacin.addEventListener("focus", poravnaj);
+      domacin.addEventListener("blur", sakrij);
+    }
     krugovi.append(domacin);
   });
   const kruznici = document.createElement("div");
