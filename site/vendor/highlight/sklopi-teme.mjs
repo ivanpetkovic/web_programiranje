@@ -10,12 +10,16 @@ const OVDE = path.dirname(new URL(import.meta.url).pathname);
 const IZLAZ_CSS = path.join(OVDE, "teme.css");
 const IZLAZ_JS = path.join(OVDE, "..", "..", "js", "teme-koda.js");
 const PRESKOCI_SELEKTOR = new Set(["pre code.hljs", "code.hljs"]);
+const ZADRZI = new Set(["1c-light", "ascetic", "monokai", "equinox", "a11y-dark"]);
+const PODRAZUMEVANA = "1c-light";
 
 const spisak = await fetch(`https://data.jsdelivr.com/v1/packages/npm/highlight.js@${VERZIJA}`).then((odgovor) => odgovor.json());
 const stilovi = spisak.files.find((fajl) => fajl.name === "styles").files
   .map((fajl) => fajl.name)
-  .filter((ime) => ime.endsWith(".css") && !ime.endsWith(".min.css"))
+  .filter((ime) => ZADRZI.has(ime.slice(0, -4)))
   .sort();
+const nedostaje = [...ZADRZI].filter((id) => !stilovi.includes(`${id}.css`));
+if (nedostaje.length) throw new Error(`nedostaje tema: ${nedostaje.join(", ")}`);
 
 const slike = new Set();
 
@@ -161,7 +165,7 @@ function teloSaSlikama(telo) {
 
 function rezerva(selektor) {
   return selektor
-    .replace(/html\[data-tema-koda="github"\]\s+/g, "")
+    .replace(new RegExp(`html\\[data-tema-koda="${PODRAZUMEVANA}"\\]`, "g"), "html:not([data-tema-koda])")
     .replace(/\s+,/g, ",");
 }
 
@@ -196,7 +200,7 @@ for (const fajl of stilovi) {
     const telo = teloSaSlikama(pravilo.telo);
     const linija = `${selektori.join(",\n")} {\n  ${telo}\n}`;
     pravilaCss.push(linija);
-    if (id === "github") pravilaCss.push(`${selektori.map(rezerva).join(",\n")} {\n  ${telo}\n}`);
+    if (id === PODRAZUMEVANA) pravilaCss.push(`${selektori.map(rezerva).join(",\n")} {\n  ${telo}\n}`);
     if (pravilo.selektor.replace(/\s+/g, " ").trim() === ".hljs") {
       const pozadine = pravilo.telo.split(";").map((deo) => deo.trim()).filter((deo) => /^background(?:-color|-image)?\s*:/.test(deo));
       if (pozadine.length) pravilaCss.push(`html[data-tema-koda="${id}"] .kviz-dijagram {\n  ${pozadine.join(";\n  ")};\n}`);
@@ -215,20 +219,20 @@ for (const tema of teme) {
 }
 teme.sort((a, b) => Number(a.tamna) - Number(b.tamna) || a.natpis.localeCompare(b.natpis, "sr"));
 
-const uvod = `/* Službene teme highlight.js ${VERZIJA} (BSD-3-Clause).
+const uvod = `/* Zadržane službene teme highlight.js ${VERZIJA} (BSD-3-Clause).
    Sklopio site/vendor/highlight/sklopi-teme.mjs. Ne uređuj ručno.
    Selektori važe za .kod-sintaksa unutar html[data-tema-koda].
-   GitHub je zapisan i bez atributa, kao rezerva. */
+   1c Light važi i kad html nema data-tema-koda, kao rezerva. */
 `;
 fs.writeFileSync(IZLAZ_CSS, `${uvod}\n${deloviCss.join("\n\n")}\n`);
 
-const js = `/* Spisak službenih tema highlight.js ${VERZIJA}. Sklopio sklopi-teme.mjs. */
-export const PODRAZUMEVANA_TEMA_KODA = "github";
+const js = `/* Zadržane službene teme highlight.js ${VERZIJA}. Sklopio sklopi-teme.mjs. */
+export const PODRAZUMEVANA_TEMA_KODA = "${PODRAZUMEVANA}";
 
 export const TEME_KODA = ${JSON.stringify(teme.map(({ id, natpis, tamna }) => ({ id, natpis, tamna })), null, 2)};
 
 const PO_ID = new Map(TEME_KODA.map((tema) => [tema.id, tema]));
-const STARE = { bela: "github", crna: "github-dark" };
+const STARE = { bela: "${PODRAZUMEVANA}", github: "${PODRAZUMEVANA}", crna: "monokai", "github-dark": "monokai" };
 
 export function temaKodaIz(vrednost) {
   const sirova = STARE[vrednost] || vrednost;

@@ -14,15 +14,16 @@
         try {
           zapis = JSON.parse(localStorage.getItem("web-programiranje:stanje") || "null");
         } catch (e) {}
-        var paleta, mod, skala, temaKoda = "github";
+        var paleta, mod, skala, temaKoda = "1c-light";
+        var temeKoda = { "1c-light": 1, ascetic: 1, equinox: 1, "a11y-dark": 1, monokai: 1 };
+        var stareTeme = { bela: "1c-light", github: "1c-light", crna: "monokai", "github-dark": "monokai" };
         if (zapis && zapis.verzija === 1) {
           var podesavanja = zapis.podesavanja || {};
           paleta = zapis.paleta;
           mod = podesavanja.mod;
           skala = podesavanja.font;
-          var sirovaTema = podesavanja.pozadinaKoda;
-          if (sirovaTema === "crna") temaKoda = "github-dark";
-          else if (sirovaTema !== "bela" && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(sirovaTema)) temaKoda = sirovaTema;
+          var sirovaTema = stareTeme[podesavanja.pozadinaKoda] || podesavanja.pozadinaKoda;
+          if (temeKoda[sirovaTema]) temaKoda = sirovaTema;
         } else {
           paleta = localStorage.getItem("tema");
           mod = localStorage.getItem("web-programiranje:mod");
