@@ -185,8 +185,12 @@ _Avoid_: Front.
 Tuđi skelet servera. Kurs ga ne uvodi.
 
 **JavaScript engine**:
-Program koji izvršava JavaScript. U Chrome-u i Node.js-u to je V8, u Firefox-u SpiderMonkey. Okruženje, browser ili Node.js, dodaje API-je koje engine ne daje.
-_Avoid_: Motor, JVM.
+Program koji izvršava JavaScript. U Chrome-u i Node.js-u to je V8, u Firefox-u SpiderMonkey. Izvršno okruženje dodaje API-je koje engine ne daje.
+_Avoid_: Motor, JVM, izvršno okruženje.
+
+**izvršno okruženje**:
+Okruženje u kome se JavaScript izvršava, sa API-jima kojih u jeziku nema. Browser i Node.js su dva takva okruženja. Engleski naziv je runtime environment.
+_Avoid_: JavaScript engine, leksičko okruženje, okruženje izvršavanja, execution environment, Web server, framework.
 
 **Hoisting**:
 Posledica prolaza definicija pri stvaranju konteksta izvršavanja. JavaScript engine tada pročita definicije i upiše deklaracije tog konteksta. U prolazu izvršenja izvršava naredbe i dodele. `var` je u prvom prolazu `undefined`, deklaracija funkcije je već funkcija, a `let` i `const` još ne smeju da se čitaju. Funkcijski izraz nije deklaracija funkcije: ime se upiše u prolazu definicija, a funkcija nastaje tek kad izvršavanje stigne do dodele.
