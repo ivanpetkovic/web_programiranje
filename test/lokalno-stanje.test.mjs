@@ -38,7 +38,7 @@ test("prazno skladište daje podrazumevano stanje", () => {
   assert.equal(stanje.paleta, null);
   assert.equal(stanje.podesavanja.mod, null);
   assert.equal(stanje.podesavanja.font, "1");
-  assert.equal(stanje.podesavanja.pozadinaKoda, "github");
+  assert.equal(stanje.podesavanja.pozadinaKoda, "1c-light");
   assert.deepEqual(stanje.napredak, {});
   assert.deepEqual(stanje.beleske, []);
 });
@@ -60,22 +60,24 @@ test("jedno loše polje pada na podrazumevano, ispravna ostaju", () => {
   assert.equal(stanje.podesavanja.mod, "samostalni");
   assert.equal(stanje.podesavanja.font, "1");
   assert.equal(stanje.podesavanja.stabloSklopljeno, false);
-  assert.equal(stanje.podesavanja.pozadinaKoda, "github");
+  assert.equal(stanje.podesavanja.pozadinaKoda, "1c-light");
   assert.equal(stanje.beleske.length, 1);
   assert.equal(stanje.beleske[0].komentar, "Razlika");
 });
 
 test("tema koda pamti službenu temu i stara imena", () => {
-  assert.equal(podrazumevanoStanje().podesavanja.pozadinaKoda, "github");
+  assert.equal(podrazumevanoStanje().podesavanja.pozadinaKoda, "1c-light");
   const crna = postaviPodesavanje(podrazumevanoStanje(), "pozadinaKoda", "crna");
-  assert.equal(crna.podesavanja.pozadinaKoda, "github-dark");
-  assert.equal(postaviPodesavanje(podrazumevanoStanje(), "pozadinaKoda", "bela").podesavanja.pozadinaKoda, "github");
+  assert.equal(crna.podesavanja.pozadinaKoda, "monokai");
+  assert.equal(postaviPodesavanje(podrazumevanoStanje(), "pozadinaKoda", "bela").podesavanja.pozadinaKoda, "1c-light");
+  assert.equal(postaviPodesavanje(podrazumevanoStanje(), "pozadinaKoda", "github").podesavanja.pozadinaKoda, "1c-light");
+  assert.equal(postaviPodesavanje(podrazumevanoStanje(), "pozadinaKoda", "github-dark").podesavanja.pozadinaKoda, "monokai");
   const monokai = postaviPodesavanje(crna, "pozadinaKoda", "monokai");
   assert.equal(monokai.podesavanja.pozadinaKoda, "monokai");
-  assert.equal(postaviPodesavanje(monokai, "pozadinaKoda", "plava").podesavanja.pozadinaKoda, "github");
+  assert.equal(postaviPodesavanje(monokai, "pozadinaKoda", "plava").podesavanja.pozadinaKoda, "1c-light");
   const uvoz = uveziStanje(izveziStanje(crna));
   assert.equal(uvoz.ok, true);
-  assert.equal(uvoz.stanje.podesavanja.pozadinaKoda, "github-dark");
+  assert.equal(uvoz.stanje.podesavanja.pozadinaKoda, "monokai");
 });
 
 test("komentar se seče na 500 znakova", () => {
