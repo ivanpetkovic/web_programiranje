@@ -918,8 +918,6 @@ button.sve-beleske-korak:hover { color: var(--amber); }
   padding: 0.75rem 0.9rem;
   overflow: auto;
   border-radius: 10px;
-  background: #f7f1e6;
-  color: #1c1a16;
   font-family: ui-monospace, "Cascadia Code", monospace;
   font-size: 0.92rem;
   line-height: 1.45;
@@ -930,11 +928,9 @@ button.sve-beleske-korak:hover { color: var(--amber); }
   padding: 0.7rem 0.85rem 0.9rem;
   overflow: auto;
   border-radius: 10px;
-  background: #f7f1e6;
+  background: #ffffff;
 }
-html[data-pozadina-koda="crna"] .kviz-dijagram { background: #111111; }
 .kviz-dijagram svg { max-width: 100%; height: auto; }
-html[data-pozadina-koda="crna"] .kviz-kod { background: #111111; color: #f4efe4; }
 .kviz-polje { width: 100%; min-height: 9rem; }
 .kviz-navigacija { display: flex; justify-content: space-between; gap: 8px; }
 .kviz-odgovor { display: grid; gap: 6px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; }
@@ -1416,41 +1412,19 @@ body.nav-skriven .kurs-zaglavlje { padding: 0; gap: 0; }
 .highlight-sadrzaj:not(:has(p)) strong { margin-bottom: 0; }
 .highlight-sadrzaj p { margin: 0; }
 .highlight-sadrzaj p + p { margin-top: 0.45rem; }
-.sekcija-lekcije[data-vrsta="kod"] .isecak pre { background: #f7f1e6; color: #1c1a16; }
 .sekcija-lekcije[data-vrsta="kod"] .isecak pre code { font: inherit; }
-html[data-pozadina-koda="crna"] .sekcija-lekcije[data-vrsta="kod"] .isecak pre { background: #111111; color: #f4efe4; }
-.kod-sintaksa .hljs-keyword,
-.kod-sintaksa .hljs-selector-tag,
-.kod-sintaksa .hljs-name,
-.kod-sintaksa .hljs-selector-class,
-.kod-sintaksa .hljs-selector-id,
-.kod-sintaksa .hljs-built_in { color: #9a3412; }
-.kod-sintaksa .hljs-string,
-.kod-sintaksa .hljs-literal { color: #3f6212; }
-.kod-sintaksa .hljs-number,
-.kod-sintaksa .hljs-attr,
-.kod-sintaksa .hljs-attribute,
-.kod-sintaksa .hljs-property { color: #1d4e89; }
-.kod-sintaksa .hljs-title { color: #7c3a00; }
-.kod-sintaksa .hljs-comment,
-.kod-sintaksa .hljs-meta { color: #6b6458; }
-html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-keyword,
-html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-selector-tag,
-html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-name,
-html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-selector-class,
-html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-selector-id,
-html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-title,
-html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-built_in { color: #ffb000; }
-html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-string,
-html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-literal { color: #d7e7a1; }
-html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-number,
-html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-attr,
-html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-attribute,
-html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-property { color: #9ec3ef; }
-html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-comment,
-html[data-pozadina-koda="crna"] .kod-sintaksa .hljs-meta { color: #a39888; }
-.kod-boja { display: inline-flex; gap: 0.25rem; }
-.kod-boja button { padding: 0.15rem 0.5rem; font: inherit; font-size: 0.8rem; }
+.kod-sintaksa.hljs { display: block; }
+.kod-boja label { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; }
+.kod-boja select {
+  max-width: 12rem;
+  padding: 0.1rem 0.3rem;
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
 .isecak-akcije { display: inline-flex; align-items: center; gap: 0.35rem; }
 .sekcija-lekcije { position: relative; margin: 0.35rem 0; }
 .sekcija-rucice,
@@ -1579,13 +1553,10 @@ body.rezim-uredjivanja .sekcija-lekcije .isecak header { padding-right: 0.4rem; 
   padding: 0.75rem 0.9rem;
   overflow: auto;
   border-radius: 10px;
-  background: #f7f1e6;
-  color: #1c1a16;
   font-family: ui-monospace, "Cascadia Code", monospace;
   font-size: 0.92rem;
   line-height: 1.45;
 }
-html[data-pozadina-koda="crna"] .pitanje-kod { background: #111111; color: #f4efe4; }
 .obrazlozenje-tekst { margin-top: 0.75rem; }
 .pitanje-red.otkriva .pojam-crta { pointer-events: auto; }
 .pitanje-okidac {

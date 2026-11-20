@@ -171,9 +171,10 @@ test("meni ima jedan blok koda, bez tamne i svetle verzije", () => {
   assert.equal(main.includes("isecak-crna"), false);
   assert.equal(main.includes("isecak-bela"), false);
   assert.match(main, /postaviPodesavanje\(stanje, "pozadinaKoda", sledeca\)/);
-  assert.match(css, /html\[data-pozadina-koda="crna"\]/);
+  assert.match(main, /dataset\.temaKoda = sledeca/);
+  assert.equal(css.includes("data-pozadina-koda"), false);
   assert.equal(css.includes(".isecak-crna"), false);
-  assert.match(html, /dataset\.pozadinaKoda = pozadinaKoda === "crna" \? "crna" : "bela"/);
+  assert.match(html, /dataset\.temaKoda = temaKoda/);
 });
 
 test("crtež koraka je dijagram blok u gradivu", () => {

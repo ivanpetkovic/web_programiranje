@@ -14,13 +14,15 @@
         try {
           zapis = JSON.parse(localStorage.getItem("web-programiranje:stanje") || "null");
         } catch (e) {}
-        var paleta, mod, skala, pozadinaKoda;
+        var paleta, mod, skala, temaKoda = "github";
         if (zapis && zapis.verzija === 1) {
           var podesavanja = zapis.podesavanja || {};
           paleta = zapis.paleta;
           mod = podesavanja.mod;
           skala = podesavanja.font;
-          pozadinaKoda = podesavanja.pozadinaKoda;
+          var sirovaTema = podesavanja.pozadinaKoda;
+          if (sirovaTema === "crna") temaKoda = "github-dark";
+          else if (sirovaTema !== "bela" && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(sirovaTema)) temaKoda = sirovaTema;
         } else {
           paleta = localStorage.getItem("tema");
           mod = localStorage.getItem("web-programiranje:mod");
@@ -28,11 +30,12 @@
         }
         if (palete[paleta]) koren.dataset.tema = palete[paleta];
         koren.dataset.mod = mod === "samostalni" ? "samostalni" : "predavanja";
-        koren.dataset.pozadinaKoda = pozadinaKoda === "crna" ? "crna" : "bela";
+        koren.dataset.temaKoda = temaKoda;
         if (skale[skala]) koren.style.setProperty("--skala-fonta", skale[skala]);
       } catch (e) {}
     </script>
     <link rel="stylesheet" href="/css/site.css" />
+    <link rel="stylesheet" href="/vendor/highlight/teme.css" />
     <link rel="stylesheet" href="/client/css/soba.css" />
   </head>
   <body>
