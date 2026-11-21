@@ -102,6 +102,18 @@ _Avoid_: Serversko stanje.
 Pravougaonik koji CSS izvede za raspored elementa. Čine ga sadržaj, padding, border i margin. Engleski naziv je box model.
 _Avoid_: Okvir elementa, boks
 
+**čvor**:
+Stavka DOM stabla. Element, tekst, komentar i dokument su čvorovi. Engleski naziv interfejsa je Node.
+_Avoid_: Node.js, tag
+
+**element**:
+Čvor DOM stabla koji predstavlja oznaku i ima ime i atribute. Tekst nije element. Engleski naziv interfejsa je Element.
+_Avoid_: tag, Document
+
+**dokument**:
+Čvor koji drži celo DOM stablo i nije element. Nije fajl na serveru. Engleski naziv interfejsa je Document.
+_Avoid_: HTML fajl, Element, window
+
 **komutacija kola**:
 Rezervisanje komunikacionog puta za vreme razgovora. Put ostaje zauzet i dok nema podataka.
 _Avoid_: Veza od kraja do kraja.

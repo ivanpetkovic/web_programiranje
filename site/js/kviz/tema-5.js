@@ -22,14 +22,14 @@ export const pitanja = [
   izbor(5, 0, 3, "Šta stoji unutar ovog paragrafa?", [
     ["A", "Jedno tekstualno svojstvo, strong je samo stil.", false],
     ["B", "Tekstualni čvor i element strong, koji ima svoj tekst.", true],
-  ], "Element i čvor nisu isto. strong je element, a tekst oko njega je čvor.", kod("<p>Zdravo <strong>svete</strong></p>")),
+  ], "Svaki element je čvor, tekst nije. strong je element. Zdravo i svete su tekstualni čvorovi.", kod("<p>Zdravo <strong>svete</strong></p>")),
   ispravka(5, 0, 4, "app.js odmah traži #naslov, a skripta je obična i stoji ispred naslova. Odloži je atributom defer.", "<script src=\"app.js\"></script>\n<h1 id=\"naslov\">Vesti</h1>", "<h1 id=\"naslov\">Vesti</h1>\n<script src=\"app.js\" defer></script>", "Bez odlaganja pretraga može da vrati null, jer parser još nije stigao do naslova.", html),
 
   izbor(5, 1, 1, "Pre dodavanja postoji tačno jedan li. Šta ispiše prvi console.log?", [
-    ["A", "1. Stari NodeList se ne dopunjava.", true],
+    ["A", "1. Stara lista ostaje na 1.", true],
     ["B", "2. Svaka lista prati DOM uživo.", false],
     ["C", "0. append briše prethodnu pretragu.", false],
-  ], "querySelectorAll vraća statičan NodeList. Novi poziv vidi 2.", { ...z, ...kod("const stavke = document.querySelectorAll(\"li\");\ndocument.querySelector(\"ul\").append(document.createElement(\"li\"));\nconsole.log(stavke.length);\nconsole.log(document.querySelectorAll(\"li\").length);") }),
+  ], "querySelectorAll vraća NodeList, listu čvorova iz trenutka poziva. Stara lista ostaje 1. Novi poziv vidi 2.", { ...z, ...kod("const stavke = document.querySelectorAll(\"li\");\ndocument.querySelector(\"ul\").append(document.createElement(\"li\"));\nconsole.log(stavke.length);\nconsole.log(document.querySelectorAll(\"li\").length);") }),
   izbor(5, 1, 2, "Čime se .kartica.aktivna razlikuje od .kartica .aktivna?", [
     ["A", "Ničim. Razmak u selektoru se ignoriše.", false],
     ["B", "Prvi traži isti element sa obe klase. Drugi traži potomka.", true],

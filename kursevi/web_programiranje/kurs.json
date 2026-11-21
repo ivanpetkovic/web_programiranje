@@ -7168,7 +7168,7 @@
           "level": "Osnovno",
           "minutes": 3,
           "exampleKind": "eksperiment",
-          "text": "**Problem:** Browser je pročitao HTML. Kako JavaScript može da pronađe i promeni konkretan naslov?\n\nHTML je tekst kojim opisujemo strukturu dokumenta. Browser ga parsira i od njega pravi **DOM (Document Object Model)**, stablo objekata koje predstavlja dokument u memoriji. DOM element može da ima roditelja, decu, atribute i metode. JavaScript ne menja automatski izvorni HTML fajl: menja objekte trenutnog dokumenta, a browser na osnovu promena ažurira prikaz.\n\n**Čvor** je opštiji pojam: tekst unutar naslova je takođe čvor, ali nije element. `document` je ulazna tačka za pristup dokumentu. `window` predstavlja širi kontekst prozora odnosno taba i obuhvata mnoge browser API-je, među njima i `document`.\n\nAko skripta traži element **pre nego što je browser napravio taj deo DOM-a**, pretraga može vratiti `null`. Praktično rešenje je da se skripta učita pomoću `type=\"module\"` ili `defer`, ili da se inicijalizacija sačeka do `DOMContentLoaded`.\n\nModulske skripte su podrazumevano odložene do parsiranja dokumenta; ne treba ih mešati sa običnom skriptom bez `defer`, koja se izvršava čim parser dođe do nje.",
+          "text": "**Problem:** Browser je pročitao HTML. Kako JavaScript može da pronađe i promeni konkretan naslov?\n\nHTML je tekst kojim opisujemo strukturu dokumenta. Browser ga parsira i od njega pravi **DOM (Document Object Model)**, stablo objekata koje predstavlja dokument u memoriji. DOM element može da ima roditelja, decu, atribute i metode. JavaScript ne menja automatski izvorni HTML fajl: menja objekte trenutnog dokumenta, a browser na osnovu promena ažurira prikaz.\n\n**Čvor** (`Node`) je svaka stavka stabla: element, tekst, komentar i sam dokument. **Element** (`Element`) je čvor koji predstavlja oznaku, pa ima ime i atribute. Svaki element je čvor. Tekst unutar naslova je čvor, ali nije element. **Dokument** (`Document`) je čvor koji drži celo stablo i nije element: `document` je ulazna tačka, a `document.documentElement` je element `html`. `window` predstavlja širi kontekst prozora odnosno taba i obuhvata mnoge browser API-je, među njima i `document`.\n\nAko skripta traži element **pre nego što je browser napravio taj deo DOM-a**, pretraga može vratiti `null`. Praktično rešenje je da se skripta učita pomoću `type=\"module\"` ili `defer`, ili da se inicijalizacija sačeka do `DOMContentLoaded`.\n\nModulske skripte su podrazumevano odložene do parsiranja dokumenta; ne treba ih mešati sa običnom skriptom bez `defer`, koja se izvršava čim parser dođe do nje.",
           "keyIdea": "HTML je opis, DOM je živa struktura koju program može da menja. DOM nije isto što i pikseli na ekranu.",
           "blocks": [
             {
@@ -7192,7 +7192,7 @@
             {
               "id": "k16b4",
               "kind": "tekst",
-              "text": "**Čvor** je opštiji pojam: tekst unutar naslova je takođe čvor, ali nije element. `document` je ulazna tačka za pristup dokumentu. `window` predstavlja širi kontekst prozora odnosno taba i obuhvata mnoge browser API-je, među njima i `document`.\n\nAko skripta traži element **pre nego što je browser napravio taj deo DOM-a**, pretraga može vratiti `null`. Praktično rešenje je da se skripta učita pomoću `type=\"module\"` ili `defer`, ili da se inicijalizacija sačeka do `DOMContentLoaded`."
+              "text": "**Čvor** (`Node`) je svaka stavka stabla: element, tekst, komentar i sam dokument. **Element** (`Element`) je čvor koji predstavlja oznaku, pa ima ime i atribute. Svaki element je čvor. Tekst unutar naslova je čvor, ali nije element. **Dokument** (`Document`) je čvor koji drži celo stablo i nije element: `document` je ulazna tačka, a `document.documentElement` je element `html`. `window` predstavlja širi kontekst prozora odnosno taba i obuhvata mnoge browser API-je, među njima i `document`.\n\nAko skripta traži element **pre nego što je browser napravio taj deo DOM-a**, pretraga može vratiti `null`. Praktično rešenje je da se skripta učita pomoću `type=\"module\"` ili `defer`, ili da se inicijalizacija sačeka do `DOMContentLoaded`."
             },
             {
               "id": "k16b5",
@@ -7218,83 +7218,83 @@
               "id": "k16q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "1.1. Problem, pre definicije. Dva browsera treba da izvrše isti program koji menja naslov HTML stranice. Šta JavaScript mora da dobije od browsera da program ne zavisi od njegovog internog načina čuvanja dokumenta?",
+              "text": "1.1. Dva browsera treba da izvrše isti program koji menja naslov HTML stranice. Šta JavaScript mora da dobije od browsera da program ne zavisi od njegovog internog načina čuvanja dokumenta?",
               "answer": "Zajednički model dokumenta i dogovoren skup operacija, odnosno API. Browseri smeju interno da budu različiti, ali moraju da izlažu usaglašeno ponašanje. Uvesti DOM i pojam standardizacije (DOM/HTML standardi), bez ulaska u istoriju standarda."
             },
             {
               "id": "k16q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "1.2. Dizajn. Zamislite da sami projektujete objekat za HTML `<article><h2>Naslov</h2><p>Tekst</p></article>`. Koja polja i operacije su neophodni? Zašto običan niz stringova nije dovoljan?",
-              "answer": "Tip čvora, naziv elementa, roditelj, uređena deca, atributi, tekst i metode za pronalaženje/promenu. Veze roditelj–deca omogućavaju stablo, premeštanje i propagaciju događaja. Razlikovati *model koji student predlaže* od stvarnih DOM interfejsa (`Node`, `Element`, `Document`)."
+              "text": "1.2. Zamislite da sami projektujete objekat za HTML `<article><h2>Naslov</h2><p>Tekst</p></article>`. Koja polja i operacije su neophodni? Zašto običan niz stringova nije dovoljan?",
+              "answer": "Potrebni su tip čvora, ime oznake kada je čvor element, roditelj, uređena deca, atributi i tekst. Niz stringova nema te veze, pa se od njega ne može složiti stablo niti premestiti deo. `Node` je svaki čvor stabla. `Element` je čvor koji predstavlja oznaku: svaki element je čvor, a tekstualni čvor nije element. `Document` je čvor koji drži celo stablo i nije element; preko njega se prave i traže elementi."
             },
             {
               "id": "k16q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "1.3. Zamka. Da li je tekst `Zdravo` u `<p>Zdravo <strong>svete</strong></p>` jedno svojstvo paragrafa ili postoji više čvorova? Nacrtajte stablo.",
-              "answer": "`p` ima tekstualni čvor `Zdravo ` i element `strong`, koji ima tekstualni čvor `svete`. Element i čvor nisu sinonimi."
+              "text": "1.3. Da li je tekst `Zdravo` u `<p>Zdravo <strong>svete</strong></p>` jedno svojstvo paragrafa ili postoji više čvorova? Nacrtajte stablo.",
+              "answer": "`p` ima tekstualni čvor `Zdravo ` i element `strong`, koji ima tekstualni čvor `svete`. Tekst je čvor (`Node`), ali nije element. `strong` je i čvor i element (`Element`)."
             },
             {
               "id": "k16q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "1.4. Uzrok i posledica. Ako u dev alatima promenimo tekst naslova, da li smo promenili fajl na serveru? Šta očekujete posle osvežavanja stranice?",
+              "text": "1.4. Ako u dev alatima promenimo tekst naslova, da li smo promenili fajl na serveru? Šta očekujete posle osvežavanja stranice?",
               "answer": "Menja se živi dokument u memoriji, ne originalni fajl. Po ponovnom učitavanju najčešće se dobija početni dokument, osim ako druga logika ili skladište ne vrate promenu."
             },
             {
               "id": "k16q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "1.5. Problem redosleda. U HTML-u je obična `<script src=\"app.js\"></script>` pre naslova, a `app.js` odmah čita naslov. Šta bi moglo poći po zlu i koja tri pristupa rešavaju problem?",
+              "text": "1.5. U HTML-u je obična `<script src=\"app.js\"></script>` pre naslova, a `app.js` odmah čita naslov. Šta bi moglo poći po zlu i koja tri pristupa rešavaju problem?",
               "answer": "Element možda još nije parsiran pa pretraga vraća `null`. Rešenja: `defer`, `type=\"module\"` ili inicijalizacija po `DOMContentLoaded` (odnosno pravilno postavljanje skripte, uz razumevanje uslova)."
             },
             {
               "id": "k16q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "1.6. Procena. Da li je DOM isto što i ono što vidimo na ekranu? Kako biste dokazali da nisu isto, bez promene izvornog HTML-a?",
+              "text": "1.6. Da li je DOM isto što i ono što vidimo na ekranu? Kako biste dokazali da nisu isto, bez promene izvornog HTML-a?",
               "answer": "DOM predstavlja dokument, a vizuelni rezultat zavisi i od CSS-a, rasporeda i iscrtavanja. Sakriven element može postojati u DOM-u; tekst čvora može postojati bez vidljivog prikaza."
             },
             {
               "id": "k16q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "1.7. Prenos na Editor. Kontrolna soba ima naslov, temperaturu, status i listu senzora. Kako biste organizovali DOM stablo i gde biste kasnije tražili konkretan senzor?",
+              "text": "1.7. Kontrolna soba ima naslov, temperaturu, status i listu senzora. Kako biste organizovali DOM stablo i gde biste kasnije tražili konkretan senzor?",
               "answer": "Semantičke grupe i identifikatori za važna mesta. Studenti treba da predlože stablo i objasne izbor pre prikazivanja gotovog rešenja."
             }
           ],
           "prompts": [
             {
-              "prompt": "1.1. Problem, pre definicije. Dva browsera treba da izvrše isti program koji menja naslov HTML stranice. Šta JavaScript mora da dobije od browsera da program ne zavisi od njegovog internog načina čuvanja dokumenta?",
+              "prompt": "1.1. Dva browsera treba da izvrše isti program koji menja naslov HTML stranice. Šta JavaScript mora da dobije od browsera da program ne zavisi od njegovog internog načina čuvanja dokumenta?",
               "answer": "Zajednički model dokumenta i dogovoren skup operacija, odnosno API. Browseri smeju interno da budu različiti, ali moraju da izlažu usaglašeno ponašanje. Uvesti DOM i pojam standardizacije (DOM/HTML standardi), bez ulaska u istoriju standarda."
             },
             {
-              "prompt": "1.2. Dizajn. Zamislite da sami projektujete objekat za HTML `<article><h2>Naslov</h2><p>Tekst</p></article>`. Koja polja i operacije su neophodni? Zašto običan niz stringova nije dovoljan?",
-              "answer": "Tip čvora, naziv elementa, roditelj, uređena deca, atributi, tekst i metode za pronalaženje/promenu. Veze roditelj–deca omogućavaju stablo, premeštanje i propagaciju događaja. Razlikovati *model koji student predlaže* od stvarnih DOM interfejsa (`Node`, `Element`, `Document`)."
+              "prompt": "1.2. Zamislite da sami projektujete objekat za HTML `<article><h2>Naslov</h2><p>Tekst</p></article>`. Koja polja i operacije su neophodni? Zašto običan niz stringova nije dovoljan?",
+              "answer": "Potrebni su tip čvora, ime oznake kada je čvor element, roditelj, uređena deca, atributi i tekst. Niz stringova nema te veze, pa se od njega ne može složiti stablo niti premestiti deo. `Node` je svaki čvor stabla. `Element` je čvor koji predstavlja oznaku: svaki element je čvor, a tekstualni čvor nije element. `Document` je čvor koji drži celo stablo i nije element; preko njega se prave i traže elementi."
             },
             {
-              "prompt": "1.3. Zamka. Da li je tekst `Zdravo` u `<p>Zdravo <strong>svete</strong></p>` jedno svojstvo paragrafa ili postoji više čvorova? Nacrtajte stablo.",
-              "answer": "`p` ima tekstualni čvor `Zdravo ` i element `strong`, koji ima tekstualni čvor `svete`. Element i čvor nisu sinonimi."
+              "prompt": "1.3. Da li je tekst `Zdravo` u `<p>Zdravo <strong>svete</strong></p>` jedno svojstvo paragrafa ili postoji više čvorova? Nacrtajte stablo.",
+              "answer": "`p` ima tekstualni čvor `Zdravo ` i element `strong`, koji ima tekstualni čvor `svete`. Tekst je čvor (`Node`), ali nije element. `strong` je i čvor i element (`Element`)."
             },
             {
-              "prompt": "1.4. Uzrok i posledica. Ako u dev alatima promenimo tekst naslova, da li smo promenili fajl na serveru? Šta očekujete posle osvežavanja stranice?",
+              "prompt": "1.4. Ako u dev alatima promenimo tekst naslova, da li smo promenili fajl na serveru? Šta očekujete posle osvežavanja stranice?",
               "answer": "Menja se živi dokument u memoriji, ne originalni fajl. Po ponovnom učitavanju najčešće se dobija početni dokument, osim ako druga logika ili skladište ne vrate promenu."
             },
             {
-              "prompt": "1.5. Problem redosleda. U HTML-u je obična `<script src=\"app.js\"></script>` pre naslova, a `app.js` odmah čita naslov. Šta bi moglo poći po zlu i koja tri pristupa rešavaju problem?",
+              "prompt": "1.5. U HTML-u je obična `<script src=\"app.js\"></script>` pre naslova, a `app.js` odmah čita naslov. Šta bi moglo poći po zlu i koja tri pristupa rešavaju problem?",
               "answer": "Element možda još nije parsiran pa pretraga vraća `null`. Rešenja: `defer`, `type=\"module\"` ili inicijalizacija po `DOMContentLoaded` (odnosno pravilno postavljanje skripte, uz razumevanje uslova)."
             },
             {
-              "prompt": "1.6. Procena. Da li je DOM isto što i ono što vidimo na ekranu? Kako biste dokazali da nisu isto, bez promene izvornog HTML-a?",
+              "prompt": "1.6. Da li je DOM isto što i ono što vidimo na ekranu? Kako biste dokazali da nisu isto, bez promene izvornog HTML-a?",
               "answer": "DOM predstavlja dokument, a vizuelni rezultat zavisi i od CSS-a, rasporeda i iscrtavanja. Sakriven element može postojati u DOM-u; tekst čvora može postojati bez vidljivog prikaza."
             },
             {
-              "prompt": "1.7. Prenos na Editor. Kontrolna soba ima naslov, temperaturu, status i listu senzora. Kako biste organizovali DOM stablo i gde biste kasnije tražili konkretan senzor?",
+              "prompt": "1.7. Kontrolna soba ima naslov, temperaturu, status i listu senzora. Kako biste organizovali DOM stablo i gde biste kasnije tražili konkretan senzor?",
               "answer": "Semantičke grupe i identifikatori za važna mesta. Studenti treba da predlože stablo i objasne izbor pre prikazivanja gotovog rešenja."
             }
           ],
-          "prompt": "1.1. Problem, pre definicije. Dva browsera treba da izvrše isti program koji menja naslov HTML stranice. Šta JavaScript mora da dobije od browsera da program ne zavisi od njegovog internog načina čuvanja dokumenta?",
+          "prompt": "1.1. Dva browsera treba da izvrše isti program koji menja naslov HTML stranice. Šta JavaScript mora da dobije od browsera da program ne zavisi od njegovog internog načina čuvanja dokumenta?",
           "path": "client/lekcije/16-dom.js",
           "snippetTitle": "Šta je DOM i zašto postoji?",
           "snippetLanguage": "javascript",
@@ -7305,13 +7305,13 @@
           "level": "Osnovno",
           "minutes": 3,
           "exampleKind": "eksperiment",
-          "text": "**Problem:** Na stranici postoji deset kartica. Kako dohvatiti jednu, a kako sve?\n\n`querySelector()` vraća **prvi** element koji odgovara CSS selektoru, ili `null` ako ga nema. `querySelectorAll()` vraća statičku kolekciju `NodeList` svih trenutno pronađenih elemenata. `getElementById()` traži element po ID-u i pogodan je za jedinstveno imenovane elemente.\n\n`querySelectorAll()` ne prati automatski novododate elemente. Ako kasnije dodamo novi `<li>`, postojeća kolekcija i dalje sadrži prethodno pronađene elemente. Selektor može da se pozove i na roditeljskom elementu, čime se pretraga ograničava na njegov podskup.\n\nProveravati `null` kada element nije garantovan. Greška `Cannot read properties of null` često znači da element nije pronađen, a ne da je `textContent` neispravan.",
+          "text": "**Problem:** Na stranici postoji deset kartica. Kako dohvatiti jednu, a kako sve?\n\n`querySelector()` vraća **prvi** element koji odgovara CSS selektoru, ili `null` ako ga nema. `querySelectorAll()` vraća `NodeList`, listu čvorova snimljenu u trenutku poziva. Ta lista se ne dopunjava kad se DOM kasnije promeni. `getElementById()` traži element po ID-u i pogodan je za jedinstveno imenovane elemente.\n\n`querySelectorAll()` ne prati automatski novododate elemente. Ako kasnije dodamo novi `<li>`, postojeća kolekcija i dalje sadrži prethodno pronađene elemente. Selektor može da se pozove i na roditeljskom elementu, čime se pretraga ograničava na njegov podskup.\n\nProveravati `null` kada element nije garantovan. Greška `Cannot read properties of null` često znači da element nije pronađen, a ne da je `textContent` neispravan.",
           "keyIdea": "Selektor je način pronalaženja elemenata, ne garancija da element postoji.",
           "blocks": [
             {
               "id": "k17b1",
               "kind": "tekst",
-              "text": "**Problem:** Na stranici postoji deset kartica. Kako dohvatiti jednu, a kako sve?\n\n`querySelector()` vraća **prvi** element koji odgovara CSS selektoru, ili `null` ako ga nema. `querySelectorAll()` vraća statičku kolekciju `NodeList` svih trenutno pronađenih elemenata. `getElementById()` traži element po ID-u i pogodan je za jedinstveno imenovane elemente."
+              "text": "**Problem:** Na stranici postoji deset kartica. Kako dohvatiti jednu, a kako sve?\n\n`querySelector()` vraća **prvi** element koji odgovara CSS selektoru, ili `null` ako ga nema. `querySelectorAll()` vraća `NodeList`, listu čvorova snimljenu u trenutku poziva. Ta lista se ne dopunjava kad se DOM kasnije promeni. `getElementById()` traži element po ID-u i pogodan je za jedinstveno imenovane elemente."
             },
             {
               "id": "k17b2",
@@ -7356,83 +7356,83 @@
               "id": "k17q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "2.1. Problem. Na stranici postoje tri dugmeta „Obriši”. Kako biste dohvatili *sva*, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
+              "text": "2.1. Na stranici postoje tri dugmeta „Obriši”. Kako biste dohvatili *sva*, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
               "answer": "Selektori prema ulozi/klasi uz ograničenje na roditelja, `querySelectorAll` ili pretraga unutar kartice. Jedinstveni ID-ovi korisni su za jedinstvene kontrole, ali nisu zamena za strukturisanu pretragu."
             },
             {
               "id": "k17q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "2.2. Dizajn API-ja. Zamislite `pronadjiJedan(selektor)` i `pronadjiSve(selektor)`. Koje povratne vrednosti treba da imaju kada nema poklapanja? Zašto nije zgodno da oba vrate istu vrstu rezultata?",
+              "text": "2.2. Zamislite `pronadjiJedan(selektor)` i `pronadjiSve(selektor)`. Koje povratne vrednosti treba da imaju kada nema poklapanja? Zašto nije zgodno da oba vrate istu vrstu rezultata?",
               "answer": "Jedan element ili `null`; kolekcija ili prazna kolekcija. Uvesti `querySelector` i `querySelectorAll`, uz posledice za proveru grešaka."
             },
             {
               "id": "k17q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "2.3. Zamka sa kodom. Predvidite ispis i objasnite redosled: Pretpostavite da je pre dodavanja postojao tačno jedan `li`.\n\n```javascript\nconst stavke = document.querySelectorAll(\"li\");\ndocument.querySelector(\"ul\").append(document.createElement(\"li\"));\nconsole.log(stavke.length);\nconsole.log(document.querySelectorAll(\"li\").length);\n```",
-              "answer": "`1`, zatim `2`. `querySelectorAll()` vraća statički `NodeList`; ponovni poziv pokreće novu pretragu."
+              "text": "2.3. Predvidite ispis i objasnite redosled: Pretpostavite da je pre dodavanja postojao tačno jedan `li`.\n\n```javascript\nconst stavke = document.querySelectorAll(\"li\");\ndocument.querySelector(\"ul\").append(document.createElement(\"li\"));\nconsole.log(stavke.length);\nconsole.log(document.querySelectorAll(\"li\").length);\n```",
+              "answer": "`1`, zatim `2`. `querySelectorAll()` vraća `NodeList`, listu čvorova snimljenu u trenutku poziva. Ta lista se ne dopunjava. Novi poziv pravi novu listu i vidi 2."
             },
             {
               "id": "k17q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "2.4. Zamka. Koja je razlika između `.kartica.aktivna` i `.kartica .aktivna`? Nacrtajte po jedan HTML koji odgovara prvom i drugom selektoru.",
+              "text": "2.4. Koja je razlika između `.kartica.aktivna` i `.kartica .aktivna`? Nacrtajte po jedan HTML koji odgovara prvom i drugom selektoru.",
               "answer": "Prvi zahteva *isti* element sa obe klase, drugi element klase `aktivna` unutar pretka klase `kartica`. Razlika između konjunkcije selektora i odnosa predak–potomak."
             },
             {
               "id": "k17q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "2.5. Pronalaženje uzroka. Program prijavljuje `Cannot read properties of null (reading 'textContent')`. Navedite najmanje tri različita uzroka i kako biste svaki proverili.",
+              "text": "2.5. Program prijavljuje `Cannot read properties of null (reading 'textContent')`. Navedite najmanje tri različita uzroka i kako biste svaki proverili.",
               "answer": "Pogrešan selektor, element još nije parsiran, element se nalazi u drugom kontekstu ili je uklonjen. Najpre logovati rezultat pretrage i proveriti DOM u Elements panelu."
             },
             {
               "id": "k17q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "2.6. Procena. Da li je bolje koristiti vrlo specifičan selektor `main > section:nth-child(2) button` ili stabilnu klasu/data-atribut? Da li pravilo „što specifičnije, to bolje” važi uvek?",
+              "text": "2.6. Da li je bolje koristiti vrlo specifičan selektor `main > section:nth-child(2) button` ili stabilnu klasu/data-atribut? Da li pravilo „što specifičnije, to bolje” važi uvek?",
               "answer": "Specifičnost nije isto što i robusnost. Birati dovoljno precizan selektor koji izražava nameru i odoleva promenama rasporeda. Nema univerzalnog maksimuma specifičnosti."
             },
             {
               "id": "k17q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "2.7. Primena. Kako bi program razlikovao temperaturu celog panela od vrednosti u svakoj kartici senzora, bez čitanja teksta sa ekrana?",
+              "text": "2.7. Kako bi program razlikovao temperaturu celog panela od vrednosti u svakoj kartici senzora, bez čitanja teksta sa ekrana?",
               "answer": "Stabilni izbor ciljnog DOM elementa i povezivanje identiteta senzora preko `data-id` ili nadređenog čvora. Kasnije će vrednosti dolaziti iz modela stanja."
             }
           ],
           "prompts": [
             {
-              "prompt": "2.1. Problem. Na stranici postoje tri dugmeta „Obriši”. Kako biste dohvatili *sva*, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
+              "prompt": "2.1. Na stranici postoje tri dugmeta „Obriši”. Kako biste dohvatili *sva*, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
               "answer": "Selektori prema ulozi/klasi uz ograničenje na roditelja, `querySelectorAll` ili pretraga unutar kartice. Jedinstveni ID-ovi korisni su za jedinstvene kontrole, ali nisu zamena za strukturisanu pretragu."
             },
             {
-              "prompt": "2.2. Dizajn API-ja. Zamislite `pronadjiJedan(selektor)` i `pronadjiSve(selektor)`. Koje povratne vrednosti treba da imaju kada nema poklapanja? Zašto nije zgodno da oba vrate istu vrstu rezultata?",
+              "prompt": "2.2. Zamislite `pronadjiJedan(selektor)` i `pronadjiSve(selektor)`. Koje povratne vrednosti treba da imaju kada nema poklapanja? Zašto nije zgodno da oba vrate istu vrstu rezultata?",
               "answer": "Jedan element ili `null`; kolekcija ili prazna kolekcija. Uvesti `querySelector` i `querySelectorAll`, uz posledice za proveru grešaka."
             },
             {
-              "prompt": "2.3. Zamka sa kodom. Predvidite ispis i objasnite redosled: Pretpostavite da je pre dodavanja postojao tačno jedan `li`.\n\n```javascript\nconst stavke = document.querySelectorAll(\"li\");\ndocument.querySelector(\"ul\").append(document.createElement(\"li\"));\nconsole.log(stavke.length);\nconsole.log(document.querySelectorAll(\"li\").length);\n```",
-              "answer": "`1`, zatim `2`. `querySelectorAll()` vraća statički `NodeList`; ponovni poziv pokreće novu pretragu."
+              "prompt": "2.3. Predvidite ispis i objasnite redosled: Pretpostavite da je pre dodavanja postojao tačno jedan `li`.\n\n```javascript\nconst stavke = document.querySelectorAll(\"li\");\ndocument.querySelector(\"ul\").append(document.createElement(\"li\"));\nconsole.log(stavke.length);\nconsole.log(document.querySelectorAll(\"li\").length);\n```",
+              "answer": "`1`, zatim `2`. `querySelectorAll()` vraća `NodeList`, listu čvorova snimljenu u trenutku poziva. Ta lista se ne dopunjava. Novi poziv pravi novu listu i vidi 2."
             },
             {
-              "prompt": "2.4. Zamka. Koja je razlika između `.kartica.aktivna` i `.kartica .aktivna`? Nacrtajte po jedan HTML koji odgovara prvom i drugom selektoru.",
+              "prompt": "2.4. Koja je razlika između `.kartica.aktivna` i `.kartica .aktivna`? Nacrtajte po jedan HTML koji odgovara prvom i drugom selektoru.",
               "answer": "Prvi zahteva *isti* element sa obe klase, drugi element klase `aktivna` unutar pretka klase `kartica`. Razlika između konjunkcije selektora i odnosa predak–potomak."
             },
             {
-              "prompt": "2.5. Pronalaženje uzroka. Program prijavljuje `Cannot read properties of null (reading 'textContent')`. Navedite najmanje tri različita uzroka i kako biste svaki proverili.",
+              "prompt": "2.5. Program prijavljuje `Cannot read properties of null (reading 'textContent')`. Navedite najmanje tri različita uzroka i kako biste svaki proverili.",
               "answer": "Pogrešan selektor, element još nije parsiran, element se nalazi u drugom kontekstu ili je uklonjen. Najpre logovati rezultat pretrage i proveriti DOM u Elements panelu."
             },
             {
-              "prompt": "2.6. Procena. Da li je bolje koristiti vrlo specifičan selektor `main > section:nth-child(2) button` ili stabilnu klasu/data-atribut? Da li pravilo „što specifičnije, to bolje” važi uvek?",
+              "prompt": "2.6. Da li je bolje koristiti vrlo specifičan selektor `main > section:nth-child(2) button` ili stabilnu klasu/data-atribut? Da li pravilo „što specifičnije, to bolje” važi uvek?",
               "answer": "Specifičnost nije isto što i robusnost. Birati dovoljno precizan selektor koji izražava nameru i odoleva promenama rasporeda. Nema univerzalnog maksimuma specifičnosti."
             },
             {
-              "prompt": "2.7. Primena. Kako bi program razlikovao temperaturu celog panela od vrednosti u svakoj kartici senzora, bez čitanja teksta sa ekrana?",
+              "prompt": "2.7. Kako bi program razlikovao temperaturu celog panela od vrednosti u svakoj kartici senzora, bez čitanja teksta sa ekrana?",
               "answer": "Stabilni izbor ciljnog DOM elementa i povezivanje identiteta senzora preko `data-id` ili nadređenog čvora. Kasnije će vrednosti dolaziti iz modela stanja."
             }
           ],
-          "prompt": "2.1. Problem. Na stranici postoje tri dugmeta „Obriši”. Kako biste dohvatili *sva*, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
+          "prompt": "2.1. Na stranici postoje tri dugmeta „Obriši”. Kako biste dohvatili *sva*, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
           "path": "client/lekcije/17-selektori.js",
           "snippetTitle": "Pronalaženje elemenata",
           "snippetLanguage": "javascript",
@@ -7482,83 +7482,83 @@
               "id": "k18q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "3.1. Problem. Isti korisnički tekst treba prikazati u poruci, a deo teksta staviti podebljano. Da li je potrebno sve proslediti kao HTML string? Koje su alternative?",
+              "text": "3.1. Isti korisnički tekst treba prikazati u poruci, a deo teksta staviti podebljano. Da li je potrebno sve proslediti kao HTML string? Koje su alternative?",
               "answer": "Običan tekst ide kroz `textContent`. Za semantičku strukturu napraviti `strong` i tekstualne čvorove. HTML parsiranje (`innerHTML`) je drugačija, zahtevnija operacija."
             },
             {
               "id": "k18q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "3.2. Model objekta. Koja je razlika između atributa napisanog u HTML-u i *trenutnog svojstva* DOM objekta? Šta to znači za `input.value`?",
+              "text": "3.2. Koja je razlika između atributa napisanog u HTML-u i *trenutnog svojstva* DOM objekta? Šta to znači za `input.value`?",
               "answer": "Atribut je deo obeležavanja; odgovarajuće DOM svojstvo može odražavati trenutno stanje koje je korisnik promenio. Za aktuelan unos koristiti `value`, ne očekivati da `getAttribute(\"value\")` nužno prati kucanje."
             },
             {
               "id": "k18q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "3.3. Zamka sa kodom. Korisnik u polje `ime` upiše `<b>Mila</b>`. Koja je razlika između:\n\n```javascript\nporuka.textContent = ime.value;\nporuka.innerHTML = ime.value;\n```",
-              "answer": "Prvi ispisuje znakove kao tekst. Drugi ih parsira kao HTML i može napraviti `<b>` element. Za nepouzdan unos `innerHTML` otvara XSS rizik; važna je granica između podataka i koda/obeležavanja."
+              "text": "3.3. Korisnik u polje `ime` upiše `<b>Mila</b>`. Koja je razlika između:\n\n```javascript\nporuka.textContent = ime.value;\nporuka.innerHTML = ime.value;\n```",
+              "answer": "Prvi ispisuje znakove kao tekst. Drugi ih parsira kao HTML i može napraviti element `b`. Za nepouzdan unos `innerHTML` može da izvrši taj unos kao kod (XSS): podatak i oznaka nisu isti kanal."
             },
             {
               "id": "k18q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "3.4. Zamka. Posle `input.value = \"42\"` pročitali smo `input.textContent`. Da li je to pouzdan način da dobijemo korisnikov unos?",
+              "text": "3.4. Posle `input.value = \"42\"` pročitali smo `input.textContent`. Da li je to pouzdan način da dobijemo korisnikov unos?",
               "answer": "Ne. `value` je vrednost kontrole, a `textContent` sadržaj tekstualnih čvorova. Za `input` se aktuelni unos čita preko `value`."
             },
             {
               "id": "k18q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "3.5. Dizajn. Ako biste želeli da promenite atribut `title`, tekst i čekirano stanje checkbox-a, da li biste definisali jednu univerzalnu operaciju `promeniTekst()`?",
+              "text": "3.5. Ako biste želeli da promenite atribut `title`, tekst i čekirano stanje checkbox-a, da li biste definisali jednu univerzalnu operaciju `promeniTekst()`?",
               "answer": "Različite osobine imaju različite namene i tipove. Primeri: `textContent`, `setAttribute`, `checked`. Jedan previše opšti metod zamagljuje semantiku."
             },
             {
               "id": "k18q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "3.6. Procena. Kada je `innerHTML` prihvatljiv? Šta biste morali da znate o poreklu sadržaja pre upotrebe?",
+              "text": "3.6. Kada je `innerHTML` prihvatljiv? Šta biste morali da znate o poreklu sadržaja pre upotrebe?",
               "answer": "Samo uz pažljivo kontrolisan ili odgovarajuće sanitizovan HTML i razumevanje bezbednosnih zahteva. Za obične podatke preferirati DOM metode i `textContent`."
             },
             {
               "id": "k18q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "3.7. Primena. Korisnik unese naziv senzora koji sadrži `<script>` ili HTML oznake. Koji deo kontrolne sobe mora garantovati da naziv ostaje podatak?",
+              "text": "3.7. Korisnik unese naziv senzora koji sadrži `<script>` ili HTML oznake. Koji deo kontrolne sobe mora garantovati da naziv ostaje podatak?",
               "answer": "Funkcija za prikaz pri upisu u DOM. Sanitizacija i provera podataka mogu imati dodatnu ulogu, ali bezbedan tekstualni prikaz rešava ovaj konkretan put unosa."
             }
           ],
           "prompts": [
             {
-              "prompt": "3.1. Problem. Isti korisnički tekst treba prikazati u poruci, a deo teksta staviti podebljano. Da li je potrebno sve proslediti kao HTML string? Koje su alternative?",
+              "prompt": "3.1. Isti korisnički tekst treba prikazati u poruci, a deo teksta staviti podebljano. Da li je potrebno sve proslediti kao HTML string? Koje su alternative?",
               "answer": "Običan tekst ide kroz `textContent`. Za semantičku strukturu napraviti `strong` i tekstualne čvorove. HTML parsiranje (`innerHTML`) je drugačija, zahtevnija operacija."
             },
             {
-              "prompt": "3.2. Model objekta. Koja je razlika između atributa napisanog u HTML-u i *trenutnog svojstva* DOM objekta? Šta to znači za `input.value`?",
+              "prompt": "3.2. Koja je razlika između atributa napisanog u HTML-u i *trenutnog svojstva* DOM objekta? Šta to znači za `input.value`?",
               "answer": "Atribut je deo obeležavanja; odgovarajuće DOM svojstvo može odražavati trenutno stanje koje je korisnik promenio. Za aktuelan unos koristiti `value`, ne očekivati da `getAttribute(\"value\")` nužno prati kucanje."
             },
             {
-              "prompt": "3.3. Zamka sa kodom. Korisnik u polje `ime` upiše `<b>Mila</b>`. Koja je razlika između:\n\n```javascript\nporuka.textContent = ime.value;\nporuka.innerHTML = ime.value;\n```",
-              "answer": "Prvi ispisuje znakove kao tekst. Drugi ih parsira kao HTML i može napraviti `<b>` element. Za nepouzdan unos `innerHTML` otvara XSS rizik; važna je granica između podataka i koda/obeležavanja."
+              "prompt": "3.3. Korisnik u polje `ime` upiše `<b>Mila</b>`. Koja je razlika između:\n\n```javascript\nporuka.textContent = ime.value;\nporuka.innerHTML = ime.value;\n```",
+              "answer": "Prvi ispisuje znakove kao tekst. Drugi ih parsira kao HTML i može napraviti element `b`. Za nepouzdan unos `innerHTML` može da izvrši taj unos kao kod (XSS): podatak i oznaka nisu isti kanal."
             },
             {
-              "prompt": "3.4. Zamka. Posle `input.value = \"42\"` pročitali smo `input.textContent`. Da li je to pouzdan način da dobijemo korisnikov unos?",
+              "prompt": "3.4. Posle `input.value = \"42\"` pročitali smo `input.textContent`. Da li je to pouzdan način da dobijemo korisnikov unos?",
               "answer": "Ne. `value` je vrednost kontrole, a `textContent` sadržaj tekstualnih čvorova. Za `input` se aktuelni unos čita preko `value`."
             },
             {
-              "prompt": "3.5. Dizajn. Ako biste želeli da promenite atribut `title`, tekst i čekirano stanje checkbox-a, da li biste definisali jednu univerzalnu operaciju `promeniTekst()`?",
+              "prompt": "3.5. Ako biste želeli da promenite atribut `title`, tekst i čekirano stanje checkbox-a, da li biste definisali jednu univerzalnu operaciju `promeniTekst()`?",
               "answer": "Različite osobine imaju različite namene i tipove. Primeri: `textContent`, `setAttribute`, `checked`. Jedan previše opšti metod zamagljuje semantiku."
             },
             {
-              "prompt": "3.6. Procena. Kada je `innerHTML` prihvatljiv? Šta biste morali da znate o poreklu sadržaja pre upotrebe?",
+              "prompt": "3.6. Kada je `innerHTML` prihvatljiv? Šta biste morali da znate o poreklu sadržaja pre upotrebe?",
               "answer": "Samo uz pažljivo kontrolisan ili odgovarajuće sanitizovan HTML i razumevanje bezbednosnih zahteva. Za obične podatke preferirati DOM metode i `textContent`."
             },
             {
-              "prompt": "3.7. Primena. Korisnik unese naziv senzora koji sadrži `<script>` ili HTML oznake. Koji deo kontrolne sobe mora garantovati da naziv ostaje podatak?",
+              "prompt": "3.7. Korisnik unese naziv senzora koji sadrži `<script>` ili HTML oznake. Koji deo kontrolne sobe mora garantovati da naziv ostaje podatak?",
               "answer": "Funkcija za prikaz pri upisu u DOM. Sanitizacija i provera podataka mogu imati dodatnu ulogu, ali bezbedan tekstualni prikaz rešava ovaj konkretan put unosa."
             }
           ],
-          "prompt": "3.1. Problem. Isti korisnički tekst treba prikazati u poruci, a deo teksta staviti podebljano. Da li je potrebno sve proslediti kao HTML string? Koje su alternative?",
+          "prompt": "3.1. Isti korisnički tekst treba prikazati u poruci, a deo teksta staviti podebljano. Da li je potrebno sve proslediti kao HTML string? Koje su alternative?",
           "path": "client/lekcije/18-sadrzaj.js",
           "snippetTitle": "Čitanje i menjanje sadržaja",
           "snippetLanguage": "javascript",
@@ -7622,83 +7622,83 @@
               "id": "k19q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "4.1. Problem. Semafor ima stanja „normalno”, „upozorenje”, „alarm”. Kako biste ga predstavili u JS-u, a kako biste definisali boje i izgled bez uslovljavanja svakog pojedinačnog CSS svojstva?",
+              "text": "4.1. Semafor ima stanja „normalno”, „upozorenje”, „alarm”. Kako biste ga predstavili u JS-u, a kako biste definisali boje i izgled bez uslovljavanja svakog pojedinačnog CSS svojstva?",
               "answer": "JS određuje stanje ili klase, CSS definiše izgled. Uvesti `classList` i pregledno imenovane klase."
             },
             {
               "id": "k19q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "4.2. Dizajn modela. Kako biste predstavili CSS pravila da ih browser može pronaći i primeniti na više elemenata? Da li bi svaki element morao imati kopiju svih pravila?",
-              "answer": "Stilovi postoje u pravilima i skupovima deklaracija, selektori određuju na šta se primenjuju; browser računa konačni stil. CSSOM je objektni model stilova. Inline `element.style` predstavlja deklaracije na konkretnom elementu, ne sva pravila i ne nužno konačni stil."
+              "text": "4.2. Kako biste predstavili CSS pravila da ih browser može pronaći i primeniti na više elemenata? Da li bi svaki element morao imati kopiju svih pravila?",
+              "answer": "Pravila ne stoje u kopiji na svakom elementu. CSSOM (objektni model stilova) je stablo pravila, odvojeno od DOM stabla. Selektor kaže na koje elemente se pravilo primenjuje, a browser iz toga računa konačni stil. Inline `element.style` su deklaracije na jednom elementu, ne sva pravila i ne nužno konačni stil."
             },
             {
               "id": "k19q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "4.3. Procena. Da li bi svaka kartica trebalo da ima zasebno pravilo `#kartica17`, ili su opšte klase `.kartica`, `.kartica--alarm` korisnije? Kada ipak poseban stil ima smisla?",
+              "text": "4.3. Da li bi svaka kartica trebalo da ima zasebno pravilo `#kartica17`, ili su opšte klase `.kartica`, `.kartica--alarm` korisnije? Kada ipak poseban stil ima smisla?",
               "answer": "Opšta pravila smanjuju ponavljanje i omogućavaju konzistentnost; specifične varijante uvoditi kada razlika ima semantičko opravdanje. Izbegavati i ekstremno opšta pravila koja slučajno utiču na nepovezane elemente."
             },
             {
               "id": "k19q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "4.4. Zamka. Šta se ispisuje?\n\n```html\n<div id=\"uredjaj\" data-id=\"42\"></div>\n```\n\n```javascript\nconst el = document.querySelector(\"#uredjaj\");\nconsole.log(el.dataset.id === 42);\nconsole.log(el.dataset.id === \"42\");\n```",
+              "text": "4.4. Šta se ispisuje?\n\n```html\n<div id=\"uredjaj\" data-id=\"42\"></div>\n```\n\n```javascript\nconst el = document.querySelector(\"#uredjaj\");\nconsole.log(el.dataset.id === 42);\nconsole.log(el.dataset.id === \"42\");\n```",
               "answer": "`false`, pa `true`. `dataset` daje stringove."
             },
             {
               "id": "k19q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "4.5. Razlika ponašanja. Da li su `el.hidden = true`, `el.disabled = true` i `el.style.color = \"gray\"` tri načina za istu stvar?",
+              "text": "4.5. Da li su `el.hidden = true`, `el.disabled = true` i `el.style.color = \"gray\"` tri načina za istu stvar?",
               "answer": "Ne. Sakrivanje, onemogućavanje interakcije i vizuelni izgled imaju različite posledice. Siva boja ne čini dugme neaktivnim."
             },
             {
               "id": "k19q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "4.6. Zamka u dizajnu. JS stavlja `.alarm`, CSS podešava `color: red`, ali drugi selektor ipak nadjačava boju. Da li je logika stanja pogrešna? Šta prvo proveriti?",
+              "text": "4.6. JS stavlja `.alarm`, CSS podešava `color: red`, ali drugi selektor ipak nadjačava boju. Da li je logika stanja pogrešna? Šta prvo proveriti?",
               "answer": "Moguće je da je stanje ispravno, a problem u kaskadi/specifičnosti CSS-a. Paneli Computed i Styles u dev alatima pomažu da se razdvoje DOM stanje i konačni izgled."
             },
             {
               "id": "k19q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "4.7. Primena. Kako bi kontrolna soba saopštila alarm i korisniku koji ne razlikuje boje?",
+              "text": "4.7. Kako bi kontrolna soba saopštila alarm i korisniku koji ne razlikuje boje?",
               "answer": "Kombinovati klasu sa tekstom ili ikonom i semantičkom porukom. Boja nikada ne treba da bude jedini nosač informacije."
             }
           ],
           "prompts": [
             {
-              "prompt": "4.1. Problem. Semafor ima stanja „normalno”, „upozorenje”, „alarm”. Kako biste ga predstavili u JS-u, a kako biste definisali boje i izgled bez uslovljavanja svakog pojedinačnog CSS svojstva?",
+              "prompt": "4.1. Semafor ima stanja „normalno”, „upozorenje”, „alarm”. Kako biste ga predstavili u JS-u, a kako biste definisali boje i izgled bez uslovljavanja svakog pojedinačnog CSS svojstva?",
               "answer": "JS određuje stanje ili klase, CSS definiše izgled. Uvesti `classList` i pregledno imenovane klase."
             },
             {
-              "prompt": "4.2. Dizajn modela. Kako biste predstavili CSS pravila da ih browser može pronaći i primeniti na više elemenata? Da li bi svaki element morao imati kopiju svih pravila?",
-              "answer": "Stilovi postoje u pravilima i skupovima deklaracija, selektori određuju na šta se primenjuju; browser računa konačni stil. CSSOM je objektni model stilova. Inline `element.style` predstavlja deklaracije na konkretnom elementu, ne sva pravila i ne nužno konačni stil."
+              "prompt": "4.2. Kako biste predstavili CSS pravila da ih browser može pronaći i primeniti na više elemenata? Da li bi svaki element morao imati kopiju svih pravila?",
+              "answer": "Pravila ne stoje u kopiji na svakom elementu. CSSOM (objektni model stilova) je stablo pravila, odvojeno od DOM stabla. Selektor kaže na koje elemente se pravilo primenjuje, a browser iz toga računa konačni stil. Inline `element.style` su deklaracije na jednom elementu, ne sva pravila i ne nužno konačni stil."
             },
             {
-              "prompt": "4.3. Procena. Da li bi svaka kartica trebalo da ima zasebno pravilo `#kartica17`, ili su opšte klase `.kartica`, `.kartica--alarm` korisnije? Kada ipak poseban stil ima smisla?",
+              "prompt": "4.3. Da li bi svaka kartica trebalo da ima zasebno pravilo `#kartica17`, ili su opšte klase `.kartica`, `.kartica--alarm` korisnije? Kada ipak poseban stil ima smisla?",
               "answer": "Opšta pravila smanjuju ponavljanje i omogućavaju konzistentnost; specifične varijante uvoditi kada razlika ima semantičko opravdanje. Izbegavati i ekstremno opšta pravila koja slučajno utiču na nepovezane elemente."
             },
             {
-              "prompt": "4.4. Zamka. Šta se ispisuje?\n\n```html\n<div id=\"uredjaj\" data-id=\"42\"></div>\n```\n\n```javascript\nconst el = document.querySelector(\"#uredjaj\");\nconsole.log(el.dataset.id === 42);\nconsole.log(el.dataset.id === \"42\");\n```",
+              "prompt": "4.4. Šta se ispisuje?\n\n```html\n<div id=\"uredjaj\" data-id=\"42\"></div>\n```\n\n```javascript\nconst el = document.querySelector(\"#uredjaj\");\nconsole.log(el.dataset.id === 42);\nconsole.log(el.dataset.id === \"42\");\n```",
               "answer": "`false`, pa `true`. `dataset` daje stringove."
             },
             {
-              "prompt": "4.5. Razlika ponašanja. Da li su `el.hidden = true`, `el.disabled = true` i `el.style.color = \"gray\"` tri načina za istu stvar?",
+              "prompt": "4.5. Da li su `el.hidden = true`, `el.disabled = true` i `el.style.color = \"gray\"` tri načina za istu stvar?",
               "answer": "Ne. Sakrivanje, onemogućavanje interakcije i vizuelni izgled imaju različite posledice. Siva boja ne čini dugme neaktivnim."
             },
             {
-              "prompt": "4.6. Zamka u dizajnu. JS stavlja `.alarm`, CSS podešava `color: red`, ali drugi selektor ipak nadjačava boju. Da li je logika stanja pogrešna? Šta prvo proveriti?",
+              "prompt": "4.6. JS stavlja `.alarm`, CSS podešava `color: red`, ali drugi selektor ipak nadjačava boju. Da li je logika stanja pogrešna? Šta prvo proveriti?",
               "answer": "Moguće je da je stanje ispravno, a problem u kaskadi/specifičnosti CSS-a. Paneli Computed i Styles u dev alatima pomažu da se razdvoje DOM stanje i konačni izgled."
             },
             {
-              "prompt": "4.7. Primena. Kako bi kontrolna soba saopštila alarm i korisniku koji ne razlikuje boje?",
+              "prompt": "4.7. Kako bi kontrolna soba saopštila alarm i korisniku koji ne razlikuje boje?",
               "answer": "Kombinovati klasu sa tekstom ili ikonom i semantičkom porukom. Boja nikada ne treba da bude jedini nosač informacije."
             }
           ],
-          "prompt": "4.1. Problem. Semafor ima stanja „normalno”, „upozorenje”, „alarm”. Kako biste ga predstavili u JS-u, a kako biste definisali boje i izgled bez uslovljavanja svakog pojedinačnog CSS svojstva?",
+          "prompt": "4.1. Semafor ima stanja „normalno”, „upozorenje”, „alarm”. Kako biste ga predstavili u JS-u, a kako biste definisali boje i izgled bez uslovljavanja svakog pojedinačnog CSS svojstva?",
           "path": "client/lekcije/19-klase.js",
           "snippetTitle": "CSS klase i vizuelna stanja",
           "snippetLanguage": "javascript",
@@ -7709,7 +7709,7 @@
           "level": "Osnovno",
           "minutes": 3,
           "exampleKind": "eksperiment",
-          "text": "**Problem:** Server ili korisnik dostavi novu stavku. Kako napraviti element koji nije postojao u početnom HTML-u?\n\nDOM nije statičan. `document.createElement()` pravi novi element, ali ga **ne ubacuje** u dokument. `append()` i `appendChild()` ga povezuju sa stablom; `remove()` uklanja element, a `replaceChildren()` zamenjuje decu kontejnera. Dodavanje već postojećeg elementa na drugo mesto ga **premešta**, ne kopira.\n\nAko želimo potpuno novu listu, možemo napraviti nove čvorove i pozvati `lista.replaceChildren(...noviCvorovi)`. Ovo je korisno za male liste, ali menja stare elemente, pa može izgubiti fokus korisnika i neke druge detalje vezane za postojeće DOM čvorove.\n\n`DocumentFragment` može da okupi više čvorova pre ubacivanja. Za početak je važnije da student razume razliku između **pravljenja** čvora i **povezivanja** čvora sa dokumentom.",
+          "text": "**Problem:** Server ili korisnik dostavi novu stavku. Kako napraviti element koji nije postojao u početnom HTML-u?\n\nDOM nije statičan. `document.createElement()` pravi novi element, ali ga **ne ubacuje** u dokument. `append()` i `appendChild()` ga povezuju sa stablom; `remove()` uklanja element, a `replaceChildren()` zamenjuje decu kontejnera. Dodavanje već postojećeg elementa na drugo mesto ga **premešta**, ne kopira.\n\nAko želimo potpuno novu listu, možemo napraviti nove čvorove i pozvati `lista.replaceChildren(...noviCvorovi)`. Ovo je korisno za male liste, ali menja stare elemente, pa može izgubiti fokus korisnika i neke druge detalje vezane za postojeće DOM čvorove.\n\n`DocumentFragment` je čvor koji nije element i nije na stranici. U njega se skupe drugi čvorovi, pa se jednim ubacivanjem prebace u dokument. Za početak je važnije da student razume razliku između **pravljenja** čvora i **povezivanja** čvora sa dokumentom.",
           "keyIdea": "Novi DOM element je objekat; na stranici se pojavljuje kada postane deo dokumenta.",
           "blocks": [
             {
@@ -7746,7 +7746,7 @@
             {
               "id": "k20b6",
               "kind": "tekst",
-              "text": "`DocumentFragment` može da okupi više čvorova pre ubacivanja. Za početak je važnije da student razume razliku između **pravljenja** čvora i **povezivanja** čvora sa dokumentom."
+              "text": "`DocumentFragment` je čvor koji nije element i nije na stranici. U njega se skupe drugi čvorovi, pa se jednim ubacivanjem prebace u dokument. Za početak je važnije da student razume razliku između **pravljenja** čvora i **povezivanja** čvora sa dokumentom."
             },
             {
               "id": "k20b7",
@@ -7760,83 +7760,83 @@
               "id": "k20q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "5.1. Problem. Stigao je novi podatak o senzoru, a u početnom HTML-u nema kartice za njega. Koje su minimalne operacije nad DOM stablom potrebne?",
+              "text": "5.1. Stigao je novi podatak o senzoru, a u početnom HTML-u nema kartice za njega. Koje su minimalne operacije nad DOM stablom potrebne?",
               "answer": "Napraviti element, uneti podatke, povezati ga sa roditeljem; za uklanjanje odvojiti ga. `createElement`, `append`, `remove`."
             },
             {
               "id": "k20q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "5.2. Zamka. Posle `const li = document.createElement(\"li\")` student očekuje novu stavku na stranici. Šta mu nedostaje u mentalnom modelu?",
+              "text": "5.2. Posle `const li = document.createElement(\"li\")` student očekuje novu stavku na stranici. Šta mu nedostaje u mentalnom modelu?",
               "answer": "Novi čvor postoji kao objekat, ali nije povezan sa vidljivim dokumentom. Potrebno je dodavanje u stablo."
             },
             {
               "id": "k20q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "5.3. Zamka sa kodom. U dokumentu već postoje `#leva` i `#desna` lista: Koliko novih `li` elemenata imamo ukupno i gde se nalaze?\n\n```javascript\nconst li = document.createElement(\"li\");\nli.textContent = \"Jedan\";\nleva.append(li);\ndesna.append(li);\n```",
+              "text": "5.3. U dokumentu već postoje `#leva` i `#desna` lista: Koliko novih `li` elemenata imamo ukupno i gde se nalaze?\n\n```javascript\nconst li = document.createElement(\"li\");\nli.textContent = \"Jedan\";\nleva.append(li);\ndesna.append(li);\n```",
               "answer": "Jedan novi `li`, na kraju liste `desna`. `append` premešta postojeći čvor, ne pravi kopiju."
             },
             {
               "id": "k20q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "5.4. Dizajn. Da li biste pravili zaseban `li` preko `createElement` za svaki zapis, ili sastavili HTML string i dodelili `innerHTML`? Koji kriterijumi odlučuju?",
+              "text": "5.4. Da li biste pravili zaseban `li` preko `createElement` za svaki zapis, ili sastavili HTML string i dodelili `innerHTML`? Koji kriterijumi odlučuju?",
               "answer": "Poreklo podataka, bezbednost, čitljivost i potrebe za ponovnim korišćenjem čvorova. Za nepouzdan tekst DOM metode su sigurniji podrazumevani izbor."
             },
             {
               "id": "k20q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "5.5. Procena. Zašto `lista.replaceChildren(...novi)` može biti jednostavnije od pojedinačnog ažuriranja, ali problematično kada korisnik upravo piše u polju unutar liste?",
+              "text": "5.5. Zašto `lista.replaceChildren(...novi)` može biti jednostavnije od pojedinačnog ažuriranja, ali problematično kada korisnik upravo piše u polju unutar liste?",
               "answer": "Zamena uklanja stare čvorove i uvodi nove; može izgubiti fokus, selekciju ili stanje kontrola i direktne listenere na zamenjenim čvorovima."
             },
             {
               "id": "k20q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "5.6. Problem obima. Ako treba dodati 500 elemenata, šta je prvo razumno uraditi: optimizovati unapred ili izmeriti problem? Kakvu ulogu može imati `DocumentFragment`?",
-              "answer": "Najpre jasan, ispravan kod i merenje; fragment olakšava organizaciju grupe čvorova. Ne iznositi neprovereno obećanje da svako korišćenje fragmenta automatski ubrzava sve browsere."
+              "text": "5.6. Ako treba dodati 500 elemenata, šta je prvo razumno uraditi: optimizovati unapred ili izmeriti problem? Kakvu ulogu može imati `DocumentFragment`?",
+              "answer": "Najpre jasan, ispravan kod, pa merenje. `DocumentFragment` je čvor koji nije element i nije na stranici: u njega se skupe drugi čvorovi, pa se jednim ubacivanjem prebace u dokument. To samo po sebi ne znači da će svaki browser ubrzati svako dodavanje."
             },
             {
               "id": "k20q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "5.7. Primena. Na panelu su tri senzora, korisnik ukloni jedan. Šta *za sada* znači uklanjanje DOM kartice, a šta će se promeniti kada uvedemo model stanja u 10. koraku?",
-              "answer": "Sada fizički uklanjamo element; kasnije prvo menjamo niz senzora u stanju i ponovo prikazujemo, kako se senzor ne bi vratio. # II. Događaji: kako stranica reaguje"
+              "text": "5.7. Na panelu su tri senzora, korisnik ukloni jedan. Šta *za sada* znači uklanjanje DOM kartice, a šta će se promeniti kada uvedemo model stanja u 10. koraku?",
+              "answer": "Sada fizički uklanjamo element; kasnije prvo menjamo niz senzora u stanju i ponovo prikazujemo, kako se senzor ne bi vratio."
             }
           ],
           "prompts": [
             {
-              "prompt": "5.1. Problem. Stigao je novi podatak o senzoru, a u početnom HTML-u nema kartice za njega. Koje su minimalne operacije nad DOM stablom potrebne?",
+              "prompt": "5.1. Stigao je novi podatak o senzoru, a u početnom HTML-u nema kartice za njega. Koje su minimalne operacije nad DOM stablom potrebne?",
               "answer": "Napraviti element, uneti podatke, povezati ga sa roditeljem; za uklanjanje odvojiti ga. `createElement`, `append`, `remove`."
             },
             {
-              "prompt": "5.2. Zamka. Posle `const li = document.createElement(\"li\")` student očekuje novu stavku na stranici. Šta mu nedostaje u mentalnom modelu?",
+              "prompt": "5.2. Posle `const li = document.createElement(\"li\")` student očekuje novu stavku na stranici. Šta mu nedostaje u mentalnom modelu?",
               "answer": "Novi čvor postoji kao objekat, ali nije povezan sa vidljivim dokumentom. Potrebno je dodavanje u stablo."
             },
             {
-              "prompt": "5.3. Zamka sa kodom. U dokumentu već postoje `#leva` i `#desna` lista: Koliko novih `li` elemenata imamo ukupno i gde se nalaze?\n\n```javascript\nconst li = document.createElement(\"li\");\nli.textContent = \"Jedan\";\nleva.append(li);\ndesna.append(li);\n```",
+              "prompt": "5.3. U dokumentu već postoje `#leva` i `#desna` lista: Koliko novih `li` elemenata imamo ukupno i gde se nalaze?\n\n```javascript\nconst li = document.createElement(\"li\");\nli.textContent = \"Jedan\";\nleva.append(li);\ndesna.append(li);\n```",
               "answer": "Jedan novi `li`, na kraju liste `desna`. `append` premešta postojeći čvor, ne pravi kopiju."
             },
             {
-              "prompt": "5.4. Dizajn. Da li biste pravili zaseban `li` preko `createElement` za svaki zapis, ili sastavili HTML string i dodelili `innerHTML`? Koji kriterijumi odlučuju?",
+              "prompt": "5.4. Da li biste pravili zaseban `li` preko `createElement` za svaki zapis, ili sastavili HTML string i dodelili `innerHTML`? Koji kriterijumi odlučuju?",
               "answer": "Poreklo podataka, bezbednost, čitljivost i potrebe za ponovnim korišćenjem čvorova. Za nepouzdan tekst DOM metode su sigurniji podrazumevani izbor."
             },
             {
-              "prompt": "5.5. Procena. Zašto `lista.replaceChildren(...novi)` može biti jednostavnije od pojedinačnog ažuriranja, ali problematično kada korisnik upravo piše u polju unutar liste?",
+              "prompt": "5.5. Zašto `lista.replaceChildren(...novi)` može biti jednostavnije od pojedinačnog ažuriranja, ali problematično kada korisnik upravo piše u polju unutar liste?",
               "answer": "Zamena uklanja stare čvorove i uvodi nove; može izgubiti fokus, selekciju ili stanje kontrola i direktne listenere na zamenjenim čvorovima."
             },
             {
-              "prompt": "5.6. Problem obima. Ako treba dodati 500 elemenata, šta je prvo razumno uraditi: optimizovati unapred ili izmeriti problem? Kakvu ulogu može imati `DocumentFragment`?",
-              "answer": "Najpre jasan, ispravan kod i merenje; fragment olakšava organizaciju grupe čvorova. Ne iznositi neprovereno obećanje da svako korišćenje fragmenta automatski ubrzava sve browsere."
+              "prompt": "5.6. Ako treba dodati 500 elemenata, šta je prvo razumno uraditi: optimizovati unapred ili izmeriti problem? Kakvu ulogu može imati `DocumentFragment`?",
+              "answer": "Najpre jasan, ispravan kod, pa merenje. `DocumentFragment` je čvor koji nije element i nije na stranici: u njega se skupe drugi čvorovi, pa se jednim ubacivanjem prebace u dokument. To samo po sebi ne znači da će svaki browser ubrzati svako dodavanje."
             },
             {
-              "prompt": "5.7. Primena. Na panelu su tri senzora, korisnik ukloni jedan. Šta *za sada* znači uklanjanje DOM kartice, a šta će se promeniti kada uvedemo model stanja u 10. koraku?",
-              "answer": "Sada fizički uklanjamo element; kasnije prvo menjamo niz senzora u stanju i ponovo prikazujemo, kako se senzor ne bi vratio. # II. Događaji: kako stranica reaguje"
+              "prompt": "5.7. Na panelu su tri senzora, korisnik ukloni jedan. Šta *za sada* znači uklanjanje DOM kartice, a šta će se promeniti kada uvedemo model stanja u 10. koraku?",
+              "answer": "Sada fizički uklanjamo element; kasnije prvo menjamo niz senzora u stanju i ponovo prikazujemo, kako se senzor ne bi vratio."
             }
           ],
-          "prompt": "5.1. Problem. Stigao je novi podatak o senzoru, a u početnom HTML-u nema kartice za njega. Koje su minimalne operacije nad DOM stablom potrebne?",
+          "prompt": "5.1. Stigao je novi podatak o senzoru, a u početnom HTML-u nema kartice za njega. Koje su minimalne operacije nad DOM stablom potrebne?",
           "path": "client/lekcije/20-cvorovi.js",
           "snippetTitle": "Kreiranje, premeštanje i uklanjanje elemenata",
           "snippetLanguage": "javascript",
@@ -7886,83 +7886,83 @@
               "id": "k21q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "6.1. Problem. HTML i JS se mogu učitati nezavisno. Kako JavaScript saznaje da je korisnik kliknuo dugme, a da ne proverava u beskonačnoj petlji „da li je kliknuto”?",
+              "text": "6.1. HTML i JS se mogu učitati nezavisno. Kako JavaScript saznaje da je korisnik kliknuo dugme, a da ne proverava u beskonačnoj petlji „da li je kliknuto”?",
               "answer": "Browser prijavljuje događaje; program registruje callback funkcije. Uvesti `addEventListener` kao ugovor između browsera i koda."
             },
             {
               "id": "k21q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "6.2. Dizajn objekta događaja. Koje informacije biste predali callback-u za klik, a koje za unos u polje? Zašto nije dovoljno poslati samo boolean `kliknuto`?",
+              "text": "6.2. Koje informacije biste predali callback-u za klik, a koje za unos u polje? Zašto nije dovoljno poslati samo boolean `kliknuto`?",
               "answer": "Vrsta događaja, cilj i relevantni podaci događaja; različiti događaji nose različite informacije. `Event` i specifičniji tipovi omogućavaju proširenje."
             },
             {
               "id": "k21q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "6.3. Zamka sa kodom. Predvidite vreme izvršavanja funkcije:\n\n```javascript\nfunction obradi() {\n  console.log(\"obradi\");\n}\ndugme.addEventListener(\"click\", obradi());\n```",
+              "text": "6.3. Predvidite vreme izvršavanja funkcije:\n\n```javascript\nfunction obradi() {\n  console.log(\"obradi\");\n}\ndugme.addEventListener(\"click\", obradi());\n```",
               "answer": "`obradi` se izvršava odmah, a `undefined` (u ovom slučaju) se prosleđuje umesto callback-a; listener nije registrovan kako je nameravano. Popravka: `obradi` ili `() => obradi()`."
             },
             {
               "id": "k21q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "6.4. Zamka. Da li su sledeća dva zapisa uvek ekvivalentna?\n\n```javascript\ndugme.addEventListener(\"click\", obradi);\ndugme.addEventListener(\"click\", () => obradi());\n```",
+              "text": "6.4. Da li su sledeća dva zapisa uvek ekvivalentna?\n\n```javascript\ndugme.addEventListener(\"click\", obradi);\ndugme.addEventListener(\"click\", () => obradi());\n```",
               "answer": "Oba odlažu poziv do događaja, ali nisu potpuno ista: prvi prosleđuje objekat događaja i poziva `obradi` kao listener; drugi eksplicitno poziva `obradi()` bez argumenta i kroz novu funkciju. To može promeniti ponašanje i uklanjanje listenera."
             },
             {
               "id": "k21q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "6.5. Problem ponavljanja. Inicijalizaciona funkcija se pozove tri puta, a svaki put napravi novu arrow funkciju za isti klik. Da li jedan klik može da izvrši istu operaciju više puta?",
-              "answer": "Da, ako su registrovane različite funkcije. Identitet callback-a je bitan; za uklanjanje koristimo istu referencu i odgovarajući `capture`. Razlikovati isti callback ponovno dodat pod istim uslovima od više novih callback objekata."
+              "text": "6.5. Inicijalizaciona funkcija se pozove tri puta, a svaki put napravi novu arrow funkciju za isti klik. Da li jedan klik može da izvrši istu operaciju više puta?",
+              "answer": "Da. Svaki poziv registruje novu funkciju, pa jedan klik može izvršiti operaciju tri puta. Uklanjanje traži baš tu istu funkciju, ne novu koja ima isti tekst."
             },
             {
               "id": "k21q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "6.6. Procena. Kada je razumljiviji imenovani handler, a kada kratka arrow funkcija? Koja varijanta olakšava testiranje i uklanjanje listenera?",
+              "text": "6.6. Kada je razumljiviji imenovani handler, a kada kratka arrow funkcija? Koja varijanta olakšava testiranje i uklanjanje listenera?",
               "answer": "Zavisi od složenosti i životnog veka listenera. Imenovane funkcije često bolje dokumentuju nameru i olakšavaju uklanjanje, kratke anonimne su zgodne za jednostavno povezivanje."
             },
             {
               "id": "k21q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "6.7. Primena. Kontrolna soba ima `+`, `−` i prekidač. Da li svaki handler treba da zna kako se menja HTML temperature? Koji problem to stvara kada dodamo drugi prikaz istog podatka?",
+              "text": "6.7. Kontrolna soba ima `+`, `−` i prekidač. Da li svaki handler treba da zna kako se menja HTML temperature? Koji problem to stvara kada dodamo drugi prikaz istog podatka?",
               "answer": "Za sada je dozvoljen jednostavan direktan upis, ali time nastaje dupliranje. To postaje motivacija za stanje i `render` u 10–12. koraku."
             }
           ],
           "prompts": [
             {
-              "prompt": "6.1. Problem. HTML i JS se mogu učitati nezavisno. Kako JavaScript saznaje da je korisnik kliknuo dugme, a da ne proverava u beskonačnoj petlji „da li je kliknuto”?",
+              "prompt": "6.1. HTML i JS se mogu učitati nezavisno. Kako JavaScript saznaje da je korisnik kliknuo dugme, a da ne proverava u beskonačnoj petlji „da li je kliknuto”?",
               "answer": "Browser prijavljuje događaje; program registruje callback funkcije. Uvesti `addEventListener` kao ugovor između browsera i koda."
             },
             {
-              "prompt": "6.2. Dizajn objekta događaja. Koje informacije biste predali callback-u za klik, a koje za unos u polje? Zašto nije dovoljno poslati samo boolean `kliknuto`?",
+              "prompt": "6.2. Koje informacije biste predali callback-u za klik, a koje za unos u polje? Zašto nije dovoljno poslati samo boolean `kliknuto`?",
               "answer": "Vrsta događaja, cilj i relevantni podaci događaja; različiti događaji nose različite informacije. `Event` i specifičniji tipovi omogućavaju proširenje."
             },
             {
-              "prompt": "6.3. Zamka sa kodom. Predvidite vreme izvršavanja funkcije:\n\n```javascript\nfunction obradi() {\n  console.log(\"obradi\");\n}\ndugme.addEventListener(\"click\", obradi());\n```",
+              "prompt": "6.3. Predvidite vreme izvršavanja funkcije:\n\n```javascript\nfunction obradi() {\n  console.log(\"obradi\");\n}\ndugme.addEventListener(\"click\", obradi());\n```",
               "answer": "`obradi` se izvršava odmah, a `undefined` (u ovom slučaju) se prosleđuje umesto callback-a; listener nije registrovan kako je nameravano. Popravka: `obradi` ili `() => obradi()`."
             },
             {
-              "prompt": "6.4. Zamka. Da li su sledeća dva zapisa uvek ekvivalentna?\n\n```javascript\ndugme.addEventListener(\"click\", obradi);\ndugme.addEventListener(\"click\", () => obradi());\n```",
+              "prompt": "6.4. Da li su sledeća dva zapisa uvek ekvivalentna?\n\n```javascript\ndugme.addEventListener(\"click\", obradi);\ndugme.addEventListener(\"click\", () => obradi());\n```",
               "answer": "Oba odlažu poziv do događaja, ali nisu potpuno ista: prvi prosleđuje objekat događaja i poziva `obradi` kao listener; drugi eksplicitno poziva `obradi()` bez argumenta i kroz novu funkciju. To može promeniti ponašanje i uklanjanje listenera."
             },
             {
-              "prompt": "6.5. Problem ponavljanja. Inicijalizaciona funkcija se pozove tri puta, a svaki put napravi novu arrow funkciju za isti klik. Da li jedan klik može da izvrši istu operaciju više puta?",
-              "answer": "Da, ako su registrovane različite funkcije. Identitet callback-a je bitan; za uklanjanje koristimo istu referencu i odgovarajući `capture`. Razlikovati isti callback ponovno dodat pod istim uslovima od više novih callback objekata."
+              "prompt": "6.5. Inicijalizaciona funkcija se pozove tri puta, a svaki put napravi novu arrow funkciju za isti klik. Da li jedan klik može da izvrši istu operaciju više puta?",
+              "answer": "Da. Svaki poziv registruje novu funkciju, pa jedan klik može izvršiti operaciju tri puta. Uklanjanje traži baš tu istu funkciju, ne novu koja ima isti tekst."
             },
             {
-              "prompt": "6.6. Procena. Kada je razumljiviji imenovani handler, a kada kratka arrow funkcija? Koja varijanta olakšava testiranje i uklanjanje listenera?",
+              "prompt": "6.6. Kada je razumljiviji imenovani handler, a kada kratka arrow funkcija? Koja varijanta olakšava testiranje i uklanjanje listenera?",
               "answer": "Zavisi od složenosti i životnog veka listenera. Imenovane funkcije često bolje dokumentuju nameru i olakšavaju uklanjanje, kratke anonimne su zgodne za jednostavno povezivanje."
             },
             {
-              "prompt": "6.7. Primena. Kontrolna soba ima `+`, `−` i prekidač. Da li svaki handler treba da zna kako se menja HTML temperature? Koji problem to stvara kada dodamo drugi prikaz istog podatka?",
+              "prompt": "6.7. Kontrolna soba ima `+`, `−` i prekidač. Da li svaki handler treba da zna kako se menja HTML temperature? Koji problem to stvara kada dodamo drugi prikaz istog podatka?",
               "answer": "Za sada je dozvoljen jednostavan direktan upis, ali time nastaje dupliranje. To postaje motivacija za stanje i `render` u 10–12. koraku."
             }
           ],
-          "prompt": "6.1. Problem. HTML i JS se mogu učitati nezavisno. Kako JavaScript saznaje da je korisnik kliknuo dugme, a da ne proverava u beskonačnoj petlji „da li je kliknuto”?",
+          "prompt": "6.1. HTML i JS se mogu učitati nezavisno. Kako JavaScript saznaje da je korisnik kliknuo dugme, a da ne proverava u beskonačnoj petlji „da li je kliknuto”?",
           "path": "client/lekcije/21-listener.js",
           "snippetTitle": "Od korisničke akcije do funkcije",
           "snippetLanguage": "javascript",
@@ -8024,83 +8024,83 @@
               "id": "k22q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "7.1. Problem. Kartica ima dugme „Detalji”; klik otvara detalje *i* pokreće listener na kartici. Kako je jedan klik mogao da aktivira dve funkcije?",
+              "text": "7.1. Kartica ima dugme „Detalji”; klik otvara detalje *i* pokreće listener na kartici. Kako je jedan klik mogao da aktivira dve funkcije?",
               "answer": "Događaj se kreće kroz DOM putanju, pa listeneri na precima mogu reagovati. Razlikovati capture, target i bubble."
             },
             {
               "id": "k22q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "7.2. Nacrtajte tok. Za `document > div#spolja > button#unutra` postavite capture listener na `spolja`, a obične listenere na `unutra` i `spolja`. Kojim redom će se pozvati ako kliknemo dugme?",
+              "text": "7.2. Za `document > div#spolja > button#unutra` postavite capture listener na `spolja`, a obične listenere na `unutra` i `spolja`. Kojim redom će se pozvati ako kliknemo dugme?",
               "answer": "`spolja` (capture), `unutra` (cilj), `spolja` (bubble). Capture ide ka cilju, bubble od cilja naviše, ako događaj bubble-uje."
             },
             {
               "id": "k22q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "7.3. Zamka sa kodom. Klik je na `<span>` unutar dugmeta unutar kartice, a listener je na kartici: Koje vrednosti očekujete?\n\n```javascript\nkartica.addEventListener(\"click\", (event) => {\n  console.log(event.target.tagName);\n  console.log(event.currentTarget.tagName);\n});\n```",
+              "text": "7.3. Klik je na `<span>` unutar dugmeta unutar kartice, a listener je na kartici: Koje vrednosti očekujete?\n\n```javascript\nkartica.addEventListener(\"click\", (event) => {\n  console.log(event.target.tagName);\n  console.log(event.currentTarget.tagName);\n});\n```",
               "answer": "`SPAN`, zatim naziv elementa kartice, npr. `DIV`. `target` je stvarni cilj, `currentTarget` element čiji se listener upravo izvršava."
             },
             {
               "id": "k22q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "7.4. Zamka sa metodama. Koja je razlika između `stopPropagation()` i `preventDefault()`? Da li jedno automatski obavlja posao drugog?",
+              "text": "7.4. Koja je razlika između `stopPropagation()` i `preventDefault()`? Da li jedno automatski obavlja posao drugog?",
               "answer": "Prvi ograničava dalje širenje događaja; drugi otkazuje podrazumevanu radnju ako je otkaziva. Ne radi se o istom mehanizmu."
             },
             {
               "id": "k22q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "7.5. Procena. Ako klik na dugme unutar kartice ne treba da otvori karticu, da li je najbolji prvi potez svuda pozvati `stopPropagation()`?",
+              "text": "7.5. Ako klik na dugme unutar kartice ne treba da otvori karticu, da li je najbolji prvi potez svuda pozvati `stopPropagation()`?",
               "answer": "Ne nužno. Moguće je prepoznati izvor događaja ili organizovati namere. Globalno zaustavljanje može onemogućiti druge legitimne reakcije i delegiranje."
             },
             {
               "id": "k22q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "7.6. Dizajn. Zašto je važno da događaj može da putuje kroz stablo? Kakav bi API bio neophodan kada bi klik znao samo za cilj i nijednog pretka?",
+              "text": "7.6. Zašto je važno da događaj može da putuje kroz stablo? Kakav bi API bio neophodan kada bi klik znao samo za cilj i nijednog pretka?",
               "answer": "Bez propagacije često bismo morali da registrujemo listenere na velikom broju elemenata. Ovo uvodi delegiranje događaja u sledećem koraku."
             },
             {
               "id": "k22q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "7.7. Primena. Dugme „Ukloni senzor” je unutar kartice „Otvori detalje”. Kako biste odlučili koja akcija treba da se izvrši na klik, a kako biste proverili da to radi na tekstu i ikonici dugmeta?",
+              "text": "7.7. Dugme „Ukloni senzor” je unutar kartice „Otvori detalje”. Kako biste odlučili koja akcija treba da se izvrši na klik, a kako biste proverili da to radi na tekstu i ikonici dugmeta?",
               "answer": "Definisati prioritete namera i na pretku prepoznati najbliži odgovarajući kontrolni element (`closest`). Ne oslanjati se na pretpostavku da je `target` uvek `button`."
             }
           ],
           "prompts": [
             {
-              "prompt": "7.1. Problem. Kartica ima dugme „Detalji”; klik otvara detalje *i* pokreće listener na kartici. Kako je jedan klik mogao da aktivira dve funkcije?",
+              "prompt": "7.1. Kartica ima dugme „Detalji”; klik otvara detalje *i* pokreće listener na kartici. Kako je jedan klik mogao da aktivira dve funkcije?",
               "answer": "Događaj se kreće kroz DOM putanju, pa listeneri na precima mogu reagovati. Razlikovati capture, target i bubble."
             },
             {
-              "prompt": "7.2. Nacrtajte tok. Za `document > div#spolja > button#unutra` postavite capture listener na `spolja`, a obične listenere na `unutra` i `spolja`. Kojim redom će se pozvati ako kliknemo dugme?",
+              "prompt": "7.2. Za `document > div#spolja > button#unutra` postavite capture listener na `spolja`, a obične listenere na `unutra` i `spolja`. Kojim redom će se pozvati ako kliknemo dugme?",
               "answer": "`spolja` (capture), `unutra` (cilj), `spolja` (bubble). Capture ide ka cilju, bubble od cilja naviše, ako događaj bubble-uje."
             },
             {
-              "prompt": "7.3. Zamka sa kodom. Klik je na `<span>` unutar dugmeta unutar kartice, a listener je na kartici: Koje vrednosti očekujete?\n\n```javascript\nkartica.addEventListener(\"click\", (event) => {\n  console.log(event.target.tagName);\n  console.log(event.currentTarget.tagName);\n});\n```",
+              "prompt": "7.3. Klik je na `<span>` unutar dugmeta unutar kartice, a listener je na kartici: Koje vrednosti očekujete?\n\n```javascript\nkartica.addEventListener(\"click\", (event) => {\n  console.log(event.target.tagName);\n  console.log(event.currentTarget.tagName);\n});\n```",
               "answer": "`SPAN`, zatim naziv elementa kartice, npr. `DIV`. `target` je stvarni cilj, `currentTarget` element čiji se listener upravo izvršava."
             },
             {
-              "prompt": "7.4. Zamka sa metodama. Koja je razlika između `stopPropagation()` i `preventDefault()`? Da li jedno automatski obavlja posao drugog?",
+              "prompt": "7.4. Koja je razlika između `stopPropagation()` i `preventDefault()`? Da li jedno automatski obavlja posao drugog?",
               "answer": "Prvi ograničava dalje širenje događaja; drugi otkazuje podrazumevanu radnju ako je otkaziva. Ne radi se o istom mehanizmu."
             },
             {
-              "prompt": "7.5. Procena. Ako klik na dugme unutar kartice ne treba da otvori karticu, da li je najbolji prvi potez svuda pozvati `stopPropagation()`?",
+              "prompt": "7.5. Ako klik na dugme unutar kartice ne treba da otvori karticu, da li je najbolji prvi potez svuda pozvati `stopPropagation()`?",
               "answer": "Ne nužno. Moguće je prepoznati izvor događaja ili organizovati namere. Globalno zaustavljanje može onemogućiti druge legitimne reakcije i delegiranje."
             },
             {
-              "prompt": "7.6. Dizajn. Zašto je važno da događaj može da putuje kroz stablo? Kakav bi API bio neophodan kada bi klik znao samo za cilj i nijednog pretka?",
+              "prompt": "7.6. Zašto je važno da događaj može da putuje kroz stablo? Kakav bi API bio neophodan kada bi klik znao samo za cilj i nijednog pretka?",
               "answer": "Bez propagacije često bismo morali da registrujemo listenere na velikom broju elemenata. Ovo uvodi delegiranje događaja u sledećem koraku."
             },
             {
-              "prompt": "7.7. Primena. Dugme „Ukloni senzor” je unutar kartice „Otvori detalje”. Kako biste odlučili koja akcija treba da se izvrši na klik, a kako biste proverili da to radi na tekstu i ikonici dugmeta?",
+              "prompt": "7.7. Dugme „Ukloni senzor” je unutar kartice „Otvori detalje”. Kako biste odlučili koja akcija treba da se izvrši na klik, a kako biste proverili da to radi na tekstu i ikonici dugmeta?",
               "answer": "Definisati prioritete namera i na pretku prepoznati najbliži odgovarajući kontrolni element (`closest`). Ne oslanjati se na pretpostavku da je `target` uvek `button`."
             }
           ],
-          "prompt": "7.1. Problem. Kartica ima dugme „Detalji”; klik otvara detalje *i* pokreće listener na kartici. Kako je jedan klik mogao da aktivira dve funkcije?",
+          "prompt": "7.1. Kartica ima dugme „Detalji”; klik otvara detalje *i* pokreće listener na kartici. Kako je jedan klik mogao da aktivira dve funkcije?",
           "path": "client/lekcije/22-propagacija.js",
           "snippetTitle": "Propagacija događaja: capture, target i bubbling",
           "snippetLanguage": "javascript",
@@ -8150,83 +8150,83 @@
               "id": "k23q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "8.1. Problem. U listi ima 300 poruka, a nove stižu bez osvežavanja stranice. Kako biste povezali dugmad „Obriši” bez ponovne registracije stotina listenera nakon svake izmene?",
+              "text": "8.1. U listi ima 300 poruka, a nove stižu bez osvežavanja stranice. Kako biste povezali dugmad „Obriši” bez ponovne registracije stotina listenera nakon svake izmene?",
               "answer": "Delegiranje sa jednim listenerom na stabilnom pretku, uz prepoznavanje konkretnog dugmeta i pripadajućeg zapisa."
             },
             {
               "id": "k23q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "8.2. Projektovanje. Kojim podacima treba obeležiti dugme, a kojim karticu? Predložite mali HTML sa `data-action` i `data-id`.",
+              "text": "8.2. Kojim podacima treba obeležiti dugme, a kojim karticu? Predložite mali HTML sa `data-action` i `data-id`.",
               "answer": "Akcija ide uz dugme, identitet zapisa uz odgovarajuću stavku. `data-*` su stringovi i predstavljaju most ka podacima aplikacije, ne poslovnu bazu podataka."
             },
             {
               "id": "k23q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "8.3. Zamka sa kodom. HTML ima `<button><span>Ukloni</span></button>`. Korisnik klikne na tekst. Šta nije u redu u ovom uslovu?\n\n```javascript\nif (!event.target.matches(\"button\")) return;\n```",
+              "text": "8.3. HTML ima `<button><span>Ukloni</span></button>`. Korisnik klikne na tekst. Šta nije u redu u ovom uslovu?\n\n```javascript\nif (!event.target.matches(\"button\")) return;\n```",
               "answer": "`event.target` može biti `span`, pa provera propusti stvarni klik dugmeta. Koristiti `closest(\"button\")` uz proveru da je pronađeno dugme unutar očekivanog kontejnera."
             },
             {
               "id": "k23q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "8.4. Zamka. Funkcija `closest()` može da nađe odgovarajući element *izvan* mesta gde smo nameravali da rukujemo događajem. Kako zaštititi delegirani handler?",
+              "text": "8.4. Funkcija `closest()` može da nađe odgovarajući element *izvan* mesta gde smo nameravali da rukujemo događajem. Kako zaštititi delegirani handler?",
               "answer": "Proveriti `kontejner.contains(pronadjenElement)` (i da li je cilj odgovarajućeg tipa). Traženje se ne sme oslanjati na slučajan raspored spoljnog DOM-a."
             },
             {
               "id": "k23q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "8.5. Procena. Da li jedan delegirani listener uvek bolje rešenje od direktnih listenera na deci?",
-              "answer": "Ne. Delegiranje je naročito dobro za dinamičke liste i zajedničke akcije; direktni listener je često jednostavniji za nekoliko stabilnih elemenata. Nisu svi događaji pogodni za bubble delegiranje (`focus` naspram `focusin`)."
+              "text": "8.5. Da li jedan delegirani listener uvek bolje rešenje od direktnih listenera na deci?",
+              "answer": "Ne. Delegiranje je dobro za dinamičke liste i zajedničku akciju. Za nekoliko stabilnih elemenata često je jednostavniji direktan listener. Nije svaki događaj pogodan: `focus` ne putuje do pretka, `focusin` putuje."
             },
             {
               "id": "k23q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "8.6. Problem identiteta. Korisnik sortira listu i klikne na „Obriši” treće kartice. Da li treba brisati objekat sa indeksom 2 ili sa identifikatorom koji piše na kartici?",
+              "text": "8.6. Korisnik sortira listu i klikne na „Obriši” treće kartice. Da li treba brisati objekat sa indeksom 2 ili sa identifikatorom koji piše na kartici?",
               "answer": "Stabilan identifikator određuje zapis; indeks je trenutna pozicija i može se promeniti. Potrebno je razlikovati UI poziciju od identiteta modela."
             },
             {
               "id": "k23q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "8.7. Primena. Posle dodavanja novog senzora dugme „Ukloni” radi bez ikakve dodatne registracije. Gde se listener nalazi i kojim putem događaj stiže do njega?",
+              "text": "8.7. Posle dodavanja novog senzora dugme „Ukloni” radi bez ikakve dodatne registracije. Gde se listener nalazi i kojim putem događaj stiže do njega?",
               "answer": "Na stabilnom kontejneru, preko propagacije događaja od dugmeta ka precima."
             }
           ],
           "prompts": [
             {
-              "prompt": "8.1. Problem. U listi ima 300 poruka, a nove stižu bez osvežavanja stranice. Kako biste povezali dugmad „Obriši” bez ponovne registracije stotina listenera nakon svake izmene?",
+              "prompt": "8.1. U listi ima 300 poruka, a nove stižu bez osvežavanja stranice. Kako biste povezali dugmad „Obriši” bez ponovne registracije stotina listenera nakon svake izmene?",
               "answer": "Delegiranje sa jednim listenerom na stabilnom pretku, uz prepoznavanje konkretnog dugmeta i pripadajućeg zapisa."
             },
             {
-              "prompt": "8.2. Projektovanje. Kojim podacima treba obeležiti dugme, a kojim karticu? Predložite mali HTML sa `data-action` i `data-id`.",
+              "prompt": "8.2. Kojim podacima treba obeležiti dugme, a kojim karticu? Predložite mali HTML sa `data-action` i `data-id`.",
               "answer": "Akcija ide uz dugme, identitet zapisa uz odgovarajuću stavku. `data-*` su stringovi i predstavljaju most ka podacima aplikacije, ne poslovnu bazu podataka."
             },
             {
-              "prompt": "8.3. Zamka sa kodom. HTML ima `<button><span>Ukloni</span></button>`. Korisnik klikne na tekst. Šta nije u redu u ovom uslovu?\n\n```javascript\nif (!event.target.matches(\"button\")) return;\n```",
+              "prompt": "8.3. HTML ima `<button><span>Ukloni</span></button>`. Korisnik klikne na tekst. Šta nije u redu u ovom uslovu?\n\n```javascript\nif (!event.target.matches(\"button\")) return;\n```",
               "answer": "`event.target` može biti `span`, pa provera propusti stvarni klik dugmeta. Koristiti `closest(\"button\")` uz proveru da je pronađeno dugme unutar očekivanog kontejnera."
             },
             {
-              "prompt": "8.4. Zamka. Funkcija `closest()` može da nađe odgovarajući element *izvan* mesta gde smo nameravali da rukujemo događajem. Kako zaštititi delegirani handler?",
+              "prompt": "8.4. Funkcija `closest()` može da nađe odgovarajući element *izvan* mesta gde smo nameravali da rukujemo događajem. Kako zaštititi delegirani handler?",
               "answer": "Proveriti `kontejner.contains(pronadjenElement)` (i da li je cilj odgovarajućeg tipa). Traženje se ne sme oslanjati na slučajan raspored spoljnog DOM-a."
             },
             {
-              "prompt": "8.5. Procena. Da li jedan delegirani listener uvek bolje rešenje od direktnih listenera na deci?",
-              "answer": "Ne. Delegiranje je naročito dobro za dinamičke liste i zajedničke akcije; direktni listener je često jednostavniji za nekoliko stabilnih elemenata. Nisu svi događaji pogodni za bubble delegiranje (`focus` naspram `focusin`)."
+              "prompt": "8.5. Da li jedan delegirani listener uvek bolje rešenje od direktnih listenera na deci?",
+              "answer": "Ne. Delegiranje je dobro za dinamičke liste i zajedničku akciju. Za nekoliko stabilnih elemenata često je jednostavniji direktan listener. Nije svaki događaj pogodan: `focus` ne putuje do pretka, `focusin` putuje."
             },
             {
-              "prompt": "8.6. Problem identiteta. Korisnik sortira listu i klikne na „Obriši” treće kartice. Da li treba brisati objekat sa indeksom 2 ili sa identifikatorom koji piše na kartici?",
+              "prompt": "8.6. Korisnik sortira listu i klikne na „Obriši” treće kartice. Da li treba brisati objekat sa indeksom 2 ili sa identifikatorom koji piše na kartici?",
               "answer": "Stabilan identifikator određuje zapis; indeks je trenutna pozicija i može se promeniti. Potrebno je razlikovati UI poziciju od identiteta modela."
             },
             {
-              "prompt": "8.7. Primena. Posle dodavanja novog senzora dugme „Ukloni” radi bez ikakve dodatne registracije. Gde se listener nalazi i kojim putem događaj stiže do njega?",
+              "prompt": "8.7. Posle dodavanja novog senzora dugme „Ukloni” radi bez ikakve dodatne registracije. Gde se listener nalazi i kojim putem događaj stiže do njega?",
               "answer": "Na stabilnom kontejneru, preko propagacije događaja od dugmeta ka precima."
             }
           ],
-          "prompt": "8.1. Problem. U listi ima 300 poruka, a nove stižu bez osvežavanja stranice. Kako biste povezali dugmad „Obriši” bez ponovne registracije stotina listenera nakon svake izmene?",
+          "prompt": "8.1. U listi ima 300 poruka, a nove stižu bez osvežavanja stranice. Kako biste povezali dugmad „Obriši” bez ponovne registracije stotina listenera nakon svake izmene?",
           "path": "client/lekcije/23-delegiranje.js",
           "snippetTitle": "Delegiranje događaja",
           "snippetLanguage": "javascript",
@@ -8276,94 +8276,94 @@
               "id": "k24q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "9.1. Problem. Korisnik menja ciljnu temperaturu pa pritisne Enter. Zašto je smislenije koristiti `<form>` nego ručno hvatati samo `click` na dugmetu?",
+              "text": "9.1. Korisnik menja ciljnu temperaturu pa pritisne Enter. Zašto je smislenije koristiti `<form>` nego ručno hvatati samo `click` na dugmetu?",
               "answer": "Formular obuhvata prirodan način potvrđivanja unosa, pristupačnost i browser mehanizme validacije; `submit` predstavlja nameru korisnika, nezavisno od miša."
             },
             {
               "id": "k24q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "9.2. Dizajn. Koje faze biste predvideli za obradu formulara? Predložite redosled: čitanje, konverzija, provera, promena modela, prikaz.",
+              "text": "9.2. Koje faze biste predvideli za obradu formulara? Predložite redosled: čitanje, konverzija, provera, promena modela, prikaz.",
               "answer": "Prvo proveriti i protumačiti ulaz, tek potom promeniti stanje i prikaz. Neispravan unos ne sme postati poslovno stanje."
             },
             {
               "id": "k24q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "9.3. Zamka sa kodom. Šta će dati sledeća provera ako je polje prazno?\n\n```javascript\nconst broj = Number(input.value);\nif (Number.isFinite(broj)) {\n  console.log(\"prihvaceno\", broj);\n}\n```",
+              "text": "9.3. Šta će dati sledeća provera ako je polje prazno?\n\n```javascript\nconst broj = Number(input.value);\nif (Number.isFinite(broj)) {\n  console.log(\"prihvaceno\", broj);\n}\n```",
               "answer": "`Number(\"\")` je `0`, konačan broj, pa je prazan unos pogrešno prihvaćen. Potrebna je eksplicitna provera praznog unosa (kao i opsega)."
             },
             {
               "id": "k24q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "9.4. Zamka sa metodama. Pozvali smo `event.preventDefault()` u `submit` handleru. Da li je time (a) prekinuta funkcija, (b) onemogućen svaki `fetch`, (c) otkazana podrazumevana akcija browsera?",
+              "text": "9.4. Pozvali smo `event.preventDefault()` u `submit` handleru. Da li je time (a) prekinuta funkcija, (b) onemogućen svaki `fetch`, (c) otkazana podrazumevana akcija browsera?",
               "answer": "Samo (c), ako se događaj može otkazati. Handler nastavlja, a `fetch` se može pozvati eksplicitno."
             },
             {
               "id": "k24q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "9.5. Poređenje. Kada je koristan događaj `input`, a kada `change`, a kada `submit`? Da li je jedna vrsta dovoljna za sve slučajeve?",
+              "text": "9.5. Kada je koristan događaj `input`, a kada `change`, a kada `submit`? Da li je jedna vrsta dovoljna za sve slučajeve?",
               "answer": "`input` za reakcije tokom promene, `change` za potvrđenu promenu prema kontroli, `submit` za potvrđivanje formulara. Izbor zavisi od značenja akcije i UX-a."
             },
             {
               "id": "k24q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "9.6. Problem pouzdanosti. Ako input ima `required`, `min=16` i `max=30`, zašto i dalje proveravamo podatak u JS-u, a u budućoj serverskoj aplikaciji i na serveru?",
+              "text": "9.6. Ako input ima `required`, `min=16` i `max=30`, zašto i dalje proveravamo podatak u JS-u, a u budućoj serverskoj aplikaciji i na serveru?",
               "answer": "HTML ograničenja poboljšavaju UX, ali nisu pouzdana poslovna granica. Kod može menjati kontrolu, a zahtevi prema serveru ne moraju dolaziti iz istog formulara."
             },
             {
               "id": "k24q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "9.7. Zamka. Koje je podrazumevano ponašanje dugmeta bez atributa `type` *unutar* forme? Kako biste zapisali dugme „Prikaži pomoć” koje ne sme poslati formular?",
+              "text": "9.7. Koje je podrazumevano ponašanje dugmeta bez atributa `type` *unutar* forme? Kako biste zapisali dugme „Prikaži pomoć” koje ne sme poslati formular?",
               "answer": "Podrazumevani `type` za `<button>` u formi je `submit`; za dodatnu akciju koristiti `type=\"button\"`."
             },
             {
               "id": "k24q8",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "9.8. Primena. Korisnik unese `35` kao ciljnu temperaturu (dozvoljeno 16–30). Šta tačno treba da ostane nepromenjeno, a šta bi korisnik morao da vidi?",
-              "answer": "Poslovno stanje ne menja ciljnu temperaturu; korisnik dobija razumljivu povratnu poruku i može popraviti unos. Ne prikazivati nedozvoljenu vrednost kao prihvaćenu. # III. Stanje i prikaz: od podataka do interfejsa"
+              "text": "9.8. Korisnik unese `35` kao ciljnu temperaturu (dozvoljeno 16–30). Šta tačno treba da ostane nepromenjeno, a šta bi korisnik morao da vidi?",
+              "answer": "Poslovno stanje ne menja ciljnu temperaturu; korisnik dobija razumljivu povratnu poruku i može popraviti unos. Ne prikazivati nedozvoljenu vrednost kao prihvaćenu."
             }
           ],
           "prompts": [
             {
-              "prompt": "9.1. Problem. Korisnik menja ciljnu temperaturu pa pritisne Enter. Zašto je smislenije koristiti `<form>` nego ručno hvatati samo `click` na dugmetu?",
+              "prompt": "9.1. Korisnik menja ciljnu temperaturu pa pritisne Enter. Zašto je smislenije koristiti `<form>` nego ručno hvatati samo `click` na dugmetu?",
               "answer": "Formular obuhvata prirodan način potvrđivanja unosa, pristupačnost i browser mehanizme validacije; `submit` predstavlja nameru korisnika, nezavisno od miša."
             },
             {
-              "prompt": "9.2. Dizajn. Koje faze biste predvideli za obradu formulara? Predložite redosled: čitanje, konverzija, provera, promena modela, prikaz.",
+              "prompt": "9.2. Koje faze biste predvideli za obradu formulara? Predložite redosled: čitanje, konverzija, provera, promena modela, prikaz.",
               "answer": "Prvo proveriti i protumačiti ulaz, tek potom promeniti stanje i prikaz. Neispravan unos ne sme postati poslovno stanje."
             },
             {
-              "prompt": "9.3. Zamka sa kodom. Šta će dati sledeća provera ako je polje prazno?\n\n```javascript\nconst broj = Number(input.value);\nif (Number.isFinite(broj)) {\n  console.log(\"prihvaceno\", broj);\n}\n```",
+              "prompt": "9.3. Šta će dati sledeća provera ako je polje prazno?\n\n```javascript\nconst broj = Number(input.value);\nif (Number.isFinite(broj)) {\n  console.log(\"prihvaceno\", broj);\n}\n```",
               "answer": "`Number(\"\")` je `0`, konačan broj, pa je prazan unos pogrešno prihvaćen. Potrebna je eksplicitna provera praznog unosa (kao i opsega)."
             },
             {
-              "prompt": "9.4. Zamka sa metodama. Pozvali smo `event.preventDefault()` u `submit` handleru. Da li je time (a) prekinuta funkcija, (b) onemogućen svaki `fetch`, (c) otkazana podrazumevana akcija browsera?",
+              "prompt": "9.4. Pozvali smo `event.preventDefault()` u `submit` handleru. Da li je time (a) prekinuta funkcija, (b) onemogućen svaki `fetch`, (c) otkazana podrazumevana akcija browsera?",
               "answer": "Samo (c), ako se događaj može otkazati. Handler nastavlja, a `fetch` se može pozvati eksplicitno."
             },
             {
-              "prompt": "9.5. Poređenje. Kada je koristan događaj `input`, a kada `change`, a kada `submit`? Da li je jedna vrsta dovoljna za sve slučajeve?",
+              "prompt": "9.5. Kada je koristan događaj `input`, a kada `change`, a kada `submit`? Da li je jedna vrsta dovoljna za sve slučajeve?",
               "answer": "`input` za reakcije tokom promene, `change` za potvrđenu promenu prema kontroli, `submit` za potvrđivanje formulara. Izbor zavisi od značenja akcije i UX-a."
             },
             {
-              "prompt": "9.6. Problem pouzdanosti. Ako input ima `required`, `min=16` i `max=30`, zašto i dalje proveravamo podatak u JS-u, a u budućoj serverskoj aplikaciji i na serveru?",
+              "prompt": "9.6. Ako input ima `required`, `min=16` i `max=30`, zašto i dalje proveravamo podatak u JS-u, a u budućoj serverskoj aplikaciji i na serveru?",
               "answer": "HTML ograničenja poboljšavaju UX, ali nisu pouzdana poslovna granica. Kod može menjati kontrolu, a zahtevi prema serveru ne moraju dolaziti iz istog formulara."
             },
             {
-              "prompt": "9.7. Zamka. Koje je podrazumevano ponašanje dugmeta bez atributa `type` *unutar* forme? Kako biste zapisali dugme „Prikaži pomoć” koje ne sme poslati formular?",
+              "prompt": "9.7. Koje je podrazumevano ponašanje dugmeta bez atributa `type` *unutar* forme? Kako biste zapisali dugme „Prikaži pomoć” koje ne sme poslati formular?",
               "answer": "Podrazumevani `type` za `<button>` u formi je `submit`; za dodatnu akciju koristiti `type=\"button\"`."
             },
             {
-              "prompt": "9.8. Primena. Korisnik unese `35` kao ciljnu temperaturu (dozvoljeno 16–30). Šta tačno treba da ostane nepromenjeno, a šta bi korisnik morao da vidi?",
-              "answer": "Poslovno stanje ne menja ciljnu temperaturu; korisnik dobija razumljivu povratnu poruku i može popraviti unos. Ne prikazivati nedozvoljenu vrednost kao prihvaćenu. # III. Stanje i prikaz: od podataka do interfejsa"
+              "prompt": "9.8. Korisnik unese `35` kao ciljnu temperaturu (dozvoljeno 16–30). Šta tačno treba da ostane nepromenjeno, a šta bi korisnik morao da vidi?",
+              "answer": "Poslovno stanje ne menja ciljnu temperaturu; korisnik dobija razumljivu povratnu poruku i može popraviti unos. Ne prikazivati nedozvoljenu vrednost kao prihvaćenu."
             }
           ],
-          "prompt": "9.1. Problem. Korisnik menja ciljnu temperaturu pa pritisne Enter. Zašto je smislenije koristiti `<form>` nego ručno hvatati samo `click` na dugmetu?",
+          "prompt": "9.1. Korisnik menja ciljnu temperaturu pa pritisne Enter. Zašto je smislenije koristiti `<form>` nego ručno hvatati samo `click` na dugmetu?",
           "path": "client/lekcije/24-formular.js",
           "snippetTitle": "Formulari, unos i podrazumevane radnje",
           "snippetLanguage": "javascript",
@@ -8417,83 +8417,83 @@
               "id": "k25q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "10.1. Problem. U kontrolnoj sobi temperatura se vidi u velikom broju, maloj kartici i naslovu taba. Koji je problem ako svako mesto čuva „svoju temperaturu”?",
+              "text": "10.1. U kontrolnoj sobi temperatura se vidi u velikom broju, maloj kartici i naslovu taba. Koji je problem ako svako mesto čuva „svoju temperaturu”?",
               "answer": "Dobijamo tri potencijalno različita izvora istine. Potreban je jedinstven podatak, a sva tri prikaza treba da ga čitaju."
             },
             {
               "id": "k25q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "10.2. Dizajn. Kako biste organizovali podatke za temperaturu, ciljni režim i listu senzora u jednom JavaScript objektu? Šta bi bilo promenljivo, a šta izvedeno?",
+              "text": "10.2. Kako biste organizovali podatke za temperaturu, ciljni režim i listu senzora u jednom JavaScript objektu? Šta bi bilo promenljivo, a šta izvedeno?",
               "answer": "Objektni model sa jednostavnim poljima i nizom senzora; brojeve poput `brojSenzora` obično izračunavamo iz niza, ne održavamo paralelno."
             },
             {
               "id": "k25q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "10.3. Zamka. Na ekranu stoji `\"22 °C\"`. Zašto nije dobro da logika upravljanja čita `textContent`, parsira broj i na tome temelji sledeću akciju?",
+              "text": "10.3. Na ekranu stoji `\"22 °C\"`. Zašto nije dobro da logika upravljanja čita `textContent`, parsira broj i na tome temelji sledeću akciju?",
               "answer": "Prikaz je formatiran, možda zastareo i zavisan od jezika/izgleda. Podaci treba da postoje u modelu, a ne da se rekonstruišu iz HTML teksta."
             },
             {
               "id": "k25q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "10.4. Eksperiment. U konzoli izvršimo `state.temperatura += 1`. Da li će browser automatski pronaći sve elemente koji prikazuju temperaturu?",
+              "text": "10.4. U konzoli izvršimo `state.temperatura += 1`. Da li će browser automatski pronaći sve elemente koji prikazuju temperaturu?",
               "answer": "Ne. Običan JS objekat nije automatski vezan za DOM; potrebna je eksplicitna funkcija za prikaz ili mehanizam koji se kasnije uvodi."
             },
             {
               "id": "k25q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "10.5. Procena. Da li „jedan izvor istine” znači jedan globalni objekat za baš sve informacije na stranici, uključujući svaki položaj kursora?",
+              "text": "10.5. Da li „jedan izvor istine” znači jedan globalni objekat za baš sve informacije na stranici, uključujući svaki položaj kursora?",
               "answer": "Ne. Jedinstven izvor za konkretnu poslovnu vrednost; granice stanja treba birati prema odgovornostima. Privremeno UI stanje može biti lokalno gde je to prirodno."
             },
             {
               "id": "k25q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "10.6. Problem obnove. Ako uklonimo DOM element, ali ostavimo senzor u nizu stanja, šta će se desiti kad program ponovo nacrta listu?",
+              "text": "10.6. Ako uklonimo DOM element, ali ostavimo senzor u nizu stanja, šta će se desiti kad program ponovo nacrta listu?",
               "answer": "Senzor se vraća jer izvor podataka nije promenjen. Ovo priprema korake 11 i 13."
             },
             {
               "id": "k25q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "10.7. Primena. Formulišite ugovor: šta sme da radi funkcija koja upravlja temperaturom, a šta funkcija koja prikazuje temperaturu?",
+              "text": "10.7. Formulišite ugovor: šta sme da radi funkcija koja upravlja temperaturom, a šta funkcija koja prikazuje temperaturu?",
               "answer": "Upravljanje menja i proverava model; prikaz čita model i ažurira DOM. Razdvajanje nije cilj samo po sebi, već sprečava nedoslednost."
             }
           ],
           "prompts": [
             {
-              "prompt": "10.1. Problem. U kontrolnoj sobi temperatura se vidi u velikom broju, maloj kartici i naslovu taba. Koji je problem ako svako mesto čuva „svoju temperaturu”?",
+              "prompt": "10.1. U kontrolnoj sobi temperatura se vidi u velikom broju, maloj kartici i naslovu taba. Koji je problem ako svako mesto čuva „svoju temperaturu”?",
               "answer": "Dobijamo tri potencijalno različita izvora istine. Potreban je jedinstven podatak, a sva tri prikaza treba da ga čitaju."
             },
             {
-              "prompt": "10.2. Dizajn. Kako biste organizovali podatke za temperaturu, ciljni režim i listu senzora u jednom JavaScript objektu? Šta bi bilo promenljivo, a šta izvedeno?",
+              "prompt": "10.2. Kako biste organizovali podatke za temperaturu, ciljni režim i listu senzora u jednom JavaScript objektu? Šta bi bilo promenljivo, a šta izvedeno?",
               "answer": "Objektni model sa jednostavnim poljima i nizom senzora; brojeve poput `brojSenzora` obično izračunavamo iz niza, ne održavamo paralelno."
             },
             {
-              "prompt": "10.3. Zamka. Na ekranu stoji `\"22 °C\"`. Zašto nije dobro da logika upravljanja čita `textContent`, parsira broj i na tome temelji sledeću akciju?",
+              "prompt": "10.3. Na ekranu stoji `\"22 °C\"`. Zašto nije dobro da logika upravljanja čita `textContent`, parsira broj i na tome temelji sledeću akciju?",
               "answer": "Prikaz je formatiran, možda zastareo i zavisan od jezika/izgleda. Podaci treba da postoje u modelu, a ne da se rekonstruišu iz HTML teksta."
             },
             {
-              "prompt": "10.4. Eksperiment. U konzoli izvršimo `state.temperatura += 1`. Da li će browser automatski pronaći sve elemente koji prikazuju temperaturu?",
+              "prompt": "10.4. U konzoli izvršimo `state.temperatura += 1`. Da li će browser automatski pronaći sve elemente koji prikazuju temperaturu?",
               "answer": "Ne. Običan JS objekat nije automatski vezan za DOM; potrebna je eksplicitna funkcija za prikaz ili mehanizam koji se kasnije uvodi."
             },
             {
-              "prompt": "10.5. Procena. Da li „jedan izvor istine” znači jedan globalni objekat za baš sve informacije na stranici, uključujući svaki položaj kursora?",
+              "prompt": "10.5. Da li „jedan izvor istine” znači jedan globalni objekat za baš sve informacije na stranici, uključujući svaki položaj kursora?",
               "answer": "Ne. Jedinstven izvor za konkretnu poslovnu vrednost; granice stanja treba birati prema odgovornostima. Privremeno UI stanje može biti lokalno gde je to prirodno."
             },
             {
-              "prompt": "10.6. Problem obnove. Ako uklonimo DOM element, ali ostavimo senzor u nizu stanja, šta će se desiti kad program ponovo nacrta listu?",
+              "prompt": "10.6. Ako uklonimo DOM element, ali ostavimo senzor u nizu stanja, šta će se desiti kad program ponovo nacrta listu?",
               "answer": "Senzor se vraća jer izvor podataka nije promenjen. Ovo priprema korake 11 i 13."
             },
             {
-              "prompt": "10.7. Primena. Formulišite ugovor: šta sme da radi funkcija koja upravlja temperaturom, a šta funkcija koja prikazuje temperaturu?",
+              "prompt": "10.7. Formulišite ugovor: šta sme da radi funkcija koja upravlja temperaturom, a šta funkcija koja prikazuje temperaturu?",
               "answer": "Upravljanje menja i proverava model; prikaz čita model i ažurira DOM. Razdvajanje nije cilj samo po sebi, već sprečava nedoslednost."
             }
           ],
-          "prompt": "10.1. Problem. U kontrolnoj sobi temperatura se vidi u velikom broju, maloj kartici i naslovu taba. Koji je problem ako svako mesto čuva „svoju temperaturu”?",
+          "prompt": "10.1. U kontrolnoj sobi temperatura se vidi u velikom broju, maloj kartici i naslovu taba. Koji je problem ako svako mesto čuva „svoju temperaturu”?",
           "path": "client/lekcije/25-stanje.js",
           "snippetTitle": "Zašto DOM nije stanje aplikacije?",
           "snippetLanguage": "javascript",
@@ -8549,83 +8549,83 @@
               "id": "k26q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "11.1. Problem. JS objekat je promenjen, ali ekran prikazuje staru vrednost. Gde biste dodali funkciju koja „prevodi” model u DOM?",
+              "text": "11.1. JS objekat je promenjen, ali ekran prikazuje staru vrednost. Gde biste dodali funkciju koja „prevodi” model u DOM?",
               "answer": "Posebna funkcija `render(state)`, koja čita stanje i ažurira odgovarajuće elemente; pozvati je i pri inicijalizaciji."
             },
             {
               "id": "k26q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "11.2. Dizajn ugovora. Ako `render(state)` pozovemo tri puta sa potpuno istim stanjem, šta bi trebalo da se desi sa prikazom i zašto?",
+              "text": "11.2. Ako `render(state)` pozovemo tri puta sa potpuno istim stanjem, šta bi trebalo da se desi sa prikazom i zašto?",
               "answer": "Logički isti prikaz svaki put. Render ne treba da menja poslovno stanje niti da inkrementira brojače samo zato što je pozvan."
             },
             {
               "id": "k26q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "11.3. Zamka sa kodom. Šta će se videti na ekranu?\n\n```javascript\nconst stanje = { broj: 4 };\nfunction render() {\n  izlaz.textContent = String(stanje.broj);\n}\nrender();\nstanje.broj++;\n```",
+              "text": "11.3. Šta će se videti na ekranu?\n\n```javascript\nconst stanje = { broj: 4 };\nfunction render() {\n  izlaz.textContent = String(stanje.broj);\n}\nrender();\nstanje.broj++;\n```",
               "answer": "`4`, ako nema drugog poziva `render`. Stanje ima `5`, prikaz je zastareo."
             },
             {
               "id": "k26q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "11.4. Procena. Da li je `render` čista funkcija? Možemo li ipak govoriti o njenom predvidljivom ponašanju?",
+              "text": "11.4. Da li je `render` čista funkcija? Možemo li ipak govoriti o njenom predvidljivom ponašanju?",
               "answer": "Nije čista u formalnom smislu jer piše u DOM; može biti predvidljiva i bez sporednih izmena poslovnog stanja. Razlikovati *čist proračun* i *efekat prikaza*."
             },
             {
               "id": "k26q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "11.5. Dizajn. Da li bi se pri svakoj promeni temperature morala ponovo kreirati cela stranica? Koja jednostavnija alternativa postoji?",
+              "text": "11.5. Da li bi se pri svakoj promeni temperature morala ponovo kreirati cela stranica? Koja jednostavnija alternativa postoji?",
               "answer": "Ne. Render može ažurirati relevantne tekstove, klase i indikatore, a listu tretirati zasebno. Ovo je pitanje organizacije, ne biblioteke."
             },
             {
               "id": "k26q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "11.6. Zamka. Program pri pokretanju izmeni `state`, ali prvi `render` se poziva tek posle prvog klika. Šta korisnik vidi dok ne klikne?",
+              "text": "11.6. Program pri pokretanju izmeni `state`, ali prvi `render` se poziva tek posle prvog klika. Šta korisnik vidi dok ne klikne?",
               "answer": "Početni HTML koji može biti neusklađen sa stanjem. Prvi prikaz mora se obaviti tokom inicijalizacije, čim su podaci spremni."
             },
             {
               "id": "k26q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "11.7. Primena. Napravite spisak podfunkcija koje bi `render` kontrolne sobe trebalo da poziva, bez pisanja njihovih implementacija.",
+              "text": "11.7. Napravite spisak podfunkcija koje bi `render` kontrolne sobe trebalo da poziva, bez pisanja njihovih implementacija.",
               "answer": "Npr. `prikaziTemperaturu`, `prikaziRezim`, `prikaziSenzore`, `prikaziStatistiku`; sve čitaju relevantni deo istog modela."
             }
           ],
           "prompts": [
             {
-              "prompt": "11.1. Problem. JS objekat je promenjen, ali ekran prikazuje staru vrednost. Gde biste dodali funkciju koja „prevodi” model u DOM?",
+              "prompt": "11.1. JS objekat je promenjen, ali ekran prikazuje staru vrednost. Gde biste dodali funkciju koja „prevodi” model u DOM?",
               "answer": "Posebna funkcija `render(state)`, koja čita stanje i ažurira odgovarajuće elemente; pozvati je i pri inicijalizaciji."
             },
             {
-              "prompt": "11.2. Dizajn ugovora. Ako `render(state)` pozovemo tri puta sa potpuno istim stanjem, šta bi trebalo da se desi sa prikazom i zašto?",
+              "prompt": "11.2. Ako `render(state)` pozovemo tri puta sa potpuno istim stanjem, šta bi trebalo da se desi sa prikazom i zašto?",
               "answer": "Logički isti prikaz svaki put. Render ne treba da menja poslovno stanje niti da inkrementira brojače samo zato što je pozvan."
             },
             {
-              "prompt": "11.3. Zamka sa kodom. Šta će se videti na ekranu?\n\n```javascript\nconst stanje = { broj: 4 };\nfunction render() {\n  izlaz.textContent = String(stanje.broj);\n}\nrender();\nstanje.broj++;\n```",
+              "prompt": "11.3. Šta će se videti na ekranu?\n\n```javascript\nconst stanje = { broj: 4 };\nfunction render() {\n  izlaz.textContent = String(stanje.broj);\n}\nrender();\nstanje.broj++;\n```",
               "answer": "`4`, ako nema drugog poziva `render`. Stanje ima `5`, prikaz je zastareo."
             },
             {
-              "prompt": "11.4. Procena. Da li je `render` čista funkcija? Možemo li ipak govoriti o njenom predvidljivom ponašanju?",
+              "prompt": "11.4. Da li je `render` čista funkcija? Možemo li ipak govoriti o njenom predvidljivom ponašanju?",
               "answer": "Nije čista u formalnom smislu jer piše u DOM; može biti predvidljiva i bez sporednih izmena poslovnog stanja. Razlikovati *čist proračun* i *efekat prikaza*."
             },
             {
-              "prompt": "11.5. Dizajn. Da li bi se pri svakoj promeni temperature morala ponovo kreirati cela stranica? Koja jednostavnija alternativa postoji?",
+              "prompt": "11.5. Da li bi se pri svakoj promeni temperature morala ponovo kreirati cela stranica? Koja jednostavnija alternativa postoji?",
               "answer": "Ne. Render može ažurirati relevantne tekstove, klase i indikatore, a listu tretirati zasebno. Ovo je pitanje organizacije, ne biblioteke."
             },
             {
-              "prompt": "11.6. Zamka. Program pri pokretanju izmeni `state`, ali prvi `render` se poziva tek posle prvog klika. Šta korisnik vidi dok ne klikne?",
+              "prompt": "11.6. Program pri pokretanju izmeni `state`, ali prvi `render` se poziva tek posle prvog klika. Šta korisnik vidi dok ne klikne?",
               "answer": "Početni HTML koji može biti neusklađen sa stanjem. Prvi prikaz mora se obaviti tokom inicijalizacije, čim su podaci spremni."
             },
             {
-              "prompt": "11.7. Primena. Napravite spisak podfunkcija koje bi `render` kontrolne sobe trebalo da poziva, bez pisanja njihovih implementacija.",
+              "prompt": "11.7. Napravite spisak podfunkcija koje bi `render` kontrolne sobe trebalo da poziva, bez pisanja njihovih implementacija.",
               "answer": "Npr. `prikaziTemperaturu`, `prikaziRezim`, `prikaziSenzore`, `prikaziStatistiku`; sve čitaju relevantni deo istog modela."
             }
           ],
-          "prompt": "11.1. Problem. JS objekat je promenjen, ali ekran prikazuje staru vrednost. Gde biste dodali funkciju koja „prevodi” model u DOM?",
+          "prompt": "11.1. JS objekat je promenjen, ali ekran prikazuje staru vrednost. Gde biste dodali funkciju koja „prevodi” model u DOM?",
           "path": "client/lekcije/26-render.js",
           "snippetTitle": "Prikaz kao funkcija stanja",
           "snippetLanguage": "javascript",
@@ -8675,83 +8675,83 @@
               "id": "k27q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "12.1. Problem. Temperatura se može promeniti klikom, tastaturom ili periodičnom simulacijom. Kako sprečiti da svaki izvor sadrži svoju kopiju pravila „16–30 °C”?",
+              "text": "12.1. Temperatura se može promeniti klikom, tastaturom ili periodičnom simulacijom. Kako sprečiti da svaki izvor sadrži svoju kopiju pravila „16–30 °C”?",
               "answer": "Jedna funkcija za promenu stanja koja sprovodi poslovno pravilo; izvori pozivaju istu operaciju. Uvesti jednosmeran tok akcija → model → prikaz."
             },
             {
               "id": "k27q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "12.2. Nacrtajte tok. Za „+” dugme navedite četiri odgovornosti redom i objasnite gde pripada validacija opsega.",
+              "text": "12.2. Za „+” dugme navedite četiri odgovornosti redom i objasnite gde pripada validacija opsega.",
               "answer": "Događaj, handler, funkcija koja proverava i menja stanje, render. Validacija poslovnog pravila u operaciji nad stanjem, ne u CSS-u."
             },
             {
               "id": "k27q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "12.3. Zamka sa kodom. Šta će ostati na ekranu posle klika?\n\n```javascript\nfunction povecaj() { stanje.broj++; }\ndugme.addEventListener(\"click\", () => {\n  povecaj();\n  // nema poziva render()\n});\n```",
+              "text": "12.3. Šta će ostati na ekranu posle klika?\n\n```javascript\nfunction povecaj() { stanje.broj++; }\ndugme.addEventListener(\"click\", () => {\n  povecaj();\n  // nema poziva render()\n});\n```",
               "answer": "Stari broj, osim ako postoji drugi mehanizam renderovanja. Događaj i promena stanja sami nisu dovoljni za promenu DOM prikaza."
             },
             {
               "id": "k27q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "12.4. Dizajn. Da li handler treba da ima `temperatura.textContent = ...`? Šta se dešava ako drugi UI element prikazuje istu temperaturu?",
+              "text": "12.4. Da li handler treba da ima `temperatura.textContent = ...`? Šta se dešava ako drugi UI element prikazuje istu temperaturu?",
               "answer": "Direktni upisi u više handlera vode do dupliranja i propusta. Handler treba da prepozna nameru; jedinstven prikaz čita model."
             },
             {
               "id": "k27q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "12.5. Procena. Da li se stanje mora uvek menjati mutacijom `stanje.broj++`? Da li je princip toka podataka vezan za mutabilne ili imutabilne objekte?",
+              "text": "12.5. Da li se stanje mora uvek menjati mutacijom `stanje.broj++`? Da li je princip toka podataka vezan za mutabilne ili imutabilne objekte?",
               "answer": "Nije vezan. Moguća je i zamena novim objektom. Ovde koristimo jednostavan mutabilni model; važna je kontrolisana promena i potom ažuriran prikaz."
             },
             {
               "id": "k27q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "12.6. Problem odbijene akcije. Korisnik klikne `+` kada je temperatura 30 °C. Treba li `render` odlučivati da li je dozvoljeno preći maksimum?",
+              "text": "12.6. Korisnik klikne `+` kada je temperatura 30 °C. Treba li `render` odlučivati da li je dozvoljeno preći maksimum?",
               "answer": "Ne. Pravilo pripada funkciji koja menja stanje. Ona odbija ili ograničava zahtev; render samo odražava stvarno stanje i eventualnu poruku."
             },
             {
               "id": "k27q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "12.7. Primena i testabilnost. Kako biste testirali funkciju `postaviCilj(25)` bez browsera, a kako zasebno proverili `render`?",
+              "text": "12.7. Kako biste testirali funkciju `postaviCilj(25)` bez browsera, a kako zasebno proverili `render`?",
               "answer": "Prva se proverava kroz ulaz, stanje i pravila; za drugu se priprema DOM i proveravaju upisani tekst/klase. Razdvajanje omogućava lokalizovano testiranje."
             }
           ],
           "prompts": [
             {
-              "prompt": "12.1. Problem. Temperatura se može promeniti klikom, tastaturom ili periodičnom simulacijom. Kako sprečiti da svaki izvor sadrži svoju kopiju pravila „16–30 °C”?",
+              "prompt": "12.1. Temperatura se može promeniti klikom, tastaturom ili periodičnom simulacijom. Kako sprečiti da svaki izvor sadrži svoju kopiju pravila „16–30 °C”?",
               "answer": "Jedna funkcija za promenu stanja koja sprovodi poslovno pravilo; izvori pozivaju istu operaciju. Uvesti jednosmeran tok akcija → model → prikaz."
             },
             {
-              "prompt": "12.2. Nacrtajte tok. Za „+” dugme navedite četiri odgovornosti redom i objasnite gde pripada validacija opsega.",
+              "prompt": "12.2. Za „+” dugme navedite četiri odgovornosti redom i objasnite gde pripada validacija opsega.",
               "answer": "Događaj, handler, funkcija koja proverava i menja stanje, render. Validacija poslovnog pravila u operaciji nad stanjem, ne u CSS-u."
             },
             {
-              "prompt": "12.3. Zamka sa kodom. Šta će ostati na ekranu posle klika?\n\n```javascript\nfunction povecaj() { stanje.broj++; }\ndugme.addEventListener(\"click\", () => {\n  povecaj();\n  // nema poziva render()\n});\n```",
+              "prompt": "12.3. Šta će ostati na ekranu posle klika?\n\n```javascript\nfunction povecaj() { stanje.broj++; }\ndugme.addEventListener(\"click\", () => {\n  povecaj();\n  // nema poziva render()\n});\n```",
               "answer": "Stari broj, osim ako postoji drugi mehanizam renderovanja. Događaj i promena stanja sami nisu dovoljni za promenu DOM prikaza."
             },
             {
-              "prompt": "12.4. Dizajn. Da li handler treba da ima `temperatura.textContent = ...`? Šta se dešava ako drugi UI element prikazuje istu temperaturu?",
+              "prompt": "12.4. Da li handler treba da ima `temperatura.textContent = ...`? Šta se dešava ako drugi UI element prikazuje istu temperaturu?",
               "answer": "Direktni upisi u više handlera vode do dupliranja i propusta. Handler treba da prepozna nameru; jedinstven prikaz čita model."
             },
             {
-              "prompt": "12.5. Procena. Da li se stanje mora uvek menjati mutacijom `stanje.broj++`? Da li je princip toka podataka vezan za mutabilne ili imutabilne objekte?",
+              "prompt": "12.5. Da li se stanje mora uvek menjati mutacijom `stanje.broj++`? Da li je princip toka podataka vezan za mutabilne ili imutabilne objekte?",
               "answer": "Nije vezan. Moguća je i zamena novim objektom. Ovde koristimo jednostavan mutabilni model; važna je kontrolisana promena i potom ažuriran prikaz."
             },
             {
-              "prompt": "12.6. Problem odbijene akcije. Korisnik klikne `+` kada je temperatura 30 °C. Treba li `render` odlučivati da li je dozvoljeno preći maksimum?",
+              "prompt": "12.6. Korisnik klikne `+` kada je temperatura 30 °C. Treba li `render` odlučivati da li je dozvoljeno preći maksimum?",
               "answer": "Ne. Pravilo pripada funkciji koja menja stanje. Ona odbija ili ograničava zahtev; render samo odražava stvarno stanje i eventualnu poruku."
             },
             {
-              "prompt": "12.7. Primena i testabilnost. Kako biste testirali funkciju `postaviCilj(25)` bez browsera, a kako zasebno proverili `render`?",
+              "prompt": "12.7. Kako biste testirali funkciju `postaviCilj(25)` bez browsera, a kako zasebno proverili `render`?",
               "answer": "Prva se proverava kroz ulaz, stanje i pravila; za drugu se priprema DOM i proveravaju upisani tekst/klase. Razdvajanje omogućava lokalizovano testiranje."
             }
           ],
-          "prompt": "12.1. Problem. Temperatura se može promeniti klikom, tastaturom ili periodičnom simulacijom. Kako sprečiti da svaki izvor sadrži svoju kopiju pravila „16–30 °C”?",
+          "prompt": "12.1. Temperatura se može promeniti klikom, tastaturom ili periodičnom simulacijom. Kako sprečiti da svaki izvor sadrži svoju kopiju pravila „16–30 °C”?",
           "path": "client/lekcije/27-tok.js",
           "snippetTitle": "Jednosmeran tok podataka",
           "snippetLanguage": "javascript",
@@ -8801,83 +8801,83 @@
               "id": "k28q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "13.1. Problem. U aplikaciji je promenljiva lista od 2 do 200 senzora. Šta je pouzdanije: održavati ručno HTML kartice ili iz niza praviti prikaz kad se podaci promene?",
+              "text": "13.1. U aplikaciji je promenljiva lista od 2 do 200 senzora. Šta je pouzdanije: održavati ručno HTML kartice ili iz niza praviti prikaz kad se podaci promene?",
               "answer": "Niz objekata je izvor, DOM kartice su posledica. Postoji i prostor za optimizaciju bez napuštanja tog principa."
             },
             {
               "id": "k28q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "13.2. Dizajn. Koje minimalne podatke ima objekat jednog senzora? Koji atribut biste postavili na odgovarajući DOM čvor da kasnije prepoznate senzor pri kliku?",
+              "text": "13.2. Koje minimalne podatke ima objekat jednog senzora? Koji atribut biste postavili na odgovarajući DOM čvor da kasnije prepoznate senzor pri kliku?",
               "answer": "Stabilan `id`, naziv i vrednosti senzora; `data-id` kao most između DOM-a i zapisa. Ne koristiti poziciju kao identitet."
             },
             {
               "id": "k28q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "13.3. Zamka sa kodom. Niz `[{id:\"a\"},{id:\"b\"},{id:\"c\"}]` sortiranjem postane `[c,a,b]`. Korisnik klikne drugu karticu. Koji zapis treba ažurirati, indeks 1 ili ID iz kartice?",
+              "text": "13.3. Niz `[{id:\"a\"},{id:\"b\"},{id:\"c\"}]` sortiranjem postane `[c,a,b]`. Korisnik klikne drugu karticu. Koji zapis treba ažurirati, indeks 1 ili ID iz kartice?",
               "answer": "Konkretan ID (`a` u novom redosledu). Indeks 1 se slučajno odnosi na isti element trenutno, ali će se promeniti pri novom sortiranju; poslovna operacija ne sme vezivati identitet za poziciju."
             },
             {
               "id": "k28q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "13.4. Zamka. Pozivamo `li.remove()` ali nismo izbrisali objekat iz niza. Šta se dešava nakon `render(stanje)` koji ponovo pravi listu?",
+              "text": "13.4. Pozivamo `li.remove()` ali nismo izbrisali objekat iz niza. Šta se dešava nakon `render(stanje)` koji ponovo pravi listu?",
               "answer": "Kartica se vraća. DOM nije bio izvor istine."
             },
             {
               "id": "k28q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "13.5. Procena. Zašto `replaceChildren(...noviCvorovi)` radi dobro za male, jednostavne liste, ali može biti nepoželjno za aktivna polja unosa, selekciju i fokus?",
+              "text": "13.5. Zašto `replaceChildren(...noviCvorovi)` radi dobro za male, jednostavne liste, ali može biti nepoželjno za aktivna polja unosa, selekciju i fokus?",
               "answer": "Zamena čvorova briše identitet postojećih DOM elemenata; fokusi i direktni listeneri mogu nestati. Na složenom UI-u bolje je ažurirati relevantne čvorove po stabilnom ID-u."
             },
             {
               "id": "k28q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "13.6. Povezivanje tema. U kojoj kombinaciji su delegiranje iz koraka 08 i `replaceChildren` naročito korisni?",
+              "text": "13.6. U kojoj kombinaciji su delegiranje iz koraka 08 i `replaceChildren` naročito korisni?",
               "answer": "Listener stoji na stabilnom kontejneru; deca mogu biti zamenjena bez ponovnog povezivanja događaja."
             },
             {
               "id": "k28q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "13.7. Primena. Navedite redosled koraka nakon klika „Ukloni senzor”, od događaja do nestanka kartice i ažuriranja broja senzora.",
+              "text": "13.7. Navedite redosled koraka nakon klika „Ukloni senzor”, od događaja do nestanka kartice i ažuriranja broja senzora.",
               "answer": "Delegirani handler identifikuje ID, model uklanja senzor, izračuna se izvedeni broj, render ažurira listu i statistiku."
             }
           ],
           "prompts": [
             {
-              "prompt": "13.1. Problem. U aplikaciji je promenljiva lista od 2 do 200 senzora. Šta je pouzdanije: održavati ručno HTML kartice ili iz niza praviti prikaz kad se podaci promene?",
+              "prompt": "13.1. U aplikaciji je promenljiva lista od 2 do 200 senzora. Šta je pouzdanije: održavati ručno HTML kartice ili iz niza praviti prikaz kad se podaci promene?",
               "answer": "Niz objekata je izvor, DOM kartice su posledica. Postoji i prostor za optimizaciju bez napuštanja tog principa."
             },
             {
-              "prompt": "13.2. Dizajn. Koje minimalne podatke ima objekat jednog senzora? Koji atribut biste postavili na odgovarajući DOM čvor da kasnije prepoznate senzor pri kliku?",
+              "prompt": "13.2. Koje minimalne podatke ima objekat jednog senzora? Koji atribut biste postavili na odgovarajući DOM čvor da kasnije prepoznate senzor pri kliku?",
               "answer": "Stabilan `id`, naziv i vrednosti senzora; `data-id` kao most između DOM-a i zapisa. Ne koristiti poziciju kao identitet."
             },
             {
-              "prompt": "13.3. Zamka sa kodom. Niz `[{id:\"a\"},{id:\"b\"},{id:\"c\"}]` sortiranjem postane `[c,a,b]`. Korisnik klikne drugu karticu. Koji zapis treba ažurirati, indeks 1 ili ID iz kartice?",
+              "prompt": "13.3. Niz `[{id:\"a\"},{id:\"b\"},{id:\"c\"}]` sortiranjem postane `[c,a,b]`. Korisnik klikne drugu karticu. Koji zapis treba ažurirati, indeks 1 ili ID iz kartice?",
               "answer": "Konkretan ID (`a` u novom redosledu). Indeks 1 se slučajno odnosi na isti element trenutno, ali će se promeniti pri novom sortiranju; poslovna operacija ne sme vezivati identitet za poziciju."
             },
             {
-              "prompt": "13.4. Zamka. Pozivamo `li.remove()` ali nismo izbrisali objekat iz niza. Šta se dešava nakon `render(stanje)` koji ponovo pravi listu?",
+              "prompt": "13.4. Pozivamo `li.remove()` ali nismo izbrisali objekat iz niza. Šta se dešava nakon `render(stanje)` koji ponovo pravi listu?",
               "answer": "Kartica se vraća. DOM nije bio izvor istine."
             },
             {
-              "prompt": "13.5. Procena. Zašto `replaceChildren(...noviCvorovi)` radi dobro za male, jednostavne liste, ali može biti nepoželjno za aktivna polja unosa, selekciju i fokus?",
+              "prompt": "13.5. Zašto `replaceChildren(...noviCvorovi)` radi dobro za male, jednostavne liste, ali može biti nepoželjno za aktivna polja unosa, selekciju i fokus?",
               "answer": "Zamena čvorova briše identitet postojećih DOM elemenata; fokusi i direktni listeneri mogu nestati. Na složenom UI-u bolje je ažurirati relevantne čvorove po stabilnom ID-u."
             },
             {
-              "prompt": "13.6. Povezivanje tema. U kojoj kombinaciji su delegiranje iz koraka 08 i `replaceChildren` naročito korisni?",
+              "prompt": "13.6. U kojoj kombinaciji su delegiranje iz koraka 08 i `replaceChildren` naročito korisni?",
               "answer": "Listener stoji na stabilnom kontejneru; deca mogu biti zamenjena bez ponovnog povezivanja događaja."
             },
             {
-              "prompt": "13.7. Primena. Navedite redosled koraka nakon klika „Ukloni senzor”, od događaja do nestanka kartice i ažuriranja broja senzora.",
+              "prompt": "13.7. Navedite redosled koraka nakon klika „Ukloni senzor”, od događaja do nestanka kartice i ažuriranja broja senzora.",
               "answer": "Delegirani handler identifikuje ID, model uklanja senzor, izračuna se izvedeni broj, render ažurira listu i statistiku."
             }
           ],
-          "prompt": "13.1. Problem. U aplikaciji je promenljiva lista od 2 do 200 senzora. Šta je pouzdanije: održavati ručno HTML kartice ili iz niza praviti prikaz kad se podaci promene?",
+          "prompt": "13.1. U aplikaciji je promenljiva lista od 2 do 200 senzora. Šta je pouzdanije: održavati ručno HTML kartice ili iz niza praviti prikaz kad se podaci promene?",
           "path": "client/lekcije/28-kolekcije.js",
           "snippetTitle": "Prikaz kolekcija iz stanja",
           "snippetLanguage": "javascript",
@@ -8926,83 +8926,83 @@
               "id": "k29q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "14.1. Problem. Sistem prikazuje listu senzora, prosečnu temperaturu i broj alarma. Šta bi pošlo po zlu kad bi se svaki zbir ažurirao u svom handleru?",
+              "text": "14.1. Sistem prikazuje listu senzora, prosečnu temperaturu i broj alarma. Šta bi pošlo po zlu kad bi se svaki zbir ažurirao u svom handleru?",
               "answer": "Neka putanja događaja može biti zaboravljena, pa vrednosti odstupaju. Izvedene vrednosti se izračunavaju iz istog modela."
             },
             {
               "id": "k29q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "14.2. Dizajn. Iz niza `[{t:20},{t:22},{t:24}]` izvedite prosek. Šta treba vratiti ako je niz prazan i kako ćete sprečiti deljenje nulom?",
+              "text": "14.2. Iz niza `[{t:20},{t:22},{t:24}]` izvedite prosek. Šta treba vratiti ako je niz prazan i kako ćete sprečiti deljenje nulom?",
               "answer": "Prosek je `22`; za prazan niz unapred definisati semantiku, npr. nema očitavanja pa prikazati „Nema podataka” (ne `NaN`). Važno je oblikovati API i ugovor, ne samo formulu."
             },
             {
               "id": "k29q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "14.3. Zamka sa kodom. Za porudžbinu sa stavkama `{cena:100,kolicina:2}` i `{cena:50,kolicina:3}`, šta vraća `reduce` koji sabira samo `cena`, a šta je pravi ukupan iznos?",
+              "text": "14.3. Za porudžbinu sa stavkama `{cena:100,kolicina:2}` i `{cena:50,kolicina:3}`, šta vraća `reduce` koji sabira samo `cena`, a šta je pravi ukupan iznos?",
               "answer": "Prosto sabiranje cena daje `150`, a pravi zbir je `100*2 + 50*3 = 350`. Odsustvo greške u JS-u nije dokaz ispravne poslovne logike."
             },
             {
               "id": "k29q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "14.4. Procena. Da li u `state` treba posebno sačuvati `brojAktivnihSenzora`, ako se već nalazi niz senzora sa poljem `aktivan`? Kada bi prethodno izračunata vrednost ipak imala smisla?",
+              "text": "14.4. Da li u `state` treba posebno sačuvati `brojAktivnihSenzora`, ako se već nalazi niz senzora sa poljem `aktivan`? Kada bi prethodno izračunata vrednost ipak imala smisla?",
               "answer": "U početku bolje izračunavati. Keširanje može imati smisla kod izuzetno skupog računanja, ali uvodi obavezu održavanja usklađenosti; tek nakon dokazane potrebe."
             },
             {
               "id": "k29q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "14.5. Problem privremenog stanja. Korisnik u polju za ciljnu temperaturu trenutno kuca `-` ili praznu vrednost. Da li to odmah treba postati potvrđena temperatura uređaja?",
+              "text": "14.5. Korisnik u polju za ciljnu temperaturu trenutno kuca `-` ili praznu vrednost. Da li to odmah treba postati potvrđena temperatura uređaja?",
               "answer": "Ne. Razlikovati privremeni sadržaj kontrole od validiranog poslovnog stanja. Promena vizuelnog unosa nije automatski potvrđena komanda."
             },
             {
               "id": "k29q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "14.6. Dizajn prikaza. Da li je potrebna jedna ogromna funkcija `render` koja zna svaki CSS selektor, ili više manjih funkcija koje čitaju isto stanje? Šta su prednosti i troškovi?",
+              "text": "14.6. Da li je potrebna jedna ogromna funkcija `render` koja zna svaki CSS selektor, ili više manjih funkcija koje čitaju isto stanje? Šta su prednosti i troškovi?",
               "answer": "Podela na odgovornosti često olakšava održavanje, ali preterano usitnjavanje može otežati pregled. Glavni uslov je da podfunkcije koriste isti model i ne menjaju poslovnu logiku."
             },
             {
               "id": "k29q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "14.7. Primena. Ako se samo jedan senzor promeni sa 22 na 27 °C, koje prikaze treba razmotriti za osvežavanje, čak i ako korisnik vidi samo jednu karticu?",
+              "text": "14.7. Ako se samo jedan senzor promeni sa 22 na 27 °C, koje prikaze treba razmotriti za osvežavanje, čak i ako korisnik vidi samo jednu karticu?",
               "answer": "Karticu senzora, prosek, upozorenja i broj alarma, eventualno globalni status. Zavisnosti izlaze iz jednog stanja."
             }
           ],
           "prompts": [
             {
-              "prompt": "14.1. Problem. Sistem prikazuje listu senzora, prosečnu temperaturu i broj alarma. Šta bi pošlo po zlu kad bi se svaki zbir ažurirao u svom handleru?",
+              "prompt": "14.1. Sistem prikazuje listu senzora, prosečnu temperaturu i broj alarma. Šta bi pošlo po zlu kad bi se svaki zbir ažurirao u svom handleru?",
               "answer": "Neka putanja događaja može biti zaboravljena, pa vrednosti odstupaju. Izvedene vrednosti se izračunavaju iz istog modela."
             },
             {
-              "prompt": "14.2. Dizajn. Iz niza `[{t:20},{t:22},{t:24}]` izvedite prosek. Šta treba vratiti ako je niz prazan i kako ćete sprečiti deljenje nulom?",
+              "prompt": "14.2. Iz niza `[{t:20},{t:22},{t:24}]` izvedite prosek. Šta treba vratiti ako je niz prazan i kako ćete sprečiti deljenje nulom?",
               "answer": "Prosek je `22`; za prazan niz unapred definisati semantiku, npr. nema očitavanja pa prikazati „Nema podataka” (ne `NaN`). Važno je oblikovati API i ugovor, ne samo formulu."
             },
             {
-              "prompt": "14.3. Zamka sa kodom. Za porudžbinu sa stavkama `{cena:100,kolicina:2}` i `{cena:50,kolicina:3}`, šta vraća `reduce` koji sabira samo `cena`, a šta je pravi ukupan iznos?",
+              "prompt": "14.3. Za porudžbinu sa stavkama `{cena:100,kolicina:2}` i `{cena:50,kolicina:3}`, šta vraća `reduce` koji sabira samo `cena`, a šta je pravi ukupan iznos?",
               "answer": "Prosto sabiranje cena daje `150`, a pravi zbir je `100*2 + 50*3 = 350`. Odsustvo greške u JS-u nije dokaz ispravne poslovne logike."
             },
             {
-              "prompt": "14.4. Procena. Da li u `state` treba posebno sačuvati `brojAktivnihSenzora`, ako se već nalazi niz senzora sa poljem `aktivan`? Kada bi prethodno izračunata vrednost ipak imala smisla?",
+              "prompt": "14.4. Da li u `state` treba posebno sačuvati `brojAktivnihSenzora`, ako se već nalazi niz senzora sa poljem `aktivan`? Kada bi prethodno izračunata vrednost ipak imala smisla?",
               "answer": "U početku bolje izračunavati. Keširanje može imati smisla kod izuzetno skupog računanja, ali uvodi obavezu održavanja usklađenosti; tek nakon dokazane potrebe."
             },
             {
-              "prompt": "14.5. Problem privremenog stanja. Korisnik u polju za ciljnu temperaturu trenutno kuca `-` ili praznu vrednost. Da li to odmah treba postati potvrđena temperatura uređaja?",
+              "prompt": "14.5. Korisnik u polju za ciljnu temperaturu trenutno kuca `-` ili praznu vrednost. Da li to odmah treba postati potvrđena temperatura uređaja?",
               "answer": "Ne. Razlikovati privremeni sadržaj kontrole od validiranog poslovnog stanja. Promena vizuelnog unosa nije automatski potvrđena komanda."
             },
             {
-              "prompt": "14.6. Dizajn prikaza. Da li je potrebna jedna ogromna funkcija `render` koja zna svaki CSS selektor, ili više manjih funkcija koje čitaju isto stanje? Šta su prednosti i troškovi?",
+              "prompt": "14.6. Da li je potrebna jedna ogromna funkcija `render` koja zna svaki CSS selektor, ili više manjih funkcija koje čitaju isto stanje? Šta su prednosti i troškovi?",
               "answer": "Podela na odgovornosti često olakšava održavanje, ali preterano usitnjavanje može otežati pregled. Glavni uslov je da podfunkcije koriste isti model i ne menjaju poslovnu logiku."
             },
             {
-              "prompt": "14.7. Primena. Ako se samo jedan senzor promeni sa 22 na 27 °C, koje prikaze treba razmotriti za osvežavanje, čak i ako korisnik vidi samo jednu karticu?",
+              "prompt": "14.7. Ako se samo jedan senzor promeni sa 22 na 27 °C, koje prikaze treba razmotriti za osvežavanje, čak i ako korisnik vidi samo jednu karticu?",
               "answer": "Karticu senzora, prosek, upozorenja i broj alarma, eventualno globalni status. Zavisnosti izlaze iz jednog stanja."
             }
           ],
-          "prompt": "14.1. Problem. Sistem prikazuje listu senzora, prosečnu temperaturu i broj alarma. Šta bi pošlo po zlu kad bi se svaki zbir ažurirao u svom handleru?",
+          "prompt": "14.1. Sistem prikazuje listu senzora, prosečnu temperaturu i broj alarma. Šta bi pošlo po zlu kad bi se svaki zbir ažurirao u svom handleru?",
           "path": "client/lekcije/29-izvedeno.js",
           "snippetTitle": "Više prikaza jednog stanja i izvedene vrednosti",
           "snippetLanguage": "javascript",
@@ -9045,94 +9045,94 @@
               "id": "k30q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "15.1. Problem. Korisnik je izabrao temu prikaza i ciljnu temperaturu. Po ponovnom učitavanju sve se vrati na početno. Gde bi browser mogao lokalno sačuvati podešavanja bez servera?",
+              "text": "15.1. Korisnik je izabrao temu prikaza i ciljnu temperaturu. Po ponovnom učitavanju sve se vrati na početno. Gde bi browser mogao lokalno sačuvati podešavanja bez servera?",
               "answer": "`localStorage` za jednostavna lokalna podešavanja; nije server, nije zajedničko skladište svih uređaja i nije mesto za tajne."
             },
             {
               "id": "k30q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "15.2. Zamka sa kodom. Šta dobijamo ako napišemo:\n\n```javascript\nlocalStorage.setItem(\"soba\", { temperatura: 23 });\nconsole.log(localStorage.getItem(\"soba\"));\n```",
+              "text": "15.2. Šta dobijamo ako napišemo:\n\n```javascript\nlocalStorage.setItem(\"soba\", { temperatura: 23 });\nconsole.log(localStorage.getItem(\"soba\"));\n```",
               "answer": "String `\"[object Object]\"`, ne objektni model. Potrebni su `JSON.stringify` i `JSON.parse`."
             },
             {
               "id": "k30q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "15.3. Dizajn. Kojim redosledom treba raditi: početni render, učitavanje skladišta, validacija i konstruisanje stanja?",
+              "text": "15.3. Kojim redosledom treba raditi: početni render, učitavanje skladišta, validacija i konstruisanje stanja?",
               "answer": "Učitati, parsirati i proveriti, sastaviti početni model, pa prvi put renderovati. Tako se izbegava kratkotrajni prikaz pogrešnih vrednosti."
             },
             {
               "id": "k30q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "15.4. Zamka. U skladištu je `\"{pokvareno\"`. Da li `JSON.parse()` vraća `null` ili baca izuzetak? Kako se aplikacija treba ponašati?",
+              "text": "15.4. U skladištu je `\"{pokvareno\"`. Da li `JSON.parse()` vraća `null` ili baca izuzetak? Kako se aplikacija treba ponašati?",
               "answer": "Baca izuzetak. Obraditi `try/catch` i preći na podrazumevano stanje bez rušenja aplikacije."
             },
             {
               "id": "k30q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "15.5. Problem poverenja. Ako `JSON.parse` vrati `{ ciljnaTemperatura: -400 }`, da li je sadržaj validan samo zato što se uspešno parsirao?",
+              "text": "15.5. Ako `JSON.parse` vrati `{ ciljnaTemperatura: -400 }`, da li je sadržaj validan samo zato što se uspešno parsirao?",
               "answer": "Ne. Sintaksički ispravan JSON može imati neispravnu strukturu ili poslovne vrednosti; potrebna je validacija."
             },
             {
               "id": "k30q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "15.6. Procena. Šta ima smisla čuvati: korisnikov izabrani režim ili svako pojedinačno brzo očitavanje senzora? Koji rizik postoji pri čuvanju poverljivih podataka?",
+              "text": "15.6. Šta ima smisla čuvati: korisnikov izabrani režim ili svako pojedinačno brzo očitavanje senzora? Koji rizik postoji pri čuvanju poverljivih podataka?",
               "answer": "Podešavanja su prirodan kandidat. Brza merenja i istorija zahtevaju osmišljeniji mehanizam; `localStorage` ima ograničenja i nije bezbedno skladište za tajne."
             },
             {
               "id": "k30q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "15.7. Zamka o greškama. Može li `localStorage.setItem()` da ne uspe? Da li se poziv odvija potpuno neprimetno bez mogućnosti izuzetka?",
+              "text": "15.7. Može li `localStorage.setItem()` da ne uspe? Da li se poziv odvija potpuno neprimetno bez mogućnosti izuzetka?",
               "answer": "Može baciti izuzetak zbog ograničenja ili pravila browsera; potrebno je osmisliti ponašanje pri neuspešnom čuvanju."
             },
             {
               "id": "k30q8",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "15.8. Primena. Kako dokazati da kontrolna soba pravilno podnosi (a) prazan storage, (b) ispravan storage i (c) pokvarene podatke?",
-              "answer": "Tri zasebna testa učitavanja sa jasnim očekivanim stanjem i prikazom; ne oslanjati se samo na test normalnog slučaja. # IV. Kvalitet i pouzdanost interfejsa"
+              "text": "15.8. Kako dokazati da kontrolna soba pravilno podnosi (a) prazan storage, (b) ispravan storage i (c) pokvarene podatke?",
+              "answer": "Tri zasebna testa učitavanja sa jasnim očekivanim stanjem i prikazom; ne oslanjati se samo na test normalnog slučaja."
             }
           ],
           "prompts": [
             {
-              "prompt": "15.1. Problem. Korisnik je izabrao temu prikaza i ciljnu temperaturu. Po ponovnom učitavanju sve se vrati na početno. Gde bi browser mogao lokalno sačuvati podešavanja bez servera?",
+              "prompt": "15.1. Korisnik je izabrao temu prikaza i ciljnu temperaturu. Po ponovnom učitavanju sve se vrati na početno. Gde bi browser mogao lokalno sačuvati podešavanja bez servera?",
               "answer": "`localStorage` za jednostavna lokalna podešavanja; nije server, nije zajedničko skladište svih uređaja i nije mesto za tajne."
             },
             {
-              "prompt": "15.2. Zamka sa kodom. Šta dobijamo ako napišemo:\n\n```javascript\nlocalStorage.setItem(\"soba\", { temperatura: 23 });\nconsole.log(localStorage.getItem(\"soba\"));\n```",
+              "prompt": "15.2. Šta dobijamo ako napišemo:\n\n```javascript\nlocalStorage.setItem(\"soba\", { temperatura: 23 });\nconsole.log(localStorage.getItem(\"soba\"));\n```",
               "answer": "String `\"[object Object]\"`, ne objektni model. Potrebni su `JSON.stringify` i `JSON.parse`."
             },
             {
-              "prompt": "15.3. Dizajn. Kojim redosledom treba raditi: početni render, učitavanje skladišta, validacija i konstruisanje stanja?",
+              "prompt": "15.3. Kojim redosledom treba raditi: početni render, učitavanje skladišta, validacija i konstruisanje stanja?",
               "answer": "Učitati, parsirati i proveriti, sastaviti početni model, pa prvi put renderovati. Tako se izbegava kratkotrajni prikaz pogrešnih vrednosti."
             },
             {
-              "prompt": "15.4. Zamka. U skladištu je `\"{pokvareno\"`. Da li `JSON.parse()` vraća `null` ili baca izuzetak? Kako se aplikacija treba ponašati?",
+              "prompt": "15.4. U skladištu je `\"{pokvareno\"`. Da li `JSON.parse()` vraća `null` ili baca izuzetak? Kako se aplikacija treba ponašati?",
               "answer": "Baca izuzetak. Obraditi `try/catch` i preći na podrazumevano stanje bez rušenja aplikacije."
             },
             {
-              "prompt": "15.5. Problem poverenja. Ako `JSON.parse` vrati `{ ciljnaTemperatura: -400 }`, da li je sadržaj validan samo zato što se uspešno parsirao?",
+              "prompt": "15.5. Ako `JSON.parse` vrati `{ ciljnaTemperatura: -400 }`, da li je sadržaj validan samo zato što se uspešno parsirao?",
               "answer": "Ne. Sintaksički ispravan JSON može imati neispravnu strukturu ili poslovne vrednosti; potrebna je validacija."
             },
             {
-              "prompt": "15.6. Procena. Šta ima smisla čuvati: korisnikov izabrani režim ili svako pojedinačno brzo očitavanje senzora? Koji rizik postoji pri čuvanju poverljivih podataka?",
+              "prompt": "15.6. Šta ima smisla čuvati: korisnikov izabrani režim ili svako pojedinačno brzo očitavanje senzora? Koji rizik postoji pri čuvanju poverljivih podataka?",
               "answer": "Podešavanja su prirodan kandidat. Brza merenja i istorija zahtevaju osmišljeniji mehanizam; `localStorage` ima ograničenja i nije bezbedno skladište za tajne."
             },
             {
-              "prompt": "15.7. Zamka o greškama. Može li `localStorage.setItem()` da ne uspe? Da li se poziv odvija potpuno neprimetno bez mogućnosti izuzetka?",
+              "prompt": "15.7. Može li `localStorage.setItem()` da ne uspe? Da li se poziv odvija potpuno neprimetno bez mogućnosti izuzetka?",
               "answer": "Može baciti izuzetak zbog ograničenja ili pravila browsera; potrebno je osmisliti ponašanje pri neuspešnom čuvanju."
             },
             {
-              "prompt": "15.8. Primena. Kako dokazati da kontrolna soba pravilno podnosi (a) prazan storage, (b) ispravan storage i (c) pokvarene podatke?",
-              "answer": "Tri zasebna testa učitavanja sa jasnim očekivanim stanjem i prikazom; ne oslanjati se samo na test normalnog slučaja. # IV. Kvalitet i pouzdanost interfejsa"
+              "prompt": "15.8. Kako dokazati da kontrolna soba pravilno podnosi (a) prazan storage, (b) ispravan storage i (c) pokvarene podatke?",
+              "answer": "Tri zasebna testa učitavanja sa jasnim očekivanim stanjem i prikazom; ne oslanjati se samo na test normalnog slučaja."
             }
           ],
-          "prompt": "15.1. Problem. Korisnik je izabrao temu prikaza i ciljnu temperaturu. Po ponovnom učitavanju sve se vrati na početno. Gde bi browser mogao lokalno sačuvati podešavanja bez servera?",
+          "prompt": "15.1. Korisnik je izabrao temu prikaza i ciljnu temperaturu. Po ponovnom učitavanju sve se vrati na početno. Gde bi browser mogao lokalno sačuvati podešavanja bez servera?",
           "path": "client/lekcije/30-skladiste.js",
           "snippetTitle": "Čuvanje i obnavljanje stanja",
           "snippetLanguage": "javascript",
@@ -9194,94 +9194,94 @@
               "id": "k31q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "16.1. Problem. Dizajner koristi `<div class=\"dugme\">Uključi</div>` i `click` listener. Radi mišem, ali ne i tastaturom. Šta semantičko HTML dugme već nudi?",
+              "text": "16.1. Dizajner koristi `<div class=\"dugme\">Uključi</div>` i `click` listener. Radi mišem, ali ne i tastaturom. Šta semantičko HTML dugme već nudi?",
               "answer": "Fokus, odgovarajuće aktiviranje tastaturom, prepoznatljivu ulogu i browser ponašanje. Birati `<button>` za akcije."
             },
             {
               "id": "k31q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "16.2. Procena. Da li je bolji princip „sve napraviti kao `div`, pa naknadno dodati ARIA” ili najpre izabrati odgovarajući HTML element? Zašto?",
-              "answer": "Izvorna HTML semantika uglavnom smanjuje broj pravila koja autor mora sam da implementira. ARIA ne zamenjuje tastaturu i ponašanje kontrole."
+              "text": "16.2. Da li je bolji princip „sve napraviti kao `div`, pa naknadno dodati ARIA” ili najpre izabrati odgovarajući HTML element? Zašto?",
+              "answer": "Bolje je prvo izabrati pravi HTML element. ARIA su atributi koji opisuju kontrolu asistivnoj tehnologiji. Ne dodaju fokus, ulogu dugmeta ni tastaturu."
             },
             {
               "id": "k31q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "16.3. Zamka. Dodat je `aria-label=\"Uključi\"` na `<div>`. Da li je time automatski postao funkcionalno dugme koje radi na Space i Enter?",
+              "text": "16.3. Dodat je `aria-label=\"Uključi\"` na `<div>`. Da li je time automatski postao funkcionalno dugme koje radi na Space i Enter?",
               "answer": "Ne. Atribut daje dostupno ime, ali ne uvodi semantiku dugmeta, fokus ni interakciju tastaturom."
             },
             {
               "id": "k31q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "16.4. Dizajn. Kako treba povezati oznaku „Željena temperatura” sa inputom tako da klik na oznaku pomogne korisniku i asistivnoj tehnologiji?",
+              "text": "16.4. Kako treba povezati oznaku „Željena temperatura” sa inputom tako da klik na oznaku pomogne korisniku i asistivnoj tehnologiji?",
               "answer": "`<label for=\"cilj\">` i kontrola sa `id=\"cilj\"`; tekst u labeli nije samo vizuelna dekoracija."
             },
             {
               "id": "k31q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "16.5. Razlikovanje stanja. Koja je razlika između sakrivenog polja, onemogućenog dugmeta i dugmeta koje samo izgleda sivo? Šta je sa fokusom i informacijom o stanju?",
+              "text": "16.5. Koja je razlika između sakrivenog polja, onemogućenog dugmeta i dugmeta koje samo izgleda sivo? Šta je sa fokusom i informacijom o stanju?",
               "answer": "`hidden`, `disabled` i CSS boja imaju različite posledice. Onemogućavanje nije isto što i sakrivanje niti vizuelna oznaka."
             },
             {
               "id": "k31q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "16.6. Procena. Da li svaki novi broj temperature treba izgovoriti pomoću `aria-live` pri 20 promena u sekundi? Kako odrediti šta je zaista važna poruka?",
-              "answer": "Ne. Najavljivati bitne promene statusa, sa odgovarajućom učestalošću. Previše najava narušava upotrebljivost."
+              "text": "16.6. Da li svaki novi broj temperature treba izgovoriti pomoću `aria-live` pri 20 promena u sekundi? Kako odrediti šta je zaista važna poruka?",
+              "answer": "Ne. `aria-live` je kanal kojim čitač ekrana najavljuje promenu teksta. Najavljivati bitne promene, ne svaki broj dvadeset puta u sekundi."
             },
             {
               "id": "k31q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "16.7. Problem fokusa. Korisnik piše u polju jedne kartice. Program pozove `replaceChildren` i napravi celu listu iznova. Šta može poći po zlu i kako to otkriti?",
+              "text": "16.7. Korisnik piše u polju jedne kartice. Program pozove `replaceChildren` i napravi celu listu iznova. Šta može poći po zlu i kako to otkriti?",
               "answer": "Fokus i sadržaj aktivne kontrole mogu se izgubiti. Testirati Tab/Enter/Space i očuvanje fokusa pri renderovanju; menjati samo potrebne čvorove kada je neophodno."
             },
             {
               "id": "k31q8",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "16.8. Primena. Sastavite kratak test kontrolne sobe bez miša: kojim redom proveravate navigaciju, podešavanje cilja, promenu režima, uklanjanje senzora i poruku o alarmu?",
+              "text": "16.8. Sastavite kratak test kontrolne sobe bez miša: kojim redom proveravate navigaciju, podešavanje cilja, promenu režima, uklanjanje senzora i poruku o alarmu?",
               "answer": "Redosled fokusa, vidljiv fokus, funkcionalne kontrole i informacije koje nisu samo obojene, uz primerenu statusnu poruku."
             }
           ],
           "prompts": [
             {
-              "prompt": "16.1. Problem. Dizajner koristi `<div class=\"dugme\">Uključi</div>` i `click` listener. Radi mišem, ali ne i tastaturom. Šta semantičko HTML dugme već nudi?",
+              "prompt": "16.1. Dizajner koristi `<div class=\"dugme\">Uključi</div>` i `click` listener. Radi mišem, ali ne i tastaturom. Šta semantičko HTML dugme već nudi?",
               "answer": "Fokus, odgovarajuće aktiviranje tastaturom, prepoznatljivu ulogu i browser ponašanje. Birati `<button>` za akcije."
             },
             {
-              "prompt": "16.2. Procena. Da li je bolji princip „sve napraviti kao `div`, pa naknadno dodati ARIA” ili najpre izabrati odgovarajući HTML element? Zašto?",
-              "answer": "Izvorna HTML semantika uglavnom smanjuje broj pravila koja autor mora sam da implementira. ARIA ne zamenjuje tastaturu i ponašanje kontrole."
+              "prompt": "16.2. Da li je bolji princip „sve napraviti kao `div`, pa naknadno dodati ARIA” ili najpre izabrati odgovarajući HTML element? Zašto?",
+              "answer": "Bolje je prvo izabrati pravi HTML element. ARIA su atributi koji opisuju kontrolu asistivnoj tehnologiji. Ne dodaju fokus, ulogu dugmeta ni tastaturu."
             },
             {
-              "prompt": "16.3. Zamka. Dodat je `aria-label=\"Uključi\"` na `<div>`. Da li je time automatski postao funkcionalno dugme koje radi na Space i Enter?",
+              "prompt": "16.3. Dodat je `aria-label=\"Uključi\"` na `<div>`. Da li je time automatski postao funkcionalno dugme koje radi na Space i Enter?",
               "answer": "Ne. Atribut daje dostupno ime, ali ne uvodi semantiku dugmeta, fokus ni interakciju tastaturom."
             },
             {
-              "prompt": "16.4. Dizajn. Kako treba povezati oznaku „Željena temperatura” sa inputom tako da klik na oznaku pomogne korisniku i asistivnoj tehnologiji?",
+              "prompt": "16.4. Kako treba povezati oznaku „Željena temperatura” sa inputom tako da klik na oznaku pomogne korisniku i asistivnoj tehnologiji?",
               "answer": "`<label for=\"cilj\">` i kontrola sa `id=\"cilj\"`; tekst u labeli nije samo vizuelna dekoracija."
             },
             {
-              "prompt": "16.5. Razlikovanje stanja. Koja je razlika između sakrivenog polja, onemogućenog dugmeta i dugmeta koje samo izgleda sivo? Šta je sa fokusom i informacijom o stanju?",
+              "prompt": "16.5. Koja je razlika između sakrivenog polja, onemogućenog dugmeta i dugmeta koje samo izgleda sivo? Šta je sa fokusom i informacijom o stanju?",
               "answer": "`hidden`, `disabled` i CSS boja imaju različite posledice. Onemogućavanje nije isto što i sakrivanje niti vizuelna oznaka."
             },
             {
-              "prompt": "16.6. Procena. Da li svaki novi broj temperature treba izgovoriti pomoću `aria-live` pri 20 promena u sekundi? Kako odrediti šta je zaista važna poruka?",
-              "answer": "Ne. Najavljivati bitne promene statusa, sa odgovarajućom učestalošću. Previše najava narušava upotrebljivost."
+              "prompt": "16.6. Da li svaki novi broj temperature treba izgovoriti pomoću `aria-live` pri 20 promena u sekundi? Kako odrediti šta je zaista važna poruka?",
+              "answer": "Ne. `aria-live` je kanal kojim čitač ekrana najavljuje promenu teksta. Najavljivati bitne promene, ne svaki broj dvadeset puta u sekundi."
             },
             {
-              "prompt": "16.7. Problem fokusa. Korisnik piše u polju jedne kartice. Program pozove `replaceChildren` i napravi celu listu iznova. Šta može poći po zlu i kako to otkriti?",
+              "prompt": "16.7. Korisnik piše u polju jedne kartice. Program pozove `replaceChildren` i napravi celu listu iznova. Šta može poći po zlu i kako to otkriti?",
               "answer": "Fokus i sadržaj aktivne kontrole mogu se izgubiti. Testirati Tab/Enter/Space i očuvanje fokusa pri renderovanju; menjati samo potrebne čvorove kada je neophodno."
             },
             {
-              "prompt": "16.8. Primena. Sastavite kratak test kontrolne sobe bez miša: kojim redom proveravate navigaciju, podešavanje cilja, promenu režima, uklanjanje senzora i poruku o alarmu?",
+              "prompt": "16.8. Sastavite kratak test kontrolne sobe bez miša: kojim redom proveravate navigaciju, podešavanje cilja, promenu režima, uklanjanje senzora i poruku o alarmu?",
               "answer": "Redosled fokusa, vidljiv fokus, funkcionalne kontrole i informacije koje nisu samo obojene, uz primerenu statusnu poruku."
             }
           ],
-          "prompt": "16.1. Problem. Dizajner koristi `<div class=\"dugme\">Uključi</div>` i `click` listener. Radi mišem, ali ne i tastaturom. Šta semantičko HTML dugme već nudi?",
+          "prompt": "16.1. Dizajner koristi `<div class=\"dugme\">Uključi</div>` i `click` listener. Radi mišem, ali ne i tastaturom. Šta semantičko HTML dugme već nudi?",
           "path": "client/lekcije/31-pristupacnost.js",
           "snippetTitle": "Semantika, pristupačnost i tastatura",
           "snippetLanguage": "javascript",
@@ -9324,83 +9324,83 @@
               "id": "k32q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "17.1. Problem. Senzor šalje 100 vrednosti u sekundi, a korisnik može da vidi samo trenutno stanje. Da li moramo da promenimo DOM 100 puta svake sekunde?",
+              "text": "17.1. Senzor šalje 100 vrednosti u sekundi, a korisnik može da vidi samo trenutno stanje. Da li moramo da promenimo DOM 100 puta svake sekunde?",
               "answer": "Ne. Potrebno je razlikovati prijem/obradu podataka od učestalosti ažuriranja ekrana. To uvodi grupisanje vizuelnih promena."
             },
             {
               "id": "k32q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "17.2. Dizajn. Kako biste predstavili činjenicu „render već zakazan” da deset brzih događaja ne zakaže deset renderovanja?",
+              "text": "17.2. Kako biste predstavili činjenicu „render već zakazan” da deset brzih događaja ne zakaže deset renderovanja?",
               "answer": "Jedan boolean ili sličan indikator, poziv `requestAnimationFrame` i resetovanje indikatora tokom callback-a."
             },
             {
               "id": "k32q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "17.3. Zamka sa kodom. U kratkom nizu pozovemo `novoOcitavanje(20)`, `novoOcitavanje(21)`, `novoOcitavanje(22)`; svaki poziv postavi `state.vrednost` i zatraži isti zakazani render. Šta prikaz treba da pokaže kada callback stigne?",
+              "text": "17.3. U kratkom nizu pozovemo `novoOcitavanje(20)`, `novoOcitavanje(21)`, `novoOcitavanje(22)`; svaki poziv postavi `state.vrednost` i zatraži isti zakazani render. Šta prikaz treba da pokaže kada callback stigne?",
               "answer": "`22`, poslednje trenutno stanje, pod pretpostavkom da render čita stanje u trenutku izvršavanja."
             },
             {
               "id": "k32q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "17.4. Problem gubitka podataka. Da li grupisanje prikaza sme da odbaci prethodna očitavanja ako su potrebna za obračun proseka u poslednjih sat vremena?",
+              "text": "17.4. Da li grupisanje prikaza sme da odbaci prethodna očitavanja ako su potrebna za obračun proseka u poslednjih sat vremena?",
               "answer": "Ne. Sva potrebna očitavanja moraju biti obrađena/sačuvana nezavisno od toga koliko često crtamo ekran."
             },
             {
               "id": "k32q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "17.5. Procena. Za mali brojač koji se menja na klik, da li `requestAnimationFrame` nužno poboljšava performanse?",
+              "text": "17.5. Za mali brojač koji se menja na klik, da li `requestAnimationFrame` nužno poboljšava performanse?",
               "answer": "Ne. Običan render je često najbolji. Optimizacija treba da proizlazi iz jasnog problema i merenja, a ne iz samog broja DOM metoda."
             },
             {
               "id": "k32q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "17.6. Objašnjenje browsera. Zašto naizmenično merenje širine (`offsetWidth`) i promena stilova u petlji može biti skuplje od grupisanih čitanja i upisa?",
+              "text": "17.6. Zašto naizmenično merenje širine (`offsetWidth`) i promena stilova u petlji može biti skuplje od grupisanih čitanja i upisa?",
               "answer": "Merenje geometrije može zahtevati sinhronizaciju stilova i rasporeda posle prethodnih izmena. Ne treba tvrditi da će se to desiti pri svakom čitanju; važan je potencijalni dodatni rad."
             },
             {
               "id": "k32q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "17.7. Primena. U kontrolnoj sobi dva senzora daju alarm i nekoliko brzih očitavanja. Šta treba obraditi odmah, a šta sme da sačeka sledeći vizuelni frame?",
+              "text": "17.7. U kontrolnoj sobi dva senzora daju alarm i nekoliko brzih očitavanja. Šta treba obraditi odmah, a šta sme da sačeka sledeći vizuelni frame?",
               "answer": "Poslovne promene i značajni alarmni podaci ne smeju se izgubiti; ažuriranje vizuelnih brojeva može se grupisati. Razdvojiti garancije obrade podataka od rasporeda renderovanja."
             }
           ],
           "prompts": [
             {
-              "prompt": "17.1. Problem. Senzor šalje 100 vrednosti u sekundi, a korisnik može da vidi samo trenutno stanje. Da li moramo da promenimo DOM 100 puta svake sekunde?",
+              "prompt": "17.1. Senzor šalje 100 vrednosti u sekundi, a korisnik može da vidi samo trenutno stanje. Da li moramo da promenimo DOM 100 puta svake sekunde?",
               "answer": "Ne. Potrebno je razlikovati prijem/obradu podataka od učestalosti ažuriranja ekrana. To uvodi grupisanje vizuelnih promena."
             },
             {
-              "prompt": "17.2. Dizajn. Kako biste predstavili činjenicu „render već zakazan” da deset brzih događaja ne zakaže deset renderovanja?",
+              "prompt": "17.2. Kako biste predstavili činjenicu „render već zakazan” da deset brzih događaja ne zakaže deset renderovanja?",
               "answer": "Jedan boolean ili sličan indikator, poziv `requestAnimationFrame` i resetovanje indikatora tokom callback-a."
             },
             {
-              "prompt": "17.3. Zamka sa kodom. U kratkom nizu pozovemo `novoOcitavanje(20)`, `novoOcitavanje(21)`, `novoOcitavanje(22)`; svaki poziv postavi `state.vrednost` i zatraži isti zakazani render. Šta prikaz treba da pokaže kada callback stigne?",
+              "prompt": "17.3. U kratkom nizu pozovemo `novoOcitavanje(20)`, `novoOcitavanje(21)`, `novoOcitavanje(22)`; svaki poziv postavi `state.vrednost` i zatraži isti zakazani render. Šta prikaz treba da pokaže kada callback stigne?",
               "answer": "`22`, poslednje trenutno stanje, pod pretpostavkom da render čita stanje u trenutku izvršavanja."
             },
             {
-              "prompt": "17.4. Problem gubitka podataka. Da li grupisanje prikaza sme da odbaci prethodna očitavanja ako su potrebna za obračun proseka u poslednjih sat vremena?",
+              "prompt": "17.4. Da li grupisanje prikaza sme da odbaci prethodna očitavanja ako su potrebna za obračun proseka u poslednjih sat vremena?",
               "answer": "Ne. Sva potrebna očitavanja moraju biti obrađena/sačuvana nezavisno od toga koliko često crtamo ekran."
             },
             {
-              "prompt": "17.5. Procena. Za mali brojač koji se menja na klik, da li `requestAnimationFrame` nužno poboljšava performanse?",
+              "prompt": "17.5. Za mali brojač koji se menja na klik, da li `requestAnimationFrame` nužno poboljšava performanse?",
               "answer": "Ne. Običan render je često najbolji. Optimizacija treba da proizlazi iz jasnog problema i merenja, a ne iz samog broja DOM metoda."
             },
             {
-              "prompt": "17.6. Objašnjenje browsera. Zašto naizmenično merenje širine (`offsetWidth`) i promena stilova u petlji može biti skuplje od grupisanih čitanja i upisa?",
+              "prompt": "17.6. Zašto naizmenično merenje širine (`offsetWidth`) i promena stilova u petlji može biti skuplje od grupisanih čitanja i upisa?",
               "answer": "Merenje geometrije može zahtevati sinhronizaciju stilova i rasporeda posle prethodnih izmena. Ne treba tvrditi da će se to desiti pri svakom čitanju; važan je potencijalni dodatni rad."
             },
             {
-              "prompt": "17.7. Primena. U kontrolnoj sobi dva senzora daju alarm i nekoliko brzih očitavanja. Šta treba obraditi odmah, a šta sme da sačeka sledeći vizuelni frame?",
+              "prompt": "17.7. U kontrolnoj sobi dva senzora daju alarm i nekoliko brzih očitavanja. Šta treba obraditi odmah, a šta sme da sačeka sledeći vizuelni frame?",
               "answer": "Poslovne promene i značajni alarmni podaci ne smeju se izgubiti; ažuriranje vizuelnih brojeva može se grupisati. Razdvojiti garancije obrade podataka od rasporeda renderovanja."
             }
           ],
-          "prompt": "17.1. Problem. Senzor šalje 100 vrednosti u sekundi, a korisnik može da vidi samo trenutno stanje. Da li moramo da promenimo DOM 100 puta svake sekunde?",
+          "prompt": "17.1. Senzor šalje 100 vrednosti u sekundi, a korisnik može da vidi samo trenutno stanje. Da li moramo da promenimo DOM 100 puta svake sekunde?",
           "path": "client/lekcije/32-efikasnost.js",
           "snippetTitle": "Efikasno ažuriranje DOM-a",
           "snippetLanguage": "javascript",
@@ -9454,83 +9454,83 @@
               "id": "k33q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "18.1. Problem. Korisnik kaže „klik ne radi”. Koje su četiri moguće tačke kvara pre nego što uopšte pogledate CSS?",
+              "text": "18.1. Korisnik kaže „klik ne radi”. Koje su četiri moguće tačke kvara pre nego što uopšte pogledate CSS?",
               "answer": "Element/selektor, registracija listenera, sam handler/akcija, promena modela i poziv rendera. Formulisati proverljive hipoteze."
             },
             {
               "id": "k33q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "18.2. Dijagnostički trag. Log „handler pozvan” postoji; `state.temperatura` je nova, ali ekran i dalje prikazuje staru vrednost. Gde je sada sužen problem?",
+              "text": "18.2. Log „handler pozvan” postoji; `state.temperatura` je nova, ali ekran i dalje prikazuje staru vrednost. Gde je sada sužen problem?",
               "answer": "Na render, njegov poziv, selektor elementa ili vidljivost. Ne treba popravljati ispravan listener bez dokaza."
             },
             {
               "id": "k33q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "18.3. Zamka. Jedan klik poveća brojač za dva. Navedite najmanje dva različita uzroka i kako razlikovati njihove tragove.",
+              "text": "18.3. Jedan klik poveća brojač za dva. Navedite najmanje dva različita uzroka i kako razlikovati njihove tragove.",
               "answer": "Dupli listeneri ili dva handlera tokom propagacije; breakpoint/trag poziva pokazuje da li ista akcija dolazi sa dva mesta ili više registracija."
             },
             {
               "id": "k33q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "18.4. Zamka. Posle poziva `replaceChildren` direktni listener na dugmetu „Ukloni” više ne radi. Zašto isti kod za registraciju „odjednom” nema efekta?",
+              "text": "18.4. Posle poziva `replaceChildren` direktni listener na dugmetu „Ukloni” više ne radi. Zašto isti kod za registraciju „odjednom” nema efekta?",
               "answer": "Listener je bio vezan za prethodni DOM objekat koji je zamenjen. Delegiranje na stabilnom roditelju ili ponovno povezivanje rešenje je u odgovarajućem kontekstu."
             },
             {
               "id": "k33q5",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "18.5. Dizajn dijagnostike. Kako biste postavili četiri `console.log` poruke ili breakpoint-a da razdvojite događaj, promenu modela, render i stvarni DOM rezultat?",
+              "text": "18.5. Kako biste postavili četiri `console.log` poruke ili breakpoint-a da razdvojite događaj, promenu modela, render i stvarni DOM rezultat?",
               "answer": "Svaka granica ima opažljiv uslov; u dev alatima, u panelima Elements, Console i Sources, proverava se po jedna pretpostavka, a ne nasumična promena koda."
             },
             {
               "id": "k33q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "18.6. Procena. Da li je bolje „popraviti izgled” ručnim upisom u DOM ili otkriti zašto se promena nije propagirala od modela do prikaza?",
+              "text": "18.6. Da li je bolje „popraviti izgled” ručnim upisom u DOM ili otkriti zašto se promena nije propagirala od modela do prikaza?",
               "answer": "Otkriti kvar u toku podataka; ad hoc upis može maskirati grešku i stvoriti dva neusaglašena izvora."
             },
             {
               "id": "k33q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "18.7. Završni zadatak. U kontrolnoj sobi korisnik pritisne „Ukloni”; kartica nestane, ali se vrati kad promeni temperaturu. Nacrtajte najkraći tok koji objašnjava ponašanje i predložite najmanju *ispravnu* izmenu.",
+              "text": "18.7. U kontrolnoj sobi korisnik pritisne „Ukloni”; kartica nestane, ali se vrati kad promeni temperaturu. Nacrtajte najkraći tok koji objašnjava ponašanje i predložite najmanju *ispravnu* izmenu.",
               "answer": "Izbrisan je samo DOM čvor, dok senzor postoji u `state.senzori`; sledeći `render` ga ponovo prikazuje. Potrebno je ukloniti senzor po ID-u iz modela, pa renderovati. Ovim se proverava celokupna tema."
             }
           ],
           "prompts": [
             {
-              "prompt": "18.1. Problem. Korisnik kaže „klik ne radi”. Koje su četiri moguće tačke kvara pre nego što uopšte pogledate CSS?",
+              "prompt": "18.1. Korisnik kaže „klik ne radi”. Koje su četiri moguće tačke kvara pre nego što uopšte pogledate CSS?",
               "answer": "Element/selektor, registracija listenera, sam handler/akcija, promena modela i poziv rendera. Formulisati proverljive hipoteze."
             },
             {
-              "prompt": "18.2. Dijagnostički trag. Log „handler pozvan” postoji; `state.temperatura` je nova, ali ekran i dalje prikazuje staru vrednost. Gde je sada sužen problem?",
+              "prompt": "18.2. Log „handler pozvan” postoji; `state.temperatura` je nova, ali ekran i dalje prikazuje staru vrednost. Gde je sada sužen problem?",
               "answer": "Na render, njegov poziv, selektor elementa ili vidljivost. Ne treba popravljati ispravan listener bez dokaza."
             },
             {
-              "prompt": "18.3. Zamka. Jedan klik poveća brojač za dva. Navedite najmanje dva različita uzroka i kako razlikovati njihove tragove.",
+              "prompt": "18.3. Jedan klik poveća brojač za dva. Navedite najmanje dva različita uzroka i kako razlikovati njihove tragove.",
               "answer": "Dupli listeneri ili dva handlera tokom propagacije; breakpoint/trag poziva pokazuje da li ista akcija dolazi sa dva mesta ili više registracija."
             },
             {
-              "prompt": "18.4. Zamka. Posle poziva `replaceChildren` direktni listener na dugmetu „Ukloni” više ne radi. Zašto isti kod za registraciju „odjednom” nema efekta?",
+              "prompt": "18.4. Posle poziva `replaceChildren` direktni listener na dugmetu „Ukloni” više ne radi. Zašto isti kod za registraciju „odjednom” nema efekta?",
               "answer": "Listener je bio vezan za prethodni DOM objekat koji je zamenjen. Delegiranje na stabilnom roditelju ili ponovno povezivanje rešenje je u odgovarajućem kontekstu."
             },
             {
-              "prompt": "18.5. Dizajn dijagnostike. Kako biste postavili četiri `console.log` poruke ili breakpoint-a da razdvojite događaj, promenu modela, render i stvarni DOM rezultat?",
+              "prompt": "18.5. Kako biste postavili četiri `console.log` poruke ili breakpoint-a da razdvojite događaj, promenu modela, render i stvarni DOM rezultat?",
               "answer": "Svaka granica ima opažljiv uslov; u dev alatima, u panelima Elements, Console i Sources, proverava se po jedna pretpostavka, a ne nasumična promena koda."
             },
             {
-              "prompt": "18.6. Procena. Da li je bolje „popraviti izgled” ručnim upisom u DOM ili otkriti zašto se promena nije propagirala od modela do prikaza?",
+              "prompt": "18.6. Da li je bolje „popraviti izgled” ručnim upisom u DOM ili otkriti zašto se promena nije propagirala od modela do prikaza?",
               "answer": "Otkriti kvar u toku podataka; ad hoc upis može maskirati grešku i stvoriti dva neusaglašena izvora."
             },
             {
-              "prompt": "18.7. Završni zadatak. U kontrolnoj sobi korisnik pritisne „Ukloni”; kartica nestane, ali se vrati kad promeni temperaturu. Nacrtajte najkraći tok koji objašnjava ponašanje i predložite najmanju *ispravnu* izmenu.",
+              "prompt": "18.7. U kontrolnoj sobi korisnik pritisne „Ukloni”; kartica nestane, ali se vrati kad promeni temperaturu. Nacrtajte najkraći tok koji objašnjava ponašanje i predložite najmanju *ispravnu* izmenu.",
               "answer": "Izbrisan je samo DOM čvor, dok senzor postoji u `state.senzori`; sledeći `render` ga ponovo prikazuje. Potrebno je ukloniti senzor po ID-u iz modela, pa renderovati. Ovim se proverava celokupna tema."
             }
           ],
-          "prompt": "18.1. Problem. Korisnik kaže „klik ne radi”. Koje su četiri moguće tačke kvara pre nego što uopšte pogledate CSS?",
+          "prompt": "18.1. Korisnik kaže „klik ne radi”. Koje su četiri moguće tačke kvara pre nego što uopšte pogledate CSS?",
           "path": "client/lekcije/33-dijagnostika.js",
           "snippetTitle": "Dijagnostika: kada stanje i ekran nisu usklađeni",
           "snippetLanguage": "javascript",
@@ -9540,7 +9540,7 @@
       "independentLearning": {
         "introduction": "Tema prati kako JavaScript od korisničke akcije i podataka pravi prikaz. Gradivo svakog koraka je samostalan primer. U editoru, komentar Kontrolna soba nastavlja jedan panel; primeri iznad njega se ne pokreću kao jedan fajl.",
         "detailedMaterial": [
-          "DOM je stablo objekata koje browser pravi od HTML-a. querySelector vraća prvi element ili null, a querySelectorAll statičan NodeList. Za tekst koji dolazi od korisnika koristi se textContent. innerHTML parsira string kao HTML.",
+          "DOM je stablo čvorova koje browser pravi od HTML-a. Svaki element je čvor, tekst nije element, a document je čvor koji drži stablo i nije element. querySelector vraća prvi element ili null. querySelectorAll vraća NodeList, listu čvorova iz trenutka poziva. Za tekst koji dolazi od korisnika koristi se textContent. innerHTML parsira string kao HTML.",
           "addEventListener registruje funkciju. Poziv sa zagradama izvršava je odmah. Događaj prolazi capture, target i bubble. Delegiranje stavlja jedan listener na pretka, pa važi i za element dodat posle registracije.",
           "Stanje je objekat programa. render čita to stanje i upisuje DOM. Akcija menja stanje, a prikaz prati stanje. Lista na ekranu je posledica niza. Izvedena vrednost se računa iz tog niza, ne čuva se kao drugi izvor.",
           "localStorage čuva stringove u browseru i nije server. Pravo dugme nosi tastaturu i semantiku. Česta očitavanja mogu da se spoje u jedan prikaz. Greška se traži u onom koraku toka koji nije ispunio svoj ugovor."
