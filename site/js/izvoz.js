@@ -1,4 +1,5 @@
 import { blokoviKoraka, diskusijaKoraka, naslovKoda } from "./blokovi-lekcije.js";
+import { bezRucneNumeracije, oznakaPitanja } from "./pitanje-broj.js";
 import { blokOd } from "./blokovi/index.js";
 import { izvorMermaida } from "./blokovi/mermaid.js";
 import { svgRasporeda } from "./proto-dijagram.js";
@@ -14,9 +15,21 @@ function deoBloka(blok) {
   return { vrsta: "blok", blok };
 }
 
-function dokumentKoraka(korak) {
+function pitanjeZaIzvoz(blok, brojKoraka, redni) {
+  const oznaka = oznakaPitanja(brojKoraka, redni);
+  if (!oznaka) return blok;
+  const tekst = bezRucneNumeracije(blok.tekst || "").trim();
+  return { ...blok, tekst: tekst ? `${oznaka} ${tekst}` : oznaka };
+}
+
+function dokumentKoraka(korak, brojKoraka = 0) {
   const gradivo = blokoviKoraka(korak, { prazne: false }).map(deoBloka).filter(Boolean);
-  const diskusija = diskusijaKoraka(korak).map(deoBloka).filter(Boolean);
+  let redni = 0;
+  const diskusija = diskusijaKoraka(korak).map((blok) => {
+    if (blok?.vrsta !== "pitanje") return deoBloka(blok);
+    redni += 1;
+    return deoBloka(pitanjeZaIzvoz(blok, brojKoraka, redni));
+  }).filter(Boolean);
   const delovi = [];
   if (gradivo.length && diskusija.length) {
     delovi.push({ vrsta: "naslov", nivo: 2, tekst: "Gradivo" }, ...gradivo);
@@ -32,7 +45,7 @@ function dokumentTeme(tema) {
     naslov: jedanRed(tema?.naslov) || "Tema",
     podnaslov: imaTekst(tema?.podnaslov) ? String(tema.podnaslov).trim() : "",
     ishod: imaTekst(tema?.ishod) ? String(tema.ishod).trim() : "",
-    koraci: (tema?.steps || []).map(dokumentKoraka),
+    koraci: (tema?.steps || []).map((korak, indeks) => dokumentKoraka(korak, indeks + 1)),
   };
 }
 
@@ -53,8 +66,8 @@ function markdownDokumenta(dok, nivoNaslova) {
   return delovi.map(markdownDela).filter(Boolean).join("\n\n");
 }
 
-export function markdownKoraka(korak) {
-  return `${markdownDokumenta(dokumentKoraka(korak), 1)}\n`;
+export function markdownKoraka(korak, brojKoraka = 0) {
+  return `${markdownDokumenta(dokumentKoraka(korak, brojKoraka), 1)}\n`;
 }
 
 export function markdownTeme(tema) {
@@ -265,8 +278,8 @@ function htmlDokumenta(dok, nivoNaslova) {
   return htmlOmot(dok.naslov, telo);
 }
 
-export function htmlKoraka(korak) {
-  return htmlDokumenta(dokumentKoraka(korak), 1);
+export function htmlKoraka(korak, brojKoraka = 0) {
+  return htmlDokumenta(dokumentKoraka(korak, brojKoraka), 1);
 }
 
 export function htmlTeme(tema) {

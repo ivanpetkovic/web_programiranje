@@ -222,7 +222,7 @@ export function napraviKviz(ctx) {
     if (!mozeOcena(pitanje)) meta.append(el("span", "kviz-bedz", "Bez ocene"));
     telo.append(meta);
 
-    telo.append(omotTeksta(pitanje.tekst));
+    telo.append(omotTeksta(pitanje.tekst, pitanje.oznaka));
     if (pitanje.dijagram) telo.append(figuraMermaid(pitanje.dijagram));
     if (pitanje.kod) telo.append(blokKoda(pitanje.kod, pitanje.jezik));
 
@@ -410,6 +410,7 @@ export function napraviKviz(ctx) {
       if (!ocena.ocenjivo) stavka.classList.add("bez-ocene");
       else stavka.classList.add(ocena.tacno ? "tacno" : "netacno");
       const glava = el("button", "kviz-stavka-dugme");
+      if (pitanje.oznaka) glava.append(document.createTextNode(`${pitanje.oznaka} `));
       dodajDelove(glava, sazetakPitanja(pitanje.tekst));
       glava.type = "button";
       glava.addEventListener("click", () => {
@@ -491,10 +492,16 @@ export function napraviKviz(ctx) {
     return cvorovi;
   }
 
-  function omotTeksta(tekst) {
+  function omotTeksta(tekst, oznaka = "") {
     const omot = el("div", "kviz-tekst");
     omot.tabIndex = -1;
     const cvorovi = blokoviTeksta(tekst, true);
+    if (oznaka && cvorovi[0]) {
+      const broj = document.createElement("span");
+      broj.className = "pitanje-broj";
+      broj.textContent = oznaka;
+      cvorovi[0].prepend(broj, document.createTextNode(" "));
+    }
     if (cvorovi.length) omot.append(...cvorovi);
     return omot;
   }

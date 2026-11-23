@@ -1,4 +1,5 @@
 import { tekstSekcija } from "./blokovi-lekcije.js";
+import { bezRucneNumeracije, oznakaPitanja } from "./pitanje-broj.js";
 
 const GLAVA = /^\*\*(.+?)\*\*:\s*$/;
 const IZBEJAVA = /^_Avoid_:\s*(.*)$/;
@@ -103,11 +104,18 @@ export function predlozi(kurs, pojmovi, upit) {
   }
   kurs.teme.forEach((tema, ni) => {
     tema.steps.forEach((korak, ki) => {
-      for (const p of nizPitalica(korak)) {
-        if (pocinje(p.pitalica, q)) {
-          izlaz.push({ vrsta: "pitanje", tekst: p.pitalica, tema: ni + 1, korak: ki });
+      nizPitalica(korak).forEach((p, i) => {
+        const tekst = bezRucneNumeracije(p.pitalica);
+        if (pocinje(tekst, q)) {
+          izlaz.push({
+            vrsta: "pitanje",
+            tekst,
+            oznaka: oznakaPitanja(ki + 1, i + 1),
+            tema: ni + 1,
+            korak: ki,
+          });
         }
-      }
+      });
       if (pocinje(korak.isecak, q)) {
         izlaz.push({
           vrsta: "primer",

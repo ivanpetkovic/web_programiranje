@@ -1,4 +1,5 @@
 import { nacrtajFiguru } from "./crtez.js";
+import { bezRucneNumeracije, oznakaPitanja } from "./pitanje-broj.js";
 import { porukaOdbijanja } from "./uredi-sadrzaj.js";
 import { blokoviTeksta, imaMermaid, nacrtajMermaid } from "./mermaid.js";
 import {
@@ -398,11 +399,11 @@ function panelKoraka(temaIndeks, indeks) {
       el("p", { class: "meta", text: "Blok ```mermaid u tekstu ili ključnoj ideji crta dijagram." }),
     ]),
     sekcija("Sadržaj", [sadrzajKoraka(korak)]),
-    sekcija("Pitalice", poljaPitalica(korak)),
+    sekcija("Pitalice", poljaPitalica(korak, indeks + 1)),
   ]);
 }
 
-function poljaPitalica(korak) {
+function poljaPitalica(korak, brojKoraka) {
   if (!Array.isArray(korak.pitalice) || !korak.pitalice.length) {
     korak.pitalice = [
       {
@@ -414,10 +415,14 @@ function poljaPitalica(korak) {
   }
   return korak.pitalice.flatMap((p, i) => {
     if (i === 0) korak.opcije = p.opcije;
+    const oznaka = oznakaPitanja(brojKoraka, i + 1);
+    const tekst = bezRucneNumeracije(p.pitalica);
+    if (typeof p.pitalica === "string" && p.pitalica !== tekst) p.pitalica = tekst;
+    if (i === 0 && typeof korak.pitalica === "string") korak.pitalica = bezRucneNumeracije(korak.pitalica);
     return [
-    polje(`Pitanje ${i + 1}`, p.pitalica, (vrednost) => {
-      p.pitalica = vrednost;
-      if (i === 0) korak.pitalica = vrednost;
+    polje(`Pitanje ${oznaka}`, p.pitalica, (vrednost) => {
+      p.pitalica = bezRucneNumeracije(vrednost);
+      if (i === 0) korak.pitalica = p.pitalica;
     }, { visered: true, redovi: 2 }),
     blokOpcija(p, "opcije"),
     polje(`Obrazloženje ${i + 1}`, p.analizaPitalice || "", (vrednost) => {

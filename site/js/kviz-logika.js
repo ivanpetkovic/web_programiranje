@@ -1,4 +1,5 @@
 import { mermaidFigura } from "./figura.js";
+import { bezRucneNumeracije, oznakaPitanja } from "./pitanje-broj.js";
 
 export const DIJAGRAM_KUTIJE_244 = [
   "flowchart LR",
@@ -54,7 +55,7 @@ function dijagramKoraka(korak) {
 export function izPostojeceg(tema, korak, indeks, pitanje, okvir = {}) {
   const opcije = (pitanje?.opcije || []).filter((opcija) => imaTekst(opcija?.text));
   const id = `postojece-${tema}-${korak}-${indeks}`;
-  const tekst = bezOznake(PREPRAVKE[id] || pitanje?.pitalica || "");
+  const tekst = bezOznake(bezRucneNumeracije(PREPRAVKE[id] || pitanje?.pitalica || ""));
   if (!tekst && opcije.length === 0) return null;
   const osnova = {
     id,
@@ -63,6 +64,7 @@ export function izPostojeceg(tema, korak, indeks, pitanje, okvir = {}) {
     vrsta: opcije.length ? "izbor" : "tekst",
     izvor: "postojece",
     zamka: false,
+    oznaka: oznakaPitanja(korak + 1, indeks + 1),
     tekst: tekst || "Izaberi odgovor.",
     analiza: pitanje?.analiza || "",
   };

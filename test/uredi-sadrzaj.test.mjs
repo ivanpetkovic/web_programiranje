@@ -63,13 +63,13 @@ test("odbijanje kursa kaže gde šema nije prošla i koja je vrednost", () => {
     porukaOdbijanja({
       detalji: ["kurs/teme/2/steps/8/diskusija/1/opcije/0/text: očekivan je tekst."],
     }, dokument),
-    "Tema 3, korak 9, pitanje 9.2, odgovor A, tekst: očekivan je tekst, a upisano je 3.",
+    "Tema 3, korak 9, pitanje (9/1), odgovor A, tekst: očekivan je tekst, a upisano je 3.",
   );
   assert.equal(
     porukaOdbijanja({
       detalji: ["kurs/teme/2/steps/8/diskusija/1/oblik: vrednost nije dozvoljena."],
     }, { teme: [{}, {}, { steps: [...Array(8).fill({}), { diskusija: [{}, { vrsta: "pitanje", tekst: "Bez broja.", oblik: "izbor" }] }] }] }),
-    "Tema 3, korak 9, pitanje 1: „izbor” nije dozvoljena vrednost za oblik.",
+    "Tema 3, korak 9, pitanje (9/1): „izbor” nije dozvoljena vrednost za oblik.",
   );
 });
 

@@ -1535,6 +1535,11 @@ body.rezim-uredjivanja .sekcija-lekcije .isecak header { padding-right: 0.4rem; 
 }
 .pitanje-red { position: relative; display: flex; align-items: flex-start; gap: 0.55rem; }
 .pitanje-red h3 { margin: 0; flex: 1; min-width: 0; }
+.pitanje-broj {
+  color: var(--korak);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
 .pitanje-znak {
   flex: none;
   display: grid;

@@ -131,6 +131,27 @@ test("tema spaja korake u jedan markdown i pdf html", () => {
   assert.equal(imeIzvoza("Veza", "md"), "veza.md");
 });
 
+test("izvoz pitanja računa broj koraka i skida ručni prefiks", () => {
+  const korak = {
+    naslov: "Korak",
+    diskusija: [
+      { id: "q1", vrsta: "pitanje", oblik: "tekst", tekst: "2.1. Prvo?" },
+      { id: "q2", vrsta: "pitanje", oblik: "tekst", tekst: "Drugo?" },
+    ],
+  };
+  const md = markdownKoraka(korak, 4);
+  assert.equal(markdownJeIspravan(md), true);
+  assert.match(md, /\(4\/1\) Prvo\?/);
+  assert.match(md, /\(4\/2\) Drugo\?/);
+  assert.equal(md.includes("2.1."), false);
+  assert.match(htmlKoraka(korak, 4), /\(4\/1\) Prvo\?/);
+  const tema = markdownTeme({
+    naslov: "Tema",
+    steps: [korak],
+  });
+  assert.match(tema, /\(1\/1\) Prvo\?/);
+});
+
 test("šema prima mermaid sekciju", () => {
   const dokument = prazanKurs();
   const tema = praznaTema();
