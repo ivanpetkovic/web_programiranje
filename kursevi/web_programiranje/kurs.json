@@ -7225,8 +7225,9 @@
               "id": "k16q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "Zamislite da sami projektujete objekat za HTML `<article><h2>Naslov</h2><p>Tekst</p></article>`. Koja polja i operacije su neophodni? Zašto običan niz stringova nije dovoljan?",
-              "answer": "Potrebni su tip čvora, ime oznake kada je čvor element, roditelj, uređena deca, atributi i tekst. Niz stringova nema te veze, pa se od njega ne može složiti stablo niti premestiti deo. `Node` je svaki čvor stabla. `Element` je čvor koji predstavlja oznaku: svaki element je čvor, a tekstualni čvor nije element. `Document` je čvor koji drži celo stablo i nije element; preko njega se prave i traže elementi."
+              "text": "Zamislite da sami projektujete klase i objekate za pamćenje HTML-a . Zašto običan niz stringova nije dovoljan, i kako bi ste upamtili takvu strukturu?\n\n```html\n<article>\n   <!-- neki komentar -->\n   <h2>Naslov</h2>\n   <p>Tekst</p>\n   Drugi tekst\n</article>\n```\n",
+              "answer": "Potrebni je napraviti hijerarhuju tipa stablo, gde je čvora stable tip iz kog su izvedeni  tekst, komentar, atribut i element.\n\n`Node` je svaki čvor stabla. \n`Element` je čvor koji ima oznaku/tag, uglavnom početnu i krajnju, a između njih je sadrđaj. \n`Document` je čvor koji drži celo stablo i nije element; preko njega se prave i traže elementi.",
+              "analysis": "Dijagram:\n\n```mermaid\nflowchart TD\n    A[\"Element<br/>article\"]\n    B(\"#comment<br/>ovo je komentar\")\n    C[\"Element<br/>h2\"]\n    D[\"Element<br/>p\"]\n    E(\"#text<br/>Neki drugi tekst\")\n    F(\"#text<br/>Naslov\")\n    G(\"#text<br/>Tekst\")\n    H(\"Atribut<br/>class='subtle'\")\n\n    A --> B\n    A --> C\n    A --> D\n    A --> E\n    C --> F\n    D --> G\n    C -.-> H\n\n    classDef element fill:#2563eb,stroke:#1e40af,color:#ffffff,stroke-width:2px\n    classDef tekst fill:#16a34a,stroke:#166534,color:#ffffff,stroke-width:2px\n    classDef komentar fill:#d97706,stroke:#92400e,color:#ffffff,stroke-width:2px\n    classDef atribut fill:#9333ea,stroke:#6b21a8,color:#ffffff,stroke-width:2px\n\n    class A,C,D element\n    class E,F,G tekst\n    class B komentar\n    class H atribut\n```"
             },
             {
               "id": "k16q3",
@@ -7247,7 +7248,7 @@
               "kind": "pitanje",
               "form": "tekst",
               "text": "U HTML-u je obična `<script src=\"app.js\"></script>` pre naslova, a `app.js` odmah čita naslov. Šta bi moglo poći po zlu i koja tri pristupa rešavaju problem?",
-              "answer": "Element možda još nije parsiran pa pretraga vraća `null`. Rešenja: `defer`, `type=\"module\"` ili inicijalizacija po `DOMContentLoaded` (odnosno pravilno postavljanje skripte, uz razumevanje uslova)."
+              "answer": "HTML element možda još nije parsiran pa pretraga vraća `null`. Rešenja: `defer`, `type=\"module\"` ili inicijalizacija po `DOMContentLoaded` (odnosno pravilno postavljanje skripte, uz razumevanje uslova)."
             },
             {
               "id": "k16q6",
@@ -7255,13 +7256,6 @@
               "form": "tekst",
               "text": "Da li je DOM isto što i ono što vidimo na ekranu? Kako biste dokazali da nisu isto, bez promene izvornog HTML-a?",
               "answer": "DOM predstavlja dokument, a vizuelni rezultat zavisi i od CSS-a, rasporeda i iscrtavanja. Sakriven element može postojati u DOM-u; tekst čvora može postojati bez vidljivog prikaza."
-            },
-            {
-              "id": "k16q7",
-              "kind": "pitanje",
-              "form": "tekst",
-              "text": "Kontrolna soba ima naslov, temperaturu, status i listu senzora. Kako biste organizovali DOM stablo i gde biste kasnije tražili konkretan senzor?",
-              "answer": "Semantičke grupe i identifikatori za važna mesta. Studenti treba da predlože stablo i objasne izbor pre prikazivanja gotovog rešenja."
             }
           ],
           "prompts": [
@@ -7270,8 +7264,9 @@
               "answer": "Zajednički model dokumenta i dogovoren skup operacija, odnosno API. Browseri smeju interno da budu različiti, ali moraju da izlažu usaglašeno ponašanje. Uvesti DOM i pojam standardizacije (DOM/HTML standardi), bez ulaska u istoriju standarda."
             },
             {
-              "prompt": "Zamislite da sami projektujete objekat za HTML `<article><h2>Naslov</h2><p>Tekst</p></article>`. Koja polja i operacije su neophodni? Zašto običan niz stringova nije dovoljan?",
-              "answer": "Potrebni su tip čvora, ime oznake kada je čvor element, roditelj, uređena deca, atributi i tekst. Niz stringova nema te veze, pa se od njega ne može složiti stablo niti premestiti deo. `Node` je svaki čvor stabla. `Element` je čvor koji predstavlja oznaku: svaki element je čvor, a tekstualni čvor nije element. `Document` je čvor koji drži celo stablo i nije element; preko njega se prave i traže elementi."
+              "prompt": "Zamislite da sami projektujete klase i objekate za pamćenje HTML-a . Zašto običan niz stringova nije dovoljan, i kako bi ste upamtili takvu strukturu?\n\n```html\n<article>\n   <!-- neki komentar -->\n   <h2>Naslov</h2>\n   <p>Tekst</p>\n   Drugi tekst\n</article>\n```\n",
+              "answer": "Potrebni je napraviti hijerarhuju tipa stablo, gde je čvora stable tip iz kog su izvedeni  tekst, komentar, atribut i element.\n\n`Node` je svaki čvor stabla. \n`Element` je čvor koji ima oznaku/tag, uglavnom početnu i krajnju, a između njih je sadrđaj. \n`Document` je čvor koji drži celo stablo i nije element; preko njega se prave i traže elementi.",
+              "promptAnalysis": "Dijagram:\n\n```mermaid\nflowchart TD\n    A[\"Element<br/>article\"]\n    B(\"#comment<br/>ovo je komentar\")\n    C[\"Element<br/>h2\"]\n    D[\"Element<br/>p\"]\n    E(\"#text<br/>Neki drugi tekst\")\n    F(\"#text<br/>Naslov\")\n    G(\"#text<br/>Tekst\")\n    H(\"Atribut<br/>class='subtle'\")\n\n    A --> B\n    A --> C\n    A --> D\n    A --> E\n    C --> F\n    D --> G\n    C -.-> H\n\n    classDef element fill:#2563eb,stroke:#1e40af,color:#ffffff,stroke-width:2px\n    classDef tekst fill:#16a34a,stroke:#166534,color:#ffffff,stroke-width:2px\n    classDef komentar fill:#d97706,stroke:#92400e,color:#ffffff,stroke-width:2px\n    classDef atribut fill:#9333ea,stroke:#6b21a8,color:#ffffff,stroke-width:2px\n\n    class A,C,D element\n    class E,F,G tekst\n    class B komentar\n    class H atribut\n```"
             },
             {
               "prompt": "Da li je tekst `Zdravo` u `<p>Zdravo <strong>svete</strong></p>` jedno svojstvo paragrafa ili postoji više čvorova? Nacrtajte stablo.",
@@ -7283,15 +7278,11 @@
             },
             {
               "prompt": "U HTML-u je obična `<script src=\"app.js\"></script>` pre naslova, a `app.js` odmah čita naslov. Šta bi moglo poći po zlu i koja tri pristupa rešavaju problem?",
-              "answer": "Element možda još nije parsiran pa pretraga vraća `null`. Rešenja: `defer`, `type=\"module\"` ili inicijalizacija po `DOMContentLoaded` (odnosno pravilno postavljanje skripte, uz razumevanje uslova)."
+              "answer": "HTML element možda još nije parsiran pa pretraga vraća `null`. Rešenja: `defer`, `type=\"module\"` ili inicijalizacija po `DOMContentLoaded` (odnosno pravilno postavljanje skripte, uz razumevanje uslova)."
             },
             {
               "prompt": "Da li je DOM isto što i ono što vidimo na ekranu? Kako biste dokazali da nisu isto, bez promene izvornog HTML-a?",
               "answer": "DOM predstavlja dokument, a vizuelni rezultat zavisi i od CSS-a, rasporeda i iscrtavanja. Sakriven element može postojati u DOM-u; tekst čvora može postojati bez vidljivog prikaza."
-            },
-            {
-              "prompt": "Kontrolna soba ima naslov, temperaturu, status i listu senzora. Kako biste organizovali DOM stablo i gde biste kasnije tražili konkretan senzor?",
-              "answer": "Semantičke grupe i identifikatori za važna mesta. Studenti treba da predlože stablo i objasne izbor pre prikazivanja gotovog rešenja."
             }
           ],
           "prompt": "Dva browsera treba da izvrše isti program koji menja naslov HTML stranice. Šta JavaScript mora da dobije od browsera da program ne zavisi od njegovog internog načina čuvanja dokumenta?",
@@ -7353,13 +7344,6 @@
           ],
           "discussion": [
             {
-              "id": "k17q1",
-              "kind": "pitanje",
-              "form": "tekst",
-              "text": "Na stranici postoje tri dugmeta „Obriši”. Kako bi ste korišćenjem JS dohvatili sva tri dugmeta, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
-              "answer": "Selektori prema ulozi/klasi uz ograničenje na roditelja, `querySelectorAll` ili pretraga unutar kartice. Jedinstveni ID-ovi korisni su za jedinstvene kontrole, ali nisu zamena za strukturisanu pretragu."
-            },
-            {
               "id": "k17q2",
               "kind": "pitanje",
               "form": "tekst",
@@ -7368,6 +7352,15 @@
               "analysis": "querySelector() vraća null kada nijedan element ne odgovara selektoru zato što funkcija treba da vrati jedan element, a takav element ne postoji.\n\nVažno je razlikovati tri situacije:\n- Element postoji: vraća se objekat koji predstavlja HTML element.\n- Element ne postoji: vraća se null, što jasno označava odsustvo objekta.\n- Selektor nije ispravan: baca se izuzetak (SyntaxError).\n",
               "extra": "Zašto baš null, a ne undefined?",
               "extraAnswer": "U JavaScript-u oba predstavljaju odsustvo vrednosti, ali imaju različito uobičajeno značenje:\n- undefined najčešće znači da vrednost nije dodeljena ili nije definisana.\n- null se koristi kada želimo eksplicitno da označimo da očekivani objekat ne postoji.\n\nKod querySelectorAll() situacija je drugačija. Funkcija uvek vraća kolekciju (NodeList), čak i kada ona nema nijedan element. Zato se kroz nju može bezbedno prolaziti:"
+            },
+            {
+              "id": "k17q1",
+              "kind": "pitanje",
+              "form": "tekst",
+              "text": "Na stranici postoje tri dugmeta „Obriši”. Kako bi ste korišćenjem JS dohvatili sva tri dugmeta, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
+              "answer": "Selektori prema ulozi/klasi uz ograničenje na roditelja, `querySelectorAll` ili pretraga unutar kartice. Jedinstveni ID-ovi korisni su za jedinstvene kontrole, ali nisu zamena za strukturisanu pretragu.",
+              "extra": "Koja pravila važe u selektoru?\n\n```javascript\ndocument.querySelector(\".article > button\")\n```",
+              "extraAnswer": "CSS pravila"
             },
             {
               "id": "k17q3",
@@ -7387,30 +7380,33 @@
               "extraAnswer": "Da. Razmak u CSS selektoru označava odnos pretka i potomka, bez obzira na broj nivoa ugnježđivanja. Za izbor isključivo direktnog deteta koristi se `.kartica > .aktivna`."
             },
             {
+              "id": "s4id8pqq1",
+              "kind": "pitanje",
+              "text": "Kako povezati HTML element sa podacima aplikacije?\nZamislite da pravite internet prodavnicu. Na stranici je prikazano više proizvoda, a svaki ima id, kategoriju, cenu i dugme „Kupi”. Kada korisnik klikne na dugme, JavaScript treba da zna koji proizvod je korisnik izabrao, kako bi ga dodao u korpu. Kako bi JavaScript mogao da utvrdi kom proizvodu pripada kliknuto dugme? Koja rešenja biste predložili?",
+              "form": "tekst",
+              "analysis": "data-* atributi su HTML atributi koji omogućavaju da elementu pridružimo sopstvene podatke, koji nisu deo standardnih HTML atributa. Prednost je što je pristup atributima olakšan:\n\n```јаvascript\nconst proizvod = document.querySelector(\".proizvod\");\n\n// Čitanje\nconsole.log(proizvod.dataset.id);         // \"42\"\nconsole.log(proizvod.dataset.kategorija); // \"knjige\"\n\n// Izmena\nproizvod.dataset.kategorija = \"udzbenici\";\n\n// Dodavanje novog atributa, vrednost je uvek string\nproizvod.dataset.cena = \"1500\";\n```",
+              "answer": "\n```html\n<article class=\"proizvod\" data-id=\"42\" data-kategorija=\"knjige\">\n  <h2>JavaScript vodič</h2>\n  <button data-action=\"kupi\">Kupi</button>\n</article>\n```",
+              "extra": "Kako uključiti data-* atribute u selektor?",
+              "extraAnswer": "Atributi se navode u uglastim zagradama. U slučaju data atributa, sintaksa je [data-Y=\"X\"]\n```javascript\nconst knjige = document.querySelectorAll('[data-kategorija=\"knjige\"]');\n```"
+            },
+            {
               "id": "k17q6",
               "kind": "pitanje",
               "form": "tekst",
               "text": "Da li je bolje koristiti vrlo specifičan selektor `main > section:nth-child(2) button` ili stabilnu klasu/data-atribut? Da li pravilo „što specifičnije, to bolje” važi uvek?",
               "answer": "Specifičnost nije isto što i robusnost. Birati dovoljno precizan selektor koji izražava nameru i odoleva promenama strukture HTML strane. \n\nU većini slučajeva bolje je koristiti stabilnu klasu ili data-* atribut, jer takav selektor manje zavisi od strukture HTML dokumenta.",
               "analysis": "```html\n<main>\n  <section>Uvod</section>\n  <section>\n    <button class=\"dugme-potvrdi\" data-action=\"confirm\">\n      Potvrdi\n    </button>\n  </section>\n</main>\n```\n\nIsti element možemo pronaći na više načina:\n\n```javascript\n// Zavisnost od HTML strukture\ndocument.querySelector(\"main > section:nth-child(2) button\");\n\n// Preko klase\ndocument.querySelector(\".dugme-potvrdi\");\n\n// Preko data atributa\ndocument.querySelector('[data-action=\"confirm\"]');\n```"
-            },
-            {
-              "id": "k17q7",
-              "kind": "pitanje",
-              "form": "tekst",
-              "text": "Kako bi program razlikovao temperaturu celog panela od vrednosti u svakoj kartici senzora, bez čitanja teksta sa ekrana?",
-              "answer": "Stabilni izbor ciljnog DOM elementa i povezivanje identiteta senzora preko `data-id` ili nadređenog čvora. Kasnije će vrednosti dolaziti iz modela stanja."
             }
           ],
           "prompts": [
             {
-              "prompt": "Na stranici postoje tri dugmeta „Obriši”. Kako bi ste korišćenjem JS dohvatili sva tri dugmeta, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
-              "answer": "Selektori prema ulozi/klasi uz ograničenje na roditelja, `querySelectorAll` ili pretraga unutar kartice. Jedinstveni ID-ovi korisni su za jedinstvene kontrole, ali nisu zamena za strukturisanu pretragu."
-            },
-            {
               "prompt": "Pravite dve funkcije za pronalaženje HTML elemenata. Prva pronalazi samo jedan element, a druga sve elemente koji odgovaraju zadatom selektoru.\n\nŠta bi svaka funkcija trebalo da vrati ako pronađe elemente, a šta ako ne pronađe nijedan? Da li bi bilo dobro da obe funkcije vrate null kada nema rezultata? Kako bi izbor povratne vrednosti uticao na kod koji koristi ove funkcije?",
               "answer": "Očekivani zaključak:\n-  **pronadjiJedan(selektor)** vraća prvi pronađeni element ili null.\n- **pronadjiSve(selektor)** vraća kolekciju elemenata ili praznu kolekciju.\n- **Prazna kolekcija** omogućava da bez dodatne provere prolazimo kroz rezultate, dok kod jednog elementa moramo proveriti da li postoji pre nego što mu pristupimo.\n\nUgrađene metode: document.querySelector() i document.querySelectorAll()",
               "promptAnalysis": "querySelector() vraća null kada nijedan element ne odgovara selektoru zato što funkcija treba da vrati jedan element, a takav element ne postoji.\n\nVažno je razlikovati tri situacije:\n- Element postoji: vraća se objekat koji predstavlja HTML element.\n- Element ne postoji: vraća se null, što jasno označava odsustvo objekta.\n- Selektor nije ispravan: baca se izuzetak (SyntaxError).\n"
+            },
+            {
+              "prompt": "Na stranici postoje tri dugmeta „Obriši”. Kako bi ste korišćenjem JS dohvatili sva tri dugmeta, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
+              "answer": "Selektori prema ulozi/klasi uz ograničenje na roditelja, `querySelectorAll` ili pretraga unutar kartice. Jedinstveni ID-ovi korisni su za jedinstvene kontrole, ali nisu zamena za strukturisanu pretragu."
             },
             {
               "prompt": "Predvidite ispis i objasnite redosled: Pretpostavite da je pre dodavanja postojao tačno jedan `li`.\n\n```javascript\nconst stavke = document.querySelectorAll(\"li\");\ndocument.querySelector(\"ul\").append(document.createElement(\"li\"));\nconsole.log(stavke.length);\nconsole.log(document.querySelectorAll(\"li\").length);\n```",
@@ -7422,20 +7418,22 @@
               "promptAnalysis": "Selektor pronalazi **element sa klasom `aktivna` koji je potomak elementa sa klasom `kartica`**. Ne mora biti direktno dete."
             },
             {
+              "prompt": "Kako povezati HTML element sa podacima aplikacije?\nZamislite da pravite internet prodavnicu. Na stranici je prikazano više proizvoda, a svaki ima id, kategoriju, cenu i dugme „Kupi”. Kada korisnik klikne na dugme, JavaScript treba da zna koji proizvod je korisnik izabrao, kako bi ga dodao u korpu. Kako bi JavaScript mogao da utvrdi kom proizvodu pripada kliknuto dugme? Koja rešenja biste predložili?",
+              "answer": "\n```html\n<article class=\"proizvod\" data-id=\"42\" data-kategorija=\"knjige\">\n  <h2>JavaScript vodič</h2>\n  <button data-action=\"kupi\">Kupi</button>\n</article>\n```",
+              "promptAnalysis": "data-* atributi su HTML atributi koji omogućavaju da elementu pridružimo sopstvene podatke, koji nisu deo standardnih HTML atributa. Prednost je što je pristup atributima olakšan:\n\n```јаvascript\nconst proizvod = document.querySelector(\".proizvod\");\n\n// Čitanje\nconsole.log(proizvod.dataset.id);         // \"42\"\nconsole.log(proizvod.dataset.kategorija); // \"knjige\"\n\n// Izmena\nproizvod.dataset.kategorija = \"udzbenici\";\n\n// Dodavanje novog atributa, vrednost je uvek string\nproizvod.dataset.cena = \"1500\";\n```"
+            },
+            {
               "prompt": "Da li je bolje koristiti vrlo specifičan selektor `main > section:nth-child(2) button` ili stabilnu klasu/data-atribut? Da li pravilo „što specifičnije, to bolje” važi uvek?",
               "answer": "Specifičnost nije isto što i robusnost. Birati dovoljno precizan selektor koji izražava nameru i odoleva promenama strukture HTML strane. \n\nU većini slučajeva bolje je koristiti stabilnu klasu ili data-* atribut, jer takav selektor manje zavisi od strukture HTML dokumenta.",
               "promptAnalysis": "```html\n<main>\n  <section>Uvod</section>\n  <section>\n    <button class=\"dugme-potvrdi\" data-action=\"confirm\">\n      Potvrdi\n    </button>\n  </section>\n</main>\n```\n\nIsti element možemo pronaći na više načina:\n\n```javascript\n// Zavisnost od HTML strukture\ndocument.querySelector(\"main > section:nth-child(2) button\");\n\n// Preko klase\ndocument.querySelector(\".dugme-potvrdi\");\n\n// Preko data atributa\ndocument.querySelector('[data-action=\"confirm\"]');\n```"
-            },
-            {
-              "prompt": "Kako bi program razlikovao temperaturu celog panela od vrednosti u svakoj kartici senzora, bez čitanja teksta sa ekrana?",
-              "answer": "Stabilni izbor ciljnog DOM elementa i povezivanje identiteta senzora preko `data-id` ili nadređenog čvora. Kasnije će vrednosti dolaziti iz modela stanja."
             }
           ],
-          "prompt": "Na stranici postoje tri dugmeta „Obriši”. Kako bi ste korišćenjem JS dohvatili sva tri dugmeta, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
+          "prompt": "Pravite dve funkcije za pronalaženje HTML elemenata. Prva pronalazi samo jedan element, a druga sve elemente koji odgovaraju zadatom selektoru.\n\nŠta bi svaka funkcija trebalo da vrati ako pronađe elemente, a šta ako ne pronađe nijedan? Da li bi bilo dobro da obe funkcije vrate null kada nema rezultata? Kako bi izbor povratne vrednosti uticao na kod koji koristi ove funkcije?",
           "path": "client/lekcije/17-selektori.js",
           "snippetTitle": "Pronalaženje elemenata",
           "snippetLanguage": "javascript",
-          "fragment": "// Pronalaženje elemenata\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Kontrolna soba\n// U `app.js` pronaći elemente za temperaturu, status, dugmad, formu i kontejner senzora. Elementima koji predstavljaju jedinstvene kontrole dati ID-jeve, a grupama zajedničke klase. Ispisati pronađene elemente u konzoli i proveriti njihove tipove i vrednosti.\n//\n// Provera: Ne postoji selektor koji se oslanja samo na poziciju elementa, npr. `div:nth-child(4)`, ako postoji stabilnije semantičko obeležje.\n\n// HTML\n/*\n<ul>\n  <li class=\"zadatak\">Napisati plan</li>\n  <li class=\"zadatak aktivan\">Proveriti kod</li>\n  <li class=\"zadatak\">Poslati izveštaj</li>\n</ul>\n*/\n\n// prvi\nconst prvi = document.querySelector(\".zadatak\");\nconst svi = document.querySelectorAll(\".zadatak\");\nconst aktivan = document.querySelector(\".zadatak.aktivan\");\n\nconsole.log(prvi.textContent);   // \"Napisati plan\"\nconsole.log(svi.length);         // 3\nconsole.log(aktivan.textContent);// \"Proveriti kod\"\n\n// kartica\nconst kartica = document.querySelector(\".kartica\");\nif (kartica) {\n  const dugme = kartica.querySelector(\"button\");\n}\n"
+          "fragment": "// Pronalaženje elemenata\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Kontrolna soba\n// U `app.js` pronaći elemente za temperaturu, status, dugmad, formu i kontejner senzora. Elementima koji predstavljaju jedinstvene kontrole dati ID-jeve, a grupama zajedničke klase. Ispisati pronađene elemente u konzoli i proveriti njihove tipove i vrednosti.\n//\n// Provera: Ne postoji selektor koji se oslanja samo na poziciju elementa, npr. `div:nth-child(4)`, ako postoji stabilnije semantičko obeležje.\n\n// HTML\n/*\n<ul>\n  <li class=\"zadatak\">Napisati plan</li>\n  <li class=\"zadatak aktivan\">Proveriti kod</li>\n  <li class=\"zadatak\">Poslati izveštaj</li>\n</ul>\n*/\n\n// prvi\nconst prvi = document.querySelector(\".zadatak\");\nconst svi = document.querySelectorAll(\".zadatak\");\nconst aktivan = document.querySelector(\".zadatak.aktivan\");\n\nconsole.log(prvi.textContent);   // \"Napisati plan\"\nconsole.log(svi.length);         // 3\nconsole.log(aktivan.textContent);// \"Proveriti kod\"\n\n// kartica\nconst kartica = document.querySelector(\".kartica\");\nif (kartica) {\n  const dugme = kartica.querySelector(\"button\");\n}\n",
+          "promptAnalysis": "querySelector() vraća null kada nijedan element ne odgovara selektoru zato što funkcija treba da vrati jedan element, a takav element ne postoji.\n\nVažno je razlikovati tri situacije:\n- Element postoji: vraća se objekat koji predstavlja HTML element.\n- Element ne postoji: vraća se null, što jasno označava odsustvo objekta.\n- Selektor nije ispravan: baca se izuzetak (SyntaxError).\n"
         },
         {
           "title": "Čitanje i menjanje sadržaja",
@@ -7478,11 +7476,21 @@
           ],
           "discussion": [
             {
+              "id": "scssvtsi0",
+              "kind": "pitanje",
+              "text": "Node sadrži svojstva za čitanje sadržaja, textContent. Da li on može da se koristi i za čitanje sadržaja elemenata?",
+              "form": "tekst",
+              "answer": "Ne.\n```html\n<div id=\"poruka\">\n  Zdravo, <strong>Marko</strong>!\n</div>\n```\n\n```javascript\nconst div = document.querySelector(\"#poruka\");\n\nconsole.log(div.textContent);\n// \"Zdravo, Marko!\" (uz razmake i prelome redova)\n\nconsole.log(div.innerHTML);\n// \"Zdravo, <strong>Marko</strong>!\"\n```\n\nconst x = el.innerHTML;\nconst y = el.textContent",
+              "analysis": "textContent čita samo tekst, i izbacuje ugnježdene HTML oznake."
+            },
+            {
               "id": "k18q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "Isti korisnički tekst treba prikazati u poruci, a deo teksta staviti podebljano. Da li je potrebno sve proslediti kao HTML string? Koje su alternative?",
-              "answer": "Običan tekst ide kroz `textContent`. Za semantičku strukturu napraviti `strong` i tekstualne čvorove. HTML parsiranje (`innerHTML`) je drugačija, zahtevnija operacija."
+              "text": "Za unos sa tastature se koristi element `input`. Na osnovu njegovog atributa type, može biti prikazan kao checkbox, text, broj, i sl. Kako se preuzima trenutna vrednost?\n\n```html\n<input id=\"ime\" type=\"text\" value=\"Marko\">\n<input id=\"godine\" type=\"number\" value=\"20\">\n<input id=\"saglasnost\" type=\"checkbox\" checked>\n```\n",
+              "answer": "Običan tekst ide kroz `textContent`. Za semantičku strukturu napraviti `strong` i tekstualne čvorove. HTML parsiranje (`innerHTML`) je drugačija, zahtevnija operacija.\n\n```javascript\nconst ime = document.querySelector(\"#ime\").value;\nconst godine = document.querySelector(\"#godine\").value;\nconst saglasnost = document.querySelector(\"#saglasnost\").checked;\n```",
+              "extra": "Šta bi se desilo da se koristi `innerHTML` ili `textContent` ?",
+              "extraAnswer": "Dobili bi prazan string jer input element nema sadržaj već samo početni tag."
             },
             {
               "id": "k18q2",
@@ -7492,76 +7500,38 @@
               "answer": "Atribut je deo obeležavanja; odgovarajuće DOM svojstvo može odražavati trenutno stanje koje je korisnik promenio. Za aktuelan unos koristiti `value`, ne očekivati da `getAttribute(\"value\")` nužno prati kucanje."
             },
             {
-              "id": "k18q3",
-              "kind": "pitanje",
-              "form": "tekst",
-              "text": "Korisnik u polje `ime` upiše `<b>Mila</b>`. Koja je razlika između:\n\n```javascript\nporuka.textContent = ime.value;\nporuka.innerHTML = ime.value;\n```",
-              "answer": "Prvi ispisuje znakove kao tekst. Drugi ih parsira kao HTML i može napraviti element `b`. Za nepouzdan unos `innerHTML` može da izvrši taj unos kao kod (XSS): podatak i oznaka nisu isti kanal."
-            },
-            {
-              "id": "k18q4",
-              "kind": "pitanje",
-              "form": "tekst",
-              "text": "Posle `input.value = \"42\"` pročitali smo `input.textContent`. Da li je to pouzdan način da dobijemo korisnikov unos?",
-              "answer": "Ne. `value` je vrednost kontrole, a `textContent` sadržaj tekstualnih čvorova. Za `input` se aktuelni unos čita preko `value`."
-            },
-            {
-              "id": "k18q5",
-              "kind": "pitanje",
-              "form": "tekst",
-              "text": "Ako biste želeli da promenite atribut `title`, tekst i čekirano stanje checkbox-a, da li biste definisali jednu univerzalnu operaciju `promeniTekst()`?",
-              "answer": "Različite osobine imaju različite namene i tipove. Primeri: `textContent`, `setAttribute`, `checked`. Jedan previše opšti metod zamagljuje semantiku."
-            },
-            {
               "id": "k18q6",
               "kind": "pitanje",
               "form": "tekst",
               "text": "Kada je `innerHTML` prihvatljiv? Šta biste morali da znate o poreklu sadržaja pre upotrebe?",
               "answer": "Samo uz pažljivo kontrolisan ili odgovarajuće sanitizovan HTML i razumevanje bezbednosnih zahteva. Za obične podatke preferirati DOM metode i `textContent`."
-            },
-            {
-              "id": "k18q7",
-              "kind": "pitanje",
-              "form": "tekst",
-              "text": "Korisnik unese naziv senzora koji sadrži `<script>` ili HTML oznake. Koji deo kontrolne sobe mora garantovati da naziv ostaje podatak?",
-              "answer": "Funkcija za prikaz pri upisu u DOM. Sanitizacija i provera podataka mogu imati dodatnu ulogu, ali bezbedan tekstualni prikaz rešava ovaj konkretan put unosa."
             }
           ],
           "prompts": [
             {
-              "prompt": "Isti korisnički tekst treba prikazati u poruci, a deo teksta staviti podebljano. Da li je potrebno sve proslediti kao HTML string? Koje su alternative?",
-              "answer": "Običan tekst ide kroz `textContent`. Za semantičku strukturu napraviti `strong` i tekstualne čvorove. HTML parsiranje (`innerHTML`) je drugačija, zahtevnija operacija."
+              "prompt": "Node sadrži svojstva za čitanje sadržaja, textContent. Da li on može da se koristi i za čitanje sadržaja elemenata?",
+              "answer": "Ne.\n```html\n<div id=\"poruka\">\n  Zdravo, <strong>Marko</strong>!\n</div>\n```\n\n```javascript\nconst div = document.querySelector(\"#poruka\");\n\nconsole.log(div.textContent);\n// \"Zdravo, Marko!\" (uz razmake i prelome redova)\n\nconsole.log(div.innerHTML);\n// \"Zdravo, <strong>Marko</strong>!\"\n```\n\nconst x = el.innerHTML;\nconst y = el.textContent",
+              "promptAnalysis": "textContent čita samo tekst, i izbacuje ugnježdene HTML oznake."
+            },
+            {
+              "prompt": "Za unos sa tastature se koristi element `input`. Na osnovu njegovog atributa type, može biti prikazan kao checkbox, text, broj, i sl. Kako se preuzima trenutna vrednost?\n\n```html\n<input id=\"ime\" type=\"text\" value=\"Marko\">\n<input id=\"godine\" type=\"number\" value=\"20\">\n<input id=\"saglasnost\" type=\"checkbox\" checked>\n```\n",
+              "answer": "Običan tekst ide kroz `textContent`. Za semantičku strukturu napraviti `strong` i tekstualne čvorove. HTML parsiranje (`innerHTML`) je drugačija, zahtevnija operacija.\n\n```javascript\nconst ime = document.querySelector(\"#ime\").value;\nconst godine = document.querySelector(\"#godine\").value;\nconst saglasnost = document.querySelector(\"#saglasnost\").checked;\n```"
             },
             {
               "prompt": "Koja je razlika između atributa napisanog u HTML-u i *trenutnog svojstva* DOM objekta? Šta to znači za `input.value`?",
               "answer": "Atribut je deo obeležavanja; odgovarajuće DOM svojstvo može odražavati trenutno stanje koje je korisnik promenio. Za aktuelan unos koristiti `value`, ne očekivati da `getAttribute(\"value\")` nužno prati kucanje."
             },
             {
-              "prompt": "Korisnik u polje `ime` upiše `<b>Mila</b>`. Koja je razlika između:\n\n```javascript\nporuka.textContent = ime.value;\nporuka.innerHTML = ime.value;\n```",
-              "answer": "Prvi ispisuje znakove kao tekst. Drugi ih parsira kao HTML i može napraviti element `b`. Za nepouzdan unos `innerHTML` može da izvrši taj unos kao kod (XSS): podatak i oznaka nisu isti kanal."
-            },
-            {
-              "prompt": "Posle `input.value = \"42\"` pročitali smo `input.textContent`. Da li je to pouzdan način da dobijemo korisnikov unos?",
-              "answer": "Ne. `value` je vrednost kontrole, a `textContent` sadržaj tekstualnih čvorova. Za `input` se aktuelni unos čita preko `value`."
-            },
-            {
-              "prompt": "Ako biste želeli da promenite atribut `title`, tekst i čekirano stanje checkbox-a, da li biste definisali jednu univerzalnu operaciju `promeniTekst()`?",
-              "answer": "Različite osobine imaju različite namene i tipove. Primeri: `textContent`, `setAttribute`, `checked`. Jedan previše opšti metod zamagljuje semantiku."
-            },
-            {
               "prompt": "Kada je `innerHTML` prihvatljiv? Šta biste morali da znate o poreklu sadržaja pre upotrebe?",
               "answer": "Samo uz pažljivo kontrolisan ili odgovarajuće sanitizovan HTML i razumevanje bezbednosnih zahteva. Za obične podatke preferirati DOM metode i `textContent`."
-            },
-            {
-              "prompt": "Korisnik unese naziv senzora koji sadrži `<script>` ili HTML oznake. Koji deo kontrolne sobe mora garantovati da naziv ostaje podatak?",
-              "answer": "Funkcija za prikaz pri upisu u DOM. Sanitizacija i provera podataka mogu imati dodatnu ulogu, ali bezbedan tekstualni prikaz rešava ovaj konkretan put unosa."
             }
           ],
-          "prompt": "Isti korisnički tekst treba prikazati u poruci, a deo teksta staviti podebljano. Da li je potrebno sve proslediti kao HTML string? Koje su alternative?",
+          "prompt": "Node sadrži svojstva za čitanje sadržaja, textContent. Da li on može da se koristi i za čitanje sadržaja elemenata?",
           "path": "client/lekcije/18-sadrzaj.js",
           "snippetTitle": "Čitanje i menjanje sadržaja",
           "snippetLanguage": "javascript",
-          "fragment": "// Čitanje i menjanje sadržaja\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Kontrolna soba\n// Privremeno promeniti broj temperature i status uređaja pomoću `textContent`. Pročitati vrednost ciljne temperature iz `<input type=\"number\">` pomoću `value`, ali je još ne povezivati sa modelom stanja. Uočiti da osvežavanje stranice vraća početni prikaz.\n//\n// Provera: Vrednost se prikazuje kao tekst, bez potrebe za `innerHTML`.\n\n// HTML\n/*\n<input id=\"ime\" value=\"Ana\">\n<p id=\"pozdrav\"></p>\n*/\n\n// ime\nconst ime = document.querySelector(\"#ime\");\nconst pozdrav = document.querySelector(\"#pozdrav\");\n\npozdrav.textContent = `Zdravo, ${ime.value}!`;\n"
+          "fragment": "// Čitanje i menjanje sadržaja\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Kontrolna soba\n// Privremeno promeniti broj temperature i status uređaja pomoću `textContent`. Pročitati vrednost ciljne temperature iz `<input type=\"number\">` pomoću `value`, ali je još ne povezivati sa modelom stanja. Uočiti da osvežavanje stranice vraća početni prikaz.\n//\n// Provera: Vrednost se prikazuje kao tekst, bez potrebe za `innerHTML`.\n\n// HTML\n/*\n<input id=\"ime\" value=\"Ana\">\n<p id=\"pozdrav\"></p>\n*/\n\n// ime\nconst ime = document.querySelector(\"#ime\");\nconst pozdrav = document.querySelector(\"#pozdrav\");\n\npozdrav.textContent = `Zdravo, ${ime.value}!`;\n",
+          "promptAnalysis": "textContent čita samo tekst, i izbacuje ugnježdene HTML oznake."
         },
         {
           "title": "CSS klase i vizuelna stanja",
@@ -7635,8 +7605,9 @@
               "id": "k19q3",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "Da li bi svaka kartica trebalo da ima zasebno pravilo `#kartica17`, ili su opšte klase `.kartica`, `.kartica--alarm` korisnije? Kada ipak poseban stil ima smisla?",
-              "answer": "Opšta pravila smanjuju ponavljanje i omogućavaju konzistentnost; specifične varijante uvoditi kada razlika ima semantičko opravdanje. Izbegavati i ekstremno opšta pravila koja slučajno utiču na nepovezane elemente."
+              "text": "Kada element trebalo da ima zasebno pravilo `#kartica17`, a kad opšte klase `.kartica`, `.kartica--alarm` ? Kada ipak poseban stil ima smisla?",
+              "answer": "Opšta pravila smanjuju ponavljanje i omogućavaju konzistentnost; specifične varijante uvoditi kada razlika ima semantičko opravdanje. Izbegavati i ekstremno opšta pravila koja slučajno utiču na nepovezane elemente.",
+              "analysis": "Čak i kada imamo jedinstven element na strani, uglavnom je jedinstvena klasa opet bolji izbor. "
             },
             {
               "id": "k19q4",
@@ -7658,13 +7629,6 @@
               "form": "tekst",
               "text": "JS stavlja `.alarm`, CSS podešava `color: red`, ali drugi selektor ipak nadjačava boju. Da li je logika stanja pogrešna? Šta prvo proveriti?",
               "answer": "Moguće je da je stanje ispravno, a problem u kaskadi/specifičnosti CSS-a. Paneli Computed i Styles u dev alatima pomažu da se razdvoje DOM stanje i konačni izgled."
-            },
-            {
-              "id": "k19q7",
-              "kind": "pitanje",
-              "form": "tekst",
-              "text": "Kako bi kontrolna soba saopštila alarm i korisniku koji ne razlikuje boje?",
-              "answer": "Kombinovati klasu sa tekstom ili ikonom i semantičkom porukom. Boja nikada ne treba da bude jedini nosač informacije."
             }
           ],
           "prompts": [
@@ -7677,8 +7641,9 @@
               "answer": "Pravila ne stoje u kopiji na svakom elementu. CSSOM (objektni model stilova) je stablo pravila, odvojeno od DOM stabla. Selektor kaže na koje elemente se pravilo primenjuje, a browser iz toga računa konačni stil. Inline `element.style` su deklaracije na jednom elementu, ne sva pravila i ne nužno konačni stil."
             },
             {
-              "prompt": "Da li bi svaka kartica trebalo da ima zasebno pravilo `#kartica17`, ili su opšte klase `.kartica`, `.kartica--alarm` korisnije? Kada ipak poseban stil ima smisla?",
-              "answer": "Opšta pravila smanjuju ponavljanje i omogućavaju konzistentnost; specifične varijante uvoditi kada razlika ima semantičko opravdanje. Izbegavati i ekstremno opšta pravila koja slučajno utiču na nepovezane elemente."
+              "prompt": "Kada element trebalo da ima zasebno pravilo `#kartica17`, a kad opšte klase `.kartica`, `.kartica--alarm` ? Kada ipak poseban stil ima smisla?",
+              "answer": "Opšta pravila smanjuju ponavljanje i omogućavaju konzistentnost; specifične varijante uvoditi kada razlika ima semantičko opravdanje. Izbegavati i ekstremno opšta pravila koja slučajno utiču na nepovezane elemente.",
+              "promptAnalysis": "Čak i kada imamo jedinstven element na strani, uglavnom je jedinstvena klasa opet bolji izbor. "
             },
             {
               "prompt": "Šta se ispisuje?\n\n```html\n<div id=\"uredjaj\" data-id=\"42\"></div>\n```\n\n```javascript\nconst el = document.querySelector(\"#uredjaj\");\nconsole.log(el.dataset.id === 42);\nconsole.log(el.dataset.id === \"42\");\n```",
@@ -7691,10 +7656,6 @@
             {
               "prompt": "JS stavlja `.alarm`, CSS podešava `color: red`, ali drugi selektor ipak nadjačava boju. Da li je logika stanja pogrešna? Šta prvo proveriti?",
               "answer": "Moguće je da je stanje ispravno, a problem u kaskadi/specifičnosti CSS-a. Paneli Computed i Styles u dev alatima pomažu da se razdvoje DOM stanje i konačni izgled."
-            },
-            {
-              "prompt": "Kako bi kontrolna soba saopštila alarm i korisniku koji ne razlikuje boje?",
-              "answer": "Kombinovati klasu sa tekstom ili ikonom i semantičkom porukom. Boja nikada ne treba da bude jedini nosač informacije."
             }
           ],
           "prompt": "Semafor ima stanja „normalno”, „upozorenje”, „alarm”. Kako biste ga predstavili u JS-u, a kako biste definisali boje i izgled bez uslovljavanja svakog pojedinačnog CSS svojstva?",
@@ -7767,7 +7728,9 @@
               "kind": "pitanje",
               "form": "tekst",
               "text": "Posle `const li = document.createElement(\"li\")` student očekuje novu stavku na stranici. Šta mu nedostaje u mentalnom modelu?",
-              "answer": "Novi čvor postoji kao objekat, ali nije povezan sa vidljivim dokumentom. Potrebno je dodavanje u stablo."
+              "answer": "Novi čvor postoji kao objekat, ali nije povezan sa vidljivim dokumentom. Potrebno je dodavanje u stablo.",
+              "extra": "Šta će se desiti ako se novokreirani list item doda `div` elementu?",
+              "extraAnswer": "Neće doći do greške, ali će HTML biti neispravan.  `li` elementi se mogu dodavati jedino `ul` i `ol` elementima (unordered i ordered list)"
             },
             {
               "id": "k20q3",
@@ -7781,28 +7744,8 @@
               "kind": "pitanje",
               "form": "tekst",
               "text": "Da li biste pravili zaseban `li` preko `createElement` za svaki zapis, ili sastavili HTML string i dodelili `innerHTML`? Koji kriterijumi odlučuju?",
-              "answer": "Poreklo podataka, bezbednost, čitljivost i potrebe za ponovnim korišćenjem čvorova. Za nepouzdan tekst DOM metode su sigurniji podrazumevani izbor."
-            },
-            {
-              "id": "k20q5",
-              "kind": "pitanje",
-              "form": "tekst",
-              "text": "Zašto `lista.replaceChildren(...novi)` može biti jednostavnije od pojedinačnog ažuriranja, ali problematično kada korisnik upravo piše u polju unutar liste?",
-              "answer": "Zamena uklanja stare čvorove i uvodi nove; može izgubiti fokus, selekciju ili stanje kontrola i direktne listenere na zamenjenim čvorovima."
-            },
-            {
-              "id": "k20q6",
-              "kind": "pitanje",
-              "form": "tekst",
-              "text": "Ako treba dodati 500 elemenata, šta je prvo razumno uraditi: optimizovati unapred ili izmeriti problem? Kakvu ulogu može imati `DocumentFragment`?",
-              "answer": "Najpre jasan, ispravan kod, pa merenje. `DocumentFragment` je čvor koji nije element i nije na stranici: u njega se skupe drugi čvorovi, pa se jednim ubacivanjem prebace u dokument. To samo po sebi ne znači da će svaki browser ubrzati svako dodavanje."
-            },
-            {
-              "id": "k20q7",
-              "kind": "pitanje",
-              "form": "tekst",
-              "text": "Na panelu su tri senzora, korisnik ukloni jedan. Šta *za sada* znači uklanjanje DOM kartice, a šta će se promeniti kada uvedemo model stanja u 10. koraku?",
-              "answer": "Sada fizički uklanjamo element; kasnije prvo menjamo niz senzora u stanju i ponovo prikazujemo, kako se senzor ne bi vratio."
+              "answer": "Poreklo podataka, bezbednost, čitljivost i potrebe za ponovnim korišćenjem čvorova. Za nepouzdan tekst DOM metode su sigurniji podrazumevani izbor.\n",
+              "analysis": "\nResenje 1 (createElement): \n\n```javascript\nconst ul = document.querySelector(\"#korisnici\");\n\nfor (const ime of korisnici) {\n  const li = document.createElement(\"li\");\n  li.textContent = ime;\n  ul.appendChild(li);\n}\n```\nLako dodajemo addEventListener\n\n\nResenje 2 (innerHTML):\n\n```javascript \nconst ul = document.querySelector(\"#korisnici\");\n\nul.innerHTML = korisnici\n  .map(ime => `<li>${ime}</li>`)\n  .join(\"\");\n\n```\n\nRizik od XSS-a sa neproverenim podacima, može biti efikasan za zamenu većeg dela sadržaja odjednom"
             }
           ],
           "prompts": [
@@ -7820,19 +7763,8 @@
             },
             {
               "prompt": "Da li biste pravili zaseban `li` preko `createElement` za svaki zapis, ili sastavili HTML string i dodelili `innerHTML`? Koji kriterijumi odlučuju?",
-              "answer": "Poreklo podataka, bezbednost, čitljivost i potrebe za ponovnim korišćenjem čvorova. Za nepouzdan tekst DOM metode su sigurniji podrazumevani izbor."
-            },
-            {
-              "prompt": "Zašto `lista.replaceChildren(...novi)` može biti jednostavnije od pojedinačnog ažuriranja, ali problematično kada korisnik upravo piše u polju unutar liste?",
-              "answer": "Zamena uklanja stare čvorove i uvodi nove; može izgubiti fokus, selekciju ili stanje kontrola i direktne listenere na zamenjenim čvorovima."
-            },
-            {
-              "prompt": "Ako treba dodati 500 elemenata, šta je prvo razumno uraditi: optimizovati unapred ili izmeriti problem? Kakvu ulogu može imati `DocumentFragment`?",
-              "answer": "Najpre jasan, ispravan kod, pa merenje. `DocumentFragment` je čvor koji nije element i nije na stranici: u njega se skupe drugi čvorovi, pa se jednim ubacivanjem prebace u dokument. To samo po sebi ne znači da će svaki browser ubrzati svako dodavanje."
-            },
-            {
-              "prompt": "Na panelu su tri senzora, korisnik ukloni jedan. Šta *za sada* znači uklanjanje DOM kartice, a šta će se promeniti kada uvedemo model stanja u 10. koraku?",
-              "answer": "Sada fizički uklanjamo element; kasnije prvo menjamo niz senzora u stanju i ponovo prikazujemo, kako se senzor ne bi vratio."
+              "answer": "Poreklo podataka, bezbednost, čitljivost i potrebe za ponovnim korišćenjem čvorova. Za nepouzdan tekst DOM metode su sigurniji podrazumevani izbor.\n",
+              "promptAnalysis": "\nResenje 1 (createElement): \n\n```javascript\nconst ul = document.querySelector(\"#korisnici\");\n\nfor (const ime of korisnici) {\n  const li = document.createElement(\"li\");\n  li.textContent = ime;\n  ul.appendChild(li);\n}\n```\nLako dodajemo addEventListener\n\n\nResenje 2 (innerHTML):\n\n```javascript \nconst ul = document.querySelector(\"#korisnici\");\n\nul.innerHTML = korisnici\n  .map(ime => `<li>${ime}</li>`)\n  .join(\"\");\n\n```\n\nRizik od XSS-a sa neproverenim podacima, može biti efikasan za zamenu većeg dela sadržaja odjednom"
             }
           ],
           "prompt": "Stigao je novi podatak o senzoru, a u početnom HTML-u nema kartice za njega. Koje su minimalne operacije nad DOM stablom potrebne?",
@@ -7907,7 +7839,9 @@
               "kind": "pitanje",
               "form": "tekst",
               "text": "Da li su sledeća dva zapisa uvek ekvivalentna?\n\n```javascript\ndugme.addEventListener(\"click\", obradi);\ndugme.addEventListener(\"click\", () => obradi());\n```",
-              "answer": "Oba odlažu poziv do događaja, ali nisu potpuno ista: prvi prosleđuje objekat događaja i poziva `obradi` kao listener; drugi eksplicitno poziva `obradi()` bez argumenta i kroz novu funkciju. To može promeniti ponašanje i uklanjanje listenera."
+              "answer": "Oba odlažu poziv do događaja, ali nisu potpuno ista: prvi prosleđuje objekat događaja i poziva `obradi` kao listener; drugi eksplicitno poziva `obradi()` bez argumenta i kroz novu funkciju. To može promeniti ponašanje i uklanjanje listenera.\n\nU drugom slučaju ne postoji `this` ",
+              "extra": "Kada je drugi oblik koristan?",
+              "extraAnswer": "Kada želimo da prosledimo dodatne argumente:\n\n```javascript\ndugme.addEventListener(\"click\", () => obradi(42));\n```\n\nIli kada želimo dodatnu logiku:\n\n```javascript\ndugme.addEventListener(\"click\", (event) => {\n  event.preventDefault();\n  obradi(42);\n});\n```"
             },
             {
               "id": "k21q5",
@@ -7922,13 +7856,6 @@
               "form": "tekst",
               "text": "Kada je razumljiviji imenovani handler, a kada kratka arrow funkcija? Koja varijanta olakšava testiranje i uklanjanje listenera?",
               "answer": "Zavisi od složenosti i životnog veka listenera. Imenovane funkcije često bolje dokumentuju nameru i olakšavaju uklanjanje, kratke anonimne su zgodne za jednostavno povezivanje."
-            },
-            {
-              "id": "k21q7",
-              "kind": "pitanje",
-              "form": "tekst",
-              "text": "Kontrolna soba ima `+`, `−` i prekidač. Da li svaki handler treba da zna kako se menja HTML temperature? Koji problem to stvara kada dodamo drugi prikaz istog podatka?",
-              "answer": "Za sada je dozvoljen jednostavan direktan upis, ali time nastaje dupliranje. To postaje motivacija za stanje i `render` u 10–12. koraku."
             }
           ],
           "prompts": [
@@ -7946,7 +7873,7 @@
             },
             {
               "prompt": "Da li su sledeća dva zapisa uvek ekvivalentna?\n\n```javascript\ndugme.addEventListener(\"click\", obradi);\ndugme.addEventListener(\"click\", () => obradi());\n```",
-              "answer": "Oba odlažu poziv do događaja, ali nisu potpuno ista: prvi prosleđuje objekat događaja i poziva `obradi` kao listener; drugi eksplicitno poziva `obradi()` bez argumenta i kroz novu funkciju. To može promeniti ponašanje i uklanjanje listenera."
+              "answer": "Oba odlažu poziv do događaja, ali nisu potpuno ista: prvi prosleđuje objekat događaja i poziva `obradi` kao listener; drugi eksplicitno poziva `obradi()` bez argumenta i kroz novu funkciju. To može promeniti ponašanje i uklanjanje listenera.\n\nU drugom slučaju ne postoji `this` "
             },
             {
               "prompt": "Inicijalizaciona funkcija se pozove tri puta, a svaki put napravi novu arrow funkciju za isti klik. Da li jedan klik može da izvrši istu operaciju više puta?",
@@ -7955,10 +7882,6 @@
             {
               "prompt": "Kada je razumljiviji imenovani handler, a kada kratka arrow funkcija? Koja varijanta olakšava testiranje i uklanjanje listenera?",
               "answer": "Zavisi od složenosti i životnog veka listenera. Imenovane funkcije često bolje dokumentuju nameru i olakšavaju uklanjanje, kratke anonimne su zgodne za jednostavno povezivanje."
-            },
-            {
-              "prompt": "Kontrolna soba ima `+`, `−` i prekidač. Da li svaki handler treba da zna kako se menja HTML temperature? Koji problem to stvara kada dodamo drugi prikaz istog podatka?",
-              "answer": "Za sada je dozvoljen jednostavan direktan upis, ali time nastaje dupliranje. To postaje motivacija za stanje i `render` u 10–12. koraku."
             }
           ],
           "prompt": "HTML i JS se mogu učitati nezavisno. Kako JavaScript saznaje da je korisnik kliknuo dugme, a da ne proverava u beskonačnoj petlji „da li je kliknuto”?",
@@ -8149,8 +8072,9 @@
               "id": "k23q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "U listi ima 300 poruka, a nove stižu bez osvežavanja stranice. Kako biste povezali dugmad „Obriši” bez ponovne registracije stotina listenera nakon svake izmene?",
-              "answer": "Delegiranje sa jednim listenerom na stabilnom pretku, uz prepoznavanje konkretnog dugmeta i pripadajućeg zapisa."
+              "text": "U listi ima 300 poruka, a nove stižu bez osvežavanja stranice. Kako biste povezali dugmad „Obriši” bez ponovne registracije stotina listenera nakon svake izmene?\n\n```html\n<ul id=\"poruke\">\n  <li data-id=\"101\">\n    Prva poruka\n    <button data-action=\"obrisi\">Obriši</button>\n  </li>\n  <li data-id=\"102\">\n    Druga poruka\n    <button data-action=\"obrisi\">Obriši</button>\n  </li>\n</ul>\n```",
+              "answer": "Koristili bismo delegiranje događaja (event delegation). Umesto da registrujemo po jedan click listener na svakom dugmetu „Obriši”, registrovali bismo jedan listener na roditeljskom elementu liste.\n\nTo je moguće zato što se događaj click propagira od elementa na kome je nastao ka njegovim precima (event bubbling).",
+              "analysis": "\n```javascript\nconst lista = document.querySelector(\"#poruke\");\n\nlista.addEventListener(\"click\", (event) => {\n  // Pronađi dugme na koje je kliknuto\n  const dugme = event.target.closest('[data-action=\"obrisi\"]');\n\n  if (!dugme || !lista.contains(dugme)) return;\n\n  // Pronađi poruku kojoj dugme pripada\n  const poruka = dugme.closest(\"li\");\n\n  console.log(\"Brišem poruku:\", poruka.dataset.id);\n  poruka.remove();\n});\n\n```"
             },
             {
               "id": "k23q2",
@@ -8197,8 +8121,9 @@
           ],
           "prompts": [
             {
-              "prompt": "U listi ima 300 poruka, a nove stižu bez osvežavanja stranice. Kako biste povezali dugmad „Obriši” bez ponovne registracije stotina listenera nakon svake izmene?",
-              "answer": "Delegiranje sa jednim listenerom na stabilnom pretku, uz prepoznavanje konkretnog dugmeta i pripadajućeg zapisa."
+              "prompt": "U listi ima 300 poruka, a nove stižu bez osvežavanja stranice. Kako biste povezali dugmad „Obriši” bez ponovne registracije stotina listenera nakon svake izmene?\n\n```html\n<ul id=\"poruke\">\n  <li data-id=\"101\">\n    Prva poruka\n    <button data-action=\"obrisi\">Obriši</button>\n  </li>\n  <li data-id=\"102\">\n    Druga poruka\n    <button data-action=\"obrisi\">Obriši</button>\n  </li>\n</ul>\n```",
+              "answer": "Koristili bismo delegiranje događaja (event delegation). Umesto da registrujemo po jedan click listener na svakom dugmetu „Obriši”, registrovali bismo jedan listener na roditeljskom elementu liste.\n\nTo je moguće zato što se događaj click propagira od elementa na kome je nastao ka njegovim precima (event bubbling).",
+              "promptAnalysis": "\n```javascript\nconst lista = document.querySelector(\"#poruke\");\n\nlista.addEventListener(\"click\", (event) => {\n  // Pronađi dugme na koje je kliknuto\n  const dugme = event.target.closest('[data-action=\"obrisi\"]');\n\n  if (!dugme || !lista.contains(dugme)) return;\n\n  // Pronađi poruku kojoj dugme pripada\n  const poruka = dugme.closest(\"li\");\n\n  console.log(\"Brišem poruku:\", poruka.dataset.id);\n  poruka.remove();\n});\n\n```"
             },
             {
               "prompt": "Kojim podacima treba obeležiti dugme, a kojim karticu? Predložite mali HTML sa `data-action` i `data-id`.",
@@ -8225,11 +8150,12 @@
               "answer": "Na stabilnom kontejneru, preko propagacije događaja od dugmeta ka precima."
             }
           ],
-          "prompt": "U listi ima 300 poruka, a nove stižu bez osvežavanja stranice. Kako biste povezali dugmad „Obriši” bez ponovne registracije stotina listenera nakon svake izmene?",
+          "prompt": "U listi ima 300 poruka, a nove stižu bez osvežavanja stranice. Kako biste povezali dugmad „Obriši” bez ponovne registracije stotina listenera nakon svake izmene?\n\n```html\n<ul id=\"poruke\">\n  <li data-id=\"101\">\n    Prva poruka\n    <button data-action=\"obrisi\">Obriši</button>\n  </li>\n  <li data-id=\"102\">\n    Druga poruka\n    <button data-action=\"obrisi\">Obriši</button>\n  </li>\n</ul>\n```",
           "path": "client/lekcije/23-delegiranje.js",
           "snippetTitle": "Delegiranje događaja",
           "snippetLanguage": "javascript",
-          "fragment": "// Delegiranje događaja\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Kontrolna soba\n// Svakoj kartici senzora dodati dugme „Ukloni” i `data-id`. Na roditeljskom kontejneru registrovati jedan listener. Klikom ukloniti odgovarajuću karticu. Testirati i sa senzorom koji je dodat naknadno.\n//\n// Provera: Novi senzor ne zahteva nov listener; klik na tekst ili ikonicu unutar dugmeta radi isto.\n\n// HTML\n/*\n<ul id=\"stavke\">\n  <li data-id=\"a1\">Prva <button type=\"button\" data-action=\"obrisi\">Obriši</button></li>\n  <li data-id=\"a2\">Druga <button type=\"button\" data-action=\"obrisi\">Obriši</button></li>\n</ul>\n*/\n\n// lista\nconst lista = document.querySelector(\"#stavke\");\n\nlista.addEventListener(\"click\", (event) => {\n  if (!(event.target instanceof Element)) return;\n  const dugme = event.target.closest(\"button[data-action='obrisi']\");\n  if (!dugme || !lista.contains(dugme)) return;\n\n  const stavka = dugme.closest(\"li[data-id]\");\n  if (!stavka) return;\n  console.log(\"Brisanje stavke\", stavka.dataset.id);\n});\n"
+          "fragment": "// Delegiranje događaja\n// Nezavisni primeri ovog koraka. Odeljak označen komentarom pokazuje kod koji ne treba pokretati kao deo fajla.\n\n// Kontrolna soba\n// Svakoj kartici senzora dodati dugme „Ukloni” i `data-id`. Na roditeljskom kontejneru registrovati jedan listener. Klikom ukloniti odgovarajuću karticu. Testirati i sa senzorom koji je dodat naknadno.\n//\n// Provera: Novi senzor ne zahteva nov listener; klik na tekst ili ikonicu unutar dugmeta radi isto.\n\n// HTML\n/*\n<ul id=\"stavke\">\n  <li data-id=\"a1\">Prva <button type=\"button\" data-action=\"obrisi\">Obriši</button></li>\n  <li data-id=\"a2\">Druga <button type=\"button\" data-action=\"obrisi\">Obriši</button></li>\n</ul>\n*/\n\n// lista\nconst lista = document.querySelector(\"#stavke\");\n\nlista.addEventListener(\"click\", (event) => {\n  if (!(event.target instanceof Element)) return;\n  const dugme = event.target.closest(\"button[data-action='obrisi']\");\n  if (!dugme || !lista.contains(dugme)) return;\n\n  const stavka = dugme.closest(\"li[data-id]\");\n  if (!stavka) return;\n  console.log(\"Brisanje stavke\", stavka.dataset.id);\n});\n",
+          "promptAnalysis": "\n```javascript\nconst lista = document.querySelector(\"#poruke\");\n\nlista.addEventListener(\"click\", (event) => {\n  // Pronađi dugme na koje je kliknuto\n  const dugme = event.target.closest('[data-action=\"obrisi\"]');\n\n  if (!dugme || !lista.contains(dugme)) return;\n\n  // Pronađi poruku kojoj dugme pripada\n  const poruka = dugme.closest(\"li\");\n\n  console.log(\"Brišem poruku:\", poruka.dataset.id);\n  poruka.remove();\n});\n\n```"
         },
         {
           "title": "Formulari, unos i podrazumevane radnje",
@@ -9327,13 +9253,6 @@
               "answer": "Ne. Potrebno je razlikovati prijem/obradu podataka od učestalosti ažuriranja ekrana. To uvodi grupisanje vizuelnih promena."
             },
             {
-              "id": "k32q2",
-              "kind": "pitanje",
-              "form": "tekst",
-              "text": "Kako biste predstavili činjenicu „render već zakazan” da deset brzih događaja ne zakaže deset renderovanja?",
-              "answer": "Jedan boolean ili sličan indikator, poziv `requestAnimationFrame` i resetovanje indikatora tokom callback-a."
-            },
-            {
               "id": "k32q3",
               "kind": "pitanje",
               "form": "tekst",
@@ -9373,10 +9292,6 @@
             {
               "prompt": "Senzor šalje 100 vrednosti u sekundi, a korisnik može da vidi samo trenutno stanje. Da li moramo da promenimo DOM 100 puta svake sekunde?",
               "answer": "Ne. Potrebno je razlikovati prijem/obradu podataka od učestalosti ažuriranja ekrana. To uvodi grupisanje vizuelnih promena."
-            },
-            {
-              "prompt": "Kako biste predstavili činjenicu „render već zakazan” da deset brzih događaja ne zakaže deset renderovanja?",
-              "answer": "Jedan boolean ili sličan indikator, poziv `requestAnimationFrame` i resetovanje indikatora tokom callback-a."
             },
             {
               "prompt": "U kratkom nizu pozovemo `novoOcitavanje(20)`, `novoOcitavanje(21)`, `novoOcitavanje(22)`; svaki poziv postavi `state.vrednost` i zatraži isti zakazani render. Šta prikaz treba da pokaže kada callback stigne?",
