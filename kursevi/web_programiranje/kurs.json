@@ -7356,15 +7356,18 @@
               "id": "k17q1",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "2.1. Na stranici postoje tri dugmeta „Obriši”. Kako biste dohvatili *sva*, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
+              "text": "2.1. Na stranici postoje tri dugmeta „Obriši”. Kako bi ste korišćenjem JS dohvatili sva tri dugmeta, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
               "answer": "Selektori prema ulozi/klasi uz ograničenje na roditelja, `querySelectorAll` ili pretraga unutar kartice. Jedinstveni ID-ovi korisni su za jedinstvene kontrole, ali nisu zamena za strukturisanu pretragu."
             },
             {
               "id": "k17q2",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "2.2. Zamislite `pronadjiJedan(selektor)` i `pronadjiSve(selektor)`. Koje povratne vrednosti treba da imaju kada nema poklapanja? Zašto nije zgodno da oba vrate istu vrstu rezultata?",
-              "answer": "Jedan element ili `null`; kolekcija ili prazna kolekcija. Uvesti `querySelector` i `querySelectorAll`, uz posledice za proveru grešaka."
+              "text": "2.2. Pravite dve funkcije za pronalaženje HTML elemenata. Prva pronalazi samo jedan element, a druga sve elemente koji odgovaraju zadatom selektoru.\n\nŠta bi svaka funkcija trebalo da vrati ako pronađe elemente, a šta ako ne pronađe nijedan? Da li bi bilo dobro da obe funkcije vrate null kada nema rezultata? Kako bi izbor povratne vrednosti uticao na kod koji koristi ove funkcije?",
+              "answer": "Očekivani zaključak:\n-  **pronadjiJedan(selektor)** vraća prvi pronađeni element ili null.\n- pronadjiSve(selektor) vraća kolekciju elemenata ili praznu kolekciju.\n- Prazna kolekcija omogućava da bez dodatne provere prolazimo kroz rezultate, dok kod jednog elementa moramo proveriti da li postoji pre nego što mu pristupimo.\nUvesti: document.querySelector() i document.querySelectorAll(), uz objašnjenje razlike između null i prazne kolekcije (NodeList).",
+              "analysis": "querySelector() vraća null kada nijedan element ne odgovara selektoru zato što funkcija treba da vrati jedan element, a takav element ne postoji.\n\nVažno je razlikovati tri situacije:\n- Element postoji: vraća se objekat koji predstavlja HTML element.\n- Element ne postoji: vraća se null, što jasno označava odsustvo objekta.\n- Selektor nije ispravan: baca se izuzetak (SyntaxError).\n",
+              "extra": "Zašto baš null, a ne undefined?",
+              "extraAnswer": "U JavaScript-u oba predstavljaju odsustvo vrednosti, ali imaju različito uobičajeno značenje:\n- undefined najčešće znači da vrednost nije dodeljena ili nije definisana.\n- null se koristi kada želimo eksplicitno da označimo da očekivani objekat ne postoji.\n\nKod querySelectorAll() situacija je drugačija. Funkcija uvek vraća kolekciju (NodeList), čak i kada ona nema nijedan element. Zato se kroz nju može bezbedno prolaziti:"
             },
             {
               "id": "k17q3",
@@ -7404,12 +7407,13 @@
           ],
           "prompts": [
             {
-              "prompt": "2.1. Na stranici postoje tri dugmeta „Obriši”. Kako biste dohvatili *sva*, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
+              "prompt": "2.1. Na stranici postoje tri dugmeta „Obriši”. Kako bi ste korišćenjem JS dohvatili sva tri dugmeta, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
               "answer": "Selektori prema ulozi/klasi uz ograničenje na roditelja, `querySelectorAll` ili pretraga unutar kartice. Jedinstveni ID-ovi korisni su za jedinstvene kontrole, ali nisu zamena za strukturisanu pretragu."
             },
             {
-              "prompt": "2.2. Zamislite `pronadjiJedan(selektor)` i `pronadjiSve(selektor)`. Koje povratne vrednosti treba da imaju kada nema poklapanja? Zašto nije zgodno da oba vrate istu vrstu rezultata?",
-              "answer": "Jedan element ili `null`; kolekcija ili prazna kolekcija. Uvesti `querySelector` i `querySelectorAll`, uz posledice za proveru grešaka."
+              "prompt": "2.2. Pravite dve funkcije za pronalaženje HTML elemenata. Prva pronalazi samo jedan element, a druga sve elemente koji odgovaraju zadatom selektoru.\n\nŠta bi svaka funkcija trebalo da vrati ako pronađe elemente, a šta ako ne pronađe nijedan? Da li bi bilo dobro da obe funkcije vrate null kada nema rezultata? Kako bi izbor povratne vrednosti uticao na kod koji koristi ove funkcije?",
+              "answer": "Očekivani zaključak:\n-  **pronadjiJedan(selektor)** vraća prvi pronađeni element ili null.\n- pronadjiSve(selektor) vraća kolekciju elemenata ili praznu kolekciju.\n- Prazna kolekcija omogućava da bez dodatne provere prolazimo kroz rezultate, dok kod jednog elementa moramo proveriti da li postoji pre nego što mu pristupimo.\nUvesti: document.querySelector() i document.querySelectorAll(), uz objašnjenje razlike između null i prazne kolekcije (NodeList).",
+              "promptAnalysis": "querySelector() vraća null kada nijedan element ne odgovara selektoru zato što funkcija treba da vrati jedan element, a takav element ne postoji.\n\nVažno je razlikovati tri situacije:\n- Element postoji: vraća se objekat koji predstavlja HTML element.\n- Element ne postoji: vraća se null, što jasno označava odsustvo objekta.\n- Selektor nije ispravan: baca se izuzetak (SyntaxError).\n"
             },
             {
               "prompt": "2.3. Predvidite ispis i objasnite redosled: Pretpostavite da je pre dodavanja postojao tačno jedan `li`.\n\n```javascript\nconst stavke = document.querySelectorAll(\"li\");\ndocument.querySelector(\"ul\").append(document.createElement(\"li\"));\nconsole.log(stavke.length);\nconsole.log(document.querySelectorAll(\"li\").length);\n```",
@@ -7432,7 +7436,7 @@
               "answer": "Stabilni izbor ciljnog DOM elementa i povezivanje identiteta senzora preko `data-id` ili nadređenog čvora. Kasnije će vrednosti dolaziti iz modela stanja."
             }
           ],
-          "prompt": "2.1. Na stranici postoje tri dugmeta „Obriši”. Kako biste dohvatili *sva*, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
+          "prompt": "2.1. Na stranici postoje tri dugmeta „Obriši”. Kako bi ste korišćenjem JS dohvatili sva tri dugmeta, a kako konkretno dugme unutar odabrane kartice? Da li bi svako dugme trebalo da ima zaseban ID?",
           "path": "client/lekcije/17-selektori.js",
           "snippetTitle": "Pronalaženje elemenata",
           "snippetLanguage": "javascript",

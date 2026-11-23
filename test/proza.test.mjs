@@ -50,6 +50,35 @@ test("nezatvoren naglasak ostaje tekst", () => {
   assert.deepEqual(deloviReda("**samo"), [{ tekst: "**samo" }]);
 });
 
+test("spisak uz uvodnu rečenicu ne ostaje u pasusu", () => {
+  const tekst = [
+    "Važno je razlikovati tri situacije:",
+    "- Element postoji: vraća se objekat.",
+    "- Element ne postoji: vraća se null.",
+    "Uvesti: document.querySelector().",
+  ].join("\n");
+  const blokovi = blokoviProze(tekst);
+  assert.equal(blokovi[0].vrsta, "pasus");
+  assert.equal(blokovi[0].delovi[0].tekst, "Važno je razlikovati tri situacije:");
+  assert.equal(blokovi[1].vrsta, "lista");
+  assert.deepEqual(blokovi[1].stavke.map((stavka) => stavka[0].tekst), [
+    "Element postoji: vraća se objekat.",
+    "Element ne postoji: vraća se null.",
+  ]);
+  assert.equal(blokovi[2].vrsta, "pasus");
+  assert.equal(blokovi[2].delovi[0].tekst, "Uvesti: document.querySelector().");
+});
+
+test("podebljano u stavci spiska ostaje naglasak", () => {
+  const tekst = [
+    "Očekivani zaključak:",
+    "-  **pronadjiJedan(selektor)** vraća element ili null.",
+  ].join("\n");
+  const blokovi = blokoviProze(tekst);
+  assert.equal(blokovi[1].vrsta, "lista");
+  assert.deepEqual(blokovi[1].stavke[0][0], { tekst: "pronadjiJedan(selektor)", jako: true });
+});
+
 test("numerisani spisak i tabela ostaju posebni blokovi", () => {
   const tekst = [
     "1. URL određuje resurs.",

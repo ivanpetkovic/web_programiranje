@@ -56,27 +56,65 @@ function razdelnikTabele(linija) {
   return /^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$/.test(linija.trim());
 }
 
+const STAVKA = /^-\s+\S/;
+const BROJ = /^\d+\.\s+\S/;
+
+function listaOdLinija(linije, vrsta) {
+  const skini = vrsta === "lista" ? /^-\s+/ : /^\d+\.\s+/;
+  return {
+    vrsta,
+    stavke: linije.map((linija) => deloviReda(linija.trim().replace(skini, ""))),
+  };
+}
+
+function vrstaLinije(linija) {
+  const tekst = linija.trim();
+  if (STAVKA.test(tekst)) return "lista";
+  if (BROJ.test(tekst)) return "brojna";
+  return "pasus";
+}
+
+function podeliMesovito(linije) {
+  const blokovi = [];
+  let vrsta = null;
+  let grupa = [];
+  const zatvori = () => {
+    if (!grupa.length) return;
+    blokovi.push(vrsta === "pasus" ? { vrsta: "pasus", delovi: deloviReda(grupa.join("\n")) } : listaOdLinija(grupa, vrsta));
+    grupa = [];
+  };
+  for (const linija of linije) {
+    const sledeca = vrstaLinije(linija);
+    if (vrsta && sledeca !== vrsta) zatvori();
+    vrsta = sledeca;
+    grupa.push(linija);
+  }
+  zatvori();
+  return blokovi;
+}
+
 export function blokoviProze(tekst) {
   const izvor = String(tekst ?? "");
   if (!izvor.trim()) return [{ vrsta: "pasus", delovi: [{ tekst: izvor }] }];
-  return izvor.split(/\n{2,}/).map((komad) => {
+  const blokovi = [];
+  for (const komad of izvor.split(/\n{2,}/)) {
     const linije = komad.split(/\n/).map((linija) => linija.trimEnd()).filter((linija) => linija.trim() !== "");
-    if (linije.length === 0) return { vrsta: "pasus", delovi: [{ tekst: "" }] };
+    if (linije.length === 0) {
+      blokovi.push({ vrsta: "pasus", delovi: [{ tekst: "" }] });
+      continue;
+    }
     const naslov = linije.length === 1 ? /^(#{1,6})\s+(\S.*)$/.exec(linije[0].trim()) : null;
     if (naslov) {
-      return { vrsta: "naslov", nivo: naslov[1].length, delovi: deloviReda(naslov[2].trim()) };
+      blokovi.push({ vrsta: "naslov", nivo: naslov[1].length, delovi: deloviReda(naslov[2].trim()) });
+      continue;
     }
-    if (linije.every((linija) => /^-\s+\S/.test(linija.trim()))) {
-      return {
-        vrsta: "lista",
-        stavke: linije.map((linija) => deloviReda(linija.trim().replace(/^-\s+/, ""))),
-      };
+    if (linije.every((linija) => STAVKA.test(linija.trim()))) {
+      blokovi.push(listaOdLinija(linije, "lista"));
+      continue;
     }
-    if (linije.every((linija) => /^\d+\.\s+\S/.test(linija.trim()))) {
-      return {
-        vrsta: "brojna",
-        stavke: linije.map((linija) => deloviReda(linija.trim().replace(/^\d+\.\s+/, ""))),
-      };
+    if (linije.every((linija) => BROJ.test(linija.trim()))) {
+      blokovi.push(listaOdLinija(linije, "brojna"));
+      continue;
     }
     const bezRazdelnika = linije.filter((linija) => !razdelnikTabele(linija));
     const tabela = bezRazdelnika.map(celijeTabele);
@@ -84,12 +122,15 @@ export function blokoviProze(tekst) {
       tabela.length >= 2
       && tabela.every((red) => red && red.length === tabela[0].length)
     ) {
-      return {
+      blokovi.push({
         vrsta: "tabela",
         zaglavlje: tabela[0].map((celija) => deloviReda(celija)),
         redovi: tabela.slice(1).map((red) => red.map((celija) => deloviReda(celija))),
-      };
+      });
+      continue;
     }
-    return { vrsta: "pasus", delovi: deloviReda(linije.join("\n")) };
-  });
+    if (linije.some((linija) => vrstaLinije(linija) !== "pasus")) blokovi.push(...podeliMesovito(linije));
+    else blokovi.push({ vrsta: "pasus", delovi: deloviReda(linije.join("\n")) });
+  }
+  return blokovi;
 }
