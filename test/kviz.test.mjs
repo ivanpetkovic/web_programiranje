@@ -32,7 +32,8 @@ test("oznaka obavezno i rezerva ne ulazi u tekst kviza", () => {
     assert.equal(/\[(?:OBAVEZNO|REZERVA)\]/i.test(pitanje.tekst), false, `${pitanje.id}: ${pitanje.tekst}`);
   }
   const prvo = sve.find((pitanje) => pitanje.id === "postojece-6-0-0");
-  assert.equal(prvo.tekst, "1.1. Zašto nije dovoljno da sav kod aplikacije izvršava browser?");
+  assert.equal(prvo.tekst, "Zašto nije dovoljno da sav kod aplikacije izvršava browser?");
+  assert.equal(prvo.oznaka, "(1/1)");
 });
 
 test("ABC i ispravka ulaze u ocenu, otvoreno pitanje ne", () => {

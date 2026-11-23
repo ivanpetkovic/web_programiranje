@@ -328,7 +328,7 @@ function staniNaPitanjeDiskusije() {
   for (let i = 0; i < 120; i += 1) {
     const tekst = document.querySelector("#kviz .kviz-tekst")?.innerText || "";
     if (oznaka.test(document.querySelector("#kviz")?.innerText || "")) return { greska: tekst };
-    if (tekst.startsWith("1.1. Zašto nije dovoljno")) return { tekst };
+    if (tekst.includes("Zašto nije dovoljno da sav kod aplikacije izvršava browser")) return { tekst };
     const dalje = [...document.querySelectorAll("#kviz button")].find((dugme) => dugme.textContent === "Dalje");
     if (!dalje) return { kraj: tekst };
     dalje.click();
@@ -371,14 +371,17 @@ test("kviz teme 6 skida oznaku obavezno iz teksta pitanja", { timeout: 60000 }, 
   await strana.vrednost(`(${kreni.toString()})()`);
   const nadjeno = await strana.vrednost(`(${staniNaPitanjeDiskusije.toString()})()`);
   assert.equal(nadjeno.greska, undefined, nadjeno.greska);
-  assert.equal(nadjeno.tekst, "1.1. Zašto nije dovoljno da sav kod aplikacije izvršava browser?");
+  assert.equal(nadjeno.tekst, "(1/1) Zašto nije dovoljno da sav kod aplikacije izvršava browser?");
   await pauza(80);
   const slika = await strana.posalji("Page.captureScreenshot", { format: "png" });
   writeFileSync(`${snimci}/kviz-bez-oznake.png`, Buffer.from(slika.data, "base64"));
   await strana.vrednost(`document.querySelector("#kviz .kviz-zatvori")?.click()`);
   const diskusija = await strana.vrednost(`document.querySelector("#sekcija-diskusija")?.innerText || ""`);
   assert.equal(/\[(?:OBAVEZNO|REZERVA)\]/i.test(diskusija), false);
-  assert.match(diskusija, /1\.3\. Da li činjenica da frontend i backend/);
+  assert.match(diskusija, /\(1\/1\)\s+Zašto nije dovoljno da sav kod aplikacije izvršava browser\?/);
+  assert.match(diskusija, /\(1\/3\)\s+Da li činjenica da frontend i backend/);
+  assert.equal(diskusija.includes("1.1."), false);
+  assert.equal(diskusija.includes("1.3."), false);
   const slikaDiskusije = await strana.posalji("Page.captureScreenshot", { format: "png" });
   writeFileSync(`${snimci}/diskusija-bez-oznake.png`, Buffer.from(slikaDiskusije.data, "base64"));
 });

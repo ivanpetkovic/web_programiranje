@@ -61,8 +61,8 @@ test("izmena pitanja ostaje posle reload-a kad kvačica kaže sačuvano", { time
     })`);
     tekstovi = stanje.tekstovi;
     odgovori = stanje.odgovori;
-    if (tekstovi.includes(marker)) break;
+    if (tekstovi.some((tekst) => tekst.includes(marker))) break;
   }
-  assert.ok(tekstovi.includes(marker), tekstovi.join(" | "));
+  assert.ok(tekstovi.some((tekst) => tekst.includes(marker)), tekstovi.join(" | "));
   assert.ok(odgovori.some((odgovor) => odgovor.includes("ODGOVOR-POSLE-RELOADA-2743")));
 });

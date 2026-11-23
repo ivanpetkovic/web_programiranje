@@ -226,6 +226,13 @@ test("pitanje koje počinje upitom vraća svoj korak", () => {
   assert.equal(pitanje.tema, 1);
   assert.equal(pitanje.korak, 0);
   assert.equal(pitanje.tekst, "Šta browser učitava?");
+  assert.equal(pitanje.oznaka, "(1/1)");
+  const saBrojem = {
+    teme: [{ steps: [{ diskusija: [{ vrsta: "pitanje", tekst: "2.4. Zašto nam?" }], tekst: "", kljucnaIdeja: "" }] }],
+  };
+  const skinuto = predlozi(saBrojem, [], "Zašto").find((stavka) => stavka.vrsta === "pitanje");
+  assert.equal(skinuto.tekst, "Zašto nam?");
+  assert.equal(skinuto.oznaka, "(1/1)");
   const primer = predlozi(kurs, [{ ime: "Kutija", definicija: "Server.", izbegava: "" }], "client").find((stavka) => stavka.vrsta === "primer");
   assert.equal(primer.korak, 0);
   const pojam = predlozi(kurs, [{ ime: "Kutija", definicija: "Server.", izbegava: "Ventilator." }], "Kut").find((stavka) => stavka.vrsta === "pojam");

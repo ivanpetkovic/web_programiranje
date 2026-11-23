@@ -1,4 +1,5 @@
 import { mermaidFigura } from "./figura.js";
+import { bezRucneNumeracije } from "./pitanje-broj.js";
 import { dodatakPrikaza, httpKoraka, imeFajla, komandaKoraka } from "./prilog.js";
 
 export {
@@ -246,7 +247,8 @@ export function uskladiDiskusiju(korak) {
   if (prica?.tekst) korak.prica = prica.tekst;
   else delete korak.prica;
   const pitanja = korak.diskusija.filter((blok) => blok.vrsta === "pitanje").map((blok) => {
-    const pitanje = { pitalica: blok.tekst || "" };
+    blok.tekst = bezRucneNumeracije(blok.tekst || "");
+    const pitanje = { pitalica: blok.tekst };
     if (blok.oblik === "izbor" && Array.isArray(blok.opcije)) pitanje.opcije = blok.opcije;
     else if (blok.odgovor) pitanje.odgovor = blok.odgovor;
     if (blok.analiza) pitanje.analizaPitalice = blok.analiza;

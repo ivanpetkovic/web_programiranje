@@ -1,4 +1,5 @@
 import { uEngleski } from "./kljucevi-kursa.js";
+import { oznakaPitanja } from "./pitanje-broj.js";
 import { dodajOpciju, oznaciOdgovor, ukloniOpciju } from "./studio.js";
 import { ikonica } from "./ikonice.js";
 
@@ -505,27 +506,25 @@ function objasniPut(red, dokument) {
   const mesto = [];
   if (tema) mesto.push(`Tema ${tema}`);
   if (korak) mesto.push(`korak ${korak}`);
-  if (blokBroj) mesto.push(oznakaBloka(lista, blok, blokBroj));
+  if (blokBroj) mesto.push(oznakaBloka(lista, blok, blokBroj, korak));
   mesto.push(...medju);
   return sastaviPoruku(mesto, polje, cvor, razlog);
 }
 
-function oznakaBloka(lista, blok, broj) {
+function oznakaBloka(lista, blok, broj, korak) {
   if (blok?.vrsta === "pitanje") {
-    const oznaka = brojPitanja(lista, blok);
+    const oznaka = brojPitanja(lista, blok, korak);
     return oznaka ? `pitanje ${oznaka}` : `pitanje ${broj}`;
   }
   if (blok?.vrsta) return VRSTA_BLOKA[blok.vrsta] || blok.vrsta;
   return `blok ${broj}`;
 }
 
-function brojPitanja(lista, blok) {
-  const tekst = String(blok?.tekst || "").trim();
-  const izTeksta = tekst.match(/^(\d+(?:\.\d+)*)(?=\.|\s|$)/);
-  if (izTeksta) return izTeksta[1];
+function brojPitanja(lista, blok, korak) {
   if (!Array.isArray(lista)) return "";
   const redni = lista.filter((stavka) => stavka?.vrsta === "pitanje").indexOf(blok);
-  return redni >= 0 ? String(redni + 1) : "";
+  if (redni < 0) return "";
+  return oznakaPitanja(korak, redni + 1);
 }
 
 function oznakaStavke(kljuc, n, stavka) {
