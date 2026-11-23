@@ -7364,7 +7364,7 @@
               "kind": "pitanje",
               "form": "tekst",
               "text": "2.2. Pravite dve funkcije za pronalaženje HTML elemenata. Prva pronalazi samo jedan element, a druga sve elemente koji odgovaraju zadatom selektoru.\n\nŠta bi svaka funkcija trebalo da vrati ako pronađe elemente, a šta ako ne pronađe nijedan? Da li bi bilo dobro da obe funkcije vrate null kada nema rezultata? Kako bi izbor povratne vrednosti uticao na kod koji koristi ove funkcije?",
-              "answer": "Očekivani zaključak:\n-  **pronadjiJedan(selektor)** vraća prvi pronađeni element ili null.\n- pronadjiSve(selektor) vraća kolekciju elemenata ili praznu kolekciju.\n- Prazna kolekcija omogućava da bez dodatne provere prolazimo kroz rezultate, dok kod jednog elementa moramo proveriti da li postoji pre nego što mu pristupimo.\nUvesti: document.querySelector() i document.querySelectorAll(), uz objašnjenje razlike između null i prazne kolekcije (NodeList).",
+              "answer": "Očekivani zaključak:\n-  **pronadjiJedan(selektor)** vraća prvi pronađeni element ili null.\n- **pronadjiSve(selektor)** vraća kolekciju elemenata ili praznu kolekciju.\n- **Prazna kolekcija** omogućava da bez dodatne provere prolazimo kroz rezultate, dok kod jednog elementa moramo proveriti da li postoji pre nego što mu pristupimo.\n\nUgrađene metode: document.querySelector() i document.querySelectorAll()",
               "analysis": "querySelector() vraća null kada nijedan element ne odgovara selektoru zato što funkcija treba da vrati jedan element, a takav element ne postoji.\n\nVažno je razlikovati tri situacije:\n- Element postoji: vraća se objekat koji predstavlja HTML element.\n- Element ne postoji: vraća se null, što jasno označava odsustvo objekta.\n- Selektor nije ispravan: baca se izuzetak (SyntaxError).\n",
               "extra": "Zašto baš null, a ne undefined?",
               "extraAnswer": "U JavaScript-u oba predstavljaju odsustvo vrednosti, ali imaju različito uobičajeno značenje:\n- undefined najčešće znači da vrednost nije dodeljena ili nije definisana.\n- null se koristi kada želimo eksplicitno da označimo da očekivani objekat ne postoji.\n\nKod querySelectorAll() situacija je drugačija. Funkcija uvek vraća kolekciju (NodeList), čak i kada ona nema nijedan element. Zato se kroz nju može bezbedno prolaziti:"
@@ -7380,28 +7380,25 @@
               "id": "k17q4",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "2.4. Koja je razlika između `.kartica.aktivna` i `.kartica .aktivna`? Nacrtajte po jedan HTML koji odgovara prvom i drugom selektoru.",
-              "answer": "Prvi zahteva *isti* element sa obe klase, drugi element klase `aktivna` unutar pretka klase `kartica`. Razlika između konjunkcije selektora i odnosa predak–potomak."
-            },
-            {
-              "id": "k17q5",
-              "kind": "pitanje",
-              "form": "tekst",
-              "text": "2.5. Program prijavljuje `Cannot read properties of null (reading 'textContent')`. Navedite najmanje tri različita uzroka i kako biste svaki proverili.",
-              "answer": "Pogrešan selektor, element još nije parsiran, element se nalazi u drugom kontekstu ili je uklonjen. Najpre logovati rezultat pretrage i proveriti DOM u Elements panelu."
+              "text": "2.4. Koja je razlika između selektora \"`.kartica.aktivna`\" i \"`.kartica .aktivna`\"? ",
+              "answer": "Prvi zahteva *isti* element sa obe klase, drugi element klase `aktivna` unutar pretka klase `kartica`. Razlika između konjunkcije selektora i odnosa predak–potomak.\n\n**Primer 1: `.kartica.aktivna`**\n\n```html\n<div class=\"kartica aktivna\">\n  Aktivna kartica\n</div>\n```\n\nSelektor pronalazi **jedan element koji istovremeno ima obe klase**, `kartica` i `aktivna`.\n\n**Primer 2: `.kartica .aktivna`**\n\n```html\n<div class=\"kartica\">\n  <span class=\"aktivna\">Aktivna stavka</span>\n</div>\n```\n",
+              "analysis": "Selektor pronalazi **element sa klasom `aktivna` koji je potomak elementa sa klasom `kartica`**. Ne mora biti direktno dete.",
+              "extra": "Da li bi drugi selektor pronašao element `span` ako se između njega i elementa `div` nalazi još jedan HTML element?",
+              "extraAnswer": "Da. Razmak u CSS selektoru označava odnos pretka i potomka, bez obzira na broj nivoa ugnježđivanja. Za izbor isključivo direktnog deteta koristi se `.kartica > .aktivna`."
             },
             {
               "id": "k17q6",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "2.6. Da li je bolje koristiti vrlo specifičan selektor `main > section:nth-child(2) button` ili stabilnu klasu/data-atribut? Da li pravilo „što specifičnije, to bolje” važi uvek?",
-              "answer": "Specifičnost nije isto što i robusnost. Birati dovoljno precizan selektor koji izražava nameru i odoleva promenama rasporeda. Nema univerzalnog maksimuma specifičnosti."
+              "text": "2.5. Da li je bolje koristiti vrlo specifičan selektor `main > section:nth-child(2) button` ili stabilnu klasu/data-atribut? Da li pravilo „što specifičnije, to bolje” važi uvek?",
+              "answer": "Specifičnost nije isto što i robusnost. Birati dovoljno precizan selektor koji izražava nameru i odoleva promenama strukture HTML strane. \n\nU većini slučajeva bolje je koristiti stabilnu klasu ili data-* atribut, jer takav selektor manje zavisi od strukture HTML dokumenta.",
+              "analysis": "```html\n<main>\n  <section>Uvod</section>\n  <section>\n    <button class=\"dugme-potvrdi\" data-action=\"confirm\">\n      Potvrdi\n    </button>\n  </section>\n</main>\n```\n\nIsti element možemo pronaći na više načina:\n\n```javascript\n// Zavisnost od HTML strukture\ndocument.querySelector(\"main > section:nth-child(2) button\");\n\n// Preko klase\ndocument.querySelector(\".dugme-potvrdi\");\n\n// Preko data atributa\ndocument.querySelector('[data-action=\"confirm\"]');\n```"
             },
             {
               "id": "k17q7",
               "kind": "pitanje",
               "form": "tekst",
-              "text": "2.7. Kako bi program razlikovao temperaturu celog panela od vrednosti u svakoj kartici senzora, bez čitanja teksta sa ekrana?",
+              "text": "2.6. Kako bi program razlikovao temperaturu celog panela od vrednosti u svakoj kartici senzora, bez čitanja teksta sa ekrana?",
               "answer": "Stabilni izbor ciljnog DOM elementa i povezivanje identiteta senzora preko `data-id` ili nadređenog čvora. Kasnije će vrednosti dolaziti iz modela stanja."
             }
           ],
@@ -7412,7 +7409,7 @@
             },
             {
               "prompt": "2.2. Pravite dve funkcije za pronalaženje HTML elemenata. Prva pronalazi samo jedan element, a druga sve elemente koji odgovaraju zadatom selektoru.\n\nŠta bi svaka funkcija trebalo da vrati ako pronađe elemente, a šta ako ne pronađe nijedan? Da li bi bilo dobro da obe funkcije vrate null kada nema rezultata? Kako bi izbor povratne vrednosti uticao na kod koji koristi ove funkcije?",
-              "answer": "Očekivani zaključak:\n-  **pronadjiJedan(selektor)** vraća prvi pronađeni element ili null.\n- pronadjiSve(selektor) vraća kolekciju elemenata ili praznu kolekciju.\n- Prazna kolekcija omogućava da bez dodatne provere prolazimo kroz rezultate, dok kod jednog elementa moramo proveriti da li postoji pre nego što mu pristupimo.\nUvesti: document.querySelector() i document.querySelectorAll(), uz objašnjenje razlike između null i prazne kolekcije (NodeList).",
+              "answer": "Očekivani zaključak:\n-  **pronadjiJedan(selektor)** vraća prvi pronađeni element ili null.\n- **pronadjiSve(selektor)** vraća kolekciju elemenata ili praznu kolekciju.\n- **Prazna kolekcija** omogućava da bez dodatne provere prolazimo kroz rezultate, dok kod jednog elementa moramo proveriti da li postoji pre nego što mu pristupimo.\n\nUgrađene metode: document.querySelector() i document.querySelectorAll()",
               "promptAnalysis": "querySelector() vraća null kada nijedan element ne odgovara selektoru zato što funkcija treba da vrati jedan element, a takav element ne postoji.\n\nVažno je razlikovati tri situacije:\n- Element postoji: vraća se objekat koji predstavlja HTML element.\n- Element ne postoji: vraća se null, što jasno označava odsustvo objekta.\n- Selektor nije ispravan: baca se izuzetak (SyntaxError).\n"
             },
             {
@@ -7420,19 +7417,17 @@
               "answer": "`1`, zatim `2`. `querySelectorAll()` vraća `NodeList`, listu čvorova snimljenu u trenutku poziva. Ta lista se ne dopunjava. Novi poziv pravi novu listu i vidi 2."
             },
             {
-              "prompt": "2.4. Koja je razlika između `.kartica.aktivna` i `.kartica .aktivna`? Nacrtajte po jedan HTML koji odgovara prvom i drugom selektoru.",
-              "answer": "Prvi zahteva *isti* element sa obe klase, drugi element klase `aktivna` unutar pretka klase `kartica`. Razlika između konjunkcije selektora i odnosa predak–potomak."
+              "prompt": "2.4. Koja je razlika između selektora \"`.kartica.aktivna`\" i \"`.kartica .aktivna`\"? ",
+              "answer": "Prvi zahteva *isti* element sa obe klase, drugi element klase `aktivna` unutar pretka klase `kartica`. Razlika između konjunkcije selektora i odnosa predak–potomak.\n\n**Primer 1: `.kartica.aktivna`**\n\n```html\n<div class=\"kartica aktivna\">\n  Aktivna kartica\n</div>\n```\n\nSelektor pronalazi **jedan element koji istovremeno ima obe klase**, `kartica` i `aktivna`.\n\n**Primer 2: `.kartica .aktivna`**\n\n```html\n<div class=\"kartica\">\n  <span class=\"aktivna\">Aktivna stavka</span>\n</div>\n```\n",
+              "promptAnalysis": "Selektor pronalazi **element sa klasom `aktivna` koji je potomak elementa sa klasom `kartica`**. Ne mora biti direktno dete."
             },
             {
-              "prompt": "2.5. Program prijavljuje `Cannot read properties of null (reading 'textContent')`. Navedite najmanje tri različita uzroka i kako biste svaki proverili.",
-              "answer": "Pogrešan selektor, element još nije parsiran, element se nalazi u drugom kontekstu ili je uklonjen. Najpre logovati rezultat pretrage i proveriti DOM u Elements panelu."
+              "prompt": "2.5. Da li je bolje koristiti vrlo specifičan selektor `main > section:nth-child(2) button` ili stabilnu klasu/data-atribut? Da li pravilo „što specifičnije, to bolje” važi uvek?",
+              "answer": "Specifičnost nije isto što i robusnost. Birati dovoljno precizan selektor koji izražava nameru i odoleva promenama strukture HTML strane. \n\nU većini slučajeva bolje je koristiti stabilnu klasu ili data-* atribut, jer takav selektor manje zavisi od strukture HTML dokumenta.",
+              "promptAnalysis": "```html\n<main>\n  <section>Uvod</section>\n  <section>\n    <button class=\"dugme-potvrdi\" data-action=\"confirm\">\n      Potvrdi\n    </button>\n  </section>\n</main>\n```\n\nIsti element možemo pronaći na više načina:\n\n```javascript\n// Zavisnost od HTML strukture\ndocument.querySelector(\"main > section:nth-child(2) button\");\n\n// Preko klase\ndocument.querySelector(\".dugme-potvrdi\");\n\n// Preko data atributa\ndocument.querySelector('[data-action=\"confirm\"]');\n```"
             },
             {
-              "prompt": "2.6. Da li je bolje koristiti vrlo specifičan selektor `main > section:nth-child(2) button` ili stabilnu klasu/data-atribut? Da li pravilo „što specifičnije, to bolje” važi uvek?",
-              "answer": "Specifičnost nije isto što i robusnost. Birati dovoljno precizan selektor koji izražava nameru i odoleva promenama rasporeda. Nema univerzalnog maksimuma specifičnosti."
-            },
-            {
-              "prompt": "2.7. Kako bi program razlikovao temperaturu celog panela od vrednosti u svakoj kartici senzora, bez čitanja teksta sa ekrana?",
+              "prompt": "2.6. Kako bi program razlikovao temperaturu celog panela od vrednosti u svakoj kartici senzora, bez čitanja teksta sa ekrana?",
               "answer": "Stabilni izbor ciljnog DOM elementa i povezivanje identiteta senzora preko `data-id` ili nadređenog čvora. Kasnije će vrednosti dolaziti iz modela stanja."
             }
           ],
