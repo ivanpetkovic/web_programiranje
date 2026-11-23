@@ -59,7 +59,10 @@ test("svg iz mermaida ostaje crtež, skripta ne prolazi", () => {
 
 test("čas i studio crtaju vendored mermaid iz bloka u prozi", () => {
   assert.match(main, /cvoroviProze\(blok\.tekst, dijagrami\)/);
-  assert.match(main, /prikazMermaida\(blok, dijagrami\)/);
+  assert.match(main, /cvoroviSaOgradama\(odgovor, dijagrami\)/);
+  assert.match(main, /cvoroviSaOgradama\(blok\.analiza, dijagrami\)/);
+  assert.match(main, /jezik === "mermaid"/);
+  assert.match(main, /prikazMermaida\(blok, dijagrami, crtez\)/);
   assert.match(main, /nacrtajMermaid\(omot, izvor\)/);
   assert.match(main, /osveziMermaid\(\)/);
   assert.match(strana, /poljeSaDijagramom\("Tekst"/);

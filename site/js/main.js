@@ -1196,7 +1196,7 @@ function cvorDelova(delovi) {
   return frag;
 }
 
-function cvoroviSaOgradama(tekst) {
+function cvoroviSaOgradama(tekst, dijagrami = []) {
   const linije = String(tekst || "").split("\n");
   const cvorovi = [];
   let proza = [];
@@ -1210,12 +1210,19 @@ function cvoroviSaOgradama(tekst) {
   for (const linija of linije) {
     if (kod) {
       if (/^```\s*$/.test(linija)) {
-        const pre = document.createElement("pre");
-        pre.className = "pitanje-kod";
-        const code = document.createElement("code");
-        popuniKod(code, kod.join("\n"), jezik);
-        pre.append(code);
-        cvorovi.push(pre);
+        if (jezik === "mermaid") {
+          const figura = document.createElement("div");
+          figura.className = "figura figura-mermaid";
+          dijagrami.push([figura, kod.join("\n")]);
+          cvorovi.push(figura);
+        } else {
+          const pre = document.createElement("pre");
+          pre.className = "pitanje-kod";
+          const code = document.createElement("code");
+          popuniKod(code, kod.join("\n"), jezik);
+          pre.append(code);
+          cvorovi.push(pre);
+        }
         kod = null;
         jezik = "";
       } else kod.push(linija);
@@ -1808,7 +1815,7 @@ function domIdPitanja(blok, sufiks) {
   return sufiks ? `pitanje-${sufiks}-${osnova}` : `pitanje-okidac-${osnova}`;
 }
 
-function prikazPitanja(blok, oznaka = "") {
+function prikazPitanja(blok, oznaka = "", dijagrami = []) {
   const kljuc = idPitanja(blok);
   const otvoreno = objasnjenjePoKoraku.get(kljuc) === true;
   const izbor = blok.oblik === "izbor";
@@ -1876,7 +1883,7 @@ function prikazPitanja(blok, oznaka = "") {
   if (teloPitanja) {
     const telo = document.createElement("div");
     telo.className = "pitanje-telo";
-    telo.append(...cvoroviSaOgradama(teloPitanja));
+    telo.append(...cvoroviSaOgradama(teloPitanja, dijagrami));
     pitanjeUnutra.append(telo);
   }
   const vidi = otvoreno || urediSadrzaj.aktivan;
@@ -1916,7 +1923,7 @@ function prikazPitanja(blok, oznaka = "") {
     telo.id = `odgovor-${domId}`;
     telo.className = odgovor ? "odgovor-tekst" : "odgovor-tekst meta";
     if (mozeOtvoriti) red.querySelector(".pitanje-okidac")?.setAttribute("aria-controls", telo.id);
-    if (odgovor) telo.append(...cvoroviSaOgradama(odgovor));
+    if (odgovor) telo.append(...cvoroviSaOgradama(odgovor, dijagrami));
     else telo.textContent = "Nema odgovora.";
     pitanjeUnutra.append(telo);
   }
@@ -1929,7 +1936,7 @@ function prikazPitanja(blok, oznaka = "") {
     const rec = document.createElement("strong");
     rec.textContent = "Obrazloženje";
     natpis.append(rec);
-    okvir.append(natpis, ...cvoroviSaOgradama(blok.analiza));
+    okvir.append(natpis, ...cvoroviSaOgradama(blok.analiza, dijagrami));
     pitanjeUnutra.append(okvir);
   } else if (izbor && vidi && urediSadrzaj.aktivan) {
     const prazno = document.createElement("p");
@@ -1937,11 +1944,11 @@ function prikazPitanja(blok, oznaka = "") {
     prazno.textContent = "Nema obrazloženja — dodajte ga kroz Uredi.";
     pitanjeUnutra.append(prazno);
   }
-  if (vidi && blok.dodatno) pitanjeUnutra.append(prikazDodatnog(blok, kljuc));
+  if (vidi && blok.dodatno) pitanjeUnutra.append(prikazDodatnog(blok, kljuc, dijagrami));
   return pitanjeUnutra;
 }
 
-function prikazDodatnog(blok, kljuc) {
+function prikazDodatnog(blok, kljuc, dijagrami = []) {
   const kljucDodatnog = `${kljuc}:dodatno`;
   const otvoreno = objasnjenjePoKoraku.get(kljucDodatnog) === true;
   const odgovor = blok.dodatniOdgovor || "";
@@ -1990,7 +1997,7 @@ function prikazDodatnog(blok, kljuc) {
   if (teloPitanja) {
     const telo = document.createElement("div");
     telo.className = "pitanje-telo";
-    telo.append(...cvoroviSaOgradama(teloPitanja));
+    telo.append(...cvoroviSaOgradama(teloPitanja, dijagrami));
     omot.append(telo);
   }
   const vidiOdgovor = otvoreno || urediSadrzaj.aktivan;
@@ -1999,7 +2006,7 @@ function prikazDodatnog(blok, kljuc) {
     telo.id = `odgovor-${domId}`;
     telo.className = odgovor ? "odgovor-tekst" : "odgovor-tekst meta";
     red.querySelector(".pitanje-okidac")?.setAttribute("aria-controls", telo.id);
-    if (odgovor) telo.append(...cvoroviSaOgradama(odgovor));
+    if (odgovor) telo.append(...cvoroviSaOgradama(odgovor, dijagrami));
     else telo.textContent = "Nema odgovora.";
     omot.append(telo);
   }
@@ -2012,7 +2019,7 @@ function teloSekcije(sirovi, blok, dijagrami, prviTekst, vezi, prefiks, crtez, o
     return omotUredjivog(
       urediSadrzaj,
       id,
-      prikazPitanja(blok, oznaka),
+      prikazPitanja(blok, oznaka, dijagrami),
       () => uredjivacSekcije(sirovi, blok, vezi, oznaka),
       bezOlovke(),
     );
