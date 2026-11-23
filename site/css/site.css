@@ -1583,6 +1583,15 @@ body.rezim-uredjivanja .sekcija-lekcije .isecak header { padding-right: 0.4rem; 
 .odgovor-tekst { margin: 0.55rem 0 0; }
 .odgovor-tekst p { margin: 0; }
 .odgovor-tekst p + p { margin-top: 0.45rem; }
+.odgovor-tekst .obrazlozenje-natpis {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.4rem;
+  color: var(--ink);
+  font-weight: 700;
+}
+.odgovor-tekst .obrazlozenje-natpis .ikona { width: 1.15rem; height: 1.15rem; color: var(--amber); }
 .uredi-natpis { display: grid; gap: 0.25rem; margin-bottom: 0.55rem; }
 .radnje-pitanja {
   display: flex;

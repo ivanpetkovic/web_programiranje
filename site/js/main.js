@@ -1913,8 +1913,11 @@ function prikazPitanja(blok) {
     const okvir = document.createElement("div");
     okvir.className = "odgovor-tekst obrazlozenje-tekst";
     const natpis = document.createElement("p");
-    natpis.className = "meta";
-    natpis.textContent = "Obrazloženje";
+    natpis.className = "obrazlozenje-natpis";
+    saIkonom(natpis, "book-open", "");
+    const rec = document.createElement("strong");
+    rec.textContent = "Obrazloženje";
+    natpis.append(rec);
     okvir.append(natpis, ...cvoroviSaOgradama(blok.analiza));
     pitanjeUnutra.append(okvir);
   } else if (izbor && vidi && urediSadrzaj.aktivan) {

@@ -120,6 +120,15 @@ test("tabovi, traka i isečak zadržavaju natpise", () => {
   assert.match(main, /ikonica\("chevron-right"\)/);
 });
 
+test("obrazloženje pitanja nosi knjigu i podebljan natpis", () => {
+  const prikaz = main.slice(main.indexOf("function prikazPitanja"), main.indexOf("function prikazDodatnog"));
+  assert.match(prikaz, /saIkonom\(natpis, "book-open", ""\)/);
+  assert.match(prikaz, /createElement\("strong"\)/);
+  assert.match(prikaz, /rec\.textContent = "Obrazloženje"/);
+  assert.match(css, /\.odgovor-tekst \.obrazlozenje-natpis\s*\{[^}]*font-weight:\s*700/);
+  assert.match(css, /\.odgovor-tekst \.obrazlozenje-natpis \.ikona/);
+});
+
 test("dodatno pitanje nosi question-plus i uvučeno je", () => {
   const dodatnoPitanje = main.slice(main.indexOf("function prikazDodatnog"), main.indexOf("function teloSekcije"));
   assert.match(dodatnoPitanje, /ikonica\("question-plus"\)/);
