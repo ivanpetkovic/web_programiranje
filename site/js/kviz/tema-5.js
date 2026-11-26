@@ -78,10 +78,6 @@ export const pitanja = [
     ["A", "Dva. append kopira čvor.", false],
     ["B", "Jedan, na kraju desne liste. append premešta.", true],
   ], "Jedan čvor ima jedno mesto u stablu.", { ...z, ...kod("leva.append(li);\ndesna.append(li);") }),
-  izbor(5, 4, 3, "Zašto replaceChildren na listi može da prekine kucanje u polju unutar liste?", [
-    ["A", "Stari čvorovi nestaju, a sa njima fokus i unos.", true],
-    ["B", "replaceChildren menja samo tekst, čvorovi ostaju.", false],
-  ], "Zamena pravi nove čvorove. Fokus je bio na starom polju."),
   ispravka(5, 4, 4, "Stavka je napravljena, ali nije u listi. Dodaj je.", "const li = document.createElement(\"li\");\nli.textContent = \"Jedan\";", "const li = document.createElement(\"li\");\nli.textContent = \"Jedan\";\nlista.append(li);", "Bez append čvor ne ulazi u dokument.", js),
 
   izbor(5, 5, 1, "Kada se izvrši obradi?", [
@@ -188,10 +184,6 @@ export const pitanja = [
     ["A", "Kartica se vrati.", true],
     ["B", "Kartica ostaje obrisana, jer je DOM izvor.", false],
   ], "Niz je izvor. Sledeći render ponovo napravi karticu.", z),
-  izbor(5, 12, 2, "Niz a, b, c posle sortiranja postane c, a, b. Klik na drugu karticu treba da menja koji zapis?", [
-    ["A", "Zapis sa indeksom 1, zauvek.", false],
-    ["B", "Zapis čiji je id na kartici.", true],
-  ], "Indeks 1 je trenutna pozicija. Id ostaje isti posle sortiranja."),
   izbor(5, 12, 3, "Zašto listener na listi i replaceChildren dece mogu da ostanu zajedno?", [
     ["A", "Listener je na kontejneru, pa zamena dece ne traži novu registraciju.", true],
     ["B", "replaceChildren briše i listenere predaka.", false],
@@ -267,5 +259,4 @@ export const pitanja = [
     ["A", "addEventListener posle zamene čvorova prestaje da postoji u jeziku.", false],
     ["B", "Listener je bio na starom čvoru. Novi čvor ga nema.", true],
   ], "Delegiranje na stabilnom pretku preživljava zamenu dece.", z),
-  ispravka(5, 17, 4, "Kartica nestane, pa se vrati na sledeći render. Ukloni senzor iz modela, ne samo čvor.", "function ukloni(id) {\n  document.querySelector(`[data-id=\"${id}\"]`).remove();\n}", "function ukloni(id) {\n  stanje.senzori = stanje.senzori.filter((s) => s.id !== id);\n  render(stanje);\n}", "Sledeći render crta ono što je ostalo u nizu.", js),
 ];
